@@ -28,6 +28,10 @@ import {
   launchdPlistPath,
   observeCronInstall,
   observeLaunchdInstall,
+  assertScheduleEffectPreview,
+  buildScheduleEffectPreview,
+  scheduleEffectPreviewRelativePath,
+  writeScheduleEffectPreview,
   readCrontab,
   renderCrontabLine,
   renderLaunchdPlist,
@@ -400,6 +404,18 @@ export function register(harness: Harness): void {
       run.approvals[scheduledAutonomyApprovalId] = "approved";
       mkdirSync(path.join(dir, "run"));
       writeFileSync(path.join(dir, "run/run-state.json"), JSON.stringify(run));
+      const previewOptions: ScheduleOptions = {
+        workspaceDir: dir,
+        runtime: "codex",
+        schedule: "*/20 * * * *",
+        briefPath: path.join(dir, "brief.json"),
+        wallClockSeconds: 1800,
+        skillRoot,
+        wrapperPath: path.join(dir, "schedule", "run-codex.mts"),
+        logPath: path.join(dir, "schedule", "run-codex.log"),
+        workspaceSlug: path.basename(dir),
+      };
+      writeScheduleEffectPreview(dir, buildScheduleEffectPreview(previewOptions, "cron", mode === "initial-install" ? "install" : "uninstall"));
       writeFileSync(
         path.join(bin, "crontab"),
         [
@@ -445,7 +461,8 @@ export function register(harness: Harness): void {
         assert(readFileSync(written, "utf8").includes("foreign-job"), "the attempted removal must preserve unrelated jobs");
       } else {
         assert(observedCalls.join(",") === "-l", "an initial read failure must prevent crontab writes");
-        assert(!existsSync(written) && !existsSync(path.join(dir, "schedule")), "an initial read failure must not write a wrapper or schedule");
+        assert(!existsSync(written), "an initial read failure must not write the user crontab");
+        assert(!existsSync(path.join(dir, "schedule", "run-codex.mts")), "an initial read failure must not write the wrapper");
       }
     }
   });
@@ -766,7 +783,9 @@ export function register(harness: Harness): void {
     assert(result.code === 0, `expected exit 0, got ${result.code}: ${result.output}`);
     assert(result.output.includes("DRY RUN"), `expected a DRY RUN banner, got:\n${result.output}`);
     assert(result.output.includes("*/20 * * * *"), `expected the crontab line preview, got:\n${result.output}`);
-    assert(!existsSync(path.join(dir, "schedule")), "cron install dry-run must not create the workspace schedule directory");
+    assert(result.output.includes("effect digest:"), "dry-run must print the exact effect digest");
+    assert(existsSync(path.join(dir, scheduleEffectPreviewRelativePath)), "dry-run must record the exact effect receipt");
+    assert(!existsSync(path.join(dir, "schedule", "run-claude.mts")), "cron install dry-run must not write the wrapper script");
 
     const uninstallResult = runCli("adapters/install-schedule.ts", [
       "--workspace",
@@ -781,7 +800,7 @@ export function register(harness: Harness): void {
     ]);
     assert(uninstallResult.code === 0, `expected exit 0, got ${uninstallResult.code}: ${uninstallResult.output}`);
     assert(uninstallResult.output.includes("DRY RUN"), `expected a DRY RUN banner on uninstall too, got:\n${uninstallResult.output}`);
-    assert(!existsSync(path.join(dir, "schedule")), "cron uninstall dry-run must not create the workspace schedule directory");
+    assert(!existsSync(path.join(dir, "schedule", "run-claude.mts")), "cron uninstall dry-run must not write the wrapper script");
 
     const launchdDir = harness.makeTempDir("schedule-cli-launchd");
     writeFileSync(path.join(launchdDir, "catalog.json"), JSON.stringify(twoNodeCatalog()));
@@ -799,20 +818,23 @@ export function register(harness: Harness): void {
     ]);
     assert(launchdResult.code === 0, `expected exit 0, got ${launchdResult.code}: ${launchdResult.output}`);
     assert(launchdResult.output.includes("launchd"), `expected launchd content in the preview, got:\n${launchdResult.output}`);
-    assert(!existsSync(path.join(launchdDir, "schedule")), "launchd install dry-run must not create the workspace schedule directory");
+    assert(existsSync(path.join(launchdDir, scheduleEffectPreviewRelativePath)), "launchd dry-run must record the exact effect receipt");
+    assert(!existsSync(path.join(launchdDir, "schedule", "run-codex.mts")), "launchd install dry-run must not write the wrapper script");
 
     const missingArgs = runCli("adapters/install-schedule.ts", ["--runtime", "claude"]);
     assert(missingArgs.code === 1, `expected exit 1 with a missing --workspace, got ${missingArgs.code}: ${missingArgs.output}`);
 
+    const unauthorizedDir = harness.makeTempDir("schedule-cli-unauthorized");
+    writeFileSync(path.join(unauthorizedDir, "catalog.json"), JSON.stringify(twoNodeCatalog()));
     const unauthorizedApply = runCli("adapters/install-schedule.ts", [
       "--workspace",
-      dir,
+      unauthorizedDir,
       "--runtime",
       "codex",
       "--schedule",
       "*/20 * * * *",
       "--brief",
-      path.join(dir, "brief.json"),
+      path.join(unauthorizedDir, "brief.json"),
       "--apply",
     ]);
     assert(
@@ -827,7 +849,86 @@ export function register(harness: Harness): void {
       unauthorizedApply.output.includes(scheduledAutonomyApprovalId),
       `expected the refusal to name the canonical approval id, got: ${unauthorizedApply.output}`,
     );
-    assert(!existsSync(path.join(dir, "schedule")), "unauthorized apply must not create the workspace schedule directory");
+    assert(!existsSync(path.join(unauthorizedDir, "schedule")), "unauthorized apply must not create the workspace schedule directory");
+  });
+
+  harness.check("adapters/install-schedule: changed cadence cannot reuse a stale dry-run receipt under an old approval", () => {
+    const dir = harness.makeTempDir("schedule-effect-mismatch");
+    const workspaceSlug = path.basename(dir);
+    const baseOptions: ScheduleOptions = {
+      workspaceDir: dir,
+      runtime: "codex",
+      schedule: "*/20 * * * *",
+      briefPath: path.join(dir, "brief.json"),
+      wallClockSeconds: 1800,
+      skillRoot,
+      wrapperPath: path.join(dir, "schedule", "run-codex.mts"),
+      logPath: path.join(dir, "schedule", "run-codex.log"),
+      workspaceSlug,
+    };
+    const preview = buildScheduleEffectPreview(baseOptions, "cron", "install");
+    writeScheduleEffectPreview(dir, preview);
+    const changed = buildScheduleEffectPreview({ ...baseOptions, schedule: "*/15 * * * *" }, "cron", "install");
+    try {
+      assertScheduleEffectPreview(dir, changed);
+      assert(false, "stale preview must not authorize a changed cadence");
+    } catch (error) {
+      assert(
+        error instanceof Error && error.message.includes("schedule_effect_mismatch"),
+        `expected schedule_effect_mismatch, got ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+
+    const catalog = twoNodeCatalog();
+    writeFileSync(path.join(dir, "catalog.json"), JSON.stringify(catalog));
+    const run = seedRunState(compilePlan(catalog), minimalBusinessState(workspaceSlug), {
+      ownerSessionId: "schedule-effect-mismatch",
+      ttlSeconds: 300,
+      wallClockCapSeconds: 1800,
+    });
+    run.approvals[scheduledAutonomyApprovalId] = "approved";
+    mkdirSync(path.join(dir, "run"));
+    writeFileSync(path.join(dir, "run/run-state.json"), JSON.stringify(run));
+    writeScheduleEffectPreview(dir, preview);
+    const home = harness.makeTempDir("schedule-effect-mismatch-home");
+    const bin = path.join(dir, "fake-bin");
+    mkdirSync(bin);
+    const calls = path.join(dir, "calls.txt");
+    writeFileSync(
+      path.join(bin, "crontab"),
+      [
+        `#!${process.execPath}`,
+        "const fs = require('node:fs');",
+        `const calls = ${JSON.stringify(calls)};`,
+        "fs.appendFileSync(calls, process.argv.slice(2).join(' ') + '\\n');",
+        "if (process.argv[2] === '-l') { process.stdout.write(''); process.exit(0); }",
+        "process.exit(0);",
+      ].join("\n"),
+      { mode: 0o755 },
+    );
+    const mismatched = runCli(
+      "adapters/install-schedule.ts",
+      [
+        "--workspace",
+        dir,
+        "--runtime",
+        "codex",
+        "--schedule",
+        "*/15 * * * *",
+        "--brief",
+        path.join(dir, "brief.json"),
+        "--apply",
+        "--approval",
+        scheduledAutonomyApprovalId,
+      ],
+      { HOME: home, PATH: `${bin}${path.delimiter}${process.env.PATH ?? ""}` },
+    );
+    assert(mismatched.code === 1, `expected changed cadence to fail apply, got ${mismatched.code}: ${mismatched.output}`);
+    assert(
+      mismatched.output.includes("schedule_effect_mismatch"),
+      `expected the refusal to name schedule_effect_mismatch, got: ${mismatched.output}`,
+    );
+    assert(!existsSync(path.join(dir, "schedule", "run-codex.mts")), "stale-authority apply must not write the wrapper");
   });
 
   harness.check("adapters/install-schedule: checkClaudeSandboxSetting warns and reports sandboxed:false unless sandbox.enabled is true", () => {
