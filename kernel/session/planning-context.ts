@@ -10,6 +10,7 @@ import { assertNoPendingInitialization } from "./initialization-guard.js";
 import { assertNoPendingErasure } from "../reducer/erasure-guard.js";
 import { assertCompositionActivationComplete } from "../composition/activation.js";
 import { founderConstraintSlice } from "./founder-brief.js";
+import { projectResearchProof, withResearchProofNextAction } from "./research-proof-projection.js";
 
 export const RESEARCH_ARTIFACTS = ["strategy/RESEARCH.md", "strategy/SIGNAL_CORPUS.md", "strategy/OFFER_TEST.md", "strategy/RED_TEAM_FINDINGS.md"] as const;
 export const PRODUCT_ARTIFACT = "product.yaml" as const;
@@ -80,13 +81,16 @@ export function readPlanningResume(root: string) {
     outcome: entry.record.outcome,
     observedAt: entry.record.observedAt ?? null,
   }));
+  const researchProof = projectResearchProof(root);
   return {
     researchQueries: queries.slice(0, 20),
     omittedQueryCount: Math.max(0, queries.length - 20),
     workflowId: "workflow.research.research-backed-spec",
     artifacts,
     businessComplete: false as const,
-    nextAction:
+    nextAction: withResearchProofNextAction(
       "Read operations/FOUNDER_BRIEF.md as the canonical founder brief, then product.yaml. File presence is not product acceptance. Then read the saved research, signal corpus, offer test and review findings before collecting new evidence. Reuse matching current observations; reconcile uncertain charged calls before replay. Validate the authored outputs, then perform independent research review and initialize the accepted product. Research completion is not business completion.",
+      researchProof,
+    ),
   };
 }
