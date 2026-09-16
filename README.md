@@ -55,15 +55,32 @@ Use [a focused task skill](agents/skills/README.md) for research, an onboarding 
 
 Use Node.js 24.
 
+**Today the package is not on the npm registry yet** (`npm view b2c-app-builder`
+returns 404). Use a source checkout until a maintainer publishes the first
+version. The npm install line below is the intended consumer path **after**
+that first publish — not a working registry command today.
+
+```bash
+git clone https://github.com/Clueless-Creations/b2c-app-builder.git
+cd b2c-app-builder
+npm ci
+npm run setup
+```
+
+From a checkout, setup runs `npm link`, so `b2c` resolves to that checkout.
+Setup creates the local workspace registry and prints the MCP registration
+command for Claude Code, Cursor, and Codex. Register that local server as
+`b2c-local`. Hosted knowledge is a separate `b2c-hosted` connection and cannot
+run a workspace.
+
+After the first authorized publish, the consumer path is:
+
 ```bash
 npm install -g b2c-app-builder
 b2c setup
 ```
 
-Setup creates the local workspace registry and prints the MCP registration
-command for Claude Code, Cursor, and Codex. Register that local server as
-`b2c-local`. Hosted knowledge is a separate `b2c-hosted` connection and cannot
-run a workspace. The portable form needs no install at all:
+The portable MCP form (post-publish) needs no global install:
 
 ```bash
 claude mcp add --scope user b2c-local -- npx -y b2c-app-builder
@@ -74,17 +91,6 @@ connection receipt. See leftover names in the
 [package guide](docs/guides/runtime-package.md#mcp). Setup never edits Claude,
 Cursor, or Codex config.
 
-To work from source, or if the package is unavailable from npm, clone the
-repository and run the same setup:
-
-```bash
-git clone https://github.com/Clueless-Creations/b2c-app-builder.git
-cd b2c-app-builder
-npm ci
-npm run setup
-```
-
-From a checkout, setup runs `npm link`, so `b2c` resolves to that checkout.
 Either way, start with the ordinary business path. The [`b2c-app-builder` skill](SKILL.md)
 routes that work. `b2c --help` groups commands by task; see
 [Find a command](docs/guides/runtime-package.md#find-a-command) rather than a
