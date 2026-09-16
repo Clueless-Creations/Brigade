@@ -25,14 +25,7 @@ import { createBudgetFundedVerifier } from "../autonomy/probes/budget.js";
 import { effectiveProtectedCategory } from "../autonomy/waivers.js";
 import { resolveRegisteredWorkspace } from "../../adapters/registry.js";
 import type { BusinessStateV2, ControlFile, ProtectedCategory, RunStateDocument } from "../schema/types.js";
-import {
-  assertCatalogCompatibility,
-  loadBusinessStateFile,
-  loadControlFile,
-  loadLedgerFile,
-  resolveWorkspacePaths,
-  runtimeCatalogVersion,
-} from "./run.js";
+import { assertCatalogCompatibility, loadBusinessStateFile, loadControlFile, loadLedgerFile, resolveWorkspacePaths, runtimeCatalogVersion } from "./run.js";
 import { loadWorkspaceCatalog, renderCatalogRefusal } from "./catalog-contract.js";
 import { translateParkReason } from "./digest.js";
 import { buildGoNoGoQuestion, buildSoftQuestion, validateFounderQuestion, type FounderQuestion, type FounderQuestionClass } from "./founder-gate.js";
@@ -192,18 +185,21 @@ function safeFounderQuestion(question: FounderQuestion): FounderQuestion | null 
  * 4. A `reason:"autonomy"` node — something is parked because the founder's current autonomy
  *    setting does not cover it, translated into plain language via `digest.ts`'s
  *    `translateParkReason`.
- * 5. A `founder_approval` node with NO real approval (`approvals.length===0`) — an unanswered
- *    conditional-applicability ("scope") question when no independent ready work is available.
- *    Discriminated by the compiled node's actual
- *    approval count rather than by string-matching `detail`: a workflow could in principle
- *    declare both `founderOnlyActions` and a conditional `applicability`, which would make
- *    `detail` read like an approval description even though the true block reason is scope. That
- *    pre-existing ambiguity lives in this file's own `detail`-selection ternary above; checking
- *    `approvals.length` here sidesteps it rather than fixing it.
+ * 5. A `founder_approval` node whose held detail is an unanswered conditional-applicability
+ *    ("scope") question — including workflows that also declare later effect approvals — when no
+ *    independent ready work is available. `buildPlanReport` keeps the live `Scope answer needed:`
+ *    blocker as `detail` for that case so a future install approval cannot masquerade as the
+ *    current question. Soft, and suppressed while ready work exists.
  *
  * Every constructed question is lint-validated (`validateFounderQuestion`) before it is returned;
  * a violation degrades to `null` (fail closed) instead of shipping broken founder-facing copy.
  */
+const SCOPE_ANSWER_PREFIX = "Scope answer needed: ";
+
+export function isScopeAnswerDetail(detail: string): boolean {
+  return detail.startsWith(SCOPE_ANSWER_PREFIX);
+}
+
 export function pickFounderQuestion(
   byId: ReadonlyMap<RunNodeId, FounderQuestionNode>,
   held: readonly HeldNode[],
@@ -216,7 +212,9 @@ export function pickFounderQuestion(
   };
 
   const approvalHeld = held.filter((node) => node.reason === "founder_approval");
-  const realApprovals = approvalHeld.filter((node) => (byId.get(node.nodeId)?.approvals.length ?? 0) > 0);
+  // Scope waits stay out of the hard-approval set even when the compiled node already carries a
+  // later effect approval (scheduled autonomy is both conditional and founder-gated on install).
+  const realApprovals = approvalHeld.filter((node) => (byId.get(node.nodeId)?.approvals.length ?? 0) > 0 && !isScopeAnswerDetail(node.detail));
 
   const protectedApproval = realApprovals.find((node) => protectedCategoryFor(node.nodeId) !== undefined);
   if (protectedApproval) {
@@ -270,10 +268,11 @@ export function pickFounderQuestion(
   // A conditional scope question is optional setup until it gates all useful work. Keep
   // independent manual work moving instead of turning an unanswered scheduler question into a
   // global pause. Hard approvals and autonomy questions still outrank this branch.
-  const scopeQuestion = hasReadyWork ? undefined : approvalHeld.find((node) => (byId.get(node.nodeId)?.approvals.length ?? 0) === 0);
+  const scopeQuestion = hasReadyWork
+    ? undefined
+    : approvalHeld.find((node) => isScopeAnswerDetail(node.detail) || (byId.get(node.nodeId)?.approvals.length ?? 0) === 0);
   if (scopeQuestion) {
-    const prefix = "Scope answer needed: ";
-    const prompt = scopeQuestion.detail.startsWith(prefix) ? scopeQuestion.detail.slice(prefix.length) : scopeQuestion.detail;
+    const prompt = isScopeAnswerDetail(scopeQuestion.detail) ? scopeQuestion.detail.slice(SCOPE_ANSWER_PREFIX.length) : scopeQuestion.detail;
     return safeFounderQuestion(
       buildSoftQuestion({
         phase: "operating",
@@ -315,7 +314,7 @@ export function buildPlanReport(
     if (readySet.has(node.id)) continue;
     const state = run.nodes[node.id];
     const status = state?.status;
-    if (status === "succeeded") {
+    if (status === "succeeded" || status === "not_needed" || status === "skipped") {
       done += 1;
       continue;
     }
@@ -327,18 +326,12 @@ export function buildPlanReport(
     const lastFailureRaw = lastAttempt?.status === "failed" ? (lastAttempt.error ?? "") : undefined;
 
     if (status === "waiting_founder") {
+      const blocker = state?.blocker ?? "";
+      // Prefer the live scope blocker over a later effect-approval description so public plan
+      // consumers can tell "is scheduling selected?" from "install the schedule now?".
       const approval = node.approvals.map((item) => item.description).join("; ");
-      held.push(
-        describe(
-          node,
-          "founder_approval",
-          approval || state?.blocker || "Waiting on a founder decision.",
-          undefined,
-          lastFailure,
-          lastFailureCode,
-          lastFailureRaw,
-        ),
-      );
+      const detail = isScopeAnswerDetail(blocker) ? blocker : approval || blocker || "Waiting on a founder decision.";
+      held.push(describe(node, "founder_approval", detail, undefined, lastFailure, lastFailureCode, lastFailureRaw));
     } else if (parkReason !== undefined) {
       held.push(describe(node, "autonomy", parkReason, decision?.reasonCode, lastFailure, lastFailureCode, lastFailureRaw));
     } else if (status === "blocked") {

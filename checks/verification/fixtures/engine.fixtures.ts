@@ -24,6 +24,7 @@ import {
   type RunNodeId,
 } from "../../../kernel/engine/compile.js";
 import { allowAllAutonomyEvaluator, computeFrontier, isNodeAuthorized, type AutonomyEvaluator } from "../../../kernel/engine/frontier.js";
+import { buildPlanReport, pickFounderQuestion } from "../../../kernel/session/plan.js";
 import { buildDispatchBatches, checkBatchBoundary, neverHaltDispatchHooks } from "../../../kernel/engine/dispatch.js";
 import { composeNodeBrief, renderNodeBrief } from "../../../kernel/engine/node-brief.js";
 import {
@@ -835,14 +836,8 @@ export function register(harness: Harness): void {
       now: () => now,
     });
     assert(evaluator.evaluate(fullLaunch!).allowed, "the mandate node must pass autonomy before frontier approval admission");
-    assert(
-      !evaluator.evaluate({ ...fullLaunch!, protectedCategory: "release" }).allowed,
-      "a protected system-domain action must still fail closed",
-    );
-    assert(
-      !evaluator.evaluate({ ...fullLaunch!, providerIds: ["provider.external"] }).allowed,
-      "an external system-domain action must still fail closed",
-    );
+    assert(!evaluator.evaluate({ ...fullLaunch!, protectedCategory: "release" }).allowed, "a protected system-domain action must still fail closed");
+    assert(!evaluator.evaluate({ ...fullLaunch!, providerIds: ["provider.external"] }).allowed, "an external system-domain action must still fail closed");
 
     const businessState = baseBusinessState();
     businessState.workflowApplicability = {
@@ -1742,6 +1737,16 @@ export function register(harness: Harness): void {
     assert(!unknownFrontier.ready.includes(schedule!.id), "unknown scheduling intent must not make schedule installation ready");
     assert(getStatus(unknownRun, schedule!.id) === "waiting_founder", "unknown scheduling intent must remain an explicit founder question");
     assert(!unknownState.workflowApplicability?.[schedule!.workflowId], "unknown scheduling intent must not infer an applicability verdict");
+    const unknownParked = new Map(unknownFrontier.parked.map((entry) => [entry.nodeId, entry.reason]));
+    const unknownPublic = buildPlanReport(plan, unknownRun, unknownFrontier.ready, unknownParked, new Map(), 2, false);
+    assert(
+      unknownPublic.founderQuestion === null ||
+        (!unknownPublic.founderQuestion.prompt.includes("Scheduled autonomy") &&
+          !unknownPublic.founderQuestion.prompt.includes("recurring scheduled operation")),
+      `unknown scheduling must not become the global public question while independent design is ready, got ${JSON.stringify(unknownPublic.founderQuestion)}`,
+    );
+    const scheduleHeld = unknownPublic.held.find((node) => node.nodeId === schedule!.id);
+    assert(scheduleHeld?.detail.startsWith("Scope answer needed:"), `public held detail must keep the scope blocker, got ${scheduleHeld?.detail}`);
 
     const declinedState = baseBusinessState();
     declinedState.workflowApplicability = {
@@ -1762,6 +1767,17 @@ export function register(harness: Harness): void {
         getStatus(resumedDeclined, schedule!.id) === "not_needed",
       "ordinary resume must not repeat a declined scheduling question or invent installation evidence",
     );
+    const declinedFrontier = computeFrontier(plan, resumedDeclined, declinedState, allowAllAutonomyEvaluator);
+    const declinedParked = new Map(declinedFrontier.parked.map((entry) => [entry.nodeId, entry.reason]));
+    const declinedPublic = buildPlanReport(plan, resumedDeclined, declinedFrontier.ready, declinedParked, new Map(), 2, false);
+    assert(
+      !declinedPublic.held.some((node) => node.nodeId === schedule!.id),
+      "declined scheduling must not remain a public held founder question after resume",
+    );
+    assert(
+      declinedPublic.founderQuestion === null || !declinedPublic.founderQuestion.prompt.includes("recurring scheduled operation"),
+      "declined schedule must not re-ask",
+    );
 
     const selectedState = baseBusinessState();
     selectedState.workflowApplicability = {
@@ -1781,6 +1797,22 @@ export function register(harness: Harness): void {
       !computeFrontier(plan, selectedRun, selectedState, allowAllAutonomyEvaluator).ready.includes(schedule!.id) &&
         getStatus(selectedRun, schedule!.id) === "waiting_founder",
       "explicit scheduling selection must ask for the schedule effect approval before readiness",
+    );
+    const selectedFrontier = computeFrontier(plan, selectedRun, selectedState, allowAllAutonomyEvaluator);
+    const selectedParked = new Map(selectedFrontier.parked.map((entry) => [entry.nodeId, entry.reason]));
+    const selectedPublic = buildPlanReport(plan, selectedRun, selectedFrontier.ready, selectedParked, new Map(), 2, false);
+    const selectedHeld = selectedPublic.held.find((node) => node.nodeId === schedule!.id);
+    assert(
+      selectedHeld?.detail.includes("approve installing") && !selectedHeld.detail.startsWith("Scope answer needed:"),
+      "selected schedule held detail must be the effect approval, not the earlier scope question",
+    );
+    // Isolate the schedule node so a higher-priority unrelated approval cannot mask the install gate.
+    const scheduleOnlyHeld = selectedHeld ? [selectedHeld] : [];
+    const scheduleOnlyById = new Map([[schedule!.id, schedule!]]);
+    const scheduleOnlyQuestion = pickFounderQuestion(scheduleOnlyById, scheduleOnlyHeld, false, selectedFrontier.ready.length > 0);
+    assert(
+      scheduleOnlyQuestion?.class === "confirm-approval",
+      `selected schedule must surface as install approval when considered alone, got ${scheduleOnlyQuestion?.class}`,
     );
     selectedRun.approvals[schedule!.approvals[0]!.id] = "approved";
     selectedStateNode.status = "pending";
@@ -2761,64 +2793,61 @@ export function register(harness: Harness): void {
     },
   );
 
-  harness.check(
-    "runstate: changing a consulted artifact reopens the accepted consumer and retains unrelated accepted outputs",
-    () => {
-      const catalog = testCatalog();
-      catalog.artifacts.push({ id: "artifact.studio-seed-business-json", path: "studio/seed/business.json" });
-      catalog.workflows.push({
-        id: "workflow.design-room",
-        title: "Design Room",
-        domainId: "domain.design",
-        actionClass: "mutate",
-        consults: ["studio/seed/business.json"],
-        dependencies: [],
-        outputPaths: ["studio/seed/business.json"],
-        providerIds: [],
-        laneIds: ["design"],
-        founderOnlyActions: [],
-        gateCommands: [],
-        idempotent: true,
-      });
-      const growth = catalog.workflows.find((workflow) => workflow.id === "workflow.growth-post")!;
-      growth.consults = ["studio/seed/business.json"];
-      const plan = compilePlan(catalog, now);
-      const studioProducer = plan.nodes.find((node) => node.id === nodeId("design-room"))!;
-      const consultConsumer = plan.nodes.find((node) => node.id === nodeId("growth-post"))!;
-      const unrelated = plan.nodes.find((node) => node.id === nodeId("research-scan"))!;
-      assert(!consultConsumer.inputs.includes("artifact.studio-seed-business-json"), "a consult must never join inputs");
-      assert(
-        consultedArtifactIds(consultConsumer, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
-        "a consult that names another workflow's artifact must be watched for invalidation",
-      );
-      assert(
-        !consultedArtifactIds(studioProducer, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
-        "a producer that consults its own output must not self-watch that artifact",
-      );
+  harness.check("runstate: changing a consulted artifact reopens the accepted consumer and retains unrelated accepted outputs", () => {
+    const catalog = testCatalog();
+    catalog.artifacts.push({ id: "artifact.studio-seed-business-json", path: "studio/seed/business.json" });
+    catalog.workflows.push({
+      id: "workflow.design-room",
+      title: "Design Room",
+      domainId: "domain.design",
+      actionClass: "mutate",
+      consults: ["studio/seed/business.json"],
+      dependencies: [],
+      outputPaths: ["studio/seed/business.json"],
+      providerIds: [],
+      laneIds: ["design"],
+      founderOnlyActions: [],
+      gateCommands: [],
+      idempotent: true,
+    });
+    const growth = catalog.workflows.find((workflow) => workflow.id === "workflow.growth-post")!;
+    growth.consults = ["studio/seed/business.json"];
+    const plan = compilePlan(catalog, now);
+    const studioProducer = plan.nodes.find((node) => node.id === nodeId("design-room"))!;
+    const consultConsumer = plan.nodes.find((node) => node.id === nodeId("growth-post"))!;
+    const unrelated = plan.nodes.find((node) => node.id === nodeId("research-scan"))!;
+    assert(!consultConsumer.inputs.includes("artifact.studio-seed-business-json"), "a consult must never join inputs");
+    assert(
+      consultedArtifactIds(consultConsumer, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
+      "a consult that names another workflow's artifact must be watched for invalidation",
+    );
+    assert(
+      !consultedArtifactIds(studioProducer, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
+      "a producer that consults its own output must not self-watch that artifact",
+    );
 
-      const { run } = seedFor([], plan);
-      for (const [id, artifactId, fingerprint] of [
-        [studioProducer.id, "artifact.studio-seed-business-json", "sha256:studio-v1"],
-        [consultConsumer.id, "artifact.growth-post", "sha256:growth-v1"],
-        [unrelated.id, "artifact.research-brief", "sha256:research-v1"],
-      ] as const) {
-        run.nodes[id]!.status = "succeeded";
-        run.nodes[id]!.acceptedOutputFingerprint = fingerprint;
-        const binding = run.artifactBindings.find((candidate) => candidate.artifactId === artifactId)!;
-        binding.accepted = true;
-        binding.fingerprint = fingerprint;
-        binding.producedBy = id;
-      }
+    const { run } = seedFor([], plan);
+    for (const [id, artifactId, fingerprint] of [
+      [studioProducer.id, "artifact.studio-seed-business-json", "sha256:studio-v1"],
+      [consultConsumer.id, "artifact.growth-post", "sha256:growth-v1"],
+      [unrelated.id, "artifact.research-brief", "sha256:research-v1"],
+    ] as const) {
+      run.nodes[id]!.status = "succeeded";
+      run.nodes[id]!.acceptedOutputFingerprint = fingerprint;
+      const binding = run.artifactBindings.find((candidate) => candidate.artifactId === artifactId)!;
+      binding.accepted = true;
+      binding.fingerprint = fingerprint;
+      binding.producedBy = id;
+    }
 
-      const invalidated = invalidateDescendants(plan, run, ["artifact.studio-seed-business-json"], plusSeconds(now, 1));
-      assert(invalidated.includes(consultConsumer.id), "an accepted consult consumer must reopen when the consulted artifact changes");
-      assert(run.nodes[consultConsumer.id]!.status === "stale", "the consult consumer must be stale");
-      assert(!run.artifactBindings.find((binding) => binding.artifactId === "artifact.growth-post")!.accepted, "the consumer output must un-accept");
-      assert(run.nodes[unrelated.id]!.status === "succeeded", "unrelated accepted work must stay accepted");
-      assert(run.artifactBindings.find((binding) => binding.artifactId === "artifact.research-brief")!.accepted, "unrelated output proof must remain");
-      assert(run.nodes[studioProducer.id]!.status === "succeeded", "the studio producer must not self-invalidate through its own consult");
-    },
-  );
+    const invalidated = invalidateDescendants(plan, run, ["artifact.studio-seed-business-json"], plusSeconds(now, 1));
+    assert(invalidated.includes(consultConsumer.id), "an accepted consult consumer must reopen when the consulted artifact changes");
+    assert(run.nodes[consultConsumer.id]!.status === "stale", "the consult consumer must be stale");
+    assert(!run.artifactBindings.find((binding) => binding.artifactId === "artifact.growth-post")!.accepted, "the consumer output must un-accept");
+    assert(run.nodes[unrelated.id]!.status === "succeeded", "unrelated accepted work must stay accepted");
+    assert(run.artifactBindings.find((binding) => binding.artifactId === "artifact.research-brief")!.accepted, "unrelated output proof must remain");
+    assert(run.nodes[studioProducer.id]!.status === "succeeded", "the studio producer must not self-invalidate through its own consult");
+  });
 
   harness.check("runstate: a read of a TOOL_DECISIONS-shaped artifact already invalidates the accepted consumer", () => {
     const catalog = testCatalog();
@@ -2880,18 +2909,12 @@ export function register(harness: Harness): void {
       consultedArtifactIds(onb08!, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
       "live ONB-08 must watch the studio seed for invalidation",
     );
-    assert(
-      onb08!.outputs.includes("artifact.product-onboarding-graph-onb-08-motion-research-md"),
-      "live ONB-08 must produce the motion-research packet",
-    );
+    assert(onb08!.outputs.includes("artifact.product-onboarding-graph-onb-08-motion-research-md"), "live ONB-08 must produce the motion-research packet");
     assert(
       !consultedArtifactIds(designRoom!, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
       "Design Room must not self-watch the studio seed it produces",
     );
-    assert(
-      !consultedArtifactIds(onb03!, plan.artifactBindings).includes("artifact.studio-seed-business-json"),
-      "ONB-03 must not consult the studio seed",
-    );
+    assert(!consultedArtifactIds(onb03!, plan.artifactBindings).includes("artifact.studio-seed-business-json"), "ONB-03 must not consult the studio seed");
 
     const workspace = harness.makeTempDir("live-onb08-consult");
     mkdirSync(path.join(workspace, "studio/seed"), { recursive: true });
