@@ -286,9 +286,16 @@ function assertFixtureHasNoAuthorityOrLock(root: string): void {
   }
 }
 
+const EXPO_STARTER_FIXTURE_SKIP_NAMES = new Set([...(BUILDER_AUTHORITY_FILES as readonly string[]), "package-lock.json", ".gradle"]);
+
+function shouldCopyExpoStarterPath(source: string): boolean {
+  return !EXPO_STARTER_FIXTURE_SKIP_NAMES.has(path.basename(source));
+}
+
 export function isolatedExpoStarterPaths(): string[] {
   const walk = (dir: string, relative: string, out: string[]): void => {
     for (const entry of readdirSync(dir, { withFileTypes: true }).sort((left, right) => left.name.localeCompare(right.name))) {
+      if (EXPO_STARTER_FIXTURE_SKIP_NAMES.has(entry.name)) continue;
       const childRelative = relative ? `${relative}/${entry.name}` : entry.name;
       const absolute = path.join(dir, entry.name);
       if (entry.isDirectory()) {
@@ -310,10 +317,7 @@ export function materializeExpoStarterFixture(input: PlanExpoStarterScaffoldInpu
   mkdirSync(input.target, { recursive: true });
   cpSync(EXPO_STARTER_FIXTURE_DIR, input.target, {
     recursive: true,
-    filter: (source) => {
-      const name = path.basename(source);
-      return !(BUILDER_AUTHORITY_FILES as readonly string[]).includes(name) && name !== "package-lock.json";
-    },
+    filter: shouldCopyExpoStarterPath,
   });
   const gitignoreTemplate = path.join(input.target, "gitignore.template");
   writeFileSync(path.join(input.target, ".gitignore"), readFileSync(gitignoreTemplate, "utf8"));

@@ -9,3 +9,6 @@ web-build/
 .env
 .env.*
 !.env.example
+# Machine-bound Android Gradle cache (local modules under modules/**/android/).
+.gradle/
+**/.gradle/

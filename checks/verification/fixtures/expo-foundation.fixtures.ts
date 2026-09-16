@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import {
@@ -154,6 +154,10 @@ export function register(harness: Harness): void {
       assert(files.includes(relative), `starter fixture must include ${relative}`);
     }
     assert(files.includes("gitignore.template"), "starter fixture must use gitignore.template so npm can pack it");
+    assert(
+      files.every((relative) => !relative.split("/").includes(".gradle")),
+      "starter fixture paths must skip Gradle cache directories",
+    );
     for (const relative of EXPO_STARTER_BOOT_FILES) {
       assert(files.includes(relative), `starter fixture must include ${relative} so Metro can boot`);
     }
@@ -550,6 +554,48 @@ export function register(harness: Harness): void {
       readFileSync(path.join(target, "package.json"), "utf8") === readFileSync(path.join(copy, "package.json"), "utf8"),
       "two empty authorized scaffolds with the same inputs must match",
     );
+  });
+
+  harness.check("expo foundation: Gradle cache stays out of starter path lists and scaffolds", () => {
+    const cacheDir = path.join(EXPO_STARTER_FIXTURE_DIR, "modules/b2c-native-capability/android/.gradle");
+    const cacheFile = path.join(cacheDir, "fixture-cache.bin");
+    mkdirSync(cacheDir, { recursive: true });
+    writeFileSync(cacheFile, "machine-bound-gradle-cache\n");
+    try {
+      const files = isolatedExpoStarterPaths();
+      assert(
+        files.every((relative) => !relative.split("/").includes(".gradle")),
+        "isolated starter paths must omit .gradle cache contents",
+      );
+      const target = harness.makeTempDir("expo-scaffold-gradle-cache");
+      writeFileSync(path.join(target, "product.yaml"), "name: gradle-cache-product\n");
+      materializeExpoStarterFixture({
+        target,
+        skillRoot,
+        compositionTarget: iosExpo(),
+        platforms: ["ios"],
+        authorized: true,
+      });
+      assert(
+        !existsSync(path.join(target, "modules/b2c-native-capability/android/.gradle")),
+        "scaffold must not copy machine-bound Gradle cache into generated apps",
+      );
+      const generatedIgnore = readFileSync(path.join(target, ".gitignore"), "utf8");
+      assert(
+        generatedIgnore.includes(".gradle/") || generatedIgnore.includes("**/.gradle/"),
+        "generated app .gitignore must ignore Gradle caches under local native modules",
+      );
+      const pack = spawnSync("npm", ["pack", "--ignore-scripts", "--dry-run", "--json"], {
+        cwd: skillRoot,
+        encoding: "utf8",
+      });
+      assert(pack.status === 0, `npm pack dry-run must succeed, got ${pack.stderr || pack.stdout}`);
+      const packed = JSON.parse(pack.stdout) as Array<{ files?: Array<{ path: string }> }>;
+      const packHits = (packed[0]?.files ?? []).filter((file) => file.path.split("/").includes(".gradle"));
+      assert(packHits.length === 0, `npm pack must omit .gradle cache paths, got ${JSON.stringify(packHits)}`);
+    } finally {
+      rmSync(cacheDir, { recursive: true, force: true });
+    }
   });
 
   harness.check("expo foundation: existing, Next.js, and unauthorized targets refuse overwrite", () => {
