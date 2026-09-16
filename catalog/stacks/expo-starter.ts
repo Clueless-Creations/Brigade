@@ -286,11 +286,7 @@ function assertFixtureHasNoAuthorityOrLock(root: string): void {
   }
 }
 
-const EXPO_STARTER_FIXTURE_SKIP_NAMES = new Set([
-  ...(BUILDER_AUTHORITY_FILES as readonly string[]),
-  "package-lock.json",
-  ".gradle",
-]);
+const EXPO_STARTER_FIXTURE_SKIP_NAMES = new Set([...(BUILDER_AUTHORITY_FILES as readonly string[]), "package-lock.json", ".gradle"]);
 
 function shouldCopyExpoStarterPath(source: string): boolean {
   return !EXPO_STARTER_FIXTURE_SKIP_NAMES.has(path.basename(source));
