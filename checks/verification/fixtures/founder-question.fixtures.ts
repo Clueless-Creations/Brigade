@@ -255,6 +255,39 @@ export function register(harness: Harness): void {
     assert(result === null, `expected no global question while ready work exists, got ${JSON.stringify(result)}`);
   });
 
+  harness.check("pickFounderQuestion: a later effect approval cannot turn unanswered schedule scope into a hard install gate", () => {
+    const scheduleId = "run.operations.scheduled-autonomy-installation" as RunNodeId;
+    const byId = new Map<RunNodeId, FounderQuestionNode>([
+      [
+        scheduleId,
+        planNode({
+          title: "Scheduled autonomy installation",
+          approvals: [
+            { id: "workflow.operations.scheduled-autonomy-installation.approval.1", description: "approve installing the recurring session schedule" },
+          ],
+        }),
+      ],
+    ]);
+    const held: HeldNode[] = [
+      heldNode(
+        scheduleId,
+        "founder_approval",
+        "Scope answer needed: Is recurring scheduled operation selected for the current business?",
+        "Scheduled autonomy installation",
+      ),
+    ];
+    const whileReady = pickFounderQuestion(byId, held, false, true);
+    assert(whileReady === null, `expected no install or scope prompt while ready work exists, got ${JSON.stringify(whileReady)}`);
+    const whenIdle = pickFounderQuestion(byId, held, false, false);
+    assert(whenIdle !== null, "expected a soft scope question when nothing else is ready");
+    assert(whenIdle!.class === "scope-question", `expected scope-question, got ${whenIdle!.class}`);
+    assert(
+      whenIdle!.prompt === "Is recurring scheduled operation selected for the current business?",
+      `expected the schedule scope prompt, got ${whenIdle!.prompt}`,
+    );
+    assert(whenIdle!.skippable === true && whenIdle!.deferrable === true, "schedule scope must stay soft until selected");
+  });
+
   harness.check("pickFounderQuestion: returns null when nothing is held and autonomy is already set", () => {
     const result = pickFounderQuestion(new Map(), [], false);
     assert(result === null, `expected null when there is nothing to ask, got ${JSON.stringify(result)}`);
