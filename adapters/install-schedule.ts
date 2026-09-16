@@ -455,41 +455,42 @@ function runMain(): void {
       if (sandboxCheck) console.log(`  sandboxed: ${String(sandboxCheck.sandboxed)}`);
       return;
     }
-    let cronOutcome: "removed" | "installed" | "already_installed" = uninstall ? "removed" : "installed";
-    try {
-      withScheduleMutationLock(() => {
-        const current = readCrontab();
-        if (!uninstall) {
-          const observation = observeCronInstall(current, options);
-          if (observation.kind === "already_installed") {
+    const cronOutcome = (() => {
+      try {
+        return withScheduleMutationLock((): "removed" | "installed" | "already_installed" => {
+          const current = readCrontab();
+          if (!uninstall) {
+            const observation = observeCronInstall(current, options);
+            if (observation.kind === "already_installed") {
+              const readBackContent = readCrontab();
+              if (!crontabHasExactLine(readBackContent, observation.line)) {
+                throw new Error(
+                  `cron readback did not confirm the already-installed entry for ${options.workspaceSlug}/${options.runtime}`,
+                );
+              }
+              return "already_installed";
+            }
+            mkdirSync(path.dirname(options.wrapperPath), { recursive: true });
+            writeFileSync(options.wrapperPath, renderWrapperScript(options), { mode: 0o755 });
+            writeCrontab(observation.nextContent);
             const readBackContent = readCrontab();
             if (!crontabHasExactLine(readBackContent, observation.line)) {
-              throw new Error(
-                `cron readback did not confirm the already-installed entry for ${options.workspaceSlug}/${options.runtime}`,
-              );
+              throw new Error(`cron readback did not confirm the requested installation for ${options.workspaceSlug}/${options.runtime}`);
             }
-            cronOutcome = "already_installed";
-            return;
+            return "installed";
           }
-          mkdirSync(path.dirname(options.wrapperPath), { recursive: true });
-          writeFileSync(options.wrapperPath, renderWrapperScript(options), { mode: 0o755 });
-          writeCrontab(observation.nextContent);
+          const result = applyCrontabUninstall(current, options);
+          writeCrontab(result.nextContent);
           const readBackContent = readCrontab();
-          if (!crontabHasExactLine(readBackContent, observation.line)) {
-            throw new Error(`cron readback did not confirm the requested installation for ${options.workspaceSlug}/${options.runtime}`);
+          if (crontabHasWorkspaceSignature(readBackContent, options.workspaceSlug)) {
+            throw new Error(`cron readback did not confirm the requested removal for ${options.workspaceSlug}/${options.runtime}`);
           }
-          return;
-        }
-        const result = applyCrontabUninstall(current, options);
-        writeCrontab(result.nextContent);
-        const readBackContent = readCrontab();
-        if (crontabHasWorkspaceSignature(readBackContent, options.workspaceSlug)) {
-          throw new Error(`cron readback did not confirm the requested removal for ${options.workspaceSlug}/${options.runtime}`);
-        }
-      });
-    } catch (error) {
-      fail(error instanceof Error ? error.message : String(error));
-    }
+          return "removed";
+        });
+      } catch (error) {
+        fail(error instanceof Error ? error.message : String(error));
+      }
+    })();
     if (cronOutcome === "already_installed") {
       console.log(
         `install-schedule: already installed — exact cron readback matched for ${options.workspaceSlug}/${options.runtime}; no duplicate write.${sandboxSuffix}`,
@@ -516,46 +517,47 @@ function runMain(): void {
     if (sandboxCheck) console.log(`  sandboxed: ${String(sandboxCheck.sandboxed)}`);
     return;
   }
-  let launchdOutcome: "removed" | "installed" | "already_installed" = uninstall ? "removed" : "installed";
-  try {
-    withScheduleMutationLock(() => {
-      if (uninstall) {
-        for (const target of [plistPath]) {
-          if (existsSync(target)) {
-            const unloaded = spawnSync("launchctl", ["unload", target], { encoding: "utf8" });
-            if (unloaded.status !== 0) throw new Error(`launchctl unload failed: ${unloaded.stderr || unloaded.stdout || `exit ${String(unloaded.status)}`}`);
-            unlinkSync(target);
+  const launchdOutcome = (() => {
+    try {
+      return withScheduleMutationLock((): "removed" | "installed" | "already_installed" => {
+        if (uninstall) {
+          for (const target of [plistPath]) {
+            if (existsSync(target)) {
+              const unloaded = spawnSync("launchctl", ["unload", target], { encoding: "utf8" });
+              if (unloaded.status !== 0) throw new Error(`launchctl unload failed: ${unloaded.stderr || unloaded.stdout || `exit ${String(unloaded.status)}`}`);
+              unlinkSync(target);
+            }
           }
+          if (existsSync(plistPath)) throw new Error(`launchd readback did not confirm removal for ${options.workspaceSlug}/${options.runtime}`);
+          return "removed";
         }
-        if (existsSync(plistPath)) throw new Error(`launchd readback did not confirm removal for ${options.workspaceSlug}/${options.runtime}`);
-        return;
-      }
-      const observation = observeLaunchdInstall(options);
-      if (observation.kind === "unsupported") throw new Error(observation.error);
-      if (observation.kind === "already_installed") {
+        const observation = observeLaunchdInstall(options);
+        if (observation.kind === "unsupported") throw new Error(observation.error);
+        if (observation.kind === "already_installed") {
+          const installedXml = readFileSync(observation.plistPath, "utf8");
+          if (!launchdPlistHasExactContent(installedXml, observation.xml)) {
+            throw new Error(
+              `launchd readback did not confirm the already-installed plist for ${options.workspaceSlug}/${options.runtime}`,
+            );
+          }
+          return "already_installed";
+        }
+        mkdirSync(path.dirname(options.wrapperPath), { recursive: true });
+        writeFileSync(options.wrapperPath, renderWrapperScript(options), { mode: 0o755 });
+        mkdirSync(path.dirname(observation.plistPath), { recursive: true });
+        writeFileSync(observation.plistPath, observation.xml);
+        const loaded = spawnSync("launchctl", ["load", observation.plistPath], { encoding: "utf8" });
+        if (loaded.status !== 0) throw new Error(`launchctl load failed: ${loaded.stderr || loaded.stdout || `exit ${String(loaded.status)}`}`);
         const installedXml = readFileSync(observation.plistPath, "utf8");
         if (!launchdPlistHasExactContent(installedXml, observation.xml)) {
-          throw new Error(
-            `launchd readback did not confirm the already-installed plist for ${options.workspaceSlug}/${options.runtime}`,
-          );
+          throw new Error(`launchd readback did not confirm the exact managed plist for ${options.workspaceSlug}/${options.runtime}`);
         }
-        launchdOutcome = "already_installed";
-        return;
-      }
-      mkdirSync(path.dirname(options.wrapperPath), { recursive: true });
-      writeFileSync(options.wrapperPath, renderWrapperScript(options), { mode: 0o755 });
-      mkdirSync(path.dirname(observation.plistPath), { recursive: true });
-      writeFileSync(observation.plistPath, observation.xml);
-      const loaded = spawnSync("launchctl", ["load", observation.plistPath], { encoding: "utf8" });
-      if (loaded.status !== 0) throw new Error(`launchctl load failed: ${loaded.stderr || loaded.stdout || `exit ${String(loaded.status)}`}`);
-      const installedXml = readFileSync(observation.plistPath, "utf8");
-      if (!launchdPlistHasExactContent(installedXml, observation.xml)) {
-        throw new Error(`launchd readback did not confirm the exact managed plist for ${options.workspaceSlug}/${options.runtime}`);
-      }
-    });
-  } catch (error) {
-    fail(error instanceof Error ? error.message : String(error));
-  }
+        return "installed";
+      });
+    } catch (error) {
+      fail(error instanceof Error ? error.message : String(error));
+    }
+  })();
   if (uninstall) {
     console.log(`install-schedule: removed and verified the launchd job for ${options.workspaceSlug}/${options.runtime}.`);
     return;
