@@ -6,6 +6,7 @@ import { lookupResearch, recordResearch } from "../../../kernel/services/researc
 import { callPublicOperation } from "../../../kernel/services/business.js";
 import { researchQueryId } from "../../../kernel/session/research-observations.js";
 import { workspaceRevision } from "../../../kernel/session/workspace-revision.js";
+import { projectResearchProof } from "../../../kernel/session/research-proof-projection.js";
 import { validateProductPriceEvidence } from "../../validation/business/money/price-evidence.js";
 import { validateOfferTest } from "../../validation/business/research/offer-evidence.js";
 import { type Issue } from "../../../tooling/lib/launch-state.js";
@@ -196,4 +197,52 @@ export function register(h: Harness): void {
     validateOfferTest(offer.replace("840 | 31 | 3.69%", "840 | 999 | 118.9%"), rejected, (name) => name === "founder");
     assert(rejected.length > 0, "impossible conversion evidence accepted");
   });
+
+  h.check("Porchwatch #74: planning resume keeps structural offer presence distinct from measured demand", () =>
+    business((root, id) => {
+      const seeded = projectResearchProof(root);
+      assert(seeded.offerDecision === "incomplete" && seeded.demand === "unmeasured", "seeded template offer must stay unmeasured");
+      assert(
+        seeded.facts.some((fact) => fact.includes("unmeasured")),
+        "seeded offer must project unmeasured demand wording",
+      );
+      writeFileSync(path.join(root, "strategy/OFFER_TEST.md"), "# Offer test\n\nDraft notes only.\n", "utf8");
+      const incomplete = projectResearchProof(root);
+      assert(incomplete.offerDecision === "incomplete" && incomplete.demand === "unmeasured", "draft offer must stay unmeasured");
+      const plan = planBusiness({ workspaceId: id, maxConcurrency: 1 });
+      assert(plan.status === "not_initialized", "proof projection must not initialize the runtime");
+      assert(
+        plan.resume?.artifacts.every((entry) => entry.acceptance === "not_evaluated"),
+        "resume must keep acceptance unevaluated",
+      );
+      assert(plan.nextAction.includes("unmeasured"), `plan nextAction must name unmeasured demand, got ${plan.nextAction}`);
+      assert(plan.nextAction.includes("structural validity does not prove demand"), "plan nextAction must keep contract evidence wording");
+      assert(!plan.nextAction.includes("demand is validated"), "plan must not invent validated demand");
+    }),
+  );
+
+  h.check("Porchwatch #74: a founder waiver changes path only and does not strengthen evidence in planning resume", () =>
+    business((root, id) => {
+      const waived = offer
+        .replace("| run |", "| waived |")
+        .replace(
+          "## Founder Waiver\n| Date | Founder | Reason | Residual risk accepted |\n| --- | --- | --- | --- |\n",
+          "## Founder Waiver\n| Date | Founder | Reason | Residual risk accepted |\n| --- | --- | --- | --- |\n| 2026-07-21 | founder | Organic cohort is enough for this pivot | Longer-term paid demand remains unverified |\n",
+        );
+      writeFileSync(path.join(root, "strategy/OFFER_TEST.md"), waived, "utf8");
+      const projection = projectResearchProof(root);
+      assert(projection.offerDecision === "waived" && projection.demand === "path_recorded", "waiver must record a path without inventing measured demand");
+      assert(
+        projection.facts.some((fact) => fact.includes("does not improve evidence strength")),
+        "waiver must not be projected as stronger evidence",
+      );
+      const plan = planBusiness({ workspaceId: id, maxConcurrency: 1 });
+      assert(plan.nextAction.includes("does not improve evidence strength"), `plan must keep waiver strength limit, got ${plan.nextAction}`);
+      assert(plan.nextAction.includes("independent review"), "plan must keep independent review as a separate fact");
+      assert(
+        plan.resume?.artifacts.find((entry) => entry.path === "strategy/OFFER_TEST.md")?.acceptance === "not_evaluated",
+        "waiver must not become acceptance",
+      );
+    }),
+  );
 }
