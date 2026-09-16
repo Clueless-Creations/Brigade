@@ -355,7 +355,15 @@ export function readCrontab(
   const result = read();
   if (!result.error && result.status === 0) return result.stdout;
   // Vixie/Cronie distinguish ENOENT from read/permission errors in stderr, not the exit code.
-  if (!result.error && result.status === 1 && result.stdout === "" && /^(?:crontab: )?no crontab for [^\r\n]+$/u.test(result.stderr.trim())) return "";
+  // Accept only an exact username token so trailing text like ": permission denied" stays fail-closed.
+  if (
+    !result.error &&
+    result.status === 1 &&
+    result.stdout === "" &&
+    /^(?:crontab: )?no crontab for [A-Za-z0-9._-]+$/u.test(result.stderr.trim())
+  ) {
+    return "";
+  }
   throw new Error("install-schedule.crontab_read_failed: cannot verify the current user crontab; refusing to treat a failed read as an empty schedule");
 }
 

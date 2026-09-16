@@ -364,6 +364,8 @@ export function register(harness: Harness): void {
       fakeSpawn(null, "", "interrupted"),
       fakeSpawn(1, foreign, "no crontab for fixture-user"),
       fakeSpawn(1, "", "no crontab for fixture-user\npermission denied"),
+      fakeSpawn(1, "", "no crontab for fixture-user: permission denied"),
+      fakeSpawn(1, "", "crontab: no crontab for fixture-user: permission denied"),
       fakeSpawn(1, "", ""),
       fakeSpawn(0, foreign, "", enoent()),
     ]) {
