@@ -43,6 +43,7 @@
     "kernel",
     "adapters",
     "catalog",
+    "!**/.gradle/**",
     "knowledge",
     "tooling",
     "dist",

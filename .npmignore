@@ -12,6 +12,9 @@ node_modules/
 .venv/
 dist/
 build/
+# Machine-bound Android Gradle caches; package.json files also excludes **/.gradle/**
+**/.gradle/
+**/.gradle/**
 hosted/knowledge-mcp/.wrangler/
 hosted/knowledge-mcp/.dev.vars*
 hosted/knowledge-mcp/.env*
