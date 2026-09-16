@@ -580,6 +580,19 @@ export function register(harness: Harness): void {
         !existsSync(path.join(target, "modules/b2c-native-capability/android/.gradle")),
         "scaffold must not copy machine-bound Gradle cache into generated apps",
       );
+      const generatedIgnore = readFileSync(path.join(target, ".gitignore"), "utf8");
+      assert(
+        generatedIgnore.includes(".gradle/") || generatedIgnore.includes("**/.gradle/"),
+        "generated app .gitignore must ignore Gradle caches under local native modules",
+      );
+      const pack = spawnSync("npm", ["pack", "--ignore-scripts", "--dry-run", "--json"], {
+        cwd: skillRoot,
+        encoding: "utf8",
+      });
+      assert(pack.status === 0, `npm pack dry-run must succeed, got ${pack.stderr || pack.stdout}`);
+      const packed = JSON.parse(pack.stdout) as Array<{ files?: Array<{ path: string }> }>;
+      const packHits = (packed[0]?.files ?? []).filter((file) => file.path.split("/").includes(".gradle"));
+      assert(packHits.length === 0, `npm pack must omit .gradle cache paths, got ${JSON.stringify(packHits)}`);
     } finally {
       rmSync(cacheDir, { recursive: true, force: true });
     }

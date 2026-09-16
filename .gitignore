@@ -39,7 +39,8 @@ surfaces/starters/*/starter/next-env.d.ts
 checks/verification/test/data/**/.build/
 examples/contributions/**/.build/
 
-# Expo starter fixture: Android Gradle build cache, never source.
+# Expo / Android Gradle build caches, never source.
+**/.gradle/
 catalog/stacks/expo-starter-fixture/modules/b2c-native-capability/android/.gradle/
 
 # Operator deploy overlay: production Cloudflare resource ids live here, never in the public tree.

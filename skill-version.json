@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.5",
+  "version": "0.221.6",
   "updatedAt": "2026-09-16",
   "sourcePath": ".",
   "releaseNotes": [
+    "Ignore Gradle caches in Expo starter app gitignore templates and recursive repo ignore rules.",
     "Exclude Expo starter Android Gradle caches from packages, path lists, and scaffolds.",
     "Require current scheduled-autonomy founder approval before any schedule host mutation.",
     "Add authored row locations and bounded repair hints for offer-test contract, decision, and measurement failures.",
