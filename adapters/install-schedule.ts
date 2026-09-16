@@ -13,7 +13,7 @@
  *       --schedule "(every 30 min, 5-field cron)" --brief <path/to/brief.json> [--mechanism cron|launchd] \
  *       [--wall-clock-seconds 1800] [--skill-root <path>] [--apply --approval <scheduled-autonomy-approval-id>] [--uninstall]
  */
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
@@ -33,6 +33,8 @@ export type ScheduleMechanism = "cron" | "launchd";
 
 export const scheduledAutonomyWorkflowId = "workflow.operations.scheduled-autonomy-installation";
 export const scheduledAutonomyApprovalId = `${scheduledAutonomyWorkflowId}.approval.1`;
+/** Workspace-relative dry-run receipt; apply refuses when cadence/runtime/target no longer match. */
+export const scheduleEffectPreviewRelativePath = "schedule/effect-preview.json";
 
 export interface ScheduleOptions {
   readonly workspaceDir: string;
@@ -380,6 +382,118 @@ export function assertScheduleApproval(workspaceDir: string, approvalId: string 
   }
 }
 
+export type ScheduleEffectIntent = "install" | "uninstall";
+
+export type ScheduleEffectPreview = {
+  readonly schemaVersion: 1;
+  readonly approvalId: typeof scheduledAutonomyApprovalId;
+  readonly intent: ScheduleEffectIntent;
+  readonly mechanism: ScheduleMechanism;
+  readonly digest: string;
+  readonly runtime: RuntimeId;
+  readonly schedule: string;
+  readonly wrapperPath: string;
+  readonly logPath: string;
+  readonly rendered: string;
+};
+
+/** Canonical digest for the exact host effect a dry-run showed the founder (#405). */
+export function scheduleEffectDigest(input: {
+  readonly intent: ScheduleEffectIntent;
+  readonly mechanism: ScheduleMechanism;
+  readonly runtime: RuntimeId;
+  readonly schedule: string;
+  readonly wrapperPath: string;
+  readonly logPath: string;
+  readonly rendered: string;
+}): string {
+  return createHash("sha256")
+    .update(
+      [input.intent, input.mechanism, input.runtime, input.schedule, input.wrapperPath, input.logPath, input.rendered].join("\n"),
+      "utf8",
+    )
+    .digest("hex");
+}
+
+export function buildScheduleEffectPreview(
+  options: ScheduleOptions,
+  mechanism: ScheduleMechanism,
+  intent: ScheduleEffectIntent,
+): ScheduleEffectPreview {
+  const rendered =
+    mechanism === "cron"
+      ? renderCrontabLine(options)
+      : (() => {
+          const plist = renderLaunchdPlist(options);
+          if (!plist.ok) throw new Error(plist.error);
+          return plist.xml;
+        })();
+  const digest = scheduleEffectDigest({
+    intent,
+    mechanism,
+    runtime: options.runtime,
+    schedule: options.schedule,
+    wrapperPath: options.wrapperPath,
+    logPath: options.logPath,
+    rendered,
+  });
+  return {
+    schemaVersion: 1,
+    approvalId: scheduledAutonomyApprovalId,
+    intent,
+    mechanism,
+    digest,
+    runtime: options.runtime,
+    schedule: options.schedule,
+    wrapperPath: options.wrapperPath,
+    logPath: options.logPath,
+    rendered,
+  };
+}
+
+export function scheduleEffectPreviewPath(workspaceDir: string): string {
+  return path.join(workspaceDir, scheduleEffectPreviewRelativePath);
+}
+
+/** Dry-run receipt only: records the exact effect the founder was shown. */
+export function writeScheduleEffectPreview(workspaceDir: string, preview: ScheduleEffectPreview): void {
+  const target = scheduleEffectPreviewPath(workspaceDir);
+  mkdirSync(path.dirname(target), { recursive: true });
+  writeFileSync(target, `${JSON.stringify(preview, null, 2)}\n`, "utf8");
+}
+
+/**
+ * Apply of a mutating install/uninstall requires the current dry-run receipt.
+ * A cadence/runtime/target change without a fresh dry-run cannot reuse the prior receipt (#405).
+ */
+export function assertScheduleEffectPreview(workspaceDir: string, expected: ScheduleEffectPreview): void {
+  const target = scheduleEffectPreviewPath(workspaceDir);
+  if (!existsSync(target)) {
+    throw new Error(
+      "install-schedule.schedule_effect_preview_required: run a dry-run for the exact cadence/runtime/target before --apply",
+    );
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(readFileSync(target, "utf8"));
+  } catch {
+    throw new Error("install-schedule.schedule_effect_preview_invalid: the dry-run receipt is not readable JSON");
+  }
+  if (
+    typeof parsed !== "object" ||
+    parsed === null ||
+    (parsed as { schemaVersion?: unknown }).schemaVersion !== 1 ||
+    (parsed as { digest?: unknown }).digest !== expected.digest ||
+    (parsed as { intent?: unknown }).intent !== expected.intent ||
+    (parsed as { mechanism?: unknown }).mechanism !== expected.mechanism ||
+    (parsed as { approvalId?: unknown }).approvalId !== scheduledAutonomyApprovalId
+  ) {
+    throw new Error(
+      "install-schedule.schedule_effect_mismatch: cadence/runtime/target changed since the dry-run; re-run dry-run and keep the current founder approval bound to the new exact effect",
+    );
+  }
+}
+
 /** Failed reads never authorize replacing an unknown crontab or claiming verified removal. */
 export function readCrontab(
   read: () => SpawnResult = () => {
@@ -446,9 +560,12 @@ function runMain(): void {
 
   if (mechanism === "cron") {
     if (!apply) {
+      const preview = buildScheduleEffectPreview(options, "cron", uninstall ? "uninstall" : "install");
+      writeScheduleEffectPreview(options.workspaceDir, preview);
       console.log(`install-schedule: DRY RUN (${uninstall ? "uninstall" : "install"}, cron) — would write the wrapper script and update the user crontab.`);
       console.log(`  wrapper: ${options.wrapperPath}`);
-      if (!uninstall) console.log(`  crontab line: ${renderCrontabLine(options)}`);
+      if (!uninstall) console.log(`  crontab line: ${preview.rendered}`);
+      console.log(`  effect digest: ${preview.digest}`);
       console.log(`  would remove any crontab line tagged "# ${crontabSignature(options)}"`);
       console.log(`  verify after --apply with: crontab -l | grep ${JSON.stringify(crontabSignature(options))}`);
       console.log(`  approval required for --apply: ${scheduledAutonomyApprovalId}`);
@@ -470,6 +587,7 @@ function runMain(): void {
               }
               return "already_installed";
             }
+            assertScheduleEffectPreview(options.workspaceDir, buildScheduleEffectPreview(options, "cron", "install"));
             mkdirSync(path.dirname(options.wrapperPath), { recursive: true });
             writeFileSync(options.wrapperPath, renderWrapperScript(options), { mode: 0o755 });
             writeCrontab(observation.nextContent);
@@ -479,6 +597,7 @@ function runMain(): void {
             }
             return "installed";
           }
+          assertScheduleEffectPreview(options.workspaceDir, buildScheduleEffectPreview(options, "cron", "uninstall"));
           const result = applyCrontabUninstall(current, options);
           writeCrontab(result.nextContent);
           const readBackContent = readCrontab();
@@ -508,12 +627,15 @@ function runMain(): void {
   if (launchdObservation.kind === "unsupported") fail(launchdObservation.error);
   const plistPath = launchdObservation.plistPath;
   if (!apply) {
+    const preview = buildScheduleEffectPreview(options, "launchd", uninstall ? "uninstall" : "install");
+    writeScheduleEffectPreview(options.workspaceDir, preview);
     console.log(
       `install-schedule: DRY RUN (${uninstall ? "uninstall" : "install"}, launchd) — would write the wrapper script and ${uninstall ? "unload + remove" : "write + load"} the LaunchAgent plist.`,
     );
     console.log(`  wrapper: ${options.wrapperPath}`);
     console.log(`  plist:   ${plistPath}`);
-    if (!uninstall) console.log(launchdObservation.xml);
+    console.log(`  effect digest: ${preview.digest}`);
+    if (!uninstall) console.log(preview.rendered);
     if (sandboxCheck) console.log(`  sandboxed: ${String(sandboxCheck.sandboxed)}`);
     return;
   }
@@ -521,6 +643,7 @@ function runMain(): void {
     try {
       return withScheduleMutationLock((): "removed" | "installed" | "already_installed" => {
         if (uninstall) {
+          assertScheduleEffectPreview(options.workspaceDir, buildScheduleEffectPreview(options, "launchd", "uninstall"));
           for (const target of [plistPath]) {
             if (existsSync(target)) {
               const unloaded = spawnSync("launchctl", ["unload", target], { encoding: "utf8" });
@@ -542,6 +665,7 @@ function runMain(): void {
           }
           return "already_installed";
         }
+        assertScheduleEffectPreview(options.workspaceDir, buildScheduleEffectPreview(options, "launchd", "install"));
         mkdirSync(path.dirname(options.wrapperPath), { recursive: true });
         writeFileSync(options.wrapperPath, renderWrapperScript(options), { mode: 0o755 });
         mkdirSync(path.dirname(observation.plistPath), { recursive: true });
