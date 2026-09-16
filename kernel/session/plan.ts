@@ -144,7 +144,18 @@ function describe(
 }
 
 /** The slice of a compiled node `pickFounderQuestion` actually reads — narrow on purpose so it is unit-testable without a real compiled plan. */
-export type FounderQuestionNode = Pick<CompiledRunNode, "title" | "approvals" | "actionClass" | "protectedCategory">;
+export type FounderQuestionNode = Pick<CompiledRunNode, "title" | "approvals" | "actionClass" | "protectedCategory" | "workflowId">;
+
+const PAID_TOOL_ROUTING_WORKFLOW_ID = "workflow.operations.paid-tool-routing-and-fallback";
+const SCHEDULED_AUTONOMY_WORKFLOW_ID = "workflow.operations.scheduled-autonomy-installation";
+
+function isScheduledAutonomyNode(node: FounderQuestionNode | undefined): boolean {
+  return node?.workflowId === SCHEDULED_AUTONOMY_WORKFLOW_ID;
+}
+
+function hasPaidToolRoutingHold(byId: ReadonlyMap<RunNodeId, FounderQuestionNode>, held: readonly HeldNode[]): boolean {
+  return held.some((entry) => byId.get(entry.nodeId)?.workflowId === PAID_TOOL_ROUTING_WORKFLOW_ID);
+}
 
 /** `effectiveProtectedCategory`'s three direct classes map onto the cluster's named "Go / spend-cap / release-publish" trio; every other protected category (credentials_access, legal_pricing, public_actions — catalog-declared, not action-class-direct) still needs a hard gate, so it falls back to the generic "confirm-go" class rather than going unlabeled. */
 const CLASS_BY_PROTECTED_CATEGORY: Partial<Record<ProtectedCategory, FounderQuestionClass>> = {
@@ -214,7 +225,13 @@ export function pickFounderQuestion(
   const approvalHeld = held.filter((node) => node.reason === "founder_approval");
   // Scope waits stay out of the hard-approval set even when the compiled node already carries a
   // later effect approval (scheduled autonomy is both conditional and founder-gated on install).
-  const realApprovals = approvalHeld.filter((node) => (byId.get(node.nodeId)?.approvals.length ?? 0) > 0 && !isScopeAnswerDetail(node.detail));
+  const paidToolHeld = hasPaidToolRoutingHold(byId, held);
+  const realApprovals = approvalHeld.filter((node) => {
+    if ((byId.get(node.nodeId)?.approvals.length ?? 0) === 0 || isScopeAnswerDetail(node.detail)) return false;
+    // A paid-tool hold is never recovered by asking to install recurring sessions (#405).
+    if (paidToolHeld && isScheduledAutonomyNode(byId.get(node.nodeId))) return false;
+    return true;
+  });
 
   const protectedApproval = realApprovals.find((node) => protectedCategoryFor(node.nodeId) !== undefined);
   if (protectedApproval) {
@@ -267,10 +284,14 @@ export function pickFounderQuestion(
 
   // A conditional scope question is optional setup until it gates all useful work. Keep
   // independent manual work moving instead of turning an unanswered scheduler question into a
-  // global pause. Hard approvals and autonomy questions still outrank this branch.
+  // global pause. Hard approvals and autonomy questions still outrank this branch. A paid-tool
+  // hold also suppresses the schedule soft question so optional setup cannot pose as recovery.
   const scopeQuestion = hasReadyWork
     ? undefined
-    : approvalHeld.find((node) => isScopeAnswerDetail(node.detail) || (byId.get(node.nodeId)?.approvals.length ?? 0) === 0);
+    : approvalHeld.find((node) => {
+        if (paidToolHeld && isScheduledAutonomyNode(byId.get(node.nodeId))) return false;
+        return isScopeAnswerDetail(node.detail) || (byId.get(node.nodeId)?.approvals.length ?? 0) === 0;
+      });
   if (scopeQuestion) {
     const prompt = isScopeAnswerDetail(scopeQuestion.detail) ? scopeQuestion.detail.slice(SCOPE_ANSWER_PREFIX.length) : scopeQuestion.detail;
     return safeFounderQuestion(

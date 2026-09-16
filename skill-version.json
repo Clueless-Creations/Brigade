@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.12",
+  "version": "0.221.13",
   "updatedAt": "2026-09-16",
   "sourcePath": ".",
   "releaseNotes": [
+    "Keep paid-tool holds from being recovered by asking to install recurring sessions.",
     "Bind schedule apply to the exact dry-run effect so cadence changes cannot reuse a stale receipt.",
     "Return schedule install outcomes from the mutation lock for typecheck.",
     "Skip duplicate schedule writes when exact cron or launchd readback already matches.",
