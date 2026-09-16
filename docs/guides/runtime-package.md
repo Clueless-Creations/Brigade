@@ -66,15 +66,21 @@ anything, and nothing imports `checks`.
 
 ## Install
 
-Use Node.js 24. From npm:
+Use Node.js 24.
 
-```bash
-npm install -g b2c-app-builder
-b2c setup
-b2c inspect
-```
+### Audiences
 
-From a source checkout, at the repository root:
+| Audience | Path |
+| --- | --- |
+| **Contribute / develop** | Clone this repository, `npm ci`, `npm run setup`. |
+| **Consume the runtime** (after the first authorized npm publish) | `npm install -g b2c-app-builder` or `npx -y b2c-app-builder` for the MCP bin. |
+
+The package is **not** on the registry yet (`npm view b2c-app-builder` → 404).
+Until a maintainer completes the first publish described in
+[CONTRIBUTING](../../CONTRIBUTING.md#releasing-to-npm), treat the npm snippets
+as the intended post-publish consumer path, not as a working install.
+
+### From a source checkout (current verified path)
 
 ```bash
 npm ci
@@ -82,12 +88,36 @@ npm run setup
 b2c inspect
 ```
 
+### From npm (intended after first publish)
+
+```bash
+npm install -g b2c-app-builder
+b2c setup
+b2c inspect
+```
+
 Setup creates `~/.b2c-app-builder/workspaces.json` and prints the MCP registration commands. It does not create an app workspace, add credentials, deploy a service, spend money, or submit an app.
 
 A packed install launches compiled ESM from `dist/` and does not need `tsx`. A source checkout runs `npm run build` (also via `prepack`) or falls back to `tsx` until that build exists.
 
-## CLI
+## Package boundary
 
+One public npm package: **`b2c-app-builder`**. It ships the `b2c` CLI, the
+`b2c-app-builder` / `b2c-app-builder-mcp` bins, routing skill, catalog,
+knowledge, adapters, compiled `dist/`, selected generated business task skills,
+starters, workspace templates, and importable `examples/extensions/` trees.
+
+| Tree | Public npm? | Notes |
+| --- | --- | --- |
+| Repository root (`b2c-app-builder`) | **Yes — the one package** | `check:package-parity` is the pack contract. |
+| `hosted/knowledge-mcp`, `hosted/builder-console` | No | Separately deployed Workers; private package names stay repo-only. |
+| Contributor/maintainer skills under `agents/skills/` (non-business) | No | Operator symlink only; must not ship to a business worker. |
+| `checks/verification/`, most of `docs/`, `.github/` | No | Maintainer fixtures and repository docs. |
+
+Do not introduce npm workspaces or a second consumer package unless a later
+maintainer decision splits one. Publication uses the single procedure in
+CONTRIBUTING (first machine publish, then trusted publishing via
+`publish.yml`).
 ```bash
 b2c --help
 b2c inspect

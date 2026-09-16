@@ -116,6 +116,10 @@ notes short and specific to the current version.
 
 ## Releasing to npm
 
+Publish **one** public package: `b2c-app-builder`. Do not publish
+`@b2c/hosted`, `@b2c/app`, or contributor/maintainer skills. Hosted Workers
+deploy separately; they are not consumer npm packages.
+
 [`.github/workflows/publish.yml`](.github/workflows/publish.yml) publishes the
 package when a GitHub release is published. The release tag must be
 `v<version>` and match `package.json` and `skill-version.json`. Authentication
