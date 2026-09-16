@@ -40,7 +40,7 @@ function question(overrides: Partial<FounderQuestion> = {}): FounderQuestion {
 }
 
 function planNode(overrides: Partial<FounderQuestionNode> = {}): FounderQuestionNode {
-  return { title: "Node title", approvals: [], actionClass: "mutate", ...overrides };
+  return { title: "Node title", approvals: [], actionClass: "mutate", workflowId: "workflow.test.node", ...overrides };
 }
 
 function heldNode(nodeId: RunNodeId, reason: HeldReason, detail: string, title = "Node title", reasonCode?: string): HeldNode {
@@ -262,6 +262,7 @@ export function register(harness: Harness): void {
         scheduleId,
         planNode({
           title: "Scheduled autonomy installation",
+          workflowId: "workflow.operations.scheduled-autonomy-installation",
           approvals: [
             { id: "workflow.operations.scheduled-autonomy-installation.approval.1", description: "approve installing the recurring session schedule" },
           ],
@@ -286,6 +287,71 @@ export function register(harness: Harness): void {
       `expected the schedule scope prompt, got ${whenIdle!.prompt}`,
     );
     assert(whenIdle!.skippable === true && whenIdle!.deferrable === true, "schedule scope must stay soft until selected");
+  });
+
+  harness.check("pickFounderQuestion: a paid-tool hold is never recovered by asking to install recurring sessions", () => {
+    const paidToolId = "run.operations.paid-tool-routing-and-fallback" as RunNodeId;
+    const scheduleId = "run.operations.scheduled-autonomy-installation" as RunNodeId;
+    const byId = new Map<RunNodeId, FounderQuestionNode>([
+      [
+        paidToolId,
+        planNode({
+          title: "Paid-tool routing & fallback",
+          workflowId: "workflow.operations.paid-tool-routing-and-fallback",
+          approvals: [{ id: "workflow.operations.paid-tool-routing-and-fallback.approval.1", description: "approve a paid or constrained fallback" }],
+        }),
+      ],
+      [
+        scheduleId,
+        planNode({
+          title: "Scheduled autonomy installation",
+          workflowId: "workflow.operations.scheduled-autonomy-installation",
+          approvals: [
+            { id: "workflow.operations.scheduled-autonomy-installation.approval.1", description: "approve installing the recurring session schedule" },
+          ],
+        }),
+      ],
+    ]);
+    const paidToolHeld = heldNode(
+      paidToolId,
+      "blocked",
+      "Worker receipt failed after paid-tool approval; repair the receipt before continuing.",
+      "Paid-tool routing & fallback",
+    );
+    const scheduleScopeHeld = heldNode(
+      scheduleId,
+      "founder_approval",
+      "Scope answer needed: Is recurring scheduled operation selected for the current business?",
+      "Scheduled autonomy installation",
+    );
+    const scheduleInstallHeld = heldNode(
+      scheduleId,
+      "founder_approval",
+      "approve installing the recurring session schedule",
+      "Scheduled autonomy installation",
+    );
+
+    const againstScope = pickFounderQuestion(byId, [scheduleScopeHeld, paidToolHeld], false, false);
+    assert(againstScope === null || !againstScope.prompt.includes("recurring scheduled"), `paid-tool hold must not surface schedule scope, got ${JSON.stringify(againstScope)}`);
+
+    const againstInstall = pickFounderQuestion(byId, [scheduleInstallHeld, paidToolHeld], false, false);
+    assert(
+      againstInstall === null || !againstInstall.prompt.includes("Scheduled autonomy"),
+      `paid-tool hold must not surface schedule install approval as recovery, got ${JSON.stringify(againstInstall)}`,
+    );
+
+    const paidToolApprovalHeld = heldNode(
+      paidToolId,
+      "founder_approval",
+      "approve a paid or constrained fallback",
+      "Paid-tool routing & fallback",
+    );
+    const prefersPaidTool = pickFounderQuestion(byId, [scheduleInstallHeld, paidToolApprovalHeld], false, false);
+    assert(prefersPaidTool !== null, "expected the paid-tool approval to remain askable");
+    assert(
+      prefersPaidTool!.prompt.includes("Paid-tool routing"),
+      `expected paid-tool approval to outrank schedule install, got ${prefersPaidTool!.prompt}`,
+    );
   });
 
   harness.check("pickFounderQuestion: returns null when nothing is held and autonomy is already set", () => {
