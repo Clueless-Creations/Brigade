@@ -1,9 +1,11 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.9",
+  "version": "0.221.11",
   "updatedAt": "2026-09-16",
   "sourcePath": ".",
   "releaseNotes": [
+    "Return schedule install outcomes from the mutation lock for typecheck.",
+    "Skip duplicate schedule writes when exact cron or launchd readback already matches.",
     "Project research proof distinctions into planning resume so structural offer presence stays unmeasured demand.",
     "Keep unanswered schedule scope soft in public plan even when a later install approval already exists on the node.",
     "Reject trailing text on absent-crontab diagnostics so compound stderr stays fail-closed.",

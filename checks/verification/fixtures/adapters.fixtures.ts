@@ -26,6 +26,8 @@ import {
   launchdPlistHasExactContent,
   launchdPlistHasLabel,
   launchdPlistPath,
+  observeCronInstall,
+  observeLaunchdInstall,
   readCrontab,
   renderCrontabLine,
   renderLaunchdPlist,
@@ -446,6 +448,100 @@ export function register(harness: Harness): void {
         assert(!existsSync(written) && !existsSync(path.join(dir, "schedule")), "an initial read failure must not write a wrapper or schedule");
       }
     }
+  });
+
+  harness.check("adapters/install-schedule: exact already-installed readback skips duplicate cron and launchd writes", () => {
+    const dir = harness.makeTempDir("schedule-already-installed");
+    const workspaceSlug = path.basename(dir);
+    const options: ScheduleOptions = {
+      workspaceDir: dir,
+      runtime: "codex",
+      schedule: "*/20 * * * *",
+      briefPath: path.join(dir, "brief.json"),
+      wallClockSeconds: 1800,
+      skillRoot,
+      wrapperPath: path.join(dir, "schedule", "run-codex.mts"),
+      logPath: path.join(dir, "schedule", "run-codex.log"),
+      workspaceSlug,
+    };
+    const line = renderCrontabLine(options);
+    const foreign = "0 3 * * * /usr/bin/foreign-job # unrelated";
+    const present = observeCronInstall(`${foreign}\n${line}\n`, options);
+    assert(present.kind === "already_installed", "exact managed line must observe as already installed");
+    assert(present.line === line, "already-installed observation must name the exact managed line");
+    const missing = observeCronInstall(`${foreign}\n`, options);
+    assert(missing.kind === "needs_write", "absent managed line must still need a write");
+    assert(missing.nextContent.includes(line) && missing.nextContent.includes(foreign), "needs_write must add our line and keep foreign jobs");
+    const cadenceDrift = observeCronInstall(`${foreign}\n${line}\n`, { ...options, schedule: "*/15 * * * *" });
+    assert(cadenceDrift.kind === "needs_write", "a cadence change must not pass as already installed");
+
+    const plist = renderLaunchdPlist(options);
+    assert(plist.ok, "fixture schedule must render a launchd plist");
+    const home = harness.makeTempDir("schedule-already-installed-home");
+    mkdirSync(path.join(home, "Library", "LaunchAgents"), { recursive: true });
+    const plistPath = launchdPlistPath(options, home);
+    writeFileSync(plistPath, plist.xml);
+    const launchdPresent = observeLaunchdInstall(options, home);
+    assert(launchdPresent.kind === "already_installed", "exact managed plist must observe as already installed");
+    writeFileSync(plistPath, plist.xml.replace("<integer>1200</integer>", "<integer>900</integer>"));
+    const launchdDrift = observeLaunchdInstall(options, home);
+    assert(launchdDrift.kind === "needs_write", "a drifted launchd plist must need a rewrite");
+
+    const homeCli = harness.makeTempDir("schedule-already-installed-cli-home");
+    const bin = path.join(dir, "fake-bin");
+    mkdirSync(bin);
+    const calls = path.join(dir, "calls.txt");
+    const written = path.join(dir, "written.txt");
+    const catalog = twoNodeCatalog();
+    writeFileSync(path.join(dir, "catalog.json"), JSON.stringify(catalog));
+    const run = seedRunState(compilePlan(catalog), minimalBusinessState(workspaceSlug), {
+      ownerSessionId: "schedule-already-installed",
+      ttlSeconds: 300,
+      wallClockCapSeconds: 1800,
+    });
+    run.approvals[scheduledAutonomyApprovalId] = "approved";
+    mkdirSync(path.join(dir, "run"));
+    writeFileSync(path.join(dir, "run/run-state.json"), JSON.stringify(run));
+    writeFileSync(
+      path.join(bin, "crontab"),
+      [
+        `#!${process.execPath}`,
+        "const fs = require('node:fs');",
+        `const calls = ${JSON.stringify(calls)}; const written = ${JSON.stringify(written)};`,
+        `const seeded = ${JSON.stringify(`${foreign}\n${line}\n`)};`,
+        "fs.appendFileSync(calls, process.argv.slice(2).join(' ') + '\\n');",
+        "if (process.argv[2] === '-l') { process.stdout.write(seeded); process.exit(0); }",
+        "fs.writeFileSync(written, fs.readFileSync(0, 'utf8'));",
+      ].join("\n"),
+      { mode: 0o755 },
+    );
+    const result = runCli(
+      "adapters/install-schedule.ts",
+      [
+        "--workspace",
+        dir,
+        "--runtime",
+        "codex",
+        "--schedule",
+        "*/20 * * * *",
+        "--brief",
+        path.join(dir, "brief.json"),
+        "--apply",
+        "--approval",
+        scheduledAutonomyApprovalId,
+      ],
+      { HOME: homeCli, PATH: `${bin}${path.delimiter}${process.env.PATH ?? ""}` },
+    );
+    assert(result.code === 0, `expected already-installed apply to exit 0, got ${result.code}: ${result.output}`);
+    assert(
+      result.output.includes("already installed") && result.output.includes("no duplicate write"),
+      `expected truthful already-installed readback wording, got: ${result.output}`,
+    );
+    assert(!result.output.includes("installed and verified"), "already-installed must not claim a fresh install");
+    const observedCalls = readFileSync(calls, "utf8").trim().split("\n");
+    assert(observedCalls.every((entry) => entry === "-l"), `already-installed must only read crontab, got ${observedCalls.join(",")}`);
+    assert(!existsSync(written), "already-installed must not rewrite the user crontab");
+    assert(!existsSync(path.join(dir, "schedule")), "already-installed must not fabricate a wrapper rewrite");
   });
 
   harness.check("adapters/install-schedule: renders a correct crontab line, and uninstall exactly reverses install (foreign lines survive both)", () => {
