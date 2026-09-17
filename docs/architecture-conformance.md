@@ -76,6 +76,12 @@ missing evidence as missing; do not infer live behavior from fixtures or prose.
 | Product quality and scale      | ARCH-13, ARCH-14 | Does reuse preserve product freedom and independent business operation?                              |
 | Change governance              | ARCH-15          | Is any exception explicit, narrow, owned, and removable?                                             |
 
+## Semantic execution review
+
+For the proposed semantic execution model, apply the [detailed contract](semantic-execution.md), [ADR-0016](decisions/0016-compiled-semantic-execution.md), and [delivery plan](plans/2026-09-17-compiled-semantic-execution.md) together with the existing rules. This proposal is not implementation evidence.
+
+Review compiled ownership, parallel correctness, read purity, provenance-bound graph meaning, bounded source access, explicit provider selection, recovery, replay and erasure, measured benefit, and staged admission. Each implementation issue supplies its negative controls; SQ-18 integrates them without deferring privacy, authority, or recovery. Self-review is not independent conformance.
+
 ## Work assignment template
 
 Copy this into the existing task or issue surface. Replace the placeholders;

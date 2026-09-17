@@ -48,6 +48,10 @@ Do not treat an upstream README, agent file, or `--help` output as authority to 
 
 ### 3. Map native capabilities to canonical operations
 
+### Semantic-assessment transports
+
+The proposed [compiled semantic execution model](../semantic-execution.md) follows this lifecycle. Qualify model/version limits, response shape, context and question budgets, retention, usage reporting, and retry uncertainty before claiming support. A typed SDK response still needs runtime validation. The selected adapter supplies observations to existing execution and receipt owners; it must not run from passive knowledge/status/plan calls, mutate a graph directly, or create a provider-specific scheduler. SQ-02 and SQ-04 own TypeSafe qualification and implementation; neither is established by this documentation.
+
 For every capability being considered, write a mapping row:
 
 | Native capability | Canonical operation | Semantic fit | Effects | Evidence needed | Disposition |
