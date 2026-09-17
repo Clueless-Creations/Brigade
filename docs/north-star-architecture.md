@@ -1,6 +1,6 @@
 # Consumer-business primitives: north-star architecture
 
-Revision: 7 · Established: 2026-09-04 · Role: normative target architecture
+Revision: 8 · Established: 2026-09-04 · Role: normative target architecture
 
 This is the architecture against which new work and refactoring are reviewed. It
 defines the intended system; it does **not** claim that every boundary exists in
@@ -459,6 +459,14 @@ under `docs/decisions/`. Keep execution progress in the existing task/issue syst
 or runtime, not in this architecture or the immutable unit numbering. Classify
 existing debt explicitly; changed code must not expand it. Never add blanket
 exceptions or edit a rule only to silence a failed check.
+
+### ARCH-16: Compile repeatable semantic work
+
+Repeatable semantic work compiles into typed, versioned operations under the existing composition and execution owners. Parallelize assessments whose inputs and authority prerequisites are available; preserve bounded context, partial coverage, cancellation, cost uncertainty, receipts, and replay. Passive discovery, status, knowledge retrieval, and planning do not run paid inference. A selected provider remains behind a canonical operation and does not create another scheduler or journal.
+
+### ARCH-17: Keep semantic graph relationships derived and contextual
+
+Semantic relationships and applicability judgments remain context-bound inferences with source revisions and receipt provenance. They cannot overwrite authored truth, create identity equivalence, waive evidence, or grant authority. Unknown, conflicting, and missing evidence stay explicit. Invalidation and erasure follow existing owners; indexes are reconstructable. Initial behavior is opt-in shadow, and advisory or execution admission requires reviewed policy and source-backed held-out evidence.
 
 ## Repository layout
 

@@ -11,6 +11,10 @@ for refactoring units and the [conformance protocol](architecture-conformance.md
 for reviews. The implementation inventory names source and verified behavior;
 target rules alone do not establish implemented support.
 
+## Target evolution: compiled semantic execution
+
+The [semantic execution design](semantic-execution.md), [ADR-0016](decisions/0016-compiled-semantic-execution.md), and [delivery plan](plans/2026-09-17-compiled-semantic-execution.md) describe a proposed extension of the existing architecture. It does not establish runtime support, a new graph store, a passive inference call, or a provider default. Inferred relationships remain derived and context-bound; they cannot overwrite authored truth, merge identity, grant authority, or execute work.
+
 ## Purpose
 
 Brigade is a local expert system for consumer apps. It turns a product goal into a versioned workflow, plans the work, and supports CLI-approved execution with evidence.
