@@ -499,16 +499,17 @@ function operationSupport(): ExpoOperationSupport[] {
       evidenceTier: "fixture-tested",
       queuedIssue: 86,
       notes:
-        "Disposable Metro static export (`expo export --platform web`) is fixture-tested. Direct-entry, refresh, deep `/detail/1`, back, and unknown/not-found are classified from observed HTML. It cannot satisfy iOS or Android. Alpha SSR, API routes, and EAS Hosting stay blocked. The Expo/EAS executor still labels expo.export unavailable. Not a live browser.",
+        "Disposable Metro static export (`expo export --platform web`) is fixture-tested. Direct-entry, refresh, deep `/detail/1`, back, and unknown/not-found are classified from observed HTML. Surface-table, API-route contracts, and production API origin validation are fixture-tested as synthetic models. It cannot satisfy iOS or Android. Alpha SSR remains held unless selected. Live EAS Hosting deploy not-run. The Expo/EAS executor still labels expo.export unavailable. Not a live browser.",
     },
     {
       id: "eas-hosting",
       title: "EAS Hosting",
       selection: "eas-hosting",
       platforms: ["web"],
-      evidenceTier: "blocked",
+      evidenceTier: "fixture-tested",
       queuedIssue: 86,
-      notes: "Optional host. Not required because the app selected Expo.",
+      notes:
+        "Deterministic dry-run models (preview deploy / status / promote / alias / domain authority gates + alternate-host compatibility holds) are fixture-tested. Live hosting deploy not-run. Production promote/domain hard-held. autoDeploy false. Optional — not required because the app selected Expo. Fake transport is not live hosting proof. Consumes #84 executor — no second runner.",
     },
     {
       id: "expo-mcp",

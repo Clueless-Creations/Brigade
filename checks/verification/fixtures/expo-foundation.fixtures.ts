@@ -131,7 +131,13 @@ export function register(harness: Harness): void {
     assert(operationFor(selected, "offline-data").evidenceTier === "fixture-tested", "local SQLite cache is fixture-tested");
     assert(operationFor(selected, "device-capabilities").evidenceTier === "fixture-tested", "permission and notification restore are fixture-tested");
     assert(operationFor(selected, "native-purchases").evidenceTier === "blocked", "native purchases stay blocked");
-    assert(operationFor(selected, "eas-hosting").evidenceTier === "blocked", "EAS Hosting stays blocked");
+    assert(operationFor(selected, "eas-hosting").evidenceTier === "blocked", "unselected EAS Hosting stays idle");
+    const withHosting = resolveExpoSelection({
+      compositionTarget: { platform: "web", runtime: EXPO_APP_RUNTIME },
+      selectedServices: ["eas-hosting"],
+    });
+    assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run models are fixture-tested");
+    assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run");
     assert(operationFor(selected, "official-skills").evidenceTier === "blocked", "official Expo skills stay blocked until authorized");
     assert(
       operationFor(selected, "router-native-ui").evidenceTier === "fixture-tested",

@@ -73,12 +73,7 @@ export {
   assertExpoUpdateIdentitiesDistinct,
   claimsClientApplyFromPublishOnly,
 } from "./update-identity.js";
-export type {
-  ExpoUpdateIdentityDistinctness,
-  ExpoUpdateIdentityMap,
-  ExpoUpdateIdentityRole,
-  ExpoUpdatePlatform,
-} from "./update-identity.js";
+export type { ExpoUpdateIdentityDistinctness, ExpoUpdateIdentityMap, ExpoUpdateIdentityRole, ExpoUpdatePlatform } from "./update-identity.js";
 export {
   EXPO_UPDATE_PREPARE_NOTES,
   EXPO_UPDATE_PREPARE_PATH,
@@ -93,11 +88,7 @@ export type {
   ExpoUpdatePrepareTarget,
   FakeUpdatePublishSimulation,
 } from "./update-prepare.js";
-export {
-  EXPO_UPDATE_ROLLOUT_NOTES,
-  EXPO_UPDATE_ROLLOUT_PATH,
-  assessExpoUpdateRollout,
-} from "./update-rollout.js";
+export { EXPO_UPDATE_ROLLOUT_NOTES, EXPO_UPDATE_ROLLOUT_PATH, assessExpoUpdateRollout } from "./update-rollout.js";
 export type {
   ExpoUpdateHealthSignal,
   ExpoUpdateRolloutAction,
@@ -106,12 +97,7 @@ export type {
   ExpoUpdateRolloutHoldReason,
   ExpoUpdateRolloutInput,
 } from "./update-rollout.js";
-export {
-  EXPO_UPDATE_RECOVERY_NOTES,
-  EXPO_UPDATE_RECOVERY_PATH,
-  assessExpoUpdateClientRecovery,
-  planExpoUpdateRecovery,
-} from "./update-recovery.js";
+export { EXPO_UPDATE_RECOVERY_NOTES, EXPO_UPDATE_RECOVERY_PATH, assessExpoUpdateClientRecovery, planExpoUpdateRecovery } from "./update-recovery.js";
 export type {
   ExpoUpdateClientFailureMode,
   ExpoUpdateClientRecoveryInput,
@@ -121,9 +107,38 @@ export type {
   ExpoUpdateRecoveryPlan,
   ExpoUpdateRecoveryPlanInput,
 } from "./update-recovery.js";
-export {
-  EXPO_UPDATE_SIGNING_NOTES,
-  EXPO_UPDATE_SIGNING_PATH,
-  assessExpoUpdateCodeSigning,
-} from "./update-signing.js";
+export { EXPO_UPDATE_SIGNING_NOTES, EXPO_UPDATE_SIGNING_PATH, assessExpoUpdateCodeSigning } from "./update-signing.js";
 export type { ExpoUpdateSigningCode, ExpoUpdateSigningInput, ExpoUpdateSigningResult } from "./update-signing.js";
+
+export {
+  EXPO_HOSTING_PREPARE_NOTES,
+  EXPO_HOSTING_PREPARE_PATH,
+  assertExpoHostingLiveSpawnRefused,
+  prepareExpoHostingDryRun,
+  simulateFakeHostingDeploy,
+} from "./hosting-prepare.js";
+export type {
+  ExpoHostingOperation,
+  ExpoHostingPrepareRefuseReason,
+  ExpoHostingPrepareRequest,
+  ExpoHostingPrepareResult,
+  ExpoHostingPrepareTarget,
+  FakeHostingDeploySimulation,
+} from "./hosting-prepare.js";
+export {
+  EXPO_WEB_API_CONTRACT_NOTES,
+  EXPO_WEB_API_CONTRACT_PATH,
+  assessClientServerContractCompatibility,
+  assertCanaryFailClosed,
+  scanShippedWebArtifacts,
+  validateProductionApiOrigin,
+} from "./web-api-contract.js";
+export type {
+  ExpoClientServerCompatResult,
+  ExpoClientServerContractKind,
+  ExpoClientServerContractVersion,
+  ExpoProductionApiOriginRefuse,
+  ExpoProductionApiOriginResult,
+  ExpoShippedArtifactKind,
+  ExpoShippedWebArtifact,
+} from "./web-api-contract.js";

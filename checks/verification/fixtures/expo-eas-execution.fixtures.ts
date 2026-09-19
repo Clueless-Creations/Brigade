@@ -731,7 +731,13 @@ export function register(harness: Harness): void {
     const selected = resolveExpoSelection({ compositionTarget: { platform: "ios", runtime: EXPO_APP_RUNTIME } });
     assert(operationFor(selected, "cng-prebuild").evidenceTier === "fixture-tested", "selected CNG classification is fixture-tested for #82");
     assert(operationFor(selected, "expo-web-export").evidenceTier === "fixture-tested", "local static export is fixture-tested for #86");
-    assert(operationFor(selected, "eas-hosting").evidenceTier === "blocked", "EAS Hosting stays blocked for #86");
+    assert(operationFor(selected, "eas-hosting").evidenceTier === "blocked", "unselected EAS Hosting stays idle for #86");
+    const withHosting = resolveExpoSelection({
+      compositionTarget: selected.compositionTarget,
+      selectedServices: ["eas-hosting"],
+    });
+    assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run models are fixture-tested for #86");
+    assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run for #86");
     assert(operationFor(selected, "official-skills").evidenceTier === "blocked", "official skills stay blocked for #87");
     assert(operationFor(selected, "eas-update").evidenceTier === "blocked", "OTA stays blocked for #85");
     assert(operationFor(selected, "eas-cloud-build").evidenceTier === "blocked", "unselected EAS cloud stays blocked");

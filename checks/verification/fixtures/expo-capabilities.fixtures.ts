@@ -54,7 +54,8 @@ import {
   classifyWebNativeModule,
   decideExpoWebSurface,
   defaultWebSurfaceMode,
-  easHostingRemainsBlocked,
+  easHostingIsFixtureTested,
+  easHostingLiveDeployRemainsHeld,
   localStaticExportIsFixtureTested,
   scanStaticExportArtifacts,
 } from "../../../catalog/stacks/expo-web-static.js";
@@ -446,13 +447,20 @@ export function register(harness: Harness): void {
   harness.check("expo web static: default is static; SSR, API routes, deploy-server, and production hosts refuse", () => {
     const webTarget = { platform: "web" as const, runtime: EXPO_APP_RUNTIME };
     const resolution = resolveExpoSelection({ compositionTarget: webTarget });
-    assert(easHostingRemainsBlocked(resolution), "EAS Hosting stays blocked");
+    assert(operationFor(resolution, "eas-hosting").evidenceTier === "blocked", "unselected EAS Hosting stays idle");
     assert(localStaticExportIsFixtureTested(resolution), "local static export is fixture-tested");
     assert(defaultWebSurfaceMode() === "static", "local/static default is static");
     assert(operationFor(resolution, "expo-web-export").queuedIssue === 86, "web export stays #86");
     assert(operationFor(resolution, "eas-hosting").queuedIssue === 86, "EAS Hosting stays #86");
     assert(operationFor(resolution, "expo-web-export").evidenceTier === "fixture-tested", "local static export may be fixture-tested");
-    assert(operationFor(resolution, "eas-hosting").evidenceTier === "blocked", "EAS Hosting must not claim fixture-tested");
+    const withHosting = resolveExpoSelection({
+      compositionTarget: webTarget,
+      selectedServices: ["eas-hosting"],
+    });
+    assert(easHostingIsFixtureTested(withHosting), "selected EAS Hosting dry-run models are fixture-tested");
+    assert(easHostingLiveDeployRemainsHeld(withHosting), "live hosting deploy remains held when selected");
+    assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run may be fixture-tested");
+    assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run");
     const unselected = resolveExpoSelection({ compositionTarget: { platform: "host", runtime: HOST_AGENT_RUNTIME } });
     assert(operationFor(unselected, "expo-web-export").evidenceTier === "blocked", "unselected Expo must not inherit web export");
 
@@ -665,12 +673,18 @@ export function register(harness: Harness): void {
     const matrix = getExpoCapabilityMatrix();
     assert(matrix === EXPO_CAPABILITY_MATRIX, "protocol getter must return the authored matrix");
     for (const id of EXPO_CAPABILITY_MATRIX_REQUIRED_IDS) {
-      assert(matrix.some((row) => row.id === id), `matrix must include required #83 capability ${id}`);
+      assert(
+        matrix.some((row) => row.id === id),
+        `matrix must include required #83 capability ${id}`,
+      );
     }
     const auth = expoCapabilityMatrixRow("authentication");
     assert(auth.selected === true && auth.proofTier === "fixture-tested", "authentication stays fixture-tested local-session");
     assert(auth.nativeStoreProof === false && auth.liveMutation === false, "authentication must not claim store proof");
-    assert(auth.proofScopeNotes.includes("IdP") || auth.proofScopeNotes.includes("identity-provider") || auth.proofScopeNotes.includes("identity provider"), "authentication notes must record IdP hold");
+    assert(
+      auth.proofScopeNotes.includes("IdP") || auth.proofScopeNotes.includes("identity-provider") || auth.proofScopeNotes.includes("identity provider"),
+      "authentication notes must record IdP hold",
+    );
     assert(EXPO_SELECTED_IDP_LIVE_JOURNEY_HOLD.includes("held"), "IdP live journey hold constant must say held");
 
     const refuseIdp = classifyAuthAdapterClaim({ adapter: "local-session", claimIdpLiveJourney: true });
@@ -683,7 +697,10 @@ export function register(harness: Harness): void {
 
     const offline = expoCapabilityMatrixRow("offline-data");
     assert(offline.selected === true && offline.proofTier === "fixture-tested", "offline-data is fixture-tested");
-    assert(offline.proofScopeNotes.toLowerCase().includes("backend") || offline.proofScopeNotes.includes("SecureStore"), "offline notes keep backend/SecureStore honesty");
+    assert(
+      offline.proofScopeNotes.toLowerCase().includes("backend") || offline.proofScopeNotes.includes("SecureStore"),
+      "offline notes keep backend/SecureStore honesty",
+    );
 
     const secure = expoCapabilityMatrixRow("secure-store");
     assert(secure.selected === false && secure.proofTier === "held", "SecureStore is not a selected starter dependency");
@@ -692,7 +709,10 @@ export function register(harness: Harness): void {
     const purchases = expoCapabilityMatrixRow("native-purchases");
     assert(purchases.selected === true && purchases.proofTier === "blocked", "native-purchases stays blocked");
     assert(purchases.nativeStoreProof === false && purchases.liveMutation === false, "native-purchases nativeStoreProof stays false");
-    assert(purchases.proofScopeNotes.includes("held") || purchases.proofScopeNotes.includes("#79"), "native-purchases notes record held device proof / #79 boundary");
+    assert(
+      purchases.proofScopeNotes.includes("held") || purchases.proofScopeNotes.includes("#79"),
+      "native-purchases notes record held device proof / #79 boundary",
+    );
 
     const secrets = expoCapabilityMatrixRow("expo-public-secrets");
     assert(secrets.selected === true && secrets.proofTier === "fixture-tested", "EXPO_PUBLIC secrets canary stays fixture-tested");
@@ -702,7 +722,10 @@ export function register(harness: Harness): void {
     assert(push.proofScopeNotes.includes("held") || push.proofScopeNotes.includes("person"), "live push delivery stay held; receipt ≠ person-seen");
 
     // Nonselected integrations stay absent or selected:false — SecureStore is the explicit nonselected row.
-    assert(matrix.every((row) => row.selected === true || row.id === "secure-store"), "only SecureStore is the intentional nonselected matrix row");
+    assert(
+      matrix.every((row) => row.selected === true || row.id === "secure-store"),
+      "only SecureStore is the intentional nonselected matrix row",
+    );
   });
 
   harness.check("expo capabilities: RevenueCat wiring is custom-dev-client only; fake IAP stays browser-mock", () => {
@@ -782,6 +805,4 @@ export function register(harness: Harness): void {
     const fake = runFakeInAppTransport({ action: "purchase", appUserId: "fixture-user", scripted: "purchased" });
     assert(fake.proofScope === "browser-mock" && fake.nativeStoreProof === false, "fake IAP stays browser-mock only");
   });
-
-
 }
