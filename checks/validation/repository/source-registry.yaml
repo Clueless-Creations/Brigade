@@ -78,6 +78,16 @@ sources:
       - hosted/builder-console/billing/stripe.ts
     notes: Base host for stripeApiRequest (M6 — Customer creation at first Google login, subscription/entitlement
       sync). Raw fetch, no Stripe SDK, matching this Worker's minimal-dependency pattern.
+  - id: api-typesafe-ai
+    name: TypeSafe System One API host
+    source_type: api
+    url: https://api.typesafe.ai
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+    notes: Hosted evaluation endpoint POST /v1/systemone. Qualification paper only; no live call from Brigade tests.
   - id: app-posthog-com
     name: PostHog Cloud — app host
     source_type: api
@@ -1057,6 +1067,58 @@ sources:
       - hosted/builder-console/billing/stripe.ts
     notes: Documents the manual webhook signature verification scheme (HMAC-SHA256 over `${timestamp}.${payload}`)
       that verifyStripeSignature (M6) reimplements over Web Crypto rather than pulling in the Stripe SDK.
+  - id: docs-typesafe-ai
+    name: TypeSafe documentation home
+    source_type: website
+    url: https://docs.typesafe.ai
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+    notes: Public docs index for System One / Jev. Patterns for qualification; not Brigade implementation proof.
+  - id: docs-typesafe-ai-api
+    name: TypeSafe HTTP API reference
+    source_type: website
+    url: https://docs.typesafe.ai/api
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+      - catalog/providers/typesafe-qualify-map.ts
+    notes: Official request/response/error shapes used as independent fixture provenance for #513.
+  - id: docs-typesafe-ai-how-to-build
+    name: TypeSafe how-to-build-with-system-one
+    source_type: website
+    url: https://docs.typesafe.ai/concepts/how-to-build-with-system-one
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+    notes: Upstream architecture patterns (code owns control flow; narrow typed questions). Not Brigade proof.
+  - id: docs-typesafe-ai-legal
+    name: TypeSafe legal index
+    source_type: website
+    url: https://docs.typesafe.ai/legal
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+    notes: Public DPA/MCA/Privacy pointers. Unreviewed for Brigade live authority; unknowns block live customer payloads.
+  - id: docs-typesafe-ai-primitives
+    name: TypeSafe primitives (Choice/Score/Noul)
+    source_type: website
+    url: https://docs.typesafe.ai/primitives
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+      - catalog/providers/typesafe-qualify-map.ts
+    notes: Native question/answer shapes mapped onto SQ-01 contracts in #513.
   - id: docs-whop-com-developer-websites-blueprints
     name: Whop Blueprints planning reference
     source_type: official_docs
@@ -1352,6 +1414,25 @@ sources:
       - catalog/upstreams/rork-app-store-connect-cli.yaml
     notes: Homepage of the asc CLI as recorded by GitHub and the Homebrew formula. Install script host; the builder
       never pipes it to a shell.
+  - id: github-com-typesafe-ai-typesafe-sdk-python
+    name: TypeSafe Python SDK repository
+    source_type: github
+    url: https://github.com/typesafe-ai/typesafe-sdk-python
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+    notes: Official Python client. Reviewed release baseline only; not installed as a Brigade dependency by #513.
+  - id: github-com-typesafe-ai-typesafe-sdk-python-license
+    name: TypeSafe Python SDK LICENSE
+    source_type: github
+    url: https://github.com/typesafe-ai/typesafe-sdk-python/blob/v0.7.0/LICENSE
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - catalog/upstreams/notices/typesafe-ai.txt
+    notes: MIT notice retained verbatim for credits. Does not license the hosted API.
   - id: layers-com-docs-mcp
     name: layers.com
     source_type: official_docs
@@ -1415,6 +1496,16 @@ sources:
       - docs/decisions/0005-source-adoption-and-upstream-maintenance.md
     notes: Public example of a third-party notices file (project, upstream, license, copyright, verbatim license
       text). Format reference only; no OpenClaw runtime or dependency is adopted.
+  - id: npmjs-com-typesafe-ai-sdk
+    name: TypeSafe JavaScript SDK (npm)
+    source_type: website
+    url: https://www.npmjs.com/package/@typesafe-ai/sdk
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+    notes: Distinct distribution from Python SDK. Latest observed 0.6.0 on 2026-09-19; not installed by #513.
   - id: opensource-org-license-mit
     name: opensource.org
     source_type: license
@@ -1896,6 +1987,16 @@ sources:
     locations:
       - docs/research/2026-09-04-graph-and-craft-audit.md
     notes: Auto-discovered from recently added repository content.
+  - id: pypi-typesafe-sdk
+    name: typesafe-sdk on PyPI
+    source_type: website
+    url: https://pypi.org/project/typesafe-sdk/
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/typesafe-ai.yaml
+      - docs/upstreams/typesafe-qualification.md
+    notes: Python package metadata for release observation. Qualification does not pip-install into Brigade.
   - id: raw-githubusercontent-com-remotion-dev-remotion-main-license-md
     name: raw.githubusercontent.com
     source_type: website
