@@ -231,8 +231,8 @@ export const EXPO_QUEUED_OWNERS: readonly ExpoQueuedOwner[] = [
   {
     issue: 88,
     owns: "Per-platform proof matrix, observability, SDK upgrade proof, #72 benchmark",
-    consume: "Evidence tiers here; frozen matrix on issue #88",
-    doNot: "Create a second telemetry or acceptance platform",
+    consume: "Evidence tiers here; frozen matrix + #81–#87 collection map; complete-business/#72 rehearsal as read-model",
+    doNot: "Create a second telemetry or acceptance platform; close #80; invent live green on held rows",
   },
 ];
 
@@ -534,11 +534,12 @@ function operationSupport(): ExpoOperationSupport[] {
     {
       id: "quality-observability",
       title: "Cross-platform quality and observability",
-      selection: "analytics",
+      selection: "app-framework",
       platforms: ["ios", "android", "web"],
-      evidenceTier: "blocked",
+      evidenceTier: "fixture-tested",
       queuedIssue: 88,
-      notes: "Proof matrix frozen on GitHub issue #88. Observe does not replace native crash reporting.",
+      notes:
+        "Deterministic proof-matrix collection, quality evidence, observability contracts, SDK upgrade dry-run, and complete-business disposition models are fixture-tested. Live full matrix / device E2E / Observe account / upgrade workspace / #72 greenfield not-run. Observe ≠ native crash. Configured SDK ≠ arrived events. package.json bump ≠ upgrade proof. Web ≠ android/ios. jest-expo ≠ native. Never closes #80.",
     },
   ];
 }
