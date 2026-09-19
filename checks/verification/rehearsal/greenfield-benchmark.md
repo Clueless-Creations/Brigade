@@ -46,6 +46,16 @@ not merge to reduce workflow count. **#73 closes on this Stage A retain**; Stage
 is held until a #72 measured interval. See
 [greenfield-73-overhead-closeout.md](./greenfield-73-overhead-closeout.md).
 
+## #75 Stage A
+
+Reuse this report only for live complete-business / publish-of-evidence /
+measured-interval ownership on **#72**. Retrieval-to-worker evaluation and
+independent judgment close on tip Stage A: **no-change recommendation** on
+retrieval infrastructure; BM25 preserved; no vector store, embeddings, or graph
+database; hosted `catalog()` does not import `matchWorkflows`. **#75 closes on this Stage A no-change**;
+paid Stage B is held. See
+[greenfield-75-retrieval-closeout.md](./greenfield-75-retrieval-closeout.md).
+
 ## #88 reuse
 
 Reuse this report only for a matching Expo product scope. The frozen matrix is
