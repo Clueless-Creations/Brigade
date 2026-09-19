@@ -72,7 +72,7 @@ export function register(harness: Harness): void {
       nativeFingerprintOnBinary: native,
       currentNativeFingerprint: native,
       approvedChannel: "preview",
-      requestChannel: "production",
+      requestChannel: "staging",
     });
     assert(channel.reason === "stale-approval", `expected stale channel, got ${JSON.stringify(channel)}`);
     const environment = assessExpoUpdateEligibility({
@@ -80,7 +80,7 @@ export function register(harness: Harness): void {
       nativeFingerprintOnBinary: native,
       currentNativeFingerprint: native,
       approvedEnvironment: "preview",
-      requestEnvironment: "production",
+      requestEnvironment: "staging",
     });
     assert(environment.reason === "stale-approval", `expected stale environment, got ${JSON.stringify(environment)}`);
     const unselected = assessExpoUpdateEligibility({
@@ -127,5 +127,55 @@ export function register(harness: Harness): void {
       refused = error instanceof ExpoArgvRefusal && error.code === "unsupported-operation";
     }
     assert(refused, "eas.update must not gain argv in this increment");
+  });
+
+  harness.check("expo-eas-update-policy: matching appVersion does not override native fingerprint refuse", () => {
+    const cwd = writeFakeApp(harness.makeTempDir("ota-appver"));
+    const nativeOnBinary = fingerprintExpoNativeInputs(cwd);
+    mkdirSync(path.join(cwd, "ios"), { recursive: true });
+    writeFileSync(path.join(cwd, "ios", "Info.plist"), "<plist></plist>\n");
+    const eligibility = assessExpoUpdateEligibility({
+      selected: true,
+      nativeFingerprintOnBinary: nativeOnBinary,
+      currentNativeFingerprint: fingerprintExpoNativeInputs(cwd),
+      runtimeOnBinary: "1.0.0",
+      currentRuntimeVersion: "1.0.0",
+      appVersionOnBinary: "2.0.0",
+      currentAppVersion: "2.0.0",
+    });
+    assert(
+      eligibility.eligible === false && eligibility.reason === "native-or-sdk-change",
+      `matching appVersion must not clear fingerprint refuse, got ${JSON.stringify(eligibility)}`,
+    );
+    assert(eligibility.autoPublish === false, "fingerprint refuse must not publish");
+  });
+
+  harness.check("expo-eas-update-policy: production channel/environment hard-held; stale source refuse", () => {
+    const cwd = writeFakeApp(harness.makeTempDir("ota-prod"));
+    const native = fingerprintExpoNativeInputs(cwd);
+    const production = assessExpoUpdateEligibility({
+      selected: true,
+      nativeFingerprintOnBinary: native,
+      currentNativeFingerprint: native,
+      runtimeOnBinary: "1.0.0",
+      currentRuntimeVersion: "1.0.0",
+      approvedChannel: "production",
+      requestChannel: "production",
+    });
+    assert(
+      production.reason === "production-channel-hard-held",
+      `expected production hard-hold, got ${JSON.stringify(production)}`,
+    );
+    assert(production.autoPublish === false, "production hold must not publish");
+    const staleSource = assessExpoUpdateEligibility({
+      selected: true,
+      nativeFingerprintOnBinary: native,
+      currentNativeFingerprint: native,
+      approvedChannel: "preview",
+      requestChannel: "preview",
+      approvedSourceFingerprint: "source-a",
+      requestSourceFingerprint: "source-b",
+    });
+    assert(staleSource.reason === "stale-approval", `expected stale source, got ${JSON.stringify(staleSource)}`);
   });
 }

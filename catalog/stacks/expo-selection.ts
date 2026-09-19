@@ -486,9 +486,10 @@ function operationSupport(): ExpoOperationSupport[] {
       title: "EAS Update",
       selection: "eas-update",
       platforms: ["ios", "android"],
-      evidenceTier: "blocked",
+      evidenceTier: "fixture-tested",
       queuedIssue: 85,
-      notes: "Optional. Native changes need a compatible binary, not an OTA.",
+      notes:
+        "Deterministic prepare/rollout/rollback/recovery/signing models are fixture-tested. Live OTA publish not-run. Production channel hard-held. autoPublish false. Optional — not required because the app selected Expo. Native/SDK/plugin changes need a compatible binary, not an OTA.",
     },
     {
       id: "expo-web-export",

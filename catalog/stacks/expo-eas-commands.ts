@@ -674,7 +674,8 @@ export const EXPO_EAS_COMMANDS: readonly ExpoEasCommandSpec[] = [
     projectLinkRequired: true,
     requiredAuthority: "publish",
     documentedFlags: flags({ json: true, nonInteractive: true }),
-    notes: "#85 owns runtime compatibility, rollout, and recovery. Classified so a workflow cannot hide an OTA inside a build job.",
+    notes:
+      "#85 owns runtime compatibility, prepare/dry-run, rollout, rollback, recovery, and signing models. Live OTA not-run; production hard-held; autoPublish false. Classified so a workflow cannot hide an OTA inside a build job.",
     docsUrl: EXPO_EAS_COMMAND_SOURCES.easCli,
   }),
   spec({
