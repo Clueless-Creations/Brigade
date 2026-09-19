@@ -27,6 +27,15 @@ import {
   reduceAuthSession,
   runFakeInAppTransport,
   scanClientArtifacts,
+  EXPO_CAPABILITY_MATRIX,
+  EXPO_CAPABILITY_MATRIX_REQUIRED_IDS,
+  EXPO_SELECTED_IDP_LIVE_JOURNEY_HOLD,
+  EXPO_REVENUECAT_WIRING_PLAN,
+  classifyAuthAdapterClaim,
+  classifyRevenueCatWiringRequest,
+  expoCapabilityMatrixRow,
+  getExpoCapabilityMatrix,
+  getExpoRevenueCatWiringPlan,
 } from "../../../catalog/stacks/expo-capability-protocol.js";
 import { EXPO_APP_RUNTIME, HOST_AGENT_RUNTIME, operationFor, resolveExpoSelection } from "../../../catalog/stacks/expo-selection.js";
 import {
@@ -651,4 +660,128 @@ export function register(harness: Harness): void {
     assert(!cacheSource.includes("let persisted"), "the parallel persisted copy must not remain beside the seam");
     assert(homeSource.includes("reopenLocalCache()"), "Home must expose in-process reopen through the bound helper");
   });
+
+  harness.check("expo capabilities: #83 capability matrix records selected rows and honest holds", () => {
+    const matrix = getExpoCapabilityMatrix();
+    assert(matrix === EXPO_CAPABILITY_MATRIX, "protocol getter must return the authored matrix");
+    for (const id of EXPO_CAPABILITY_MATRIX_REQUIRED_IDS) {
+      assert(matrix.some((row) => row.id === id), `matrix must include required #83 capability ${id}`);
+    }
+    const auth = expoCapabilityMatrixRow("authentication");
+    assert(auth.selected === true && auth.proofTier === "fixture-tested", "authentication stays fixture-tested local-session");
+    assert(auth.nativeStoreProof === false && auth.liveMutation === false, "authentication must not claim store proof");
+    assert(auth.proofScopeNotes.includes("IdP") || auth.proofScopeNotes.includes("identity-provider") || auth.proofScopeNotes.includes("identity provider"), "authentication notes must record IdP hold");
+    assert(EXPO_SELECTED_IDP_LIVE_JOURNEY_HOLD.includes("held"), "IdP live journey hold constant must say held");
+
+    const refuseIdp = classifyAuthAdapterClaim({ adapter: "local-session", claimIdpLiveJourney: true });
+    assert(refuseIdp.action === "refuse" && refuseIdp.code === "local-session-is-not-idp", "local-session must not claim IdP live journey");
+    assert(refuseIdp.idpLiveJourneyHeld === true, "IdP live journey remains held");
+    const acceptLocal = classifyAuthAdapterClaim({ adapter: "local-session", claimIdpLiveJourney: false });
+    assert(acceptLocal.action === "accept-local-session", "local-session without IdP claim is accepted");
+    const refuseSelectedIdp = classifyAuthAdapterClaim({ adapter: "selected-idp", claimIdpLiveJourney: true });
+    assert(refuseSelectedIdp.action === "refuse", "selected IdP adapter stays refused in this slice");
+
+    const offline = expoCapabilityMatrixRow("offline-data");
+    assert(offline.selected === true && offline.proofTier === "fixture-tested", "offline-data is fixture-tested");
+    assert(offline.proofScopeNotes.toLowerCase().includes("backend") || offline.proofScopeNotes.includes("SecureStore"), "offline notes keep backend/SecureStore honesty");
+
+    const secure = expoCapabilityMatrixRow("secure-store");
+    assert(secure.selected === false && secure.proofTier === "held", "SecureStore is not a selected starter dependency");
+    assert(secure.library.kind === "documented" && secure.library.installedInStarter === false, "SecureStore stays documented-only");
+
+    const purchases = expoCapabilityMatrixRow("native-purchases");
+    assert(purchases.selected === true && purchases.proofTier === "blocked", "native-purchases stays blocked");
+    assert(purchases.nativeStoreProof === false && purchases.liveMutation === false, "native-purchases nativeStoreProof stays false");
+    assert(purchases.proofScopeNotes.includes("held") || purchases.proofScopeNotes.includes("#79"), "native-purchases notes record held device proof / #79 boundary");
+
+    const secrets = expoCapabilityMatrixRow("expo-public-secrets");
+    assert(secrets.selected === true && secrets.proofTier === "fixture-tested", "EXPO_PUBLIC secrets canary stays fixture-tested");
+
+    const push = expoCapabilityMatrixRow("push-notifications");
+    assert(push.proofTier === "fixture-tested", "push handoff fixtures are fixture-tested");
+    assert(push.proofScopeNotes.includes("held") || push.proofScopeNotes.includes("person"), "live push delivery stay held; receipt ≠ person-seen");
+
+    // Nonselected integrations stay absent or selected:false — SecureStore is the explicit nonselected row.
+    assert(matrix.every((row) => row.selected === true || row.id === "secure-store"), "only SecureStore is the intentional nonselected matrix row");
+  });
+
+  harness.check("expo capabilities: RevenueCat wiring is custom-dev-client only; fake IAP stays browser-mock", () => {
+    const plan = getExpoRevenueCatWiringPlan();
+    assert(plan === EXPO_REVENUECAT_WIRING_PLAN, "protocol getter must return the authored wiring plan");
+    assert(plan.packageName === "react-native-purchases", "wiring targets react-native-purchases");
+    assert(plan.installedInStarter === false, "starter must not install react-native-purchases");
+    assert(plan.evidenceTier === "blocked" && plan.nativeStoreProof === false, "wiring does not unlock native-store proof");
+    assert(plan.spendAuthorized === false && plan.liveMutation === false, "spend stays unauthorized");
+    assert(plan.deviceSandboxReadback === "held", "device+sandbox readback stays held");
+    assert(plan.cliIssue79IsNotThisOp === true, "#79 CLI is not native IAP");
+    assert(plan.allowedClients.includes("custom-development-build") && plan.allowedClients.includes("release-build"), "custom builds are the wiring path");
+    assert(plan.refusedClients.includes("expo-go") && plan.refusedClients.includes("web"), "Expo Go and web stay refused");
+
+    const expoGo = classifyRevenueCatWiringRequest({
+      client: "expo-go",
+      claimNativeStoreProof: false,
+      claimLiveMutation: false,
+      claimCliIsNativePurchase: false,
+      collapseIdentityKinds: false,
+      proofScope: "browser-mock",
+    });
+    assert(expoGo.action === "refuse" && expoGo.code === "expo-go-native-library", "Expo Go cannot load react-native-purchases");
+
+    const web = classifyRevenueCatWiringRequest({
+      client: "web",
+      claimNativeStoreProof: false,
+      claimLiveMutation: false,
+      claimCliIsNativePurchase: false,
+      collapseIdentityKinds: false,
+      proofScope: "browser-mock",
+    });
+    assert(web.action === "refuse" && web.code === "web-fakes-native-purchase", "web must not fake native purchase");
+
+    const cli = classifyRevenueCatWiringRequest({
+      client: "custom-development-build",
+      claimNativeStoreProof: false,
+      claimLiveMutation: false,
+      claimCliIsNativePurchase: true,
+      collapseIdentityKinds: false,
+      proofScope: "test-store",
+    });
+    assert(cli.action === "refuse" && cli.code === "cli-is-not-native-purchase", "#79 CLI is not native purchase");
+
+    const proofClaim = classifyRevenueCatWiringRequest({
+      client: "custom-development-build",
+      claimNativeStoreProof: true,
+      claimLiveMutation: false,
+      claimCliIsNativePurchase: false,
+      collapseIdentityKinds: false,
+      proofScope: "apple-sandbox",
+    });
+    assert(proofClaim.action === "refuse" && proofClaim.code === "wiring-is-not-native-proof", "wiring is not native-store proof");
+
+    const identity = classifyRevenueCatWiringRequest({
+      client: "custom-development-build",
+      claimNativeStoreProof: false,
+      claimLiveMutation: false,
+      claimCliIsNativePurchase: false,
+      collapseIdentityKinds: true,
+      proofScope: "browser-mock",
+    });
+    assert(identity.action === "refuse" && identity.code === "identity-kinds-collapsed", "app auth ≠ RC identity ≠ entitlement");
+
+    const documented = classifyRevenueCatWiringRequest({
+      client: "custom-development-build",
+      claimNativeStoreProof: false,
+      claimLiveMutation: false,
+      claimCliIsNativePurchase: false,
+      collapseIdentityKinds: false,
+      proofScope: "browser-mock",
+    });
+    assert(documented.action === "document-wiring" && documented.nativeStoreProof === false, "custom-dev-client wiring may be documented without native proof");
+    assert(documented.evidenceTier === "blocked", "documented wiring keeps evidence blocked");
+
+    // Fake IAP remains browser-mock only (preserve existing classifier honesty).
+    const fake = runFakeInAppTransport({ action: "purchase", appUserId: "fixture-user", scripted: "purchased" });
+    assert(fake.proofScope === "browser-mock" && fake.nativeStoreProof === false, "fake IAP stays browser-mock only");
+  });
+
+
 }
