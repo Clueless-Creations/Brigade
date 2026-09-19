@@ -142,3 +142,35 @@ export type {
   ExpoShippedArtifactKind,
   ExpoShippedWebArtifact,
 } from "./web-api-contract.js";
+
+export {
+  EXPO_MCP_ROUTE_NOTES,
+  EXPO_MCP_ROUTE_PATH,
+  EXPO_MCP_REVIEWED_TOOLS,
+  EXPO_MCP_SCHEMA_VERSION_REVIEWED,
+  assertExpoMcpDoesNotAddTransport,
+  assessExpoMcpRoute,
+  createFakeExpoMcpSchemaObservation,
+  expoMcpDocsCannotGrant,
+} from "./expo-mcp-route.js";
+export type {
+  ExpoMcpAccountAccess,
+  ExpoMcpAvailability,
+  ExpoMcpBindingState,
+  ExpoMcpExecutePermission,
+  ExpoMcpObservedResult,
+  ExpoMcpRefuseReason,
+  ExpoMcpReviewedTool,
+  ExpoMcpRouteAssessment,
+  ExpoMcpRouteRequest,
+  ExpoMcpToolKind,
+  FakeExpoMcpTransportObservation,
+} from "./expo-mcp-route.js";
+export { EXPO_DEVICE_BIND_NOTES, EXPO_DEVICE_BIND_PATH, bindExpoDeviceProof } from "./expo-device-bind.js";
+export type {
+  ExpoDeviceBindExpectation,
+  ExpoDeviceBindObservation,
+  ExpoDeviceBindRefuseReason,
+  ExpoDeviceBindResult,
+  ExpoDevicePlatformClaim,
+} from "./expo-device-bind.js";

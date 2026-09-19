@@ -516,20 +516,20 @@ function operationSupport(): ExpoOperationSupport[] {
       title: "Expo MCP",
       selection: "expo-mcp",
       platforms: ["host"],
-      evidenceTier: "blocked",
+      evidenceTier: "fixture-tested",
       queuedIssue: 87,
       notes:
-        "Optional. Discovery is not authorization. Reuse mobile-operation routing. Do not add a fake Expo MobileOperationTransport. Host-native device tools stay preferred when they already cover the task.",
+        "Deterministic fake-schema route models (availability/binding/account/execute/result + docs≠effect + schema-drift refuse) are fixture-tested. Optional — not required because the app selected Expo. Live MCP connect not-run. Do not add a fake Expo MobileOperationTransport. Host-native preferred when sufficient. Fake transport is not live MCP proof. Consumes mobile-operation + device-proof — no second router.",
     },
     {
       id: "official-skills",
       title: "Official Expo skills",
       selection: "app-framework",
       platforms: ["host"],
-      evidenceTier: "blocked",
+      evidenceTier: "fixture-tested",
       queuedIssue: 87,
       notes:
-        "Inventory of official skill names is fixture-tested against the inspected expo/skills README revision. Install and live MCP stay blocked until founder-approved for that session. Do not blanket-install expo/skills.",
+        "Reviewed inventory, discovery≠install, scoped prepare-on-authorize, malicious-instruction refuse, and inventory-drift holds are fixture-tested against the inspected expo/skills commit. Install and live MCP not-run until founder-approved for that session. Do not blanket-install expo/skills. AGENTS/acceptance remain authoritative. addsMobileOperationTransport stays false.",
     },
     {
       id: "quality-observability",

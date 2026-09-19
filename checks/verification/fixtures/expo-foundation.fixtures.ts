@@ -138,7 +138,10 @@ export function register(harness: Harness): void {
     });
     assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run models are fixture-tested");
     assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run");
-    assert(operationFor(selected, "official-skills").evidenceTier === "blocked", "official Expo skills stay blocked until authorized");
+    assert(
+      operationFor(selected, "official-skills").evidenceTier === "fixture-tested",
+      "official Expo skills inventory is fixture-tested; install remains not-run",
+    );
     assert(
       operationFor(selected, "router-native-ui").evidenceTier === "fixture-tested",
       "Router/native UI is fixture-tested with a source-backed adapter and local Metro export",
