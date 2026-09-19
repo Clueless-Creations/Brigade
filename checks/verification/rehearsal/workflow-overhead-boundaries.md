@@ -45,6 +45,7 @@ dispatch, elapsed vs summed work, and review time.
 
 ## What this does not do
 
-- Does not GitHub-close the issue.
 - Does not invent elapsed time, token use, or a live onboarding run.
+- Does not Stage B consolidate or add a `work-package-equivalence` suite without a #72 measured interval.
 - Does not consolidate ONB-16 with ONB-17, design-room with design-system-audit, ONB-18/19 with ONB-20, or Apple media with listing text.
+- Issue closeout is Stage A retain via [greenfield-73-overhead-closeout.md](./greenfield-73-overhead-closeout.md); measured interval stays on #72.
