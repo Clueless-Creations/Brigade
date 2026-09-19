@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.23",
+  "version": "0.221.24",
   "updatedAt": "2026-09-19",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add growth-agent #116 canonical-operation inventory/classification, adapter-boundary seams, Layers+#24-Postiz+PostHog-upstream fixture provenance, knowledge≠execution and discovery≠auto-expand fixtures (no live publish/experiment/customer-query/sign-in; no invented analytics executor; no generic MCP registry/second store; #24 ADR-0013 reconcile only; audit bucket COMPLETE → U4 separate).",
     "Add mobile-ops #115 canonical-operation inventory/classification, adapter-boundary seams, host-native+#87+MobAI-1.9.3 fixture provenance, uncertain/no-silent-fallback and Expo non-auto-expand fixtures (no live device/MCP; MobAI DeviceProofAdapter not MOT; no second router; never #116).",
     "Add Superwall #114 canonical-operation inventory/classification, adapter-boundary seams, 4.16.3 fixture provenance, fail-safe drift/delegation/offline fixtures, and honest catalog/upstream holds (no live campaign/account connect; presentation≠purchase≠entitlement; #67/#107 + RC owners; never #115–#116).",
     "Add Apple ASC #113 canonical-operation inventory/classification, adapter-boundary seams, 5.1.0 fixture provenance, and uncertain-execution resume-verify/fail-closed fixtures (no live sandbox/submit/release; #38/#23/#60–#62 owners; never #114–#116).",
