@@ -163,7 +163,9 @@ export function register(harness: Harness): void {
     const doc = read(TYPESAFE_QUALIFY_DOC);
     assert(doc.includes("thin direct"), "doc recommends thin direct");
     assert(doc.includes("#515"), "defers transport to #515");
-    assert(!existsSync(path.join(skillRoot, "adapters/providers/typesafe")), "no typesafe adapter dir");
+    // #513 recommended thin-direct-http only; #515 lands the adapter directory. Qualify map remains recommendation, not transport impl.
+    assert(existsSync(path.join(skillRoot, "adapters/providers/typesafe")), "#515 adapter dir present after SQ-04");
+    assert(existsSync(path.join(skillRoot, "adapters/providers/typesafe/transport.ts")), "#515 thin transport module");
   });
 
   harness.check("typesafe-qualify: issue/epic/stamp/next STOP pins", () => {

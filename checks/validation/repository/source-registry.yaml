@@ -87,7 +87,9 @@ sources:
     locations:
       - catalog/upstreams/typesafe-ai.yaml
       - docs/upstreams/typesafe-qualification.md
-    notes: Hosted evaluation endpoint POST /v1/systemone. Qualification paper only; no live call from Brigade tests.
+      - adapters/providers/typesafe/transport.ts
+      - adapters/providers/typesafe/effects.ts
+    notes: Hosted evaluation endpoint POST /v1/systemone. #515 records thin-direct-http transport against this host; fixtures use fake transport only — no live call from Brigade tests.
   - id: app-posthog-com
     name: PostHog Cloud — app host
     source_type: api
@@ -1087,7 +1089,11 @@ sources:
       - catalog/upstreams/typesafe-ai.yaml
       - docs/upstreams/typesafe-qualification.md
       - catalog/providers/typesafe-qualify-map.ts
-    notes: Official request/response/error shapes used as independent fixture provenance for #513.
+      - adapters/providers/typesafe/encode.ts
+      - adapters/providers/typesafe/decode.ts
+      - adapters/providers/typesafe/transport.ts
+      - checks/verification/fixtures/typesafe-adapter.fixtures.ts
+    notes: Official request/response/error shapes used as independent fixture provenance for #513; #515 adapter encode/decode/transport consumes the same shapes (paper; no live).
   - id: docs-typesafe-ai-how-to-build
     name: TypeSafe how-to-build-with-system-one
     source_type: website
