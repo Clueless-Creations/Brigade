@@ -1,6 +1,6 @@
 /**
  * Evaluation and measured-simplification baselines.
- * Open leftover: #2, #72, #75, #88. Closed on Stage A retain: #73. Closed on main: #39, #40, #77, #78.
+ * Open leftover: #2, #72, #88. Closed on Stage A no-change: #75. Closed on Stage A retain: #73. Closed on main: #39, #40, #77, #78.
  *
  * Authorized local checks only. No live providers, devices, paid batches, or dispatch.
  */
@@ -676,6 +676,8 @@ export function register(harness: Harness): void {
     const serviceSource = readFileSync(path.join(skillRoot, "kernel/knowledge-service/service.ts"), "utf8");
     const packageJson = readFileSync(path.join(skillRoot, "package.json"), "utf8");
     assert(protocol.includes("no-change recommendation"), protocol);
+    assert(protocol.includes("closed on Stage A no-change"), protocol);
+    assert(!protocol.includes("Leave #75 open"), protocol);
     assert(protocol.includes("No vector store, embeddings, or graph database"), protocol);
     assert(protocol.includes("Do not extract `matchWorkflows` into hosted `catalog()`"), protocol);
     assert(!catalogSource.includes("matchWorkflows"), "hosted catalog composition must not import the session scorer");

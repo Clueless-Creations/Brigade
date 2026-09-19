@@ -15,7 +15,7 @@ must record its own commit, package version, and package digest.
 | #40 | Closed on main via #156 / #174. Not this increment. | — |
 | #72 | Freeze the report contract and fabricated-receipt checks. | No founder-approved workspace, mandate, stack, budget, host, or publication authority. No live greenfield run. |
 | #73 | **Closed on Stage A retain.** Compact selected-subgraph boundary table. Keep/change stays **retain the current graph**. Observed cost unknown. | Stage B / measured interval held → #72. No workflow merge. No live interval. |
-| #75 | Stage A walks stay on main. Record a **no-change recommendation** on retrieval infrastructure. | Paid Stage B. Held-out unused for tuning. No vector store, embeddings, or graph database. Do not extract `matchWorkflows` into hosted `catalog()`. |
+| #75 | **Closed on Stage A no-change.** Stage A walks stay on main. **no-change recommendation** on retrieval infrastructure stands. | Paid Stage B held. Live/publish/measured interval → #72. Held-out unused for tuning. No vector store, embeddings, or graph database. Do not extract `matchWorkflows` into hosted `catalog()`. |
 | #77 | Closed on main via #181. Not this increment. | — |
 | #78 | Closed on main via #174 / #181. Not this increment. | — |
 | #88 | Freeze the proof matrix against existing contracts. | No selected Expo app, device, cloud job, or matching #72 authority. Protocol cannot close the issue. |
@@ -70,17 +70,20 @@ live metrics. See
 Issue 40 is closed on main through #156 / #174. The live warning and
 `coverage.delivery` shape stay required in the eval fixture.
 
-## #75 no-change recommendation (already on main)
+## #75 Stage A no-change closeout
 
 Stage A already walks the real service, `nextCall`, worker brief, tight bundle,
 stale hash, and the eight-class golden. Those walks do not show a missing
 binding, selector, or artifact heading that a vector store, embeddings index, or
 graph database would fix. Held-out `store-001` / `store-002` stay unused for
 ranking or synonym tuning. Hosted `catalog()` stays a discovery page; it does
-not import `matchWorkflows`.
+not import `matchWorkflows`. BM25 stays the retrieval owner.
 
-**Recommendation: no-change** on retrieval infrastructure. Paid Stage B stays
-held. Leave #75 open for that hold.
+**Recommendation: no-change** on retrieval infrastructure. **#75 is closed on Stage A no-change**.
+Paid Stage B stays held. Live greenfield complete-business, publish-of-evidence,
+and a measured onboarding interval are held until **#72**. Do not invent tool
+traces or claim observed usability from CI alone. See
+[greenfield-75-retrieval-closeout.md](./greenfield-75-retrieval-closeout.md).
 
 ## #77 ownership and no-change (already on main)
 
