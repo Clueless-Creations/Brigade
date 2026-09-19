@@ -32,6 +32,7 @@ roadmap's decision text in place.
 | [0014](0014-research-checkpoints-and-initialization-eligibility.md) | Research checkpoints do not grant initialization eligibility       | accepted | ARCH-07, 09, 10, 11, 15; #395, #397             |
 | [0015](0015-brigade-display-name.md)                             | Brigade as the human-facing product name                           | accepted | Human-facing identity; #8                       |
 | [0016](0016-compiled-semantic-execution.md)                     | Compile semantic decisions and derived graph relationships          | proposed | ARCH-02–13, ARCH-15–17; SQ-01–SQ-18             |
+| [0017](0017-npm-package-boundary.md)                            | One public npm package and its publication boundary                 | accepted | ARCH-01, 05; ADR-0002; KTD3; #26                |
 
 ## Write a record
 
