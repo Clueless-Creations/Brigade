@@ -14,7 +14,7 @@ must record its own commit, package version, and package digest.
 | #39 | Closed on main via #189. Decided no-extract. Not this increment. | Do not extract the store-010 scorer into hosted `catalog()`. |
 | #40 | Closed on main via #156 / #174. Not this increment. | — |
 | #72 | Freeze the report contract and fabricated-receipt checks. | No founder-approved workspace, mandate, stack, budget, host, or publication authority. No live greenfield run. |
-| #73 | Compact selected-subgraph boundary table. Keep/change stays **retain the current graph**. Observed cost unknown. | Same authority hold as #72. No workflow merge. No live interval. |
+| #73 | **Closed on Stage A retain.** Compact selected-subgraph boundary table. Keep/change stays **retain the current graph**. Observed cost unknown. | Stage B / measured interval held → #72. No workflow merge. No live interval. |
 | #75 | Stage A walks stay on main. Record a **no-change recommendation** on retrieval infrastructure. | Paid Stage B. Held-out unused for tuning. No vector store, embeddings, or graph database. Do not extract `matchWorkflows` into hosted `catalog()`. |
 | #77 | Closed on main via #181. Not this increment. | — |
 | #78 | Closed on main via #174 / #181. Not this increment. | — |
@@ -52,15 +52,18 @@ Issue 39 is closed on main through #189. Replayed `store-010` stays
 `candidates`. First rank is `workflow.operations.live-app-store-portfolio`.
 Do not extract the scorer into hosted `catalog()`.
 
-## #73 boundary table (this increment)
+## #73 Stage A retain closeout
 
 The compact table lives in
 [workflow-overhead-boundaries.md](./workflow-overhead-boundaries.md). The
 selected set is named: ONB-12, ONB-13, ONB-16 through ONB-20, Design Room plus
 design-system-audit, and the #38 Apple media workflow. Comments follow catalog
 `reads` / `dependencies` / `reviewOf` / `roleId`, including the authored ONB-16 comment.
-Observed cost is unknown. Candidate action is keep. Leave #73 open for a
-measured interval.
+Observed cost is unknown. Candidate action is keep. **#73 is closed on Stage A retain**
+(retain the current graph). Stage B consolidation and a measured onboarding
+interval are held until a #72 interval exists. Do not invent elapsed, token, or
+live metrics. See
+[greenfield-73-overhead-closeout.md](./greenfield-73-overhead-closeout.md).
 
 ## #40 closeout signal (already on main)
 

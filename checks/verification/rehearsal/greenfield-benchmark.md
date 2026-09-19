@@ -42,7 +42,9 @@ the whole catalog. Until a #72 interval exists, the keep/change recommendation
 is **retain the current graph**. The compact boundary table is
 [workflow-overhead-boundaries.md](./workflow-overhead-boundaries.md). Observed
 cost stays unknown. Apple media (#38) stays an independent-effect boundary. Do
-not merge to reduce workflow count.
+not merge to reduce workflow count. **#73 closes on this Stage A retain**; Stage B
+is held until a #72 measured interval. See
+[greenfield-73-overhead-closeout.md](./greenfield-73-overhead-closeout.md).
 
 ## #88 reuse
 

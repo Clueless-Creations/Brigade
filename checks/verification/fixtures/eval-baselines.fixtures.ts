@@ -1,6 +1,6 @@
 /**
  * Evaluation and measured-simplification baselines.
- * Open leftover: #2, #72, #73, #75, #88. Closed on main: #39, #40, #77, #78.
+ * Open leftover: #2, #72, #75, #88. Closed on Stage A retain: #73. Closed on main: #39, #40, #77, #78.
  *
  * Authorized local checks only. No live providers, devices, paid batches, or dispatch.
  */
@@ -659,7 +659,8 @@ export function register(harness: Harness): void {
     assert(table.includes("**Retain the current graph.**"), table);
     assert(table.includes("independent-effect boundary"), table);
     assert(protocol.includes("retain the current graph"), protocol);
-    assert(protocol.includes("Leave #73 open"), protocol);
+    assert(protocol.includes("closed on Stage A retain"), protocol);
+    assert(!protocol.includes("Leave #73 open"), protocol);
     assert(protocol.includes("authored ONB-16 comment"), protocol);
     assert(protocol.includes("Closed on main via #189"), protocol);
     assert(!protocol.includes("Leave #39 open"), protocol);
