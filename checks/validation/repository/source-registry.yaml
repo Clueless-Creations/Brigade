@@ -1420,6 +1420,18 @@ sources:
       - catalog/upstreams/rork-app-store-connect-cli.yaml
     notes: Homepage of the asc CLI as recorded by GitHub and the Homebrew formula. Install script host; the builder
       never pipes it to a shell.
+
+  - id: github-com-browser-use-jev-ultrafast
+    name: browser-use/jev-ultrafast interactive pattern
+    source_type: github
+    url: https://github.com/browser-use/jev-ultrafast
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - docs/evaluation/semantic-ultrafast-interactive-candidate.md
+      - catalog/providers/semantic-eval-baselines-map.ts
+      - checks/verification/rehearsal/semantic-eval-baselines.md
+    notes: Upstream interactive/ultrafast pattern cite for #514 cheap paper fold. Not Brigade productization; fixture≠live≠browser; no clone/run in default CI.
   - id: github-com-typesafe-ai-typesafe-sdk-python
     name: TypeSafe Python SDK repository
     source_type: github

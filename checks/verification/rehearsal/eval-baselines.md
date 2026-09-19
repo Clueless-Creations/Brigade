@@ -1,6 +1,7 @@
 # Evaluation and measured-simplification baselines
 
 Maintainer protocol for #2, #39, #40, #72, #73, #75, #77, #78, and #88.
+Related SQ-03 baselines (#514) live in `semantic-eval-baselines.md` + `semantic-eval-baselines.fixtures.ts` — extend, do not replace this protocol or #73/#75 pins.
 This is not a second acceptance store and not a new evaluation platform.
 
 Builder pin for this write-up: current `main` at authoring time. A measured run
