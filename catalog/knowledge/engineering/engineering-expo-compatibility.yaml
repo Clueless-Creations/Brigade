@@ -20,7 +20,7 @@ sources:
     review_cadence_days: 7
     claim_scope: Candidate SDK 57 pairing with React Native 0.86.x, React 19.2, prebuild regeneration default,
       and known patch notes. Not an executed CLI or workspace pin.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
   - id: docs-expo-dev-workflow-continuous-native-generation
@@ -30,7 +30,7 @@ sources:
     review_cadence_days: 7
     claim_scope: CNG generates native projects from declared configuration. Custom native modules can remain on
       Expo. Not permission to run prebuild during discovery.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
 derivations:
@@ -41,4 +41,4 @@ derivations:
     rationale: Version-fact separation and CNG ownership rules are builder contracts informed by the changelog
       and CNG overview. Exact CLI flags must be rechecked against the selected executable.
     reviewer: b2c-maintainers
-    reviewed_at: 2026-09-08
+    reviewed_at: 2026-09-19

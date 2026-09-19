@@ -20,7 +20,7 @@ sources:
     review_cadence_days: 7
     claim_scope: EAS is a family of optional hosted services (Build, Submit, Update, Hosting, Workflows,
       Observe), not a bundled obligation of selecting Expo.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
   - id: docs-expo-dev-mcp
@@ -30,7 +30,7 @@ sources:
     review_cadence_days: 7
     claim_scope: Expo MCP is an optional agent connection with local and remote tool boundaries. Discovery is
       not authorization.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
   - id: github-com-expo-skills
@@ -41,7 +41,7 @@ sources:
     claim_scope: >-
       Official Expo skill pack named as an optional selected-session install. Intake does not vendor
       or install it. Rights and exact commit review belong to issue 87.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
     rights:
@@ -58,4 +58,4 @@ derivations:
     rationale: Operation routing treats EAS services, MCP, and official skills as separate optional selections
       with explicit gaps until child packages land.
     reviewer: b2c-maintainers
-    reviewed_at: 2026-09-08
+    reviewed_at: 2026-09-19
