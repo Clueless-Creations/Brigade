@@ -113,3 +113,11 @@ are not this envelope.
 Ids are synthetic. They are not live App Store Connect apps, versions, or
 submissions. No host `asc` binary and no App Store Connect account were used to
 produce these files.
+
+## #113 contract-source rule
+
+Fake ASC runners, doctor facts, and adapter-built argv may **consume** these
+files for wiring tests. They must **not** invent expected request/response
+shapes. The independent contract pin for Provider audit #113 is ASC CLI **5.1.0**
+at revision `ca759a3b6ab88c8c39aed13325461248436615ca`. Fixture success is never
+TestFlight, App Review, or production-release evidence.

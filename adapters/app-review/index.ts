@@ -146,3 +146,27 @@ export { digestWebhookUrl, reconcileWebhookRegistration, silentDeliveries } from
 export type { WebhookDeliveryRow, WebhookRegistrationRow } from "./registration.js";
 
 export { observeWebhookRegistration, recordSignedWebhookEnvelope } from "./ingest.js";
+
+export {
+  classifyAscUncertainExecution,
+  classifyTimeoutAfterMutation,
+  classifyWrongTarget,
+  classifyPartialProviderOutput,
+  targetsMatch,
+  ASC_NON_AUTHORITY_FLAGS,
+  ascFlagLooksNoninteractive,
+  ascNoninteractiveGrantsAuthority,
+} from "./uncertain-execution.js";
+export type { AscUncertainPhase, AscUncertainResumeAction, AscMutationTarget, AscUncertainEvent, AscUncertainDecision } from "./uncertain-execution.js";
+
+export {
+  ASC_NATIVE_TYPE_OWNERS,
+  ASC_TYPED_CONTRACT_CONSUMERS,
+  ASC_NATIVE_LEAK_SYMBOLS,
+  ascSeamOwner,
+  pathMayOwnAscNativeTypes,
+  pathIsTypedAscConsumer,
+  sourceImportsAscNativeLeak,
+  reviewedAscCliVersion,
+  canonicalMapModulePath,
+} from "./asc-boundary.js";
