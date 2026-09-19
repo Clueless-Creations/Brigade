@@ -1,0 +1,116 @@
+/**
+ * SQ-01 / #512 — provider-boundary semantic contracts.
+ *
+ * Pure types + parse/validate helpers. No network, credentials, adapter transport,
+ * or package activation. TypeSafe SDK types must not leak into business policy.
+ */
+
+export { canonicalize, digestOf, sha256Hex } from "./canonicalize.js";
+
+export {
+  SEMANTIC_QUESTION_KINDS,
+  SEMANTIC_FAILURE_STATUSES,
+  choiceOptionSchema,
+  choiceAnswerSchema,
+  scoreLevelSchema,
+  scoreAnswerSchema,
+  noulAnswerSchema,
+  semanticAnswerSchema,
+  semanticFailureSchema,
+  semanticQuestionResultSchema,
+  parseSemanticAnswer,
+  parseSemanticQuestionResult,
+  assertAnswerConsistency,
+  scoreExpectation,
+  isPolarizedScore,
+  noulConfidencePresent,
+  type SemanticQuestionKind,
+  type SemanticFailureStatus,
+  type ChoiceOption,
+  type ChoiceAnswer,
+  type ScoreLevel,
+  type ScoreAnswer,
+  type NoulAnswer,
+  type SemanticAnswer,
+  type SemanticFailure,
+  type SemanticQuestionResult,
+} from "./questions.js";
+
+export {
+  QUESTION_PACK_SCHEMA_VERSION,
+  SUPPORTED_QUESTION_PACK_SCHEMA_VERSIONS,
+  choiceVocabularySchema,
+  scoreVocabularySchema,
+  noulVocabularySchema,
+  answerVocabularySchema,
+  questionDefinitionSchema,
+  projectionRequirementSchema,
+  questionPackSchema,
+  QuestionPackValidationError,
+  parseQuestionPack,
+  tryParseQuestionPack,
+  assertQuestionPackInvariants,
+  computeQuestionPackContentDigest,
+  withQuestionPackContentDigest,
+  type QuestionPack,
+  type QuestionDefinition,
+} from "./question-pack.js";
+
+export {
+  QUERY_IR_SCHEMA_VERSION,
+  PLAN_IDENTITY_CANONICALIZATION_VERSION,
+  SEMANTIC_OPERATORS,
+  INITIAL_SLICE_OPERATORS,
+  RESERVED_OPERATORS,
+  isInitialSliceOperator,
+  isReservedOperator,
+  dataDependencySchema,
+  resultUseConditionSchema,
+  authorityPrerequisiteSchema,
+  resourcePrerequisiteSchema,
+  queryEdgeSchema,
+  queryStepSchema,
+  resultConsumptionPolicySchema,
+  semanticQueryPlanSchema,
+  QueryIrValidationError,
+  parseSemanticQueryPlan,
+  assertQueryPlanInvariants,
+  normalizePlanForIdentity,
+  computePlanIdentity,
+  type SemanticOperator,
+  type InitialSliceOperator,
+  type ReservedOperator,
+  type QueryEdge,
+  type QueryStep,
+  type ResultConsumptionPolicy,
+  type SemanticQueryPlan,
+} from "./query-ir.js";
+
+export {
+  SEMANTIC_EVIDENCE_CLASS,
+  usageCostSchema,
+  coverageSchema,
+  inferenceReceiptSchema,
+  policyApplicationReceiptSchema,
+  semanticReceiptSchema,
+  parseInferenceReceipt,
+  parsePolicyApplicationReceipt,
+  parseSemanticReceipt,
+  runtimeProofClaimSchema,
+  acceptedProductTruthSchema,
+  authorityGrantSchema,
+  executableToolRequestSchema,
+  receiptParsesAsForbiddenAuthority,
+  type UsageCost,
+  type InferenceReceipt,
+  type PolicyApplicationReceipt,
+  type SemanticReceipt,
+} from "./receipts.js";
+
+export {
+  SEMANTIC_RESOURCE_API,
+  semanticPackageResourceSchema,
+  parseSemanticPackageResource,
+  assertNoKernelPrivilegeClaim,
+  type SemanticPackageResource,
+} from "./package-resource.js";
