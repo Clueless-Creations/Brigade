@@ -15,7 +15,8 @@ in_scope:
   - App, core loop, features, and V1 requirements
   - Offer, price, and entitlements once accepted
   - Journey, flow, and screen that realize the core loop
-  - Evidence, decisions, hypotheses, metrics, and risks
+  - Evidence, decisions, hypotheses, metrics, risks, and observations
+  - Provenance-bound semantic relationship predicates (similarity is not equality)
   - How the customer hears about the app
 out_of_scope:
   - Catalog workflow, role, phase, lane, and domain IDs (agent graph and work thesaurus)
@@ -24,6 +25,8 @@ out_of_scope:
   - PostHog event taxonomy
   - Implementation types for a specific UI stack
   - Expert method text in knowledge/
+  - Derived semantic relationship indexes (rebuildable views; not instances)
+  - Agent/work graph execution obligations (catalog/agent-graph)
 later:
   - Store listing as its own class
   - Copy string as a first-class class
@@ -93,6 +96,9 @@ competency_questions:
   - id: cq.10
     question: What risks and hypotheses remain open?
     class_ids: [class.risk, class.hypothesis]
+  - id: cq.11
+    question: Which observations report the same failure or use the same mechanism without merging entities?
+    class_ids: [class.observation, class.evidence]
 classes:
   - id: class.world-thing
     pref_label: world thing
@@ -244,6 +250,11 @@ classes:
     definition: A named threat to the product, business, or user.
     abstract: false
     parent_ids: [class.epistemic-record]
+  - id: class.observation
+    pref_label: observation
+    definition: A dated report or note about the product or customer experience. Not an accepted decision. Not an automatic entity merge target. Inferred relationships over observations remain labeled as inference.
+    abstract: false
+    parent_ids: [class.epistemic-record]
 slots:
   - id: slot.customer.problem
     pref_label: has problem
@@ -365,6 +376,26 @@ slots:
     domain: class.risk
     range_class: class.world-thing
     cardinality: "1..1"
+  - id: slot.observation.same-entity-as
+    pref_label: same entity as
+    domain: class.observation
+    range_class: class.observation
+    cardinality: "0..n"
+  - id: slot.observation.reports-same-failure-as
+    pref_label: reports same failure as
+    domain: class.observation
+    range_class: class.observation
+    cardinality: "0..n"
+  - id: slot.observation.uses-same-mechanism-as
+    pref_label: uses same mechanism as
+    domain: class.observation
+    range_class: class.observation
+    cardinality: "0..n"
+  - id: slot.evidence.contradicts
+    pref_label: contradicts
+    domain: class.evidence
+    range_class: class.world-thing
+    cardinality: "0..n"
 instance_stores:
   - path: product.yaml
     class_ids:
@@ -389,6 +420,7 @@ instance_stores:
       - class.status-quo
       - class.channel
       - class.hypothesis
+      - class.observation
   - path: DESIGN.md
     class_ids:
       - class.journey
@@ -420,3 +452,7 @@ homonyms_with_work:
     world_class_id: class.customer
     work_concept_id: term.party
     gloss: Customer is who the app is for. Party is founder, operator, or collaborator in the operating graph.
+  - label: observation
+    world_class_id: class.observation
+    work_concept_id: record.evidence
+    gloss: World observation is a dated product/customer report. Work evidence is a reducer record that an attempt existed. Inferred sameEntityAs over observations is never accepted product truth.

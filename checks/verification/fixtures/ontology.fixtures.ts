@@ -72,4 +72,33 @@ export function register(harness: Harness): void {
       `expected missing operator plane, got ${issues.map((issue) => issue.code).join(", ")}`,
     );
   });
+  harness.check("ontology: #519 observation class + narrow relationship slots present", () => {
+    const ontology = loadWorldOntology(skillRoot);
+    assert(
+      ontology.classes.some((item) => item.id === "class.observation"),
+      "class.observation must exist",
+    );
+    assert(isA(ontology, "class.observation", "class.epistemic-record"), "observation is epistemic");
+    const requiredSlots = [
+      "slot.observation.same-entity-as",
+      "slot.observation.reports-same-failure-as",
+      "slot.observation.uses-same-mechanism-as",
+      "slot.evidence.contradicts",
+      "slot.evidence.about",
+    ];
+    for (const slotId of requiredSlots) {
+      assert(
+        ontology.slots.some((slot) => slot.id === slotId),
+        `missing slot ${slotId}`,
+      );
+    }
+    assert(
+      ontology.competencyQuestions.some((q) => q.id === "cq.11"),
+      "cq.11 competency question for same-failure/mechanism",
+    );
+    assert(
+      ontology.homonymsWithWork.some((h) => h.worldClassId === "class.observation"),
+      "observation homonym keeps world ≠ work distinct",
+    );
+  });
 }
