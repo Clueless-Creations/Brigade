@@ -1,7 +1,13 @@
 import { mapIdentity, normalizeAmountEvents, type AmountEvent } from "../../../kernel/operating-model/measurement.js";
 import type { IdentityMapping, SubjectReference } from "../../../kernel/operating-model/types.js";
 
-/** Provider-boundary normalization. No identity table or second measurement store is created. */
+/**
+ * Provider-boundary normalization (#114 / ADR-0013).
+ * No identity table or second measurement store is created.
+ * assignmentOwner=superwall; entitlementAuthority=revenuecat only.
+ * Competing authority and bad identity joins refuse — never copy entitlement
+ * from Superwall callbacks (presentation ≠ purchase ≠ entitlement).
+ */
 export function normalizeSuperwallRevenueCatObservation(input: {
   assignmentOwner: "superwall";
   entitlementAuthority: "revenuecat";
@@ -39,3 +45,18 @@ export function normalizeSuperwallRevenueCatObservation(input: {
     providerProof: "not_observed" as const,
   };
 }
+
+/**
+ * Refuse granting access from a Superwall purchase/restore callback.
+ * Entitlement truth stays with RevenueCat when selected (#101–#104).
+ */
+export function refuseEntitlementFromSuperwallCallback(input: {
+  readonly source: "superwall-purchase-callback" | "superwall-restore-callback" | "superwall-paywall-event";
+  readonly claimedAccess: boolean;
+}): never {
+  void input;
+  throw new Error("monetization.competing_authority");
+}
+
+/** Allowed entitlement authorities when Superwall owns assignment/presentation. */
+export const SUPERWALL_ALLOWED_ENTITLEMENT_AUTHORITY = "revenuecat" as const;
