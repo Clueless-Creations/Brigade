@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.15",
+  "version": "0.221.16",
   "updatedAt": "2026-09-19",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add Expo #84 EAS operation matrix, signing-readiness refuse paths, and dry-run/CI holds (no paid cloud, no credential write, no live submit).",
     "Add Expo #83 capability matrix and RevenueCat custom-dev-client wiring holds (local-session bar; IdP/native-IAP/spend held; no live EAS).",
     "Refresh Expo #81 knowledge review dates and reaffirm researched SDK 57 version-fact baselines.",
     "Keep paid-tool holds from being recovered by asking to install recurring sessions.",

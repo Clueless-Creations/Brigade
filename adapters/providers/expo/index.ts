@@ -42,3 +42,26 @@ export {
   EXPO_OTA_JS_SOURCE_ROOTS,
   EXPO_OTA_NATIVE_SOURCE_ROOTS,
 } from "./update-policy.js";
+export {
+  EXPO_EAS_DISTINCT_IDENTITIES,
+  EXPO_EAS_OPERATION_MATRIX,
+  EXPO_EAS_OPERATION_MATRIX_PATH,
+  EXPO_EAS_OPERATION_MATRIX_REQUIRED_IDS,
+  expoEasOperationMatrixRow,
+  expoEasOperationMatrixRows,
+  getExpoEasOperationMatrix,
+} from "../../../catalog/stacks/expo-eas-operation-matrix.js";
+export type { ExpoEasOperationMatrixId, ExpoEasOperationMatrixRow, ExpoEasOperationProofTier } from "../../../catalog/stacks/expo-eas-operation-matrix.js";
+export {
+  EXPO_EAS_FREEZE_CREDENTIALS_NOTE,
+  EXPO_EAS_NO_SILENT_CREDENTIAL_WRITE,
+  EXPO_EAS_SIGNING_READINESS_PATH,
+  assessExpoSigningReadiness,
+} from "./signing-readiness.js";
+export type {
+  ExpoSigningProfileKind,
+  ExpoSigningProfileModel,
+  ExpoSigningReadinessCode,
+  ExpoSigningReadinessInput,
+  ExpoSigningReadinessResult,
+} from "./signing-readiness.js";

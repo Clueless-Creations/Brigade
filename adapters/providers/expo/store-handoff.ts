@@ -1,6 +1,10 @@
 /**
- * Store handoff stages. EAS Submit success is not TestFlight availability, review,
- * approval, or public release. Apple and Google tracks stay distinct.
+ * Store handoff dry-run stages (#84).
+ *
+ * Order: compiled-artifact → uploaded-binary → testing-track → submitted-for-review →
+ * approved → released. EAS Submit "finished" is not TestFlight availability, review,
+ * approval, or public release. Apple ≠ Google; track settings stay distinct. Live submit
+ * remains held — fixtures exercise dry-run stage honesty only.
  */
 
 export const STORE_HANDOFF_STAGES = ["compiled-artifact", "uploaded-binary", "testing-track", "submitted-for-review", "approved", "released"] as const;

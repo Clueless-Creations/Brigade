@@ -7,6 +7,20 @@ import path from "node:path";
 import { EXPO_APP_RUNTIME, HOST_AGENT_RUNTIME, operationFor, resolveExpoSelection } from "../../../catalog/stacks/expo-selection.js";
 import { EAS_CLI_DOCUMENTED_VERSION, EXPO_EAS_COMMANDS, EXPO_EAS_COMMAND_MATRIX_PATH, getExpoEasCommand } from "../../../catalog/stacks/expo-eas-commands.js";
 import {
+  EXPO_EAS_DISTINCT_IDENTITIES,
+  EXPO_EAS_OPERATION_MATRIX,
+  EXPO_EAS_OPERATION_MATRIX_PATH,
+  EXPO_EAS_OPERATION_MATRIX_REQUIRED_IDS,
+  expoEasOperationMatrixRow,
+  getExpoEasOperationMatrix,
+} from "../../../catalog/stacks/expo-eas-operation-matrix.js";
+import { STORE_HANDOFF_STAGES } from "../../../adapters/providers/expo/store-handoff.js";
+import {
+  EXPO_EAS_FREEZE_CREDENTIALS_NOTE,
+  EXPO_EAS_NO_SILENT_CREDENTIAL_WRITE,
+  assessExpoSigningReadiness,
+} from "../../../adapters/providers/expo/signing-readiness.js";
+import {
   EasJobLedger,
   ExpoArgvRefusal,
   ExpoProcessRefusal,
@@ -733,6 +747,154 @@ export function register(harness: Harness): void {
     assert(operationFor(withEas, "expo-cli-process").evidenceTier === "fixture-tested", "typed Expo CLI argv is fixture-tested");
     assert(operationFor(withEas, "direct-local-compile").evidenceTier === "fixture-tested", "host-mode compile classification is fixture-tested");
     assert(operationFor(withEas, "cng-prebuild").evidenceTier === "fixture-tested", "rebase keeps selected CNG fixture-tested");
+  });
+
+  harness.check("expo-eas: #84 operation matrix records holds, exclusions, and distinct identities", () => {
+    const matrix = getExpoEasOperationMatrix();
+    assert(matrix === EXPO_EAS_OPERATION_MATRIX, "getter must return the authored #84 operation matrix");
+    assert(EXPO_EAS_OPERATION_MATRIX_PATH.endsWith("expo-eas-operation-matrix.ts"), "matrix path is stable");
+    for (const id of EXPO_EAS_OPERATION_MATRIX_REQUIRED_IDS) {
+      assert(
+        matrix.some((row) => row.id === id),
+        `matrix must include required #84 row ${id}`,
+      );
+    }
+    assert(EXPO_EAS_DISTINCT_IDENTITIES.length === 6, "six distinct Expo/EAS identities");
+    assert(
+      EXPO_EAS_DISTINCT_IDENTITIES.includes("Expo CLI") &&
+        EXPO_EAS_DISTINCT_IDENTITIES.includes("EAS CLI") &&
+        EXPO_EAS_DISTINCT_IDENTITIES.includes("signing material"),
+      "Expo CLI ≠ EAS CLI ≠ signing material",
+    );
+
+    const local = expoEasOperationMatrixRow("eas-local-build");
+    assert(local.proofTier === "fixture-tested" && local.liveMutation === false, "local build fixture-tested without live mutation");
+    assert(local.proofScopeNotes.toLowerCase().includes("held") || local.proofScopeNotes.includes("not-run"), "live local compile held");
+    assert(
+      local.proofScopeNotes.toLowerCase().includes("direct local") ||
+        local.localExecution.toLowerCase().includes("direct local") ||
+        local.localExecution.includes("expo run") ||
+        local.proofScopeNotes.includes("EAS --local") ||
+        local.proofScopeNotes.includes("EAS local"),
+      "direct local ≠ EAS local ≠ cloud",
+    );
+
+    const cloud = expoEasOperationMatrixRow("eas-cloud-build");
+    assert(cloud.proofTier === "fixture-tested" && cloud.liveMutation === false, "cloud build fixture-tested");
+    assert(cloud.cost.toLowerCase().includes("credit") || cloud.cost.toLowerCase().includes("paid"), "cloud cost honesty");
+    assert(cloud.proofScopeNotes.toLowerCase().includes("held") || cloud.proofScopeNotes.toLowerCase().includes("paid"), "paid cloud remains held");
+
+    const workflows = expoEasOperationMatrixRow("eas-workflows");
+    assert(workflows.proofTier === "fixture-tested", "workflows fixture-tested");
+    assert(
+      workflows.approval.toLowerCase().includes("nested") || workflows.proofScopeNotes.toLowerCase().includes("nested"),
+      "workflows document nested-effect gate",
+    );
+
+    const handoff = expoEasOperationMatrixRow("store-handoff");
+    assert(handoff.proofTier === "fixture-tested", "store-handoff fixture-tested");
+    assert(
+      STORE_HANDOFF_STAGES.join("→") === "compiled-artifact→uploaded-binary→testing-track→submitted-for-review→approved→released",
+      `dry-run stage order was ${STORE_HANDOFF_STAGES.join("→")}`,
+    );
+    assert(
+      handoff.proofScopeNotes.toLowerCase().includes("held") || handoff.approval.toLowerCase().includes("finished"),
+      "live submit held; finished ≠ release",
+    );
+
+    const credentials = expoEasOperationMatrixRow("credential-mutating");
+    assert(credentials.proofTier === "deliberately-excluded", "credential-mutating commands stay deliberately-excluded");
+    assert(credentials.liveMutation === false, "credential row never claims live mutation");
+
+    const doctor = expoEasOperationMatrixRow("doctor-intake");
+    assert(doctor.proofTier === "fixture-tested", "doctor/intake is fixture-tested");
+    assert(doctor.proofScopeNotes.includes("EXPO_TOKEN") || doctor.readbackRetry.includes("EXPO_TOKEN"), "CI without Expo token is documented");
+
+    const compile = expoEasOperationMatrixRow("direct-local-compile");
+    assert(compile.proofTier === "held", "direct local compile remains held");
+    assert(compile.proofScopeNotes.includes("Linux") || compile.proofScopeNotes.includes("Xcode"), "Linux ≠ Xcode honesty");
+
+    const device = expoEasOperationMatrixRow("device-install");
+    assert(device.proofTier === "held", "device install remains held");
+
+    for (const row of matrix) {
+      assert(row.liveMutation === false, `${row.id} must set liveMutation false`);
+    }
+  });
+
+  harness.check("expo-eas: signing readiness refuses silent write and keeps secrets out of argv/logs/bundle", () => {
+    const preview = {
+      name: "preview",
+      kind: "preview" as const,
+      distribution: "internal" as const,
+      targetsProductionBackends: false,
+      targetsProductionUpdates: false,
+    };
+    const silent = assessExpoSigningReadiness({ requestSilentCredentialWrite: true, profile: preview });
+    assert(silent.action === "refuse" && silent.code === "silent-write-refused", "silent credential write refused");
+    assert(silent.silentWriteAllowed === false && silent.liveSigningHeld === true, "write never allowed; live signing held");
+
+    const autoCreate = assessExpoSigningReadiness({
+      requestAutoCreateCertificate: true,
+      profile: {
+        name: "production",
+        kind: "production" as const,
+        distribution: "store" as const,
+        targetsProductionBackends: true,
+        targetsProductionUpdates: true,
+      },
+    });
+    assert(autoCreate.action === "refuse" && autoCreate.code === "auto-create-refused", "auto-create refused");
+
+    const secretArgv = assessExpoSigningReadiness({ argvContainsSecret: true, profile: preview });
+    assert(secretArgv.action === "refuse" && secretArgv.code === "secret-in-argv-refused", "secrets out of argv");
+
+    const bundle = assessExpoSigningReadiness({ jsBundleContainsSecret: true, profile: preview });
+    assert(bundle.action === "refuse" && bundle.code === "secret-in-bundle-refused", "secrets out of JS bundle");
+
+    const collapse = assessExpoSigningReadiness({
+      profile: { ...preview, targetsProductionBackends: true },
+    });
+    assert(collapse.action === "refuse" && collapse.code === "preview-production-collapse", "preview must not target production backends");
+
+    const plan = assessExpoSigningReadiness({ profile: preview, freezeCredentialsOnDispatch: true });
+    assert(plan.action === "accept-plan" && plan.code === "ready-to-plan", "readiness plan accepted without live proof");
+    assert(plan.liveSigningHeld === true, "accept-plan still holds live signing");
+    assert(EXPO_EAS_FREEZE_CREDENTIALS_NOTE.includes("--freeze-credentials"), "freeze-credentials note present");
+    assert(EXPO_EAS_NO_SILENT_CREDENTIAL_WRITE.toLowerCase().includes("silent"), "no silent write note present");
+
+    const liveClaim = assessExpoSigningReadiness({
+      profile: {
+        name: "production",
+        kind: "production" as const,
+        distribution: "store" as const,
+        targetsProductionBackends: true,
+        targetsProductionUpdates: true,
+      },
+      freezeCredentialsOnDispatch: true,
+      claimLiveSigningProof: true,
+    });
+    assert(liveClaim.action === "refuse" && liveClaim.code === "live-signing-held", "cannot claim live signing from readiness alone");
+  });
+
+  harness.check("expo-eas: CI green path does not require EXPO_TOKEN or host eas binary", () => {
+    assert(!process.env.EXPO_TOKEN, "fixture process must not need EXPO_TOKEN");
+    assert(!process.env.EXPO_ACCESS_TOKEN, "fixture process must not need EXPO_ACCESS_TOKEN");
+    const bare = buildExpoProcessEnv({ isolatedHome: "/tmp/expo-eas-ci-home", pathValue: "/usr/bin" });
+    assert(bare.EXPO_TOKEN === undefined, "buildExpoProcessEnv does not inherit ambient EXPO_TOKEN");
+    assert(bare.HOME === "/tmp/expo-eas-ci-home", "isolated home still applies without a token");
+    const doctor = expoEasOperationMatrixRow("doctor-intake");
+    assert(doctor.proofScopeNotes.includes("EXPO_TOKEN") || doctor.readbackRetry.includes("EXPO_TOKEN"), "doctor row documents CI without Expo token");
+    assert(
+      EXPO_EAS_COMMANDS.some((command) => command.id === "eas.init" && command.support === "deliberately-excluded"),
+      "eas.init stays deliberately-excluded without host eas login",
+    );
+    const withEas = resolveExpoSelection({
+      compositionTarget: { platform: "ios", runtime: EXPO_APP_RUNTIME },
+      selectedServices: ["expo-cli", "eas-cli", "eas-build", "eas-submit", "eas-workflows"],
+    });
+    assert(operationFor(withEas, "eas-cloud-build").evidenceTier === "fixture-tested", "cloud build evidence stays fixture-tested without EXPO_TOKEN");
+    assert(operationFor(withEas, "store-handoff").evidenceTier === "fixture-tested", "store-handoff evidence stays fixture-tested without host eas");
   });
 }
 

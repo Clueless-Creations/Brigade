@@ -439,7 +439,7 @@ function operationSupport(): ExpoOperationSupport[] {
       evidenceTier: "fixture-tested",
       queuedIssue: 84,
       notes:
-        "Host OS and Xcode/Android SDK requirements are fixture-tested. Live Xcode/Gradle compile remains not-run. A Linux host cannot claim it ran Xcode.",
+        "Host OS and Xcode/Android SDK requirements are fixture-tested. Live Xcode/Gradle compile and device/simulator install remain held (not-run). A Linux host cannot claim it ran Xcode. Direct local ≠ EAS --local ≠ EAS cloud.",
     },
     {
       id: "eas-local-build",
@@ -448,7 +448,8 @@ function operationSupport(): ExpoOperationSupport[] {
       platforms: ["ios", "android"],
       evidenceTier: "fixture-tested",
       queuedIssue: 84,
-      notes: "Auth/project-check classification is fixture-tested. Not fully offline and not identical to expo run:*. Live EAS local build remains not-run.",
+      notes:
+        "Auth/project-check classification is fixture-tested. Not fully offline and not identical to expo run:* or direct local compile. Live EAS local build / device install remain held (not-run).",
     },
     {
       id: "eas-cloud-build",
@@ -457,7 +458,8 @@ function operationSupport(): ExpoOperationSupport[] {
       platforms: ["ios", "android"],
       evidenceTier: "fixture-tested",
       queuedIssue: 84,
-      notes: "Upload, credits, and reconcile-before-retry are fixture-tested with fake jobs. Live paid EAS cloud build remains not-run.",
+      notes:
+        "Upload, credits, and reconcile-before-retry are fixture-tested with fake jobs. Live paid EAS cloud build remains held (not-run). Fake transport success is not cloud proof.",
     },
     {
       id: "eas-workflows",
@@ -467,7 +469,7 @@ function operationSupport(): ExpoOperationSupport[] {
       evidenceTier: "fixture-tested",
       queuedIssue: 84,
       notes:
-        "Nested submit/update/deploy/trigger effect closure is fixture-tested. Live workflow run remains not-run. Must not become a second business orchestrator.",
+        "Nested submit/update/deploy/trigger effect closure is fixture-tested. Live workflow run remains held (not-run). Nested auto-submit/OTA/deploy exceeding a build grant stay gated. Must not become a second business orchestrator.",
     },
     {
       id: "store-handoff",
@@ -477,7 +479,7 @@ function operationSupport(): ExpoOperationSupport[] {
       evidenceTier: "fixture-tested",
       queuedIssue: 84,
       notes:
-        "Artifact vs uploaded vs testing vs submitted vs released stages are fixture-tested. Live App Store / Play submit remains not-run. Existing ASC/Play owners remain authoritative.",
+        "Dry-run stages compiled→uploaded→testing-track→submitted-for-review→approved→released are fixture-tested. Live App Store / Play submit remains held (not-run). EAS submit finished ≠ release. Apple ≠ Google. Existing ASC/Play owners remain authoritative.",
     },
     {
       id: "eas-update",
