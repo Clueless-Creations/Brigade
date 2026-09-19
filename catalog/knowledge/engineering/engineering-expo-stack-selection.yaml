@@ -20,7 +20,7 @@ sources:
     review_cadence_days: 7
     claim_scope: Official Expo documentation home used as the research starting point for stack selection. Not a
       version pin and not redistribution of the docs corpus.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
     selectors:
@@ -32,7 +32,7 @@ sources:
     review_cadence_days: 7
     claim_scope: Distinguishes the open-source app framework from optional Expo Application Services and
       development builds from Expo Go.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-19
     reviewer: b2c-maintainers
     publisher: Expo
 derivations:
@@ -43,4 +43,4 @@ derivations:
     rationale: Builder selection rules restate that Expo is optional, EAS is a separate service family, and Expo
       Go is not production proof. No docs text is copied.
     reviewer: b2c-maintainers
-    reviewed_at: 2026-09-08
+    reviewed_at: 2026-09-19

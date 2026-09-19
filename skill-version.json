@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.13",
-  "updatedAt": "2026-09-16",
+  "version": "0.221.14",
+  "updatedAt": "2026-09-19",
   "sourcePath": ".",
   "releaseNotes": [
+    "Refresh Expo #81 knowledge review dates and reaffirm researched SDK 57 version-fact baselines.",
     "Keep paid-tool holds from being recovered by asking to install recurring sessions.",
     "Bind schedule apply to the exact dry-run effect so cadence changes cannot reuse a stale receipt.",
     "Return schedule install outcomes from the mutation lock for typecheck.",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.13",
+  "skillVersion": "0.221.14",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3823,7 +3823,7 @@
           "url": "https://expo.dev/changelog/sdk-57",
           "reviewCadenceDays": 7,
           "claimScope": "Candidate SDK 57 pairing with React Native 0.86.x, React 19.2, prebuild regeneration default, and known patch notes. Not an executed CLI or workspace pin.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo"
         },
@@ -3834,7 +3834,7 @@
           "url": "https://docs.expo.dev/workflow/continuous-native-generation/",
           "reviewCadenceDays": 7,
           "claimScope": "CNG generates native projects from declared configuration. Custom native modules can remain on Expo. Not permission to run prebuild during discovery.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo"
         }
@@ -3848,7 +3848,7 @@
           "relationship": "informed",
           "rationale": "Version-fact separation and CNG ownership rules are builder contracts informed by the changelog and CNG overview. Exact CLI flags must be rechecked against the selected executable.",
           "reviewer": "b2c-maintainers",
-          "reviewedAt": "2026-09-08"
+          "reviewedAt": "2026-09-19"
         }
       ],
       "replacementIds": [],
@@ -3874,7 +3874,7 @@
           "url": "https://docs.expo.dev/eas/",
           "reviewCadenceDays": 7,
           "claimScope": "EAS is a family of optional hosted services (Build, Submit, Update, Hosting, Workflows, Observe), not a bundled obligation of selecting Expo.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo"
         },
@@ -3885,7 +3885,7 @@
           "url": "https://docs.expo.dev/mcp/",
           "reviewCadenceDays": 7,
           "claimScope": "Expo MCP is an optional agent connection with local and remote tool boundaries. Discovery is not authorization.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo"
         },
@@ -3896,7 +3896,7 @@
           "url": "https://github.com/expo/skills",
           "reviewCadenceDays": 7,
           "claimScope": "Official Expo skill pack named as an optional selected-session install. Intake does not vendor or install it. Rights and exact commit review belong to issue 87.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo",
           "rights": {
@@ -3915,7 +3915,7 @@
           "relationship": "informed",
           "rationale": "Operation routing treats EAS services, MCP, and official skills as separate optional selections with explicit gaps until child packages land.",
           "reviewer": "b2c-maintainers",
-          "reviewedAt": "2026-09-08"
+          "reviewedAt": "2026-09-19"
         }
       ],
       "replacementIds": [],
@@ -3941,7 +3941,7 @@
           "url": "https://docs.expo.dev/",
           "reviewCadenceDays": 7,
           "claimScope": "Official Expo documentation home used as the research starting point for stack selection. Not a version pin and not redistribution of the docs corpus.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo",
           "selectors": [
@@ -3955,7 +3955,7 @@
           "url": "https://docs.expo.dev/workflow/overview/",
           "reviewCadenceDays": 7,
           "claimScope": "Distinguishes the open-source app framework from optional Expo Application Services and development builds from Expo Go.",
-          "lastReviewDate": "2026-09-08",
+          "lastReviewDate": "2026-09-19",
           "reviewer": "b2c-maintainers",
           "publisher": "Expo"
         }
@@ -3969,7 +3969,7 @@
           "relationship": "informed",
           "rationale": "Builder selection rules restate that Expo is optional, EAS is a separate service family, and Expo Go is not production proof. No docs text is copied.",
           "reviewer": "b2c-maintainers",
-          "reviewedAt": "2026-09-08"
+          "reviewedAt": "2026-09-19"
         }
       ],
       "replacementIds": [],
@@ -18866,14 +18866,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "d0b8d64336cb7eea4f55e1e5abba4655b5bbf69017a2a7c6bf954b04ecbd5d1a",
+    "fingerprint": "ecab642433ddbcda8be28d57a84e5a8f69cc4fda151c5e0679b97ee5af9db3b5",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.13",
-        "revision": "0.221.13",
-        "contentDigest": "3956f3e154e85d26a71383ea5b2aa0c007fd3f75300622d562f94147ad87ba66"
+        "version": "0.221.14",
+        "revision": "0.221.14",
+        "contentDigest": "7470e7432327c40c327b3a5e8820ad3baa9be6e74066a6a163f3fb5e396230da"
       }
     ],
     "base": {
