@@ -2,7 +2,7 @@
   "extension": {
     "apiVersion": "b2c.extension/v1",
     "id": "b2c/consumer-business",
-    "version": "0.221.22",
+    "version": "0.221.23",
     "hostApiVersion": "b2c/v1",
     "title": "Consumer business",
     "dependencies": [],
@@ -9676,7 +9676,7 @@
       {
         "workerContext": {
           "workflowId": "workflow.engineering.native-ios-proof-route-ladder",
-          "instructions": "Read project.platforms in state/business-state.json and identify whether the task is exploration, functionality, design/accessibility review, raw screenshot capture, or video capture. Honor explicit provider bindings. Otherwise prefer native tools already exposed by the current host when they cover the target, operations, and required evidence; choose MobAI or another provider for uncovered requirements. A provider name is not proof of availability. Raw captures are inputs to acceptance or marketing composition, not automatic proof or finished creative. The commands below describe the current compatibility proof adapters; the mobile app operation contract owns provider-neutral execution. Prove one exact platform and target per invocation. For a local iOS screen or flow check, start interactively at rung 0 with the in-app iOS Simulator. The headless proof command never selects rung 0 or 1. When the proof needs a machine receipt, escalate to `b2c proof --workspace . --platform ios` for rung 2, or use XcodeBuildMCP physical-device/install readback, SnapshotPreviews, or serve-sim as required. The rung-2 producer retains separate copies of the built and installed `.app` bundles plus raw build, install, installed-app readback, and launch transcripts under proof/ios-simulator/. Physical-iPhone install and readback receipts live under proof/ios-device/ and also bind deviceModelIdentifier, osVersion, and osBuild. `check:native-ios` reads Info.plist, rehashes both executables and complete bundle contents, and binds the transcripts to one project, scheme, simulator, bundle ID, and build number. An adapter-only receipt or a hand-written hash is incomplete. For machine-receipted Android scope through the current compatibility adapter, run `b2c proof --workspace . --platform android` against a pinned MobAI emulator or physical device; keep its bounded worksheet/action evidence under proof/android-emulator/ or proof/android-device/, and use proof/android-incomplete/ while target identity is unresolved. `check:mobai-proof-workflow` validates the MobAI worksheet/action contract for this proof attempt even while the engineering lane is pending. It never establishes source-to-package identity or strict design acceptance. Consume a named machine-produced strict adapter receipt that binds the current design candidate and complete accepted Android implementation roots to packageName, versionCode, APK-or-AAB, any derived installation APK, device, OS, install/readback, launch identity, timestamps, and separate hashed evidence. Never reconstruct or hand-author that receipt from MobAI output. Pass `npm run check:native-android -- --root .`; if no strict receipt adapter is connected, record `android.strict_receipt_adapter_required` and keep the node incomplete. For mixed scope, invoke both explicit platform branches and pass all three checks; evidence from one invocation never satisfies the other. Keep every selected route inside the single declared proof/ output, record the rung and reason in strategy/TOOL_DECISIONS.md, and attach exact device, OS, tool route, screenshot, interaction, and log paths in engineering/PRODUCTION_READINESS.md. Use fixture or sandbox accounts on agent-driven devices. Record inaccessible local hardware as a named blocker instead of narrating a run that did not happen.",
+          "instructions": "Read project.platforms in state/business-state.json and identify whether the task is exploration, functionality, design/accessibility review, raw screenshot capture, or video capture. Honor explicit provider bindings. Otherwise prefer native tools already exposed by the current host when they cover the target, operations, and required evidence; choose MobAI or another provider for uncovered requirements. A provider name is not proof of availability. Raw captures are inputs to acceptance or marketing composition, not automatic proof or finished creative. The commands below describe the current compatibility proof adapters; the mobile app operation contract owns provider-neutral execution via `b2c/mobile-app-operation.{launch,inspect,interact,capture-screenshot,record-video}` (workflows name those canonical ops — not MobAI/Expo/simctl tool commands; provider-native argv terminates at the adapter). Prove one exact platform and target per invocation. For a local iOS screen or flow check, start interactively at rung 0 with the in-app iOS Simulator. The headless proof command never selects rung 0 or 1. When the proof needs a machine receipt, escalate to `b2c proof --workspace . --platform ios` for rung 2, or use XcodeBuildMCP physical-device/install readback, SnapshotPreviews, or serve-sim as required. The rung-2 producer retains separate copies of the built and installed `.app` bundles plus raw build, install, installed-app readback, and launch transcripts under proof/ios-simulator/. Physical-iPhone install and readback receipts live under proof/ios-device/ and also bind deviceModelIdentifier, osVersion, and osBuild. `check:native-ios` reads Info.plist, rehashes both executables and complete bundle contents, and binds the transcripts to one project, scheme, simulator, bundle ID, and build number. An adapter-only receipt or a hand-written hash is incomplete. For machine-receipted Android scope through the current compatibility adapter, run `b2c proof --workspace . --platform android` against a pinned MobAI emulator or physical device; keep its bounded worksheet/action evidence under proof/android-emulator/ or proof/android-device/, and use proof/android-incomplete/ while target identity is unresolved. `check:mobai-proof-workflow` validates the MobAI worksheet/action contract for this proof attempt even while the engineering lane is pending. It never establishes source-to-package identity or strict design acceptance. Consume a named machine-produced strict adapter receipt that binds the current design candidate and complete accepted Android implementation roots to packageName, versionCode, APK-or-AAB, any derived installation APK, device, OS, install/readback, launch identity, timestamps, and separate hashed evidence. Never reconstruct or hand-author that receipt from MobAI output. Pass `npm run check:native-android -- --root .`; if no strict receipt adapter is connected, record `android.strict_receipt_adapter_required` and keep the node incomplete. For mixed scope, invoke both explicit platform branches and pass all three checks; evidence from one invocation never satisfies the other. Keep every selected route inside the single declared proof/ output, record the rung and reason in strategy/TOOL_DECISIONS.md, and attach exact device, OS, tool route, screenshot, interaction, and log paths in engineering/PRODUCTION_READINESS.md. Use fixture or sandbox accounts on agent-driven devices. Record inaccessible local hardware as a named blocker instead of narrating a run that did not happen.",
           "providerIds": [
             "provider.in-app-ios-simulator",
             "provider.codex-native-ios",
@@ -9684,7 +9684,7 @@
             "provider.serve-sim",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:2eec1938489b42db0f60622f73610c43049b2c72a728dcc70df61d8274556dc9"
+          "contextFingerprint": "sha256:61639d636023afdca1bcc1d0afa04d65c2ddea8be3a99e4e9db88316616bbc12"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "First for any iOS or Android device automation, run-the-app, screen-check, flow-walk, bug-repro, screenshot, or screen-recording request — read the selected platforms, then pick the lightest proof rung that covers them",
@@ -15764,8 +15764,8 @@
     ]
   },
   "files": {
-    "extension.yaml": "b094275cde32618961751d9d4092ef9964980b0594a6d15f57d08a890a0e4c90",
-    "catalog-pack.yaml": "be88b6bfddceca65206cd379b6687f5824bbd354f95412a6e429f76294ccc516",
+    "extension.yaml": "bea2e461698ba51bd3fc16c057d7f389bdeb6b6b83a39431d61f155104f67839",
+    "catalog-pack.yaml": "a9aa828a45d8c4b84dda35b137a4110825c9a1df8864fbec9dbd5530068b91cf",
     "knowledge/data/analytics-attribution.md": "0bba4685b2188b9e80b7fcc14fdac9472c6c4aeac5bc59703188eaa5e26f234a",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
     "knowledge/design/audience-derived-identity.md": "04c90b39c9d41cf00257c70b4e579f3e29684254d444917b9a5690d48be74f5f",
@@ -15912,7 +15912,7 @@
     "knowledge/words/conversion-copy.md": "68739b91f0f977f28718f48dd2368bb8c59a03a3f3d44a30efa08d12eb2956ab",
     "knowledge/words/no-slop-writing.md": "4dcb9d8a78fcee18daa5b46ced399f8b41992853141ff3a9e9b1906d263a98cb",
     "checks/validation/repository/audit-skill-links.ts": "781b1715e075b59ce673fbefad9bacab29eceb93e9f96ef60944bfda884eaf5c",
-    "package.json": "d8c77fabca337c03677c96e9d9714c43cd72b121ff6605b8843788d80ceb0d74",
+    "package.json": "332ec00a8b480c197a798a0ff8ba5c2c5f51c877050abda3df25b0d615cfda3d",
     "tooling/catalog-scaffold.ts": "6a54386c9259c97834599249115b0dd82308c16e2c9bb35c02f3058280467077",
     "catalog/render-routing.ts": "938e29aaed5cf37c03afe8a2cf755af35b8921ad5ca86fd54968095291c2898c",
     "checks/validation/repository/check-agent-entrypoints.ts": "474ed5197defaa52cd71a47484e1e5cd80d1caeb6bc8f75ea053953bacff2071",
@@ -16225,5 +16225,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:59cdf3bd59fdb6985cbda735d5e6acc6915571e15d98f3d7eba62a2da11ec0ca"
+  "digest": "sha256:b8cea2ae38500bdc782e36c7b1666867d339f702f03014848a029917ad4b9ccc"
 }
