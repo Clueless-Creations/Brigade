@@ -116,8 +116,13 @@ starters, workspace templates, and importable `examples/extensions/` trees.
 
 Do not introduce npm workspaces or a second consumer package unless a later
 maintainer decision splits one. Publication uses the single procedure in
-CONTRIBUTING (first machine publish, then trusted publishing via
-`publish.yml`).
+[CONTRIBUTING](../../CONTRIBUTING.md#releasing-to-npm) (first machine publish,
+then trusted publishing via `publish.yml`).
+[ADR-0017](../decisions/0017-npm-package-boundary.md) records this boundary and
+the founder-reserved publish decisions.
+
+## CLI
+
 ```bash
 b2c --help
 b2c inspect
