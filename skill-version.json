@@ -1,13 +1,14 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.21",
+  "version": "0.221.22",
   "updatedAt": "2026-09-19",
   "sourcePath": ".",
   "releaseNotes": [
-    "Add Apple ASC #113 canonical-operation inventory/classification, adapter-boundary seams, 5.1.0 fixture provenance, and uncertain-execution resume-verify/fail-closed fixtures (no live sandbox/submit/release; #38/#23/#60–#62 owners; never #114–#116).",
+    "Add Superwall #114 canonical-operation inventory/classification, adapter-boundary seams, 4.16.3 fixture provenance, fail-safe drift/delegation/offline fixtures, and honest catalog/upstream holds (no live campaign/account connect; presentation\u2260purchase\u2260entitlement; #67/#107 + RC owners; never #115\u2013#116).",
+    "Add Apple ASC #113 canonical-operation inventory/classification, adapter-boundary seams, 5.1.0 fixture provenance, and uncertain-execution resume-verify/fail-closed fixtures (no live sandbox/submit/release; #38/#23/#60\u2013#62 owners; never #114\u2013#116).",
     "Add Expo #88 proof-matrix collection, cross-platform quality evidence, observability contracts, SDK upgrade dry-run, and complete-business disposition models (no live matrix/Observe/upgrade/#72; never closes #80).",
-    "Add Expo #87 skills/MCP dry-run models: discovery≠install, fake-schema route, device-proof bind, privacy disclosure, schema-drift refuse (no live MCP/device; host-native preferred).",
-    "Add Expo #86 web surface table, API route contracts, production origin/canary fail-closed, hosting dry-run + alternate-host holds (no live hosting; alpha SSR held; web≠native).",
+    "Add Expo #87 skills/MCP dry-run models: discovery\u2260install, fake-schema route, device-proof bind, privacy disclosure, schema-drift refuse (no live MCP/device; host-native preferred).",
+    "Add Expo #86 web surface table, API route contracts, production origin/canary fail-closed, hosting dry-run + alternate-host holds (no live hosting; alpha SSR held; web\u2260native).",
     "Add Expo #85 update lifecycle dry-run contracts, identity/rollout/recovery/signing holds, and fixture-tested eas-update selection (no live OTA; production hard-held).",
     "Add Expo #84 EAS operation matrix, signing-readiness refuse paths, and dry-run/CI holds (no paid cloud, no credential write, no live submit).",
     "Add Expo #83 capability matrix and RevenueCat custom-dev-client wiring holds (local-session bar; IdP/native-IAP/spend held; no live EAS).",
