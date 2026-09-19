@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.38",
+  "skillVersion": "0.221.39",
   "areas": [
     {
       "id": "area.operating-system",
@@ -18866,14 +18866,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "7c80f6ea0e92ea98b8d448990135220999c98c6db54e8e537a59a4b8721691e9",
+    "fingerprint": "9fc29a5275810f5504dc10e8b60c214809a8ea2cd81eb376017487a3ba122750",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.38",
-        "revision": "0.221.38",
-        "contentDigest": "166c33be9d028bae36ae16c6a49649113d9c0210182989d26562f8d666e441f2"
+        "version": "0.221.39",
+        "revision": "0.221.39",
+        "contentDigest": "7a1414999a98d3847f6b244a447512ee3c4fcf64aecf728ef6f61f137c4590b4"
       }
     ],
     "base": {
