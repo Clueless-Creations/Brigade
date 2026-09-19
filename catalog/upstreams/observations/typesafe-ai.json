@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "upstreamId": "typesafe-ai",
+  "checkedAt": "2026-09-19T19:35:00.000Z",
+  "method": "manual",
+  "latestStable": {
+    "tag": "v0.7.0",
+    "publishedAt": "2026-09-18T09:12:41Z",
+    "url": "https://github.com/typesafe-ai/typesafe-sdk-python/releases/tag/v0.7.0",
+    "assets": []
+  },
+  "prereleases": [],
+  "branchHead": {
+    "branch": "main",
+    "sha": "2ce5c65f13646cab6e6f782328194c9d85f3300a",
+    "committedAt": "2026-09-18T09:11:48Z"
+  },
+  "releasesSinceBaseline": [],
+  "licenseSha256": "002c2696d92b5c8cf956c11072baa58eaf9f6ade995c031ea635c6a1ee342ad1",
+  "licenseChanged": false,
+  "archived": false,
+  "host": null,
+  "unknowns": [
+    "Observation covers the Python SDK GitHub release/tag only; npm @typesafe-ai/sdk latest 0.6.0 is a distinct distribution recorded in qualification docs, not this observation's latestStable tag.",
+    "Public docs.typesafe.ai pages have no immutable git revision; guidance baseline is the 2026-09-19 read date plus page set.",
+    "No host executable, Brigade package install, provider session, or live System One call was performed.",
+    "Service Master Customer Agreement / DPA / Privacy Policy remain unreviewed for Brigade live authority.",
+    "Model alias resolution for jev-latest / jev-preview and retention/deletion/idempotency guarantees were not confirmed by live probe."
+  ]
+}

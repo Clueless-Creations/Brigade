@@ -1,0 +1,144 @@
+schema_version: 1
+id: typesafe-ai
+project: TypeSafe AI (Jev / System One)
+canonical_url: https://github.com/typesafe-ai/typesafe-sdk-python
+homepage: https://docs.typesafe.ai
+aliases:
+  - TypeSafe
+  - Jev
+  - System One
+  - typesafe-sdk
+  - "@typesafe-ai/sdk"
+transfers: []
+authors:
+  - name: TypeSafe AI
+    role: publishing organization for docs, hosted System One API, and client SDKs
+maintainers:
+  - name: TypeSafe AI
+    role: upstream maintaining organization
+copyright: Copyright (c) TypeSafe AI (SDK LICENSE retains upstream placeholder notice text as published)
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/typesafe-ai/typesafe-sdk-python/blob/v0.7.0/LICENSE
+  evidence_sha256: 002c2696d92b5c8cf956c11072baa58eaf9f6ade995c031ea635c6a1ee342ad1
+  reviewed_revision: v0.7.0 (commit 2ce5c65f13646cab6e6f782328194c9d85f3300a)
+  notice_file: catalog/upstreams/notices/typesafe-ai.txt
+  scope: Official Python client SDK repository LICENSE only. The MIT grant covers the SDK source as published; it does not license the hosted System One API, model weights, console, or customer agreements. JavaScript package @typesafe-ai/sdk is a separate distribution (npm latest observed 0.6.0) and was not copied.
+  notes: Upstream LICENSE text at v0.7.0 still contains the template placeholders "[year] [fullname]"; notice bytes match that published file exactly. No SDK source was copied into Brigade.
+service_terms:
+  url: https://docs.typesafe.ai/legal
+  status: unreviewed
+  notes: Public legal index cites Data Processing Agreement, Master Customer Agreement, and Privacy Policy (including a stated commitment not to train on user data) plus enterprise zero-data-retention contact. Counsel has not reviewed these for Brigade. Unconfirmed retention, training, deletion, and paid-plan terms block live customer-payload and paid assessment until CoS→Eduardo settles hosted key use under scoped authority.
+source_ids:
+  - docs-typesafe-ai
+  - docs-typesafe-ai-api
+  - docs-typesafe-ai-primitives
+  - docs-typesafe-ai-how-to-build
+  - docs-typesafe-ai-legal
+  - api-typesafe-ai
+  - github-com-typesafe-ai-typesafe-sdk-python
+  - github-com-typesafe-ai-typesafe-sdk-python-license
+  - pypi-typesafe-sdk
+  - npmjs-com-typesafe-ai-sdk
+relationships:
+  - kind: remote-service
+    consumption: Qualify the hosted System One evaluation API (POST /v1/systemone) as a candidate semantic-assessment provider against landed SQ-01 contracts. Paper qualification only — no live call, no Brigade package dependency, no credential invent, no adapter transport.
+    local_owners:
+      - docs/upstreams/typesafe-qualification.md
+      - catalog/providers/typesafe-qualify-map.ts
+    tests:
+      - checks/verification/fixtures/typesafe-qualify.fixtures.ts
+    upstream_paths:
+      - docs.typesafe.ai/api
+      - docs.typesafe.ai/primitives
+      - docs.typesafe.ai/concepts/how-to-build-with-system-one
+    pin_authority: Public docs observed 2026-09-19 plus distinct SDK release facts (Python v0.7.0; npm @typesafe-ai/sdk 0.6.0). Host credentials and installed SDKs remain separate and unactivated by this qualification.
+  - kind: adapted-method
+    consumption: Reauthor native Choice/Score/Noul (+ batch) shapes from official public docs into a Brigade-owned mapping matrix targeting contracts/semantic/. No upstream SDK types are imported into policy. Independent fixtures preserve official-doc JSON examples with provenance; they are not adapter-authored expected-native captures.
+    local_owners:
+      - docs/upstreams/typesafe-qualification.md
+      - catalog/providers/typesafe-qualify-map.ts
+      - checks/verification/fixtures/typesafe-qualify.fixtures.ts
+    tests:
+      - checks/verification/fixtures/typesafe-qualify.fixtures.ts
+    upstream_paths:
+      - docs.typesafe.ai/api (request/response examples)
+      - docs.typesafe.ai/primitives
+      - LICENSE (SDK notice retained; source not vendored)
+    pin_authority: Docs observed 2026-09-19; Python SDK baseline v0.7.0 / 2ce5c65f13646cab6e6f782328194c9d85f3300a. A newer release does not silently repin this evidence.
+baselines:
+  reviewed_source:
+    revision: v0.7.0 (2ce5c65f13646cab6e6f782328194c9d85f3300a)
+    observed_at: "2026-09-19"
+    by: b2c-contributor source review (#513)
+    note: Read-only GitHub + PyPI + npm metadata. LICENSE notice retained. No SDK install into Brigade workspace; no binary execution test.
+  reviewed_guidance:
+    revision: docs.typesafe.ai public pages observed 2026-09-19 (llms.txt index; api; primitives; how-to-build-with-system-one; legal; sdk/python; sdk/javascript)
+    observed_at: "2026-09-19"
+    by: b2c-contributor source review (#513)
+    note: Documentation baseline for native→SQ-01 mapping. Docs are not an immutable git pin; date + page set identify the read. Distinct from SDK release tags.
+support:
+  policy: Qualification evidence only. Brigade may map native Choice/Score/Noul onto SQ-01 contracts and keep an Eduardo local wiring recipe (env names, docs pointers). No installed provider, no package dependency, no live assessment, and no advertised latency/cost as Brigade SLA. Live ops remain blocked where privacy/cost/version facts are unconfirmed. Adapter encode/transport/decode is #515.
+  versions:
+    - range: docs.typesafe.ai (observed 2026-09-19)
+      status: untested
+      evidence:
+        - Public documentation inspection and independent fixtures only; no live System One call in this unit.
+    - range: typesafe-sdk (PyPI) v0.7.0
+      status: untested
+      evidence:
+        - Release tag and LICENSE reviewed; SDK not installed as a Brigade dependency.
+    - range: "@typesafe-ai/sdk (npm) 0.6.0"
+      status: untested
+      evidence:
+        - npm latest metadata observed 2026-09-19; distinct from Python v0.7.0; not installed.
+  operations:
+    - id: typesafe.qualify-mapping
+      title: Paper native→SQ-01 mapping and disposition record
+      keywords: [choice, score, noul, systemone, qualification]
+      owners: [docs/upstreams/typesafe-qualification.md, catalog/providers/typesafe-qualify-map.ts]
+    - id: typesafe.local-wiring-recipe
+      title: Eduardo local wiring recipe (docs + env names; no secrets)
+      keywords: [TYPESAFE_API_KEY, jev-ops, docs.typesafe.ai]
+      owners: [docs/upstreams/typesafe-qualification.md]
+  unsupported_operations:
+    - id: live-systemone-assessment
+      reason: Live paid/authenticated System One calls need CoS→Eduardo hosted key authority, confirmed privacy/cost/version facts, and #515 adapter. Default #513 path is live-not-performed.
+    - id: install-brigade-dependency
+      reason: Qualification may defer/reject without installing a provider. SDK/package activation belongs to #515 after this qualify closes.
+    - id: invent-credentials
+      reason: Hard hold. Env names only in the wiring recipe; never print or commit key values.
+    - id: claim-marketing-sla
+      reason: Advertised ~100ms latency and cost/intelligence marketing ratios are not Brigade SLAs.
+    - id: interactive-ultrafast-proof
+      reason: browser-use/jev-ultrafast and jev-ops note 12 are post-#515 candidates only; out of scope for #513.
+    - id: ios-sim-ultrafast
+      reason: Separate agent; OOS for U5 TypeSafe units.
+  platforms: []
+adaptations:
+  - id: sq01-contracts-win
+    description: Landed contracts/semantic/ (#512) remain the canonical request/result shapes. Native TypeSafe SDK types must not leak into business policy; the adapter (#515) translates at the boundary.
+    owner: contracts/semantic/index.ts
+    intentional: true
+  - id: version-facts-distinct
+    description: Keep docs observation date, Python SDK release, npm SDK release, model alias (jev-latest), and any future workspace pin as separate facts. A newer discovered release does not invalidate prior evidence or silently repin.
+    owner: docs/upstreams/typesafe-qualification.md
+    intentional: true
+  - id: unknowns-block-live
+    description: Unconfirmed retention/training/deletion, rate-limit budgets, idempotency, request correlation, and cost reporting block the relevant live operation rather than being assumed.
+    owner: docs/upstreams/typesafe-qualification.md
+    intentional: true
+  - id: qualify-without-install
+    description: Closing #513 must not require adding typesafe-sdk or @typesafe-ai/sdk to Brigade package.json. Defer/reject without install is a valid outcome.
+    owner: docs/upstreams/typesafe-qualification.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 14
+  last_review: "2026-09-19"
+  status: current
+credits:
+  acknowledge: true
+  use: service
+  summary: Candidate semantic-assessment provider (TypeSafe System One / Jev). Brigade records qualification mapping and retains the Python SDK MIT notice; it does not install the SDK, call the API, or claim live support in this unit.
