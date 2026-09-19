@@ -385,12 +385,25 @@ export function register(harness: Harness): void {
     assert(!/\bAccept increment\b/.test(review), "reviewer must not write an accept increment");
     assert(/\bprivacy\b/i.test(review) && /\bconversion\b/i.test(review) && /\bcinematic\b/i.test(review), "findings must cover all three surfaces");
     assert(/RUBRIC-mixed-surface-v1/.test(review), "review must name the frozen rubric");
+    // #70 closeout: tip HTML repairs must match finding (no stale leftover prose)
+    assert(/fixture-tier/i.test(review), "Quiet Receipt re-score remains fixture-tier (not #72 live)");
+    assert(!/stores the submitted address/.test(review), "finding must not retain privacy-copy leftover");
+    assert(!/remain 19px tall/.test(review), "finding must not retain 19px nav leftover");
+    assert(!/overflows the stage by 48px/.test(review), "finding must not retain 48px plate leftover");
     const privacy = readFileSync(path.join(mixedFixtureRoot, "growth/landing/privacy.html"), "utf8");
     const conversion = readFileSync(path.join(mixedFixtureRoot, "growth/landing/conversion.html"), "utf8");
     const cinematic = readFileSync(path.join(mixedFixtureRoot, "growth/landing/cinematic.html"), "utf8");
     assert(!/data-scene-(?:id|track|step)|--scene-p/.test(privacy), "privacy must stay a static document");
     assert(!/data-scene-(?:id|track|step)|--scene-p/.test(conversion), "conversion must not invent scroll-linked hooks");
     assert(/data-scene-track/.test(cinematic), "cinematic must implement scroll-linked hooks");
+    assert(/does not store the email you submit/.test(privacy), "privacy tip copy must say does not store");
+    assert(/min-height:\s*24px/.test(privacy) && /min-width:\s*24px/.test(privacy), "privacy nav must meet 24px target");
+    assert(/min-height:\s*24px/.test(conversion) && /min-width:\s*24px/.test(conversion), "conversion nav must meet 24px target");
+    assert(/min-height:\s*24px/.test(cinematic) && /min-width:\s*24px/.test(cinematic), "cinematic nav must meet 24px target");
+    assert(
+      /\[data-scene-lifecycle="active"\] \[data-scene-visual\] p\s*\{\s*display:\s*none/.test(cinematic),
+      "cinematic tip CSS must hide active plate labels (48px leftover repair)",
+    );
   });
 
   harness.check("design-surface-applicability: cinematic signup keeps conversion purpose and scroll-linked technique", () => {
