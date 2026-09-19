@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.25",
+  "version": "0.221.26",
   "updatedAt": "2026-09-19",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add greenfield #70 applicability closeout: AC\u2192evidence map for matrix+Verification rows, fresh-context Quiet Receipt finding re-score (clear stale privacy-copy/19px-nav/48px-plate leftovers vs tip HTML), #403 quality-bar coordinate (ladder not stolen), STOP\u2192#71; fixture-tier only \u2014 no live/#72, no sibling impl, no #66 redo, no #108 reopen.",
     "Add greenfield #66 delivery-audit framework: residual map + U4 sequence lock (#70\u2192#71\u2192#73\u2192#75\u2192#76\u2192#72 last; skip #74), three-pillar honesty (intent\u2260docs-padding; overhead measurable/Stage-A retain; e2e proof-class \u2260 fixture/screenshot/protocol-alone), boundary/fail-safe holds (no liveLaunchProven from synthetic; live\u2192#72; no sibling shotgun; umbrella close \u2260 children close; no U5/#511). Deterministic fixtures only \u2014 no live benchmark, no workflow consolidation, no sibling impl.",
     "Add growth-agent #116 canonical-operation inventory/classification, adapter-boundary seams, Layers+#24-Postiz+PostHog-upstream fixture provenance, knowledge\u2260execution and discovery\u2260auto-expand fixtures (no live publish/experiment/customer-query/sign-in; no invented analytics executor; no generic MCP registry/second store; #24 ADR-0013 reconcile only; audit bucket COMPLETE \u2192 U4 separate).",
     "Add mobile-ops #115 canonical-operation inventory/classification, adapter-boundary seams, host-native+#87+MobAI-1.9.3 fixture provenance, uncertain/no-silent-fallback and Expo non-auto-expand fixtures (no live device/MCP; MobAI DeviceProofAdapter not MOT; no second router; never #116).",
