@@ -1,0 +1,33 @@
+export {
+  greenfield66MapModulePath,
+  intentEqualsDocsPadding,
+  overheadSavingsFromWorkflowCountAlone,
+  stageARetainRequired,
+  GREENFIELD_66_NON_LIVE_PROOF_CLASSES,
+  proofClassIsLiveCompleteBusiness,
+  nonLiveProofClaimsLive,
+  deliveryClassesCollapsed,
+  liveLaunchProvenFromSynthetic,
+  sequenceLockHolds,
+  shotgunOpenChildren,
+  implementsSiblingIn66,
+  reopensClosedChild,
+  umbrellaCloseClosesChildren,
+  liveAllowedIn66,
+  u5AllowedIn66,
+  secondProofOntologyIntroduced,
+  workflowsConsolidatedIn66,
+  hardHoldActive,
+  proofClassesRemainDistinct,
+  pillarsLocked,
+  nextAfter66,
+  liveOwnerIssue,
+  u4RemainingSequence,
+  skipClosedIssue,
+  distinctProofNote,
+  GREENFIELD_66_FORBIDDEN_SUCCESS_CLAIMS,
+  sourceClaimsForbiddenSuccess,
+} from "./boundary.js";
+
+export { classifyGreenfield66FailSafe, liveProtectedAllowedByYesFlag } from "./fail-safe.js";
+export type { Greenfield66FailSafeAction, Greenfield66FailSafeDecision, Greenfield66FailSafeEvent } from "./fail-safe.js";
