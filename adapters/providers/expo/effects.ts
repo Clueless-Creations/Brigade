@@ -172,3 +172,14 @@ export function workflowTriggersExceedApproval(closure: ExpoEasEffectClosure, al
   if (allowTriggers) return false;
   return Boolean(closure.workflow && (closure.workflow.hasPushTrigger || closure.workflow.hasPullRequestTrigger || closure.workflow.hasScheduleTrigger));
 }
+
+export {
+  EXPO_EAS_DISTINCT_IDENTITIES,
+  EXPO_EAS_OPERATION_MATRIX,
+  EXPO_EAS_OPERATION_MATRIX_PATH,
+  EXPO_EAS_OPERATION_MATRIX_REQUIRED_IDS,
+  expoEasOperationMatrixRow,
+  expoEasOperationMatrixRows,
+  getExpoEasOperationMatrix,
+} from "../../../catalog/stacks/expo-eas-operation-matrix.js";
+export type { ExpoEasOperationMatrixId, ExpoEasOperationMatrixRow, ExpoEasOperationProofTier } from "../../../catalog/stacks/expo-eas-operation-matrix.js";
