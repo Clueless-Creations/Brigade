@@ -9,10 +9,35 @@
  * A fake in-app transport is a fixture. It is not native-store proof. RevenueCat CLI Test
  * Store (`#79`) is catalog management, not `react-native-purchases` purchase or restore.
  *
+ * Capability matrix and RevenueCat wiring modules record selected #83 product decisions and
+ * custom-dev-client wiring holds. They do not replace these classifiers.
+ *
  * Consumes `catalog/stacks/expo-selection.ts`. Does not invent `product.monetization.mode`.
  */
 
 import { operationFor, type ExpoSelectionResolution, type ShippingPlatform } from "./expo-selection.js";
+import {
+  EXPO_CAPABILITY_MATRIX,
+  EXPO_CAPABILITY_MATRIX_PATH,
+  EXPO_CAPABILITY_MATRIX_REQUIRED_IDS,
+  EXPO_SELECTED_IDP_LIVE_JOURNEY_HOLD,
+  classifyAuthAdapterClaim,
+  expoCapabilityMatrixRow,
+  expoCapabilityMatrixRows,
+  selectedExpoCapabilityMatrixRows,
+  type ExpoAuthAdapterKind,
+  type ExpoCapabilityMatrixRow,
+  type ExpoMatrixCapabilityId,
+  type ExpoMatrixProofTier,
+} from "./expo-capability-matrix.js";
+import {
+  EXPO_NATIVE_PURCHASES_SELECTION_NOTES,
+  EXPO_REVENUECAT_WIRING_PATH,
+  EXPO_REVENUECAT_WIRING_PLAN,
+  classifyRevenueCatWiringRequest,
+  expoRevenueCatWiringPlan,
+  type ExpoRevenueCatWiringPlan,
+} from "./expo-revenuecat-wiring.js";
 
 export const EXPO_CAPABILITY_PROTOCOL_PATH = "catalog/stacks/expo-capability-protocol.ts" as const;
 
@@ -717,4 +742,34 @@ export function classifyNotificationHandoff(input: {
     action: "accept-classification",
     reason: "Handoff classification only. Token and receipt success is not person-seen proof.",
   };
+}
+
+/** Thin accessors so fixtures can import matrix/wiring via the protocol surface. */
+export {
+  EXPO_CAPABILITY_MATRIX,
+  EXPO_CAPABILITY_MATRIX_PATH,
+  EXPO_CAPABILITY_MATRIX_REQUIRED_IDS,
+  EXPO_SELECTED_IDP_LIVE_JOURNEY_HOLD,
+  classifyAuthAdapterClaim,
+  expoCapabilityMatrixRow,
+  expoCapabilityMatrixRows,
+  selectedExpoCapabilityMatrixRows,
+};
+export type { ExpoAuthAdapterKind, ExpoCapabilityMatrixRow, ExpoMatrixCapabilityId, ExpoMatrixProofTier };
+
+export {
+  EXPO_NATIVE_PURCHASES_SELECTION_NOTES,
+  EXPO_REVENUECAT_WIRING_PATH,
+  EXPO_REVENUECAT_WIRING_PLAN,
+  classifyRevenueCatWiringRequest,
+  expoRevenueCatWiringPlan,
+};
+export type { ExpoRevenueCatWiringPlan };
+
+export function getExpoCapabilityMatrix(): readonly ExpoCapabilityMatrixRow[] {
+  return expoCapabilityMatrixRows();
+}
+
+export function getExpoRevenueCatWiringPlan(): ExpoRevenueCatWiringPlan {
+  return expoRevenueCatWiringPlan();
 }

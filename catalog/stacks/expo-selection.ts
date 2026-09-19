@@ -390,7 +390,7 @@ function operationSupport(): ExpoOperationSupport[] {
       evidenceTier: "fixture-tested",
       queuedIssue: 83,
       notes:
-        "Local session persist, cancel, expire, revoke, and account-switch run in a disposable file-backed fixture. Not an identity provider. Sign-in does not grant a paid entitlement. RevenueCat identity stays separate.",
+        "Local session persist, cancel, expire, revoke, and account-switch run in a disposable file-backed fixture. Not an identity provider. Selected IdP live journey is held. Sign-in does not grant a paid entitlement. RevenueCat identity stays separate.",
     },
     {
       id: "offline-data",
@@ -419,7 +419,8 @@ function operationSupport(): ExpoOperationSupport[] {
       platforms: ["ios", "android"],
       evidenceTier: "blocked",
       queuedIssue: 83,
-      notes: "react-native-purchases on a custom build. #79 CLI is not this operation. Web billing stays separate.",
+      notes:
+        "react-native-purchases wiring documented for custom development/release builds (catalog/stacks/expo-revenuecat-wiring.ts). Starter does not install the package. Device + sandbox/Test Store in-app readback held. #79 CLI is not this operation. Spend not authorized. Web billing stays separate. Fake in-app transport remains browser-mock only.",
     },
     {
       id: "expo-cli-process",
