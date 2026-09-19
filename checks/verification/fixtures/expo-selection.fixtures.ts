@@ -80,7 +80,14 @@ export function register(harness: Harness): void {
     assert(operationFor(withEas, "eas-cloud-build").queuedIssue === 84, "EAS execution remains #84");
     assert(operationFor(selected, "cng-prebuild").evidenceTier === "fixture-tested", "CNG is fixture-tested for a disposable generate, not a live device");
     assert(operationFor(selected, "expo-web-export").evidenceTier === "fixture-tested", "local static Metro export is fixture-tested");
-    assert(operationFor(selected, "eas-hosting").evidenceTier === "blocked", "EAS Hosting stays blocked");
+    assert(operationFor(selected, "eas-hosting").evidenceTier === "blocked", "unselected EAS Hosting stays idle/blocked");
+    assert(selected.idleUnselectedServices.includes("eas-hosting"), "EAS Hosting remains optional/idle until selected");
+    const withHosting = resolveExpoSelection({
+      compositionTarget: { platform: "web", runtime: EXPO_APP_RUNTIME },
+      selectedServices: ["eas-hosting"],
+    });
+    assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run models are fixture-tested");
+    assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run");
     assert(operationFor(selected, "official-skills").evidenceTier === "blocked", "official skills must stay blocked until authorized");
   });
 

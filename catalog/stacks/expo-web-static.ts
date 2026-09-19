@@ -87,13 +87,24 @@ export function easHostingRemainsBlocked(resolution: ExpoSelectionResolution): b
   return hosting.evidenceTier === "blocked" && hosting.queuedIssue === 86;
 }
 
+export function easHostingIsFixtureTested(resolution: ExpoSelectionResolution): boolean {
+  const hosting = operationFor(resolution, "eas-hosting");
+  return hosting.evidenceTier === "fixture-tested" && hosting.queuedIssue === 86;
+}
+
+export function easHostingLiveDeployRemainsHeld(resolution: ExpoSelectionResolution): boolean {
+  const hosting = operationFor(resolution, "eas-hosting");
+  return hosting.queuedIssue === 86 && hosting.evidenceTier === "fixture-tested" && hosting.notes.includes("Live hosting deploy not-run");
+}
+
 export function localStaticExportIsFixtureTested(resolution: ExpoSelectionResolution): boolean {
   const exported = operationFor(resolution, "expo-web-export");
   return exported.evidenceTier === "fixture-tested" && exported.queuedIssue === 86;
 }
 
 export function webOperationsRemainBlocked(resolution: ExpoSelectionResolution): boolean {
-  return easHostingRemainsBlocked(resolution) && operationFor(resolution, "expo-web-export").evidenceTier === "blocked";
+  // Unselected / pre-resolution blocked path — both ops blocked together.
+  return operationFor(resolution, "eas-hosting").evidenceTier === "blocked" && operationFor(resolution, "expo-web-export").evidenceTier === "blocked";
 }
 
 export function decideExpoWebSurface(input: {
