@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.31",
+  "version": "0.221.32",
   "updatedAt": "2026-09-19",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add #512 SQ-01 provider-boundary semantic contracts: Choice/Score/Noul question union with first-class failure outcomes, question-pack, initial query IR slice (reserved operators types-only), plan identity canonicalization, inference and policy-application receipts (unknown cost ≠ zero; receipts ≠ proof/truth/authority/tool), external-package semantic resource declaration without kernel privileges; contracts-only — no network, credentials, adapter, or public-command activation.",
     "Add greenfield #72 Path A paper closeout: AC→evidence map for Acceptance+report-contract+execution-recipe+comment-holds+Path-A honesty (live/publish/measured not performed; protocol≠completion; fixtures≠live; deliveryAccepted≠submitted≠released≠live; #73/#75 Stage B still held; #511 PARKED), thin closeout fixtures (U4 DONE; next=#511 PARKED; no Stage B unlock; prior U4 consume-only), protocol honesty refresh; fixture-tier only — no live/publish/measured, no Stage B unlock, no #66–#76 redo, no #511 start.",
     "Add greenfield #76 Required-scenario matrix closeout: AC→evidence map for Acceptance+Required-scenarios+live holds, residual business-change-impact fixture rows (price/entitlement; shipping-platform; source-correction-vs-one-claim; source-metadata/URL; four proof layers), thin closeout fixtures (sequence lock #72 last; no parallel dependency DB/second graph; expected-IDs; coordinate-don't-steal #38/#68/#107/#117/#395/#397/#403/#127; live=#72), STOP→#72; fixture-tier only — no live/#72 jump, no #66/#70/#71/#73/#75 redo, no sibling impl.",
     "Add greenfield #75 Stage A no-change closeout: AC→evidence map for Acceptance+Stage A/B, protocol/fixture Leave-#75-open→closed-on-Stage-A-no-change (paid Stage B held; live/publish/measured interval→#72), thin closeout fixtures (sequence lock #76→#72; no vector/embeddings/graph; coordinate-don't-steal #378/#392/#395/#397/#403/#127/#39/#40; judgment=#75; live=#72), STOP→#76; fixture-tier only — no live/#72, no paid Stage B, no #66/#70/#71/#73 redo, no sibling impl.",
