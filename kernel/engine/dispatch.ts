@@ -67,3 +67,30 @@ export function checkBatchBoundary(hooks: DispatchHooks): BatchBoundaryResult {
   if (hooks.checkCooperativeYield()) return { halt: true, reason: "cooperative_yield" };
   return { halt: false };
 }
+
+// ---------------------------------------------------------------------------
+// #518 SQ-07 — thin bridges for semantic shared-state batch gating.
+// Extends existing DispatchBatch / checkBatchBoundary; does not invent a
+// second scheduler. Full semantic grouping lives in kernel/session/semantic-batch.ts.
+// ---------------------------------------------------------------------------
+
+export const SEMANTIC_DISPATCH_ISSUE = "#518" as const;
+export const SEMANTIC_DISPATCH_COORDINATES = "#73" as const;
+
+/**
+ * Semantic shared-state batch identity for gate checks at existing batch boundaries.
+ * Distinct from CompiledPlan frontier DispatchBatch — this is the SQ-07 semantic grouping key.
+ */
+export interface SemanticDispatchBatchRef {
+  readonly batchId: string;
+  readonly workspaceId: string;
+  readonly workIds: readonly string[];
+}
+
+/**
+ * Before admitting the next semantic batch, consult existing kill-switch /
+ * cooperative-yield gates. Cooperative yield only at batch boundaries.
+ */
+export function gateSemanticDispatchBatch(hooks: DispatchHooks, _batch: SemanticDispatchBatchRef): BatchBoundaryResult {
+  return checkBatchBoundary(hooks);
+}
