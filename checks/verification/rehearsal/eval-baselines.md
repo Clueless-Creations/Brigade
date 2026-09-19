@@ -13,9 +13,9 @@ must record its own commit, package version, and package digest.
 | #2 | Reuse the existing batch harness. `npm run evals:behavioral -- --list` is the authorized local inventory. | Paid Message Batches path still needs an authorized `workflow_dispatch` and a linked results artifact. No key, no spend here. |
 | #39 | Closed on main via #189. Decided no-extract. Not this increment. | Do not extract the store-010 scorer into hosted `catalog()`. |
 | #40 | Closed on main via #156 / #174. Not this increment. | — |
-| #72 | Freeze the report contract and fabricated-receipt checks. | No founder-approved workspace, mandate, stack, budget, host, or publication authority. No live greenfield run. |
-| #73 | **Closed on Stage A retain.** Compact selected-subgraph boundary table. Keep/change stays **retain the current graph**. Observed cost unknown. | Stage B / measured interval held → #72. No workflow merge. No live interval. |
-| #75 | **Closed on Stage A no-change.** Stage A walks stay on main. **no-change recommendation** on retrieval infrastructure stands. | Paid Stage B held. Live/publish/measured interval → #72. Held-out unused for tuning. No vector store, embeddings, or graph database. Do not extract `matchWorkflows` into hosted `catalog()`. |
+| #72 | **Closed on Path A paper.** Protocol + fabricated-receipt + complete-business authoring honesty + AC→evidence map. Live/publish/measured **not performed**. | Prerequisites Current hold retained. Do not claim live AC done. #73/#75 Stage B stay held. After close: U4 DONE; #511 PARKED. See [greenfield-72-benchmark-closeout.md](./greenfield-72-benchmark-closeout.md). |
+| #73 | **Closed on Stage A retain.** Compact selected-subgraph boundary table. Keep/change stays **retain the current graph**. Observed cost unknown. | Stage B / measured interval still held (Path A #72 did not produce a measured interval). No workflow merge. No live interval. |
+| #75 | **Closed on Stage A no-change.** Stage A walks stay on main. **no-change recommendation** on retrieval infrastructure stands. | Paid Stage B held (Path A #72 did not unlock). Live/publish/measured not performed on #72. Held-out unused for tuning. No vector store, embeddings, or graph database. Do not extract `matchWorkflows` into hosted `catalog()`. |
 | #77 | Closed on main via #181. Not this increment. | — |
 | #78 | Closed on main via #174 / #181. Not this increment. | — |
 | #88 | Freeze the proof matrix against existing contracts. | No selected Expo app, device, cloud job, or matching #72 authority. Protocol cannot close the issue. |
@@ -46,6 +46,16 @@ npm run typecheck
 
 Do not run paid behavioral evals, live providers, devices, deploys, or a version stamp from this document.
 
+## #72 Path A paper closeout
+
+**#72 is closed on Path A paper/deterministic-only** (HoE settled no-live). Protocol,
+fabricated-receipt accounting, and complete-business authoring honesty remain on tip.
+Live complete-business, publish-of-evidence, and a measured onboarding interval were
+**not performed**. Protocol ≠ completion. Fixtures ≠ live. `deliveryAccepted` ≠
+submitted ≠ released ≠ live. #73 Stage B and #75 paid Stage B stay held. After close:
+**U4 DONE — STOP**; **#511 PARKED**. See
+[greenfield-72-benchmark-closeout.md](./greenfield-72-benchmark-closeout.md).
+
 ## #39 no-extract freeze (already on main)
 
 Issue 39 is closed on main through #189. Replayed `store-010` stays
@@ -61,7 +71,7 @@ design-system-audit, and the #38 Apple media workflow. Comments follow catalog
 `reads` / `dependencies` / `reviewOf` / `roleId`, including the authored ONB-16 comment.
 Observed cost is unknown. Candidate action is keep. **#73 is closed on Stage A retain**
 (retain the current graph). Stage B consolidation and a measured onboarding
-interval are held until a #72 interval exists. Do not invent elapsed, token, or
+interval remain held — Path A close of #72 did not produce a measured interval. Do not invent elapsed, token, or
 live metrics. See
 [greenfield-73-overhead-closeout.md](./greenfield-73-overhead-closeout.md).
 
@@ -81,7 +91,7 @@ not import `matchWorkflows`. BM25 stays the retrieval owner.
 
 **Recommendation: no-change** on retrieval infrastructure. **#75 is closed on Stage A no-change**.
 Paid Stage B stays held. Live greenfield complete-business, publish-of-evidence,
-and a measured onboarding interval are held until **#72**. Do not invent tool
+and a measured onboarding interval were **not performed** on **#72** Path A paper close. Do not invent tool
 traces or claim observed usability from CI alone. See
 [greenfield-75-retrieval-closeout.md](./greenfield-75-retrieval-closeout.md).
 
