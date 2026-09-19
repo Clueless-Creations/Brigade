@@ -727,7 +727,7 @@ export function register(harness: Harness): void {
     assert(existsSync(path.join(skillRoot, EXPO_EAS_COMMAND_MATRIX_PATH)), "matrix path is the handoff artifact");
   });
 
-  harness.check("expo-eas: #82 CNG is fixture-tested when selected; official-skills stay blocked; #84 rows become fixture-tested only when selected", () => {
+  harness.check("expo-eas: #82 CNG is fixture-tested when selected; official-skills fixture-tested; #84 rows become fixture-tested only when selected", () => {
     const selected = resolveExpoSelection({ compositionTarget: { platform: "ios", runtime: EXPO_APP_RUNTIME } });
     assert(operationFor(selected, "cng-prebuild").evidenceTier === "fixture-tested", "selected CNG classification is fixture-tested for #82");
     assert(operationFor(selected, "expo-web-export").evidenceTier === "fixture-tested", "local static export is fixture-tested for #86");
@@ -738,7 +738,7 @@ export function register(harness: Harness): void {
     });
     assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run models are fixture-tested for #86");
     assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run for #86");
-    assert(operationFor(selected, "official-skills").evidenceTier === "blocked", "official skills stay blocked for #87");
+    assert(operationFor(selected, "official-skills").evidenceTier === "fixture-tested", "official skills fixture-tested for #87; install/live not-run");
     assert(operationFor(selected, "eas-update").evidenceTier === "blocked", "OTA stays blocked for #85");
     assert(operationFor(selected, "eas-cloud-build").evidenceTier === "blocked", "unselected EAS cloud stays blocked");
     const withEas = resolveExpoSelection({

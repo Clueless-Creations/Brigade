@@ -88,7 +88,15 @@ export function register(harness: Harness): void {
     });
     assert(operationFor(withHosting, "eas-hosting").evidenceTier === "fixture-tested", "selected EAS Hosting dry-run models are fixture-tested");
     assert(operationFor(withHosting, "eas-hosting").notes.includes("Live hosting deploy not-run"), "live hosting remains not-run");
-    assert(operationFor(selected, "official-skills").evidenceTier === "blocked", "official skills must stay blocked until authorized");
+    assert(operationFor(selected, "official-skills").evidenceTier === "fixture-tested", "official skills inventory/discovery models are fixture-tested");
+    assert(operationFor(selected, "official-skills").notes.includes("Install and live MCP not-run"), "install/live remain not-run");
+    assert(operationFor(selected, "expo-mcp").evidenceTier === "blocked", "unselected Expo MCP stays idle/blocked");
+    const withMcp = resolveExpoSelection({
+      compositionTarget: { platform: "ios", runtime: EXPO_APP_RUNTIME },
+      selectedServices: ["expo-mcp"],
+    });
+    assert(operationFor(withMcp, "expo-mcp").evidenceTier === "fixture-tested", "selected Expo MCP dry-run models are fixture-tested");
+    assert(operationFor(withMcp, "expo-mcp").notes.includes("Live MCP connect not-run"), "live MCP remains not-run");
   });
 
   harness.check("expo selection: Expo knowledge is not required guidance on SwiftUI-default workflows", () => {
@@ -232,6 +240,9 @@ export function register(harness: Harness): void {
     assert(discovery.mcpSelectedByDefault === false, "Expo MCP stays unselected");
     assert(discovery.addsMobileOperationTransport === false, "must not add a fake Expo MobileOperationTransport");
     assert(discovery.hostNativePreferred === true, "host-native device tools stay preferred");
+    assert(discovery.discoveryIsNotInstall === true, "discovery is not install");
+    assert(discovery.scopedPrepareOnly === true, "scoped prepare only");
+    assert(discovery.agentsAcceptanceAuthoritative === true, "AGENTS/acceptance authoritative");
     assert(discovery.telemetryDefault === "off", "usage telemetry stays off by default");
     assert(
       discovery.skills.some((skill) => skill.id === "expo-router" && skill.group === "framework"),
