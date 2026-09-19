@@ -56,6 +56,18 @@ database; hosted `catalog()` does not import `matchWorkflows`. **#75 closes on t
 paid Stage B is held. See
 [greenfield-75-retrieval-closeout.md](./greenfield-75-retrieval-closeout.md).
 
+
+## #76 Required-scenario matrix
+
+Reuse this report only for live complete-business / publish-of-evidence /
+measured-interval ownership on **#72**. Business-change-impact / change-propagation
+closes on tip deterministic Required-scenario matrix: expected affected/unaffected
+IDs; four proof layers distinct; cascade owners exercised; residual price/platform/
+source-correction/source-metadata rows landed; interruption mapped via needs_readback
++ engine interrupted-run. **#76 closes on this deterministic matrix**; live/provider/
+publish/measured interval held → **#72**. See
+[greenfield-76-change-impact-closeout.md](./greenfield-76-change-impact-closeout.md).
+
 ## #88 reuse
 
 Reuse this report only for a matching Expo product scope. The frozen matrix is
