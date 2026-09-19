@@ -65,3 +65,65 @@ export type {
   ExpoSigningReadinessInput,
   ExpoSigningReadinessResult,
 } from "./signing-readiness.js";
+
+export {
+  EXPO_UPDATE_IDENTITY_NOTES,
+  EXPO_UPDATE_IDENTITY_PATH,
+  EXPO_UPDATE_IDENTITY_ROLES,
+  assertExpoUpdateIdentitiesDistinct,
+  claimsClientApplyFromPublishOnly,
+} from "./update-identity.js";
+export type {
+  ExpoUpdateIdentityDistinctness,
+  ExpoUpdateIdentityMap,
+  ExpoUpdateIdentityRole,
+  ExpoUpdatePlatform,
+} from "./update-identity.js";
+export {
+  EXPO_UPDATE_PREPARE_NOTES,
+  EXPO_UPDATE_PREPARE_PATH,
+  assertExpoUpdateLiveSpawnRefused,
+  prepareExpoUpdateDryRun,
+  simulateFakeUpdatePublish,
+} from "./update-prepare.js";
+export type {
+  ExpoUpdatePrepareRefuseReason,
+  ExpoUpdatePrepareRequest,
+  ExpoUpdatePrepareResult,
+  ExpoUpdatePrepareTarget,
+  FakeUpdatePublishSimulation,
+} from "./update-prepare.js";
+export {
+  EXPO_UPDATE_ROLLOUT_NOTES,
+  EXPO_UPDATE_ROLLOUT_PATH,
+  assessExpoUpdateRollout,
+} from "./update-rollout.js";
+export type {
+  ExpoUpdateHealthSignal,
+  ExpoUpdateRolloutAction,
+  ExpoUpdateRolloutDecision,
+  ExpoUpdateRolloutHealth,
+  ExpoUpdateRolloutHoldReason,
+  ExpoUpdateRolloutInput,
+} from "./update-rollout.js";
+export {
+  EXPO_UPDATE_RECOVERY_NOTES,
+  EXPO_UPDATE_RECOVERY_PATH,
+  assessExpoUpdateClientRecovery,
+  planExpoUpdateRecovery,
+} from "./update-recovery.js";
+export type {
+  ExpoUpdateClientFailureMode,
+  ExpoUpdateClientRecoveryInput,
+  ExpoUpdateClientRecoveryResult,
+  ExpoUpdateRecoveryAction,
+  ExpoUpdateRecoveryHoldReason,
+  ExpoUpdateRecoveryPlan,
+  ExpoUpdateRecoveryPlanInput,
+} from "./update-recovery.js";
+export {
+  EXPO_UPDATE_SIGNING_NOTES,
+  EXPO_UPDATE_SIGNING_PATH,
+  assessExpoUpdateCodeSigning,
+} from "./update-signing.js";
+export type { ExpoUpdateSigningCode, ExpoUpdateSigningInput, ExpoUpdateSigningResult } from "./update-signing.js";
