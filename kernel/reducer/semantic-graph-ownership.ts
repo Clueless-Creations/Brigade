@@ -4,14 +4,13 @@
  * Extends existing reducer inference-artifact handling. Does NOT invent a second
  * graph database, automatic entity merges, or model-written reducer state.
  *
- * Declares deletion/invalidation hooks toward #520 / SQ-10 only —
- * no persistence / cache / erasure implementation here.
+ * #520 / SQ-10 deletion/invalidation hooks are IMPLEMENTED
+ * (see SQ10_DELETION_INVALIDATION_HOOKS + inference-invalidation / inference-receipt-store).
  *
  * Coordinate with #74 / #76 — do not replace proof/padding or change-impact ownership.
  */
 import {
   SQ10_DELETION_INVALIDATION_HOOKS,
-  SEMANTIC_GRAPH_VIEWS_ISSUE,
   SEMANTIC_GRAPH_VIEWS_NO_520_IMPL,
   type CandidateEdge,
   canPromoteIdentity,
@@ -38,17 +37,29 @@ export function assertInferenceArtifactIsNotAuthoritative(edge: CandidateEdge): 
 /** Accepted-change ops (existing) are the only path for identity promotion / product changes. */
 export const IDENTITY_PROMOTION_REQUIRES_ACCEPTED_CHANGE_OP = true as const;
 
-/** Hook seam: callers of #520 will register invalidation; #519 only declares. */
+/** Hook ids (declared in #519; implemented in #520). */
 export function listDeclaredInvalidationHookIds(): readonly string[] {
   return SEMANTIC_GRAPH_OWNERSHIP_HOOKS.hooks.map((h) => h.id);
 }
 
+/** True only while hooks remain declaration stubs — false after #520 lands. */
 export function isSq10HookDeclaredOnly(): boolean {
+  return Boolean(
+    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.declaredOnly &&
+    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noPersistenceImpl &&
+    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noCacheImpl &&
+    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noErasureImpl,
+  );
+}
+
+/** True when #520 persist/cache/invalidation/erasure hooks are implemented. */
+export function isSq10HookImplemented(): boolean {
   return (
-    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.declaredOnly === true &&
-    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noPersistenceImpl === true &&
-    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noCacheImpl === true &&
-    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noErasureImpl === true &&
-    SEMANTIC_GRAPH_OWNERSHIP_ISSUE === SEMANTIC_GRAPH_VIEWS_ISSUE
+    !SEMANTIC_GRAPH_OWNERSHIP_HOOKS.declaredOnly &&
+    !SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noPersistenceImpl &&
+    !SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noCacheImpl &&
+    !SEMANTIC_GRAPH_OWNERSHIP_HOOKS.noErasureImpl &&
+    SEMANTIC_GRAPH_OWNERSHIP_HOOKS.implemented &&
+    !SEMANTIC_GRAPH_VIEWS_NO_520_IMPL
   );
 }

@@ -6,8 +6,9 @@
  * Inference stays labeled as inference; graph queries cannot promote identity
  * or perform authored product changes.
  *
- * Consumes #512–#518. Does not redo them. Does not implement #520–#529
- * (deletion/invalidation hooks declared toward SQ-10 only).
+ * Consumes #512–#518. Does not redo them.
+ * #520 / SQ-10 deletion/invalidation hooks are IMPLEMENTED (see SQ10_DELETION_INVALIDATION_HOOKS
+ * + kernel/engine/inference-invalidation.ts). Does not implement #521–#529.
  *
  * Keep distinct: world ontology ≠ expert-method library ≠ agent/work graph.
  * Do not conflate with catalog/agent-graph or knowledge-derivations (ADR-0005).
@@ -20,13 +21,13 @@ import { type FieldProvenance, verifyPinnedExcerpt, type PinVerifyResult } from 
 export const SEMANTIC_GRAPH_VIEWS_ISSUE = "#519" as const;
 export const SEMANTIC_GRAPH_VIEWS_EPIC = "#511" as const;
 export const SEMANTIC_GRAPH_VIEWS_CONSUMES = ["#512", "#513", "#514", "#515", "#516", "#517", "#518"] as const;
-export const SEMANTIC_GRAPH_VIEWS_STAMP = "0.221.39" as const;
+export const SEMANTIC_GRAPH_VIEWS_STAMP = "0.221.40" as const;
 export const SEMANTIC_GRAPH_VIEWS_SCHEMA_VERSION = 1 as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE = true as const;
-export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = true as const;
+export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = false as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_NETWORK = true as const;
-export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#520" as const;
+export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#521" as const;
 
 /** Narrow ontology predicate inventory (#519 §1) — similarity ≠ equality. */
 export const SEMANTIC_RELATIONSHIP_PREDICATES = [
@@ -178,49 +179,56 @@ export interface GraphQueryResult {
 }
 
 /** Identity / product entities that inferred sameEntityAs must NEVER merge. */
-export const PROTECTED_MERGE_CLASS_IDS = [
-  "class.customer",
-  "class.decision",
-  "class.requirement",
-  "class.hypothesis",
-  "class.app",
-] as const;
+export const PROTECTED_MERGE_CLASS_IDS = ["class.customer", "class.decision", "class.requirement", "class.hypothesis", "class.app"] as const;
 
 /**
- * #520 / SQ-10 hook declarations only — no persistence, cache, or erasure impl.
- * Full receipt persistence / cache / invalidation / erasure is #520.
+ * #520 / SQ-10 deletion/invalidation hooks — IMPLEMENTED.
+ * Persistence/cache: kernel/services/inference-receipt-store.ts
+ * Invalidation consumers: kernel/engine/inference-invalidation.ts
+ * Ownership/erasure cascade: kernel/reducer/inference-receipt-ownership.ts
+ * declaredOnly / no*Impl flipped false when hooks + persist are real.
  */
 export const SQ10_DELETION_INVALIDATION_HOOKS = Object.freeze({
   issue: "#520" as const,
   sq: "SQ-10" as const,
-  declaredOnly: true as const,
-  noPersistenceImpl: true as const,
-  noCacheImpl: true as const,
-  noErasureImpl: true as const,
+  declaredOnly: false as const,
+  noPersistenceImpl: false as const,
+  noCacheImpl: false as const,
+  noErasureImpl: false as const,
+  implemented: true as const,
+  implementationModules: [
+    "kernel/services/inference-receipt-store.ts",
+    "kernel/engine/inference-invalidation.ts",
+    "kernel/reducer/inference-receipt-ownership.ts",
+  ] as const,
   hooks: [
     {
       id: "hook.invalidate-edges-on-source-revision",
       trigger: "source-revision-change",
       effect: "mark-dependent-edges-stale",
-      owner: "kernel/reducer + #520",
+      owner: "kernel/engine/inference-invalidation + #520",
+      implemented: true as const,
     },
     {
       id: "hook.invalidate-edges-on-receipt-erasure",
       trigger: "authorized-erasure",
       effect: "drop-receipt-bound-edges-from-rebuildable-index",
-      owner: "kernel/reducer/erasure + #520",
+      owner: "kernel/engine/inference-invalidation + kernel/reducer/erasure + #520",
+      implemented: true as const,
     },
     {
       id: "hook.reject-stale-edge-at-commit",
       trigger: "commit-time",
       effect: "reject-stale-view-digest",
-      owner: "kernel/reducer + #520",
+      owner: "kernel/engine/inference-invalidation + #520",
+      implemented: true as const,
     },
     {
       id: "hook.rebuild-index-after-invalidation",
       trigger: "post-invalidation",
       effect: "rebuild-from-permitted-inputs-only",
-      owner: "kernel/knowledge-service/semantic-graph-views + #520",
+      owner: "kernel/engine/inference-invalidation + semantic-graph-views + #520",
+      implemented: true as const,
     },
   ] as const,
 });
@@ -245,7 +253,10 @@ function endpointKey(ep: EndpointRef): string {
 
 function assertEndpointInWorkspace(ep: EndpointRef, workspaceId: string): void {
   if (ep.workspaceId !== workspaceId) {
-    throw new SemanticGraphViewsError("graph.cross_workspace_endpoint", `endpoint ${ep.endpointId} workspace ${ep.workspaceId} ≠ query workspace ${workspaceId}`);
+    throw new SemanticGraphViewsError(
+      "graph.cross_workspace_endpoint",
+      `endpoint ${ep.endpointId} workspace ${ep.workspaceId} ≠ query workspace ${workspaceId}`,
+    );
   }
 }
 
@@ -495,9 +506,7 @@ export function buildRelationshipIndex(input: {
     observationIds,
     conflictingEdgeIds: uniqueConflicts,
     rebuiltFrom: {
-      sourceRevisions: input.sources
-        .map((s) => ({ sourceId: s.sourceId, revision: s.revision }))
-        .sort((a, b) => a.sourceId.localeCompare(b.sourceId)),
+      sourceRevisions: input.sources.map((s) => ({ sourceId: s.sourceId, revision: s.revision })).sort((a, b) => a.sourceId.localeCompare(b.sourceId)),
       receiptIds: [...input.receipts.map((r) => r.receiptId)].sort((a, b) => a.localeCompare(b)),
     },
   };
@@ -506,10 +515,7 @@ export function buildRelationshipIndex(input: {
 /**
  * Delete and rebuild the index from the same permitted inputs — must reproduce the same viewDigest (AC4).
  */
-export function deleteAndRebuildIndex(
-  previous: RelationshipIndexView,
-  input: Parameters<typeof buildRelationshipIndex>[0],
-): RelationshipIndexView {
+export function deleteAndRebuildIndex(previous: RelationshipIndexView, input: Parameters<typeof buildRelationshipIndex>[0]): RelationshipIndexView {
   // Explicit discard of previous view — rebuildable index, not durable graph DB.
   void previous.viewDigest;
   return buildRelationshipIndex(input);
@@ -625,10 +631,7 @@ export function relateSameFailureReports(input: {
  * Similarly worded different-mechanism reports stay separate.
  * unknown ≠ known-related-but-different.
  */
-export function classifyMechanismRelation(
-  left: ObservationRecord,
-  right: ObservationRecord,
-): "same-mechanism" | "known-different" | "unknown" {
+export function classifyMechanismRelation(left: ObservationRecord, right: ObservationRecord): "same-mechanism" | "known-different" | "unknown" {
   if (!left.mechanismKnown || !right.mechanismKnown || left.mechanism === null || right.mechanism === null) {
     return "unknown";
   }
@@ -701,9 +704,7 @@ export function inferredSameEntityAnnotation(input: {
   };
 }
 
-export function resolveEdgeProvenance(
-  edge: CandidateEdge,
-): { sourceRefs: readonly EvidenceSpanRef[]; receiptRef: string | null; authority: EdgeAuthority } {
+export function resolveEdgeProvenance(edge: CandidateEdge): { sourceRefs: readonly EvidenceSpanRef[]; receiptRef: string | null; authority: EdgeAuthority } {
   return {
     sourceRefs: edge.evidenceSpans,
     receiptRef: edge.inferenceReceiptId,

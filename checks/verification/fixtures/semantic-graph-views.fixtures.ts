@@ -68,6 +68,7 @@ import {
   SEMANTIC_GRAPH_OWNERSHIP_NO_SECOND_GRAPH_DB,
   assertInferenceArtifactIsNotAuthoritative,
   isSq10HookDeclaredOnly,
+  isSq10HookImplemented,
   listDeclaredInvalidationHookIds,
 } from "../../../kernel/reducer/semantic-graph-ownership.js";
 import { assert, type Harness } from "./_harness.js";
@@ -111,12 +112,9 @@ function receipt(id: string, workspaceId = WS): StoredReceiptRef {
   };
 }
 
-function observation(
-  partial: Partial<ObservationRecord> & Pick<ObservationRecord, "observationId" | "wording" | "failureKey">,
-): ObservationRecord {
+function observation(partial: Partial<ObservationRecord> & Pick<ObservationRecord, "observationId" | "wording" | "failureKey">): ObservationRecord {
   const mechanism = partial.mechanism !== undefined ? partial.mechanism : null;
-  const mechanismKnown =
-    partial.mechanismKnown !== undefined ? partial.mechanismKnown : mechanism !== null;
+  const mechanismKnown = partial.mechanismKnown !== undefined ? partial.mechanismKnown : mechanism !== null;
   return {
     workspaceId: WS,
     version: "v1",
@@ -134,8 +132,8 @@ export function register(harness: Harness): void {
   harness.check("semantic-graph-views: stamp/issue/consumes + AC map + hard bans", () => {
     assert(SEMANTIC_GRAPH_VIEWS_ISSUE === "#519", "issue");
     assert(SEMANTIC_GRAPH_VIEWS_EPIC === "#511", "epic");
-    assert(SEMANTIC_GRAPH_VIEWS_STAMP === "0.221.39", "stamp map");
-    assert(MODULE_STAMP === "0.221.39", "stamp module");
+    assert(SEMANTIC_GRAPH_VIEWS_STAMP === "0.221.40", "stamp map");
+    assert(MODULE_STAMP === "0.221.40", "stamp module");
     assert(SEMANTIC_GRAPH_VIEWS_SCHEMA_VERSION === 1, "schema version");
     assert(SEMANTIC_GRAPH_VIEWS_CONSUMES.includes("#512"), "consumes #512");
     assert(SEMANTIC_GRAPH_VIEWS_CONSUMES.includes("#517"), "consumes #517");
@@ -143,25 +141,27 @@ export function register(harness: Harness): void {
     assert(SEMANTIC_GRAPH_VIEWS_CONSUMES.length === 7, "consumes seven closed slices");
     assert(SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB === true && MODULE_NO_GRAPH_DB === true, "no graph DB");
     assert(SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE === true && MODULE_NO_AUTO_MERGE === true, "no auto merge");
-    assert(SEMANTIC_GRAPH_VIEWS_NO_520_IMPL === true && MODULE_NO_520 === true, "no #520 impl");
+    assert(SEMANTIC_GRAPH_VIEWS_NO_520_IMPL === false && MODULE_NO_520 === false, "#520 impl landed");
     assert(SEMANTIC_GRAPH_VIEWS_NO_NETWORK === true && MODULE_NO_NETWORK === true, "no network");
     assert(SEMANTIC_GRAPH_VIEWS_LIVE_NOT_PERFORMED === true, "live not performed");
     assert(SEMANTIC_GRAPH_VIEWS_IOS_SIM_OOS === true, "iOS-sim OOS");
     assert(SEMANTIC_GRAPH_VIEWS_HOSTED_KEY_OWNER.includes("Eduardo"), "hosted key owner");
-    assert(SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE === "#520", "next after close");
+    assert(SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE === "#521", "next after close");
     assert(SEMANTIC_GRAPH_VIEWS_BASE_MAIN_SHA.startsWith("45a6640"), "base main sha");
     assert(SEMANTIC_GRAPH_VIEWS_MAP_PATH.includes("semantic-graph-views-map"), "map path");
     assert(SEMANTIC_GRAPH_VIEWS_FIXTURE.includes("semantic-graph-views.fixtures"), "fixture path");
     assert(SEMANTIC_RELATIONSHIP_PREDICATES.length === 5, "five narrow predicates");
     assert(ONTOLOGY_INVENTORY_FOR_SQ08.agentGraphKeptDistinct === "catalog/agent-graph", "planes distinct");
     assert(SEMANTIC_GRAPH_OWNERSHIP_NO_SECOND_GRAPH_DB === true, "ownership no second DB");
-    assert(SEMANTIC_GRAPH_OWNERSHIP_NO_520_IMPL === true, "ownership no 520");
+    assert(SEMANTIC_GRAPH_OWNERSHIP_NO_520_IMPL === false, "ownership 520 impl");
     assert(SEMANTIC_GRAPH_OWNERSHIP_COORDINATES.includes("#74"), "coordinates #74");
     assert(SEMANTIC_GRAPH_OWNERSHIP_COORDINATES.includes("#76"), "coordinates #76");
     assert(IDENTITY_PROMOTION_REQUIRES_ACCEPTED_CHANGE_OP === true, "accepted-change only");
-    assert(isSq10HookDeclaredOnly() === true, "hooks declared only");
+    assert(isSq10HookDeclaredOnly() === false, "hooks no longer declared only");
+    assert(isSq10HookImplemented() === true, "hooks implemented");
     assert(listDeclaredInvalidationHookIds().length === 4, "four hook ids");
-    assert(SQ10_DELETION_INVALIDATION_HOOKS.declaredOnly === true, "sq10 declared only");
+    assert(SQ10_DELETION_INVALIDATION_HOOKS.declaredOnly === false, "sq10 implemented");
+    assert(SQ10_DELETION_INVALIDATION_HOOKS.implemented === true, "sq10 implemented flag");
     const ac = semanticGraphViewsAcEvidence();
     assert(ac.length === 5 && SEMANTIC_GRAPH_VIEWS_AC.length === 5, "five AC rows");
     assert(
@@ -246,20 +246,26 @@ export function register(harness: Harness): void {
     assert(classifyMechanismRelation(similarA, similarB) === "known-different", "known different");
     assert(classifyMechanismRelation(similarA, unknownC) === "unknown", "unknown distinct");
     assert(classifyMechanismRelation(similarB, unknownC) === "unknown", "unknown vs B");
-    assert(maybeRelateSameMechanism({
-      left: similarA,
-      right: similarB,
-      receiptId: "rcpt.x",
-      contextDigest: contextDigestFromParts(["x"]),
-      evidenceSpans: [spanOn(src, 0, 10)],
-    }) === null, "no same-mechanism edge for known-different");
-    assert(maybeRelateSameMechanism({
-      left: similarA,
-      right: unknownC,
-      receiptId: "rcpt.x",
-      contextDigest: contextDigestFromParts(["x"]),
-      evidenceSpans: [spanOn(src, 0, 10)],
-    }) === null, "no same-mechanism edge for unknown");
+    assert(
+      maybeRelateSameMechanism({
+        left: similarA,
+        right: similarB,
+        receiptId: "rcpt.x",
+        contextDigest: contextDigestFromParts(["x"]),
+        evidenceSpans: [spanOn(src, 0, 10)],
+      }) === null,
+      "no same-mechanism edge for known-different",
+    );
+    assert(
+      maybeRelateSameMechanism({
+        left: similarA,
+        right: unknownC,
+        receiptId: "rcpt.x",
+        contextDigest: contextDigestFromParts(["x"]),
+        evidenceSpans: [spanOn(src, 0, 10)],
+      }) === null,
+      "no same-mechanism edge for unknown",
+    );
 
     // Same mechanism → edge admitted
     const sameMech = observation({
@@ -288,7 +294,10 @@ export function register(harness: Harness): void {
       observationIds: [similarA.observationId, similarB.observationId, unknownC.observationId, sameMech.observationId],
     });
     assert(index.observationIds.length === 4, "all four observations retained separately");
-    assert(index.edges.every((e) => e.predicate !== "usesSameMechanismAs" || e.subject.endpointId === "obs.mech.a"), "only same-mech pair related");
+    assert(
+      index.edges.every((e) => e.predicate !== "usesSameMechanismAs" || e.subject.endpointId === "obs.mech.a"),
+      "only same-mech pair related",
+    );
     // unknown and known-different are not collapsed into each other
     assert(classifyMechanismRelation(similarA, similarB) !== classifyMechanismRelation(similarA, unknownC), "unknown ≠ known-different");
   });
@@ -399,7 +408,13 @@ export function register(harness: Harness): void {
       edges: [edge] as const,
       observationIds: [left.observationId, right.observationId] as const,
     };
-    const first = buildRelationshipIndex({ ...input, sources: [...input.sources], receipts: [...input.receipts], edges: [...input.edges], observationIds: [...input.observationIds] });
+    const first = buildRelationshipIndex({
+      ...input,
+      sources: [...input.sources],
+      receipts: [...input.receipts],
+      edges: [...input.edges],
+      observationIds: [...input.observationIds],
+    });
     const rebuilt = deleteAndRebuildIndex(first, {
       workspaceId: WS,
       sources: [...input.sources],
@@ -505,8 +520,7 @@ export function register(harness: Harness): void {
     assert(index.conflictingEdgeIds.length >= 2, "conflicting edges recorded");
     assert(index.conflictingEdgeIds.includes("edge.evidence.support"), "support in conflicts");
     assert(
-      index.conflictingEdgeIds.includes("edge.evidence.contradict") ||
-        index.conflictingEdgeIds.includes("edge.evidence.oppose-support"),
+      index.conflictingEdgeIds.includes("edge.evidence.contradict") || index.conflictingEdgeIds.includes("edge.evidence.oppose-support"),
       "opposing edge in conflicts",
     );
 
@@ -518,10 +532,7 @@ export function register(harness: Harness): void {
         prov.sourceRefs.every((s) => s.sourceId === "src.support" || s.sourceId === "src.contradict"),
         `${edge.edgeId} exact source ids`,
       );
-      assert(
-        prov.receiptRef === "rcpt.support" || prov.receiptRef === "rcpt.contradict",
-        `${edge.edgeId} exact receipt id`,
-      );
+      assert(prov.receiptRef === "rcpt.support" || prov.receiptRef === "rcpt.contradict", `${edge.edgeId} exact receipt id`);
     }
 
     const queried = queryRelationships(index, { workspaceId: WS });
@@ -616,7 +627,10 @@ export function register(harness: Harness): void {
       observationIds: ["a1", "a2"],
     });
     const foreignQuery = queryRelationships(index, { workspaceId: OTHER_WS });
-    assert(foreignQuery.rejected.some((r) => r.code === "graph.cross_workspace_query"), "cross-workspace query denied");
+    assert(
+      foreignQuery.rejected.some((r) => r.code === "graph.cross_workspace_query"),
+      "cross-workspace query denied",
+    );
     assert(foreignQuery.edges.length === 0, "no edges leaked");
   });
 
@@ -657,7 +671,10 @@ export function register(harness: Harness): void {
       sourcesById: new Map([[src.sourceId, src]]),
       receiptsById: new Map([[rct.receiptId, rct]]),
     });
-    assert(!staleResult.ok && (staleResult.code === "graph.stale_span" || staleResult.code === "graph.invalid_citation"), `stale span denied: ${JSON.stringify(staleResult)}`);
+    assert(
+      !staleResult.ok && (staleResult.code === "graph.stale_span" || staleResult.code === "graph.invalid_citation"),
+      `stale span denied: ${JSON.stringify(staleResult)}`,
+    );
 
     // Invalid endpoint span (out of bounds)
     const badSpan: EvidenceSpanRef = {
