@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.70",
+  "version": "0.221.71",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Reference Product Profile interop (#569): validate observed-reference imports against canonical product-profile/v1, preserve profile/product revision identity, and keep imports read-only relative to managed intent. Stamp 0.221.71. No npm publish.",
     "Product Profile lifecycle (#568): passive freshness/status projection for intended profile and explicit refresh/query next action; no second orchestrator or inference. Stamp 0.221.70. No npm publish.",
     "Product Profile delta (#566): deterministic intended↔observed comparison with matched/changed/extra/unresolved findings, evidence links, and schema/product compatibility guards. Stamp 0.221.69. No npm publish.",
     "Observed Product Profiles (#565): deterministic projection from caller-supplied runtime evidence with build/environment provenance, stable evidence IDs, explicit direct vs inferred status, and no mutation of intended truth. Stamp 0.221.68. No npm publish.",
