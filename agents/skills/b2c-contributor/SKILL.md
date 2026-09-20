@@ -45,12 +45,7 @@ Route those to `b2c-maintainer` or `b2c-app-builder`.
 
 ## Commands
 
-```sh
-b2c contribute plan --source <https-url|path> --goal <text> [--scope contribution] [--network] [--json]
-b2c contribute check --target <contribution-root> [--json]
-b2c contribute preview --target <contribution-root> [--json]
-b2c contribute evaluate --target <contribution-root> [--suite <id>] [--allow-commands] [--json]
-```
+When drafting or checking a contribution, use the `b2c contribute` plan/check/preview/evaluate commands documented in [CONTRIBUTING.md](../../../CONTRIBUTING.md). Do not load release or upgrade procedure from this router.
 
 ## Boundaries
 

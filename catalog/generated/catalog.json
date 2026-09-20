@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.54",
+  "skillVersion": "0.221.55",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3803,7 +3803,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:2994974c9f86ccbb9271227803abf4e7fd7ffdbb14459986d896f6ad2d43ac8c",
+        "sha256": "sha256:fd660917fbe2a1647971caa165f0a0e18fa22f6045f4ad8b5077641bdb5fec84",
         "origin": "skill"
       }
     },
@@ -18866,14 +18866,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "ec008592c05afbbf9996c992d6929e7c002dd75dddda0d0ffd655a7ed6b21751",
+    "fingerprint": "2567fe4c1f3c413400bc30a075ab2cc11962e3a176f70a0a4f8c5bdfd797f3a6",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.54",
-        "revision": "0.221.54",
-        "contentDigest": "bad3f9bbd95c14e450f3b025318c6e9c2aa14c0007ed904c7e8f27d8575ebbf3"
+        "version": "0.221.55",
+        "revision": "0.221.55",
+        "contentDigest": "e0a7f22530dde228e0d4d2d38e3c1ecd7f5a4e2d8ad028e411a6f3e8d0f834fa"
       }
     ],
     "base": {

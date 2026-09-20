@@ -205,29 +205,11 @@ MobAI is serialized: one orchestrator owns the device flow, while other agents m
 
 ## 6. `engineering/ENGINEERING_PLAN.md` Requirements
 
-Before `ce-work` or a generated builder starts, produce `engineering/ENGINEERING_PLAN.md` through `ce-plan` or an equivalent implementation-plan doc.
+Before `ce-work` or a generated builder starts, produce `engineering/ENGINEERING_PLAN.md` through `ce-plan` or an equivalent implementation-plan doc. A narrow fix stays a narrow plan.
 
-The plan must include:
+**Core plan (always):** require only what the accepted scope needs — requirements/owners/interfaces for the units in scope (trace to launch docs and `state/LAUNCH_TRACE.md` IDs when those IDs exist); implementation units with repo-relative file paths and owners; dependencies, risks, and verification (focused tests for changed behavior plus applicable repository gates); accepted product/experience quality intent for those units (not a formal 11-star exercise for a narrow fix); `state/business-state.json` phase, autonomy mode, active blockers, and failure cards when managed state constrains the work; and a short decision entry for each non-obvious architecture or data-model choice actually made (option chosen, option rejected, reason), kept here or in `engineering/DECISIONS.md`.
 
-- requirements trace to launch docs and `state/LAUNCH_TRACE.md` IDs
-- 11-star complete product experience, line of feasibility, and magical-moment proof requirements
-- `state/business-state.json` phase, autonomy mode, active blockers, and failure cards that constrain implementation
-- `engineering/TECH_SPEC.md` pointer or inline technical contracts when data/API/state/integration behavior is in scope
-- `product/copy/COPY_DECK.md` coverage for every screen the units build, and the string-externalization mechanism from `engineering/TECH_SPEC.md` §Strings And Localization Readiness
-- [`premium-mobile-craft.md`](../design/premium-mobile-craft.md) acceptance-criteria coverage for every screen the units build — press states, motion, haptics, loading/empty states — the same per-screen bar the COPY_DECK.md line above already sets for copy
-- implementation units with repo-relative file paths
-- a short decision entry for each non-obvious architecture or data-model choice: the option chosen, the option rejected, and the reason, kept in this plan or a linked `engineering/DECISIONS.md`
-- orchestration strategy, candidate units, safe parallel lanes, serialized lanes, worktree needs, shared resources, and subagent forbidden actions from `operations/ORCHESTRATION.md`
-- frontend, backend, database, analytics, revenue, email, and store-console impacts
-- secret impacts: new secret or env var, secret class, Doppler/provider routing, service token/provider-integration plan, CI/deploy injection, `.env.example` names-only updates, and bundle-safety checks
-- feature flags or rollout controls
-- migration and data-backfill plan when needed
-- auth/session, permission, app integrity, API/RPC/webhook, and state-machine impacts when relevant
-- test scenarios for happy path, edge cases, error paths, and integration paths
-- MobAI/native iOS/device-test scenarios for mobile user journeys, plus XcodeBuildMCP/SnapshotPreviews/serve-sim scenarios when they are the Apple-platform proof route
-- backend verification scenarios showing real test data persisted or projected correctly
-- production-readiness gates and known blockers
-- validator and LaunchBench checks that must pass before done
+**Specialty concerns (only when implicated):** include each specialty only when the accepted scope or changed surfaces implicate it; open the linked owner for procedure rather than treating every specialty as mandatory startup reading — data/API/state/integration → `engineering/TECH_SPEC.md`; user-visible screens → `product/copy/COPY_DECK.md` plus TECH_SPEC string-externalization and [`premium-mobile-craft.md`](../design/premium-mobile-craft.md); multi-unit/parallel work → `operations/ORCHESTRATION.md`; frontend/backend/database/analytics/revenue/email/store-console → impacts for each implicated surface; new secrets/env vars → class, provider routing, CI/deploy injection, `.env.example` names-only, bundle-safety; feature flags/rollout → controls; schema/data-shape changes → migration/backfill; auth/session/permission/integrity/API/RPC/webhook/state-machine → those impacts; mobile journeys → selected device/simulator proof route; backend persistence claims → real test-data proof; release/production claims → production-readiness gates, blockers, and validators/LaunchBench checks that must pass.
 
 Do not put unsupported product behavior into `engineering/ENGINEERING_PLAN.md`. Send unresolved product questions back to `ce-brainstorm` or make explicit assumptions.
 

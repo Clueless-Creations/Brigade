@@ -147,6 +147,8 @@ export const STANDING_RULES: ReadonlyArray<{ id: string; terms: readonly string[
   {
     id: "verification",
     terms: [
+      "proportional to changed behavior",
+      "already-green unrelated suites",
       "CONTRIBUTING.md",
       "all applicable required gates before merge",
       "presubmit is not a full-audit pass",
@@ -157,9 +159,11 @@ export const STANDING_RULES: ReadonlyArray<{ id: string; terms: readonly string[
   {
     id: "integration",
     terms: [
+      "Parallelize independent research",
       "non-overlapping ownership",
       "delegation is not mandatory",
       "One coordinating agent owns shared-file integration",
+      "protected external effects",
       "final verification",
       "genuinely independent of implementation",
       "do not invent a reviewer",

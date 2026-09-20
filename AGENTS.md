@@ -12,19 +12,7 @@ Route by the target of the request, not the agent host or the person's title.
 | Reusable knowledge, source adoption, provider intake, recipes, examples | [Contribution](agents/skills/b2c-contributor/SKILL.md) |
 | Builder contracts, runtime, architecture, agent guidance, provider implementation, maintained upstreams | [Maintenance](agents/skills/b2c-maintainer/SKILL.md) |
 
-Business is an early exit: after selecting the business router, reach the current status/plan and bounded task, then stop reading unless that task requires more guidance. For a narrow app code fix, follow that app's own instructions and affected tests without activating a business lifecycle. Focused business expertise does not require setup. Managed business work follows the business router's status, plan, authority, and evidence path. Business workers do not load maintainer architecture, migration plans, contributor machinery, unrelated providers, or operator procedures merely to start. README is product documentation, not a prerequisite to routing.
-
-### Business
-
-Use `SKILL.md`; for managed work, start with `business-status`, then `business-plan`, then the current bounded task. Load only the guidance that applies.
-
-### Contribution
-
-Use `agents/skills/b2c-contributor/SKILL.md`; load contribution, rights, provenance, and source-adoption procedure only for that work.
-
-### Maintenance
-
-Use `agents/skills/b2c-maintainer/SKILL.md`; load architecture, provider, upstream, and repository procedures only for the selected maintenance task.
+Business is an early exit: after selecting the business router, reach the current status/plan and bounded task, then stop reading unless that task requires more guidance. For a narrow app code fix, follow that app's own instructions and affected tests without activating a business lifecycle. Focused business expertise does not require setup. Managed business work follows the business router's status, plan, authority, and evidence path. Load contribution, rights, provenance, and source-adoption procedure only for contribution work; load architecture, provider, upstream, and repository procedures only for the selected maintenance task. Business workers do not load maintainer architecture, migration plans, contributor machinery, unrelated providers, or operator procedures merely to start. README is product documentation, not a prerequisite to routing.
 
 ## Public and private boundary
 
@@ -40,9 +28,7 @@ Preserve founder/source intent losslessly in its supported owner. `product.yaml`
 
 Active context is a bounded projection of those owners, not another truth store. Use current status, plan, briefs, accepted artifacts, and exact knowledge selectors. Deliver required current guidance or mark it unresolved before dispatch. Future guidance may wait; unknown applicability must not become assumed non-applicability.
 
-For new or changed build workflows, routing, Product Profile contracts, or implementation-issue specifications, apply [decision-driven building](docs/decision-driven-building.md) and the [conformance assignment fields](docs/architecture-conformance.md#work-assignment-template). Allocate exact work to code, bounded interpretation to semantic operations, and invention to generative workers. Consider next-work, context, execution-route and within-task decisions, not just final validation. Extend the existing owners; do not add a Jev-specific control system.
-
-This is a target-design rule, not evidence that an active Jev route is installed. Execute only supported, selected and admitted operations. Preserve passive read purity, source-bound decisions and independent acceptance. General Product Profiles are projections of existing truth; reference profiles specialize the same base contract. Keep detailed maintainer design out of ordinary business-worker context and propagate supported behavior through the owning catalog, skill and workspace-template paths when it is implemented.
+When the selected work changes build workflows, routing, Product Profile contracts, or implementation-issue assignment, open [decision-driven building](docs/decision-driven-building.md) and the [conformance assignment fields](docs/architecture-conformance.md#work-assignment-template). Extend existing owners; do not add a Jev-specific control system. Execute only supported, selected and admitted operations. Preserve passive read purity, source-bound decisions and independent acceptance. Keep detailed maintainer design out of ordinary business-worker context.
 
 ## Authored and generated ownership
 
@@ -62,8 +48,8 @@ Honor explicit provider bindings and actual tool availability. Provider adapters
 
 ## Verification and integration
 
-Use focused checks during iteration. [CONTRIBUTING.md](CONTRIBUTING.md) owns exact commands and cadence, including all applicable required gates before merge. A green presubmit is not a full-audit pass. Do not skip suites, weaken CI, or replace required full verification with a smaller check. Require current provider/device/store/runtime evidence for claims about those systems. Guidance, generated artifacts, command success, execution, and accepted evidence are different facts.
+Run tests proportional to changed behavior plus repository-required gates. Fix failures caused by the change and rerun affected checks without asking. Broaden verification when the change crosses architecture, provider, or public-contract boundaries, or when failures create uncertainty. Do not repeatedly rerun already-green unrelated suites. [CONTRIBUTING.md](CONTRIBUTING.md) owns exact commands and cadence, including all applicable required gates before merge. A green presubmit is not a full-audit pass. Do not skip suites, weaken CI, or replace required full verification with a smaller check. Require current provider/device/store/runtime evidence for claims about those systems. Guidance, generated artifacts, command success, execution, and accepted evidence are different facts.
 
-Use independent parallel work with non-overlapping ownership when useful; delegation is not mandatory. One coordinating agent owns shared-file integration, Git mutations and merge coordination, external actions, destructive actions, releases, and final verification. Assigned workers preserve others' changes and do not take over those responsibilities. Keep required final conformance review genuinely independent of implementation; do not invent a reviewer or call self-review independent. Report actual checks, evidence, unresolved requirements, and blocked gates.
+Parallelize independent research, analysis, implementation, and verification when it saves time or improves quality. Give workers non-overlapping ownership; delegation is not mandatory. One coordinating agent owns shared-file integration, Git mutations and merge coordination, protected external effects, and final verification. Assigned workers preserve others' changes and do not take over those responsibilities. Keep required final conformance review genuinely independent of implementation; do not invent a reviewer or call self-review independent. Report actual checks, evidence, unresolved requirements, and blocked gates.
 
 For public-facing product/console/launch copy and naming, use [no-slop writing](knowledge/words/no-slop-writing.md). For technical instructions, use [technical documentation](knowledge/engineering/technical-documentation-ste100.md). For organizational labels, use the [kitchen-language boundary](docs/ethos.md#kitchen-language-boundary). Literal language describes actions, evidence, permissions, errors, and recovery; Brigade is prose about coordinated agents, not a runtime entity or a new product name.

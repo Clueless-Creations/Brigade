@@ -45,7 +45,7 @@ Route those to `b2c-contributor` first, then return here after a contribution is
 
 ## CI and checks
 
-Run the checks required by `CONTRIBUTING.md` for the selected change. Do not treat every branch update as a full audit.
+Load exact commands from [CONTRIBUTING.md](../../../CONTRIBUTING.md) only for the selected change. Run checks proportional to changed behavior plus required gates. Do not treat every branch update as a full audit.
 
 ## Boundaries
 

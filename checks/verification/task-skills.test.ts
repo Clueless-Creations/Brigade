@@ -73,6 +73,7 @@ void test("pilot tasks project real workflow contracts without mutating the cata
     }
     assert.doesNotMatch(body, /\bmcp__\b|claude -p|codex exec/u);
     assert.match(body, /A review is read-only/);
+    assert.match(body, /Treat specialty concerns as applicability rules/);
     assert.match(body, /business-status then business-plan/);
     assert.match(body, /Do not record business completion/);
     assert.ok(referencesForTask(catalog, skill).length > 0);
@@ -87,6 +88,15 @@ void test("one onboarding skill preserves the internal group without requiring e
   const files = renderTaskSkillFiles(catalog);
   assert.match(files[`${skillDirectory(skill)}/SKILL.md`]!, /audit or small change does not imply a full rebuild/);
   assert.equal((files[`${skillDirectory(skill)}/references/stages.md`]!.match(/\| \[Onboarding ONB-/gu) ?? []).length, 23);
+});
+
+
+void test("plan-implementation method keeps specialty concerns conditional", () => {
+  const skill = taskSkills.find((entry) => entry.name === "b2c-plan-implementation")!;
+  const method = focusedMethodSnippet(skill);
+  assert.match(method, /Specialty concerns \(only when implicated\)/);
+  assert.match(method, /A narrow fix stays a narrow plan/);
+  assert.doesNotMatch(method, /The plan must include:\n\n- requirements trace to launch docs and `state\/LAUNCH_TRACE\.md` IDs\n- 11-star complete product experience/);
 });
 
 void test("missing workflow or required reference fails closed", () => {
