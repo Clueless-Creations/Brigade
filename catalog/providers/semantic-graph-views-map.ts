@@ -1,8 +1,8 @@
 /**
  * #519 SQ-08 — AC→evidence map for provenance-bound semantic relationships / derived graph views.
  *
- * Consumes #512–#518. Does not redo them. Does not implement #520–#529
- * (deletion/invalidation hooks declared toward SQ-10 only).
+ * Consumes #512–#518. Does not redo them.
+ * #520 hooks IMPLEMENTED (see inference-receipts). Does not implement #521–#529.
  * Paper / synthetic fixtures only. No live / no new graph DB / no auto merges.
  */
 export const SEMANTIC_GRAPH_VIEWS_MAP_PATH = "catalog/providers/semantic-graph-views-map.ts" as const;
@@ -19,7 +19,7 @@ export const SEMANTIC_GRAPH_FOUNDATIONS_CHECK = "checks/validation/repository/ch
 export const SEMANTIC_GRAPH_VIEWS_ISSUE = "#519" as const;
 export const SEMANTIC_GRAPH_VIEWS_EPIC = "#511" as const;
 export const SEMANTIC_GRAPH_VIEWS_CONSUMES = ["#512", "#513", "#514", "#515", "#516", "#517", "#518"] as const;
-export const SEMANTIC_GRAPH_VIEWS_STAMP = "0.221.39" as const;
+export const SEMANTIC_GRAPH_VIEWS_STAMP = "0.221.40" as const;
 export const SEMANTIC_GRAPH_VIEWS_BASE_MAIN_SHA = "45a664075f394392cd113913c685780f4e47819f" as const;
 export const SEMANTIC_GRAPH_VIEWS_LIVE_NOT_PERFORMED = true as const;
 export const SEMANTIC_GRAPH_VIEWS_HOSTED_KEY_OWNER = "CoS→Eduardo" as const;
@@ -27,9 +27,10 @@ export const SEMANTIC_GRAPH_VIEWS_IOS_SIM_OOS = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_NETWORK = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE = true as const;
-export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = true as const;
-export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#520" as const;
-export const SEMANTIC_GRAPH_VIEWS_HOOKS_ONLY_520 = true as const;
+export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = false as const;
+export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#521" as const;
+export const SEMANTIC_GRAPH_VIEWS_HOOKS_ONLY_520 = false as const;
+export const SEMANTIC_GRAPH_VIEWS_HOOKS_IMPLEMENTED_520 = true as const;
 
 export const SEMANTIC_GRAPH_VIEWS_AC = [
   {

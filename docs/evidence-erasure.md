@@ -11,3 +11,14 @@ The transition holds the workspace session lock and the common reducer manifest 
 The inventory is deliberately bounded: 5,000 files, 16 MiB per file, and 64 MiB total. Symlinks, hard links, unscanned Git or dependency stores, legal holds, unidentified subject copies, shared proof requiring content-aware redaction, and identifying immutable audit content all refuse execution. This is not a promise to erase arbitrary repositories or remote backups. Files outside the workspace and provider-held copies require separately authorized deletion and readback. A pending provider deletion keeps `globalComplete` false.
 
 Fixtures use isolated temporary workspaces and ephemeral signing keys. They prove scope and signature refusal, cross-workspace isolation, legal holds, immutable audit refusal, interrupted transition recovery, dependent proof invalidation, unrelated proof preservation, and ordinary append-only enforcement. They do not prove provider erasure or production retention coverage.
+
+## Inference-receipt erasure cascade (#520 / SQ-10)
+
+Authorized deletion of a persisted inference receipt propagates through scoped
+cache entries, policy-application receipts, rebuildable edge indexes, and
+subject-linked derived outputs via `kernel/services/inference-receipt-store.ts`
+and `kernel/engine/inference-invalidation.ts`. Rebuildable indexes must not
+restore erased receipts. Only non-identifying erasure metadata (digests, counts,
+timestamps) is retained. This extends — and does not replace — the subject /
+observation erasure transition above. Coordinates #74 / #76; no parallel
+invalidation or erasure engine. Source-fingerprint guarantees remain intact.

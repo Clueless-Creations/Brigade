@@ -17,3 +17,9 @@ export function erasedSubjectDigest(receiptId: string, subject: SubjectReference
     .update(JSON.stringify([receiptId, subject.appId, subject.environment, subject.opaqueRef]))
     .digest("hex");
 }
+
+/** #520 coordinate — non-identifying link from evidence erasure to inference-receipt digests. */
+export interface InferenceReceiptErasureLink {
+  readonly receiptDigest: string;
+  readonly erasedAt: string;
+}
