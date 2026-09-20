@@ -1,0 +1,14 @@
+import assert from "node:assert/strict";
+import { cpSync, mkdtempSync, rmSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { refreshIntendedProductProfile } from "./intended-product-profile.js";
+import { queryProductProfile } from "./product-profile-query.js";
+const fixture=path.resolve("examples/tuck");
+const withWorkspace=(run:(root:string)=>void)=>{const root=mkdtempSync(path.join(os.tmpdir(),"pp-query-"));try{cpSync(fixture,root,{recursive:true});refreshIntendedProductProfile(root,"2026-09-20T22:00:00Z");run(root)}finally{rmSync(root,{recursive:true,force:true})}};
+test("stable ID retrieval returns compact connected records with profile revision",()=>withWorkspace(root=>{const result=queryProductProfile(root,{ids:["mechanic:core-loop.pack"],maxRecords:6});assert.equal(result.selector,"intended");assert.ok(result.profile.revision.startsWith("sha256:"));assert.ok(result.records.some((r:any)=>r.id==="mechanic:core-loop.pack"));assert.ok(result.records.length<=6)}));
+test("text query is deterministic and bounded",()=>withWorkspace(root=>{const a=queryProductProfile(root,{text:"packing",maxRecords:5,maxChars:4000});const b=queryProductProfile(root,{text:"packing",maxRecords:5,maxChars:4000});assert.deepEqual(a,b);assert.ok(a.records.length<=5)}));
+test("raw evidence is omitted unless explicitly requested",()=>withWorkspace(root=>{const result=queryProductProfile(root,{text:"packing"});assert.deepEqual(result.evidence,[])}));
+test("unavailable observed and delta selectors fail closed without inference",()=>withWorkspace(root=>{assert.throws(()=>queryProductProfile(root,{selector:"observed"}),/selector_unavailable:observed/);assert.throws(()=>queryProductProfile(root,{selector:"delta"}),/selector_unavailable:delta/)}));
+test("unknowns can be targeted without loading the whole profile",()=>withWorkspace(root=>{const result=queryProductProfile(root,{text:"unknown",maxRecords:8});assert.ok(result.records.length<=8);assert.ok(result.omitted.records>0)}));
