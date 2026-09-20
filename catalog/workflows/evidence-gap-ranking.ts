@@ -6,7 +6,7 @@
  * Planner remains sole eligibility owner — this policy only ranks already
  * permitted work within the same priority class.
  *
- * Paper / synthetic. No network. Consumes #522+#523. Does not implement #527–#529.
+ * Paper / synthetic. No network. Consumes #522+#523. NO_527_IMPL cleared by #527. Does not implement #528–#529.
  */
 export const EVIDENCE_GAP_RANKING_RECIPE_ISSUE = "#524" as const;
 export const EVIDENCE_GAP_RANKING_RECIPE_EPIC = "#511" as const;
@@ -18,7 +18,7 @@ export const EVIDENCE_GAP_RANKING_RECIPE_NO_NEW_PLANNER = true as const;
 export const EVIDENCE_GAP_RANKING_RECIPE_NO_NETWORK = true as const;
 export const EVIDENCE_GAP_RANKING_RECIPE_INFO_VALUE_IS_HEURISTIC = true as const;
 export const EVIDENCE_GAP_RANKING_RECIPE_NO_524_IMPL = false as const;
-export const EVIDENCE_GAP_RANKING_RECIPE_NEXT_AFTER_CLOSE = "#527" as const;
+export const EVIDENCE_GAP_RANKING_RECIPE_NEXT_AFTER_CLOSE = "#528" as const;
 
 /** Existing catalog / session owners this ranking composes over (do not replace). */
 export const EVIDENCE_GAP_RANKING_OWNER_MODULES = [

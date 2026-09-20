@@ -11,7 +11,7 @@
  * TypeSafe image input. No silent scope reduction.
  *
  * Consumes #514+#521+#522+#523 (+ #525 tip). Coordinates #403/#74/#76.
- * Does not implement #527–#529.
+ * NO_527_IMPL cleared by #527. Does not implement #528–#529.
  */
 export const DESIGN_DIVERSITY_RECIPE_ISSUE = "#526" as const;
 export const DESIGN_DIVERSITY_RECIPE_EPIC = "#511" as const;
@@ -31,7 +31,7 @@ export const DESIGN_DIVERSITY_RECIPE_NO_MERGED_IDENTITY = true as const;
 export const DESIGN_DIVERSITY_RECIPE_NO_UNIVERSAL_TEMPLATES = true as const;
 export const DESIGN_DIVERSITY_RECIPE_NO_MANDATORY_ANIMATION = true as const;
 export const DESIGN_DIVERSITY_RECIPE_NO_526_IMPL = false as const;
-export const DESIGN_DIVERSITY_RECIPE_NEXT_AFTER_CLOSE = "#527" as const;
+export const DESIGN_DIVERSITY_RECIPE_NEXT_AFTER_CLOSE = "#528" as const;
 
 /** Existing owners this slice composes over (consume — do not replace). */
 export const DESIGN_DIVERSITY_OWNER_MODULES = [

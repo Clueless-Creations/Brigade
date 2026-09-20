@@ -4,7 +4,7 @@
  *
  * Consumes #514+#521+#522+#523. Coordinates #403/#74/#76 (extend #403
  * creative-loop acceptance; do not replace Design Room / visual review /
- * #403 delivery). Does not redo #512–#525. Does not implement #527–#529.
+ * #403 delivery). Does not redo #512–#525. NO_527_IMPL cleared by #527. Does not implement #528–#529.
  * Paper / synthetic fixtures only. No numeric beauty score. No unproven
  * image input. No silent scope reduction. No merged identity. No universal
  * templates. Pareto/confidence ≠ visual review / founder direction.
@@ -40,7 +40,7 @@ export const DESIGN_DIVERSITY_NO_UNIVERSAL_TEMPLATES = true as const;
 export const DESIGN_DIVERSITY_NO_MANDATORY_ANIMATION = true as const;
 export const DESIGN_DIVERSITY_NO_SYNTHETIC_AS_DEVICE = true as const;
 export const DESIGN_DIVERSITY_NO_526_IMPL = false as const;
-export const DESIGN_DIVERSITY_NEXT_AFTER_CLOSE = "#527" as const;
+export const DESIGN_DIVERSITY_NEXT_AFTER_CLOSE = "#528" as const;
 
 export const DESIGN_DIVERSITY_AC = [
   {

@@ -11,7 +11,7 @@
  * default-recipe rewrite / autonomous repair dispatch.
  *
  * Paper / synthetic only. No network-in-knowledge-reads.
- * NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. Does not implement #527–#529.
+ * NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. Does not implement #528–#529.
  */
 import { digestOf } from "../../contracts/semantic/canonicalize.js";
 import {
@@ -60,7 +60,7 @@ export const FEEDBACK_TO_WORK_SHADOW_NO_DEFAULT_REWRITE = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_SHADOW_ONLY = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_NO_522_IMPL = false as const;
 export const FEEDBACK_TO_WORK_SHADOW_NO_523_IMPL = false as const;
-export const FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE = "#527" as const;
+export const FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE = "#528" as const;
 
 export class FeedbackToWorkShadowError extends Error {
   readonly code: string;
