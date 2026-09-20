@@ -1,0 +1,704 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:brigade:product-profile:v1",
+  "title": "Product Profile v1",
+  "description": "A revision-bound projection of product truth. Validation checks structure and references, not factual truth or acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "apiVersion": {
+      "const": "product-profile/v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^profile:[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "revision": {
+      "$ref": "#/$defs/digest"
+    },
+    "mode": {
+      "enum": ["intended", "observed", "observed-reference"]
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^product:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "version": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^version:[a-z0-9][a-z0-9._-]{0,127}$"
+            },
+            "label": {
+              "type": ["string", "null"],
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "build": {
+              "type": ["string", "null"],
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          "required": ["id", "label", "build"]
+        },
+        "claimRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "name", "version", "claimRefs"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "generatedAt": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "producer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "method": {
+              "enum": ["projection", "observation", "dissection"]
+            }
+          },
+          "required": ["id", "version", "method"]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1,
+          "maxItems": 1000
+        }
+      },
+      "required": ["generatedAt", "producer", "sources"]
+    },
+    "elements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/element"
+      },
+      "minItems": 0,
+      "maxItems": 10000
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relationship"
+      },
+      "minItems": 0,
+      "maxItems": 10000
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/claim"
+      },
+      "minItems": 1,
+      "maxItems": 10000
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      },
+      "minItems": 0,
+      "maxItems": 10000
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/coverage"
+      },
+      "minItems": 17,
+      "maxItems": 17
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unknown"
+      },
+      "minItems": 0,
+      "maxItems": 10000
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "$ref": "#/$defs/reference"
+        }
+      },
+      "required": []
+    }
+  },
+  "required": [
+    "apiVersion",
+    "id",
+    "revision",
+    "mode",
+    "product",
+    "provenance",
+    "elements",
+    "relationships",
+    "claims",
+    "evidence",
+    "coverage",
+    "unknowns",
+    "extensions"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+    },
+    "kind": {
+      "enum": [
+        "entity",
+        "system",
+        "mechanic",
+        "state",
+        "surface",
+        "transition",
+        "journey",
+        "event",
+        "effect",
+        "visual-foundation",
+        "component",
+        "navigation-pattern",
+        "motion-family",
+        "gesture-family",
+        "feedback",
+        "content-pattern",
+        "technical-characteristic"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^source:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "owner": {
+          "enum": ["product-yaml", "rendered-product-md", "design-md", "authored-contract", "reducer-state", "evidence-store", "git", "reference-capture"]
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "derivedFrom": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "contentDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": ["id", "owner", "locator", "revision", "derivedFrom", "contentDigest"]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^evidence:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "sourceRef": {
+          "$ref": "#/$defs/id"
+        },
+        "subjectRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "modality": {
+          "enum": ["text", "structured-state", "image", "video", "audio", "haptic", "measurement"]
+        },
+        "environment": {
+          "enum": ["physical-device", "simulator", "browser", "source-document", "unknown"]
+        },
+        "directness": {
+          "enum": ["direct", "derived"]
+        },
+        "derivedFrom": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "observedAt": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": ["id", "sourceRef", "subjectRefs", "modality", "environment", "directness", "derivedFrom", "observedAt", "scope"]
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^claim:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "subjectRef": {
+          "$ref": "#/$defs/id"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "status": {
+          "enum": ["declared", "observed", "inferred", "unknown", "contradicted"]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": ["id", "subjectRef", "statement", "status", "sourceRefs", "evidenceRefs"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": ["inferred", "unknown", "contradicted"]
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["reason"],
+            "type": "object"
+          }
+        }
+      ]
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "$ref": "#/$defs/kind"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "claimRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "from": {
+          "$ref": "#/$defs/id"
+        },
+        "to": {
+          "$ref": "#/$defs/id"
+        },
+        "trigger": {
+          "$ref": "#/$defs/id"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 1000
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "enum": ["visual", "audio", "haptic"]
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "kind", "name", "claimRefs"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "transition"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["from", "to", "trigger"],
+            "type": "object"
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": ["from"],
+                  "type": "object"
+                },
+                {
+                  "required": ["to"],
+                  "type": "object"
+                },
+                {
+                  "required": ["trigger"],
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "journey"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["steps"],
+            "type": "object"
+          },
+          "else": {
+            "not": {
+              "required": ["steps"],
+              "type": "object"
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "feedback"
+              }
+            },
+            "type": "object"
+          },
+          "then": {
+            "required": ["channels"],
+            "type": "object"
+          },
+          "else": {
+            "not": {
+              "required": ["channels"],
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^relationship:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "kind": {
+          "enum": ["contains", "uses", "renders", "causes", "persists", "emits", "navigates", "governs"]
+        },
+        "from": {
+          "$ref": "#/$defs/id"
+        },
+        "to": {
+          "$ref": "#/$defs/id"
+        },
+        "claimRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "kind", "from", "to", "claimRefs"]
+    },
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^unknown:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "subjectRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "reason": {
+          "enum": ["not-observed", "inaccessible", "ambiguous", "missing-source", "conflicting-sources", "redacted", "out-of-scope"]
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "subjectRefs", "reason", "question", "sourceRefs", "evidenceRefs"]
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^coverage:[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "kind": {
+          "$ref": "#/$defs/kind"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "status": {
+          "enum": ["covered", "partial", "unknown", "inaccessible", "not-applicable"]
+        },
+        "elementRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "claimRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        },
+        "unknownRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "maxItems": 10000,
+          "uniqueItems": true
+        }
+      },
+      "required": ["id", "kind", "scope", "status", "elementRefs", "claimRefs", "unknownRefs"]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "captureSourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "observedVersionRef": {
+          "$ref": "#/$defs/id"
+        },
+        "captureWindow": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "startedAt": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "endedAt": {
+              "$ref": "#/$defs/timestamp"
+            }
+          },
+          "required": ["startedAt", "endedAt"]
+        },
+        "dissection": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "limitations": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "minItems": 0,
+              "maxItems": 100
+            }
+          },
+          "required": ["method", "version", "limitations"]
+        }
+      },
+      "required": ["captureSourceRefs", "observedVersionRef", "captureWindow", "dissection"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "observed-reference"
+          }
+        },
+        "type": "object"
+      },
+      "then": {
+        "properties": {
+          "extensions": {
+            "required": ["reference"],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "else": {
+        "properties": {
+          "extensions": {
+            "not": {
+              "required": ["reference"],
+              "type": "object"
+            }
+          }
+        },
+        "type": "object"
+      }
+    }
+  ]
+}

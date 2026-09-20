@@ -35,6 +35,17 @@ Source reviewed at `f3f225a3298b82eee35a5938b1e62fbc2221372d` (`0.221.52`), 2026
 
 Do not describe all of this as unimplemented prose. Do not describe it as a qualified, live Jev-directed build either. TypeSafe live HTTP transport exists; landed #571/#573 paper slices and fixture proof are not that live qualification. Epic #511 remains OPEN.
 
+### Product Profile contract slice
+
+[ADR-0019](decisions/0019-product-profile-truth-ownership.md) and the
+[Product Profile v1 contract](contracts/product-profile/README.md) define the common
+intended/observed model and reference capture specialization for #563.
+The repository includes a strict schema, a conformance reference reader, and synthetic
+round-trip fixtures. The reader imports all modes and resolves shared IDs in memory.
+It is not a shipped business API, accepted-source generator, persistent profile store,
+or proof of live observation. #564 owns generation and #567 owns the bounded runtime
+service. Existing product/design, source-projection, evidence, and reducer owners remain unchanged.
+
 ### Proposed active build route
 
 The target is a closed loop inside the existing owners:
