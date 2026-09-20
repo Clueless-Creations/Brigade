@@ -2,7 +2,7 @@
  * #519 SQ-08 — AC→evidence map for provenance-bound semantic relationships / derived graph views.
  *
  * Consumes #512–#518. Does not redo them.
- * #520 hooks IMPLEMENTED. NEXT_AFTER advanced to #524 by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. Does not implement #526–#529.
+ * #520 hooks IMPLEMENTED. NEXT_AFTER advanced to #524 by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. Does not implement #527–#529.
  * Paper / synthetic fixtures only. No live / no new graph DB / no auto merges.
  */
 export const SEMANTIC_GRAPH_VIEWS_MAP_PATH = "catalog/providers/semantic-graph-views-map.ts" as const;
@@ -28,7 +28,7 @@ export const SEMANTIC_GRAPH_VIEWS_NO_NETWORK = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = false as const;
-export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#526" as const;
+export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#527" as const;
 export const SEMANTIC_GRAPH_VIEWS_HOOKS_ONLY_520 = false as const;
 export const SEMANTIC_GRAPH_VIEWS_HOOKS_IMPLEMENTED_520 = true as const;
 
