@@ -10,7 +10,7 @@
  * 5. Knowledge/product revision invalidates only dependent inferred applicability;
  *    cannot widen selected provider scope
  *
- * Also: NO_521_IMPL cleared on #520 stamps; NEXT_AFTER=#522; no network-in-reads.
+ * Also: NO_521_IMPL cleared on #520 stamps; NEXT_AFTER advanced to #523 by #522; no network-in-reads.
  */
 import { assert, type Harness } from "./_harness.js";
 import { digestOf } from "../../../contracts/semantic/canonicalize.js";
@@ -322,13 +322,13 @@ export function register(harness: Harness): void {
     assert(INFERENCE_RECEIPTS_NO_521_IMPL === false, "map NO_521 cleared");
     assert(INFERENCE_RECEIPT_STORE_NO_521_IMPL === false, "store NO_521 cleared");
     assert(INFERENCE_RECEIPT_OWNERSHIP_NO_521_IMPL === false, "ownership NO_521 cleared");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#522", "receipts next #522");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#522", "store next #522");
-    assert(MAP_GRAPH_NEXT === "#522", "graph map next #522");
-    assert(MODULE_GRAPH_NEXT === "#522", "graph module next #522");
-    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#522", "map next #522");
-    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#522", "module next #522");
-    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#522", "projection next #522");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#523", "receipts next #523");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#523", "store next #523");
+    assert(MAP_GRAPH_NEXT === "#523", "graph map next #523");
+    assert(MODULE_GRAPH_NEXT === "#523", "graph module next #523");
+    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#523", "map next #523");
+    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#523", "module next #523");
+    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#523", "projection next #523");
 
     const ac = knowledgeApplicabilityAcEvidence();
     assert(ac.length === 5 && KNOWLEDGE_APPLICABILITY_AC.length === 5, "five AC");

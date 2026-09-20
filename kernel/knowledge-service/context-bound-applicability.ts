@@ -11,7 +11,7 @@
  * calibrated probabilities or independence claims. Contradictory sources are
  * retained, never silently dropped.
  *
- * Does not implement #522–#529. No founder decision logic.
+ * NEXT_AFTER=#523 via #522. Does not implement #523–#529. No founder decision logic.
  * Jev decides (Choice/Score/Noul); LLM writes; code owns beam + applicability.
  */
 import { digestOf } from "../../contracts/semantic/canonicalize.js";
@@ -35,7 +35,7 @@ export const CONTEXT_BOUND_APPLICABILITY_NO_NETWORK = true as const;
 export const CONTEXT_BOUND_APPLICABILITY_NO_REGISTRY = true as const;
 export const CONTEXT_BOUND_APPLICABILITY_NO_FOUNDER_LOGIC = true as const;
 export const CONTEXT_BOUND_APPLICABILITY_PATH_SCORES_ARE_HEURISTICS = true as const;
-export const CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE = "#522" as const;
+export const CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE = "#523" as const;
 
 export class ContextBoundApplicabilityError extends Error {
   readonly code: string;
