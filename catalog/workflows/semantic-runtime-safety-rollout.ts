@@ -4,7 +4,7 @@
  * Modes: disabled / shadow / advisory / admitted-execution + rollback.
  * Does NOT rewrite catalog/workflows/index.ts. Does NOT imply live admission
  * by installing a provider key. Consumes #514+#515+#518+#519+#520+#522.
- * NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
+ * NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. #573 landed. epic 511 remains open. Does not implement #574 architecture as product code.
  */
 export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_ISSUE = "#523" as const;
 export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_EPIC = "#511" as const;
@@ -16,7 +16,7 @@ export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NO_DEFAULT_REWRITE = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NO_KEY_IMPLIES_LIVE = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NO_METRICS_DAEMON = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NO_523_IMPL = false as const;
-export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NEXT_AFTER_CLOSE = "#573" as const;
+export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NEXT_AFTER_CLOSE = "#574" as const;
 
 /** Explicit staged-rollout modes (docs/semantic-execution.md § Proof and rollout). */
 export const SEMANTIC_RUNTIME_MODES = ["disabled", "shadow", "advisory", "admitted-execution"] as const;

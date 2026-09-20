@@ -17,7 +17,7 @@
  *
  * Paper / synthetic. No network, no live provider call, no spend.
  * Consumes #513+#514+#515+#518+#523+#524. NO_571_IMPL cleared by #571.
- * Does not implement #573's active loop and does not close #511.
+ * NO_573_IMPL cleared by #573 consumer. epic 511 remains open.
  */
 export const JEV_ROUTING_RECIPE_ISSUE = "#571" as const;
 export const JEV_ROUTING_RECIPE_EPIC = "#511" as const;
@@ -32,7 +32,7 @@ export const JEV_ROUTING_RECIPE_PROVIDER_IS_SWAPPABLE = true as const;
 export const JEV_ROUTING_RECIPE_NO_DETERMINISTIC_THROUGH_MODEL = true as const;
 export const JEV_ROUTING_RECIPE_NO_FRONTIER_REINTERPRET_WRAPPER = true as const;
 export const JEV_ROUTING_RECIPE_NO_524_REWRITE = true as const;
-export const JEV_ROUTING_RECIPE_NO_573_IMPL = true as const;
+export const JEV_ROUTING_RECIPE_NO_573_IMPL = false as const;
 export const JEV_ROUTING_RECIPE_NO_511_AUTOCLOSE = true as const;
 export const JEV_ROUTING_RECIPE_MARKETING_IS_NOT_PROOF = true as const;
 export const JEV_ROUTING_RECIPE_SOURCE_PRESENCE_IS_NOT_LIVE_QUALIFICATION = true as const;
@@ -40,7 +40,7 @@ export const JEV_ROUTING_RECIPE_CONFIDENCE_IS_NOT_CALIBRATION = true as const;
 export const JEV_ROUTING_RECIPE_STRICT_SHAPE_IS_NOT_TRUTH = true as const;
 export const JEV_ROUTING_RECIPE_GATEWAY_EQUIVALENCE_NOT_ASSUMED = true as const;
 export const JEV_ROUTING_RECIPE_NO_571_IMPL = false as const;
-export const JEV_ROUTING_RECIPE_NEXT_AFTER_CLOSE = "#573" as const;
+export const JEV_ROUTING_RECIPE_NEXT_AFTER_CLOSE = "#574" as const;
 
 /**
  * Existing contracts / owners this qualification composes over. Every one of

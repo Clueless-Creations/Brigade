@@ -8,7 +8,7 @@
  * repair — consumes it. Paper / synthetic. No network. No second obligation
  * ledger. No semantic waiver of acceptance invalidation. No device proof gen.
  *
- * Consumes #519+#521+#520+#522+#523 (+ #524 tip). NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
+ * Consumes #519+#521+#520+#522+#523 (+ #524 tip). NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. #573 landed. epic 511 remains open. Does not implement #574 architecture as product code.
  */
 export const CHANGE_IMPACT_OBLIGATION_RECIPE_ISSUE = "#525" as const;
 export const CHANGE_IMPACT_OBLIGATION_RECIPE_EPIC = "#511" as const;
@@ -24,7 +24,7 @@ export const CHANGE_IMPACT_OBLIGATION_RECIPE_NO_SEMANTIC_WAIVER = true as const;
 export const CHANGE_IMPACT_OBLIGATION_RECIPE_NO_DEVICE_PROOF = true as const;
 export const CHANGE_IMPACT_OBLIGATION_RECIPE_NO_AUTO_ACCEPT_SCOPE = true as const;
 export const CHANGE_IMPACT_OBLIGATION_RECIPE_NO_525_IMPL = false as const;
-export const CHANGE_IMPACT_OBLIGATION_RECIPE_NEXT_AFTER_CLOSE = "#573" as const;
+export const CHANGE_IMPACT_OBLIGATION_RECIPE_NEXT_AFTER_CLOSE = "#574" as const;
 
 /** Existing owners this slice composes over (consume — do not replace). */
 export const CHANGE_IMPACT_OBLIGATION_OWNER_MODULES = [

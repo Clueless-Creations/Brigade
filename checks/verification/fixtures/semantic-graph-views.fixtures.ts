@@ -146,7 +146,7 @@ export function register(harness: Harness): void {
     assert(SEMANTIC_GRAPH_VIEWS_LIVE_NOT_PERFORMED === true, "live not performed");
     assert(SEMANTIC_GRAPH_VIEWS_IOS_SIM_OOS === true, "iOS-sim OOS");
     assert(SEMANTIC_GRAPH_VIEWS_HOSTED_KEY_OWNER.includes("Eduardo"), "hosted key owner");
-    assert(SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE === "#573", "next after close #511");
+    assert(SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE === "#574", "next after epic 511 remains open");
     assert(SEMANTIC_GRAPH_VIEWS_BASE_MAIN_SHA.startsWith("45a6640"), "base main sha");
     assert(SEMANTIC_GRAPH_VIEWS_MAP_PATH.includes("semantic-graph-views-map"), "map path");
     assert(SEMANTIC_GRAPH_VIEWS_FIXTURE.includes("semantic-graph-views.fixtures"), "fixture path");

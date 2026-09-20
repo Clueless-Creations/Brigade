@@ -71,7 +71,7 @@ does not grant authority and is not product truth. A cache hit is not a grant.
 
 - Reuses #512–#524; does not rewrite #524 ranking.
 - Coordinates with architecture docs #574; does not replace them as product code.
-- Does **not** close #511. Does **not** implement #573.
+- Does **not** epic 511 remains open. Does **not** implement #573.
 - Box npm publish: HOLD. No App Review / prices / Formation.
 
 ## Supported public statement (performed proof only)

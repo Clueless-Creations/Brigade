@@ -102,8 +102,8 @@ export function register(harness: Harness): void {
     assert(DESIGN_DIVERSITY_STAMP === "0.221.47" && SERVICE_STAMP === "0.221.47" && DESIGN_DIVERSITY_RECIPE_STAMP === "0.221.47", "stamp");
     assert(DESIGN_DIVERSITY_NO_526_IMPL === false && SERVICE_NO_526 === false && DESIGN_DIVERSITY_RECIPE_NO_526_IMPL === false, "NO_526 cleared");
     assert(
-      DESIGN_DIVERSITY_NEXT_AFTER_CLOSE === "#573" && SERVICE_NEXT_AFTER === "#573" && DESIGN_DIVERSITY_RECIPE_NEXT_AFTER_CLOSE === "#573",
-      "NEXT_AFTER=#573",
+      DESIGN_DIVERSITY_NEXT_AFTER_CLOSE === "#574" && SERVICE_NEXT_AFTER === "#574" && DESIGN_DIVERSITY_RECIPE_NEXT_AFTER_CLOSE === "#574",
+      "NEXT_AFTER=#574",
     );
     assert(JSON.stringify([...DESIGN_DIVERSITY_CONSUMES]) === JSON.stringify(["#514", "#521", "#522", "#523"]), "map consumes");
     assert(JSON.stringify([...SERVICE_CONSUMES]) === JSON.stringify(["#514", "#521", "#522", "#523"]), "service consumes");

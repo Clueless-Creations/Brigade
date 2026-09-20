@@ -4,7 +4,7 @@
  *
  * Consumes #514+#521+#522+#523. Coordinates #403/#74/#76 (extend #403
  * creative-loop acceptance; do not replace Design Room / visual review /
- * #403 delivery). Does not redo #512–#525. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
+ * #403 delivery). Does not redo #512–#525. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. #573 landed. epic 511 remains open. Does not implement #574 architecture as product code.
  * Paper / synthetic fixtures only. No numeric beauty score. No unproven
  * image input. No silent scope reduction. No merged identity. No universal
  * templates. Pareto/confidence ≠ visual review / founder direction.
@@ -40,7 +40,7 @@ export const DESIGN_DIVERSITY_NO_UNIVERSAL_TEMPLATES = true as const;
 export const DESIGN_DIVERSITY_NO_MANDATORY_ANIMATION = true as const;
 export const DESIGN_DIVERSITY_NO_SYNTHETIC_AS_DEVICE = true as const;
 export const DESIGN_DIVERSITY_NO_526_IMPL = false as const;
-export const DESIGN_DIVERSITY_NEXT_AFTER_CLOSE = "#573" as const;
+export const DESIGN_DIVERSITY_NEXT_AFTER_CLOSE = "#574" as const;
 
 export const DESIGN_DIVERSITY_AC = [
   {

@@ -131,8 +131,8 @@ export function register(harness: Harness): void {
     assert(BOUNDED_AI_COMPONENTS_STAMP === "0.221.50" && SERVICE_STAMP === "0.221.50" && BOUNDED_AI_COMPONENTS_RECIPE_STAMP === "0.221.50", "stamp");
     assert(BOUNDED_AI_COMPONENTS_NO_529_IMPL === false && SERVICE_NO_529 === false && BOUNDED_AI_COMPONENTS_RECIPE_NO_529_IMPL === false, "NO_529 cleared");
     assert(
-      BOUNDED_AI_COMPONENTS_NEXT_AFTER_CLOSE === "#573" && SERVICE_NEXT_AFTER === "#573" && BOUNDED_AI_COMPONENTS_RECIPE_NEXT_AFTER_CLOSE === "#573",
-      "NEXT_AFTER=#573 (epic closeout path)",
+      BOUNDED_AI_COMPONENTS_NEXT_AFTER_CLOSE === "#574" && SERVICE_NEXT_AFTER === "#574" && BOUNDED_AI_COMPONENTS_RECIPE_NEXT_AFTER_CLOSE === "#574",
+      "NEXT_AFTER=#574 (epic closeout path)",
     );
     const consumes = JSON.stringify(["#512", "#515", "#516", "#518", "#520", "#523"]);
     assert(JSON.stringify([...BOUNDED_AI_COMPONENTS_CONSUMES]) === consumes, "map consumes");
