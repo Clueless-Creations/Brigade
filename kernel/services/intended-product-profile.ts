@@ -34,7 +34,7 @@ export function intendedProfileIsStale(root: string): boolean {
     for (const [relative, id] of [["product.yaml","source:product"],["DESIGN.md","source:design"]] as const) {
       const file = path.join(root, relative), prior = sources.find((source) => source.id === id);
       const eligible = relative === "DESIGN.md"
-        ? existsSync(file) && /^Status:\\s*accepted\\b/im.test(readFileSync(file, "utf8"))
+        ? existsSync(file) && /^Status:\s*accepted\b/im.test(readFileSync(file, "utf8"))
         : existsSync(file);
       if (eligible !== Boolean(prior)) return true;
       if (prior && sha(readFileSync(file)) !== prior.contentDigest) return true;
