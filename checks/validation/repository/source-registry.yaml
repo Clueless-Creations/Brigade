@@ -2302,7 +2302,9 @@ sources:
     owner: source-freshness
     locations:
       - checks/validation/repository/launchbench-evals.md
-    notes: Primary API documentation reviewed 2026-09-05; no live paid acceptance run.
+      - checks/validation/repository/message-batches.ts
+      - checks/validation/repository/run-behavioral-evals.ts
+    notes: Primary API documentation re-reviewed 2026-09-20 (#2); custom_id join + 24h completion window accepted; fixture selftest landed; live paid acceptance still HOLD.
   - id: meta-just-in-time-tests
     name: Just-in-Time Catching Test Generation at Meta
     source_type: website
