@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.71",
+  "version": "0.221.72",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Reference-profile composition (#570): deterministic adopt/adapt/reject/unresolved proposal contract with source profile/record and target-constraint traceability; proposals have no write authority over product/design truth. Stamp 0.221.72. No npm publish.",
     "Reference Product Profile interop (#569): validate observed-reference imports against canonical product-profile/v1, preserve profile/product revision identity, and keep imports read-only relative to managed intent. Stamp 0.221.71. No npm publish.",
     "Product Profile lifecycle (#568): passive freshness/status projection for intended profile and explicit refresh/query next action; no second orchestrator or inference. Stamp 0.221.70. No npm publish.",
     "Product Profile delta (#566): deterministic intended↔observed comparison with matched/changed/extra/unresolved findings, evidence links, and schema/product compatibility guards. Stamp 0.221.69. No npm publish.",
