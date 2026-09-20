@@ -30,20 +30,26 @@ jobs:
           npm run render:all
           npm run render:evidence-schema-version
           npm run hosted:bundle
-      - name: Verify
+      - name: Test intended profile
+        run: node --import tsx --test kernel/services/intended-product-profile.test.ts
+      - name: Test v1 contract
+        run: node --test docs/contracts/product-profile/contract.test.mjs
+      - name: Validate generated intended profile
         run: |
-          node --import tsx --test kernel/services/intended-product-profile.test.ts
-          node --test docs/contracts/product-profile/contract.test.mjs
           node entrypoints/cli/b2c.mjs profile-refresh --workspace examples/tuck --json
           node --input-type=module - <<'NODE'
           import {readFileSync} from "node:fs"; import {validateProfile} from "./contracts/product-profile/conformance.mjs";
           const e=validateProfile(JSON.parse(readFileSync("examples/tuck/product-profile/intended.json","utf8"))); if(e.length){console.error(e);process.exit(1)}
           NODE
           rm -rf examples/tuck/product-profile
-          npm run check:version-discipline
-          npm run check:catalog
-          npm run check:hosted-bundle
-          npm run audit:ci -- --lane presubmit
+      - name: Version discipline
+        run: npm run check:version-discipline
+      - name: Catalog
+        run: npm run check:catalog
+      - name: Hosted bundle
+        run: npm run check:hosted-bundle
+      - name: Presubmit
+        run: npm run audit:ci -- --lane presubmit
       - name: Commit
         run: |
           rm .github/workflows/product-profile-564-rebase-finalize.yml
