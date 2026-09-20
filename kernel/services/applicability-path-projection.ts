@@ -6,7 +6,7 @@
  * knowledge artifact itself false. Cannot widen a selected provider scope.
  *
  * Paper / synthetic only. No network. No parallel cache authority.
- * NEXT_AFTER=#523 via #522. Does not implement #523–#529.
+ * NEXT_AFTER=#524 via #523. Does not implement #524–#529.
  */
 import { digestOf } from "../../contracts/semantic/canonicalize.js";
 import {
@@ -30,7 +30,7 @@ export const APPLICABILITY_PATH_PROJECTION_CONSUMES = ["#518", "#519", "#520"] a
 export const APPLICABILITY_PATH_PROJECTION_STAMP = "0.221.42" as const;
 export const APPLICABILITY_PATH_PROJECTION_NO_NETWORK = true as const;
 export const APPLICABILITY_PATH_PROJECTION_NO_PROVIDER_SCOPE_WIDEN = true as const;
-export const APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE = "#523" as const;
+export const APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE = "#524" as const;
 
 export class ApplicabilityPathProjectionError extends Error {
   readonly code: string;
