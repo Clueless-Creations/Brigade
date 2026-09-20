@@ -14,7 +14,7 @@
  * does not replace Design Room / visual review provider / #403 delivery.
  *
  * Paper / synthetic. Consumes #514+#521+#522+#523. Coordinates #403/#74/#76.
- * NO_527_IMPL cleared by #527. Does not implement #528–#529.
+ * NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. Does not implement #529.
  */
 import {
   CONCERN_AXES,
@@ -51,7 +51,7 @@ export const DESIGN_DIVERSITY_NO_MERGED_IDENTITY = true as const;
 export const DESIGN_DIVERSITY_NO_UNIVERSAL_TEMPLATES = true as const;
 export const DESIGN_DIVERSITY_NO_MANDATORY_ANIMATION = true as const;
 export const DESIGN_DIVERSITY_NO_526_IMPL = false as const;
-export const DESIGN_DIVERSITY_NEXT_AFTER_CLOSE = "#528" as const;
+export const DESIGN_DIVERSITY_NEXT_AFTER_CLOSE = "#529" as const;
 
 export { CONCERN_AXES, CREATIVE_LOOP_403_OBLIGATIONS, DEFECT_LOCATIONS, HARD_REQUIREMENTS, NEGATIVE_CONTROL_KINDS, REPAIR_ROUTES };
 export type { ConcernAxis, CreativeLoop403Obligation, DefectLocation, DesignDiversityRecipePolicy, HardRequirement, NegativeControlKind, RepairRoute };
