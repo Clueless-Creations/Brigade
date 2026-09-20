@@ -2,6 +2,7 @@
 
 - **Status:** accepted
 - **Date:** 2026-09-12
+- **Updated:** 2026-09-20 (#395 U6 closeout — R0 compatibility table + `not_run` settlement)
 - **Steward:** founder-directed architecture decision
 - **Affected rules and contracts:** ARCH-07, ARCH-09, ARCH-10, ARCH-11, ARCH-15; research validator and initialization boundary
 - **Affected work:** #395, #397, #71, #74
@@ -29,15 +30,32 @@ The prior validator treated a well-formed Pivot or Kill row in a completed resea
 2. A Pivot or Kill checkpoint emits the stable `research.go_pivot_kill_not_go` warning with explicit held-state guidance. It does not become a Go, improve evidence strength, or authorize initialization.
 3. Initialization eligibility remains owned by `kernel/session/bootstrap.ts` and the accepted `product.yaml`/`PRODUCT.md` pair. No new readiness store, enum, or automatic migration is introduced here.
 4. Existing offer-test statuses `run` and `waived` remain unchanged. A waiver changes only the permitted decision path; it does not claim measured conversion or resolve an independent finding.
-5. Later lifecycle work may add a read-only checkpoint projection and one guarded authoring action, but those consumers must preserve this separation and validate current inputs before any write.
+5. **Additive `not_run` is not introduced.** An authored Decision status other than `run`/`waived` (including the literal `not_run`) remains **incomplete** under the existing contract. Unknown execution is not the same as confirmed not-run; confirmed unrun work must not be encoded as `waived`. Old supported `run`/`waived` records keep their meaning with no automatic migration or repin.
+6. Founder-acceptable residual risk (when policy permits) is recorded separately from experiment execution and from resolved findings. Generic "continue building" cannot accept every legal, privacy, security, pricing, or release obligation.
+7. Guarded authoring is the CLI-only `business.research.decision` / `b2c research-decision` preview/apply path: revision-bound, journal-recovered, writes only `product.yaml` + rendered `PRODUCT.md`, never initializes or grants authority.
+8. Planning resume exposes a read-only `researchCheckpoint` lifecycle projection (verdict / recordedVia / initializationEligible:false) distinct from #74 proof-strength facts.
+
+## Before / after state and authority (R0)
+
+| Concern | Before | After (#395) |
+| --- | --- | --- |
+| Pivot/Kill structural validity | Treated as error when lane "done" | Valid held checkpoint + `research.go_pivot_kill_not_go` warning |
+| Init eligibility | Accepted product gate (unchanged owner) | Still accepted-product gate; checkpoint projection never sets eligible |
+| Offer execution enum | `run` / `waived` only | Unchanged; `not_run` stays incomplete (not additive status) |
+| Multi-file continuation | Hand-edit `product.yaml` + `PRODUCT.md` (+ mirrors) | One guarded preview/apply with journal recovery |
+| Proof strength | #74 owners | Unchanged — do not rewrite |
+| Field/parse diagnostics | #397 owners | Consumed; do not redo |
 
 ## Compatibility and migration
 
-No public schema changes and no migration are introduced by this record. Existing Go, Pivot, Kill, `run`, and `waived` records remain parseable. The changed behavior is limited to the severity and message of the non-Go checkpoint diagnostic. Existing initialization still refuses non-accepted products, so a non-Go checkpoint cannot initialize by accident.
+No automatic migration of historical workspaces. Existing Go, Pivot, Kill, `run`, and `waived` records remain parseable. The changed behavior is limited to non-Go checkpoint diagnostics, the guarded authoring path, and the read-only planning `researchCheckpoint` projection. Existing initialization still refuses non-accepted products, so a non-Go checkpoint cannot initialize by accident.
 
 ## Evidence
 
 - `checks/validation/business/research/check-research-evidence.ts`: research checkpoint validation and non-Go diagnostic.
+- `checks/validation/business/research/offer-evidence.ts`: stable `run`/`waived` contract; non-`run`/`waived` statuses remain incomplete.
 - `kernel/session/bootstrap.ts`: accepted product and rendered `PRODUCT.md` initialization gate.
-- `kernel/schema/index.ts`: stable `run`/`waived` offer-test contract and waiver checks.
-- `checks/validation/repository/fixtures/core-artifacts.fixtures.ts`: synthetic Kill and Pivot checkpoint regressions.
+- `kernel/services/research-decision.ts`: guarded preview/apply authoring.
+- `kernel/session/research-checkpoint-projection.ts`: planning lifecycle checkpoint facts (#395).
+- `kernel/session/research-proof-projection.ts`: offer demand / proof distinctions (#74).
+- `checks/validation/repository/fixtures/core-artifacts.fixtures.ts`: synthetic Kill/Pivot/`not_run` regressions.

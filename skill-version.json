@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.59",
+  "version": "0.221.60",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Research Pivot/hold + post-audit continuation closeout (#395): ADR-0014 R0 before/after + no additive not_run; planning resume researchCheckpoint (verdict/recordedVia/initializationEligible:false) distinct from #74 proof; precise Pivot/Kill next-action; residual public scenarios (protected obligations, local preview, symlink, concurrent lock); conditional b2c research-decision guidance; AC map + fixtures + independent review. Consumes prior #395 increments. Stamp 0.221.60. No npm publish. STOP \u2192 #213 on HoE order only.",
     "Research field diagnostics + contract explain closeout (#397): residual D2 narrative false-positive fixes (demo/niche/distribution/derived/conflicts/verdict evidence use isPlaceholderOnly); OFFER_TEST explain parity (Exposure And Conversion + Founder Waiver); early read-only --explain before workspace validation; synthetic corpus regressions; AC\u2192evidence map + #73/#75 corpus handoff; #395/#74 ownership preserved. Consumes prior #397 increments. Stamp 0.221.59. No npm publish. STOP \u2192 #395 on HoE order only.",
     "Continuous experience-delivery continuity (#403): synthetic requirement\u2192implementation loss + board/scaffold/disconnected-onboarding negative; six distinct delivery projections; preview/Later preserve accepted scope; first-session + seeded-defect review/repair at exact revisions; whole-scope retains missing obligations; narrow quality-lens/eleven-star ownership fix; D0\u2013D7 + truthful Figma/alternative capability via existing consumers; explicit handoffs #66/#71/#74/#72/#73/#75/#378/#390. Consumes #411/#456. Stamp 0.221.58. No npm publish. STOP \u2192 #397 on HoE order only.",
     "Connection identity + capability receipts (#127): distinct default MCP names b2c-local vs b2c-hosted; compact Connection receipt on setup, local/hosted handshake, and doctor/inspect; portable registration uses npx -y @cluelesscreations/brigade under the local name; leftover b2c-app-builder stays additive migration without silent client-config rewrite; wrong_surface stays actionable; providerObservation stays not_tested; hosted knowledge Worker remains read-only. Stamp 0.221.57. No npm publish. STOP \u2192 #403 on HoE order only.",

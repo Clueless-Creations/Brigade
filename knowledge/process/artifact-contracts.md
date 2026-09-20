@@ -604,6 +604,9 @@ Must include:
   - A waived Decision must bind Founder Waiver Date/Founder to the final Decision date and actor.
   - Read-only contract explanation: `b2c check research --explain` (and `--json`); explanation does not validate local files or initialize a lane.
 - Go, Pivot, Or Kill: the pre-build verdict row with category, wedge, demand, distribution, and offer evidence
+  - A valid Pivot or Kill is a held checkpoint, not malformed research and not initialization authority.
+  - When continuing after audit, use conditional CLI `b2c research-decision` (preview by default; `--apply` only with the current `--revision`) to record one guarded product decision and render `PRODUCT.md`. Do not hand-edit multiple mirrors into agreement, invent Go, encode an unrun offer test as waived, or treat file presence as acceptance.
+  - Offer Decision statuses remain `run` or `waived` only; other status text (including `not_run`) stays incomplete under the existing contract.
 - the verdict mirror in `lanes.research.go_pivot_kill_decision`
 - AppKittie findings: category economics, competitors, downloads/revenue estimates, IAP/pricing, screenshots, ad presence, creator partnerships, contact/social links, review themes, and keyword results
 - XPOZ findings: platform, query, creator/subreddit/handle, post/comment evidence, user language, emotional register, objections, and ad/organic content formats

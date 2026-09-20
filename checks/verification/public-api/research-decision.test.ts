@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { tmpdir } from "node:os";
 import { parse, stringify } from "yaml";
@@ -237,10 +237,10 @@ test("a Pivot checkpoint holds initialization until an explicit Go continuation 
     });
     assert(initialized.ok, JSON.stringify(initialized));
     assert.equal(initialized.data.status, "initialized");
+    assert(existsSync(path.join(env.directory, "control", "control.json")));
   } finally {
     if (previousHome === undefined) delete process.env.B2C_APP_BUILDER_HOME;
     else process.env.B2C_APP_BUILDER_HOME = previousHome;
-    assert(existsSync(path.join(env.directory, "control", "control.json")));
     rmSync(env.temp, { recursive: true, force: true });
   }
 });
@@ -291,3 +291,123 @@ test("an explicit Kill checkpoint remains held without silently restarting or be
     rmSync(env.temp, { recursive: true, force: true });
   }
 });
+
+test("Pivot hold surfaces a precise next action and refuses forged path / concurrent lock / protected broaden", () => {
+  const env = setup();
+  const previousHome = process.env.B2C_APP_BUILDER_HOME;
+  process.env.B2C_APP_BUILDER_HOME = env.home;
+  try {
+    const created = callPublicOperation("business.create", {
+      workspaceId: "app",
+      directory: env.directory,
+      name: "Useful Habit",
+      hypothesis: "A repeated consumer need",
+    });
+    assert(created.ok, JSON.stringify(created));
+    writeFileSync(
+      path.join(env.directory, "strategy/RED_TEAM_FINDINGS.md"),
+      "# Red-team findings\n\n| Finding ID | Severity | Finding |\n| --- | --- | --- |\n| finding-risk | medium | Pricing and release obligations remain open. |\n",
+    );
+
+    const pivot = callPublicOperation("business.research.decision", {
+      workspaceId: "app",
+      expectedRevision: workspaceRevision(env.directory),
+      decisionId: "pivot-precise",
+      verdict: "Pivot",
+      rationale: "Hold build until the audience wedge and unrun offer test are resolved.",
+      findingIds: ["finding-risk"],
+      apply: true,
+    });
+    assert(pivot.ok, JSON.stringify(pivot));
+    assert.equal(pivot.data.initializationEligible, false);
+    assert.equal(pivot.data.authorityGranted, false);
+    assert(pivot.data.unresolvedObligations.some((row: string) => /independent review/i.test(row)));
+
+    const planned = callPublicOperation("business.plan", { workspaceId: "app" });
+    assert(planned.ok, JSON.stringify(planned));
+    assert.equal(planned.data.status, "not_initialized");
+    assert(planned.data.resume, "planning resume required while not initialized");
+    assert.equal(planned.data.resume.researchCheckpoint.verdict, "Pivot");
+    assert.equal(planned.data.resume.researchCheckpoint.recordedVia, "product_decision_log");
+    assert.equal(planned.data.resume.researchCheckpoint.initializationEligible, false);
+    assert.match(planned.data.nextAction, /Pivot/);
+    assert.match(planned.data.nextAction, /research-decision/);
+    assert.match(planned.data.nextAction, /unrun experiment as waived|not invent Go/i);
+    assert(!callPublicOperation("business.initialize", { workspaceId: "app", expectedRevision: planned.data.revision }).ok);
+
+    // Local permitted work (another preview) can continue without accepting protected obligations.
+    const localPreview = callPublicOperation("business.research.decision", {
+      workspaceId: "app",
+      expectedRevision: planned.data.revision,
+      decisionId: "pivot-local-note",
+      verdict: "Pivot",
+      rationale: "Record a second held checkpoint without broadening release authority.",
+      findingIds: ["finding-risk"],
+      apply: false,
+    });
+    assert(localPreview.ok, JSON.stringify(localPreview));
+    assert.equal(localPreview.data.applied, false);
+    assert.equal(localPreview.data.initializationEligible, false);
+    assert.equal(localPreview.data.authorityGranted, false);
+
+    // Symlink / escaping path refused at the owning boundary.
+    const findingsPath = path.join(env.directory, "strategy/RED_TEAM_FINDINGS.md");
+    const backup = readFileSync(findingsPath, "utf8");
+    rmSync(findingsPath);
+    writeFileSync(path.join(env.temp, "escaped-findings.md"), backup);
+    symlinkSync(path.join(env.temp, "escaped-findings.md"), findingsPath);
+    assert.throws(
+      () =>
+        recordResearchDecision({
+          workspaceId: "app",
+          expectedRevision: workspaceRevision(env.directory),
+          decisionId: "pivot-symlink",
+          verdict: "Pivot",
+          rationale: "Symlinked findings must be refused.",
+          findingIds: ["finding-risk"],
+          apply: true,
+        }),
+      /research_decision_unsafe_path|unsafe_planning_artifact|unsafe_workspace_file|stale_revision|finding_id/,
+    );
+    rmSync(findingsPath);
+    writeFileSync(findingsPath, backup);
+
+    // Concurrent writer: lock held by another session refuses before writes.
+    const lockPath = path.join(env.directory, "control/session.lock");
+    const now = new Date().toISOString();
+    writeFileSync(
+      lockPath,
+      `${JSON.stringify(
+        {
+          ownerSessionId: "foreign-writer",
+          acquiredAt: now,
+          heartbeatAt: now,
+          ttlSeconds: 120,
+          pendingInteractiveRequest: false,
+        },
+        null,
+        2,
+      )}\n`,
+    );
+    const productBeforeLock = readFileSync(path.join(env.directory, "product.yaml"), "utf8");
+    assert.throws(
+      () =>
+        recordResearchDecision({
+          workspaceId: "app",
+          expectedRevision: workspaceRevision(env.directory),
+          decisionId: "pivot-concurrent",
+          verdict: "Pivot",
+          rationale: "Concurrent writers must not append a second decision.",
+          findingIds: ["finding-risk"],
+          apply: true,
+        }),
+      /session_lock_unavailable/,
+    );
+    assert.equal(readFileSync(path.join(env.directory, "product.yaml"), "utf8"), productBeforeLock);
+  } finally {
+    if (previousHome === undefined) delete process.env.B2C_APP_BUILDER_HOME;
+    else process.env.B2C_APP_BUILDER_HOME = previousHome;
+    rmSync(env.temp, { recursive: true, force: true });
+  }
+});
+
