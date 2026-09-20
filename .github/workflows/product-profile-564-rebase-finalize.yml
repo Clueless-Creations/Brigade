@@ -1,0 +1,53 @@
+name: Product Profile 564 rebase finalize
+on:
+  push:
+    branches: [work/product-profile-564-intended]
+    paths: [.github/workflows/product-profile-564-rebase-finalize.yml]
+permissions: { contents: write }
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .node-version, cache: npm }
+      - run: |
+          git fetch origin main
+          test "$(git rev-parse HEAD^)" = "$(git rev-parse origin/main)"
+          npm ci
+      - name: Bump next patch and regenerate
+        run: |
+          BASE=$(node -p "require('./package.json').version"); IFS=. read -r MA MI PA <<< "$BASE"; NEXT="$MA.$MI.$((PA+1))"
+          npm version "$NEXT" --no-git-tag-version
+          node - "$NEXT" <<'NODE'
+          const fs=require("fs"), next=process.argv[2], p=JSON.parse(fs.readFileSync("skill-version.json","utf8"));
+          p.version=next; p.updatedAt="2026-09-20";
+          p.releaseNotes.unshift("Intended Product Profile generation (#564): packaged product-profile/v1 schema/conformance; deterministic projection from accepted product.yaml plus accepted DESIGN.md; explicit unresolved coverage; source revision freshness; canonical profile-refresh lifecycle command. No npm publish.");
+          fs.writeFileSync("skill-version.json",JSON.stringify(p,null,2)+"\n");
+          NODE
+          npm run render:all
+          npm run render:evidence-schema-version
+          npm run hosted:bundle
+      - name: Verify
+        run: |
+          node --import tsx --test kernel/services/intended-product-profile.test.ts
+          node --test docs/contracts/product-profile/contract.test.mjs
+          node entrypoints/cli/b2c.mjs profile-refresh --workspace examples/tuck --json
+          node --input-type=module - <<'NODE'
+          import {readFileSync} from "node:fs"; import {validateProfile} from "./contracts/product-profile/conformance.mjs";
+          const e=validateProfile(JSON.parse(readFileSync("examples/tuck/product-profile/intended.json","utf8"))); if(e.length){console.error(e);process.exit(1)}
+          NODE
+          rm -rf examples/tuck/product-profile
+          npm run check:version-discipline
+          npm run check:catalog
+          npm run check:hosted-bundle
+          npm run audit:ci -- --lane presubmit
+      - name: Commit
+        run: |
+          rm .github/workflows/product-profile-564-rebase-finalize.yml
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat(profile): generate intended Product Profile from accepted truth (#564)"
+          git push origin HEAD:work/product-profile-564-intended
