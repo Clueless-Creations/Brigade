@@ -13,7 +13,44 @@ target rules alone do not establish implemented support.
 
 ## Target evolution: compiled semantic execution
 
-The [semantic execution design](semantic-execution.md), [ADR-0016](decisions/0016-compiled-semantic-execution.md), and [delivery plan](plans/2026-09-17-compiled-semantic-execution.md) describe a proposed extension of the existing architecture. It does not establish runtime support, a new graph store, a passive inference call, or a provider default. Inferred relationships remain derived and context-bound; they cannot overwrite authored truth, merge identity, grant authority, or execute work.
+The [semantic execution design](semantic-execution.md) and [ADR-0016](decisions/0016-compiled-semantic-execution.md) define the existing semantic program. The [decision-driven building extension](decision-driven-building.md) applies it to next-work selection, context and worker routing, within-task continuation, observation, repair and completion. Its [delivery plan](plans/2026-09-20-decision-driven-building.md) extends existing issue owners rather than adding another evaluation framework.
+
+### Implementation snapshot
+
+Source reviewed at `8870d87bd79de4699dc271eafa7418c6175a639e`, 2026-09-20. This is a source inventory, not a test result from this documentation review.
+
+| Source or merged slice | Present mechanism | Qualification boundary |
+| --- | --- | --- |
+| `contracts/semantic/`; #512 / PR #550 | Typed semantic questions, plans, results and receipts | Not a universal executable decision language |
+| `adapters/providers/typesafe/`; #515 / PR #552 | Strict adapter seams, fake transport and live HTTP transport implementation | Live Jev behavior, cost and decision quality still need evidence |
+| `kernel/composition/semantic-plan-lower.ts`; #516 / PR #554 | Pure lowering | Compilation is not execution |
+| `kernel/services/source-projection.ts`; #517 / PR #555 | Scoped state and candidates | Source availability is not permission to export it |
+| `kernel/session/semantic-batch.ts`; #518 / PR #556 | Batch/settlement helpers and synchronous barrier fixtures | Not proof of actual asynchronous fanout performance |
+| #519-#521; PRs #557, #558, #560 | Derived graph, receipt reuse/invalidation and applicability work | No separate truth store or live readiness claim |
+| #522 / PR #561 | Feedback-to-work shadow slice | Does not enable active routing or dispatch repairs |
+| `kernel/session/plan.ts` | Eligible frontier and bounded briefs without writes | Passive planning must not trigger inference |
+
+Do not describe all of this as unimplemented prose. Do not describe it as a qualified, live Jev-directed build either. Follow #523 and #571 for integrated and provider proof.
+
+### Proposed active build route
+
+The target is a closed loop inside the existing owners:
+
+```text
+accepted intent + current observations + source revisions
+  -> existing planner produces eligible work and held obligations
+  -> bounded context and atomic decision questions
+  -> selected Jev provider evaluates next-work / context / route / probe choices
+  -> deterministic policy selects one or several compatible actions
+  -> existing executor rechecks authority, freshness, resources and budget
+  -> tools or generative workers act
+  -> observations and receipts update the existing owners
+  -> the next meaningful checkpoint can request another decision
+```
+
+This is routing, not only validation. Qualified decision families may drive reversible work automatically under an admitted policy. Shadow mode is a rollout stage, not the final architecture. Generative workers expand the candidate space when invention is needed; code validates proposals before they become eligible work. Jev does not become another planner, scheduler or authority owner.
+
+Passive status, plan, knowledge and profile queries consume stored results without inference. Active sessions may refresh decisions at scoped checkpoints under their existing grants and budgets. No new public operation, provider default, automatic package activation or deployed runtime is established by this proposal. Inferred relationships remain derived and context-bound; they cannot overwrite authored truth, merge identity, grant authority or waive required proof.
 
 ## Purpose
 
@@ -63,6 +100,10 @@ A planning workspace has no runtime state. After `product.yaml` is accepted and
 `PRODUCT.md` matches its rendered content, `b2c bootstrap` creates the current
 `state/business-state.json` and activates the verified default business recipe. Runtime readers accept the current schema only. Invalid
 or missing pins stop execution before workspace effects.
+
+### Planned Product Profile projection
+
+The #562 program proposes `product-profile/v1` as the common model of product entities, systems, journeys, surfaces and behavior. Intended profiles project accepted product/design truth; observed profiles project evidence. Reference Product Profiles specialize the same base contract with reference provenance rather than creating a peer schema. Profiles and their deltas are revision-bound views, not replacement owners for `product.yaml`, `DESIGN.md`, Git or reducer/evidence state. This proposal does not claim a currently supported profile command. See the [profile boundary](decision-driven-building.md#product-profiles-are-the-common-product-representation).
 
 ### Start paths
 
