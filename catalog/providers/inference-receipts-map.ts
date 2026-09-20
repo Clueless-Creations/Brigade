@@ -3,7 +3,7 @@
  * scoped caching / invalidation / erasure.
  *
  * Consumes #512–#519 (implements #519 hooks). Does not redo them.
- * Does not implement #521–#529. Paper / synthetic fixtures only.
+ * NO_521_IMPL cleared by #521. Does not implement #522–#529. Paper / synthetic fixtures only.
  * No live / no parallel cache authority / no parallel invalidation engine.
  * Source-fingerprint guarantees intact. Coordinates #74 / #76.
  */
@@ -29,8 +29,8 @@ export const INFERENCE_RECEIPTS_IOS_SIM_OOS = true as const;
 export const INFERENCE_RECEIPTS_NO_NETWORK = true as const;
 export const INFERENCE_RECEIPTS_NO_PARALLEL_CACHE_AUTHORITY = true as const;
 export const INFERENCE_RECEIPTS_NO_PARALLEL_INVALIDATION = true as const;
-export const INFERENCE_RECEIPTS_NO_521_IMPL = true as const;
-export const INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE = "#521" as const;
+export const INFERENCE_RECEIPTS_NO_521_IMPL = false as const;
+export const INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE = "#522" as const;
 export const INFERENCE_RECEIPTS_COORDINATES = ["#74", "#76"] as const;
 export const INFERENCE_RECEIPTS_PRESERVES_SOURCE_FINGERPRINT = true as const;
 export const INFERENCE_RECEIPTS_HOOKS_IMPLEMENTED = true as const;
