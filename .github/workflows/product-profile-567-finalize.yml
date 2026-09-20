@@ -1,0 +1,39 @@
+name: Product Profile 567 finalize
+on:
+  push:
+    branches: [work/product-profile-567-query]
+    paths: [.github/workflows/product-profile-567-finalize.yml]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Regenerate and verify
+        run: |
+          npm run render:all
+          npm run render:evidence-schema-version
+          npm run hosted:bundle
+          npm run check:version-discipline
+          npm run check:catalog
+          npm run check:hosted-bundle
+          node --test docs/contracts/product-profile/contract.test.mjs
+          node --import tsx --test kernel/services/intended-product-profile.test.ts
+          node --import tsx --test kernel/services/product-profile-query.test.ts
+          npm run audit:ci -- --lane presubmit
+      - name: Commit generated projections
+        run: |
+          rm .github/workflows/product-profile-567-finalize.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(profile): regenerate 0.221.67 package projections"
+          git push origin HEAD:work/product-profile-567-query
