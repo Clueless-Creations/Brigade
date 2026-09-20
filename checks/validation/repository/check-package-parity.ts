@@ -204,7 +204,17 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
     );
   }
 
-  const pack = spawnSync("npm", ["pack", "--dry-run", "--json"], { cwd: args.skillRoot, encoding: "utf8", timeout: 180_000 });
+  // Prefer the npm that launched `npm run` (npm_execpath) so pack proof is not
+  // ambient-PATH dependent. npm 9 force-includes ancestor README.md files along
+  // included nested paths; npm 10+ does not. CI / engines use Node 24 → npm 10+.
+  const npmExecPath = process.env.npm_execpath;
+  const pack = npmExecPath
+    ? spawnSync(process.execPath, [npmExecPath, "pack", "--dry-run", "--json"], {
+        cwd: args.skillRoot,
+        encoding: "utf8",
+        timeout: 180_000,
+      })
+    : spawnSync("npm", ["pack", "--dry-run", "--json"], { cwd: args.skillRoot, encoding: "utf8", timeout: 180_000 });
   if (pack.status !== 0) {
     issues.push(
       issue(

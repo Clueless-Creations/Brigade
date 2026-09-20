@@ -1,74 +1,78 @@
 # Task-skill host-discovery rehearsal
 
-Status: deterministic package proof passed; Codex native discovery verified; Claude native discovery held by host authentication.
+Status: deterministic package proof passed; Codex native discovery verified for all nine portable task exports; Claude Code native discovery **explicitly open** (host not logged in).
 
 ## Tested artifact
 
-- Source revision: `bdccdaf96a9d9b365808035b7747c1bb865f590e`
-- Package: `b2c-app-builder@0.220.40`
-- Artifact mode: `npm pack --dry-run`
-- Packed file count: 2,625
-- Task-skill contract: 19 passed, 0 failed
-- Package parity: 0 errors, 0 warnings
+- Source revision at branch cut: `624d2251f6f2a81efdda64c86ed1d1fdf50b7571`
+- Package stamp for this #386 change: `@cluelesscreations/brigade@0.221.54`
+- Artifact mode: `npm pack --dry-run` under **npm 10.9.2** (Node engines `>=24`; CI uses `.node-version` → 24)
+- Packed file count on tip before stamp: 2858
+- Task-skill contract: `npm run check:task-skills` — pass (20 tests / 0 errors)
+- Package parity: `npm run check:package-parity` — 0 errors, 0 warnings when invoked via `npm run` (npm 10)
 
 The packed artifact contains the generated root skill, the nine declared portable task skills,
 their required references, notices, and relocation-safe resource closure. This is package proof,
 not proof that a host has discovered or loaded a skill.
 
-## Host observation
+**npm note:** Ambient npm 9 force-includes ancestor `README.md` files along included nested
+paths (`agents/skills/README.md`, `surfaces/studio/README.md`), which trips
+`package_parity.pack_dev_leak`. npm 10+ (Node 24 / CI) does not. `check:package-parity` now
+prefers `process.env.npm_execpath` so `npm run check:package-parity` follows the npm that
+launched the script rather than ambient PATH. A filesystem listing of those READMEs is **not**
+host discovery.
 
-| Host | Observed version | Documented user location | Matching installed B2C skills | Result |
+## Host observation (2026-09-20 CT)
+
+| Host | Observed version | Discovery method | Matching B2C task skills | Result |
 | --- | --- | --- | ---: | --- |
-| Codex CLI | `0.149.1` | native skill-discovery catalog | 9 task skills plus 3 routers | Verified: native output named all nine task skills and distinguished the routers |
-| Claude Code | `2.1.261` | native skill-discovery path | unavailable | Held: native probe returned `Not logged in`; no discovery result was claimed |
+| Codex CLI | `0.151.0` | Native `codex debug prompt-input` after create-only portable export of all nine tasks into an isolated temp Git workspace `.agents/skills/` | 9 | **Verified:** native skill catalog named all nine task skills; isolated root `r19` = temp `.agents/skills` |
+| Claude Code | `2.1.251` | `claude -p` probe | unavailable | **Explicitly open:** host returned `Not logged in · Please run /login` before any discovery result. No discovery claim. |
 
-The Codex probe used read-only, ephemeral execution and returned these nine task names:
+### Codex native names observed (sanitized)
+
+From the isolated install only (not a filesystem `ls` claim):
+
 `b2c-research-opportunity`, `b2c-design-onboarding`, `b2c-review-monetization`,
 `b2c-define-product`, `b2c-plan-implementation`, `b2c-review-business-performance`,
-`b2c-review-experience`, `b2c-plan-launch`, and `b2c-verify-release-readiness`.
-It also identified `b2c-app-builder`, `b2c-contributor`, and `b2c-maintainer` as routers,
-not task skills. No files were edited, and no network command, provider call, or paid operation
-was invoked by that probe. The Claude probe made no billable request (`total_cost_usd: 0`) and
-returned `Not logged in` before discovery; no Claude discovery claim is made.
+`b2c-review-experience`, `b2c-plan-launch`, `b2c-verify-release-readiness`.
 
-No host installation or configuration change was performed. The Codex result is actual native
-discovery evidence, not a filesystem listing. Claude remains an explicitly open criterion until
-the host has an authorized login and a repeatable native discovery result.
+Probe properties:
 
-## Current live-main rehearsal
+- OS: Linux x86_64 (America/Chicago box clock)
+- Install mode: create-only `npm run skills:export` for each task → copy into temp `.agents/skills/<name>/` (no `~/.agents` mutation, no user config change)
+- Discovery command: `codex debug prompt-input` (renders model-visible prompt JSON; **no model turn**, no provider call, no paid operation)
+- Cleanup: temp workspace removed after capture
+- Reference resolution: export contract already asserted by `check:task-skills` relocation tests; this probe asserts **name discovery only**
 
-This is a bounded follow-up record, not a claim that the complete distribution program is closed.
-It covers one portable business task from live `main` and keeps host discovery separate from
-package and semantic evaluation claims.
+### Claude missing capability (honesty)
 
-- Source revision: `5f440b8d1f12597ea1d90fd6f04f753f6241d563`
-- Package version: `0.220.80`
-- Selected task: `b2c-research-opportunity`
-- Export mode: create-only portable export into a fresh temporary directory
-- Export result: `bundledSources: 96`, `supplementalSourceLinks: 8`,
-  `installed: false`, `executionIncluded: false`
-- Exported `SKILL.md` SHA-256:
-  `c25ede04fa76797cdbdb3bd468519fb19dfd5b10f3fa23fdff3596f27e94b439`
-- Exported `source-manifest.json` SHA-256:
-  `d385620044e0e957de87fe887b7eab2a25f59664829d79dd592dae643730776e`
+Claude Code on this box is not authenticated. A repeatable native discovery result requires an
+authorized login (and must not be substituted with a filesystem listing). Criterion remains
+**explicitly open** under the HoE honesty close rule for #386.
 
-The export was copied into isolated repository-local discovery locations for Codex and Claude
-Code. No user configuration was changed, and no provider or paid task was invoked.
+## Handoff notes
 
-| Host | Installed version | Discovery result | Status |
-| --- | --- | --- | --- |
-| Codex CLI | `0.149.1` | Read-only `codex exec` in the isolated Git workspace reported `b2c-research-opportunity` as available. | Passed for skill-name discovery |
-| Claude Code | `2.1.261` | Read-only print invocation reported `You've hit your weekly limit`; it did not produce a discovery result. | Open: host quota |
-| Cursor Agent | `2026.01.28-fd13201` | Version-read only; no discovery claim was made because #386 targets Codex and Claude first. | Not run |
+### #26 — release-readiness (publication owner; no publish from #386)
 
-The Codex response did not expose a description sentence because its skill context budget omitted
-descriptions. That is recorded as an evidence limit, not filled in from the source file.
+- Packed library + nine portable exports pass membership/relocation/hash/notice/safety on tip under npm 10.
+- Source-only vs package commands: `skills:export` is **source-checkout + tsx/devDeps** only; do not advertise it as a production-registry consumer command. Packed installs already include generated `agents/skills/b2c-*` trees.
+- Host install docs may cite Codex discovery evidence at `0.151.0`; Claude discovery must stay caveated as open until authenticated native proof exists.
+- **Do not npm publish from this issue.**
 
-## Limits and remaining holds
+### #75 — observed host/tool surfaces (no live model campaign)
+
+| Surface | Observation |
+| --- | --- |
+| Codex CLI `0.151.0` | Discovers portable task skill names via native skill catalog when installed under repo-local `.agents/skills`. `codex debug prompt-input` is a no-model discovery probe. |
+| Claude Code `2.1.251` | Not logged in on rehearsal host; no native discovery result. |
+| Cursor Agent | Not in #386 target set; not run. |
+
+No unpaid/paid semantic model campaign was run. Outcome evaluation remains #75.
+
+## Limits
 
 This report does not claim semantic model quality, provider readiness, offline availability of
-supplemental links, or successful discovery from a source checkout. Claude Code discovery must be
-repeated after its quota resets. The integrated nine-task packed-library, relocation, and
-reference-closure checks, plus main-entrypoint-only and root-plus-task comparisons, remain open
-under #386. #26 owns publication and consumer-install decisions; #75 owns semantic model/tool
-outcomes.
+supplemental links, full live-agent usability, or Claude discovery. Independent review + integrated
+verification required by #378 are recorded in the #386 PR / impl report (task-skill + package-parity
+gates green; #378 children closed on tip).
