@@ -3,7 +3,7 @@
  * scoped caching / invalidation / erasure.
  *
  * Consumes #512–#519 (implements #519 hooks). Does not redo them.
- * NO_521_IMPL cleared by #521. NO_522_IMPL cleared by #522. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. Does not implement #529. Paper / synthetic fixtures only.
+ * NO_521_IMPL cleared by #521. NO_522_IMPL cleared by #522. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573. Paper / synthetic fixtures only.
  * No live / no parallel cache authority / no parallel invalidation engine.
  * Source-fingerprint guarantees intact. Coordinates #74 / #76.
  */
@@ -32,7 +32,7 @@ export const INFERENCE_RECEIPTS_NO_PARALLEL_INVALIDATION = true as const;
 export const INFERENCE_RECEIPTS_NO_521_IMPL = false as const;
 export const INFERENCE_RECEIPTS_NO_522_IMPL = false as const;
 export const INFERENCE_RECEIPTS_NO_523_IMPL = false as const;
-export const INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE = "#529" as const;
+export const INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE = "#511" as const;
 export const INFERENCE_RECEIPTS_COORDINATES = ["#74", "#76"] as const;
 export const INFERENCE_RECEIPTS_PRESERVES_SOURCE_FINGERPRINT = true as const;
 export const INFERENCE_RECEIPTS_HOOKS_IMPLEMENTED = true as const;

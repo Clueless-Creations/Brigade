@@ -12,7 +12,7 @@
  *
  * Paper / synthetic. Consumes #519+#521+#520+#522+#523. Coordinates #74/#76/#403.
  * Does not replace #76. Does not invent a second obligation ledger. Does not
- * implement #527–#529.
+ * implement #511 closeout or #573 (NO_527_IMPL cleared by #527; NO_528_IMPL cleared by #528; NO_529_IMPL cleared by #529).
  */
 import {
   CHANGE_IMPACT_OBLIGATION_RECIPE_POLICY,
@@ -38,7 +38,7 @@ export const CHANGE_IMPACT_OBLIGATION_NO_SEMANTIC_WAIVER = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_DEVICE_PROOF = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_AUTO_ACCEPT_SCOPE = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_525_IMPL = false as const;
-export const CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE = "#529" as const;
+export const CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE = "#511" as const;
 
 export { MISSING_SEMANTIC_RELATION, MISSING_SEMANTIC_RELATION_GAP, RELATION_SUPPORT_STATES };
 export type { RelationSupportState, CandidateTestStatus, ChangeImpactObligationRecipePolicy };

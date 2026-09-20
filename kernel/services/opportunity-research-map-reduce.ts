@@ -13,7 +13,7 @@
  * Hypotheses never change scope, allocate spend, or start collection.
  *
  * Paper / synthetic. Consumes #514+#518+#519+#521+#520+#523.
- * Coordinates #75/#74. NO_528_IMPL cleared by #528. Does not implement #529.
+ * Coordinates #75/#74. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
  */
 import {
   CONCEPT_FLAG_KINDS,
@@ -43,7 +43,7 @@ export const OPPORTUNITY_RESEARCH_NO_FOUNDER_BUSINESS_SELECTION = true as const;
 export const OPPORTUNITY_RESEARCH_REPETITION_IS_NOT_DEMAND = true as const;
 export const OPPORTUNITY_RESEARCH_PAGE_COUNTS_ARE_NOT_CUSTOMERS = true as const;
 export const OPPORTUNITY_RESEARCH_NO_527_IMPL = false as const;
-export const OPPORTUNITY_RESEARCH_NEXT_AFTER_CLOSE = "#529" as const;
+export const OPPORTUNITY_RESEARCH_NEXT_AFTER_CLOSE = "#511" as const;
 
 export { CONCEPT_FLAG_KINDS, INDEPENDENCE_MARKS, OPPORTUNITY_RESEARCH_RECIPE_POLICY };
 export type { ConceptFlagKind, CorpusCompleteness, IndependenceMark, OpportunityResearchRecipePolicy };

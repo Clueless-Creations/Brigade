@@ -322,13 +322,13 @@ export function register(harness: Harness): void {
     assert(INFERENCE_RECEIPTS_NO_521_IMPL === false, "map NO_521 cleared");
     assert(INFERENCE_RECEIPT_STORE_NO_521_IMPL === false, "store NO_521 cleared");
     assert(INFERENCE_RECEIPT_OWNERSHIP_NO_521_IMPL === false, "ownership NO_521 cleared");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#529", "receipts next #529");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#529", "store next #529");
-    assert(MAP_GRAPH_NEXT === "#529", "graph map next #529");
-    assert(MODULE_GRAPH_NEXT === "#529", "graph module next #529");
-    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#529", "map next #529");
-    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#529", "module next #529");
-    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#529", "projection next #529");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#511", "receipts next #511");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#511", "store next #511");
+    assert(MAP_GRAPH_NEXT === "#511", "graph map next #511");
+    assert(MODULE_GRAPH_NEXT === "#511", "graph module next #511");
+    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#511", "map next #511");
+    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#511", "module next #511");
+    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#511", "projection next #511");
 
     const ac = knowledgeApplicabilityAcEvidence();
     assert(ac.length === 5 && KNOWLEDGE_APPLICABILITY_AC.length === 5, "five AC");

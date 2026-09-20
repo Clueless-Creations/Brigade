@@ -2,7 +2,7 @@
  * #516 SQ-05 — AC→evidence map for semantic query plan lowering (compile-pure).
  *
  * Consumes #512 IR / #513 qualify / #515 adapter / #514 eval. Does not redo them.
- * Does not implement #517–#529. No live / network / secrets in compile.
+ * Does not implement #511 closeout or #573 (#517–#529 landed). No live / network / secrets in compile.
  */
 export const SEMANTIC_PLAN_LOWER_MAP_PATH = "catalog/providers/semantic-plan-lower-map.ts" as const;
 export const SEMANTIC_PLAN_LOWER_MODULE = "kernel/composition/semantic-plan-lower.ts" as const;

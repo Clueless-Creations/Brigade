@@ -13,7 +13,7 @@
  *   hook.reject-stale-edge-at-commit
  *   hook.rebuild-index-after-invalidation
  *
- * Consumes #512–#519. Coordinates #521 applicability-edge invalidation. Does not implement #522–#529.
+ * Consumes #512–#519. Coordinates #521 applicability-edge invalidation. Does not implement #511 closeout or #573 (#522–#529 landed).
  */
 import {
   buildRelationshipIndex,

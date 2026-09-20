@@ -92,8 +92,8 @@ export function register(harness: Harness): void {
     assert(TRANSFERABLE_MECHANISMS_STAMP === "0.221.49" && SERVICE_STAMP === "0.221.49" && TRANSFERABLE_MECHANISMS_RECIPE_STAMP === "0.221.49", "stamp");
     assert(TRANSFERABLE_MECHANISMS_NO_528_IMPL === false && SERVICE_NO_528 === false && TRANSFERABLE_MECHANISMS_RECIPE_NO_528_IMPL === false, "NO_528 cleared");
     assert(
-      TRANSFERABLE_MECHANISMS_NEXT_AFTER_CLOSE === "#529" && SERVICE_NEXT_AFTER === "#529" && TRANSFERABLE_MECHANISMS_RECIPE_NEXT_AFTER_CLOSE === "#529",
-      "NEXT_AFTER=#529",
+      TRANSFERABLE_MECHANISMS_NEXT_AFTER_CLOSE === "#511" && SERVICE_NEXT_AFTER === "#511" && TRANSFERABLE_MECHANISMS_RECIPE_NEXT_AFTER_CLOSE === "#511",
+      "NEXT_AFTER=#511",
     );
     assert(JSON.stringify([...TRANSFERABLE_MECHANISMS_CONSUMES]) === JSON.stringify(["#514", "#519", "#521", "#520", "#522", "#523"]), "map consumes");
     assert(JSON.stringify([...SERVICE_CONSUMES]) === JSON.stringify(["#514", "#519", "#521", "#520", "#522", "#523"]), "service consumes");

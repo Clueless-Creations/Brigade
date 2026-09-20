@@ -8,7 +8,7 @@
  * Persist-before-publish is enforced via InferenceReceiptStore; this module
  * records ownership-handle shape and erasure cascade coordination.
  *
- * Consumes #512–#519. NO_521_IMPL cleared by #521. NO_522_IMPL cleared by #522. NO_523_IMPL cleared by #523. Does not implement #524–#529.
+ * Consumes #512–#519. NO_521_IMPL cleared by #521. NO_522_IMPL cleared by #522. NO_523_IMPL cleared by #523. Does not implement #511 closeout or #573 (#524–#529 landed).
  */
 import type { OwnershipPersistHandle } from "../services/inference-receipt-store.js";
 import { SQ10_IMPLEMENTED_HOOK_IDS, INFERENCE_INVALIDATION_COORDINATES, INFERENCE_INVALIDATION_NO_PARALLEL_ENGINE } from "../engine/inference-invalidation.js";

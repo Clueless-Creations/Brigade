@@ -8,7 +8,7 @@
  *
  * Consumes #512–#518. Does not redo them.
  * #520 / SQ-10 deletion/invalidation hooks are IMPLEMENTED (see SQ10_DELETION_INVALIDATION_HOOKS
- * + kernel/engine/inference-invalidation.ts). NEXT_AFTER=#524 via #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. Does not implement #529.
+ * + kernel/engine/inference-invalidation.ts). NEXT_AFTER=#524 via #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
  *
  * Keep distinct: world ontology ≠ expert-method library ≠ agent/work graph.
  * Do not conflate with catalog/agent-graph or knowledge-derivations (ADR-0005).
@@ -27,7 +27,7 @@ export const SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = false as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_NETWORK = true as const;
-export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#529" as const;
+export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#511" as const;
 
 /** Narrow ontology predicate inventory (#519 §1) — similarity ≠ equality. */
 export const SEMANTIC_RELATIONSHIP_PREDICATES = [
