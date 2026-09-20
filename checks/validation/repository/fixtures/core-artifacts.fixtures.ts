@@ -30,7 +30,15 @@ export function register(h: Harness): void {
     researchBaseline,
     "check-research-evidence.ts",
     0,
-    '"check":"research-workflow-output"',
+    '"check":"research"',
+    ["--explain", "--json"],
+  );
+  runFixture(
+    "research contract explanation names Exposure And Conversion and Founder Waiver",
+    researchBaseline,
+    "check-research-evidence.ts",
+    0,
+    "Exposure And Conversion",
     ["--explain"],
   );
 
@@ -2660,6 +2668,99 @@ export function register(h: Harness): void {
     ),
   ]);
   runFixture("done research whose latest verdict is Pivot remains a held checkpoint", researchPivotCheckpoint, "check-research-evidence.ts", 0);
+  h.runScriptArgs(
+    "Pivot checkpoint warns without claiming the research lane is done or initializing",
+    "check-research-evidence.ts",
+    ["--root", researchPivotCheckpoint, "--json"],
+    0,
+    "research.go_pivot_kill_not_go",
+  );
+
+  // #397 residual: narrative fields may describe pending/unverified work without becoming placeholders.
+  const researchVerdictNarrativePending = makeCompletedResearch("research-verdict-narrative-pending");
+  writeResearch(researchVerdictNarrativePending, [
+    ...researchCoreSections,
+    ...categoryRevenueSection(revenueRow),
+    ...goPivotKillSection(
+      "| 2026-07-21 | pass — $14.2M top-10 | streak-insurance mechanic | waitlist demand remains unverified until paid-channel test | r/habits reached 840 visits; conversion pending approval | 31 visitors joined; longer paid conversion pending | Go | founder |",
+    ),
+  ]);
+  runFixture("Go verdict keeps authored pending/unverified narrative in evidence cells", researchVerdictNarrativePending, "check-research-evidence.ts", 0);
+
+  const researchDemoNarrativePending = makeCompletedResearch("research-demo-narrative-pending");
+  {
+    const researchPath = path.join(researchDemoNarrativePending, "strategy/RESEARCH.md");
+    const research = readFileSync(researchPath, "utf8").replace(
+      "Broken streak becomes a recovered next action.",
+      "Broken streak becomes a recovered next action while longer-term retention remains pending approval.",
+    );
+    writeFileSync(researchPath, research, "utf8");
+  }
+  runFixture(
+    "Transformation Demo keeps authored pending narrative without treating it as a placeholder",
+    researchDemoNarrativePending,
+    "check-research-evidence.ts",
+    0,
+  );
+
+  const researchNicheNarrativePending = makeCompletedResearch("research-niche-narrative-pending");
+  {
+    const researchPath = path.join(researchNicheNarrativePending, "strategy/RESEARCH.md");
+    const research = readFileSync(researchPath, "utf8").replace(
+      "first paid conversion inside 7 days, not a waitlist",
+      "first paid conversion inside 7 days pending cohort review, not a waitlist",
+    );
+    writeFileSync(researchPath, research, "utf8");
+  }
+  runFixture(
+    "Distribution-First Niche keeps authored pending narrative without treating it as a placeholder",
+    researchNicheNarrativePending,
+    "check-research-evidence.ts",
+    0,
+  );
+
+  const researchDerivedNarrativePending = makeCompletedResearch("research-derived-narrative-pending");
+  {
+    const signalPath = path.join(researchDerivedNarrativePending, "strategy/SIGNAL_CORPUS.md");
+    const signal = readFileSync(signalPath, "utf8").replace(
+      "| SIG-001 | PRODUCT.md | add streak recovery | TRACE-002 |",
+      "| SIG-001 | PRODUCT.md | keep recovery offer while paid validation is pending | TRACE-002 |",
+    );
+    writeFileSync(signalPath, signal, "utf8");
+  }
+  runFixture(
+    "Derived Outputs keep authored pending narrative without treating it as a placeholder",
+    researchDerivedNarrativePending,
+    "check-research-evidence.ts",
+    0,
+  );
+
+  const researchPlusSeparatedSignals = makeCompletedResearch("research-plus-separated-signals");
+  {
+    const signalPath = path.join(researchPlusSeparatedSignals, "strategy/SIGNAL_CORPUS.md");
+    const signal = readFileSync(signalPath, "utf8")
+      .replace(
+        "| SIG-001 | customer language | I lose the streak and stop opening the app | INPUT-001 | 2026-07-20 | product promise and retention | high | current | none | strategy/RESEARCH.md / TRACE-002 |",
+        "| SIG-001 | customer language | I lose the streak and stop opening the app | INPUT-001 | 2026-07-20 | product promise and retention | high | current | none | strategy/RESEARCH.md / TRACE-002 |\n| SIG-002 | founder report | Recovery ritual after a missed day | INPUT-001 | 2026-07-20 | retention experiment | medium | current | none | strategy/RESEARCH.md / TRACE-004 |",
+      )
+      .replace("| SIG-001 | PRODUCT.md | add streak recovery | TRACE-002 |", "| SIG-001 + SIG-002 | PRODUCT.md | add streak recovery | TRACE-002 |");
+    writeFileSync(signalPath, signal, "utf8");
+  }
+  runFixture("Derived Outputs retain supported plus-separated Signal ID lists", researchPlusSeparatedSignals, "check-research-evidence.ts", 0);
+
+  const researchConfidenceNuance = makeCompletedResearch("research-confidence-nuance");
+  {
+    const researchPath = path.join(researchConfidenceNuance, "strategy/RESEARCH.md");
+    const research = readFileSync(researchPath, "utf8").replace("| high |", "| medium, estimate |");
+    writeFileSync(researchPath, research, "utf8");
+  }
+  runFixture(
+    "Source Ledger Confidence rejects enum nuance and keeps the repair in narrative fields",
+    researchConfidenceNuance,
+    "check-research-evidence.ts",
+    1,
+    "research.source_ledger_confidence_invalid",
+  );
 
   const researchV2OpeningMandate = makeCompletedResearch("research-v2-opening-mandate");
   writeResearch(researchV2OpeningMandate, [

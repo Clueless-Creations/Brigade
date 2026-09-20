@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { validateOfferTest, isAbsentOwnedRelationship, tableColumn, rowsMatchTableWidth } from "./offer-evidence.js";
+import { validateOfferTest, isAbsentOwnedRelationship, tableColumn, rowsMatchTableWidth, OFFER_TEST_HEADERS } from "./offer-evidence.js";
 export { OFFER_TEST_HEADERS } from "./offer-evidence.js";
 /**
  * check-research-evidence.ts — content floor for the research lane.
@@ -16,7 +16,11 @@ import { isPlanningWorkspace } from "../../../../kernel/session/planning-context
 import { asString, getPath, issue, loadProjectState, parseCliArgs, readText, reportAndExit } from "../../../../tooling/lib/launch-state.js";
 import { isEmptyEquivalentEvidenceValue } from "../../../../kernel/lib/empty-equivalent-evidence.js";
 import { parseRenderedTopLevelStatus, parseRequiredTableSection, type RequiredTableSection } from "../../../../kernel/lib/required-table-section.js";
-import { assertResearchContractHeaders } from "../../../../contracts/public-api/research-contract.js";
+import {
+  assertResearchContractHeaders,
+  RESEARCH_CONTRACT_EXPLANATION,
+  renderResearchContractExplanation,
+} from "../../../../contracts/public-api/research-contract.js";
 import {
   isPlaceholderOnly,
   isValidNonFutureRfc3339Instant,
@@ -25,6 +29,13 @@ import {
   type SignalLifecycle,
   type SignalSupersessionRecord,
 } from "./research-evidence-helpers.js";
+
+// Read-only contract explanation must not load workspace state or execute artifact validation.
+if (process.argv.includes("--explain")) {
+  const asJson = process.argv.includes("--json");
+  console.log(asJson ? JSON.stringify({ check: "research", explanation: RESEARCH_CONTRACT_EXPLANATION }) : renderResearchContractExplanation());
+  process.exit(0);
+}
 
 const args = parseCliArgs(process.argv.slice(2));
 const requireWorkflowOutputs = process.argv.includes("--require-workflow-outputs");
@@ -125,6 +136,12 @@ assertResearchContractHeaders({
   },
   distributionProof: DISTRIBUTION_PROOF_HEADERS.map(([canonical]) => canonical),
   verdict: Object.values(VERDICT_HEADERS).map(([canonical]) => canonical),
+  offerTest: {
+    contract: [...OFFER_TEST_HEADERS.contract],
+    decision: [...OFFER_TEST_HEADERS.decision],
+    exposure: [...OFFER_TEST_HEADERS.exposure],
+    waiver: [...OFFER_TEST_HEADERS.waiver],
+  },
 });
 
 const laneStatus = state ? asString(getPath(state, "lanes.research.status"))?.toLowerCase() : undefined;
@@ -298,8 +315,6 @@ if (text) {
     // here, before Phase 2 spends design/build/store effort. The agent
     // assembles the evidence; the verdict is the founder's call — and a Kill
     // or Pivot at this checkpoint is the process working, not failing.
-    const PLACEHOLDER_TEXT = /\b(unverified|tbd|todo|to be filled|pending|placeholder)\b/i;
-
     const revenueResult = parseRequiredTableSection(text, "Category Revenue Reality");
     if (!revenueResult.ok) {
       // The phrase in prose is not the section: a done lane needs the parsed
@@ -324,10 +339,7 @@ if (text) {
         const revenueCell = revenueColumn >= 0 ? (row.cells[revenueColumn] ?? "") : "";
         const sourceCell = sourceColumn >= 0 ? (row.cells[sourceColumn] ?? "") : "";
         return (
-          /\$\s*\d[\d,]*(?:\.\d+)?/.test(revenueCell) &&
-          sourceCell.trim().length > 0 &&
-          !PLACEHOLDER_TEXT.test(sourceCell) &&
-          /\d{4}-\d{2}-\d{2}/.test(sourceCell)
+          /\$\s*\d[\d,]*(?:\.\d+)?/.test(revenueCell) && sourceCell.trim().length > 0 && !isPlaceholderOnly(sourceCell) && /\d{4}-\d{2}-\d{2}/.test(sourceCell)
         );
       };
       const invalidRevenueRow = revenueRows.find((row) => !sourcedRow(row));
@@ -349,7 +361,7 @@ if (text) {
       }
       const barLine = revenueSection.renderedBody.split(/\r?\n/).find((line) => /stated bar/i.test(line) && line.includes(":"));
       const barValue = barLine ? (barLine.split(/:(.*)/s)[1] ?? "").trim() : "";
-      const barStated = barValue.length > 0 && /\d/.test(barValue) && !PLACEHOLDER_TEXT.test(barValue);
+      const barStated = barValue.length > 0 && /\d/.test(barValue) && !isPlaceholderOnly(barValue);
       if (!barStated || !/pass or fail[^:\n]*:\s*(pass|fail)/i.test(revenueSection.renderedBody)) {
         issues.push(
           issue(
@@ -397,7 +409,7 @@ if (text) {
             parsedEvidenceIds.ids.every((evidenceId) => sourceLedgerIds.has(evidenceId) || signalEvidence.eligibleSignalIds.has(evidenceId));
           return (
             [audience, location, format, ownedRoute, measuredSignal, evidenceIds].every(
-              (cell) => cell.length > 0 && !PLACEHOLDER_TEXT.test(cell) && !/\breplace with\b/i.test(cell),
+              (cell) => cell.length > 0 && !isPlaceholderOnly(cell) && !/\breplace with\b/i.test(cell),
             ) &&
             !isAbsentOwnedRelationship(ownedRoute) &&
             !genericLocation.test(location) &&
@@ -421,7 +433,7 @@ if (text) {
             parsedEvidenceIds.ids.every((evidenceId) => sourceLedgerIds.has(evidenceId) || signalEvidence.eligibleSignalIds.has(evidenceId));
           return !(
             [audience, location, format, ownedRoute, measuredSignal, evidenceIds].every(
-              (cell) => cell.length > 0 && !PLACEHOLDER_TEXT.test(cell) && !/\breplace with\b/i.test(cell),
+              (cell) => cell.length > 0 && !isPlaceholderOnly(cell) && !/\breplace with\b/i.test(cell),
             ) &&
             !isAbsentOwnedRelationship(ownedRoute) &&
             !genericLocation.test(location) &&
@@ -537,7 +549,7 @@ if (text) {
         // positionally — an unrelated Notes column sitting after Verdict must
         // not be able to satisfy the founder-only gate.
         const decidedByCell = decidedColumn < 0 ? "" : (latest.cells[decidedColumn] ?? "").trim();
-        if (decidedByCell.length === 0 || PLACEHOLDER_TEXT.test(decidedByCell) || !isFounderDecider(decidedByCell)) {
+        if (decidedByCell.length === 0 || isPlaceholderOnly(decidedByCell) || !isFounderDecider(decidedByCell)) {
           issues.push(
             issue(
               "error",
@@ -553,13 +565,13 @@ if (text) {
           );
         }
         const evidenceCells = evidenceColumnsPresent ? evidenceColumns.map((column) => latest.cells[column] ?? "") : [];
-        if (evidenceColumnsPresent && evidenceCells.some((cell) => cell.trim().length === 0 || PLACEHOLDER_TEXT.test(cell))) {
+        if (evidenceColumnsPresent && evidenceCells.some((cell) => cell.trim().length === 0 || isPlaceholderOnly(cell))) {
           issues.push(
             issue(
               "error",
               "research.go_pivot_kill_evidence_thin",
-              "The latest Go, Pivot, Or Kill row carries empty or placeholder evidence cells. A verdict decided over " +
-                '"unverified" is a mood, not a decision — fill category revenue, wedge, demand, distribution, and offer evidence before recording it.',
+              "The latest Go, Pivot, Or Kill row carries empty or placeholder-only evidence cells. A verdict decided over " +
+                "an unauthored blank is not a decision — fill category revenue, wedge, demand, distribution, and offer evidence before recording it.",
               "strategy/RESEARCH.md",
               {
                 line: latest.sourceLine,
@@ -568,7 +580,7 @@ if (text) {
             ),
           );
           evidenceCells.forEach((cell, index) => {
-            if (cell.trim().length > 0 && !PLACEHOLDER_TEXT.test(cell)) return;
+            if (cell.trim().length > 0 && !isPlaceholderOnly(cell)) return;
             const label = VERDICT_EVIDENCE_LABELS[index] ?? "named evidence";
             issues.push(
               issue(
@@ -616,37 +628,6 @@ if (text) {
 
 if (verdictRequired) {
   validateOfferTest(offerText, issues, isFounderDecider);
-}
-
-if (process.argv.includes("--explain")) {
-  console.log(
-    JSON.stringify({
-      check: "research-workflow-output",
-      description: "Read-only structural and evidence contract for the research artifacts.",
-      artifacts: {
-        research: {
-          path: "strategy/RESEARCH.md",
-          requiredSections: ["Source Ledger", "Decision Inputs", "Decision Log", "Category Revenue Reality", "Go, Pivot, Or Kill"],
-          confidence: ["low", "medium", "high"],
-          dates: "past ISO/RFC3339 dates; future observations are invalid",
-        },
-        signalCorpus: {
-          path: "strategy/SIGNAL_CORPUS.md",
-          requiredSections: ["Corpus Inputs", "Signal Records", "Conflicts And Supersession", "Derived Outputs"],
-          ids: "explicit INPUT-* and SIG-* identifiers; supported separators remain valid",
-          status: ["current", "superseded", "rejected", "unverified"],
-        },
-        offerTest: {
-          path: "strategy/OFFER_TEST.md",
-          requiredSections: ["Test Contract", "Measurement", "Decision"],
-          waiver: "a waiver must bind to the final decision date and actor",
-        },
-      },
-      lifecycle: "Go, Pivot, or Kill is an authored checkpoint; explanation does not initialize a lane or certify a claim.",
-      limits: "This explains the enforced contract. It does not replace validation, independent review, or runtime/provider proof.",
-    }),
-  );
-  process.exit(0);
 }
 
 reportAndExit("Research evidence check", issues);
@@ -746,7 +727,6 @@ function validateSignalCorpus(value: string | undefined, target: ReturnType<type
     }
   }
 
-  const placeholder = /\b(todo|tbd|placeholder|replace with|pending|unverified|authored reason|yyyy-mm-dd)\b|<[^>]+>/i;
   const inputs = sections.inputs.ok ? sections.inputs.section : undefined;
   const inputColumnIndexes = inputs ? SIGNAL_CORPUS_HEADERS.inputs.map((headers) => tableColumnAny(inputs, headers)) : [];
   const declaredInputIds = new Set<string>();
@@ -966,8 +946,10 @@ function validateSignalCorpus(value: string | undefined, target: ReturnType<type
       conflictRows.length === 0 ||
       !rowsMatchTableWidth(conflicts) ||
       conflictRows.some(({ cells, noConflict }) => {
-        const [earlier, later] = cells;
-        const complete = cells.every((cell) => cell.length > 0 && !placeholder.test(cell));
+        const [earlier, later, conflict, position, reason] = cells;
+        const complete =
+          [earlier, later].every((cell) => (cell ?? "").trim().length > 0) &&
+          [conflict, position, reason].every((cell) => (cell ?? "").trim().length > 0 && !isPlaceholderOnly(cell ?? ""));
         if (!complete) return true;
         if (noConflict) return false;
         const earlierId = (earlier ?? "").toUpperCase();
@@ -1013,9 +995,9 @@ function validateSignalCorpus(value: string | undefined, target: ReturnType<type
           signalIds.validSyntax &&
           signalIds.ids.length > 0 &&
           signalIds.ids.every((signalId) => index.eligibleSignalIds.has(signalId)) &&
-          [cells[1] ?? "", cells[2] ?? ""].every((cell) => cell.length > 0 && !placeholder.test(cell)) &&
+          [cells[1] ?? "", cells[2] ?? ""].every((cell) => cell.length > 0 && !isPlaceholderOnly(cell)) &&
           /\bTRACE-[A-Z0-9][A-Z0-9-]*\b/i.test(cells[3] ?? "") &&
-          !placeholder.test(cells[3] ?? "")
+          !isPlaceholderOnly(cells[3] ?? "")
         );
       }) ?? (!rowsMatchTableWidth(derived) || derived.rows.length === 0 ? { sourceLine: derived.headingLine } : undefined);
     if (invalidDerivedRow) {
@@ -1023,9 +1005,9 @@ function validateSignalCorpus(value: string | undefined, target: ReturnType<type
       const signalIds = parsePrefixedIdList(cells[0] ?? "", "SIG");
       const invalidField = firstInvalidField([
         ["Signal IDs", signalIds.validSyntax && signalIds.ids.length > 0 && signalIds.ids.every((signalId) => index.eligibleSignalIds.has(signalId))],
-        ["Output", Boolean(cells[1]) && !placeholder.test(cells[1] ?? "")],
-        ["Decision changed", Boolean(cells[2]) && !placeholder.test(cells[2] ?? "")],
-        ["Trace ID", /\bTRACE-[A-Z0-9][A-Z0-9-]*\b/i.test(cells[3] ?? "") && !placeholder.test(cells[3] ?? "")],
+        ["Output", Boolean(cells[1]) && !isPlaceholderOnly(cells[1] ?? "")],
+        ["Decision changed", Boolean(cells[2]) && !isPlaceholderOnly(cells[2] ?? "")],
+        ["Trace ID", /\bTRACE-[A-Z0-9][A-Z0-9-]*\b/i.test(cells[3] ?? "") && !isPlaceholderOnly(cells[3] ?? "")],
       ]);
       target.push(
         issue(
@@ -1061,7 +1043,6 @@ function validateTransformationDemo(text: string, target: ReturnType<typeof issu
     );
     return;
   }
-  const placeholder = /\b(pending|todo|tbd|placeholder|replace with|example)\b/i;
   const vitamin = /\b(vitamin|wellness boost|nice to have|generic productivity|feel better)\b/i;
   const screenshotOk = /\.(png|jpe?g|webp|gif)$/i;
   const rowsValid =
@@ -1074,7 +1055,7 @@ function validateTransformationDemo(text: string, target: ReturnType<typeof issu
       const transformation = cells[2] ?? "";
       const notVitamin = cells[3] ?? "";
       return (
-        cells.every((cell) => cell.length > 0 && !placeholder.test(cell)) &&
+        cells.every((cell) => cell.length > 0 && !isPlaceholderOnly(cell)) &&
         (screenshot.includes("/") || screenshotOk.test(screenshot)) &&
         script.length >= 24 &&
         transformation.length >= 16 &&
@@ -1090,7 +1071,7 @@ function validateTransformationDemo(text: string, target: ReturnType<typeof issu
       const transformation = cells[2] ?? "";
       const notVitamin = cells[3] ?? "";
       return !(
-        cells.every((cell) => cell.length > 0 && !placeholder.test(cell)) &&
+        cells.every((cell) => cell.length > 0 && !isPlaceholderOnly(cell)) &&
         (screenshot.includes("/") || screenshotOk.test(screenshot)) &&
         script.length >= 24 &&
         transformation.length >= 16 &&
@@ -1101,9 +1082,9 @@ function validateTransformationDemo(text: string, target: ReturnType<typeof issu
     const demoCells = invalidRow ? demoColumns.map((column) => (invalidRow.cells[column] ?? "").trim()) : [];
     const invalidField = firstInvalidField([
       ["Screenshot path", Boolean(demoCells[0]) && (demoCells[0]!.includes("/") || screenshotOk.test(demoCells[0]!))],
-      ["15s script", Boolean(demoCells[1]) && demoCells[1]!.length >= 24 && !placeholder.test(demoCells[1]!)],
-      ["Transformation shown", Boolean(demoCells[2]) && demoCells[2]!.length >= 16 && !placeholder.test(demoCells[2]!) && !vitamin.test(demoCells[2]!)],
-      ["Why-not-a-vitamin", Boolean(demoCells[3]) && demoCells[3]!.length >= 16 && !placeholder.test(demoCells[3]!)],
+      ["15s script", Boolean(demoCells[1]) && demoCells[1]!.length >= 24 && !isPlaceholderOnly(demoCells[1]!)],
+      ["Transformation shown", Boolean(demoCells[2]) && demoCells[2]!.length >= 16 && !isPlaceholderOnly(demoCells[2]!) && !vitamin.test(demoCells[2]!)],
+      ["Why-not-a-vitamin", Boolean(demoCells[3]) && demoCells[3]!.length >= 16 && !isPlaceholderOnly(demoCells[3]!)],
     ]);
     target.push(
       issue(
@@ -1135,7 +1116,6 @@ function validateDistributionFirstNiche(text: string, target: ReturnType<typeof 
     );
     return;
   }
-  const placeholder = /\b(pending|todo|tbd|placeholder|replace with|example)\b/i;
   const genericChannel = /^(social media|online|internet|web|ads|organic)$/i;
   const compliment = /\b(like|likes|compliment|interested|waitlist only)\b/i;
   const rowsValid =
@@ -1147,7 +1127,7 @@ function validateDistributionFirstNiche(text: string, target: ReturnType<typeof 
       const channel = cells[1] ?? "";
       const purchases = cells[2] ?? "";
       return (
-        cells.every((cell) => cell.length >= 12 && !placeholder.test(cell)) &&
+        cells.every((cell) => cell.length >= 12 && !isPlaceholderOnly(cell)) &&
         /\b(pay|paid|price|iap|subscription|spend)\b/i.test(paying) &&
         !genericChannel.test(channel) &&
         /\b(purchase|paid|revenue|iap|subscribe)\b/i.test(purchases) &&
@@ -1161,7 +1141,7 @@ function validateDistributionFirstNiche(text: string, target: ReturnType<typeof 
       const channel = cells[1] ?? "";
       const purchases = cells[2] ?? "";
       return !(
-        cells.every((cell) => cell.length >= 12 && !placeholder.test(cell)) &&
+        cells.every((cell) => cell.length >= 12 && !isPlaceholderOnly(cell)) &&
         /\b(pay|paid|price|iap|subscription|spend)\b/i.test(paying) &&
         !genericChannel.test(channel) &&
         /\b(purchase|paid|revenue|iap|subscribe)\b/i.test(purchases) &&
@@ -1174,15 +1154,15 @@ function validateDistributionFirstNiche(text: string, target: ReturnType<typeof 
         "Paying audience",
         Boolean(nicheCells[0]) &&
           nicheCells[0]!.length >= 12 &&
-          !placeholder.test(nicheCells[0]!) &&
+          !isPlaceholderOnly(nicheCells[0]!) &&
           /\b(pay|paid|price|iap|subscription|spend)\b/i.test(nicheCells[0]!),
       ],
-      ["Named channel", Boolean(nicheCells[1]) && nicheCells[1]!.length >= 12 && !placeholder.test(nicheCells[1]!) && !genericChannel.test(nicheCells[1]!)],
+      ["Named channel", Boolean(nicheCells[1]) && nicheCells[1]!.length >= 12 && !isPlaceholderOnly(nicheCells[1]!) && !genericChannel.test(nicheCells[1]!)],
       [
         "Purchases as validation",
         Boolean(nicheCells[2]) &&
           nicheCells[2]!.length >= 12 &&
-          !placeholder.test(nicheCells[2]!) &&
+          !isPlaceholderOnly(nicheCells[2]!) &&
           /\b(purchase|paid|revenue|iap|subscribe)\b/i.test(nicheCells[2]!) &&
           !compliment.test(nicheCells[2]!),
       ],
@@ -1280,11 +1260,11 @@ function isCompleteSourceLedgerRow(cells: readonly string[], columns: SourceLedg
   const inference = cells[columns.inference];
   const confidence = cells[columns.confidence];
   const artifactTrace = cells[columns.artifactTrace];
-  const placeholder = /\b(pending|todo|tbd|placeholder|replace with|n\/a without reason)\b|<[^>]+>/i;
+  const identityPlaceholder = /\b(pending|todo|tbd|placeholder|replace with|n\/a without reason)\b|<[^>]+>/i;
   const requiredTextCells = [source, platform, identity, backendQuery, transcriptVisual, observation, inference, artifactTrace];
   return Boolean(
     requiredTextCells.every((cell) => cell?.trim()) &&
-    [source, platform, identity, backendQuery, artifactTrace].every((cell) => !placeholder.test(cell ?? "")) &&
+    [source, platform, identity, backendQuery, artifactTrace].every((cell) => !identityPlaceholder.test(cell ?? "")) &&
     [transcriptVisual, observation, inference].every((cell) => !isPlaceholderOnly(cell ?? "")) &&
     isValidNonFutureRfc3339Instant(observedAt) &&
     /^(low|medium|high)$/i.test(confidence?.trim() ?? ""),

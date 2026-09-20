@@ -6,14 +6,9 @@
  */
 export const RESEARCH_CONTRACT_EXPLANATION = {
   check: "research",
-  version: "1.0.0",
+  version: "1.1.0",
   description: "Validates research evidence structure and cross-record references before product initialization.",
-  artifacts: [
-    "strategy/RESEARCH.md",
-    "strategy/SIGNAL_CORPUS.md",
-    "strategy/OFFER_TEST.md",
-    "strategy/RED_TEAM_FINDINGS.md",
-  ],
+  artifacts: ["strategy/RESEARCH.md", "strategy/SIGNAL_CORPUS.md", "strategy/OFFER_TEST.md", "strategy/RED_TEAM_FINDINGS.md"],
   sections: [
     {
       heading: "Source Ledger",
@@ -48,6 +43,13 @@ export const RESEARCH_CONTRACT_EXPLANATION = {
       heading: "Go, Pivot, Or Kill",
       columns: ["Date", "Category revenue reality", "Wedge", "Demand signal", "Distribution proof", "Offer test", "Verdict (Go / Pivot / Kill)", "Decided by"],
     },
+    { heading: "Test Contract", columns: ["Field", "Value"] },
+    {
+      heading: "Exposure And Conversion",
+      columns: ["Date", "Channel", "Evidence source", "Exposure type", "Exposure", "CTA conversions", "Conversion rate", "Cost", "Result"],
+    },
+    { heading: "Decision", columns: ["Status", "Date", "Evidence", "Decision", "Decided by"] },
+    { heading: "Founder Waiver", columns: ["Date", "Founder", "Reason", "Residual risk accepted"] },
   ],
   formats: {
     verdicts: ["Go", "Pivot", "Kill"],
@@ -62,8 +64,9 @@ export const RESEARCH_CONTRACT_EXPLANATION = {
   ],
   checkpoint: {
     applicability: "The Go/Pivot/Kill checkpoint is required before initialization or downstream build work.",
-    nonGo: "A valid Pivot or Kill is a held checkpoint, not malformed research and not initialization authority.",
-    evidence: "Unrun or unknown experiments remain unmeasured; structural validity does not prove demand or differentiation.",
+    nonGo:
+      "A valid Pivot or Kill is a held checkpoint, not malformed research and not initialization authority. #395 owns recoverable Pivot/hold authoring and continuation; this explanation does not initialize a lane or certify a claim.",
+    evidence: "Unrun or unknown experiments remain unmeasured; structural validity does not prove demand or differentiation. #74 owns proof-strength meaning.",
   },
   safety: "Output is read-only and contains no workspace excerpts, credentials, customer data, or authority grants.",
 } as const;
@@ -78,6 +81,12 @@ export function assertResearchContractHeaders(input: {
   signalCorpus: { inputs: readonly string[]; records: readonly string[]; conflicts: readonly string[]; derived: readonly string[] };
   distributionProof: readonly string[];
   verdict: readonly string[];
+  offerTest?: {
+    contract: readonly string[];
+    decision: readonly string[];
+    exposure: readonly string[];
+    waiver: readonly string[];
+  };
 }): void {
   const sections = new Map(RESEARCH_CONTRACT_EXPLANATION.sections.map((section) => [normalized(section.heading), section]));
   const required: Array<[string, readonly string[]]> = [
@@ -89,6 +98,14 @@ export function assertResearchContractHeaders(input: {
     ["Distribution Proof", input.distributionProof],
     ["Go, Pivot, Or Kill", input.verdict],
   ];
+  if (input.offerTest) {
+    required.push(
+      ["Test Contract", input.offerTest.contract],
+      ["Exposure And Conversion", input.offerTest.exposure],
+      ["Decision", input.offerTest.decision],
+      ["Founder Waiver", input.offerTest.waiver],
+    );
+  }
   for (const [heading, headers] of required) {
     const section = sections.get(normalized(heading));
     if (!section) throw new Error(`research_contract.explanation_section_missing:${heading}`);

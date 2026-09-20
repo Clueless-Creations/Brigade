@@ -1,7 +1,7 @@
 apiVersion: b2c.extension/v1
 hostApiVersion: b2c/v1
 id: b2c/consumer-business
-version: 0.221.58
+version: 0.221.59
 title: Consumer business
 dependencies: []
 imports: []
@@ -3259,7 +3259,7 @@ implementations:
       workflowId: workflow.orchestration.session-continuity-resume
       instructions: "Run `b2c status` and `b2c plan`, then inspect `git status --short` and the relevant authored artifacts before work. Treat `state/business-state.json` as reducer-owned execution state: do not edit it directly. Consult `AGENTS.md`, `operations/ORCHESTRATION.md`, `engineering/PRODUCTION_READINESS.md`, and `operations/FAILURE_CARDS.md` when present. `check:continuity-contract` verifies the installed continuity contract. Prior chat turns do not replace durable evidence."
       providerIds: []
-      contextFingerprint: sha256:1918e9b2e35ee47f7d6682a923260248deac366ff497c7b86d7c8f07cf9b5122
+      contextFingerprint: sha256:e2883e0e2330f098ebf358519486412618b5d6c2dd601ad4f1d4221e423790f3
   - id: b2c/worker.orchestration.orient-scaffold-and-state-cockpit-upkeep
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3301,7 +3301,7 @@ implementations:
       workflowId: workflow.orchestration.orient-scaffold-and-state-cockpit-upkeep
       instructions: Run `b2c status` and `b2c plan` to orient from reducer-owned `state/business-state.json`. Do not edit that file or author a second state document. Submit lane, evidence, and blocker changes through the runtime reducer. A succeeded lane needs evidence or live proof, and a lane cannot succeed while a required upstream lane is running or blocked. Record App Store Connect API-key health and Apple web-session health as two proofs; a healthy API key is not ASC connected. Do not write a signing blocker until `asc certificates list` has been read, and do not treat a local Development keychain as a distribution blocker when App Store Connect already lists Distribution certificates. Do not dispatch research-backed-spec until the live App Store portfolio observe has succeeded. Choose the smallest orchestration strategy that fits the ready work, then report what changed, what happens next, and what needs the human. Do not wait for later operational or readiness artifacts during orientation.
       providerIds: []
-      contextFingerprint: sha256:0c2915a0d20c97421ee67b4c8906a484c586409aa631dda0d5cafae02846dd1f
+      contextFingerprint: sha256:b180339f9e44697bb9c392d762269adfef8986c334554d1e524538b95ff3fd6e
   - id: b2c/worker.orchestration.full-launch-program
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3346,7 +3346,7 @@ implementations:
       workflowId: workflow.orchestration.full-launch-program
       instructions: "Open the program. Open `operations/FOUNDER_BRIEF.md` as the canonical founder brief. Write `operations/LAUNCH_PROGRAM.md` as the derived mandate record: quote the bounded founder-constraint slice (constraints, targets, authority, selected-app facts) with provenance (artifact and digest), then outcome, stop line, launch scope, start classification, workspace facts, craft references, spend ceiling, autonomy mode, founder-only actions, and the review policy from `reference.orchestration.full-launch-program`. Do not treat `LAUNCH_PROGRAM.md` as the source or the only mandate owner. Record `project.launchScope: full` through the reducer with a dated founder reason when it changes an existing scope; never edit `state/business-state.json` by hand. Confirm the `## Review Ledger` section exists in `operations/ORCHESTRATION.md` before any broad dispatch. Present one start-of-workflow tool-intake AskUserQuestion for the account-gated tools on the research-backed-spec compiled graph; fold it into a pending readiness gate; do not open a second tool gate. Name App Store Connect API auth and the live apps-list receipt as required even when optional research tools are deferred. Record API-key health and web-session health as two proofs. Classify the start: a brownfield overhaul runs research in audit-and-gap-fill mode with keep, refresh, or redo per artifact. Do not dispatch research-backed-spec until live-app-store-portfolio has succeeded. Then let `b2c plan` sequence the existing nodes; this node adds the mandate, the isolated-review edges, the reference-pack edge, and the closeout gates, not a second graph. Hand off with the smallest founder-only ask."
       providerIds: []
-      contextFingerprint: sha256:9a2f08a51008daabbb17511a995bc7ffe9ea4f052c4e54e1e751c06e8c3972b8
+      contextFingerprint: sha256:76a81db28b9c018fd82c298d1eeacb1f922f9cf72dbe7bbee0477234f050ce36
   - id: b2c/worker.orchestration.full-launch-closeout
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3391,7 +3391,7 @@ implementations:
       workflowId: workflow.orchestration.full-launch-closeout
       instructions: "Close the program against the definition-of-done table in `reference.orchestration.full-launch-program` and the canonical founder brief in `operations/FOUNDER_BRIEF.md`. `operations/LAUNCH_PROGRAM.md` is the derived mandate record, not the only mandate owner. Write `LAUNCH.md` as the launch dossier: the store-console click path ending at Submit for Review, pointers to the listing, screenshots, signing, console, email, and revenue artifacts, the launch calendar, the monetization thresholds, and the open founder decisions. Confirm every lane is done, blocked with a founder action, or deferred with a dated reason the founder accepted. Confirm the review ledger holds a passing row for every producer-to-auditor pair and that each findings artifact exists. Confirm `engineering/PRODUCTION_READINESS.md` carries physical-device evidence, not simulator-only proof. Run `check:lane-coverage`, `check:orchestration`, `check:readiness-coverage`, and `check:app-copy`; do not narrate readiness a gate contradicts. Hand off what the founder clicks, in order, and the one remaining founder action. You never click Submit for Review."
       providerIds: []
-      contextFingerprint: sha256:ca599bba3343408e74524afa85fad3a5639625ccb3085b009b420bf007a0366d
+      contextFingerprint: sha256:d61752bd9aca86e09caa453250cfe5011a7424443c7c8b1710e54f3121aff210
   - id: b2c/worker.process.provider-proof-verification
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3437,7 +3437,7 @@ implementations:
         - provider.revenuecat
         - provider.resend
         - provider.app-store-connect
-      contextFingerprint: sha256:b45f97a73a941be38c08b1e80bb5cb38a82a416aab6362b700b4794ce5a0b83d
+      contextFingerprint: sha256:31c3cf72dfea2239a98a3a4884371357838566ca6a0760529b4f8abf28ec5fdc
   - id: b2c/worker.process.change-cascade
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3479,7 +3479,7 @@ implementations:
       workflowId: workflow.process.change-cascade
       instructions: Run a design_contract_lock cascade when DESIGN.md is first accepted. This creates the public-surface baseline while app implementation starts. After that, ingest engineering/SOURCE_CHANGE_MANIFEST.json and classify each accepted change with every applicable Change Cascade Map type, not one convenient primary type. Use agents/launch-surface-producer.md for the surface audit and bounded update tasks. Check the app, Apple App Store, Google Play, Apple and Play products, billing, landing site, web onboarding, GEO/SEO, lifecycle email, analytics, legal pages and public privacy claims, screenshots, and marketing assets. Update each affected surface or record why it is unaffected. Submit any lane or evidence transitions through the reducer; do not write them into an authored state document. Updated localized, product, device, product-page, or asset surfaces need one evidence variant per applicable dimension. Re-render any screenshot, App Preview, Play feature graphic, landing screenshot, or ad asset whose source digest changed. Reconcile the locked lexicon in DESIGN.md before the change succeeds and write the checked ledger digest to state/CHANGE_CASCADE_RECEIPT.json.
       providerIds: []
-      contextFingerprint: sha256:fb6d9985248488355d108707ef5c6070093e274de28d8cee1e36f91c9ec1dce3
+      contextFingerprint: sha256:831c8a40cb99869c9ce3486db3379af6d217bf76a5a3a9eff14456da227bcf0f
   - id: b2c/worker.process.launch-trace-and-build-contracts
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3532,7 +3532,7 @@ implementations:
       workflowId: workflow.process.launch-trace-and-build-contracts
       instructions: When work crosses from research into product/design/build, create or update `state/LAUNCH_TRACE.md` as the decision-trace table (evidence ID, source, tool route, research finding, experience/product/brand decision, build contract, analytics/security/revenue/privacy/store impact, verification, status) so every screen, claim, or paywall behavior traces back to the evidence that produced it. Decide whether `engineering/TECH_SPEC.md` is needed — create it when the app has backend APIs, database/storage, auth, subscriptions, email, analytics, AI, push, account deletion, or non-trivial platform behavior, and cover the data model, API/RPC/webhook contracts, state machines, permissions, and integration contracts so a builder never has to invent schema or endpoint behavior. Do not let a claim, screen, onboarding question, or paywall behavior move forward without a trace row or an explicit, documented founder-only decision.
       providerIds: []
-      contextFingerprint: sha256:089e3eef080e2836296eb5698e475fd80cfbeec1216e4c44e523db12cd165c5a
+      contextFingerprint: sha256:46ec67c7ed80be0e9e8954614486ddb6e5862ecd5c00af3b47602fe5a04c1539
   - id: b2c/worker.process.launchbench-failure-cards-coverage-audit
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3575,7 +3575,7 @@ implementations:
       workflowId: workflow.process.launchbench-failure-cards-coverage-audit
       instructions: Before any launch-readiness claim, after a repeated agent miss, or when adding a validator or scenario, run `npm run launchbench` (definition lint plus the validator fixture suite) and turn any known regression into a durable card in `operations/FAILURE_CARDS.md` (card ID, severity, owner, status, detected date, evidence, impact, next action, validator) instead of leaving it as a chat note. Record scenarios run, validators run, expected failures caught, and unexpected misses in `LAUNCHBENCH.md`. Close a card only with evidence or command proof attached. The node's deterministic gate is `launchbench:lint` — scenario YAML shape only — so a session does not re-run the fixture suite that CI already runs on the heavy lane. Use `b2c status` and `b2c plan` to confirm that reducer-owned lane state does not support a launch-ready claim while an upstream lane is still running or blocked.
       providerIds: []
-      contextFingerprint: sha256:16e2be1f2e9b19dc25d19c8244abf89572955676f36648e145d861c687760228
+      contextFingerprint: sha256:ca0fcf880db1236f12e9ae04f10d2ed42b22b095e156b13c48d1a181e576e333
   - id: b2c/worker.process.repository-profile-contract
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3616,7 +3616,7 @@ implementations:
       workflowId: workflow.process.repository-profile-contract
       instructions: Accept one typed repository profile in reducer-owned project state. Compile the applicable artifact and validator contract from that profile plus the active capability graph. A profile cannot suppress privacy, secrets, authorization, billing, account deletion, provider proof, or release-truth gates when those capabilities are present.
       providerIds: []
-      contextFingerprint: sha256:87828ff50e4fd1051b6f560d1c19101fc99759f163ad1f0a284aa9eddab613d7
+      contextFingerprint: sha256:bd155835ede80ee0116fa6593d5456c7bb37f89e23e04fddf8444a028a0ff468
   - id: b2c/worker.operations.paid-tool-routing-and-fallback
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3706,7 +3706,7 @@ implementations:
       workflowId: workflow.operations.live-app-store-portfolio
       instructions: "Read the live App Store Connect portfolio with API auth only. Confirm `asc auth status --validate` on the winning binary, then run `asc apps list` and write `run/app-store-portfolio.json` with schema 1.0.0, command `asc apps list`, authFamily `api`, winnerVersion, observedAt, appCount, apps[] of sanitized `{name}` plus optional `{bundleId}`, and `empty: true` only when the live command returned no apps. Failed or missing API auth produces no receipt. A web session never satisfies this hold. Do not invent an empty portfolio. Do not store Apple numeric ids, SKU, raw stdout, session, or env. Compare names and bundle ids against `operations/business-access.json` `forbiddenProviderProjects[]` and refuse research that would target a match. A receipt older than seven days, or older than a later Apple-account checkedAt, is stale — re-run apps list. This node may remain held while reversible local prep continues; it blocks `workflow.research.research-backed-spec`."
       providerIds: []
-      contextFingerprint: sha256:8b07424589e5fd94944b1766891d7d7ac937a54d68784cffd0c45c165ec1ca01
+      contextFingerprint: sha256:f5aac17588d1268cbbff26cc808904bfa9c293a8ff3a68fceec15283b4b51da0
   - id: b2c/worker.operations.secrets-baseline-and-routing
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3856,7 +3856,7 @@ implementations:
       workflowId: workflow.operations.post-launch-operations
       instructions: Run the named Weekly Ops Review in fixed order — metrics pull (PostHog/RevenueCat/console numbers, not adjectives), crash/review triage, support sweep, ASO delta, growth/spend review against `growth/PAID_UA.md`'s stop/scale rules, then ship one user-visible improvement — and log a one-line delta per step in `operations/POST_LAUNCH_OPS.md` dated against `lanes.post_launch_ops.live_since`. Before automating a value-producing loop, record one manual run with its input, output, result, cost, and failure mode; exempt necessary security, compliance, backup, and monitoring controls. Track discovery-to-owned-contact, owned-contact-to-activation, owned-contact-to-paid, and external-platform concentration when those metrics apply. Route involuntary billing churn through the recovery levers, not written off as normal, and when retention cohorts show a consistent drop at one step, open it through `change-cascade.md` rather than patching only the surface that failed. At the day-30 and day-90 checkpoints, prepare the Kill/Hold/Fix/Scale evidence pack (MRR trajectory, D7/D30 retention trend, CAC/LTV payback, founder hours) in `operations/LAUNCH_RETRO.md` — the agent assembles evidence, the founder makes the verdict. `check:post-launch` fails a checkpoint left uncompleted past its due date or a metric cell holding a placeholder instead of a number.
       providerIds: []
-      contextFingerprint: sha256:233bf30e78e9c060c259bed7bd756019de7e391ddaf2a449e72c2056b5b5f0fc
+      contextFingerprint: sha256:66aee62e6ca8be4c6c466f53c363d062b7afdf798a2163cb59afb3da0885505f
   - id: b2c/worker.operations.support-queue-operations
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3971,7 +3971,7 @@ implementations:
       instructions: "Read the money every cycle and prove it in `operations/FINANCE_OPS.md`: a dated row with the MRR-labeled dollar amount from RevenueCat (\"MRR $0\" is a legitimate value; an adjective is not), monthly spend across tools and acquisition, and the runway or burn those two imply (`check:post-launch` fails a pulse with no MRR figure or no runway statement). Reconcile against the pricing scenarios and stop/scale rules the strategy docs carry — spend drifting past its stop rule surfaces here first, before the weekly review decides anything. This node assembles the evidence; verdicts stay where they belong: kill/hold/fix/scale is the Weekly Ops Review's founder gate, and spend changes route through the paid-acquisition gates."
       providerIds:
         - provider.revenuecat
-      contextFingerprint: sha256:f7861568bb964e269b5c0ce2004fc4631e2827e10675f310ab4aac74d76729dc
+      contextFingerprint: sha256:0fd95ec96f42be9441efa64acde3eb3ca8507372bdfba5d4f2e7704117a4e083
   - id: b2c/worker.operations.scheduled-autonomy-installation
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -4013,7 +4013,7 @@ implementations:
       workflowId: workflow.operations.scheduled-autonomy-installation
       instructions: "Install the OS-level trigger that keeps the operating loop alive: run `adapters/install-schedule.ts` in its default dry-run first and show the founder the exact crontab line (or launchd plist) it would install — mechanism, cadence, runtime, wrapper path, and log path — then run it with `--apply --approval workflow.operations.scheduled-autonomy-installation.approval.1` only after the current scheduled-autonomy founder approval is approved, because a standing schedule on their machine is their call, every time. Verify the installation with the command the dry-run prints (`crontab -l | grep b2c:<slug>` or `launchctl list`), and record the whole arrangement in `operations/SCHEDULE.md`: mechanism, cadence, runtime, brief path, wall-clock cap, the verify command, the exact uninstall command (`--uninstall --apply --approval workflow.operations.scheduled-autonomy-installation.approval.1`), and the note that the kill switch in `control/control.json` stops every scheduled session cold even while the OS keeps firing the trigger. The scheduled session itself reopens recurring work (the weekly ops review, the growth iteration loop) on its own calendar — this node installs the heartbeat, it does not do the week's work."
       providerIds: []
-      contextFingerprint: sha256:3cbe67e397c8b571ad59e9f778c1306b24e99b18b0bba6cc7834427a0a253836
+      contextFingerprint: sha256:561b661f42ce462678891346227f4ea3eaed2be7e48228158553dcc4e90e00d1
   - id: b2c/worker.operations.founder-zero-operator-bootstrap
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -4409,7 +4409,7 @@ implementations:
       workflowId: workflow.research.research-backed-spec
       instructions: "When no idea exists, compare three safe, feasible consumer-app opportunities before committing an app identity or build. Judge economics, recurring pain, reachable distribution, transformation clarity, complete-product feasibility, and sensitivity risk. If the opening request delegates product selection, choose the strongest candidate that clears the evidence bar and record `Founder opening mandate` as the decision authority. Otherwise, recommend one candidate for Go, Pivot, or Kill. Return no candidate instead of forcing a weak idea. Before a paid research request, use research-lookup with its provider/version, connection, operation and non-secret arguments under an explicit freshness limit. Reuse saved current results. In a registered planning workspace, checkpoint pending through research-record before dispatch, then checkpoint the actual observed, failed or uncertain result immediately; read back uncertain requests before replay. Use the selected research implementations and their current reference procedures. Honor explicit provider bindings. If an unavailable source has an authorized fallback, label its evidence limits; do not silently replace the selected source or infer unavailable evidence. Use the bound research references to write dated source evidence, category economics, demand, wedge, distribution, offer response, transformation demo, paying niche, signal provenance, conflicts, and the decision into strategy/RESEARCH.md, strategy/SIGNAL_CORPUS.md, and strategy/OFFER_TEST.md. Use the default category bar only when the work has not set a better one: top-ten gross of at least $5M per year with two apps above $1M each. Author accepted product facts in product.yaml, then render PRODUCT.md. Do not hand-edit PRODUCT.md. Before the product is accepted, define its core loop, Complete product scope, moat path, and beat moment. Run check:research-workflow-output. Do not harden a direction that fails it."
       providerIds: []
-      contextFingerprint: sha256:1a527a33e9befb06661c5f5dadff8bfe010f5b0cfaff807c929e761086994d45
+      contextFingerprint: sha256:06bdabfabfd8eaa41178fc9e35dd324eb57fd19914f72ad34805561a245fb808
   - id: b2c/worker.research.spec-red-team-audit
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -5959,7 +5959,7 @@ implementations:
       workflowId: workflow.design.design-room
       instructions: "Read PRODUCT.md first. DESIGN.md is the design authority; studio/seed/business.json is its structured screen and flow map. Load only the bound evidence and craft references needed for the affected surface. For substantive work, inspect the relevant references and rough direction, make a tangible draft of the important journey, critique concrete hierarchy/UX/identity/interaction/accessibility/recovery defects, revise the candidate substantively, and compare the revised candidate with the selected target before implementation. Develop at least three distinct concepts before selecting one. Preserve them in DESIGN.md frontmatter under exploration with unique concept IDs, reference-to-principle mappings, native/mobile-web/desktop-web treatments, a distinguishing mechanic, one selected decision, rejected decisions, and the rationale for each. The generated Design Room must expose this evidence beside the selected system. For new substantive design work, author the versioned foundation in DESIGN.md: communication priorities, material decision rationale, identity invariants, reference influence, and typography resources. Distinguish researched facts from creative hypotheses and platform or legibility constraints. Explore mechanisms that differ in communication and composition, not just names, palettes, or prose. For bounded maintenance of an accepted legacy design, the same Design Room owner follows quality-lens Focused review using direct compatible checks and fresh independent review; that procedure does not execute or accept this full workflow. Within this full workflow, repairs preserve accepted exploration and the required foundation while correcting the affected contract and dependencies. A physical metaphor, expressive motion, or layered composition is selected only when it improves the user job. Recompose each form factor with representative content and protect hierarchy. Keep durable decisions in DESIGN.md. Add screen or flow files only when the structured route is not enough. Use platform-neutral component contracts and the selected stack adapter. Update one coherent scope, validate it, and render the read-only Design Room. Git records revisions. When the opening mandate delegates design direction, choose and record the strongest direction. Otherwise, recommend it for founder approval."
       providerIds: []
-      contextFingerprint: sha256:d691db82bb2a7e0946655bec4fe231ba1b943ac8fa3b9255e3b918a5c3c4a249
+      contextFingerprint: sha256:c8466fb7dcdf3e2c53c26980d095a56fa8ae852dd1f1a6fbf0158e9dc7cc374a
   - id: b2c/worker.design.design-system-audit
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -7541,7 +7541,7 @@ implementations:
       workflowId: workflow.engineering.app-agent-roster-and-repo-entrypoints
       instructions: Fill AGENTS.md, CLAUDE.md, APP_AGENTS.md, and the complete agents/ roster from the current business documents. Include agents/launch-surface-producer.md. AGENTS.md must tell future agents to keep using the B2C App Builder skill's workflow. It must require state updates, validators, and the design-lock fan-out. Assign each role its audit surface. Specialists can edit only an assigned disjoint scope. They never stage, commit, release, spend, submit, or publish. A fresh agent must be able to resume from AGENTS.md and the roster without chat history.
       providerIds: []
-      contextFingerprint: sha256:431bce255192eae6c7a65717af0d1922782a0682ac8ea5761088296563e98e55
+      contextFingerprint: sha256:5fbdce8bb80f30dd2b5c87b7f379901cc153a817212291d589cc1cc960c5fa3e
   - id: b2c/worker.engineering.mobai-device-automation-and-demo-videos
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -7851,7 +7851,7 @@ implementations:
       workflowId: workflow.data.analytics-and-attribution-blueprint
       instructions: "Write analytics/ANALYTICS.md and render analytics/analytics-plan.html before onboarding, paywall, funnel, or store-CTA copy locks. Define one internal user ID, UTMs/click IDs plus self-reported source keys, and an event catalog with owner, trigger, properties, and QA method. Record the HDYHAU survey: randomize options, allow multi-select, include TV/offline, place it mid-onboarding, and connect it to blended ROAS. Name when paid acquisition would require AppsFlyer. Pass check:analytics-catalog and check:attribution against the authored contract and local implementation evidence. Live PostHog capture remains a later provider-proof boundary."
       providerIds: []
-      contextFingerprint: sha256:2d2ed116b3f0d3c06258085dafec3467962dd06b8752ca983a37cb2ebbf934b9
+      contextFingerprint: sha256:dcd85e59eb481dcf9dd425adbb9a5cdbb3d360b6a9d382115248b0f26ea4f63a
   - id: b2c/worker.growth.paid-user-acquisition-system
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -8100,7 +8100,7 @@ implementations:
       workflowId: workflow.growth.pre-launch-funnel-landing-waitlist
       instructions: "Build a runnable local landing site in growth/landing/ after the landing-specific Design Room refresh. Use the approved promise, one conversion goal, current copy keys, a mobile CTA, truthful proof, responsive behavior, and a local build check. For static-document and conventional conversion surfaces, keep the quality bar on semantic content, legibility, accessibility, responsive behavior, and truthful claims even when motion is not applicable. Add onboarding, localization, pricing, or screenshot material only when the accepted product makes it applicable. Write growth/landing/surface-contract.json with canonical input digests, applicability decisions, and local proof. Apply scrollytelling only when studio/seed/business.json records interaction scroll-linked or that surface's own landing source already implements scroll-linked hooks; static-document surfaces, and conversion surfaces that did not select or implement scroll-linked interaction, must not invent a scroll choreography because another recipe uses one. When that selected or implemented scroll-linked surface is in scope, follow editorial-scrollytelling.md for that surface only: move from situation to mechanism to outcome to proof; record stable scene states, copy hashes, accessible descriptions, save-data and reduced-motion behavior, forward/reverse behavior, and desktop/mobile browser QA. A conversion job does not waive scroll-linked proof. Do not follow editorial-scrollytelling.md on static-document pages or on conversion pages that did not select or implement scroll-linked interaction. Use live motion exemplars only for a selected or implemented rich-motion surface, and express them through this product's design system. Author growth/landing/browser-proof.json for the accepted landing surface IDs with the current candidate SHA-256, exact implementation source roots, exact built entrypoint and resource-to-URL mapping, served origin and URL, and Chrome channel. Start the local server, then run `b2c browser-proof --workspace . --session-id <authorization.executionIdentity>` inside this exact engine attempt. The command must open a new browser context and materialize growth/landing/proof/browser-proof.json plus its immutable build, response, launch, navigation, and runtime receipt files. Never author, copy, relabel, or repair those proof files by hand. Run check:design-md, check:design-room, check:design-worthiness, check:vibecoded-tells, check:scrollytelling, and check:browser-runtime-proof. Do not deploy from this node."
       providerIds: []
-      contextFingerprint: sha256:fae6fe539858b837117963145f92c1976babcb4fc10f115c581e5a040879dcba
+      contextFingerprint: sha256:4cc041f04386b0fea739b2916cb5235570fca5d9dceada1af6441ea3035650c0
   - id: b2c/worker.growth.landing-funnel-audit
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -8195,7 +8195,7 @@ implementations:
       workflowId: workflow.growth.landing-funnel-publication-and-live-proof
       instructions: Use agents/launch-surface-producer.md in approved-external-apply mode. A matching current standing envelope is sufficient authority; do not ask again. Otherwise park this one action in the consolidated founder handoff. Check the working tree, artifact digest, deployment-tool version, authenticated account, token scope, project, environment, and target domain before deployment. Publish only the accepted growth/landing/ build, then read back the deployment and check live HTTP status, mobile and desktop renders, browser form submission, duplicate submission behavior, analytics events, crawler files, social metadata, and every JSON-LD block. Record the URL and proof in growth/landing/README.md and engineering/PRODUCTION_READINESS.md. Run check:landing-funnel. Do not change product claims, prices, legal text, or store state during this node.
       providerIds: []
-      contextFingerprint: sha256:5d02d86d7b3759be830d03bc77dcb38a6107ce359c1ba696da87d0d8b35d44e6
+      contextFingerprint: sha256:e065ccf5b75de34cef667fda3a845c11beb8afee9cb1c295621d07af828fba50
   - id: b2c/worker.growth.ugc-creator-engine
     version: 1.0.0
     provider: b2c/consumer-business-worker
