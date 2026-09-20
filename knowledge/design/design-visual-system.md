@@ -87,7 +87,7 @@ motion. A scene reference may guide a setting; it cannot change the approved
 font, palette, logo, product claims, or interface. Before producing store,
 landing, ad, UGC, or video assets, follow the brand consistency procedure in
 [`remotion-content-assets.md`](./remotion-content-assets.md). Keep design
-research before the kit and the kit before campaign variants.
+research before the kit and the kit before campaign variants. Onboard path, DEEP PRODUCT DESIGN boundary, desk gates, and opt-in vs default process: [`brand-system-skill-onboard.md`](./brand-system-skill-onboard.md).
 
 ## Communication And Composition Decisions
 

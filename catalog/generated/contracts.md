@@ -682,7 +682,7 @@ _Crossing research into design: before the Design Room locks visual identity, an
 - **Consults:** —
 - **Produces:** `strategy/BRAND.md`
 - **Gates:** —
-- **Knowledge:** [Audience-Derived Identity](../../knowledge/design/audience-derived-identity.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md)
+- **Knowledge:** [Audience-Derived Identity](../../knowledge/design/audience-derived-identity.md), [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md)
 
 ### Reference pack librarian (quarantined)
 
@@ -708,7 +708,7 @@ _New or substantively revised design systems, concepts, or cross-surface directi
 - **Consults:** `studio/seed/business.json`
 - **Produces:** `DESIGN.md`, `studio/seed/business.json`, `design/design-room.html`
 - **Gates:** `validate:design-state`, `check:design-foundation`, `render:design-room`, `check:design-room`, `check:design-worthiness-mechanical`
-- **Knowledge:** [Audience-Derived Identity](../../knowledge/design/audience-derived-identity.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Room](../../knowledge/design/design-room.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Design Worthiness](../../knowledge/design/design-worthiness.md), [Evidence-Led Editorial Scrollytelling](../../knowledge/design/editorial-scrollytelling.md), [Landing Motion Craft](../../knowledge/design/landing-motion-craft.md), [Mobile Flow Craft](../../knowledge/design/mobile-flow-craft.md), [Quality Lens](../../knowledge/design/quality-lens.md), [Surfaces B2C](../../knowledge/design/surfaces-b2c.md), [Vibecoded Tells](../../knowledge/design/vibecoded-tells.md), [Artifact Contracts](../../knowledge/process/artifact-contracts.md)
+- **Knowledge:** [Audience-Derived Identity](../../knowledge/design/audience-derived-identity.md), [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Room](../../knowledge/design/design-room.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Design Worthiness](../../knowledge/design/design-worthiness.md), [Evidence-Led Editorial Scrollytelling](../../knowledge/design/editorial-scrollytelling.md), [Landing Motion Craft](../../knowledge/design/landing-motion-craft.md), [Mobile Flow Craft](../../knowledge/design/mobile-flow-craft.md), [Quality Lens](../../knowledge/design/quality-lens.md), [Surfaces B2C](../../knowledge/design/surfaces-b2c.md), [Vibecoded Tells](../../knowledge/design/vibecoded-tells.md), [Artifact Contracts](../../knowledge/process/artifact-contracts.md)
 
 ### Design system audit (isolated)
 
@@ -721,7 +721,7 @@ _After DESIGN.md or the Design Room changes for a high-impact surface, before th
 - **Consults:** —
 - **Produces:** `design/reviews/DESIGN_SYSTEM_REVIEW.md`
 - **Gates:** `check:design-md`, `check:design-worthiness`, `check:audience-identity`
-- **Knowledge:** [Audience-Derived Identity](../../knowledge/design/audience-derived-identity.md), [Consumer Craft Benchmarks](../../knowledge/design/consumer-craft-benchmarks.md), [Design Acceptance Evidence](../../knowledge/design/design-acceptance.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Design Worthiness](../../knowledge/design/design-worthiness.md), [Mobile Flow Craft](../../knowledge/design/mobile-flow-craft.md), [Quality Lens](../../knowledge/design/quality-lens.md), [Vibecoded Tells](../../knowledge/design/vibecoded-tells.md), [External Skill Packs](../../knowledge/engineering/external-skill-packs.md), [Isolated Review](../../knowledge/orchestration/isolated-review.md)
+- **Knowledge:** [Audience-Derived Identity](../../knowledge/design/audience-derived-identity.md), [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Consumer Craft Benchmarks](../../knowledge/design/consumer-craft-benchmarks.md), [Design Acceptance Evidence](../../knowledge/design/design-acceptance.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Design Worthiness](../../knowledge/design/design-worthiness.md), [Mobile Flow Craft](../../knowledge/design/mobile-flow-craft.md), [Quality Lens](../../knowledge/design/quality-lens.md), [Vibecoded Tells](../../knowledge/design/vibecoded-tells.md), [External Skill Packs](../../knowledge/engineering/external-skill-packs.md), [Isolated Review](../../knowledge/orchestration/isolated-review.md)
 
 ### Implemented mobile and landing craft audit
 
@@ -786,7 +786,7 @@ _Before rendered videos/stills, app previews, ad/social variants. Founder phrasi
 - **Consults:** —
 - **Produces:** `growth/content-assets/CONTENT_ASSETS.md`, `growth/content-assets/content-assets.html`
 - **Gates:** `check:content-assets-foundation`
-- **Knowledge:** [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Content Asset Production](../../knowledge/design/remotion-content-assets.md), [Visual And Motion Production](../../knowledge/process/tool-recipes/visual-and-motion-production.md)
+- **Knowledge:** [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Content Asset Production](../../knowledge/design/remotion-content-assets.md), [Visual And Motion Production](../../knowledge/process/tool-recipes/visual-and-motion-production.md)
 
 ## Every Word A User Reads
 
@@ -1290,7 +1290,7 @@ _Before founder-led organic social, creator sourcing/contracts, format-discovery
 - **Consults:** —
 - **Produces:** `growth/UGC_PLAYBOOK.md`, `ugc/script-bank.md`
 - **Gates:** —
-- **Knowledge:** [Influencer Sponsorship Engine](../../knowledge/growth/influencer-sponsorship-engine.md), [UGC Creator Engine](../../knowledge/growth/ugc-creator-engine.md), [Viral Growth Loops](../../knowledge/growth/viral-growth-loops.md), [Distribution-First Niche](../../knowledge/research/distribution-first-niche.md), [Distribution, Offer, And Signal Validation](../../knowledge/research/distribution-offer-signal.md), [No-Slop Writing](../../knowledge/words/no-slop-writing.md)
+- **Knowledge:** [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Influencer Sponsorship Engine](../../knowledge/growth/influencer-sponsorship-engine.md), [UGC Creator Engine](../../knowledge/growth/ugc-creator-engine.md), [Viral Growth Loops](../../knowledge/growth/viral-growth-loops.md), [Distribution-First Niche](../../knowledge/research/distribution-first-niche.md), [Distribution, Offer, And Signal Validation](../../knowledge/research/distribution-offer-signal.md), [No-Slop Writing](../../knowledge/words/no-slop-writing.md)
 
 ### Fastlane growth ops
 
@@ -1303,7 +1303,7 @@ _After launch approval/public beta, or usefastlane.ai/Blitz setup, scheduling, s
 - **Consults:** —
 - **Produces:** `growth/FASTLANE_OPS.md`
 - **Gates:** `check:post-launch`
-- **Knowledge:** [Fastlane Growth Ops](../../knowledge/growth/fastlane-growth-ops.md), [UGC Creator Engine](../../knowledge/growth/ugc-creator-engine.md), [Viral Growth Loops](../../knowledge/growth/viral-growth-loops.md), [Paid Tool Routing](../../knowledge/operations/paid-tool-routing.md)
+- **Knowledge:** [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Fastlane Growth Ops](../../knowledge/growth/fastlane-growth-ops.md), [UGC Creator Engine](../../knowledge/growth/ugc-creator-engine.md), [Viral Growth Loops](../../knowledge/growth/viral-growth-loops.md), [Paid Tool Routing](../../knowledge/operations/paid-tool-routing.md)
 
 ## Analytics And Tracking
 

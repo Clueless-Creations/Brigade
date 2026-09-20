@@ -14,6 +14,7 @@ Load `founder-zero-operator.md` and reconcile `operations/BUSINESS_ACCESS.md` be
 - Required Outputs
 - UGC Input Layer
 - Fastlane Setup Checklist
+- Brand Lock Before Generated Creatives
 - Common Failure Modes
 
 ## Current Sources To Refresh
@@ -301,6 +302,17 @@ Record in `growth/FASTLANE_OPS.md`:
 - changes made to angles/preferences
 - posts scheduled or canceled
 - founder approvals still needed
+
+
+## Brand Lock Before Generated Creatives
+
+Before Fastlane AI or Higgsfield paths burn credits on brand-bound stills or
+video, follow [`brand-system-skill-onboard.md`](../design/brand-system-skill-onboard.md):
+DEEP PRODUCT DESIGN accepted, Anchor Brand Kit present, Brand Lock procedure
+from `remotion-content-assets.md`, and founder-approved Generation Plan. Do not
+auto-spend. Upstream Skill install is opt-in; the adapted Brand Lock process is
+required for brand-bound gens. No store listing, price, or ads policy changes
+from Brand Skill alone.
 
 ## Common Failure Modes
 

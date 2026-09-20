@@ -145,6 +145,7 @@ Generated from catalog/knowledge/**/*.yaml.
 | Load when | Reference |
 | --- | --- |
 | Creating or materially revising DESIGN.md, choosing a direction, or independently reviewing communication, composition and audience fit. | [`knowledge/design/audience-derived-identity.md`](../../knowledge/design/audience-derived-identity.md) |
+| onboarding Amir Mushich brand-system-skill (or motion-brief for video), mapping DEEP PRODUCT DESIGN art-direction research to Brand Skill execution, or wiring UGC Ops / Studio / Fastlane desks so brand guide + Brand Lock exist before credit-burning generation | [`knowledge/design/brand-system-skill-onboard.md`](../../knowledge/design/brand-system-skill-onboard.md) |
 | calibrating complete consumer-business mobile and landing craft against primary-source product examples before production and independent review | [`knowledge/design/consumer-craft-benchmarks.md`](../../knowledge/design/consumer-craft-benchmarks.md) |
 | accepting complete native and landing design or repairing missing, stale, producer-unbound, incomplete, or independently rejected visual evidence | [`knowledge/design/design-acceptance.md`](../../knowledge/design/design-acceptance.md) |
 | before planning, creating, revising, auditing, or implementing any user-facing surface, component, interaction, onboarding flow, paywall, store frame, or marketing design; use it to classify the decision, select evidence sources, and record the evidence pass before mutation | [`knowledge/design/design-evidence-stack.md`](../../knowledge/design/design-evidence-stack.md) |

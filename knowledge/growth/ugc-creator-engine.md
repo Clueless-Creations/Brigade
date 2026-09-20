@@ -17,6 +17,7 @@ Load `influencer-sponsorship-engine.md` instead when the plan is paying creators
 - Payment Shape
 - Format Discovery Loop
 - Tracking And Analytics
+- Brand Lock Before Synthetic Gen
 - Design And Product Implications
 - Outputs
 - Common Failure Modes
@@ -180,6 +181,18 @@ Day 0 tracking can stay simple:
 - payout status
 
 This does not replace launch analytics. Use `analytics-attribution.md` for UTMs, creator/referral codes, self-reported attribution, PostHog events, store CTAs, RevenueCat/Stripe conversion, and weekly growth dashboards. Day 0 UGC is intentionally lightweight on attribution, but the launch package still needs measurement once links, waitlists, stores, or purchases are involved.
+
+
+## Brand Lock Before Synthetic Gen
+
+Before Marketing Studio / Seedance / other credit-burning synthetic UGC runs,
+load [`brand-system-skill-onboard.md`](../design/brand-system-skill-onboard.md)
+and satisfy its studio desk gate: accepted DEEP PRODUCT DESIGN direction, Anchor
+Brand Kit in `DESIGN.md`, Brand Lock brief (kit revision, reference roles,
+permitted variation), and human Generation Plan approval via
+[`paid-tool-routing.md`](../operations/paid-tool-routing.md). The script judge
+panel remains required; Brand Lock does not replace it. Installing the upstream
+`brand-system-skill` pack stays **opt-in**.
 
 ## Design And Product Implications
 

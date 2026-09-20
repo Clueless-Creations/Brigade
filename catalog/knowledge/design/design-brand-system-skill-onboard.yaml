@@ -1,0 +1,55 @@
+schema_version: 1.0.0
+id: reference.design.brand-system-skill-onboard
+title: Brand System Skill Onboard
+domain_id: domain.design
+document_path: knowledge/design/brand-system-skill-onboard.md
+load_when: onboarding Amir Mushich brand-system-skill (or motion-brief for video), mapping DEEP PRODUCT
+  DESIGN art-direction research to Brand Skill execution, or wiring UGC Ops / Studio / Fastlane desks so
+  brand guide + Brand Lock exist before credit-burning generation
+lifecycle: active
+bindings:
+  workflow_ids:
+    - workflow.design.brand-definition
+    - workflow.design.design-room
+    - workflow.design.design-system-audit
+    - workflow.design.content-assets-remotion-generated-visuals
+    - workflow.growth.ugc-creator-engine
+    - workflow.growth.fastlane-growth-ops
+  context_pack_ids:
+    - context.design
+    - context.growth
+applicability_notes: Does not replace DEEP PRODUCT DESIGN. Upstream Skill install is opt-in; adapted Brand
+  Lock procedure is the default process before credit-burning brand-bound gens. Human approval required
+  before gen credits. Selective harvest only — no bulk kit install.
+sources:
+  - id: amir-brand-system-builder
+    name: Amir Mushich brand-system-skill
+    source_type: github
+    url: https://github.com/amirmushichge/brand-system-skill
+    review_cadence_days: 30
+    claim_scope: Onboard path and Brand Lock process adaptation under CC BY 4.0; no case-study metrics claimed.
+    last_review_date: "2026-09-20"
+    reviewer: b2c-maintainers
+    publisher: Amir Mushich
+    revision: 30f6084ddf6adf4173cf882fce266015f8872c17
+    upstream_id: amir-brand-system
+    rights:
+      status: verified
+      spdx: CC-BY-4.0
+      evidence: https://github.com/amirmushichge/brand-system-skill/blob/30f6084ddf6adf4173cf882fce266015f8872c17/LICENSE
+      evidence_sha256: f5b745ef98087f531e719ee8ca6a96809444573ecc7173c6fa68eaad39b3cc3f
+      notes: Selected method adaptation and onboard documentation only; third-party assets excluded.
+    selectors: [SKILL.md, README.md, LICENSE]
+derivations:
+  - source_ids: [amir-brand-system-builder]
+    relationship: adapted
+    baseline: 30f6084ddf6adf4173cf882fce266015f8872c17
+    selectors: [SKILL.md, README.md, LICENSE]
+    rationale: Onboard path, DEEP PRODUCT DESIGN boundary, desk gates, and opt-in decision reauthored for Brigade.
+    omissions:
+      - No Lovart requirement or vendored executable Skill.
+      - No upstream case studies, benchmarks, or commercial metrics claimed as ours.
+      - No bulk install of unrelated creative kits.
+    reviewer: b2c-maintainers
+    reviewed_at: "2026-09-20"
+    notice: catalog/upstreams/notices/amir-brand-system.txt

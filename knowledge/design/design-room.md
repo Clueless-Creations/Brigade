@@ -21,6 +21,8 @@ Link every detailed file from `DESIGN.md`. Do not create a second global design 
 
 ## Product Design Loop
 
+This loop is Brigade **DEEP PRODUCT DESIGN** — art-direction research that decides direction before any Brand Skill execution. Brand Kit and Brand Lock run only after this direction is accepted; see [`brand-system-skill-onboard.md`](./brand-system-skill-onboard.md).
+
 Use the same sequence a consumer product team uses:
 
 1. Define the brief, target user, problem, and success measure.

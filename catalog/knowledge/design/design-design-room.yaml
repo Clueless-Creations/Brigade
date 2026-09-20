@@ -13,6 +13,6 @@ bindings:
     - workflow.design.token-promotion
   context_pack_ids:
     - context.design
-applicability_notes: See surfaces-b2c.md for App Store surface schemas and quality-lens.md for the taste filter applied during a mutation.
+applicability_notes: See surfaces-b2c.md for App Store surface schemas and quality-lens.md for the taste filter applied during a mutation. DEEP PRODUCT DESIGN (this loop) precedes Brand Skill execution — see brand-system-skill-onboard.md.
 sources: []
 source_exemption: This package contains internal operating guidance or has no external factual claims.
