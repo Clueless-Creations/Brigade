@@ -598,8 +598,11 @@ Must include:
   - Each claim includes dates, applicability, confidence, lifecycle, supersession, and trace pointers.
   - Keep unverified, rejected, and superseded history, but do not use it for Distribution Proof or Derived Outputs.
   - When no reusable source exists, write a project-specific `Status: not applicable —` reason. Do not add fabricated rows or placeholder reason text.
-- `strategy/OFFER_TEST.md`: one project-specific value for each test-contract field, measured exposure and CTA response, and a founder decision
+- `strategy/OFFER_TEST.md`: one project-specific value for each Test Contract field, Exposure And Conversion measurements, a founder Decision, and a Founder Waiver when Status is waived
   - An option menu is not a completed field.
+  - Narrative fields reject placeholder-only values; describing pending or unverified follow-up work remains valid prose.
+  - A waived Decision must bind Founder Waiver Date/Founder to the final Decision date and actor.
+  - Read-only contract explanation: `b2c check research --explain` (and `--json`); explanation does not validate local files or initialize a lane.
 - Go, Pivot, Or Kill: the pre-build verdict row with category, wedge, demand, distribution, and offer evidence
 - the verdict mirror in `lanes.research.go_pivot_kill_decision`
 - AppKittie findings: category economics, competitors, downloads/revenue estimates, IAP/pricing, screenshots, ad presence, creator partnerships, contact/social links, review themes, and keyword results

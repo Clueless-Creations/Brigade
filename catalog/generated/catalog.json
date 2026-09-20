@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.58",
+  "skillVersion": "0.221.59",
   "areas": [
     {
       "id": "area.operating-system",
@@ -7013,7 +7013,7 @@
       ],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/artifact-contracts.md",
-        "sha256": "sha256:4d93cde1815af17ed570a9110836efbf33e0b8caacde0924b3850e10fa30a707",
+        "sha256": "sha256:8c5a1e62911b45ef5d7ec7fc30aa52ce7a7750dc1e27824d2489695531b9cc51",
         "origin": "skill"
       }
     },
@@ -18866,14 +18866,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "f82d3f695e3ac4c220241d37b6991dd605cab31c789f380d011f0558ab15a409",
+    "fingerprint": "caac93f5527d91ba2131492172f92616dc5d1f2b583afec7fbcb712a680c59af",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.58",
-        "revision": "0.221.58",
-        "contentDigest": "8be59569a445dde2aecd3328cc5f0b6e7915c7d9aa4ceb129f2cb26ddd0c3750"
+        "version": "0.221.59",
+        "revision": "0.221.59",
+        "contentDigest": "d59503a77cbe6ffb0c739ea702637d3f0ed765027e07f7d0247faa6bdbc417f9"
       }
     ],
     "base": {
