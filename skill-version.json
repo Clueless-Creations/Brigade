@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.39",
-  "updatedAt": "2026-09-19",
+  "version": "0.221.40",
+  "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Publish the Brigade npm namespace under @cluelesscreations/brigade, add brigade CLI aliases, and refresh generated package projections and release metadata.",
     "Add #519 SQ-08 provenance-bound semantic relationships as derived graph views: narrow ontology predicates (sameEntityAs / reportsSameFailureAs / usesSameMechanismAs / evidence); candidate edges with endpoint versions, predicate version, context digest, evidence spans, receipt refs, policy outcome, validity reason; asserted vs inferred separation; distinct type/support/sufficiency dimensions; bounded no-network queries; rebuildable indexes (no graph DB / no auto merges); cross-workspace denial; #520 deletion/invalidation hook declarations only; fixtures prove all five AC; consumes #512\u2013#518; stamp 0.221.39 + hosted:bundle; STOP after close \u2192 #520 separate.",
     "Add #518 SQ-07 shared-state batches / speculative assessments / bounded map-reduce: group by snapshot/policy/binding/limits (no cross-workspace); spend reservations with hard bounds + estimated/unknown cost; speculative assessment-only with consumed/unused branch recording; keyed map + deterministic reduce with partial-shard honesty; reuse request/occurrence/attempt/ownership (cancel settles before lock release; reject late after ownership/revision change); barrier fixtures via fake sync transport on session/reducer/dispatch path prove all five AC; consumes #512\u2013#517; stamp 0.221.38 + hosted:bundle; STOP after close \u2192 #519 separate.",
     "Add #517 SQ-06 scoped source projections + measured candidate generation: registered selectors (reject escape/cross-workspace); immutable projections with spans/provenance/coverage/omissions + redaction before dispatch/diagnostics; exact-key/authored-binding/bounded-rule candidates (no embeddings); separate predicates; pinned integrity (stale/missing\u2192unresolved); case-level missed-candidate reporting; fixtures prove all five AC; consumes #512\u2013#516; stamp 0.221.37 + hosted:bundle; STOP after close \u2192 #518 separate.",
