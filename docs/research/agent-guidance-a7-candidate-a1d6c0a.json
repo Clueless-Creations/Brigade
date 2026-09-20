@@ -1,0 +1,266 @@
+{
+  "baselineRevision": "8ab690f8c08ad627c470d074fffdead986f763a6",
+  "measuredSource": "a1d6c0a0c4e8069bb2031e77152f63dedc36e1bb",
+  "basis": "Full declared file packets only; not observed agent traces, complete reading paths, or model tokens.",
+  "modelId": null,
+  "modelTokens": null,
+  "observedAgentTrace": null,
+  "serviceResult": null,
+  "cases": [
+    {
+      "id": "A0-01",
+      "fileCount": 3,
+      "utf8Bytes": 19945,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "SKILL.md",
+          "utf8Bytes": 5653,
+          "gitBlob": "c0f716dcd0b4e04d9869e612541b0faf0974022c"
+        },
+        {
+          "path": "agents/skills/b2c-review-experience/SKILL.md",
+          "utf8Bytes": 4043,
+          "gitBlob": "8f0563fb9b7bf79913458dedd13a0901d41d8a72"
+        }
+      ]
+    },
+    {
+      "id": "A0-02",
+      "fileCount": 3,
+      "utf8Bytes": 21519,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "SKILL.md",
+          "utf8Bytes": 5653,
+          "gitBlob": "c0f716dcd0b4e04d9869e612541b0faf0974022c"
+        },
+        {
+          "path": "agents/skills/b2c-plan-implementation/SKILL.md",
+          "utf8Bytes": 5617,
+          "gitBlob": "b219def32c691d9c6a473195a28e842b3aaeee19"
+        }
+      ]
+    },
+    {
+      "id": "A0-03",
+      "fileCount": 1,
+      "utf8Bytes": 10249,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        }
+      ]
+    },
+    {
+      "id": "A0-04",
+      "fileCount": 3,
+      "utf8Bytes": 22814,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "SKILL.md",
+          "utf8Bytes": 5653,
+          "gitBlob": "c0f716dcd0b4e04d9869e612541b0faf0974022c"
+        },
+        {
+          "path": "agents/skills/b2c-app-builder/references/business-lifecycle.md",
+          "utf8Bytes": 6912,
+          "gitBlob": "27f8a22d0e7169b53d225b0d53c1e1d9a24530cb"
+        }
+      ]
+    },
+    {
+      "id": "A0-05",
+      "fileCount": 3,
+      "utf8Bytes": 19945,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "SKILL.md",
+          "utf8Bytes": 5653,
+          "gitBlob": "c0f716dcd0b4e04d9869e612541b0faf0974022c"
+        },
+        {
+          "path": "agents/skills/b2c-review-experience/SKILL.md",
+          "utf8Bytes": 4043,
+          "gitBlob": "8f0563fb9b7bf79913458dedd13a0901d41d8a72"
+        }
+      ]
+    },
+    {
+      "id": "A0-06",
+      "fileCount": 3,
+      "utf8Bytes": 16606,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "SKILL.md",
+          "utf8Bytes": 5653,
+          "gitBlob": "c0f716dcd0b4e04d9869e612541b0faf0974022c"
+        },
+        {
+          "path": "agents/skills/b2c-app-builder/references/mobile-operation.md",
+          "utf8Bytes": 704,
+          "gitBlob": "554219f68400d3d8649b3409c07d95336c6eb435"
+        }
+      ]
+    },
+    {
+      "id": "A0-07",
+      "fileCount": 3,
+      "utf8Bytes": 22814,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "SKILL.md",
+          "utf8Bytes": 5653,
+          "gitBlob": "c0f716dcd0b4e04d9869e612541b0faf0974022c"
+        },
+        {
+          "path": "agents/skills/b2c-app-builder/references/business-lifecycle.md",
+          "utf8Bytes": 6912,
+          "gitBlob": "27f8a22d0e7169b53d225b0d53c1e1d9a24530cb"
+        }
+      ]
+    },
+    {
+      "id": "A0-08",
+      "fileCount": 7,
+      "utf8Bytes": 134342,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "agents/skills/b2c-maintainer/SKILL.md",
+          "utf8Bytes": 2663,
+          "gitBlob": "f6585b1815d4951b4d0827128bc58c1f997391e3"
+        },
+        {
+          "path": "docs/public-interface.md",
+          "utf8Bytes": 10680,
+          "gitBlob": "745293d55806cf7acb4a1d84a18232e14381ce78"
+        },
+        {
+          "path": "docs/architecture.md",
+          "utf8Bytes": 33150,
+          "gitBlob": "abf0193d00491bc2af9479e989b0d0250b2cdb99"
+        },
+        {
+          "path": "docs/north-star-architecture.md",
+          "utf8Bytes": 51100,
+          "gitBlob": "b4d48c04ce0d772d83861aee6993558c6826e5e3"
+        },
+        {
+          "path": "docs/architecture-conformance.md",
+          "utf8Bytes": 13637,
+          "gitBlob": "12fa52905517440814b1c873c739d73c2d48ab3f"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "utf8Bytes": 12863,
+          "gitBlob": "0cf8ece6ab032af4da2d4099d807e2a0e345927c"
+        }
+      ]
+    },
+    {
+      "id": "A0-09",
+      "fileCount": 6,
+      "utf8Bytes": 63120,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "agents/skills/b2c-maintainer/SKILL.md",
+          "utf8Bytes": 2663,
+          "gitBlob": "f6585b1815d4951b4d0827128bc58c1f997391e3"
+        },
+        {
+          "path": "docs/guides/provider-integrations.md",
+          "utf8Bytes": 14546,
+          "gitBlob": "c69d7109780897cde2e2b064b0abff54ca174901"
+        },
+        {
+          "path": "docs/decisions/0013-provider-integration-boundary.md",
+          "utf8Bytes": 9162,
+          "gitBlob": "1c5516d42004111f34609fb9741cf9e9f7cf9232"
+        },
+        {
+          "path": "docs/architecture-conformance.md",
+          "utf8Bytes": 13637,
+          "gitBlob": "12fa52905517440814b1c873c739d73c2d48ab3f"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "utf8Bytes": 12863,
+          "gitBlob": "0cf8ece6ab032af4da2d4099d807e2a0e345927c"
+        }
+      ]
+    },
+    {
+      "id": "A0-10",
+      "fileCount": 5,
+      "utf8Bytes": 55644,
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "utf8Bytes": 10249,
+          "gitBlob": "cc17771cc76c3991d3346a3514d6fbcee48cf8c8"
+        },
+        {
+          "path": "agents/skills/b2c-contributor/SKILL.md",
+          "utf8Bytes": 2273,
+          "gitBlob": "40705e8dedec2826bae4dc43f82d6a244794e6af"
+        },
+        {
+          "path": "docs/guides/adopt-external-sources.md",
+          "utf8Bytes": 18520,
+          "gitBlob": "78ee6205db2baa6e558a7e1210818747fa4478e1"
+        },
+        {
+          "path": "docs/decisions/0007-upstream-lifecycle-and-agent-scopes.md",
+          "utf8Bytes": 11739,
+          "gitBlob": "3ccec894dfb841252bfa1376e025bd6d1aa72be5"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "utf8Bytes": 12863,
+          "gitBlob": "0cf8ece6ab032af4da2d4099d807e2a0e345927c"
+        }
+      ]
+    }
+  ]
+}

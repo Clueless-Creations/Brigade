@@ -1,0 +1,105 @@
+{
+  "decision": "migration complete: HOLD (live criterion open)",
+  "baselineMeasuredSource": "8384cb3113d4469eba20788ed66bb8800c24b0b9",
+  "candidateMeasuredSource": "a1d6c0a0c4e8069bb2031e77152f63dedc36e1bb",
+  "packageVersion": "0.221.55",
+  "liveAstra": "EXPLICITLY OPEN — #75 authority not available for this deepen",
+  "cases": [
+    {
+      "id": "A0-01",
+      "expectedRoute": "business: focused experience review",
+      "a0Utf8": 22668,
+      "baselineUtf8": 20266,
+      "candidateUtf8": 19945,
+      "vsA0": -2723,
+      "vsBaseline": -321
+    },
+    {
+      "id": "A0-02",
+      "expectedRoute": "business: focused implementation plan",
+      "a0Utf8": 24500,
+      "baselineUtf8": 22098,
+      "candidateUtf8": 21519,
+      "vsA0": -2981,
+      "vsBaseline": -579
+    },
+    {
+      "id": "A0-03",
+      "expectedRoute": "app instructions: narrow fix",
+      "a0Utf8": 13545,
+      "baselineUtf8": 10694,
+      "candidateUtf8": 10249,
+      "vsA0": -3296,
+      "vsBaseline": -445
+    },
+    {
+      "id": "A0-04",
+      "expectedRoute": "business: managed continuation",
+      "a0Utf8": 26068,
+      "baselineUtf8": 23259,
+      "candidateUtf8": 22814,
+      "vsA0": -3254,
+      "vsBaseline": -445
+    },
+    {
+      "id": "A0-05",
+      "expectedRoute": "business: focused review without provider selection",
+      "a0Utf8": 22668,
+      "baselineUtf8": 20266,
+      "candidateUtf8": 19945,
+      "vsA0": -2723,
+      "vsBaseline": -321
+    },
+    {
+      "id": "A0-06",
+      "expectedRoute": "business: bounded unavailable selected capability",
+      "a0Utf8": 19860,
+      "baselineUtf8": 17051,
+      "candidateUtf8": 16606,
+      "vsA0": -3254,
+      "vsBaseline": -445
+    },
+    {
+      "id": "A0-07",
+      "expectedRoute": "business: protected effect held",
+      "a0Utf8": 26068,
+      "baselineUtf8": 23259,
+      "candidateUtf8": 22814,
+      "vsA0": -3254,
+      "vsBaseline": -445
+    },
+    {
+      "id": "A0-08",
+      "expectedRoute": "maintenance: core architecture",
+      "a0Utf8": 125817,
+      "baselineUtf8": 134693,
+      "candidateUtf8": 134342,
+      "vsA0": 8525,
+      "vsBaseline": -351
+    },
+    {
+      "id": "A0-09",
+      "expectedRoute": "maintenance: provider integration",
+      "a0Utf8": 63062,
+      "baselineUtf8": 63471,
+      "candidateUtf8": 63120,
+      "vsA0": 58,
+      "vsBaseline": -351
+    },
+    {
+      "id": "A0-10",
+      "expectedRoute": "contribution: non-provider source adoption",
+      "a0Utf8": 59223,
+      "baselineUtf8": 56197,
+      "candidateUtf8": 55644,
+      "vsA0": -3579,
+      "vsBaseline": -553
+    }
+  ],
+  "nullLiveFields": {
+    "modelId": null,
+    "modelTokens": null,
+    "observedAgentTrace": null,
+    "serviceResult": null
+  }
+}
