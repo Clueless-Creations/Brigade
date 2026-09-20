@@ -79,16 +79,23 @@ test("readCookie returns undefined when there is no Cookie header at all", () =>
   assert.equal(readCookie(new Request("https://app.clueless-creations.com/"), SESSION_COOKIE_NAME), undefined);
 });
 
-test("oauthStateCookieHeader packs state and nonce, and readOAuthState round-trips them", () => {
+test("oauthStateCookieHeader packs provider, state and nonce, and readOAuthState round-trips them", () => {
   const state = generateOpaqueToken();
   const nonce = generateOpaqueToken();
-  const header = oauthStateCookieHeader({ state, nonce });
+  const header = oauthStateCookieHeader({ provider: "github", state, nonce });
   assert.match(header, /Secure/);
   assert.match(header, /HttpOnly/);
   assert.match(header, /SameSite=Lax/);
   const cookieValue = header.split(";")[0]!.split("=").slice(1).join("=");
   const request = requestWithCookie(`__Host-b2c-oauth-state=${cookieValue}`);
-  assert.deepEqual(readOAuthState(request), { state, nonce });
+  assert.deepEqual(readOAuthState(request), { provider: "github", state, nonce });
+});
+
+test("readOAuthState rejects a cookie missing the provider binding", () => {
+  const state = generateOpaqueToken();
+  const nonce = generateOpaqueToken();
+  const request = requestWithCookie(`__Host-b2c-oauth-state=${state}.${nonce}`);
+  assert.equal(readOAuthState(request), undefined);
 });
 
 test("readOAuthState returns undefined for a malformed value", () => {

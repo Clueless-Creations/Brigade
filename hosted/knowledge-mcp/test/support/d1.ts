@@ -111,6 +111,13 @@ export async function seedAccountInto(db: D1Database, input: SeedAccount): Promi
     .run();
   await db
     .prepare(
+      `INSERT INTO identities (provider, subject, user_id, created_at, updated_at)
+              VALUES ('google', ?1, ?2, ?3, ?3)`,
+    )
+    .bind(input.googleSub, input.userId, STAMP)
+    .run();
+  await db
+    .prepare(
       `INSERT INTO accounts (id, name, stripe_customer_id, created_at, updated_at, suspended_at)
               VALUES (?1, ?1, ?2, ?3, ?3, NULL)`,
     )
@@ -306,7 +313,8 @@ export async function verifyMigration0008RebuildSurvival(): Promise<MigrationReb
   const migrations = await readMigrations();
   const rebuild = migrations.find((migration) => migration.name === "0008_lazy_stripe_customer.sql");
   if (rebuild === undefined) throw new Error("0008_lazy_stripe_customer.sql not found — has it been renamed?");
-  const before0008 = migrations.filter((migration) => migration.name !== "0008_lazy_stripe_customer.sql");
+  // Lexicographic: only 0001–0007. Must not apply 0009+ before seeding the pre-0008 shape.
+  const before0008 = migrations.filter((migration) => migration.name < "0008_lazy_stripe_customer.sql");
 
   const options: V4WorkerOptions & { log: Log } = {
     modules: true,
@@ -458,4 +466,131 @@ export async function verifyMigration0008RebuildSurvival(): Promise<MigrationReb
 /** Revoke a fixture credential to verify outstanding OAuth grants are invalidated. */
 export async function revokeSeedKey(db: D1Database, keyId: string): Promise<void> {
   await db.prepare("UPDATE api_keys SET revoked_at = ?2 WHERE id = ?1").bind(keyId, new Date().toISOString()).run();
+}
+
+
+export interface Migration0009Survival {
+  readonly googleIdentityBackfilled: boolean;
+  readonly googleSubStillPresent: boolean;
+  readonly membershipSurvived: boolean;
+  readonly apiKeySurvived: boolean;
+  readonly sessionSurvived: boolean;
+  /** Two users may share an email after the unique index is dropped. */
+  readonly duplicateEmailAccepted: boolean;
+  /** Non-Google user may insert with NULL google_sub. */
+  readonly nullGoogleSubAccepted: boolean;
+}
+
+/**
+ * Applies 0001–0008, seeds one Google tenant, applies 0009 alone, and reports survival +
+ * provider-neutral shape. Mirrors verifyMigration0008RebuildSurvival's isolation of the fixture SQL.
+ */
+export async function verifyMigration0009IdentitySurvival(): Promise<Migration0009Survival> {
+  const migrations = await readMigrations();
+  const rebuild = migrations.find((migration) => migration.name === "0009_provider_neutral_identities.sql");
+  if (rebuild === undefined) throw new Error("0009_provider_neutral_identities.sql not found — has it been renamed?");
+  const before0009 = migrations.filter((migration) => migration.name < "0009_provider_neutral_identities.sql");
+
+  const options: V4WorkerOptions & { log: Log } = {
+    modules: true,
+    script: "export default { fetch: () => new Response('ok') };",
+    compatibilityDate: "2026-08-27",
+    d1Databases: ["DB"],
+    log: new Log(LogLevel.ERROR),
+  };
+  const mf = new Miniflare(convertV4MiniflareOptions(options));
+  try {
+    await mf.ready;
+    const db = (await mf.getD1Database("DB")) as unknown as D1Database;
+    for (const migration of before0009) for (const statement of migration.statements) await db.prepare(statement).run();
+
+    const stamp = "2026-01-01T00:00:00.000Z";
+    const sessionId = "c".repeat(64);
+
+    await db
+      .prepare(
+        `INSERT INTO users (id, google_sub, email, email_verified, display_name, created_at, updated_at, disabled_at)
+         VALUES ('user_id9', '900000000000000000088', 'id9@example.com', 1, NULL, ?1, ?1, NULL)`,
+      )
+      .bind(stamp)
+      .run();
+    await db
+      .prepare(
+        `INSERT INTO accounts (id, name, stripe_customer_id, created_at, updated_at, suspended_at)
+         VALUES ('acct_id9', 'acct_id9', NULL, ?1, ?1, NULL)`,
+      )
+      .bind(stamp)
+      .run();
+    await db
+      .prepare(
+        `INSERT INTO memberships (account_id, user_id, role, status, created_at, updated_at)
+         VALUES ('acct_id9', 'user_id9', 'owner', 'active', ?1, ?1)`,
+      )
+      .bind(stamp)
+      .run();
+    await db
+      .prepare(
+        `INSERT INTO api_keys (id, account_id, user_id, sha256_hex, scopes, key_prefix, label, created_at, revoked_at, expires_at, last_used_at)
+         VALUES ('key_id9', 'acct_id9', 'user_id9', ?1, '["b2c:read"]', 'b2c_id9', 'id9', ?2, NULL, NULL, NULL)`,
+      )
+      .bind("d".repeat(64), stamp)
+      .run();
+    await db
+      .prepare(
+        `INSERT INTO sessions (id, user_id, account_id, created_at, expires_at, revoked_at, last_seen_at)
+         VALUES (?1, 'user_id9', 'acct_id9', ?2, '2099-01-01T00:00:00.000Z', NULL, NULL)`,
+      )
+      .bind(sessionId, stamp)
+      .run();
+
+    for (const statement of rebuild.statements) await db.prepare(statement).run();
+
+    const identity = await db
+      .prepare(`SELECT subject FROM identities WHERE provider = 'google' AND user_id = 'user_id9'`)
+      .first<{ subject: string }>();
+    const user = await db.prepare(`SELECT google_sub FROM users WHERE id = 'user_id9'`).first<{ google_sub: string | null }>();
+    const membership = await db.prepare(`SELECT 1 FROM memberships WHERE account_id = 'acct_id9' AND user_id = 'user_id9'`).first();
+    const apiKey = await db.prepare(`SELECT 1 FROM api_keys WHERE id = 'key_id9'`).first();
+    const session = await db.prepare(`SELECT 1 FROM sessions WHERE id = ?1`).bind(sessionId).first();
+
+    let duplicateEmailAccepted: boolean;
+    try {
+      await db
+        .prepare(
+          `INSERT INTO users (id, google_sub, email, email_verified, display_name, created_at, updated_at, disabled_at)
+           VALUES ('user_id9_dup', NULL, 'id9@example.com', 1, NULL, ?1, ?1, NULL)`,
+        )
+        .bind(stamp)
+        .run();
+      duplicateEmailAccepted = true;
+    } catch {
+      duplicateEmailAccepted = false;
+    }
+
+    let nullGoogleSubAccepted: boolean;
+    try {
+      await db
+        .prepare(
+          `INSERT INTO users (id, google_sub, email, email_verified, display_name, created_at, updated_at, disabled_at)
+           VALUES ('user_id9_gh', NULL, 'gh-only@example.com', 1, NULL, ?1, ?1, NULL)`,
+        )
+        .bind(stamp)
+        .run();
+      nullGoogleSubAccepted = true;
+    } catch {
+      nullGoogleSubAccepted = false;
+    }
+
+    return {
+      googleIdentityBackfilled: identity?.subject === "900000000000000000088",
+      googleSubStillPresent: user?.google_sub === "900000000000000000088",
+      membershipSurvived: membership !== null,
+      apiKeySurvived: apiKey !== null,
+      sessionSurvived: session !== null,
+      duplicateEmailAccepted,
+      nullGoogleSubAccepted,
+    };
+  } finally {
+    await mf.dispose();
+  }
 }

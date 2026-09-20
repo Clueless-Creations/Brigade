@@ -12,7 +12,7 @@ import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
 import { AccessError, sha256 } from "../auth.js";
 import { ENTITLEMENT_STALENESS_CEILING_MS, tenantDb, type AccountId, type TenantDb } from "../db/tenant.js";
-import { createTestDatabase, splitStatements, verifyMigration0008RebuildSurvival, type TestDatabase, SEED_STAMP } from "./support/d1.js";
+import { createTestDatabase, splitStatements, verifyMigration0008RebuildSurvival, verifyMigration0009IdentitySurvival, type TestDatabase, SEED_STAMP } from "./support/d1.js";
 import { resolveApiKeyAccess } from "../access.js";
 
 const keyA = `b2c_${"a".repeat(43)}`;
@@ -411,6 +411,17 @@ test("0008_lazy_stripe_customer's accounts rebuild preserves every dependent row
   assert.equal(result.processedStripeEventResult, "applied");
   // The append-only trigger this migration must drop and recreate, verbatim, around the rebuild.
   assert.equal(result.appendOnlyTriggerStillEnforced, true, "processed_stripe_events_are_append_only must be back in force after the rebuild");
+});
+
+test("0009_provider_neutral_identities backfills Google, preserves sessions/keys, allows shared email and null google_sub", async () => {
+  const result = await verifyMigration0009IdentitySurvival();
+  assert.equal(result.googleIdentityBackfilled, true);
+  assert.equal(result.googleSubStillPresent, true);
+  assert.equal(result.membershipSurvived, true);
+  assert.equal(result.apiKeySurvived, true);
+  assert.equal(result.sessionSurvived, true);
+  assert.equal(result.duplicateEmailAccepted, true, "email alone must not be unique after 0009");
+  assert.equal(result.nullGoogleSubAccepted, true, "non-Google users must not need a fake google_sub");
 });
 
 test("listSubscriptionsForAccount returns what the plan page needs — id, price, scheduled cancellation, period end — newest first, and nothing across tenants", async () => {

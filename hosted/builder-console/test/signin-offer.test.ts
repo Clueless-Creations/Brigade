@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { renderSigninPage } from "../console/pages.js";
 
-test("signed-out front door states the paid four-step purchase path before Google auth", () => {
+test("signed-out front door states the paid four-step purchase path before provider chooser", () => {
   const html = renderSigninPage({ entryPoint: "landing", notice: null });
 
   assert.match(html, /Use the agent you already have\./);
   assert.match(html, /\$19 a month or \$190 a year/);
   assert.match(html, /no free tier or trial/i);
   assert.match(html, /Signing in creates your account; it does not start a paid plan/i);
-  assert.match(html, /01[\s\S]*Create your console account with Google/);
+  assert.match(html, /01[\s\S]*Create your console account with Google or GitHub/);
   assert.match(html, /02[\s\S]*Choose a plan/);
   assert.match(html, /03[\s\S]*Create a key/);
   assert.match(html, /04[\s\S]*Connect your agent/);
@@ -19,6 +19,9 @@ test("signed-out front door states the paid four-step purchase path before Googl
   assert.doesNotMatch(html, /refund/i);
   assert.match(html, /Cancel any time/i);
   assert.match(html, /\/auth\/google\/start\?entry_point=landing/);
+  assert.match(html, /\/auth\/github\/start\?entry_point=landing/);
+  assert.match(html, /Continue with Google/);
+  assert.match(html, /Continue with GitHub/);
 });
 
 test("sign-in notice still renders without changing the purchase explanation", () => {

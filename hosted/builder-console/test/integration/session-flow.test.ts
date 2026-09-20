@@ -228,7 +228,8 @@ test("GET /signin is the front door: the page for a visitor, carrying entry_poin
   // full purchase-copy contract, so reword there and here together.
   assert.match(html, /Use the agent you already have\./);
   assert.match(html, /Continue with Google/);
-  assert.ok(html.includes('href="/auth/google/start?entry_point=header"'), "the button keeps the entry point the site sent");
+  assert.ok(html.includes('href="/auth/google/start?entry_point=header"'), "the Google button keeps the entry point the site sent");
+  assert.ok(html.includes('href="/auth/github/start?entry_point=header"'), "the GitHub button keeps the entry point the site sent");
   assert.match(html, /clueless-creations\.com\/terms\//);
   assert.match(html, /clueless-creations\.com\/privacy\//);
   assert.match(html, /github\.com\/Clueless-Creations\/b2c-app-builder/);
@@ -236,6 +237,7 @@ test("GET /signin is the front door: the page for a visitor, carrying entry_poin
   // An unknown entry point is coerced to landing, and a notice renders only from the closed set.
   const coerced = await (await dispatch(new Request(`${ORIGIN}/signin?entry_point=evil&notice=<b>x</b>`), env)).text();
   assert.ok(coerced.includes('href="/auth/google/start?entry_point=landing"'));
+  assert.ok(coerced.includes('href="/auth/github/start?entry_point=landing"'));
   assert.doesNotMatch(coerced, /<b>x<\/b>/);
   const signedOut = await (await dispatch(new Request(`${ORIGIN}/signin?notice=signed_out`), env)).text();
   assert.match(signedOut, /signed out/);

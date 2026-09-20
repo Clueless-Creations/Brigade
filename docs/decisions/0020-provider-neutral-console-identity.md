@@ -1,8 +1,8 @@
 # 0020 — Provider-neutral hosted console identity (no email-only merge)
 
-- **Status:** Decision A **accepted**; Decision B **proposed** (awaiting explicit founder/HoE provider pick on #6)
+- **Status:** Decision A **accepted**; Decision B **accepted** — first additional provider is **GitHub** (HoE/CoS pick 2026-09-20)
 - **Date:** 2026-09-20
-- **Steward:** U6 Skills/Astra #6 Phase-0 (provider-neutral console identity); Decision B pick is founder-reserved
+- **Steward:** U6 Skills/Astra #6 (provider-neutral console identity + GitHub adapter)
 - **Affected rules and contracts:** Hosted D1 identity (`hosted/knowledge-mcp/migrations/0001_identity_and_tenancy.sql`); console OAuth boundary (`hosted/builder-console/auth/`); tenant API (`hosted/knowledge-mcp/db/tenant.ts`); ARCH-12 identity-mapping discipline (analogy — do not invent cross-provider joins)
 - **Affected units:** #6 (this); follow-on implementation after Decision B settles; recorded follow-up for `clueless-creations-site` `/signin` deep-link (other repo — not edited here)
 
@@ -19,7 +19,7 @@ Current schema (`hosted/knowledge-mcp/migrations/0001_identity_and_tenancy.sql:9
 - Console auth today is Google-only (`hosted/builder-console/auth/google.ts`); tenant lookup is `findUserByGoogleSub` / `createUserAndAccountFromGoogle` (`hosted/knowledge-mcp/db/tenant.ts:187-210`, `:751+`).
 - Browser sessions and API keys already point at `user_id` / account membership and must survive migration.
 
-Issue #6 body, comments (none as of 2026-09-20 CT), and related PR search show **no explicit founder/HoE selection** of GitHub, Apple, Microsoft, Auth0, or any other first additional provider.
+Issue #6 originally left Decision B unset. Founder/HoE (via CoS) later selected **GitHub** explicitly (`Provider pick: GitHub`, 2026-09-20 CT), unblocking adapter implementation.
 
 ## Alternatives
 
@@ -46,7 +46,7 @@ Issue #6 body, comments (none as of 2026-09-20 CT), and related PR search show *
 
 **Recommendation (not authority):** **GitHub** as the first additional provider — best audience fit for the builder console, clear stable subject (`id`), comparable complexity to the existing Google module, and no pressure to invent email linking. **Apple** is the strongest OIDC-parallel alternative if HoE prefers protocol symmetry with Google/`jose` over audience fit. **Microsoft** is deferred unless HoE prioritizes work accounts.
 
-**Decision B status:** **not settled.** No prior explicit founder/HoE pick was found in #6 body/comments or related PRs. Adapter code for any non-Google provider is **blocked** until HoE confirms a pick on #6 (or on this PR).
+**Decision B status:** **accepted — GitHub.**
 
 ## Decision
 
@@ -62,9 +62,11 @@ Adopt a provider-neutral identity table rather than linking by email alone:
 - Migration must **relax `users_by_email` uniqueness** (drop or replace the unique index) so two accounts may share an email string without forcing a merge; keep non-unique email for display/contact as needed.
 - Migration must be idempotent and ordered; preserve existing user IDs, account IDs, sessions, and API keys.
 
-### Decision B — proposed recommendation only
+### Decision B — accepted
 
-Recommend **GitHub** as the first additional console sign-in provider, with Apple as the leading OIDC alternative. **Do not implement any non-Google provider adapter until HoE explicitly selects a provider on issue #6 or this PR.**
+**First additional provider: GitHub**, selected by founder/HoE (via CoS) on 2026-09-20 after the Phase-0 comparison above.
+
+Implementation proceeds with a single native adapter at `hosted/builder-console/auth/github.ts` (or current equivalent boundary). Apple and Microsoft remain non-goals for this issue. No Auth0/meta-IdP. Live OAuth app creation, real secrets, production D1 apply, Worker deploy, and real-account tests remain explicit holds.
 
 ## Compatibility and migration
 
@@ -77,6 +79,6 @@ Recommend **GitHub** as the first additional console sign-in provider, with Appl
 ## Consequences
 
 1. Implementation after HoE confirms Decision B: migration + backfill → provider-neutral tenant API → provider-aware OAuth state → one adapter → `/signin` chooser → analytics `method` + provider-specific failure reasons → security/regression fixtures.
-2. Until Decision B is confirmed, **STOP** at this decision unit — no `hosted/builder-console/auth/<provider>.*` for a non-Google provider.
+2. Decision B is settled: implement the GitHub adapter and ordered migration work on the same #6 PR.
 3. After #6 source milestone closes: **STOP**; next U6 item **#3** only on HoE order. Profile #564+ remains Codex’s lane.
-4. Founder/HoE ask: reply on #6 (or this PR) with an explicit pick — e.g. `Provider pick: GitHub` (recommended), `Apple`, or `Microsoft` — so implementation may continue without another architecture redesign.
+4. Cross-repo follow-up (not done in #6): update `clueless-creations-site` deep-links that point at Google start so new users land on `/signin` chooser.
