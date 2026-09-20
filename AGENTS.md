@@ -40,6 +40,10 @@ Preserve founder/source intent losslessly in its supported owner. `product.yaml`
 
 Active context is a bounded projection of those owners, not another truth store. Use current status, plan, briefs, accepted artifacts, and exact knowledge selectors. Deliver required current guidance or mark it unresolved before dispatch. Future guidance may wait; unknown applicability must not become assumed non-applicability.
 
+For new or changed build workflows, routing, Product Profile contracts, or implementation-issue specifications, apply [decision-driven building](docs/decision-driven-building.md) and the [conformance assignment fields](docs/architecture-conformance.md#work-assignment-template). Allocate exact work to code, bounded interpretation to semantic operations, and invention to generative workers. Consider next-work, context, execution-route and within-task decisions, not just final validation. Extend the existing owners; do not add a Jev-specific control system.
+
+This is a target-design rule, not evidence that an active Jev route is installed. Execute only supported, selected and admitted operations. Preserve passive read purity, source-bound decisions and independent acceptance. General Product Profiles are projections of existing truth; reference profiles specialize the same base contract. Keep detailed maintainer design out of ordinary business-worker context and propagate supported behavior through the owning catalog, skill and workspace-template paths when it is implemented.
+
 ## Authored and generated ownership
 
 Keep three classes of agent documentation: canonical authored guides, thin host adapters, and generated projections. Root guides, scoped routers, and the workspace AGENTS template are authored. Host adapters route to the nearest applicable AGENTS.md and contain only host-specific invocation/tool notes, not repeated policy. Nested guides may narrow scope, not redefine truth or authority. Workspace-facing guidance names public operations, contracts, selected providers/recipes, and evidence requirements, never maintainer ARCH rules, migration units, repository procedures, or contributor machinery.

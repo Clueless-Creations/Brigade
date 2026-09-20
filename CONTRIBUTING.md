@@ -50,6 +50,27 @@ implementations must pass the same contracts and external package tests. Do not
 add a global vendor condition or a parallel runtime to work around an incomplete
 boundary. Propose a bounded migration at the existing owner instead.
 
+### Design the decisions in new work
+
+When an issue or contribution changes a build workflow, routing, Product Profile,
+or semantic decision, use the [decision-driven building design](docs/decision-driven-building.md)
+and [assignment fields](docs/architecture-conformance.md#work-assignment-template).
+State which work is exact code, bounded interpretation, or generative work.
+Identify the checkpoint, source revisions, eligible candidates, context needs,
+policy consumption, fallback and outcome proof. Consider next-work and within-task
+routing, not only post-hoc validation.
+
+Reuse existing compiler, planner, session, provider and receipt owners. A selected
+Jev result may drive admitted reversible work after qualification, but does not
+create authority or prove a semantic claim merely by passing a decoder. Passive
+reads stay inference-free. Do not require AI for a deterministic-only change.
+
+For changes that affect agents building apps, include the applicable canonical
+catalog, knowledge, skill, workspace-template, renderer and package propagation
+work in the issue. Test discovery from a fresh installed host, not only a source
+checkout with a pasted architecture prompt. A docs proposal must not advertise
+unimplemented public operations or claim existing workspaces have been repinned.
+
 ## Adopt an external source
 
 A post, repository, skill, library, tool, or managed provider enters the builder
@@ -58,10 +79,10 @@ through the contribution lifecycle in
 source as untrusted data, map its useful units to dispositions, record rights
 and provenance, and keep the result a draft until review. `b2c contribute check`
 and `b2c contribute preview` validate the draft. Upstream relationships live in
-`catalog/upstreams/` and credits are generated with `npm run render:credits`.
+`catalog/upstreams/<id>.yaml` and credits are generated with `npm run render:credits`.
 When an accepted unit reuses repository material, propose its manifest with the
 contribution; `check` refuses acceptance without one. After release, maintenance
-owns that manifest.
+owns the manifest.
 [ADR-0005](docs/decisions/0005-source-adoption-and-upstream-maintenance.md)
 records the boundary and
 [ADR-0007](docs/decisions/0007-upstream-lifecycle-and-agent-scopes.md) records
