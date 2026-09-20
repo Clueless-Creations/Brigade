@@ -8,7 +8,7 @@
  * Persist-before-publish is enforced via InferenceReceiptStore; this module
  * records ownership-handle shape and erasure cascade coordination.
  *
- * Consumes #512–#519. NO_521_IMPL cleared by #521. Does not implement #522–#529.
+ * Consumes #512–#519. NO_521_IMPL cleared by #521. NO_522_IMPL cleared by #522. Does not implement #523–#529.
  */
 import type { OwnershipPersistHandle } from "../services/inference-receipt-store.js";
 import { SQ10_IMPLEMENTED_HOOK_IDS, INFERENCE_INVALIDATION_COORDINATES, INFERENCE_INVALIDATION_NO_PARALLEL_ENGINE } from "../engine/inference-invalidation.js";
@@ -21,6 +21,7 @@ export const INFERENCE_RECEIPT_OWNERSHIP_NO_PARALLEL_ERASURE_ENGINE = true as co
 export const INFERENCE_RECEIPT_OWNERSHIP_NO_PARALLEL_INVALIDATION = INFERENCE_INVALIDATION_NO_PARALLEL_ENGINE;
 export const INFERENCE_RECEIPT_OWNERSHIP_EXTENDS_ERASURE = true as const;
 export const INFERENCE_RECEIPT_OWNERSHIP_NO_521_IMPL = false as const;
+export const INFERENCE_RECEIPT_OWNERSHIP_NO_522_IMPL = false as const;
 
 /** Assert paper ownership handle carries identity fields (generation/workspace/occurrence/resource). */
 export function assertReceiptOwnershipShape(handle: OwnershipPersistHandle): void {
