@@ -1,7 +1,7 @@
 /**
  * #522 SQ-11 — AC→evidence map for feedback-to-work semantic pipeline in shadow mode.
  *
- * Consumes #514+#518+#519+#520+#521. Does not redo them. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. Does not implement #527–#529.
+ * Consumes #514+#518+#519+#520+#521. Does not redo them. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. Does not implement #528–#529.
  * Paper / synthetic fixtures only. No live customer ingestion / webhooks / polling /
  * new event bus / default-recipe rewrite / autonomous repair dispatch.
  * Coordinates closed #73–#76. Shadow only: record candidates; no eligibility /
@@ -34,7 +34,7 @@ export const FEEDBACK_TO_WORK_SHADOW_NO_DEFAULT_REWRITE = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_SHADOW_ONLY = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_NO_522_IMPL = false as const;
 export const FEEDBACK_TO_WORK_SHADOW_NO_523_IMPL = false as const;
-export const FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE = "#527" as const;
+export const FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE = "#528" as const;
 
 export const FEEDBACK_TO_WORK_SHADOW_AC = [
   {

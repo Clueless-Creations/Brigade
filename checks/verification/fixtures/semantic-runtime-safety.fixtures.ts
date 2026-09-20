@@ -10,7 +10,7 @@
  * 5. Independent shadow review; advisory/execution blocked when proofs missing
  * 6. Support statements distinguish fixture / live / product / production readiness
  *
- * Also: modes+rollback; NO_523_IMPL cleared; NEXT_AFTER=#527; no new daemon.
+ * Also: modes+rollback; NO_523_IMPL cleared; NEXT_AFTER=#528; no new daemon.
  */
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -160,26 +160,26 @@ export function register(harness: Harness): void {
       "all AC covered",
     );
 
-    // Tip stamps: NO_523 cleared; NEXT_AFTER advanced to #527.
+    // Tip stamps: NO_523 cleared; NEXT_AFTER advanced to #528.
     assert(SEMANTIC_RUNTIME_SAFETY_NO_523_IMPL === false, "map NO_523 cleared");
     assert(SERVICE_NO_523_IMPL === false, "service NO_523 cleared");
     assert(SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NO_523_IMPL === false, "rollout NO_523 cleared");
     assert(MAP_RECEIPTS_NO_523 === false, "map receipts NO_523 cleared");
     assert(SERVICE_RECEIPTS_NO_523 === false, "service receipts NO_523 cleared");
-    assert(SEMANTIC_RUNTIME_SAFETY_NEXT_AFTER_CLOSE === "#527", "map next #527");
-    assert(SERVICE_NEXT_AFTER === "#527", "service next #527");
-    assert(SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NEXT_AFTER_CLOSE === "#527", "rollout next #527");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#527", "receipts next #527");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#527", "store next #527");
-    assert(MAP_GRAPH_NEXT === "#527", "graph map next #527");
-    assert(MODULE_GRAPH_NEXT === "#527", "graph module next #527");
-    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#527", "applicability next #527");
-    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#527", "beam next #527");
-    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#527", "projection next #527");
-    assert(FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE === "#527", "522 map next #527");
-    assert(SERVICE_522_NEXT === "#527", "522 service next #527");
-    assert(WORK_PROPOSAL_SHADOW_NEXT_AFTER_CLOSE === "#527", "proposal next #527");
-    assert(FEEDBACK_TO_WORK_SHADOW_RECIPE_NEXT_AFTER_CLOSE === "#527", "recipe next #527");
+    assert(SEMANTIC_RUNTIME_SAFETY_NEXT_AFTER_CLOSE === "#528", "map next #528");
+    assert(SERVICE_NEXT_AFTER === "#528", "service next #528");
+    assert(SEMANTIC_RUNTIME_SAFETY_ROLLOUT_NEXT_AFTER_CLOSE === "#528", "rollout next #528");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#528", "receipts next #528");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#528", "store next #528");
+    assert(MAP_GRAPH_NEXT === "#528", "graph map next #528");
+    assert(MODULE_GRAPH_NEXT === "#528", "graph module next #528");
+    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#528", "applicability next #528");
+    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#528", "beam next #528");
+    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#528", "projection next #528");
+    assert(FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE === "#528", "522 map next #528");
+    assert(SERVICE_522_NEXT === "#528", "522 service next #528");
+    assert(WORK_PROPOSAL_SHADOW_NEXT_AFTER_CLOSE === "#528", "proposal next #528");
+    assert(FEEDBACK_TO_WORK_SHADOW_RECIPE_NEXT_AFTER_CLOSE === "#528", "recipe next #528");
 
     // Prior #522 stamps remain cleared; network bans intact.
     assert(FEEDBACK_TO_WORK_SHADOW_NO_522_IMPL === false, "522 map NO_522 cleared");

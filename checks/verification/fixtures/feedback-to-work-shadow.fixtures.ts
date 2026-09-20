@@ -204,23 +204,23 @@ export function register(harness: Harness): void {
       "all AC covered",
     );
 
-    // Tip stamps: NO_522 cleared; NEXT_AFTER advanced to #527.
+    // Tip stamps: NO_522 cleared; NEXT_AFTER advanced to #528.
     assert(FEEDBACK_TO_WORK_SHADOW_NO_522_IMPL === false, "map NO_522 cleared");
     assert(SERVICE_NO_522_IMPL === false, "service NO_522 cleared");
     assert(INFERENCE_RECEIPTS_NO_522_IMPL === false, "receipts NO_522 cleared");
     assert(INFERENCE_RECEIPT_STORE_NO_522_IMPL === false, "store NO_522 cleared");
     assert(INFERENCE_RECEIPT_OWNERSHIP_NO_522_IMPL === false, "ownership NO_522 cleared");
-    assert(FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE === "#527", "map next #527");
-    assert(SERVICE_NEXT_AFTER === "#527", "service next #527");
-    assert(WORK_PROPOSAL_SHADOW_NEXT_AFTER_CLOSE === "#527", "proposal next #527");
-    assert(FEEDBACK_TO_WORK_SHADOW_RECIPE_NEXT_AFTER_CLOSE === "#527", "recipe next #527");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#527", "receipts next #527");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#527", "store next #527");
-    assert(MAP_GRAPH_NEXT === "#527", "graph map next #527");
-    assert(MODULE_GRAPH_NEXT === "#527", "graph module next #527");
-    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#527", "applicability next #527");
-    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#527", "beam next #527");
-    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#527", "projection next #527");
+    assert(FEEDBACK_TO_WORK_SHADOW_NEXT_AFTER_CLOSE === "#528", "map next #528");
+    assert(SERVICE_NEXT_AFTER === "#528", "service next #528");
+    assert(WORK_PROPOSAL_SHADOW_NEXT_AFTER_CLOSE === "#528", "proposal next #528");
+    assert(FEEDBACK_TO_WORK_SHADOW_RECIPE_NEXT_AFTER_CLOSE === "#528", "recipe next #528");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#528", "receipts next #528");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#528", "store next #528");
+    assert(MAP_GRAPH_NEXT === "#528", "graph map next #528");
+    assert(MODULE_GRAPH_NEXT === "#528", "graph module next #528");
+    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#528", "applicability next #528");
+    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#528", "beam next #528");
+    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#528", "projection next #528");
 
     // Shadow recipe does not wire into default workflows index.
     const indexSrc = readFileSync(path.join(skillRoot, "catalog/workflows/index.ts"), "utf8");

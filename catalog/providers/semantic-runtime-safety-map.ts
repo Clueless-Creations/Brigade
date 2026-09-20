@@ -3,7 +3,7 @@
  * observability and staged rollout.
  *
  * Consumes #514+#515+#518+#519+#520+#522. Does not redo them.
- * NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. Does not implement #527–#529. Paper / synthetic fixtures only.
+ * NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. Does not implement #528–#529. Paper / synthetic fixtures only.
  * No new metrics daemon / no auto provider fallback / no new authority /
  * no CI weakening / no key-installed=live / no paid probes in reads.
  * Coordinates closed #73+#74+#75+#109.
@@ -32,7 +32,7 @@ export const SEMANTIC_RUNTIME_SAFETY_NO_AUTO_PROVIDER_FALLBACK = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_NO_NEW_AUTHORITY = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_NO_KEY_IMPLIES_LIVE = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_NO_523_IMPL = false as const;
-export const SEMANTIC_RUNTIME_SAFETY_NEXT_AFTER_CLOSE = "#527" as const;
+export const SEMANTIC_RUNTIME_SAFETY_NEXT_AFTER_CLOSE = "#528" as const;
 export const INFERENCE_RECEIPTS_NO_523_IMPL = false as const;
 
 export const SEMANTIC_RUNTIME_SAFETY_AC = [

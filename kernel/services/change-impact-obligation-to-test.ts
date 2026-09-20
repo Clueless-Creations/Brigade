@@ -38,7 +38,7 @@ export const CHANGE_IMPACT_OBLIGATION_NO_SEMANTIC_WAIVER = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_DEVICE_PROOF = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_AUTO_ACCEPT_SCOPE = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_525_IMPL = false as const;
-export const CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE = "#527" as const;
+export const CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE = "#528" as const;
 
 export { MISSING_SEMANTIC_RELATION, MISSING_SEMANTIC_RELATION_GAP, RELATION_SUPPORT_STATES };
 export type { RelationSupportState, CandidateTestStatus, ChangeImpactObligationRecipePolicy };
