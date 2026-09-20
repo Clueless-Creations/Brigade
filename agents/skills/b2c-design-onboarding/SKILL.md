@@ -19,7 +19,7 @@ For an existing managed business, read business-status then business-plan and us
 
 ## Method
 
-For a review, assess the existing evidence against this method and return findings; do not execute its authoring or mutation instructions. For requested creation or implementation, follow the method only within the accepted scope and authority.
+For a review, assess the existing evidence against this method and return findings; do not execute its authoring or mutation instructions. For requested creation or implementation, follow the method only within the accepted scope and authority. Treat specialty concerns as applicability rules: load them only when the accepted scope or changed surfaces implicate them.
 
 ## Continuous experience principle
 
