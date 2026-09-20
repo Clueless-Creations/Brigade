@@ -155,6 +155,43 @@
                   "type": "boolean",
                   "const": false
                 },
+                "researchCheckpoint": {
+                  "type": "object",
+                  "properties": {
+                    "verdict": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "Go",
+                            "Pivot",
+                            "Kill"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "recordedVia": {
+                      "type": "string",
+                      "enum": [
+                        "product_decision_log",
+                        "absent"
+                      ]
+                    },
+                    "initializationEligible": {
+                      "type": "boolean",
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "verdict",
+                    "recordedVia",
+                    "initializationEligible"
+                  ],
+                  "additionalProperties": true
+                },
                 "nextAction": {
                   "type": "string"
                 }
@@ -165,6 +202,7 @@
                 "workflowId",
                 "artifacts",
                 "businessComplete",
+                "researchCheckpoint",
                 "nextAction"
               ],
               "additionalProperties": true

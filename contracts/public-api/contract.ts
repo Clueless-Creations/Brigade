@@ -116,6 +116,11 @@ export const planningResumeSchema = z.strictObject({
     }),
   ),
   businessComplete: z.literal(false),
+  researchCheckpoint: z.strictObject({
+    verdict: z.enum(["Go", "Pivot", "Kill"]).nullable(),
+    recordedVia: z.enum(["product_decision_log", "absent"]),
+    initializationEligible: z.literal(false),
+  }),
   nextAction: z.string(),
 });
 export const businessStatusSchema = z.strictObject({
