@@ -10,7 +10,7 @@
  * 5. Knowledge/product revision invalidates only dependent inferred applicability;
  *    cannot widen selected provider scope
  *
- * Also: NO_521_IMPL cleared on #520 stamps; NEXT_AFTER advanced to #525 by #522; no network-in-reads.
+ * Also: NO_521_IMPL cleared on #520 stamps; NEXT_AFTER advanced to #526 by #522; no network-in-reads.
  */
 import { assert, type Harness } from "./_harness.js";
 import { digestOf } from "../../../contracts/semantic/canonicalize.js";
@@ -322,13 +322,13 @@ export function register(harness: Harness): void {
     assert(INFERENCE_RECEIPTS_NO_521_IMPL === false, "map NO_521 cleared");
     assert(INFERENCE_RECEIPT_STORE_NO_521_IMPL === false, "store NO_521 cleared");
     assert(INFERENCE_RECEIPT_OWNERSHIP_NO_521_IMPL === false, "ownership NO_521 cleared");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#525", "receipts next #525");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#525", "store next #525");
-    assert(MAP_GRAPH_NEXT === "#525", "graph map next #525");
-    assert(MODULE_GRAPH_NEXT === "#525", "graph module next #525");
-    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#525", "map next #525");
-    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#525", "module next #525");
-    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#525", "projection next #525");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#526", "receipts next #526");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#526", "store next #526");
+    assert(MAP_GRAPH_NEXT === "#526", "graph map next #526");
+    assert(MODULE_GRAPH_NEXT === "#526", "graph module next #526");
+    assert(KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE === "#526", "map next #526");
+    assert(CONTEXT_BOUND_APPLICABILITY_NEXT_AFTER_CLOSE === "#526", "module next #526");
+    assert(APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE === "#526", "projection next #526");
 
     const ac = knowledgeApplicabilityAcEvidence();
     assert(ac.length === 5 && KNOWLEDGE_APPLICABILITY_AC.length === 5, "five AC");
