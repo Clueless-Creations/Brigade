@@ -1,10 +1,10 @@
 # 0016 - Compile semantic decisions through the existing execution model
 
 - **Status:** proposed; founder requested this direction, independent conformance and integration remain pending.
-- **Date:** 2026-09-17.
+- **Date:** 2026-09-17. Refined: 2026-09-20 for decision-driven building.
 - **Steward:** repository architecture steward; this change set records the requested design and does not invent an independent reviewer.
-- **Affected rules and contracts:** ARCH-02 through ARCH-13, ARCH-15; proposed ARCH-16 and ARCH-17; experimental semantic contracts, composition, knowledge, provider and evidence boundaries.
-- **Affected units:** SQ-01 through SQ-18 in the [delivery plan](../plans/2026-09-17-compiled-semantic-execution.md). Existing U IDs are not renumbered or declared complete.
+- **Affected rules and contracts:** ARCH-02 through ARCH-13, ARCH-15; ARCH-16 and ARCH-17 target wording; experimental semantic contracts, composition, knowledge, provider and evidence boundaries; planned Product Profile projections.
+- **Affected units:** SQ-01 through SQ-18 in the [delivery plan](../plans/2026-09-17-compiled-semantic-execution.md), extended through the [decision-driven building plan](../plans/2026-09-20-decision-driven-building.md). Existing U and SQ IDs are not renumbered or declared complete.
 
 ## Context and evidence
 
@@ -16,6 +16,9 @@ an implementation issue program, not a claim that the whole program is implement
 The public source inspected on 2026-09-17 supplies these integration boundaries.
 Line references are from the inspected public main views and must be refreshed
 against the eventual PR head. An immutable checkout was unavailable during drafting.
+The table is the original dated evidence, not a claim that its line numbers
+were revalidated on 2026-09-20. The refinement below uses an immutable source
+revision and the linked current implementation inventory.
 
 | Evidence | Consequence |
 | --- | --- |
@@ -97,12 +100,65 @@ TypeSafe is the first candidate provider to qualify. Availability does not selec
 it, qualification does not activate it, and receipt production does not establish
 business acceptance.
 
+### 2026-09-20 refinement: decisions drive the build
+
+The founder clarified that Jev is also a router for what to do next while
+building. A post-hoc validation layer is not sufficient. Extend the same semantic
+architecture to build-level and within-task decisions: eligible next work,
+context and skill selection, execution-route selection, useful observations,
+repair, replan, escalation and completion-review requests.
+
+The [decision-driven building specification](../decision-driven-building.md)
+describes the target. It preserves one planner and executor. The planner owns
+eligibility; bounded semantic questions assess the judgment among eligible
+candidates; deterministic policy selects actions; the executor rechecks current
+revisions, grants, bindings, ownership and budget before dispatch. Qualified
+policies may drive reversible work automatically without a frontier agent
+reinterpreting every answer. Shadow mode is a proof stage, not the endpoint.
+
+The provider-neutral contract must retain Jev's useful semantics without making
+Jev a global dependency. Exact work remains code. Generative workers propose
+new tasks, hypotheses and designs when the current candidate vocabulary is
+insufficient. Such proposals enter the existing validated work/composition path,
+not a new persistent planner or unrestricted tool interface.
+
+Evidence reviewed at `8870d87bd79de4699dc271eafa7418c6175a639e` includes the
+current `kernel/session/plan.ts` no-write frontier and the TypeSafe adapter's
+fake and live HTTP transport implementations. The [implementation snapshot](../architecture.md#implementation-snapshot)
+identifies merged contract, projection, batch, receipt and shadow slices.
+Executable helpers exist; integrated live Jev routing and its cost/quality are
+not established by these paper/fixture merges.
+
+The official [intent-routing](https://docs.typesafe.ai/patterns/intent-routing),
+[skill-suggestion](https://docs.typesafe.ai/cookbooks/skill_suggestion),
+[function-calling](https://docs.typesafe.ai/cookbooks/function_calling) and
+[fan-out](https://docs.typesafe.ai/patterns/fan-out) documentation supports the
+routing opportunity. Vendor examples are not Brigade benchmarks. Provider
+confidence is not proof of truth; evaluate decision families against independent
+held-out outcomes. A text-derived assessment does not replace original visual,
+audio, tactile or provider evidence.
+
+The planned `product-profile/v1` contract is the common product representation.
+Intended and observed views project existing product/design and evidence owners.
+A Reference Product Profile specializes the base rather than defining a second
+product schema. The standalone Dissector describes the reference without
+performing downstream target adaptation. #562-#570 own that work.
+
+Keep existing public passive operations inference-free. Active sessions may
+refresh decisions at meaningful checkpoints under scoped authority. Route
+implementation through #524, qualification through #571 and integrated proof
+through #523. Propagate supported behavior through canonical catalog, skill and
+workspace-template owners, with #386 packaging and #392 fresh-agent evaluation.
+This refinement defines no new public command and enables no live provider.
+
 ## Compatibility and migration
 
 Preserve existing `b2c/v1` inputs, current passive services, pinned workspaces,
 canonical knowledge/reference IDs, authored product/design truth, and all evidence
-classes. No root skill expansion, mandatory hosted service, new top-level runtime,
-new graph database, deployment, or package release is part of this docs change.
+classes. No mandatory hosted service, new top-level runtime, new graph database,
+deployment, or package release is part of this docs change. Detailed architecture
+stays conditional; business workers receive supported operations and bounded
+briefs through their existing entrypoints, not the full maintainer design.
 
 Implementation begins with a versioned experimental resource contract and a fixture
 provider. Add TypeSafe after source qualification and independent upstream fixtures.
@@ -135,6 +191,11 @@ retains competing explanations and contradictory evidence, proposes an observati
 when evidence is missing, and cannot dispatch unauthorized work. Compare against
 existing deterministic and agent baselines using frozen held-out cases. Record
 actual cost, latency, coverage, and human correction effort when observed.
+
+The active build slice must additionally show that changed evidence changes the
+next executed action, an unfamiliar situation reaches bounded generation or
+observation, stale selection cannot dispatch, and independent review still gates
+acceptance. Measure complete task outcomes, not only classifier accuracy.
 
 The architecture PR changes only documentation. It does not close any implementation
 issue or assert upstream conformance. Required repository checks and independent
