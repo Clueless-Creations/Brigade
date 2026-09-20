@@ -2,7 +2,7 @@
  * #519 SQ-08 — AC→evidence map for provenance-bound semantic relationships / derived graph views.
  *
  * Consumes #512–#518. Does not redo them.
- * #520 hooks IMPLEMENTED. NEXT_AFTER advanced to #524 by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
+ * #520 hooks IMPLEMENTED. NEXT_AFTER advanced to #524 by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
  * Paper / synthetic fixtures only. No live / no new graph DB / no auto merges.
  */
 export const SEMANTIC_GRAPH_VIEWS_MAP_PATH = "catalog/providers/semantic-graph-views-map.ts" as const;
@@ -28,7 +28,7 @@ export const SEMANTIC_GRAPH_VIEWS_NO_NETWORK = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = false as const;
-export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#511" as const;
+export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#573" as const;
 export const SEMANTIC_GRAPH_VIEWS_HOOKS_ONLY_520 = false as const;
 export const SEMANTIC_GRAPH_VIEWS_HOOKS_IMPLEMENTED_520 = true as const;
 

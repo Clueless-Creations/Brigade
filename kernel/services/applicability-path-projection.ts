@@ -6,7 +6,7 @@
  * knowledge artifact itself false. Cannot widen a selected provider scope.
  *
  * Paper / synthetic only. No network. No parallel cache authority.
- * NEXT_AFTER=#524 via #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
+ * NEXT_AFTER=#524 via #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
  */
 import { digestOf } from "../../contracts/semantic/canonicalize.js";
 import {
@@ -30,7 +30,7 @@ export const APPLICABILITY_PATH_PROJECTION_CONSUMES = ["#518", "#519", "#520"] a
 export const APPLICABILITY_PATH_PROJECTION_STAMP = "0.221.42" as const;
 export const APPLICABILITY_PATH_PROJECTION_NO_NETWORK = true as const;
 export const APPLICABILITY_PATH_PROJECTION_NO_PROVIDER_SCOPE_WIDEN = true as const;
-export const APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE = "#511" as const;
+export const APPLICABILITY_PATH_PROJECTION_NEXT_AFTER_CLOSE = "#573" as const;
 
 export class ApplicabilityPathProjectionError extends Error {
   readonly code: string;

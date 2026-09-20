@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.50",
+  "skillVersion": "0.221.51",
   "areas": [
     {
       "id": "area.operating-system",
@@ -18871,8 +18871,8 @@
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.50",
-        "revision": "0.221.50",
+        "version": "0.221.51",
+        "revision": "0.221.51",
         "contentDigest": "9192c8b13b2c3d1cb6351cbbd06ff3b53e22482a57d2cead6405687952c3d9a4"
       }
     ],

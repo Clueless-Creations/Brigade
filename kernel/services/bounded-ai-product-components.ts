@@ -16,7 +16,7 @@
  *
  * Paper / synthetic. No network. Consumes #512+#515+#516+#518+#520+#523.
  * NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529.
- * Does not implement #511 closeout or #573.
+ * #571 landed. Does not implement #511 closeout or #573.
  */
 import {
   computeQuestionPackContentDigest,
@@ -66,7 +66,7 @@ export const BOUNDED_AI_COMPONENTS_CONFIDENCE_IS_NOT_AUTHORIZATION = true as con
 export const BOUNDED_AI_COMPONENTS_AMBIGUITY_IS_NOT_A_FACT = true as const;
 export const BOUNDED_AI_COMPONENTS_OUTAGE_STAYS_USEFUL = true as const;
 export const BOUNDED_AI_COMPONENTS_NO_529_IMPL = false as const;
-export const BOUNDED_AI_COMPONENTS_NEXT_AFTER_CLOSE = "#511" as const;
+export const BOUNDED_AI_COMPONENTS_NEXT_AFTER_CLOSE = "#573" as const;
 
 export { BOUNDED_AI_COMPONENTS_MODEL_LIMITATIONS, BOUNDED_AI_COMPONENTS_RECIPE_POLICY, PERMITTED_COMPONENT_ACTIONS };
 export type {

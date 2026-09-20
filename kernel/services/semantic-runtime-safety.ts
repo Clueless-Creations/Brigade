@@ -11,7 +11,7 @@
  *
  * Consumes #514+#515+#518+#519+#520+#522. Extends existing owners.
  * Paper / synthetic only. No network-in-knowledge-reads.
- * NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
+ * NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
  */
 import { digestOf } from "../../contracts/semantic/canonicalize.js";
 import type { InferenceReceipt, PolicyApplicationReceipt, UsageCost } from "../../contracts/semantic/receipts.js";
@@ -36,7 +36,7 @@ export const SEMANTIC_RUNTIME_SAFETY_NO_NEW_AUTHORITY = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_NO_KEY_IMPLIES_LIVE = true as const;
 export const SEMANTIC_RUNTIME_SAFETY_NO_523_IMPL = false as const;
 export const INFERENCE_RECEIPTS_NO_523_IMPL = false as const;
-export const SEMANTIC_RUNTIME_SAFETY_NEXT_AFTER_CLOSE = "#511" as const;
+export const SEMANTIC_RUNTIME_SAFETY_NEXT_AFTER_CLOSE = "#573" as const;
 
 export class SemanticRuntimeSafetyError extends Error {
   readonly code: string;

@@ -16,7 +16,7 @@
  *
  * Paper / synthetic. No network. Consumes #512+#515+#516+#518+#520+#523.
  * NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529.
- * Does not implement #511 closeout or #573.
+ * #571 landed. Does not implement #511 closeout or #573.
  */
 export const BOUNDED_AI_COMPONENTS_RECIPE_ISSUE = "#529" as const;
 export const BOUNDED_AI_COMPONENTS_RECIPE_EPIC = "#511" as const;
@@ -39,7 +39,7 @@ export const BOUNDED_AI_COMPONENTS_RECIPE_CONFIDENCE_IS_NOT_AUTHORIZATION = true
 export const BOUNDED_AI_COMPONENTS_RECIPE_AMBIGUITY_IS_NOT_A_FACT = true as const;
 export const BOUNDED_AI_COMPONENTS_RECIPE_OUTAGE_STAYS_USEFUL = true as const;
 export const BOUNDED_AI_COMPONENTS_RECIPE_NO_529_IMPL = false as const;
-export const BOUNDED_AI_COMPONENTS_RECIPE_NEXT_AFTER_CLOSE = "#511" as const;
+export const BOUNDED_AI_COMPONENTS_RECIPE_NEXT_AFTER_CLOSE = "#573" as const;
 
 /** Existing contracts / owners this component generator composes over (consume — do not replace). */
 export const BOUNDED_AI_COMPONENTS_OWNER_MODULES = [
