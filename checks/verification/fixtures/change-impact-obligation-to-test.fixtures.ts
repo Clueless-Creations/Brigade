@@ -120,8 +120,8 @@ export function register(harness: Harness): void {
       "NO_525 cleared",
     );
     assert(
-      CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE === "#528" && SERVICE_NEXT_AFTER === "#528" && CHANGE_IMPACT_OBLIGATION_RECIPE_NEXT_AFTER_CLOSE === "#528",
-      "NEXT_AFTER=#528",
+      CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE === "#529" && SERVICE_NEXT_AFTER === "#529" && CHANGE_IMPACT_OBLIGATION_RECIPE_NEXT_AFTER_CLOSE === "#529",
+      "NEXT_AFTER=#529",
     );
     assert(JSON.stringify([...CHANGE_IMPACT_OBLIGATION_CONSUMES]) === JSON.stringify(["#519", "#521", "#520", "#522", "#523"]), "map consumes");
     assert(JSON.stringify([...SERVICE_CONSUMES]) === JSON.stringify(["#519", "#521", "#520", "#522", "#523"]), "service consumes");

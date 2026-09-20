@@ -10,7 +10,7 @@
  * replace). Paper / synthetic. No network.
  *
  * Consumes #514+#518+#519+#521+#520+#523. Does not redo #512–#526.
- * Does not implement #528–#529.
+ * NO_528_IMPL cleared by #528. Does not implement #529.
  */
 export const OPPORTUNITY_RESEARCH_RECIPE_ISSUE = "#527" as const;
 export const OPPORTUNITY_RESEARCH_RECIPE_EPIC = "#511" as const;
@@ -32,7 +32,7 @@ export const OPPORTUNITY_RESEARCH_RECIPE_NO_INFERRED_DEMOGRAPHICS = true as cons
 export const OPPORTUNITY_RESEARCH_RECIPE_REPETITION_IS_NOT_DEMAND = true as const;
 export const OPPORTUNITY_RESEARCH_RECIPE_PAGE_COUNTS_ARE_NOT_CUSTOMERS = true as const;
 export const OPPORTUNITY_RESEARCH_RECIPE_NO_527_IMPL = false as const;
-export const OPPORTUNITY_RESEARCH_RECIPE_NEXT_AFTER_CLOSE = "#528" as const;
+export const OPPORTUNITY_RESEARCH_RECIPE_NEXT_AFTER_CLOSE = "#529" as const;
 
 /** Existing owners this slice composes over (consume — do not replace). */
 export const OPPORTUNITY_RESEARCH_OWNER_MODULES = [

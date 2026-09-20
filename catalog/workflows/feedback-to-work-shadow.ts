@@ -7,7 +7,7 @@
  * references closed U4 owners (#73–#76) and existing support/ops workflows.
  *
  * Paper / synthetic. No live customer ingestion / webhooks / polling.
- * Consumes #514+#518+#519+#520+#521. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. Does not implement #528–#529.
+ * Consumes #514+#518+#519+#520+#521. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. Does not implement #529.
  */
 export const FEEDBACK_TO_WORK_SHADOW_RECIPE_ISSUE = "#522" as const;
 export const FEEDBACK_TO_WORK_SHADOW_RECIPE_EPIC = "#511" as const;
@@ -19,7 +19,7 @@ export const FEEDBACK_TO_WORK_SHADOW_RECIPE_NO_DEFAULT_REWRITE = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_RECIPE_NO_EVENT_BUS = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_RECIPE_NO_LIVE_INGEST = true as const;
 export const FEEDBACK_TO_WORK_SHADOW_RECIPE_SHADOW_ONLY = true as const;
-export const FEEDBACK_TO_WORK_SHADOW_RECIPE_NEXT_AFTER_CLOSE = "#528" as const;
+export const FEEDBACK_TO_WORK_SHADOW_RECIPE_NEXT_AFTER_CLOSE = "#529" as const;
 
 /** Existing catalog workflow owners this shadow recipe composes over (do not replace). */
 export const FEEDBACK_TO_WORK_SHADOW_OWNER_WORKFLOWS = [
