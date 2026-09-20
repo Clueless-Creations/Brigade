@@ -2,9 +2,11 @@ import { type Harness } from "./_harness.js";
 
 /**
  * Behavioral eval harness fixtures: only the deterministic surfaces are
- * exercised here (subset discovery and the credential gate). Live agent runs
- * stay in the manually-triggered behavioral-evals workflow, never in the
- * PR-gating pipeline.
+ * exercised here (subset discovery, the credential gate, and Message Batches
+ * request shaping / custom_id mapping via the credential-free self-test).
+ * Live agent / live Batches runs stay in the manually-triggered
+ * behavioral-evals workflow, never in the PR-gating pipeline.
+ * Fixture green ≠ live batch proof.
  */
 export function register(h: Harness): void {
   const { runScriptArgs } = h;
@@ -16,4 +18,6 @@ export function register(h: Harness): void {
     ANTHROPIC_API_KEY: "",
     ANTHROPIC_AUTH_TOKEN: "",
   });
+  // Message Batches shaping + custom_id join (in-memory fake API; no spend).
+  runScriptArgs("message-batches selftest: custom_id mapping, two-stage batches, item failure, resume", "message-batches.selftest.ts", [], 0, "ALL_PASSED");
 }

@@ -92,20 +92,31 @@ The #129 fresh-context review and open behavioral limits live in
 
 ## Behavioral Eval Harness (manual, not PR-gating)
 
-The harness submits all scenario repeats as one Message Batch, then submits
-eligible grades as a second batch. Results correlate through `custom_id`.
-Anthropic documents batch pricing at half the standard token price and a
-completion window up to 24 hours per batch; this tradeoff fits manual evals.
+**Default mode (`--mode batches`):** the harness submits all scenario repeats as
+one Message Batch, then submits eligible grades as a second batch. Results
+correlate through `custom_id` (never by position). Anthropic documents batch
+pricing at half the standard token price and a completion window up to 24 hours
+per batch (`expires_at`); this tradeoff fits manual, latency-insensitive evals.
 See [Message Batches](https://platform.claude.com/docs/en/build-with-claude/batch-processing).
 
-The adjacent `.batches.jsonl` journal persists batch IDs, exact request bodies,
-and results as they arrive. The results artifact retains repeat, fallback,
-usage, and invalid-run accounting. To resume after an interrupted polling run,
-use `--resume --out <same-results.json>` with identical options and source.
-The manual workflow accepts `resume_run_id` to restore that journal from a
-prior run artifact. A hosted job may end before a batch does; resume polling
-instead of submitting the same work again. Never treat an unfinished batch as
-an eval pass. Local mocked verification does not establish paid API acceptance.
+**Rollback (`--mode per-call`):** the working synchronous Messages path remains
+available until a live batch run is authorized. Do not leave maintainers with
+only a broken batch path — switch back with `--mode per-call` if batches fail.
+
+The adjacent `.batches.jsonl` journal (batches mode) persists batch IDs, exact
+request bodies, and results as they arrive. The results artifact retains mode,
+repeat, fallback, usage, and invalid-run accounting. To resume after an
+interrupted polling run, use `--resume --out <same-results.json>` with identical
+options and source. The manual workflow accepts `resume_run_id` to restore that
+journal from a prior run artifact (and a `mode` input). A hosted job may end
+before a batch does; resume polling instead of submitting the same work again.
+Never treat an unfinished batch as an eval pass.
+
+**Honesty:** credential-free fixtures cover listing, the missing-credential
+gate, batch request shaping, `custom_id` mapping, item-failure handling, and
+resume against an in-memory fake API. Fixture green ≠ live batch proof. A paid
+`workflow_dispatch` E2E run is required for live acceptance; until
+`ANTHROPIC_API_KEY` + spend are authorized, that AC stays explicitly open.
 
 `npm run evals:behavioral` (`checks/validation/repository/run-behavioral-evals.ts`) is the execution layer the definition lint deliberately lacks. It runs the **opt-in flagship subset** — scenarios carrying `behavioral: true` in `evals/launchbench/*.yaml` or `evals/agent-behavior/*.yaml` — against a live Claude agent primed with `SKILL.md`, grades every `must_catch` / `should_say` / `must_use` / `forbidden` assertion with a structured-output grader call, and writes a JSON results artifact (agent model, grader model, per-assertion verdicts with quoted evidence). `must_catch`/`must_use`/`forbidden` failures are hard (nonzero exit); `should_say` misses are soft.
 
@@ -114,7 +125,7 @@ The honest split, on purpose:
 - **Deterministic gate (PR-blocking):** the fast audit lane always, plus the heavy lane (validator fixtures, engine fixtures, e2e) when engine/catalog/validation paths change. `npm run launchbench:lint` is the YAML definition lint; `npm run test:validators` is the fixture suite. No model in the loop; reproducible. The coverage-audit workflow's session gate is lint-only so engine e2e does not re-run the fixture suite.
 - **Behavioral runs (manual, advisory):** the `behavioral-evals` GitHub Actions workflow (`workflow_dispatch`, `ANTHROPIC_API_KEY` repo secret) or a local run. Live model calls cost money and carry variance/flake, so they never gate PRs; results are an artifact a human reviews, and regressions become validator/scenario tightening, not a red X on someone's unrelated PR. Pass `--repeat N` to rerun each selected scenario N times and grade every run on its own (pass^k). A single sample understates real variance. Use `--repeat 3` on the flagship set before you trust a pass-rate change.
 
-The flagship set (enforced by the launchbench lint — these must keep `behavioral: true`): `stale-installed-skill-runtime`, `live-provider-proof-missing` (the provider-proof-before-ready behavior; its agent-behavior twin is also opted in), `post-launch-ops-runbook-missing`, `launch-tier-overproduction`, `monetization-cozy-default-stack-unexamined`, `founder-zero-operator-skipped`, and `founder-gate-jargon-without-choice`. Current model ids come from the `claude-api` skill (default `claude-opus-5` as of 2026-07-25) — never hardcode date-suffixed ids. Credential-free fixtures cover listing, the missing-credential gate, batch correlation, item failure handling, and resume. The live API path requires a manual workflow run.
+The flagship set (enforced by the launchbench lint — these must keep `behavioral: true`): `stale-installed-skill-runtime`, `live-provider-proof-missing` (the provider-proof-before-ready behavior; its agent-behavior twin is also opted in), `post-launch-ops-runbook-missing`, `launch-tier-overproduction`, `monetization-cozy-default-stack-unexamined`, `founder-zero-operator-skipped`, and `founder-gate-jargon-without-choice`. Current model ids come from the `claude-api` skill (default `claude-opus-5` as of 2026-07-25) — never hardcode date-suffixed ids. Credential-free fixtures cover listing, the missing-credential gate, batch shaping/`custom_id` mapping, item failure handling, and resume (see `message-batches.selftest.ts`). The live API path requires an authorized manual workflow run.
 
 ### Trusting a Pass-Rate Change
 

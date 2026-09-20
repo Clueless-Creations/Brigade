@@ -40,7 +40,13 @@
  * Usage:
  *   tsx checks/validation/repository/run-behavioral-evals.ts --list
  *   ANTHROPIC_API_KEY=... tsx checks/validation/repository/run-behavioral-evals.ts [--only id1,id2]
- *     [--model claude-opus-5] [--grader-model claude-opus-5] [--repeat 3] [--out results.json]
+ *     [--model claude-opus-5] [--grader-model claude-opus-5] [--repeat 3] [--mode batches|per-call]
+ *     [--out results.json]
+ *
+ * Mode: default `batches` submits scenario prompts as one Message Batch and
+ * grades as a second batch (custom_id keyed). Pass `--mode per-call` to keep
+ * the working synchronous Messages path as rollback until a live batch run is
+ * authorized. Fixture green ≠ live batch proof.
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -49,7 +55,7 @@ import { fileURLToPath } from "node:url";
 import { parse as parseYaml } from "yaml";
 import { asArray, asString, flagBoolean, flagNumber, flagString, isRecord, parseFlags } from "../../../tooling/lib/launch-state.js";
 
-import { batchedMessages, type BatchApi } from "./message-batches.js";
+import { batchedMessages, type BatchApi, type BatchCreateParams } from "./message-batches.js";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const skillRoot = path.resolve(scriptDir, "../../..");
@@ -187,16 +193,26 @@ async function run(toRun: BehavioralScenario[]): Promise<void> {
           .filter(({ event }) => event.stage === "submitted")
           .map(({ event }) => event)
       : [];
-  if (!args.resume && existsSync(batchJournal))
+  if (args.mode === "batches" && !args.resume && existsSync(batchJournal))
     throw new Error("A batch journal already exists. Use --resume with the same options or choose a new --out path.");
-  const createMessage: CreateMessage = batchedMessages(
-    client.beta.messages.batches as unknown as BatchApi,
-    (event) => {
-      appendFileSync(batchJournal, `${JSON.stringify({ at: new Date().toISOString(), event })}\n`);
-    },
-    undefined,
-    (requests) => previousBatches.find((batch) => JSON.stringify(batch.requests) === JSON.stringify(requests))?.batch_id,
-  );
+  const createMessage: CreateMessage =
+    args.mode === "per-call"
+      ? async (params) => {
+          const { custom_id: _customId, betas, ...body } = params;
+          const message = await client.beta.messages.create({
+            ...body,
+            ...(Array.isArray(betas) && betas.length > 0 ? { betas } : {}),
+          } as Parameters<typeof client.beta.messages.create>[0]);
+          return message as { content: unknown; stop_reason?: unknown; usage?: unknown };
+        }
+      : batchedMessages(
+          client.beta.messages.batches as unknown as BatchApi,
+          (event) => {
+            appendFileSync(batchJournal, `${JSON.stringify({ at: new Date().toISOString(), event })}\n`);
+          },
+          undefined,
+          (requests) => previousBatches.find((batch) => JSON.stringify(batch.requests) === JSON.stringify(requests))?.batch_id,
+        );
   const skillText = readFileSync(path.join(skillRoot, "SKILL.md"), "utf8");
   const systemPrompt = [
     "You are an autonomous launch agent with the B2C App Builder skill loaded.",
@@ -219,8 +235,8 @@ async function run(toRun: BehavioralScenario[]): Promise<void> {
   const writeArtifact = (): void => {
     const failed = results.filter((result) => !result.pass);
     const artifact = {
-      mode: "message_batches",
-      batch_journal: batchJournal,
+      mode: args.mode === "per-call" ? "per_call" : "message_batches",
+      batch_journal: args.mode === "batches" ? batchJournal : undefined,
       generated_at: new Date().toISOString(),
       skill_version: readSkillVersion(),
       commit_sha: readGitCommitSha(),
@@ -261,6 +277,7 @@ async function run(toRun: BehavioralScenario[]): Promise<void> {
         }
 
         const agentMessage = await createMessage({
+          custom_id: batchCustomId("agent", scenario.id, attempt),
           model: args.model,
           // Adaptive thinking is on by default on current models and shares this
           // ceiling with the answer text, so 8192 truncated multi-assertion
@@ -301,7 +318,7 @@ async function run(toRun: BehavioralScenario[]): Promise<void> {
           return;
         }
 
-        const outcome = await grade(createMessage, scenario, responseText);
+        const outcome = await grade(createMessage, scenario, responseText, attempt);
         addUsage(totalUsage, outcome.usage);
         if (!outcome.ok) {
           console.log(`  INVALID (${outcome.invalidReason}) — not graded`);
@@ -364,6 +381,18 @@ async function run(toRun: BehavioralScenario[]): Promise<void> {
   }
 }
 
+/** Stable Batches custom_id: stage_scenarioId_rN (≤64 chars, [A-Za-z0-9_-]). */
+function batchCustomId(stage: "agent" | "grade", scenarioId: string, attempt: number): string {
+  const raw = `${stage}_${scenarioId}_r${attempt}`;
+  if (raw.length <= 64) return raw.replace(/[^a-zA-Z0-9_-]/g, "_");
+  // Keep stage + run suffix; hash-trim the middle so joins stay unique under the 64-char cap.
+  const suffix = `_r${attempt}`;
+  const prefix = `${stage}_`;
+  const budget = 64 - prefix.length - suffix.length;
+  const trimmed = scenarioId.replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, Math.max(1, budget));
+  return `${prefix}${trimmed}${suffix}`;
+}
+
 /** Pass rate per scenario across its --repeat runs, for spotting flakiness a single sample hides. */
 function summarizeByScenario(toRun: BehavioralScenario[], results: ScenarioResult[]): ScenarioSummary[] {
   return toRun.map((scenario) => {
@@ -379,7 +408,7 @@ function summarizeByScenario(toRun: BehavioralScenario[], results: ScenarioResul
   });
 }
 
-type CreateMessage = (params: Record<string, unknown>) => Promise<{ content: unknown; stop_reason?: unknown; usage?: unknown }>;
+type CreateMessage = (params: BatchCreateParams) => Promise<{ content: unknown; stop_reason?: unknown; usage?: unknown }>;
 
 /** A run that produced no gradeable answer — a harness/model problem, not an agent miss. */
 interface InvalidRun {
@@ -430,7 +459,7 @@ function addUsage(total: { input_tokens: number; output_tokens: number }, usage:
 /** Either a full set of verdicts, or the reason this scenario could not be graded. Usage is present either way — a refused or truncated grader call still spends tokens. */
 type GradeOutcome = ({ ok: true; grades: GradedAssertion[] } | { ok: false; invalidReason: string }) & { usage: CallUsage };
 
-async function grade(createMessage: CreateMessage, scenario: BehavioralScenario, responseText: string): Promise<GradeOutcome> {
+async function grade(createMessage: CreateMessage, scenario: BehavioralScenario, responseText: string, attempt: number): Promise<GradeOutcome> {
   const gradeSchema = {
     type: "object",
     properties: {
@@ -461,6 +490,7 @@ async function grade(createMessage: CreateMessage, scenario: BehavioralScenario,
     .join("\n");
 
   const graderMessage = await createMessage({
+    custom_id: batchCustomId("grade", scenario.id, attempt),
     model: args.graderModel,
     // Same ceiling reasoning as the agent call: adaptive thinking is on by
     // default on current models and shares max_tokens with the JSON payload,
@@ -575,6 +605,11 @@ interface Args {
   /** Explicit opt-in to spend against an `ant auth login` profile with no key exported. */
   useProfile: boolean;
   resume: boolean;
+  /**
+   * `batches` (default): Message Batches for scenarios then grades.
+   * `per-call`: synchronous Messages API rollback until live batch proof is authorized.
+   */
+  mode: "batches" | "per-call";
 }
 
 function parseArgs(argv: string[]): Args {
@@ -586,15 +621,21 @@ function parseArgs(argv: string[]): Args {
     { flags: ["--grader-model"], key: "graderModel", kind: "string" },
     { flags: ["--repeat"], key: "repeat", kind: "number" },
     { flags: ["--use-profile"], key: "useProfile", kind: "boolean" },
+    { flags: ["--mode"], key: "mode", kind: "string" },
     { flags: ["--out"], key: "out" },
   ]);
   const requestedRepeat = flagNumber(flags, "repeat");
+  const requestedMode = flagString(flags, "mode");
+  if (requestedMode !== undefined && requestedMode !== "batches" && requestedMode !== "per-call") {
+    throw new Error(`--mode must be "batches" or "per-call" (got ${requestedMode})`);
+  }
   return {
     list: flagBoolean(flags, "list"),
     resume: flagBoolean(flags, "resume"),
     only: flagString(flags, "only"),
     model: flagString(flags, "model") ?? DEFAULT_MODEL,
     graderModel: flagString(flags, "graderModel") ?? DEFAULT_MODEL,
+    mode: requestedMode === "per-call" ? "per-call" : "batches",
     out:
       flagString(flags, "out") ??
       path.join(
