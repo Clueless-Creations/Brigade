@@ -1,4 +1,4 @@
-// Repository-only contract reference. Runtime services must not import docs.
+// Runtime Product Profile v1 conformance reader. Reads no workspace sources and performs no inference.
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
