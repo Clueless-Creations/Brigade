@@ -240,15 +240,17 @@ composition only. Do not copy product pricing, requirements, observations,
 secrets, execution status, or authority into it. Extend the existing generated
 installation pin; do not add a second lock or state file for the same facts.
 
-The planned `product-profile/v1` model projects these existing owners into
-revision-bound intended and observed product representations. It does not add
-another place to author accepted requirements, design decisions or runtime
-truth. Reference Product Profiles specialize the same base contract with source
-and capture provenance; they must not redefine shared product concepts in a
-parallel schema. Profile queries and deltas retain source identities, omissions
-and epistemic status. The standalone Dissector remains independent of downstream
-target-product decisions. See [Product Profiles](decision-driven-building.md#product-profiles-are-the-common-product-representation)
-and the #562 program for the schema and interoperability work.
+Product Profiles conform to the versioned base contract and its source-ownership rules. They are immutable, revision-bound projections, never an additional authoring or acceptance store.
+
+The [Product Profile v1 contract](contracts/product-profile/README.md) and
+[ADR-0019](decisions/0019-product-profile-truth-ownership.md) define intended,
+observed, and observed-reference modes. Reference metadata specializes the same
+base payload; it does not redefine shared product concepts. Profile queries and
+deltas retain source identities, omissions, and epistemic status. The standalone
+Dissector remains independent of downstream target-product decisions. Contract
+conformance is not evidence of a shipped generation/query service or live observation.
+See [decision-driven building](decision-driven-building.md#product-profiles-are-the-common-product-representation)
+and the #562 program for downstream implementation.
 
 ### ARCH-08: Explicit, recoverable composition migration
 

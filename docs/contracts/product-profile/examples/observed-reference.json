@@ -1,0 +1,642 @@
+{
+  "apiVersion": "product-profile/v1",
+  "id": "profile:lesson-observed-reference",
+  "revision": "sha256:32c38394f6e9f0963d9526aaf0428aa6c80487bce1c4ee5f413cbea5636ebe2a",
+  "mode": "observed-reference",
+  "product": {
+    "id": "product:lesson-example",
+    "name": "Lesson Example (synthetic fixture)",
+    "version": {
+      "id": "version:lesson-example-1",
+      "label": "1.0.0",
+      "build": "fixture-1"
+    },
+    "claimRefs": ["claim:product"]
+  },
+  "provenance": {
+    "generatedAt": "2026-09-20T12:10:00Z",
+    "producer": {
+      "id": "fixture:profile-contract",
+      "version": "1.0.0",
+      "method": "dissection"
+    },
+    "sources": [
+      {
+        "id": "source:capture",
+        "owner": "reference-capture",
+        "locator": "fixture:lesson-run-1",
+        "revision": "fixture-r1",
+        "contentDigest": "sha256:247115ea7d1b49d32c09cd3fab2a7d2dbe1ac32638639b53bce5918bd4e4d290",
+        "derivedFrom": []
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "entity:lesson",
+      "kind": "entity",
+      "name": "Lesson",
+      "claimRefs": ["claim:lesson-entity"]
+    },
+    {
+      "id": "system:progression",
+      "kind": "system",
+      "name": "Progression",
+      "claimRefs": ["claim:progression-system"]
+    },
+    {
+      "id": "mechanic:completion",
+      "kind": "mechanic",
+      "name": "Completion rule",
+      "claimRefs": ["claim:completion-mechanic"]
+    },
+    {
+      "id": "state:learning",
+      "kind": "state",
+      "name": "Learning",
+      "claimRefs": ["claim:learning-state"]
+    },
+    {
+      "id": "surface:lesson",
+      "kind": "surface",
+      "name": "Lesson screen",
+      "claimRefs": ["claim:lesson-surface"]
+    },
+    {
+      "id": "transition:complete",
+      "kind": "transition",
+      "name": "Complete lesson",
+      "claimRefs": ["claim:complete-transition"],
+      "from": "state:learning",
+      "to": "state:completed",
+      "trigger": "event:completed"
+    },
+    {
+      "id": "journey:learn",
+      "kind": "journey",
+      "name": "Learn a lesson",
+      "claimRefs": ["claim:learn-journey"],
+      "steps": ["transition:complete"]
+    },
+    {
+      "id": "event:completed",
+      "kind": "event",
+      "name": "Completion event",
+      "claimRefs": ["claim:completed-event"]
+    },
+    {
+      "id": "effect:save-progress",
+      "kind": "effect",
+      "name": "Save progress",
+      "claimRefs": ["claim:save-progress-effect"]
+    },
+    {
+      "id": "visual-foundation:type",
+      "kind": "visual-foundation",
+      "name": "Type hierarchy",
+      "claimRefs": ["claim:type-visual-foundation"]
+    },
+    {
+      "id": "component:complete-button",
+      "kind": "component",
+      "name": "Completion control",
+      "claimRefs": ["claim:complete-button-component"]
+    },
+    {
+      "id": "navigation-pattern:back",
+      "kind": "navigation-pattern",
+      "name": "Back navigation",
+      "claimRefs": ["claim:back-navigation-pattern"]
+    },
+    {
+      "id": "motion-family:completion",
+      "kind": "motion-family",
+      "name": "Completion motion",
+      "claimRefs": ["claim:completion-motion-family"]
+    },
+    {
+      "id": "gesture-family:tap",
+      "kind": "gesture-family",
+      "name": "Tap gesture",
+      "claimRefs": ["claim:tap-gesture-family"]
+    },
+    {
+      "id": "feedback:success",
+      "kind": "feedback",
+      "name": "Success feedback",
+      "claimRefs": ["claim:success-feedback"],
+      "channels": ["visual", "audio", "haptic"]
+    },
+    {
+      "id": "content-pattern:instruction",
+      "kind": "content-pattern",
+      "name": "Lesson instruction",
+      "claimRefs": ["claim:instruction-content-pattern"]
+    },
+    {
+      "id": "technical-characteristic:offline",
+      "kind": "technical-characteristic",
+      "name": "Offline behavior",
+      "claimRefs": ["claim:offline-technical-characteristic"]
+    },
+    {
+      "id": "state:completed",
+      "kind": "state",
+      "name": "Completed",
+      "claimRefs": ["claim:completed-state"]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "relationship:completion-updates",
+      "kind": "causes",
+      "from": "event:completed",
+      "to": "effect:save-progress",
+      "claimRefs": ["claim:completion-updates"]
+    },
+    {
+      "id": "relationship:progression-retains",
+      "kind": "persists",
+      "from": "system:progression",
+      "to": "entity:lesson",
+      "claimRefs": ["claim:progression-retains"]
+    },
+    {
+      "id": "relationship:screen-control",
+      "kind": "renders",
+      "from": "surface:lesson",
+      "to": "component:complete-button",
+      "claimRefs": ["claim:screen-control"]
+    },
+    {
+      "id": "relationship:completion-feedback",
+      "kind": "emits",
+      "from": "event:completed",
+      "to": "feedback:success",
+      "claimRefs": ["claim:completion-feedback"]
+    },
+    {
+      "id": "relationship:back-surface",
+      "kind": "navigates",
+      "from": "navigation-pattern:back",
+      "to": "surface:lesson",
+      "claimRefs": ["claim:back-surface"]
+    },
+    {
+      "id": "relationship:motion-state",
+      "kind": "governs",
+      "from": "motion-family:completion",
+      "to": "state:completed",
+      "claimRefs": ["claim:motion-state"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:product",
+      "subjectRef": "product:lesson-example",
+      "statement": "A learner completes a lesson and views progress.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:lesson-entity",
+      "subjectRef": "entity:lesson",
+      "statement": "A lesson has an identifier and completion state.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:progression-system",
+      "subjectRef": "system:progression",
+      "statement": "The progression system retains completed lesson identifiers.",
+      "status": "inferred",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"],
+      "reason": "Synthetic fixture: the visible behavior suggests this mechanism; implementation is not observed."
+    },
+    {
+      "id": "claim:completion-mechanic",
+      "subjectRef": "mechanic:completion",
+      "statement": "Completion adds a lesson to progress once.",
+      "status": "inferred",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"],
+      "reason": "Synthetic fixture: the visible behavior suggests this mechanism; implementation is not observed."
+    },
+    {
+      "id": "claim:learning-state",
+      "subjectRef": "state:learning",
+      "statement": "The lesson is available to complete.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:lesson-surface",
+      "subjectRef": "surface:lesson",
+      "statement": "The lesson screen shows learning content and a completion control.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:complete-transition",
+      "subjectRef": "transition:complete",
+      "statement": "Completing a lesson moves learning to completed.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:learn-journey",
+      "subjectRef": "journey:learn",
+      "statement": "The learner completes the current lesson.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:completed-event",
+      "subjectRef": "event:completed",
+      "statement": "The completion control emits an event.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:save-progress-effect",
+      "subjectRef": "effect:save-progress",
+      "statement": "Progress remains after reopening the product.",
+      "status": "contradicted",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"],
+      "reason": "Synthetic fixture: a controlled readback disagrees with the statement."
+    },
+    {
+      "id": "claim:type-visual-foundation",
+      "subjectRef": "visual-foundation:type",
+      "statement": "Titles have a distinct text hierarchy.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:complete-button-component",
+      "subjectRef": "component:complete-button",
+      "statement": "A completion control appears on the lesson screen.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:back-navigation-pattern",
+      "subjectRef": "navigation-pattern:back",
+      "statement": "Back navigation returns to the lesson surface.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:completion-motion-family",
+      "subjectRef": "motion-family:completion",
+      "statement": "The completed state uses a visible transition.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:tap-gesture-family",
+      "subjectRef": "gesture-family:tap",
+      "statement": "A tap activates the completion control.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:success-feedback",
+      "subjectRef": "feedback:success",
+      "statement": "Completion produces visual, audio, and haptic feedback.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace", "evidence:audio", "evidence:haptic"]
+    },
+    {
+      "id": "claim:instruction-content-pattern",
+      "subjectRef": "content-pattern:instruction",
+      "statement": "Instructions name the next learning action.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:offline-technical-characteristic",
+      "subjectRef": "technical-characteristic:offline",
+      "statement": "Lesson content remains available offline.",
+      "status": "unknown",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"],
+      "reason": "Synthetic fixture: this scope has no source-backed answer."
+    },
+    {
+      "id": "claim:completed-state",
+      "subjectRef": "state:completed",
+      "statement": "The lesson shows its completed state.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:completion-updates",
+      "subjectRef": "relationship:completion-updates",
+      "statement": "event:completed causes effect:save-progress within the lesson scenario.",
+      "status": "inferred",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"],
+      "reason": "Synthetic fixture: the visible behavior suggests this mechanism; implementation is not observed."
+    },
+    {
+      "id": "claim:progression-retains",
+      "subjectRef": "relationship:progression-retains",
+      "statement": "system:progression persists entity:lesson within the lesson scenario.",
+      "status": "inferred",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"],
+      "reason": "Synthetic fixture: the visible behavior suggests this mechanism; implementation is not observed."
+    },
+    {
+      "id": "claim:screen-control",
+      "subjectRef": "relationship:screen-control",
+      "statement": "surface:lesson renders component:complete-button within the lesson scenario.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:completion-feedback",
+      "subjectRef": "relationship:completion-feedback",
+      "statement": "event:completed emits feedback:success within the lesson scenario.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:back-surface",
+      "subjectRef": "relationship:back-surface",
+      "statement": "navigation-pattern:back navigates surface:lesson within the lesson scenario.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    },
+    {
+      "id": "claim:motion-state",
+      "subjectRef": "relationship:motion-state",
+      "statement": "motion-family:completion governs state:completed within the lesson scenario.",
+      "status": "observed",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": ["evidence:trace"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence:trace",
+      "sourceRef": "source:capture",
+      "subjectRefs": [
+        "product:lesson-example",
+        "entity:lesson",
+        "system:progression",
+        "mechanic:completion",
+        "state:learning",
+        "surface:lesson",
+        "transition:complete",
+        "journey:learn",
+        "event:completed",
+        "effect:save-progress",
+        "visual-foundation:type",
+        "component:complete-button",
+        "navigation-pattern:back",
+        "motion-family:completion",
+        "gesture-family:tap",
+        "feedback:success",
+        "content-pattern:instruction",
+        "technical-characteristic:offline",
+        "state:completed",
+        "relationship:completion-updates",
+        "relationship:progression-retains",
+        "relationship:screen-control",
+        "relationship:completion-feedback",
+        "relationship:back-surface",
+        "relationship:motion-state"
+      ],
+      "modality": "video",
+      "environment": "physical-device",
+      "directness": "direct",
+      "derivedFrom": [],
+      "observedAt": "2026-09-20T12:00:00Z",
+      "scope": "Synthetic evidence pointer for conformance tests, not a real device receipt."
+    },
+    {
+      "id": "evidence:audio",
+      "sourceRef": "source:capture",
+      "subjectRefs": ["feedback:success"],
+      "modality": "audio",
+      "environment": "physical-device",
+      "directness": "direct",
+      "derivedFrom": [],
+      "observedAt": "2026-09-20T12:00:00Z",
+      "scope": "Synthetic evidence pointer for conformance tests, not a real device receipt."
+    },
+    {
+      "id": "evidence:haptic",
+      "sourceRef": "source:capture",
+      "subjectRefs": ["feedback:success"],
+      "modality": "haptic",
+      "environment": "physical-device",
+      "directness": "direct",
+      "derivedFrom": [],
+      "observedAt": "2026-09-20T12:00:00Z",
+      "scope": "Synthetic evidence pointer for conformance tests, not a real device receipt."
+    }
+  ],
+  "coverage": [
+    {
+      "id": "coverage:entity",
+      "kind": "entity",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["entity:lesson"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:system",
+      "kind": "system",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["system:progression"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:mechanic",
+      "kind": "mechanic",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["mechanic:completion"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:state",
+      "kind": "state",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["state:learning", "state:completed"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:surface",
+      "kind": "surface",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["surface:lesson"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:transition",
+      "kind": "transition",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["transition:complete"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:journey",
+      "kind": "journey",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["journey:learn"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:event",
+      "kind": "event",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["event:completed"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:effect",
+      "kind": "effect",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["effect:save-progress"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:visual-foundation",
+      "kind": "visual-foundation",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["visual-foundation:type"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:component",
+      "kind": "component",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["component:complete-button"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:navigation-pattern",
+      "kind": "navigation-pattern",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["navigation-pattern:back"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:motion-family",
+      "kind": "motion-family",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["motion-family:completion"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:gesture-family",
+      "kind": "gesture-family",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["gesture-family:tap"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:feedback",
+      "kind": "feedback",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["feedback:success"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:content-pattern",
+      "kind": "content-pattern",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "covered",
+      "elementRefs": ["content-pattern:instruction"],
+      "claimRefs": [],
+      "unknownRefs": []
+    },
+    {
+      "id": "coverage:technical-characteristic",
+      "kind": "technical-characteristic",
+      "scope": "The synthetic lesson-completion scenario only; no whole-product completeness claim.",
+      "status": "unknown",
+      "elementRefs": ["technical-characteristic:offline"],
+      "claimRefs": [],
+      "unknownRefs": ["unknown:offline"]
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "unknown:offline",
+      "subjectRefs": ["technical-characteristic:offline"],
+      "reason": "inaccessible",
+      "question": "Does lesson content remain available offline?",
+      "sourceRefs": ["source:capture"],
+      "evidenceRefs": []
+    }
+  ],
+  "extensions": {
+    "reference": {
+      "captureSourceRefs": ["source:capture"],
+      "observedVersionRef": "version:lesson-example-1",
+      "captureWindow": {
+        "startedAt": "2026-09-20T11:55:00Z",
+        "endedAt": "2026-09-20T12:05:00Z"
+      },
+      "dissection": {
+        "method": "Synthetic contract example; no capture tool was executed.",
+        "version": "1.0.0",
+        "limitations": ["Offline behavior was not captured.", "This fixture is not live product evidence."]
+      }
+    }
+  }
+}

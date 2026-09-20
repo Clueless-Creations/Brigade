@@ -59,7 +59,7 @@ After family-specific qualification, permit automatic reversible dispatch under 
 
 ### 4. Add profile-backed reasoning without blocking the first slice
 
-#563 establishes `product-profile/v1` before reference specialization. #564 and #565 produce revision-bound intended/observed views. #566 compares them without converting absent evidence into disproved behavior. #567 retrieves bounded connected context without hidden inference. #568 refreshes views at material lifecycle boundaries. #569 imports compatible reference profiles without changing business intent.
+#563 establishes the [Product Profile v1 contract](../contracts/product-profile/README.md) and [ADR-0019](../decisions/0019-product-profile-truth-ownership.md) before reference specialization. Its schema and common import/ID-lookup proof do not complete generation or the bounded runtime service. #564 and #565 produce revision-bound intended/observed views. #566 compares them without converting absent evidence into disproved behavior. #567 retrieves bounded connected context without hidden inference. #568 refreshes views at material lifecycle boundaries. #569 imports compatible reference profiles without changing business intent.
 
 Use these nodes to make routing more precise: completion can affect progress, profile, persistence, animation and feedback. A missing relationship can request a new observation rather than speculative implementation. The first routing slice may use existing source owners directly until profile contracts land; do not duplicate them temporarily.
 
