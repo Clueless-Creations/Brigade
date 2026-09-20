@@ -1,0 +1,32 @@
+name: Product Profile contract
+
+# Additional contract fixtures, not a replacement for the repository CI lanes.
+on:
+  pull_request:
+    paths:
+      - docs/contracts/product-profile/**
+      - docs/decisions/0019-product-profile-truth-ownership.md
+      - .github/workflows/product-profile-contract.yml
+  push:
+    branches: [main]
+    paths:
+      - docs/contracts/product-profile/**
+      - docs/decisions/0019-product-profile-truth-ownership.md
+      - .github/workflows/product-profile-contract.yml
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    name: Product Profile conformance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: node --test docs/contracts/product-profile/contract.test.mjs
