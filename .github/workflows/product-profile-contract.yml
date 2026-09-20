@@ -10,6 +10,7 @@ on:
       - kernel/services/intended-product-profile*
       - kernel/services/product-profile-query*
       - kernel/services/observed-product-profile*
+      - kernel/services/product-profile-delta*
       - .github/workflows/product-profile-contract.yml
   push:
     branches: [main]
@@ -39,3 +40,4 @@ jobs:
       - run: node --import tsx --test kernel/services/intended-product-profile.test.ts
       - run: node --import tsx --test kernel/services/product-profile-query.test.ts
       - run: node --import tsx --test kernel/services/observed-product-profile.test.ts
+      - run: node --import tsx --test kernel/services/product-profile-delta.test.ts
