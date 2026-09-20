@@ -1,6 +1,6 @@
 # Consumer-business primitives: north-star architecture
 
-Revision: 8 · Established: 2026-09-04 · Role: normative target architecture
+Revision: 9 · Established: 2026-09-04 · Role: normative target architecture
 
 This is the architecture against which new work and refactoring are reviewed. It
 defines the intended system; it does **not** claim that every boundary exists in
@@ -60,6 +60,13 @@ flowchart TD
   V --> X
   X --> S
 ```
+
+The [decision-driven building design](decision-driven-building.md) expands the
+semantic decision loop inside these same boundaries. Jev is a candidate selected
+provider for routing work, context, workers, observations and repair, not only
+verification. The [ADR-0016 refinement](decisions/0016-compiled-semantic-execution.md)
+and [delivery plan](plans/2026-09-20-decision-driven-building.md) define the proposed
+admission and proof path. This target does not enable live routing by itself.
 
 Design these logical boundaries as greenfield contracts. Current directories,
 commands, and internal types are not constraints on the target. Start as a local
@@ -232,6 +239,16 @@ repin a business or invalidate pinned historical evidence by observation alone.
 composition only. Do not copy product pricing, requirements, observations,
 secrets, execution status, or authority into it. Extend the existing generated
 installation pin; do not add a second lock or state file for the same facts.
+
+The planned `product-profile/v1` model projects these existing owners into
+revision-bound intended and observed product representations. It does not add
+another place to author accepted requirements, design decisions or runtime
+truth. Reference Product Profiles specialize the same base contract with source
+and capture provenance; they must not redefine shared product concepts in a
+parallel schema. Profile queries and deltas retain source identities, omissions
+and epistemic status. The standalone Dissector remains independent of downstream
+target-product decisions. See [Product Profiles](decision-driven-building.md#product-profiles-are-the-common-product-representation)
+and the #562 program for the schema and interoperability work.
 
 ### ARCH-08: Explicit, recoverable composition migration
 
@@ -464,9 +481,35 @@ exceptions or edit a rule only to silence a failed check.
 
 Repeatable semantic work compiles into typed, versioned operations under the existing composition and execution owners. Parallelize assessments whose inputs and authority prerequisites are available; preserve bounded context, partial coverage, cancellation, cost uncertainty, receipts, and replay. Passive discovery, status, knowledge retrieval, and planning do not run paid inference. A selected provider remains behind a canonical operation and does not create another scheduler or journal.
 
+Semantic work includes active build routing: selecting useful eligible work,
+applicable context and skills, qualified execution routes, observation probes,
+and whether to continue, repair, replan or escalate at a meaningful checkpoint.
+After family-specific qualification and policy admission, deterministic policy
+may consume these decisions to dispatch reversible work within current grants.
+It need not ask a frontier agent to reinterpret every answer. Shadow and advisory
+modes are proof stages, not the final capability ceiling.
+
+The existing planner owns eligibility and the executor rechecks current scope,
+revisions, authority, bindings, resource claims and budget before acting. An
+active session may refresh a decision through an admitted semantic operation;
+a passive plan only reads stored results. Use exact code where sufficient,
+semantic assessment for bounded interpretation, and generative workers for novel
+candidates or reasoning. New candidates must enter through existing validated
+work/composition paths before becoming eligible. Jev is a candidate provider for
+this role, not a hard-coded runtime dependency or a second orchestration owner.
+See [decision-driven building](decision-driven-building.md).
+
 ### ARCH-17: Keep semantic graph relationships derived and contextual
 
 Semantic relationships and applicability judgments remain context-bound inferences with source revisions and receipt provenance. They cannot overwrite authored truth, create identity equivalence, waive evidence, or grant authority. Unknown, conflicting, and missing evidence stay explicit. Invalidation and erasure follow existing owners; indexes are reconstructable. Initial behavior is opt-in shadow, and advisory or execution admission requires reviewed policy and source-backed held-out evidence.
+
+A well-formed answer is not proof of semantic correctness. Preserve provider
+confidence semantics and evaluate them per decision family; do not treat a
+confidence statistic as a calibrated end-to-end success probability. Routing
+receipts retain candidate coverage, alternatives and their source identities.
+A derived text description cannot masquerade as original visual, audio or tactile
+evidence. Independent acceptance, non-compensatory constraints and source-proof
+invalidation remain in force when a model selects the next action.
 
 ## Repository layout
 
@@ -489,7 +532,7 @@ file-level rule is needed.
 | `hosted/`             | Separately deployed services                                                                      | `knowledge-mcp/`, `builder-console/`, `shared/`                                                               |
 | `examples/`           | Reference businesses and, later, reference extension packages                                     | `workspace/`, `tuck/`                                                                                         |
 | `checks/`             | Observations and verification (V)                                                                 | `validation/`, `verification/`                                                                                |
-| `tooling/`            | Renderers, audit runner, maintenance                                                              | unchanged                                                                                                     |
+| `tooling/`            | Renderers, audit runner, capture, and maintenance                                                              | unchanged                                                                                                     |
 | `docs/`               | Architecture, decisions, plans, guides                                                            | unchanged                                                                                                     |
 
 Dependency direction, top to bottom: `contracts` imports nothing internal.
