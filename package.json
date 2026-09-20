@@ -1,6 +1,6 @@
 {
   "name": "@cluelesscreations/brigade",
-  "version": "0.221.63",
+  "version": "0.221.64",
   "description": "Brigade gives AI agents consumer-business primitives: capabilities, providers, recipes, and evidence through a CLI, MCP, and skill.",
   "keywords": [
     "mcp",

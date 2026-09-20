@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.63",
+  "version": "0.221.64",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Intended Product Profile generation (#564): package product-profile/v1 contract; deterministic intended projection from accepted Brigade truth; explicit unresolved coverage; source-revision freshness; canonical profile-refresh lifecycle operation. Stamp 0.221.64. No npm publish.",
     "Adopt Amir Mushich brand-system Skill pattern (#3): onboard path in knowledge/design/brand-system-skill-onboard.md; DEEP PRODUCT DESIGN vs Brand Skill map; UGC/Studio/Fastlane desk Brand Lock gates before credit-burning gens; adapted Lock=default process, upstream Skill install=opt-in, human approval before gen credits; fixture spike (local still, paid gen HOLD); CC BY 4.0 attribution preserved; no store/price/ads/Profile steal. Stamp 0.221.63. No npm publish. STOP → #2 on HoE order only (U6 last).",
     "Provider-neutral hosted console identity + GitHub sign-in (#6): ADR-0020 Decisions A+B (identities(provider, subject); email alone never merges; first additional provider=GitHub); migration 0009 Google backfill + nullable google_sub; provider-aware OAuth state; GitHub adapter + /signin chooser; Google paths compatible; fixture security matrix; cross-repo site deep-link follow-up recorded only. Live OAuth app/secrets/prod D1/deploy held. Stamp 0.221.62. No npm publish. STOP → #3 on HoE order only.",
     "Qualify TaskGrind under explicit hold + optional managed human-beta via provider-neutral operator-assisted handoff (#213): dated Phase-1 qualification (homepage inaccessible; no speculative adapter); binding-only selection (no vendor-global flag); APP_QUALITY remains quality owner; privacy/failure fixtures; evidence classes separated; live recruit/spend/account not performed. Stamp 0.221.61. No npm publish. STOP → #6 on HoE order only.",

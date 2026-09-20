@@ -3,7 +3,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
-import { importProfile, MAX_PROFILE_BYTES, revisionOf, schema, validateProfile } from "./conformance.mjs";
+import { importProfile, MAX_PROFILE_BYTES, revisionOf, schema, validateProfile } from "../../../contracts/product-profile/conformance.mjs";
 
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 const read = (mode) => readFileSync(new URL(`./examples/${mode}.json`, import.meta.url), "utf8");

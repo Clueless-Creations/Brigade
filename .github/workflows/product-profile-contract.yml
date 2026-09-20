@@ -6,12 +6,16 @@ on:
     paths:
       - docs/contracts/product-profile/**
       - docs/decisions/0019-product-profile-truth-ownership.md
+      - contracts/product-profile/**
+      - kernel/services/intended-product-profile*
       - .github/workflows/product-profile-contract.yml
   push:
     branches: [main]
     paths:
       - docs/contracts/product-profile/**
       - docs/decisions/0019-product-profile-truth-ownership.md
+      - contracts/product-profile/**
+      - kernel/services/intended-product-profile*
       - .github/workflows/product-profile-contract.yml
 
 permissions:
@@ -30,3 +34,4 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node --test docs/contracts/product-profile/contract.test.mjs
+      - run: node --import tsx --test kernel/services/intended-product-profile.test.ts

@@ -48,7 +48,7 @@ No averaging of confidence, latest-file-wins rule, or silent rewrite can settle 
 
 ## Wire structure
 
-[`product-profile.v1.schema.json`](product-profile.v1.schema.json) is the canonical authored JSON Schema 2020-12 document.
+[`contracts/product-profile/product-profile.v1.schema.json`](../../../contracts/product-profile/product-profile.v1.schema.json) is the canonical authored JSON Schema 2020-12 document.
 Objects reject unknown fields. The schema and the semantic rules below both apply.
 JSON text must have unique object keys, a maximum UTF-8 size of 2,000,000 bytes, and nesting of at most 32 containers.
 Array and string bounds are defined in the schema. These are import limits, not the runtime projection budget for #567.
@@ -181,7 +181,7 @@ Run from the repository root after `npm ci` with Node.js 24:
 node --test docs/contracts/product-profile/contract.test.mjs
 ```
 
-[`conformance.mjs`](conformance.mjs) validates the schema, typed references, evidence rules, coverage, and snapshot digest.
+[`contracts/product-profile/conformance.mjs`](../../../contracts/product-profile/conformance.mjs) validates the schema, typed references, evidence rules, coverage, and snapshot digest.
 Its `importProfile(json)` reference reader returns an immutable snapshot, `get(id)`, and `export()`.
 It resolves IDs in memory and preserves supported values on round-trip, including reference metadata.
 It reads only its checked-in schema at module initialization. Import and lookup do not access source locators or run inference.
