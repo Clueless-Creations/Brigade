@@ -6,8 +6,10 @@ Status: accepted
 
 The human-facing product name is **Brigade**. The company remains Clueless
 Creations. Existing technical identities remain unchanged: the `b2c` CLI, the
-`b2c_*` MCP names, the `b2c-app-builder` package and repository, schema IDs,
-stored records, and hosted service wire values.
+`b2c_*` MCP names, the `b2c-app-builder` repository and skill, schema IDs,
+stored records, and hosted service wire values. The canonical npm package is
+now the scoped `@cluelesscreations/brigade`, as recorded in ADR-0018; the old
+package name remains only as a compatibility alias.
 
 Human-facing documentation, package description, hosted prose, and diagrams
 may use Brigade. When a hosted response needs to identify the product, it may
@@ -26,8 +28,8 @@ third-party text without improving the user experience.
   regenerated from them.
 - Residual `B2C App Builder` matches are classified as technical, historical,
   quoted-source, or a remaining branding defect.
-- The repository, npm package, CLI, MCP tools, and deployed service identifiers
-  remain compatible.
+- The repository, CLI, MCP tools, and deployed service identifiers remain
+  compatible. The npm package name migration is governed by ADR-0018.
 - The separate Clueless Creations site requires its own follow-up and is not
   changed by this decision.
 

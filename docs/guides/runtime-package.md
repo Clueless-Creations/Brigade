@@ -1,6 +1,9 @@
 # B2C App Builder Runtime
 
-This package powers the `b2c` CLI, the `b2c-app-builder` MCP server, and the `b2c-app-builder` routing skill. The target is a toolkit of consumer-business capabilities, replaceable operation providers, configurable recipes, and evidence.
+The `@cluelesscreations/brigade` package powers the `b2c` CLI, Brigade's MCP
+server, and the `b2c-app-builder` routing skill. The target is a toolkit of
+consumer-business capabilities, replaceable operation providers, configurable
+recipes, and evidence.
 
 It turns a consumer-app goal into a bounded workflow. It loads the required references. It plans app workspace state and supports verification through the CLI. MCP verification runs only in explicit write mode.
 
@@ -73,12 +76,11 @@ Use Node.js 24.
 | Audience | Path |
 | --- | --- |
 | **Contribute / develop** | Clone this repository, `npm ci`, `npm run setup`. |
-| **Consume the runtime** (after the first authorized npm publish) | `npm install -g b2c-app-builder` or `npx -y b2c-app-builder` for the MCP bin. |
+| **Consume the runtime** | `npm install -g @cluelesscreations/brigade` or `npx -y @cluelesscreations/brigade` for the MCP bin. |
 
-The package is **not** on the registry yet (`npm view b2c-app-builder` → 404).
-Until a maintainer completes the first publish described in
-[CONTRIBUTING](../../CONTRIBUTING.md#releasing-to-npm), treat the npm snippets
-as the intended post-publish consumer path, not as a working install.
+The canonical package is scoped to the `cluelesscreations` npm organization.
+The old unscoped `b2c-app-builder` package is retained only as a legacy
+compatibility package; new releases use the scoped package.
 
 ### From a source checkout (current verified path)
 
@@ -91,7 +93,7 @@ b2c inspect
 ### From npm (intended after first publish)
 
 ```bash
-npm install -g b2c-app-builder
+npm install -g @cluelesscreations/brigade
 b2c setup
 b2c inspect
 ```
@@ -102,14 +104,15 @@ A packed install launches compiled ESM from `dist/` and does not need `tsx`. A s
 
 ## Package boundary
 
-One public npm package: **`b2c-app-builder`**. It ships the `b2c` CLI, the
-`b2c-app-builder` / `b2c-app-builder-mcp` bins, routing skill, catalog,
+One canonical public npm package: **`@cluelesscreations/brigade`**. It ships
+the `b2c` CLI, the `brigade` / `brigade-mcp` bins, compatibility aliases,
+routing skill, catalog,
 knowledge, adapters, compiled `dist/`, selected generated business task skills,
 starters, workspace templates, and importable `examples/extensions/` trees.
 
 | Tree | Public npm? | Notes |
 | --- | --- | --- |
-| Repository root (`b2c-app-builder`) | **Yes — the one package** | `check:package-parity` is the pack contract. |
+| Repository root (`@cluelesscreations/brigade`) | **Yes — the canonical package** | `check:package-parity` is the pack contract. |
 | `hosted/knowledge-mcp`, `hosted/builder-console` | No | Separately deployed Workers; private package names stay repo-only. |
 | Contributor/maintainer skills under `agents/skills/` (non-business) | No | Operator symlink only; must not ship to a business worker. |
 | `checks/verification/`, most of `docs/`, `.github/` | No | Maintainer fixtures and repository docs. |
@@ -218,7 +221,7 @@ The input is canonical unpadded base64url SPKI DER text for an Ed25519 public ke
 
 ## MCP
 
-Register the absolute Node command and the `entrypoints/mcp/b2c-app-builder-mcp.mjs` path that `b2c setup` prints, under the name `b2c-local`. Without a local install, register the portable form instead: command `npx`, arguments `-y b2c-app-builder`. The transport is stdio. Hosted knowledge uses `b2c-hosted`. A leftover `b2c-app-builder` client name is the legacy local registration.
+Register the absolute Node command and the `entrypoints/mcp/b2c-app-builder-mcp.mjs` path that `b2c setup` prints, under the name `b2c-local`. Without a local install, register the portable form instead: command `npx`, arguments `-y @cluelesscreations/brigade`. The transport is stdio. Hosted knowledge uses `b2c-hosted`. A leftover `b2c-app-builder` client name is the legacy local registration.
 
 ### Leftover names
 
