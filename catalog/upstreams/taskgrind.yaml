@@ -1,0 +1,114 @@
+schema_version: 1
+id: taskgrind
+project: TaskGrind (managed human-beta recruitment candidate)
+canonical_url: https://www.taskgrind.com/
+homepage: https://www.taskgrind.com/
+aliases:
+  - TaskGrind
+  - task grind
+transfers: []
+authors:
+  - name: TaskGrind (identity unresolved)
+    role: Founder-named candidate organization; no independently verified publishing identity on 2026-09-20
+maintainers:
+  - name: b2c-maintainers
+    role: Brigade qualification-hold steward until authoritative upstream access exists
+copyright: Unknown — no verified notice retrieved
+license:
+  spdx: NOASSERTION
+  status: unknown
+  scope: No first-party license, terms, API, or SDK materials were independently retrieved. No TaskGrind source, credentials, or docs are copied into Brigade.
+  notes: Qualification hold (#213). Homepage fetch returned HTTP 500 on 2026-09-20. Do not invent endpoints, JSON, or adapters from similarly named services.
+service_terms:
+  status: unreviewed
+  notes: No reviewed privacy, retention, recording, automation, or paid-tester terms. Blocks live recruit/spend/customer-data until re-qualification.
+source_ids:
+  - taskgrind-com-homepage
+relationships:
+  - kind: remote-service
+    consumption: >-
+      Track TaskGrind as an optional managed human-beta recruitment candidate under an explicit
+      qualification hold. Brigade implements only the provider-neutral operator-assisted handoff
+      and attributable import path. No speculative TaskGrind adapter, account, spend, or live campaign.
+    local_owners:
+      - docs/upstreams/taskgrind-qualification.md
+      - catalog/providers/taskgrind-213-qualify-optional-beta-map.ts
+      - kernel/services/human-beta-recruitment.ts
+      - knowledge/engineering/human-beta-recruitment.md
+    tests:
+      - checks/verification/fixtures/taskgrind-213-qualify-optional-beta.fixtures.ts
+    upstream_paths:
+      - www.taskgrind.com/ (fetch failed HTTP 500 on 2026-09-20)
+    pin_authority: >-
+      Qualification observation date 2026-09-20 and hold id taskgrind.qualification-authoritative-access-unavailable.
+      A later successful docs/API discovery does not silently lift this hold or invent an adapter.
+baselines:
+  reviewed_source:
+    revision: qualification-hold-2026-09-20
+    observed_at: "2026-09-20"
+    by: b2c-contributor source review (#213)
+    note: Passive web research only. No account, install, spend, or UI scrape. Homepage inaccessible (HTTP 500).
+  reviewed_guidance:
+    revision: docs/upstreams/taskgrind-qualification.md dated 2026-09-20
+    observed_at: "2026-09-20"
+    by: b2c-contributor source review (#213)
+    note: Brigade-authored qualification hold + provider-neutral assisted mode. Not upstream product docs.
+support:
+  policy: >-
+    Qualification hold. Brigade may select TaskGrind as a managed-recruitment candidate through
+    existing product/recipe/binding mechanisms and may prepare operator-assisted briefs/handoffs.
+    No automated TaskGrind transport, live recruit, spend, or distribution authorization is supported.
+  versions:
+    - range: qualification-hold-2026-09-20
+      status: untested
+      evidence:
+        - Public homepage inaccessible; no API/SDK/docs baseline established.
+  operations:
+    - id: taskgrind.qualification-hold-record
+      title: Dated qualification hold answering Phase-1 questions
+      keywords: [qualification, hold, human-beta, managed-recruitment]
+      owners: [docs/upstreams/taskgrind-qualification.md, catalog/providers/taskgrind-213-qualify-optional-beta-map.ts]
+    - id: taskgrind.operator-assisted-handoff
+      title: Provider-neutral operator-assisted brief, pending handoff, attributable import, resume
+      keywords: [operator-assisted, handoff, import, human-beta]
+      owners: [kernel/services/human-beta-recruitment.ts, knowledge/engineering/human-beta-recruitment.md]
+  unsupported_operations:
+    - id: speculative-taskgrind-adapter
+      reason: No authoritative native contract. Inventing endpoints/JSON/UI scrape is forbidden by #213.
+    - id: live-taskgrind-account-or-terms
+      reason: Creating/signing into accounts or accepting terms is not authorized by this issue.
+    - id: live-recruit-spend-campaign
+      reason: Contacting/paying testers, purchasing credits, or publishing campaigns needs separate authorization.
+    - id: distribute-private-build-via-recruitment
+      reason: Recruitment does not authorize TestFlight/Play/web distribution; those owners stay separate.
+    - id: claim-live-human-beta-proof
+      reason: Fixture/assisted success is not live human-beta proof without a separately authorized campaign.
+    - id: vendor-global-taskgrind-flag
+      reason: Selection must use existing product/recipe/binding mechanisms only.
+  platforms: []
+adaptations:
+  - id: qualification-hold-before-adapter
+    description: Keep TaskGrind under explicit hold until authoritative access exists. Operator-assisted is the only verified mode.
+    owner: docs/upstreams/taskgrind-qualification.md
+    intentional: true
+  - id: app-quality-remains-owner
+    description: engineering/APP_QUALITY.md stays the quality summary owner; no competing TaskGrind ledger.
+    owner: knowledge/engineering/app-quality.md
+    intentional: true
+  - id: provider-neutral-assisted-path
+    description: Assisted recruitment semantics live in kernel/services/human-beta-recruitment.ts without TaskGrind-native types.
+    owner: kernel/services/human-beta-recruitment.ts
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 14
+  last_review: "2026-09-20"
+  status: deferred
+  deferral:
+    reason: Authoritative TaskGrind first-party docs/API/SDK/pricing/privacy/automation surface unavailable (homepage HTTP 500; no substitute invented).
+    reconsider_when: Founder-supplied redacted walkthrough/export or independently reviewable first-party API/SDK/docs enable ADR-0013 re-qualification.
+    owner: b2c-maintainers
+credits:
+  acknowledge: false
+  use: inspiration
+  summary: Founder-named candidate only. Tracked under qualification hold; not claimed as an executable Brigade provider.

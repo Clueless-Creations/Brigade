@@ -2944,6 +2944,21 @@ sources:
     locations:
       - examples/extensions/postiz-social/integration.md
     notes: License and transport comparison only. AGPL-3.0 CLI code is not vendored or executed.
+  - id: taskgrind-com-homepage
+    name: TaskGrind candidate homepage (qualification hold)
+    source_type: website
+    url: https://www.taskgrind.com/
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/upstreams/taskgrind-qualification.md
+      - catalog/upstreams/taskgrind.yaml
+    notes: >-
+      Founder-named managed human-beta recruitment candidate for #213. Public homepage
+      fetch returned HTTP 500 on 2026-09-20; no independent first-party API/SDK/docs,
+      pricing, privacy, or automation terms established. Tracking-only source for
+      qualification hold — not an executable provider pin and not authority to recruit,
+      spend, or distribute builds.
   - id: quabble-official-site
     name: Quabble Official Product Site
     source_type: website

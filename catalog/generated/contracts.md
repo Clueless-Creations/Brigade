@@ -920,7 +920,7 @@ _Before beta or store submission on every mobile launch_
 - **Consults:** —
 - **Produces:** `engineering/APP_QUALITY.md`
 - **Gates:** —
-- **Knowledge:** [App Quality And Vitals](../../knowledge/engineering/app-quality.md), [Distribution, Offer, And Signal Validation](../../knowledge/research/distribution-offer-signal.md)
+- **Knowledge:** [App Quality And Vitals](../../knowledge/engineering/app-quality.md), [Human Beta Recruitment (optional)](../../knowledge/engineering/human-beta-recruitment.md), [Distribution, Offer, And Signal Validation](../../knowledge/research/distribution-offer-signal.md)
 
 ## App Store And Google Play
 

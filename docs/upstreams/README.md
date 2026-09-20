@@ -16,5 +16,6 @@ Regenerate them with `npm run render:credits`. `npm run check:credits` fails whe
 
 Provider qualification write-ups (paper mapping against landed contracts; not live support claims) live alongside these reports when an upstream is being evaluated before adapter install:
 
+- [TaskGrind qualification hold (#213)](taskgrind-qualification.md) — Phase-1 hold (authoritative access unavailable); provider-neutral operator-assisted human-beta handoff only; no speculative adapter; live recruit not performed.
 - [TypeSafe / Jev qualification (SQ-02 / #513)](typesafe-qualification.md) — native Choice/Score/Noul → SQ-01 mapping, dispositions, Eduardo local wiring recipe (env names only), live-not-performed honesty. Adapter transport is #515.
 

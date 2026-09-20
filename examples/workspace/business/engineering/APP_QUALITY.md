@@ -21,3 +21,5 @@ This empty worksheet is optional planning guidance when beta testing is in scope
 
 | Tester ID | Perspective | Device or access condition | Core task | Result | Issues and evidence |
 | --------- | ----------- | -------------------------- | --------- | ------ | ------------------- |
+
+Optional managed recruitment (when selected via binding): see repository guidance `knowledge/engineering/human-beta-recruitment.md`. Recruitment does not satisfy the measured table above.

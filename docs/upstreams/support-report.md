@@ -20,6 +20,7 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | rork-app-store-connect-cli-skills | App Store Connect CLI skills (asc skill pack) | selected-skill-guidance | unknown | unrecorded@2026-08-18 | `main (unpinned by the builder)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-09-12 | 2 | 1 |
 | sentry-snapshotpreviews | SnapshotPreviews | adapted-method | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | `856a1c1585e31d4113c019050d6d0712cf6ddadc` untested | v0.18.0 (published 2026-07-07) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
 | sentry-xcodebuildmcp | XcodeBuildMCP | adapted-method | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | `e6ef59b49b44012c824f0a0de261c96142e37390` untested | v2.7.0 (published 2026-07-23) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
+| taskgrind | TaskGrind (managed human-beta recruitment candidate) | remote-service | qualification-hold-2026-09-20@2026-09-20 | docs/upstreams/taskgrind-qualification.md dated 2026-09-20@2026-09-20 | `qualification-hold-2026-09-20` untested | unknown (observation records no stable release) | 2026-09-20 | not observed | deferred; last 2026-09-20; due 2026-10-04 | 4 | 1 |
 | typesafe-ai | TypeSafe AI (Jev / System One) | remote-service, adapted-method | v0.7.0 (2ce5c65f13646cab6e6f782328194c9d85f3300a)@2026-09-19 | docs.typesafe.ai public pages observed 2026-09-19 (llms.txt index; api; primitives; how-to-build-with-system-one; legal; sdk/python; sdk/javascript)@2026-09-19 | `docs.typesafe.ai (observed 2026-09-19)` untested; `typesafe-sdk (PyPI) v0.7.0` untested; `@typesafe-ai/sdk (npm) 0.6.0` untested | v0.7.0 (published 2026-09-18) | 2026-09-19 | not observed | current; last 2026-09-19; due 2026-10-03 | 3 | 1 |
 
 ## amir-brand-system
@@ -361,6 +362,32 @@ Unknowns (observation 2026-09-06, method manual):
 - Assembled from bounded GitHub metadata and selected immutable source files. Release list is one page, not complete history.
 - The captured review records the resolved source commit; the default branch name and release ancestry are not retained as a separate branch-head claim.
 - No upstream executable, editor export, native device run, paid API or live business was tested.
+
+## taskgrind
+
+TaskGrind (managed human-beta recruitment candidate). Canonical URL: https://www.taskgrind.com/
+
+Unsupported operations:
+
+- speculative-taskgrind-adapter: No authoritative native contract. Inventing endpoints/JSON/UI scrape is forbidden by
+- live-taskgrind-account-or-terms: Creating/signing into accounts or accepting terms is not authorized by this issue.
+- live-recruit-spend-campaign: Contacting/paying testers, purchasing credits, or publishing campaigns needs separate authorization.
+- distribute-private-build-via-recruitment: Recruitment does not authorize TestFlight/Play/web distribution; those owners stay separate.
+- claim-live-human-beta-proof: Fixture/assisted success is not live human-beta proof without a separately authorized campaign.
+- vendor-global-taskgrind-flag: Selection must use existing product/recipe/binding mechanisms only.
+
+Intentional adaptations:
+
+- qualification-hold-before-adapter: Keep TaskGrind under explicit hold until authoritative access exists. Operator-assisted is the only verified mode. (owner: docs/upstreams/taskgrind-qualification.md)
+- app-quality-remains-owner: engineering/APP_QUALITY.md stays the quality summary owner; no competing TaskGrind ledger. (owner: knowledge/engineering/app-quality.md)
+- provider-neutral-assisted-path: Assisted recruitment semantics live in kernel/services/human-beta-recruitment.ts without TaskGrind-native types. (owner: kernel/services/human-beta-recruitment.ts)
+
+Unknowns (observation 2026-09-20, method manual):
+
+- Homepage https://www.taskgrind.com/ returned HTTP 500 on 2026-09-20; no release tag established.
+- No API, SDK, MCP, webhook, or CLI surface independently reviewed.
+- Pricing, incentives, privacy, retention, automation, and cancel/refund terms unknown.
+- No host executable declared or probed; qualification hold remains.
 
 ## typesafe-ai
 
