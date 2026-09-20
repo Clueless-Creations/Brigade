@@ -2,7 +2,7 @@
  * #525 SQ-13 — AC→evidence map for semantic change-impact / obligation-to-test.
  *
  * Consumes #519+#521+#520+#522+#523. Coordinates #74/#76/#403 (consume #76;
- * do not replace). Does not redo #512–#524. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. Does not implement #529.
+ * do not replace). Does not redo #512–#524. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
  * Paper / synthetic fixtures only. No second obligation ledger. No semantic
  * waiver of gates. No device proof generation. No auto-accepted scope.
  */
@@ -34,7 +34,7 @@ export const CHANGE_IMPACT_OBLIGATION_NO_DEVICE_PROOF = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_AUTO_ACCEPT_SCOPE = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_SYNTHETIC_AS_DEVICE = true as const;
 export const CHANGE_IMPACT_OBLIGATION_NO_525_IMPL = false as const;
-export const CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE = "#529" as const;
+export const CHANGE_IMPACT_OBLIGATION_NEXT_AFTER_CLOSE = "#511" as const;
 
 export const CHANGE_IMPACT_OBLIGATION_AC = [
   {

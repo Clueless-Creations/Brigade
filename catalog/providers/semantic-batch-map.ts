@@ -1,7 +1,7 @@
 /**
  * #518 SQ-07 — AC→evidence map for shared-state batches / speculative / map-reduce.
  *
- * Consumes #512–#517. Does not redo them. Does not implement #519–#529.
+ * Consumes #512–#517. Does not redo them. Does not implement #511 closeout or #573 (#519–#529 landed).
  * Paper fixtures + fake transport only. No live / no second scheduler / no live batch benchmarks.
  */
 export const SEMANTIC_BATCH_MAP_PATH = "catalog/providers/semantic-batch-map.ts" as const;

@@ -13,7 +13,7 @@
  * pinned composition; no private payload crosses workspace scope implicitly.
  *
  * Paper / synthetic. Consumes #514+#519+#521+#520+#522+#523.
- * Coordinates #75/#74. Does not implement #529.
+ * Coordinates #75/#74. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
  */
 import { compareObservations, type MeasurementCatalog, type MetricContractDefinition } from "../operating-model/measurement.js";
 import type { ObservationRecord } from "../operating-model/types.js";
@@ -48,7 +48,7 @@ export const TRANSFERABLE_MECHANISMS_ANALOGY_IS_NOT_IDENTITY = true as const;
 export const TRANSFERABLE_MECHANISMS_ASSOCIATION_IS_NOT_CAUSAL = true as const;
 export const TRANSFERABLE_MECHANISMS_SESSIONS_ARE_NOT_PRODUCTS = true as const;
 export const TRANSFERABLE_MECHANISMS_NO_528_IMPL = false as const;
-export const TRANSFERABLE_MECHANISMS_NEXT_AFTER_CLOSE = "#529" as const;
+export const TRANSFERABLE_MECHANISMS_NEXT_AFTER_CLOSE = "#511" as const;
 
 export { FEATURE_SOURCE_KINDS, LESSON_FIELDS, TRANSFERABLE_MECHANISMS_RECIPE_POLICY };
 export type { CandidateQuestionStatus, EvalClaimKind, FeatureSourceKind, TransferDecision, TransferableMechanismsRecipePolicy };

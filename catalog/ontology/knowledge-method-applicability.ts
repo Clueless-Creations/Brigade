@@ -10,7 +10,7 @@
  * Distinct from design-surface / onboarding applicability (U4 #70 lineage):
  * this is method-in-business-context applicability for semantic graph traversal.
  *
- * Consumes #518–#520. Does not implement #522–#529.
+ * Consumes #518–#520. Does not implement #511 closeout or #573 (#522–#529 landed).
  * Jev decides (Choice/Score/Noul); LLM writes; code owns applicability checks.
  */
 

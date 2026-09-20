@@ -1,7 +1,7 @@
 /**
  * #517 SQ-06 — AC→evidence map + declared source selectors for scoped projections.
  *
- * Consumes #512–#516. Does not redo them. Does not implement #518–#529.
+ * Consumes #512–#516. Does not redo them. Does not implement #511 closeout or #573 (#518–#529 landed).
  * No live / network / secrets / embeddings engine. Paper fixtures only.
  */
 import type { DeclaredSourceSelector } from "../../kernel/services/source-projection.js";

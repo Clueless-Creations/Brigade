@@ -6,7 +6,7 @@
  * kernel/reducer ownership/lock — does NOT invent a second scheduler,
  * provider-owned job queue, or parallel ownership generation.
  *
- * Consumes #512–#517. Does not redo them. Does not implement #519–#529.
+ * Consumes #512–#517. Does not redo them. Does not implement #511 closeout or #573 (#519–#529 landed).
  * Paper / fake-transport only in fixtures; no live TypeSafe / no paid CI.
  *
  * Jev decides (Choice/Score/Noul); LLM writes; code owns batch + speculative + map-reduce.
