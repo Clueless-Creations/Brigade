@@ -17,7 +17,7 @@ The [semantic execution design](semantic-execution.md) and [ADR-0016](decisions/
 
 ### Implementation snapshot
 
-Source reviewed at `8870d87bd79de4699dc271eafa7418c6175a639e`, 2026-09-20. This is a source inventory, not a test result from this documentation review.
+Source reviewed at `f3f225a3298b82eee35a5938b1e62fbc2221372d` (`0.221.52`), 2026-09-20. This is a source inventory, not a test result from this documentation review.
 
 | Source or merged slice | Present mechanism | Qualification boundary |
 | --- | --- | --- |
@@ -28,9 +28,12 @@ Source reviewed at `8870d87bd79de4699dc271eafa7418c6175a639e`, 2026-09-20. This 
 | `kernel/session/semantic-batch.ts`; #518 / PR #556 | Batch/settlement helpers and synchronous barrier fixtures | Not proof of actual asynchronous fanout performance |
 | #519-#521; PRs #557, #558, #560 | Derived graph, receipt reuse/invalidation and applicability work | No separate truth store or live readiness claim |
 | #522 / PR #561 | Feedback-to-work shadow slice | Does not enable active routing or dispatch repairs |
+| #523 / PR #572; #524 | Paper safety/rollout and bounded next-work ranking | Staged admission and ranking fixtures are not live enablement |
+| #571 / PR #581; `kernel/services/jev-active-routing-qualification.ts` | Paper Jev qualification for active build routing/validation | Paper/fake qualification ≠ authorized live Jev conformance or measured decision quality |
+| #573 / PR #582; `kernel/services/jev-active-build-loop.ts` | Paper active Jev-directed build loop after next-work ranking | Paper loop ≠ a qualified live Jev-directed build |
 | `kernel/session/plan.ts` | Eligible frontier and bounded briefs without writes | Passive planning must not trigger inference |
 
-Do not describe all of this as unimplemented prose. Do not describe it as a qualified, live Jev-directed build either. Follow #523 and #571 for integrated and provider proof.
+Do not describe all of this as unimplemented prose. Do not describe it as a qualified, live Jev-directed build either. TypeSafe live HTTP transport exists; landed #571/#573 paper slices and fixture proof are not that live qualification. Epic #511 remains OPEN.
 
 ### Proposed active build route
 

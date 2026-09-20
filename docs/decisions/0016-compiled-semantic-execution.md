@@ -122,12 +122,15 @@ new tasks, hypotheses and designs when the current candidate vocabulary is
 insufficient. Such proposals enter the existing validated work/composition path,
 not a new persistent planner or unrestricted tool interface.
 
-Evidence reviewed at `8870d87bd79de4699dc271eafa7418c6175a639e` includes the
-current `kernel/session/plan.ts` no-write frontier and the TypeSafe adapter's
-fake and live HTTP transport implementations. The [implementation snapshot](../architecture.md#implementation-snapshot)
-identifies merged contract, projection, batch, receipt and shadow slices.
-Executable helpers exist; integrated live Jev routing and its cost/quality are
-not established by these paper/fixture merges.
+Evidence reviewed at `f3f225a3298b82eee35a5938b1e62fbc2221372d` (`0.221.52`)
+includes the current `kernel/session/plan.ts` no-write frontier, the TypeSafe
+adapter's fake and live HTTP transport implementations, and landed paper slices
+for #571 (routing qualification) and #573 (active build loop). The
+[implementation snapshot](../architecture.md#implementation-snapshot)
+identifies merged contract, projection, batch, receipt, shadow, qualification
+and loop slices. Executable helpers and live HTTP transport exist; integrated
+live Jev-directed builds and their cost/quality are not established by these
+paper/fixture merges. Epic #511 remains OPEN.
 
 The official [intent-routing](https://docs.typesafe.ai/patterns/intent-routing),
 [skill-suggestion](https://docs.typesafe.ai/cookbooks/skill_suggestion),
@@ -145,13 +148,14 @@ product schema. The standalone Dissector describes the reference without
 performing downstream target adaptation. #562-#570 own that work.
 
 Keep existing public passive operations inference-free. Active sessions may
-refresh decisions at meaningful checkpoints under scoped authority. Preserve
-#524's bounded ranking handoff; #573 owns the follow-on active checkpoint/dispatch
-integration. #571 owns Jev qualification. Reuse #523 / PR #572 safety and staged
-admission rather than recreating it. Propagate supported behavior through
-canonical catalog, skill and workspace-template owners, using #386 packaging
-and #392 fresh-agent evaluation. This refinement defines no new public command
-and enables no live provider.
+refresh decisions at meaningful checkpoints under scoped authority. #524 ranking,
+#571 paper qualification and #573 paper active checkpoint/dispatch have landed
+on main; they consume rather than replace each other. Reuse #523 / PR #572 safety
+and staged admission rather than recreating it. Propagate supported behavior
+through canonical catalog, skill and workspace-template owners, using #386
+packaging and #392 fresh-agent evaluation — without silently repinning installed
+builds. This refinement defines no new public command and enables no live
+provider. Epic #511 remains OPEN.
 
 ## Compatibility and migration
 

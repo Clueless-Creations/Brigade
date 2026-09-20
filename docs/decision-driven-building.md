@@ -26,7 +26,7 @@ The model documentation also describes numerical, indirection, irrelevant-contex
 
 ## Baseline: reuse implementation, qualify behavior
 
-Reviewed source: `8870d87bd79de4699dc271eafa7418c6175a639e`.
+Reviewed source: `f3f225a3298b82eee35a5938b1e62fbc2221372d` (`0.221.52`).
 
 | Present owner or source | Reuse | Not established by its presence |
 | --- | --- | --- |
@@ -37,9 +37,12 @@ Reviewed source: `8870d87bd79de4699dc271eafa7418c6175a639e`.
 | `kernel/session/semantic-batch.ts` and #518 / PR #556 | Batch planning, settlement and resource-accounting seams | Actual asynchronous fanout performance; synchronous barrier fixtures are not that proof |
 | Semantic graph and receipt work in #519-#521 / PRs #557, #558, #560 | Derived relationships, reuse, invalidation and applicability | A new authoritative knowledge graph or durable live deployment proof |
 | Feedback-to-work slice #522 / PR #561 | Shadow proposal path | Active build routing or acceptance of repairs |
+| #523 / PR #572 and #524 | Paper safety/rollout and bounded next-work ranking | Staged admission fixtures are not live enablement |
+| #571 / PR #581; `kernel/services/jev-active-routing-qualification.ts` | Paper qualification for active build routing/validation | Paper/fake qualification ≠ authorized live Jev conformance |
+| #573 / PR #582; `kernel/services/jev-active-build-loop.ts` | Paper active Jev-directed build loop after ranking | Paper loop ≠ a qualified live Jev-directed build |
 | `kernel/session/plan.ts` | Current eligible frontier and bounded briefs; no-write planning | A live model call inside a passive plan |
 
-Some modules contain executable helpers, and the TypeSafe adapter includes a live HTTP transport. Do not call them documentation-only. Conversely, the merged paper/fixture slices do not prove a wired, qualified Jev-controlled build. Inspect the exact call path and evidence before changing either claim.
+Some modules contain executable helpers, and the TypeSafe adapter includes a live HTTP transport. Do not call them documentation-only. Conversely, the merged paper/fixture slices — including landed #571 and #573 — do not prove a wired, qualified Jev-controlled build. Inspect the exact call path and evidence before changing either claim. Epic #511 remains OPEN.
 
 ## One loop, three computational responsibilities
 
@@ -207,7 +210,7 @@ This is an illustrative cooking-learning app, not a statement about any referenc
 
 ## Delivery and proof
 
-The target is a complete **observe → decide → act → inspect → decide** build, not a model demo or a batch benchmark. Extend #511, #523, #524 and #571 rather than create a second execution program. Product Profile work stays under #562-#570. Packaging and fresh-agent behavior use the existing guidance/evaluation owners.
+The target is a complete **observe → decide → act → inspect → decide** build, not a model demo or a batch benchmark. Extend the landed #523/#524/#571/#573 paper owners under epic #511 rather than create a second execution program. Epic #511 remains OPEN. Product Profile work stays under #562-#570. Packaging and fresh-agent behavior use the existing guidance/evaluation owners.
 
 Prove a bounded vertical slice first, then a structurally different app. Compare against deterministic routing and the current agent-led path with the same task and evidence. Measure actual accepted outcomes, critical-path time, requests, unused speculation, live cost, required-context delivery, correction work, loop failures and human intervention. Break out inference latency from compilation, queueing, observation and tool execution.
 
