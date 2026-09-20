@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.66",
+  "version": "0.221.67",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Bounded Product Profile query/context projection (#567): stable-ID/text retrieval over landed v1 profiles; compact connected subgraphs; provenance + epistemic claims retained; evidence opt-in; intended/observed/delta selector fails closed when unavailable; pure read-only/no Jev inference. Stamp 0.221.67. No npm publish.",
     "Message Batches behavioral-eval residual (#2): stamp + regenerate firstparty pin/pack/snapshot, hosted-knowledge, and evidence-schema fingerprint with the #2 dual-path batches harness (custom_id keyed; live workflow_dispatch E2E still HOLD). Stamp 0.221.66. No npm publish. STOP → U6 DONE ping HoE (do not auto-start Profile #562–#570).",
     "Route flagship behavioral evals through Message Batches (#2): default --mode batches submits scenarios then grades as two custom_id-keyed batches (24h completion window accepted); --mode per-call keeps sync Messages rollback; credential-free message-batches.selftest + fixtures; docs cost reason; harness stays manual/never-PR-gating; live workflow_dispatch E2E HOLD (no ANTHROPIC spend authorized this lane). Stamp 0.221.65. No npm publish. STOP → U6 DONE ping HoE (do not auto-start Profile #562–#570).",
     "Intended Product Profile generation (#564): package product-profile/v1 contract; deterministic intended projection from accepted Brigade truth; explicit unresolved coverage; source-revision freshness; canonical profile-refresh lifecycle operation. Stamp 0.221.64. No npm publish.",
