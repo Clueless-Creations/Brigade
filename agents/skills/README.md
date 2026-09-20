@@ -24,7 +24,7 @@ Use the main business entrypoint by default. Focused task skills are optional, g
 | [Verify release readiness](b2c-verify-release-readiness/SKILL.md) | Verify release readiness |
 <!-- catalog-generated:end task-skills -->
 
-These three task entrypoints are the initial set. [Browse all six business areas](../../knowledge/README.md) for the remaining workflows and references. Internal onboarding stages remain behind one task skill, not 23 installations.
+Nine focused task skills cover the six business areas. [Browse all six business areas](../../knowledge/README.md) for the supporting workflows and references. Internal onboarding stages remain behind one task skill, not 23 installations.
 
 ## Installation and ownership
 
