@@ -206,8 +206,8 @@ export function register(harness: Harness): void {
     assert(INFERENCE_RECEIPT_STORE_CONSUMES.includes("#518"), "consumes #518");
     assert(INFERENCE_RECEIPT_STORE_CONSUMES.includes("#519"), "consumes #519");
     assert(INFERENCE_RECEIPT_STORE_CONSUMES.length === 8, "consumes eight");
-    assert(INFERENCE_RECEIPT_STORE_NO_521_IMPL === true, "no #521");
-    assert(INFERENCE_RECEIPTS_NO_521_IMPL === true, "map no #521");
+    assert(INFERENCE_RECEIPT_STORE_NO_521_IMPL === false, "NO_521 cleared");
+    assert(INFERENCE_RECEIPTS_NO_521_IMPL === false, "map NO_521 cleared");
     assert(INFERENCE_RECEIPT_STORE_NO_NETWORK === true && INFERENCE_RECEIPTS_NO_NETWORK === true, "no network");
     assert(INFERENCE_RECEIPT_STORE_NO_PARALLEL_CACHE_AUTHORITY === true, "no parallel cache");
     assert(INFERENCE_RECEIPTS_NO_PARALLEL_CACHE_AUTHORITY === true, "map no parallel cache");
@@ -220,8 +220,8 @@ export function register(harness: Harness): void {
     assert(INFERENCE_RECEIPTS_LIVE_NOT_PERFORMED === true, "live not performed");
     assert(INFERENCE_RECEIPTS_IOS_SIM_OOS === true, "iOS-sim OOS");
     assert(INFERENCE_RECEIPTS_HOSTED_KEY_OWNER.includes("Eduardo"), "hosted key");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#521", "next #521");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#521", "store next");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#522", "next #522");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#522", "store next");
     assert(INFERENCE_RECEIPTS_BASE_MAIN_SHA.startsWith("4a32176"), "base sha");
     assert(INFERENCE_RECEIPTS_MAP_PATH.includes("inference-receipts-map"), "map path");
     assert(INFERENCE_RECEIPTS_FIXTURE.includes("inference-receipts.fixtures"), "fixture path");
