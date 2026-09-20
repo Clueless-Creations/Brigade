@@ -54,7 +54,7 @@ jobs:
             echo "release tag $TAG does not match v$version"
             exit 1
           fi
-          echo "publishing b2c-app-builder@$version with npm $(npm --version)"
+          echo "publishing @cluelesscreations/brigade@$version with npm $(npm --version)"
 
       # The pack smoke test: the tarball carries every shipped layer and no development-only tree.
       - run: npm run check:package-parity

@@ -116,7 +116,9 @@ notes short and specific to the current version.
 
 ## Releasing to npm
 
-Publish **one** public package: `b2c-app-builder`. Do not publish
+Publish **one** canonical public package: `@cluelesscreations/brigade`. The
+previously published `b2c-app-builder` package is a legacy compatibility
+package and must not receive new releases. Do not publish
 `@b2c/hosted`, `@b2c/app`, or contributor/maintainer skills. Hosted Workers
 deploy separately; they are not consumer npm packages.
 
@@ -132,7 +134,8 @@ gh release create "v$(node -p 'require("./package.json").version')" --generate-n
 
 The first version of a package cannot use trusted publishing. Publish it once
 from a maintainer machine, then register the trusted publisher on npmjs.com
-under the package settings: owner `Clueless-Creations`, repository
+under the package settings for `@cluelesscreations/brigade`: owner
+`Clueless-Creations`, repository
 `b2c-app-builder`, workflow `publish.yml`.
 
 ## Checks

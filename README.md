@@ -55,10 +55,8 @@ Use [a focused task skill](agents/skills/README.md) for research, an onboarding 
 
 Use Node.js 24.
 
-**Today the package is not on the npm registry yet** (`npm view b2c-app-builder`
-returns 404). Use a source checkout until a maintainer publishes the first
-version. The npm install line below is the intended consumer path **after**
-that first publish — not a working registry command today.
+The canonical npm package is `@cluelesscreations/brigade`. The repository
+checkout remains the best path for contribution and source-level development.
 
 ```bash
 git clone https://github.com/Clueless-Creations/b2c-app-builder.git
@@ -76,14 +74,14 @@ run a workspace.
 After the first authorized publish, the consumer path is:
 
 ```bash
-npm install -g b2c-app-builder
+npm install -g @cluelesscreations/brigade
 b2c setup
 ```
 
 The portable MCP form (post-publish) needs no global install:
 
 ```bash
-claude mcp add --scope user b2c-local -- npx -y b2c-app-builder
+claude mcp add --scope user b2c-local -- npx -y @cluelesscreations/brigade
 ```
 
 A leftover `b2c-app-builder` client name is not a third capability. Read the

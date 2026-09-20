@@ -1,5 +1,5 @@
 {
-  "name": "b2c-app-builder",
+  "name": "@cluelesscreations/brigade",
   "version": "0.221.39",
   "description": "Brigade gives AI agents consumer-business primitives: capabilities, providers, recipes, and evidence through a CLI, MCP, and skill.",
   "keywords": [
@@ -29,6 +29,8 @@
   },
   "bin": {
     "b2c": "entrypoints/cli/b2c.mjs",
+    "brigade": "entrypoints/mcp/b2c-app-builder-mcp.mjs",
+    "brigade-mcp": "entrypoints/mcp/b2c-app-builder-mcp.mjs",
     "b2c-app-builder-mcp": "entrypoints/mcp/b2c-app-builder-mcp.mjs",
     "b2c-app-builder": "entrypoints/mcp/b2c-app-builder-mcp.mjs"
   },
