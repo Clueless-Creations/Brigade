@@ -105,7 +105,9 @@ export interface SigninPageInput {
 }
 
 export function renderSigninPage(input: SigninPageInput): string {
-  const startHref = `/auth/google/start?entry_point=${encodeURIComponent(input.entryPoint)}`;
+  const entry = encodeURIComponent(input.entryPoint);
+  const googleHref = `/auth/google/start?entry_point=${entry}`;
+  const githubHref = `/auth/github/start?entry_point=${entry}`;
   const notice = input.notice ? `<div class="notice" role="status"><p>${escapeHtml(SIGNIN_NOTICE_MESSAGES[input.notice])}</p></div>` : "";
   return renderShell({
     title: "Sign in",
@@ -114,11 +116,14 @@ export function renderSigninPage(input: SigninPageInput): string {
 <p class="lede">Hosted access keeps the workflows and sourced references available without making you run the service yourself. Your agent connects here. Your repo, model, and app stay where they already are.</p>
 <div class="reveal"><p><strong>$19 a month or $190 a year.</strong> There is no free tier or trial. Signing in creates your account; it does not start a paid plan.</p></div>
 ${notice}
-<div class="actions"><a class="btn btn--wide" href="${startHref}">Continue with Google</a></div>
-<p class="help">Google shares your name and email, nothing else. No card is requested until you choose a plan in Stripe.</p>
+<div class="actions">
+<a class="btn btn--wide" href="${googleHref}">Continue with Google</a>
+<a class="btn btn--wide btn--secondary" href="${githubHref}">Continue with GitHub</a>
+</div>
+<p class="help">Google or GitHub shares your name and verified email, nothing else. Accounts are not linked by email alone — use the same provider you signed up with. No card is requested until you choose a plan in Stripe.</p>
 <h2>From here to connected</h2>
 <ol class="steps">
-<li><span class="n">01</span><div><strong>Sign in</strong><span>Create your console account with Google.</span></div></li>
+<li><span class="n">01</span><div><strong>Sign in</strong><span>Create your console account with Google or GitHub.</span></div></li>
 <li><span class="n">02</span><div><strong>Choose a plan</strong><span>$19 monthly or $190 annually through Stripe.</span></div></li>
 <li><span class="n">03</span><div><strong>Create a key</strong><span>You see it once. Revoke and replace it whenever you need to.</span></div></li>
 <li><span class="n">04</span><div><strong>Connect your agent</strong><span>Copy the snippet for Claude Code, Codex, Cursor, or plain HTTP.</span></div></li>
@@ -135,8 +140,8 @@ ${notice}
 const SIGNIN_FAILURE_MESSAGES: Record<SigninFailureReason, string> = {
   state_mismatch: "Your sign-in link expired or didn’t match this browser. Try again.",
   expired_code: "That sign-in link was already used or expired. Try again.",
-  token_invalid: "Google couldn’t be verified for this sign-in. Try again.",
-  email_unverified: "Sign-in needs a verified email address on your Google account.",
+  token_invalid: "Your identity provider couldn’t be verified for this sign-in. Try again.",
+  email_unverified: "Sign-in needs a verified email address on your identity provider account.",
   internal: "Something went wrong on our side. Try again in a moment.",
 };
 

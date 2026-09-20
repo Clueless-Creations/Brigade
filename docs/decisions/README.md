@@ -35,6 +35,7 @@ roadmap's decision text in place.
 | [0017](0017-npm-package-boundary.md)                            | One public npm package and its publication boundary                 | accepted | ARCH-01, 05; ADR-0002; KTD3; #26                |
 | [0018](0018-scoped-npm-package.md)                              | Publish Brigade through the Clueless Creations npm scope           | accepted | ADR-0015, ADR-0017; package publication         |
 | [0019](0019-product-profile-truth-ownership.md) | Product Profile v1 and truth ownership | proposed | ARCH-02, 05, 07, 09, 11, 13, 15; #563-#570 |
+| [0020](0020-provider-neutral-console-identity.md) | Provider-neutral hosted console identity (no email-only merge) | accepted (A+B; provider=GitHub) | Hosted D1 identity; console OAuth; #6 |
 
 ## Write a record
 

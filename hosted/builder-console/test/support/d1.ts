@@ -118,6 +118,13 @@ export async function seedAccountInto(db: D1Database, input: SeedAccount): Promi
     .run();
   await db
     .prepare(
+      `INSERT INTO identities (provider, subject, user_id, created_at, updated_at)
+              VALUES ('google', ?1, ?2, ?3, ?3)`,
+    )
+    .bind(input.googleSub, input.userId, STAMP)
+    .run();
+  await db
+    .prepare(
       `INSERT INTO accounts (id, name, stripe_customer_id, created_at, updated_at, suspended_at)
               VALUES (?1, ?1, ?2, ?3, ?3, NULL)`,
     )
@@ -331,3 +338,10 @@ export async function createTestDatabase(): Promise<TestDatabase> {
     dispose: () => mf.dispose(),
   };
 }
+
+/** Reads the compatibility google_sub column for migration/identity assertions. Fixture-only. */
+export async function readUserGoogleSub(db: D1Database, userId: string): Promise<string | null> {
+  const row = await db.prepare(`SELECT google_sub FROM users WHERE id = ?1`).bind(userId).first<{ google_sub: string | null }>();
+  return row?.google_sub ?? null;
+}
+

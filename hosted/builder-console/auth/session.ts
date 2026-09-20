@@ -72,48 +72,54 @@ export function readSessionToken(request: Request): string | undefined {
 }
 
 // ---------------------------------------------------------------------------
-// OAuth state — the short-lived cookie that survives the round trip to Google
+// OAuth state — the short-lived cookie that survives the round trip to a provider
 // ---------------------------------------------------------------------------
 
-/** Fixed name: this Worker runs one Google sign-in flow at a time per browser. */
+/** Fixed name: one in-flight console sign-in flow at a time per browser. */
 const OAUTH_STATE_COOKIE_NAME = "__Host-b2c-oauth-state";
 
-/** 5 minutes — long enough for a human to pick a Google account, short enough to bound replay. */
+/** 5 minutes — long enough for a human to pick an account, short enough to bound replay. */
 const OAUTH_STATE_TTL_SECONDS = 300;
 
+/** Providers that may appear in OAuth state. Must match identities.provider / ADR-0020. */
+export const OAUTH_PROVIDERS = ["google", "github"] as const;
+export type OAuthProvider = (typeof OAUTH_PROVIDERS)[number];
+
 export interface OAuthState {
+  /** Which provider start minted this cookie — callback must match or fail closed. */
+  readonly provider: OAuthProvider;
   readonly state: string;
   readonly nonce: string;
 }
 
 /**
- * Packs `state` and `nonce` into one cookie value. Both halves are independently unpredictable
- * (32 random bytes each), and the cookie is `HttpOnly` + `Secure`, so — exactly like a session or
- * an API key elsewhere in this codebase — the value's own unpredictability is the security
- * property; no HMAC signature is layered on top, because there is nothing here a signature would
- * protect that unpredictability plus `HttpOnly` does not already.
+ * Packs `provider`, `state`, and `nonce` into one cookie value. `state`/`nonce` are independently
+ * unpredictable (32 random bytes each), and the cookie is `HttpOnly` + `Secure`, so — exactly like
+ * a session or an API key elsewhere in this codebase — the value's own unpredictability is the
+ * security property; no HMAC signature is layered on top.
  *
- * `state` alone defeats CSRF on the callback (compared against Google's echoed `state` query
- * param via `constantTimeEqual`, in the callback handler); `nonce` has no return trip through
- * Google's redirect and is recovered from this cookie instead, to be checked against the
- * `nonce` claim inside the verified ID token.
+ * `provider` binds the callback route: a Google callback that receives a GitHub-minted cookie
+ * (or the reverse) fails closed as `state_mismatch` rather than interpreting the code under the
+ * wrong adapter. `state` defeats CSRF on the callback; `nonce` is recovered here for Google ID
+ * token verification (GitHub OAuth has no OIDC nonce — the field is still minted for cookie shape
+ * consistency and ignored by the GitHub adapter).
  */
 export function oauthStateCookieHeader(value: OAuthState): string {
-  return `${OAUTH_STATE_COOKIE_NAME}=${value.state}.${value.nonce}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${OAUTH_STATE_TTL_SECONDS}`;
+  return `${OAUTH_STATE_COOKIE_NAME}=${value.provider}.${value.state}.${value.nonce}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${OAUTH_STATE_TTL_SECONDS}`;
 }
 
 export function clearOAuthStateCookieHeader(): string {
   return `${OAUTH_STATE_COOKIE_NAME}=; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`;
 }
 
-const OAUTH_STATE_PATTERN = /^([A-Za-z0-9_-]{43})\.([A-Za-z0-9_-]{43})$/;
+const OAUTH_STATE_PATTERN = /^(google|github)\.([A-Za-z0-9_-]{43})\.([A-Za-z0-9_-]{43})$/;
 
 /** Reads the state cookie back. `undefined` for anything absent, duplicated, or malformed. */
 export function readOAuthState(request: Request): OAuthState | undefined {
   const raw = readCookie(request, OAUTH_STATE_COOKIE_NAME);
   if (raw === undefined) return undefined;
   const match = OAUTH_STATE_PATTERN.exec(raw);
-  return match ? { state: match[1]!, nonce: match[2]! } : undefined;
+  return match ? { provider: match[1] as OAuthProvider, state: match[2]!, nonce: match[3]! } : undefined;
 }
 
 // ---------------------------------------------------------------------------

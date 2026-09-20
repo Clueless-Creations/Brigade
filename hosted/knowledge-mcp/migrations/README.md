@@ -2,7 +2,7 @@
 
 The Cloudflare D1 schema for the Clueless Creations platform. Milestone M1.
 
-Apply migrations `0001`–`0008` to the D1 database named in `wrangler.jsonc`. The binding and
+Apply migrations `0001`–`0009` to the D1 database named in `wrangler.jsonc`. The binding and
 placeholder database id live there. This file does not record which migrations a remote
 database has already applied.
 
@@ -21,6 +21,7 @@ invariants below; this file does not describe a live deployment.
 | `0006_interest_attribution.sql` | Technical + free-text attribution columns on `interest_signals`                                                                                                                                                                   |
 | `0007_past_due_grace.sql`       | `subscriptions.past_due_since`, the past_due grace window's dunning stamp                                                                                                                                                         |
 | `0008_lazy_stripe_customer.sql` | Relaxes `accounts.stripe_customer_id` to nullable, for lazy Customer creation at first Checkout instead of at sign-in — a full table rebuild; see the migration's own header comment for why a plain `ALTER TABLE` cannot do this |
+| `0009_provider_neutral_identities.sql` | Provider-neutral `identities` table + Google backfill; nullable `users.google_sub`; non-unique email index (ADR-0020 / #6) — users rebuild; see migration header |
 
 ## Credential invariants
 

@@ -22,6 +22,7 @@ import { emailDomain, EVENTS, type SigninFailureReason } from "./analytics/event
 import { AccessError, constantTimeEqual, isConsentSecret, sha256 } from "../knowledge-mcp/auth.js";
 import { tenantDbFromEnv, type AccountId, type SubscriptionMirrorState, type SubscriptionSummary } from "../knowledge-mcp/db/tenant.js";
 import { buildGoogleAuthorizeUrl, exchangeGoogleCode, verifyGoogleIdToken, GoogleAuthError, type GoogleIdTokenClaims } from "./auth/google.js";
+import { buildGitHubAuthorizeUrl, exchangeGitHubCode, fetchGitHubIdentity, GitHubAuthError } from "./auth/github.js";
 import {
   clearOAuthStateCookieHeader,
   clearSessionCookieHeader,
@@ -87,6 +88,12 @@ interface AppEnv extends Env {
   readonly POSTHOG_FEATURE_FLAGS_SECURE_KEY?: string;
   /** Resend, for the billing notices in mail/. Unset means mail is off (mail/resend.ts). Set with `wrangler secret put`, from Doppler. */
   readonly RESEND_API_KEY?: string;
+  /**
+   * GitHub OAuth app credentials for /auth/github/*. Optional: live secrets are an explicit #6
+   * hold. When unset, GitHub start fails closed without affecting Google sign-in.
+   */
+  readonly GITHUB_CLIENT_ID?: string;
+  readonly GITHUB_CLIENT_SECRET?: string;
 }
 
 function securityHeaders(response: Response): Response {
@@ -294,7 +301,7 @@ async function renderConsoleHome(
 }
 
 // ---------------------------------------------------------------------------
-// Google sign-in
+// Console sign-in (Google + GitHub)
 // ---------------------------------------------------------------------------
 
 /**
@@ -310,9 +317,13 @@ function entryPointOf(url: URL): EntryPoint {
   return (ENTRY_POINTS as readonly string[]).includes(requested ?? "") ? (requested as EntryPoint) : "landing";
 }
 
-/** Both legs of the OAuth round trip must present Google with the identical redirect_uri. */
+/** Both legs of the OAuth round trip must present the provider with the identical redirect_uri. */
 function googleRedirectUri(request: Request): string {
   return new URL("/auth/google/callback", request.url).toString();
+}
+
+function githubRedirectUri(request: Request): string {
+  return new URL("/auth/github/callback", request.url).toString();
 }
 
 function redirectResponse(location: string, extraHeaders?: readonly (readonly [string, string])[]): Response {
@@ -362,7 +373,7 @@ async function handleGoogleStart(request: Request, env: AppEnv, ctx: ExecutionCo
     });
   }
 
-  return redirectResponse(authorizeUrl, [["Set-Cookie", oauthStateCookieHeader({ state, nonce })]]);
+  return redirectResponse(authorizeUrl, [["Set-Cookie", oauthStateCookieHeader({ provider: "google", state, nonce })]]);
 }
 
 async function handleGoogleCallback(request: Request, env: AppEnv, ctx: ExecutionContext): Promise<Response> {
@@ -400,7 +411,13 @@ async function handleGoogleCallback(request: Request, env: AppEnv, ctx: Executio
   const savedState = readOAuthState(request);
   const queryState = url.searchParams.get("state");
   const code = url.searchParams.get("code");
-  if (savedState === undefined || queryState === null || code === null || !constantTimeEqual(savedState.state, queryState)) {
+  if (
+    savedState === undefined ||
+    savedState.provider !== "google" ||
+    queryState === null ||
+    code === null ||
+    !constantTimeEqual(savedState.state, queryState)
+  ) {
     return fail("state_mismatch");
   }
 
@@ -486,6 +503,161 @@ async function handleGoogleCallback(request: Request, env: AppEnv, ctx: Executio
   }
 }
 
+async function handleGitHubStart(request: Request, env: AppEnv, ctx: ExecutionContext): Promise<Response> {
+  if (request.method !== "GET") return new Response(null, { status: 405, headers: { Allow: "GET" } });
+  const clientId = env.GITHUB_CLIENT_ID;
+  const clientSecret = env.GITHUB_CLIENT_SECRET;
+  // Live GitHub secrets are an explicit hold. Missing credentials fail closed here only —
+  // Google start/callback paths never read these bindings.
+  if (clientId === undefined || clientId.length === 0 || clientSecret === undefined || clientSecret.length === 0) {
+    const response = consoleHtmlResponse(renderSigninFailedPage("internal"), 503);
+    return response;
+  }
+  const url = new URL(request.url);
+  const entryPoint = entryPointOf(url);
+  const state = generateOpaqueToken();
+  const nonce = generateOpaqueToken();
+  const authorizeUrl = buildGitHubAuthorizeUrl({
+    clientId,
+    redirectUri: githubRedirectUri(request),
+    state,
+  });
+
+  const distinctId = readBrowserDistinctId(request);
+  if (distinctId !== undefined) {
+    captureConsoleEvent(ctx, env.FLAGS_KV, analyticsConfig(env), countryOf(request), {
+      distinctId,
+      event: EVENTS.signinStarted,
+      authState: "anonymous",
+      properties: { method: "github", entry_point: entryPoint },
+    });
+  }
+
+  return redirectResponse(authorizeUrl, [["Set-Cookie", oauthStateCookieHeader({ provider: "github", state, nonce })]]);
+}
+
+async function handleGitHubCallback(request: Request, env: AppEnv, ctx: ExecutionContext): Promise<Response> {
+  if (request.method !== "GET") return new Response(null, { status: 405, headers: { Allow: "GET" } });
+  const url = new URL(request.url);
+  const clearState = clearOAuthStateCookieHeader();
+  const clientId = env.GITHUB_CLIENT_ID;
+  const clientSecret = env.GITHUB_CLIENT_SECRET;
+
+  function fail(reason: SigninFailureReason): Response {
+    const distinctId = readBrowserDistinctId(request);
+    if (distinctId !== undefined) {
+      captureConsoleEvent(ctx, env.FLAGS_KV, analyticsConfig(env), countryOf(request), {
+        distinctId,
+        event: EVENTS.signinFailed,
+        authState: "anonymous",
+        properties: { method: "github", reason },
+      });
+    }
+    const response = consoleHtmlResponse(renderSigninFailedPage(reason), 400);
+    response.headers.append("Set-Cookie", clearState);
+    return response;
+  }
+
+  if (clientId === undefined || clientId.length === 0 || clientSecret === undefined || clientSecret.length === 0) {
+    return fail("internal");
+  }
+
+  if (url.searchParams.get("error") !== null) {
+    const target = new URL(SIGNIN_PATH, request.url);
+    target.searchParams.set("notice", "cancelled");
+    const response = redirectResponse(target.toString());
+    response.headers.append("Set-Cookie", clearState);
+    return response;
+  }
+
+  const savedState = readOAuthState(request);
+  const queryState = url.searchParams.get("state");
+  const code = url.searchParams.get("code");
+  if (
+    savedState === undefined ||
+    savedState.provider !== "github" ||
+    queryState === null ||
+    code === null ||
+    !constantTimeEqual(savedState.state, queryState)
+  ) {
+    return fail("state_mismatch");
+  }
+
+  let accessToken: string;
+  try {
+    ({ accessToken } = await exchangeGitHubCode({
+      code,
+      clientId,
+      clientSecret,
+      redirectUri: githubRedirectUri(request),
+    }));
+  } catch (error) {
+    return fail(error instanceof GitHubAuthError ? error.reason : "internal");
+  }
+
+  let identity: Awaited<ReturnType<typeof fetchGitHubIdentity>>;
+  try {
+    identity = await fetchGitHubIdentity({ accessToken });
+  } catch (error) {
+    return fail(error instanceof GitHubAuthError ? error.reason : "internal");
+  }
+
+  const tenant = tenantDbFromEnv(env);
+  if (tenant === null) return fail("internal");
+
+  try {
+    const existing = await tenant.findUserByIdentity("github", identity.subject);
+    let userId: string;
+    let accountId: AccountId;
+    let isNewAccount: boolean;
+    if (existing !== null) {
+      ({ userId, accountId } = existing);
+      isNewAccount = false;
+    } else {
+      userId = crypto.randomUUID();
+      ({ accountId } = await tenant.createUserAndAccountFromIdentity({
+        userId,
+        provider: "github",
+        subject: identity.subject,
+        email: identity.email,
+        emailVerified: identity.emailVerified,
+        displayName: identity.name ?? identity.login ?? null,
+      }));
+      isNewAccount = true;
+    }
+
+    const rawSessionToken = generateOpaqueToken();
+    const expiresAt = sessionExpiresAt();
+    await tenant.createSession(accountId, userId, { rawToken: rawSessionToken, expiresAt: expiresAt.toISOString() });
+
+    const analytics = analyticsConfig(env);
+    const country = countryOf(request);
+    captureConsoleEvent(ctx, env.FLAGS_KV, analytics, country, {
+      distinctId: accountId,
+      event: EVENTS.signinCompleted,
+      authState: "authenticated",
+      properties: { method: "github", is_new_account: isNewAccount },
+      objectionSubject: accountId,
+    });
+    if (isNewAccount) {
+      captureConsoleEvent(ctx, env.FLAGS_KV, analytics, country, {
+        distinctId: accountId,
+        event: EVENTS.accountCreated,
+        authState: "authenticated",
+        properties: { method: "github", email_domain: emailDomain(identity.email) },
+        objectionSubject: accountId,
+      });
+    }
+
+    const response = redirectResponse("/console");
+    response.headers.append("Set-Cookie", sessionCookieHeader(rawSessionToken, expiresAt));
+    response.headers.append("Set-Cookie", clearState);
+    return response;
+  } catch {
+    return fail("internal");
+  }
+}
+
 /**
  * Session-gates `/console` and everything under it. Redirects to sign-in when the cookie is
  * absent, and clears it when present but no longer valid (expired, revoked, or a suspended
@@ -538,7 +710,7 @@ async function hasConsoleSession(request: Request, env: AppEnv): Promise<boolean
 
 /**
  * GET /signin: the front door. A valid session goes straight to /console; everyone else gets
- * the page with one button to Google, carrying whatever `entry_point` brought them here.
+ * the chooser (Google + GitHub), carrying whatever `entry_point` brought them here.
  */
 async function handleSignin(request: Request, env: AppEnv): Promise<Response> {
   if (request.method !== "GET" && request.method !== "HEAD") return new Response(null, { status: 405, headers: { Allow: "GET, HEAD" } });
@@ -606,6 +778,8 @@ export default {
     if (url.pathname === SIGNIN_PATH) return securityHeaders(await handleSignin(request, env));
     if (url.pathname === "/auth/google/start") return securityHeaders(await handleGoogleStart(request, env, ctx));
     if (url.pathname === "/auth/google/callback") return securityHeaders(await handleGoogleCallback(request, env, ctx));
+    if (url.pathname === "/auth/github/start") return securityHeaders(await handleGitHubStart(request, env, ctx));
+    if (url.pathname === "/auth/github/callback") return securityHeaders(await handleGitHubCallback(request, env, ctx));
 
     if (
       url.pathname === "/console" ||

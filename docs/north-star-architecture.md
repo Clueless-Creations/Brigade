@@ -658,7 +658,9 @@ The remaining outcome proofs require actual business execution:
 
 An optional hosted console remains a distribution surface. Its billing,
 identity, and deployments do not establish reusable app-business infrastructure
-or authorize a generated business's external effects.
+or authorize a generated business's external effects. Hosted console account
+identity is provider-neutral (`identities(provider, subject)`); email equality
+alone does not link accounts ([ADR-0020](decisions/0020-provider-neutral-console-identity.md)).
 
 ## What is deliberately deferred
 

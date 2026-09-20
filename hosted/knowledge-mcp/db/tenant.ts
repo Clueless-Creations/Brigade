@@ -177,22 +177,32 @@ const sessionRow = z.object({
   revoked_at: isoTimestamp.nullable(),
 });
 
-/**
- * M3 (Google OIDC identity and sessions). `googleSub` mirrors 0001_identity_and_tenancy.sql's
- * CHECK on `users.google_sub` exactly, so a malformed claim fails here rather than at the
- * database as an opaque constraint error — the same reasoning as the Stripe-shaped ids below.
- */
-const googleSub = z.string().regex(/^[a-zA-Z0-9_.-]{1,255}$/);
+/** Hosted console sign-in providers with an adapter in builder-console/auth/. */
+export const IDENTITY_PROVIDERS = ["google", "github"] as const;
+export type IdentityProvider = (typeof IDENTITY_PROVIDERS)[number];
 
-export interface FindUserByGoogleSubResult {
+/**
+ * Identity subject shape shared by `identities.subject` and the compatibility `users.google_sub`
+ * column (0009_provider_neutral_identities.sql). Same CHECK as the schema so a malformed claim
+ * fails here rather than at the database as an opaque constraint error.
+ */
+const identitySubject = z.string().regex(/^[a-zA-Z0-9_.-]{1,255}$/);
+const identityProvider = z.enum(IDENTITY_PROVIDERS);
+
+export interface FindUserByIdentityResult {
   readonly userId: string;
   readonly accountId: AccountId;
 }
 
-export interface CreateUserAndAccountFromGoogleInput {
+/** @deprecated Prefer FindUserByIdentityResult — kept as an alias for existing call sites. */
+export type FindUserByGoogleSubResult = FindUserByIdentityResult;
+
+export interface CreateUserAndAccountFromIdentityInput {
   /** Caller-generated, matching createApiKey's own convention: the repository never mints an id it hands back as `userId`. */
   readonly userId: string;
-  readonly googleSub: string;
+  readonly provider: IdentityProvider;
+  /** Provider-stable subject (Google `sub`, GitHub numeric user id as decimal string). Never an email. */
+  readonly subject: string;
   readonly email: string;
   readonly emailVerified: boolean;
   readonly displayName?: string | null;
@@ -206,6 +216,15 @@ export interface CreateUserAndAccountFromGoogleInput {
    * different kinds of side effect in two different modules — this field just stopped being
    * required to already have that call's result in hand.
    */
+  readonly stripeCustomerId?: string | null;
+}
+
+export interface CreateUserAndAccountFromGoogleInput {
+  readonly userId: string;
+  readonly googleSub: string;
+  readonly email: string;
+  readonly emailVerified: boolean;
+  readonly displayName?: string | null;
   readonly stripeCustomerId?: string | null;
 }
 
@@ -741,48 +760,51 @@ export function tenantDb(db: D1Database) {
   // M6's entitlement gate) is read through.
 
   /**
-   * Resolves a Google `sub` claim to an existing user and account, or null for a first-time
-   * sign-in. `role = 'owner'` is not a narrowing this schema requires today — a fresh account
-   * from `createUserAndAccountFromGoogle` below has exactly one membership, and it is the owner
-   * — but it is the correct membership to resolve to if a future milestone ever adds invited
-   * members, so a returning owner keeps landing on the account they created rather than an
-   * arbitrary one of several.
+   * Resolves a provider+subject identity to an existing user and account, or null for a
+   * first-time sign-in. Lookup is always via `identities` (0009); email is never used to join
+   * accounts (ADR-0020). `role = 'owner'` keeps a returning creator on the account they made if
+   * invited members appear later.
    */
-  async function findUserByGoogleSub(rawGoogleSub: string): Promise<FindUserByGoogleSubResult | null> {
-    const parsed = googleSub.safeParse(rawGoogleSub);
-    if (!parsed.success) return null;
+  async function findUserByIdentity(provider: IdentityProvider, rawSubject: string): Promise<FindUserByIdentityResult | null> {
+    const parsedProvider = identityProvider.safeParse(provider);
+    const parsedSubject = identitySubject.safeParse(rawSubject);
+    if (!parsedProvider.success || !parsedSubject.success) return null;
     const found = await db
       .prepare(
         `SELECT u.id AS user_id, m.account_id AS account_id
-           FROM users u
+           FROM identities i
+           JOIN users u ON u.id = i.user_id
            JOIN memberships m ON m.user_id = u.id AND m.role = 'owner'
-          WHERE u.google_sub = ?1`,
+          WHERE i.provider = ?1 AND i.subject = ?2`,
       )
-      .bind(parsed.data)
+      .bind(parsedProvider.data, parsedSubject.data)
       .first();
     if (found === null) return null;
     const row = readRow(z.object({ user_id: opaqueId, account_id: opaqueId }), found);
     return { userId: row.user_id, accountId: row.account_id as AccountId };
   }
 
+  /** Google-shaped convenience over `findUserByIdentity`. */
+  async function findUserByGoogleSub(rawGoogleSub: string): Promise<FindUserByGoogleSubResult | null> {
+    return findUserByIdentity("google", rawGoogleSub);
+  }
+
   /**
-   * Creates the user, the account, and the owner membership in one D1 batch — the schema's own
-   * composite foreign key (`sessions`/`api_keys` both require `(account_id, user_id)` to exist in
-   * `memberships`) means a session or a key can never be issued to a user with no membership, so
-   * all three rows have to exist before this function returns, not eventually.
+   * Creates the user, identity, account, and owner membership in one D1 batch — sessions/api_keys
+   * require `(account_id, user_id)` in `memberships`, so all four rows exist before return.
    *
-   * A concurrent double-submit (the same Google account signing in twice before either request's
-   * D1 write lands) is left to the schema rather than a pre-check: `users.google_sub` and
-   * `accounts.stripe_customer_id` are both `UNIQUE`, so the loser's batch fails a constraint
-   * instead of creating a duplicate account, and the caller's own fallback (an unhandled error
-   * surfaces as a taxonomy `internal` signin failure) is enough for a login the person can simply
-   * retry — `findUserByGoogleSub` finds the winner's row on the next attempt.
+   * Concurrent double-submit for the same (provider, subject) fails the UNIQUE primary key on
+   * `identities` (and `users.google_sub` UNIQUE when provider is google). Email is never unique:
+   * the same address from two providers creates two accounts (ADR-0020 — no silent merge).
+   * Google rows mirror `subject` into `users.google_sub` for compatibility; non-Google rows leave
+   * `google_sub` NULL — never a fabricated value.
    */
-  async function createUserAndAccountFromGoogle(input: CreateUserAndAccountFromGoogleInput, now = new Date()): Promise<{ accountId: AccountId }> {
+  async function createUserAndAccountFromIdentity(input: CreateUserAndAccountFromIdentityInput, now = new Date()): Promise<{ accountId: AccountId }> {
     const values = z
       .object({
         userId: opaqueId,
-        googleSub,
+        provider: identityProvider,
+        subject: identitySubject,
         email: z.email().max(320),
         emailVerified: z.boolean(),
         displayName: z.string().min(1).max(200).nullable().default(null),
@@ -791,13 +813,20 @@ export function tenantDb(db: D1Database) {
       .parse(input);
     const accountId = crypto.randomUUID() as AccountId;
     const stamp = now.toISOString();
+    const googleSubValue = values.provider === "google" ? values.subject : null;
     await db.batch([
       db
         .prepare(
           `INSERT INTO users (id, google_sub, email, email_verified, display_name, created_at, updated_at, disabled_at)
            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?6, NULL)`,
         )
-        .bind(values.userId, values.googleSub, values.email, values.emailVerified ? 1 : 0, values.displayName, stamp),
+        .bind(values.userId, googleSubValue, values.email, values.emailVerified ? 1 : 0, values.displayName, stamp),
+      db
+        .prepare(
+          `INSERT INTO identities (provider, subject, user_id, created_at, updated_at)
+           VALUES (?1, ?2, ?3, ?4, ?4)`,
+        )
+        .bind(values.provider, values.subject, values.userId, stamp),
       // `name` seeds from the email address. There is no rename UI yet; a person can be told
       // apart from the account they created without one, and this only ever shows to themselves.
       db
@@ -808,6 +837,21 @@ export function tenantDb(db: D1Database) {
         .bind(accountId, values.userId, stamp),
     ]);
     return { accountId };
+  }
+
+  async function createUserAndAccountFromGoogle(input: CreateUserAndAccountFromGoogleInput, now = new Date()): Promise<{ accountId: AccountId }> {
+    return createUserAndAccountFromIdentity(
+      {
+        userId: input.userId,
+        provider: "google",
+        subject: input.googleSub,
+        email: input.email,
+        emailVerified: input.emailVerified,
+        displayName: input.displayName,
+        stripeCustomerId: input.stripeCustomerId,
+      },
+      now,
+    );
   }
 
   /**
@@ -1322,7 +1366,9 @@ export function tenantDb(db: D1Database) {
     listAuditEvents,
     recordAuditEvent,
     recordInterestSignal,
+    findUserByIdentity,
     findUserByGoogleSub,
+    createUserAndAccountFromIdentity,
     createUserAndAccountFromGoogle,
     createSession,
     resolveAccountByStripeCustomerId,
