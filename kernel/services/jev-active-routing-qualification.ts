@@ -6,7 +6,7 @@
  *
  *  U1  The supported Jev tuple — model identity, endpoint/gateway, SDK/API
  *      version, adapter revision — assembled from the #513 qualification map and
- *      the #515 adapter rather than redeclared, and reached only through the
+ *      the shared TypeSafe semantic surface (#515 paper helpers) rather than redeclared, and reached only through the
  *      host-explicit provider-neutral binding (unselected / unconfigured /
  *      unavailable / ready stay four different answers).
  *  U2  Conformance: official-source response envelopes decoded through the #515
@@ -40,7 +40,7 @@ import {
   typesafeSupportDeclaration,
   type TypesafeAvailability,
   type TypesafeDecodeResult,
-} from "../../adapters/providers/typesafe/index.js";
+} from "../../adapters/providers/typesafe-semantic.js";
 import {
   TYPESAFE_API_BASE_DEFAULT,
   TYPESAFE_DOCS_OBSERVED_AT,

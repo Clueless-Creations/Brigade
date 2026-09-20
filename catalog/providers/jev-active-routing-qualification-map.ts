@@ -18,6 +18,8 @@ export const JEV_ROUTING_FIXTURE = "checks/verification/fixtures/jev-active-rout
 export const JEV_ROUTING_DOC = "docs/upstreams/jev-active-routing-qualification.md" as const;
 export const TYPESAFE_QUALIFY_MAP_MODULE = "catalog/providers/typesafe-qualify-map.ts" as const;
 export const TYPESAFE_ADAPTER_DIR = "adapters/providers/typesafe" as const;
+/** Flat shared surface kernel may import (ARCH-03/04); not the nested adapter tree. */
+export const TYPESAFE_SEMANTIC_SURFACE = "adapters/providers/typesafe-semantic.ts" as const;
 export const SEMANTIC_BATCH_OWNER = "kernel/session/semantic-batch.ts" as const;
 export const SEMANTIC_RUNTIME_SAFETY_OWNER = "kernel/services/semantic-runtime-safety.ts" as const;
 export const EVIDENCE_GAP_RANKING_OWNER = "kernel/services/evidence-gap-ranking.ts" as const;
