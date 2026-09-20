@@ -32,6 +32,7 @@ import { buildGoNoGoQuestion, buildSoftQuestion, validateFounderQuestion, type F
 import { routeUtterance } from "./route-utterance.js";
 import { withOnboardingStepper } from "./stepper.js";
 import { classifyAttemptFailure, summarizeAttemptFailure, type AttemptFailureCode } from "./attempt-failure.js";
+import { orderReadyByEvidenceGaps, type StoredEvidenceGapLedger } from "../services/evidence-gap-ranking.js";
 
 /**
  * The frontier, for a session that is a conversation rather than a headless run.
@@ -315,6 +316,14 @@ export function pickFounderQuestion(
  * run copy rather than re-derived, because computeFrontier is what decided them — recomputing the
  * same conclusions here is how a planner starts disagreeing with the runner it is meant to preview.
  */
+export interface EvidenceGapPlanRankingContext {
+  readonly ledger: StoredEvidenceGapLedger;
+  readonly currentSourceRevisions: readonly { readonly sourceId: string; readonly revision: string }[];
+  /** Existing permitted priority class per ready node — ranking never crosses classes. */
+  readonly priorityClassByNodeId: ReadonlyMap<string, string>;
+  readonly founderApprovalNodeIds?: ReadonlySet<string>;
+}
+
 export function buildPlanReport(
   plan: CompiledPlan,
   run: RunStateDocument,
@@ -324,6 +333,7 @@ export function buildPlanReport(
   maxConcurrency: number,
   autonomyUnset: boolean,
   workspaceRoot?: string,
+  evidenceGapRanking?: EvidenceGapPlanRankingContext,
 ): PlanReport {
   const byId = new Map(plan.nodes.map((node) => [node.id, node]));
   const readySet = new Set(ready);
@@ -373,7 +383,21 @@ export function buildPlanReport(
     }
   }
 
-  const batches = buildDispatchBatches(plan, ready, maxConcurrency).map((batch) =>
+  // #524: optional evidence-gap reorder among already-ready nodes within the same
+  // permitted priority class. Eligibility remains frontier/planner-owned; missing
+  // context preserves prior ready order (deterministic, zero-network).
+  const orderedReady =
+    evidenceGapRanking === undefined
+      ? ready
+      : orderReadyByEvidenceGaps({
+          readyNodeIds: ready.map(String),
+          priorityClassByNodeId: evidenceGapRanking.priorityClassByNodeId,
+          founderApprovalNodeIds: evidenceGapRanking.founderApprovalNodeIds,
+          ledger: evidenceGapRanking.ledger,
+          currentSourceRevisions: evidenceGapRanking.currentSourceRevisions,
+        }).orderedNodeIds.map((nodeId) => nodeId as RunNodeId);
+
+  const batches = buildDispatchBatches(plan, orderedReady, maxConcurrency).map((batch) =>
     batch.nodeIds.map((nodeId) => {
       const node = byId.get(nodeId)!;
       return describe(node, "upstream", "");
