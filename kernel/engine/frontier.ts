@@ -155,3 +155,12 @@ function getPath(value: unknown, dottedPath: string): unknown {
     return (current as Record<string, unknown>)[key];
   }, value);
 }
+
+/**
+ * #524 consumer note: evidence-gap / decision-impact ranking may reorder an
+ * already-computed `ready` list within a permitted priority class. It must not
+ * change eligibility, parked reasons, or authority. See
+ * `kernel/services/evidence-gap-ranking.ts` and `buildPlanReport`'s optional
+ * ranking context — frontier remains the eligibility owner.
+ */
+export { orderReadyByEvidenceGaps } from "../services/evidence-gap-ranking.js";
