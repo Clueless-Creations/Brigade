@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+id: reference.engineering.human-beta-recruitment
+title: Human Beta Recruitment (optional)
+domain_id: domain.engineering
+document_path: knowledge/engineering/human-beta-recruitment.md
+load_when: when product/recipe/binding selects optional human-beta recruitment (self-managed, other provider, or managed candidate)
+lifecycle: active
+bindings:
+  workflow_ids: [workflow.engineering.app-quality-and-vitals]
+  context_pack_ids: [context.engineering]
+applicability_notes: >-
+  Optional companion to app-quality. Does not satisfy APP_QUALITY measured proof,
+  authorize distribution, or claim live human-beta proof. TaskGrind vendor procedures
+  remain under qualification hold.
+sources:
+  - id: taskgrind-com-homepage
+    name: TaskGrind candidate homepage (qualification hold)
+    source_type: website
+    url: https://www.taskgrind.com/
+    review_cadence_days: 14
+    claim_scope: Tracking-only candidate identity for #213 qualification hold; not executable provider proof.
+    last_review_date: 2026-09-20
+    reviewer: b2c-maintainers
+    upstream_id: taskgrind
+    rights:
+      status: unknown
+      spdx: NOASSERTION
+      notes: No verified first-party license or terms retrieved; homepage fetch failed HTTP 500 on 2026-09-20.

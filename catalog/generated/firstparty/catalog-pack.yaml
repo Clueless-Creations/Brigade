@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.60
-revision: 0.221.60
+version: 0.221.61
+revision: 0.221.61
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -3923,13 +3923,14 @@ workflows:
       - check crash rate and startup time before submission
       - measure app performance and battery use
       - make sure the app isn't slow or crashy before launch
-    instructions: Measure crash-free operation, application-not-responding events, startup time, battery use, app size, offline behavior, and adaptive-layout behavior on supported devices. Define release thresholds and owners. Record observed values and evidence in engineering/APP_QUALITY.md. Mark missing device or production evidence as a blocker. When beta testing is in scope, the persona-balanced worksheet is optional planning guidance for recruiting complementary perspectives; it is not required proof, does not satisfy app-quality completion, and does not change this workflow's whole-artifact fresh-context acceptance. Do not treat empty or completed tester rows as measured quality evidence. Do not replace measured results with general guidance.
+    instructions: Measure crash-free operation, application-not-responding events, startup time, battery use, app size, offline behavior, and adaptive-layout behavior on supported devices. Define release thresholds and owners. Record observed values and evidence in engineering/APP_QUALITY.md. Mark missing device or production evidence as a blocker. When beta testing is in scope, the persona-balanced worksheet is optional planning guidance for recruiting complementary perspectives; it is not required proof, does not satisfy app-quality completion, and does not change this workflow's whole-artifact fresh-context acceptance. Do not treat empty or completed tester rows as measured quality evidence. Optional managed or self-managed human-beta recruitment follows knowledge/engineering/human-beta-recruitment.md and is selected only through product/recipe/binding mechanisms — never a vendor-global flag. Recruitment does not authorize distribution or substitute for release acceptance. TaskGrind remains under qualification hold; operator-assisted handoff is the verified mode until authoritative access exists. Do not replace measured results with general guidance.
     reads:
       - engineering/PRODUCTION_READINESS.md
       - engineering/TECH_SPEC.md
     consults: []
     reference_ids:
       - reference.engineering.app-quality
+      - reference.engineering.human-beta-recruitment
       - reference.research.distribution-offer-signal
     role_id: role.engineering-leader
     lane_ids:
@@ -6504,6 +6505,28 @@ references:
         reviewer: b2c-maintainers
         revision: 30f6084ddf6adf4173cf882fce266015f8872c17
         upstream_id: amir-brand-system
+    replacement_ids: []
+  - id: reference.engineering.human-beta-recruitment
+    title: Human Beta Recruitment (optional)
+    domain_id: domain.engineering
+    path: knowledge/engineering/human-beta-recruitment.md
+    load_when: when product/recipe/binding selects optional human-beta recruitment (self-managed, other provider, or managed candidate)
+    lifecycle: active
+    applicability_notes: Optional companion to app-quality. Does not satisfy APP_QUALITY measured proof, authorize distribution, or claim live human-beta proof. TaskGrind vendor procedures remain under qualification hold.
+    sources:
+      - id: taskgrind-com-homepage
+        name: TaskGrind candidate homepage (qualification hold)
+        source_type: website
+        url: https://www.taskgrind.com/
+        review_cadence_days: 14
+        claim_scope: Tracking-only candidate identity for
+        last_review_date: 2026-09-20
+        reviewer: b2c-maintainers
+        rights:
+          status: unknown
+          spdx: NOASSERTION
+          notes: No verified first-party license or terms retrieved; homepage fetch failed HTTP 500 on 2026-09-20.
+        upstream_id: taskgrind
     replacement_ids: []
   - id: reference.engineering.mobai-toolbelt
     title: MobAI Toolbelt
@@ -12530,6 +12553,7 @@ context_packs:
       - reference.engineering.expo-compatibility
       - reference.engineering.expo-operations-map
       - reference.engineering.expo-stack-selection
+      - reference.engineering.human-beta-recruitment
       - reference.engineering.recommended-agent-skills
       - reference.process.tool-recipes.engineering-and-agent-orchestration
   - id: context.device

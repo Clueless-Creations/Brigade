@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "upstreamId": "taskgrind",
+  "checkedAt": "2026-09-20T19:14:00.000Z",
+  "method": "manual",
+  "latestStable": null,
+  "prereleases": [],
+  "branchHead": null,
+  "releasesSinceBaseline": [],
+  "licenseSha256": null,
+  "licenseChanged": null,
+  "archived": null,
+  "host": null,
+  "unknowns": [
+    "Homepage https://www.taskgrind.com/ returned HTTP 500 on 2026-09-20; no release tag established.",
+    "No API, SDK, MCP, webhook, or CLI surface independently reviewed.",
+    "Pricing, incentives, privacy, retention, automation, and cancel/refund terms unknown.",
+    "No host executable declared or probed; qualification hold remains."
+  ]
+}

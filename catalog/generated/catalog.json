@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.60",
+  "skillVersion": "0.221.61",
   "areas": [
     {
       "id": "area.operating-system",
@@ -1828,6 +1828,7 @@
         "reference.engineering.expo-compatibility",
         "reference.engineering.expo-operations-map",
         "reference.engineering.expo-stack-selection",
+        "reference.engineering.human-beta-recruitment",
         "reference.engineering.recommended-agent-skills",
         "reference.process.tool-recipes.engineering-and-agent-orchestration"
       ]
@@ -3701,7 +3702,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/app-quality.md",
-        "sha256": "sha256:0e574063b35110cca3ab247fc9747b0817a76a74548b157ba885184f3991be38",
+        "sha256": "sha256:1d0c12d9151484e0660a3f93322440b5a279b307cd268dd3e5dc386032d19895",
         "origin": "skill"
       }
     },
@@ -4095,6 +4096,39 @@
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/external-skill-packs.md",
         "sha256": "sha256:6246b7c129c521c88867f32c3f1a326898116258405341d9db5833174658de2a",
+        "origin": "skill"
+      }
+    },
+    {
+      "id": "reference.engineering.human-beta-recruitment",
+      "path": "knowledge/engineering/human-beta-recruitment.md",
+      "domainId": "domain.engineering",
+      "title": "Human Beta Recruitment (optional)",
+      "loadWhen": "when product/recipe/binding selects optional human-beta recruitment (self-managed, other provider, or managed candidate)",
+      "lifecycle": "active",
+      "applicabilityNotes": "Optional companion to app-quality. Does not satisfy APP_QUALITY measured proof, authorize distribution, or claim live human-beta proof. TaskGrind vendor procedures remain under qualification hold.",
+      "sources": [
+        {
+          "id": "taskgrind-com-homepage",
+          "name": "TaskGrind candidate homepage (qualification hold)",
+          "sourceType": "website",
+          "url": "https://www.taskgrind.com/",
+          "reviewCadenceDays": 14,
+          "claimScope": "Tracking-only candidate identity for",
+          "lastReviewDate": "2026-09-20",
+          "reviewer": "b2c-maintainers",
+          "rights": {
+            "status": "unknown",
+            "spdx": "NOASSERTION",
+            "notes": "No verified first-party license or terms retrieved; homepage fetch failed HTTP 500 on 2026-09-20."
+          },
+          "upstreamId": "taskgrind"
+        }
+      ],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/engineering/human-beta-recruitment.md",
+        "sha256": "sha256:d24e51665d12757312cc1dd9468856e1bd3aeb6c4d2d5151a576667d8c3de634",
         "origin": "skill"
       }
     },
@@ -14980,7 +15014,7 @@
         "measure app performance and battery use",
         "make sure the app isn't slow or crashy before launch"
       ],
-      "instructions": "Measure crash-free operation, application-not-responding events, startup time, battery use, app size, offline behavior, and adaptive-layout behavior on supported devices. Define release thresholds and owners. Record observed values and evidence in engineering/APP_QUALITY.md. Mark missing device or production evidence as a blocker. When beta testing is in scope, the persona-balanced worksheet is optional planning guidance for recruiting complementary perspectives; it is not required proof, does not satisfy app-quality completion, and does not change this workflow's whole-artifact fresh-context acceptance. Do not treat empty or completed tester rows as measured quality evidence. Do not replace measured results with general guidance.",
+      "instructions": "Measure crash-free operation, application-not-responding events, startup time, battery use, app size, offline behavior, and adaptive-layout behavior on supported devices. Define release thresholds and owners. Record observed values and evidence in engineering/APP_QUALITY.md. Mark missing device or production evidence as a blocker. When beta testing is in scope, the persona-balanced worksheet is optional planning guidance for recruiting complementary perspectives; it is not required proof, does not satisfy app-quality completion, and does not change this workflow's whole-artifact fresh-context acceptance. Do not treat empty or completed tester rows as measured quality evidence. Optional managed or self-managed human-beta recruitment follows knowledge/engineering/human-beta-recruitment.md and is selected only through product/recipe/binding mechanisms — never a vendor-global flag. Recruitment does not authorize distribution or substitute for release acceptance. TaskGrind remains under qualification hold; operator-assisted handoff is the verified mode until authoritative access exists. Do not replace measured results with general guidance.",
       "reads": [
         "engineering/PRODUCTION_READINESS.md",
         "engineering/TECH_SPEC.md"
@@ -14988,6 +15022,7 @@
       "consults": [],
       "referenceIds": [
         "reference.engineering.app-quality",
+        "reference.engineering.human-beta-recruitment",
         "reference.research.distribution-offer-signal"
       ],
       "roleId": "role.engineering-leader",
@@ -18866,14 +18901,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "8d57d39f22fe2e8f25667fabfda7299b30bbee1ce30427667f0f6fabe6884730",
+    "fingerprint": "882bbb23fb8dec940b6f3b63ceeb92523ff41e3ecb17cdc1ab66372d68eb97e6",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.60",
-        "revision": "0.221.60",
-        "contentDigest": "2e2d48f51badbba7c3ac3e4a878dce92591a552448915f64395d40f844d1ba38"
+        "version": "0.221.61",
+        "revision": "0.221.61",
+        "contentDigest": "03930ac5de18e48fdf65a3d72cfe1a32496b5f269bda749a0a5042dfab00c495"
       }
     ],
     "base": {
@@ -18885,7 +18920,7 @@
       "business-pack.consumer-business": {
         "domains": 15,
         "workflows": 115,
-        "references": 145
+        "references": 146
       }
     }
   }

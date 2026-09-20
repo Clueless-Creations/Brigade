@@ -10,6 +10,12 @@ Measure crashes, application-not-responding events, startup time, battery use, a
 
 Keep a third-party SDK inventory. Record the SDK owner, version, permissions, data use, privacy manifest, update route, and removal route. Include the SDK inventory in software-supply-chain review.
 
+## Optional human-beta companion
+
+When beta testing is in scope, the persona-balanced worksheet in `engineering/APP_QUALITY.md` remains optional planning guidance for complementary perspectives. It is not measured quality evidence.
+
+Optional managed or self-managed human-beta recruitment is described in `knowledge/engineering/human-beta-recruitment.md`. Recruitment is selected only through product/recipe/binding mechanisms. It does not authorize distribution, substitute for release acceptance, or create a competing quality ledger. TaskGrind remains a candidate under an explicit qualification hold until authoritative access exists.
+
 ## Output
 
 Write the results in `engineering/APP_QUALITY.md`.
