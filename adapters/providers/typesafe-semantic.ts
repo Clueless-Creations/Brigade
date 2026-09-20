@@ -8,6 +8,7 @@
  * adapter index — so provider identity stays swappable at the composition edge.
  *
  * Does not add a second Jev/TypeSafe runtime. Live spend is not performed here.
+ * Paired with skill-version.json on CI fix commits (version_discipline.manifest_not_latest).
  */
 export {
   TYPESAFE_ADAPTER_BINDING_ID,
