@@ -23,6 +23,7 @@ import path from "node:path";
 import { resolveTsxCommand, tsxBinResolves } from "../../tooling/lib/tsx-bin.js";
 import { compiledRuntimePresent, resolveSkillRoot } from "../../tooling/lib/skill-root.js";
 import { detectWorkerRuntimes } from "./executor.js";
+import { anyWorkerRuntimeFound, localInstallConnectionLines, localInstallConnectionReceipt } from "../../contracts/public-api/connection-receipt.js";
 import {
   assessRevenueCatCliHostDoctor,
   discoverRevenueCatCliForDoctor,
@@ -36,7 +37,13 @@ import {
   type ExpoCliDiscovery,
 } from "../../adapters/providers/expo/doctor.js";
 import { b2cAppBuilderHome, loadRegistry, registryPath } from "../../adapters/registry.js";
-import { observeHost, probeExecutablesOnPath, runVersionProbe, type HostObserveDependencies, type HostObservationResult } from "../contribution/host-observe.js";
+import {
+  observeHost,
+  probeExecutablesOnPath,
+  runVersionProbe,
+  type HostObserveDependencies,
+  type HostObservationResult,
+} from "../contribution/host-observe.js";
 import { compareSemver, parseSemver, semverSatisfies } from "../contribution/upstreams.js";
 import { loadUpstreams } from "../contribution/upstreams-load.js";
 import { isMainModule } from "../lib/cli.js";
@@ -303,7 +310,11 @@ function probeAsc(
   const latest = facts?.latestObserved ?? null;
 
   if (!facts) {
-    finding("warn", "doctor.asc_observation_unreadable", "could not load the App Store Connect CLI upstream observation — inspect still did not install anything");
+    finding(
+      "warn",
+      "doctor.asc_observation_unreadable",
+      "could not load the App Store Connect CLI upstream observation — inspect still did not install anything",
+    );
     return { latestObserved: latest, path: null, version: null };
   }
 
@@ -341,7 +352,11 @@ function probeAsc(
 
   const parsed = parseSemver(winner.version);
   if (!parsed) {
-    finding("warn", "doctor.asc_unparseable", `winning ${winnerPath} reports ${winner.version}, which is not semver. Latest observed ${latest ?? "(unknown)"}.`);
+    finding(
+      "warn",
+      "doctor.asc_unparseable",
+      `winning ${winnerPath} reports ${winner.version}, which is not semver. Latest observed ${latest ?? "(unknown)"}.`,
+    );
     return { latestObserved: latest, path: winnerPath, version: winner.version };
   }
 
@@ -382,6 +397,25 @@ export function printFindings(findings: readonly DoctorFinding[]): number {
   return errors > 0 ? 1 : 0;
 }
 
+function readEngineVersion(): string {
+  try {
+    return (JSON.parse(readFileSync(path.join(skillRoot, "skill-version.json"), "utf8")) as { version?: string }).version ?? "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
+}
+
+/** Compact capability receipt on the existing doctor/inspect surface (#127). Does not repair or rewrite client config. */
+function printLocalConnectionReceipt(): void {
+  const receipt = localInstallConnectionReceipt({
+    engineVersion: readEngineVersion(),
+    workerRuntimeFound: anyWorkerRuntimeFound(detectWorkerRuntimes()),
+  });
+  console.log("");
+  for (const line of localInstallConnectionLines(receipt)) console.log(line);
+}
+
 if (isMainModule(import.meta.url)) {
   process.exitCode = printFindings(runDoctor());
+  printLocalConnectionReceipt();
 }

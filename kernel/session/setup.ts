@@ -14,11 +14,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import {
   anyWorkerRuntimeFound,
-  connectionCapabilityGuidance,
-  connectionReceipt,
-  formatConnectionReceipt,
   leftoverNameMigrationGuidance,
-  observedLocalWorkspaceHealth,
+  localInstallConnectionLines,
+  localInstallConnectionReceipt,
 } from "../../contracts/public-api/connection-receipt.js";
 import { b2cAppBuilderHome, registryPath } from "../../adapters/registry.js";
 import { resolveSkillRoot } from "../../tooling/lib/skill-root.js";
@@ -29,7 +27,7 @@ import { isMainModule } from "../lib/cli.js";
 const skillRoot = resolveSkillRoot(import.meta.url);
 
 /** Portable MCP registration after the package is on the registry (`npx -y <name>` runs this bin). */
-export const PORTABLE_MCP_COMMAND = "npx -y b2c-app-builder";
+export const PORTABLE_MCP_COMMAND = "npx -y @cluelesscreations/brigade";
 
 function main(): number {
   if (process.argv.slice(2).some((arg) => arg === "--help" || arg === "-h")) {
@@ -70,12 +68,9 @@ function main(): number {
   } catch {
     engineVersion = "0.0.0";
   }
-  const receipt = connectionReceipt({
-    mode: "local_execution",
+  const receipt = localInstallConnectionReceipt({
     engineVersion,
-    observed: observedLocalWorkspaceHealth({
-      workerRuntimeFound: anyWorkerRuntimeFound(detectWorkerRuntimes()),
-    }),
+    workerRuntimeFound: anyWorkerRuntimeFound(detectWorkerRuntimes()),
   });
   // An npm tarball never carries .git; a source checkout always does. That one fact decides which
   // install advice applies: `npm link` only means something from a checkout, and the portable npx
@@ -112,7 +107,7 @@ function main(): number {
       ...(fromCheckout
         ? []
         : [
-            "    Portable form, no machine paths (any client: command npx, args -y b2c-app-builder):",
+            "    Portable form, no machine paths (any client: command npx, args -y @cluelesscreations/brigade):",
             `    claude mcp add --scope user b2c-local -- ${PORTABLE_MCP_COMMAND}`,
           ]),
       `    Then set "alwaysLoad": true on this entry in ~/.claude.json — after registration the ordinary start is b2c_business_status then b2c_business_plan, so deferral costs a wasted round trip.`,
@@ -130,8 +125,7 @@ function main(): number {
       "The MCP is read-only by default: public discovery/composition preview plus compatibility knowledge, status, plan, and operating preview.",
       "Use the b2c CLI for approved writes. B2C_APP_BUILDER_MCP_WRITE=1 enables the local write tools",
       "when a user deliberately chooses that wider surface.",
-      connectionCapabilityGuidance(receipt),
-      formatConnectionReceipt(receipt),
+      ...localInstallConnectionLines(receipt),
     ].join("\n"),
   );
   return code;
