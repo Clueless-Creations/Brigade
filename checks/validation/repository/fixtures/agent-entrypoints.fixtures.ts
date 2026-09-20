@@ -210,8 +210,23 @@ export function register(harness: Harness): void {
       "knowledge/words/no-slop-writing.md": noSlop.replace("## 9. Original: Builder house style", "## 9. Writing"),
     });
   });
+  record("review surface regression catches a missing #122 vocabulary owner link", () => {
+    const noSlop = read("knowledge/words/no-slop-writing.md")!;
+    requireWritingFinding({
+      "knowledge/words/no-slop-writing.md": noSlop.replace("owned by #122", "owned by #999"),
+    });
+  });
+  record("review surface regression catches a missing kitchen-language boundary link", () => {
+    const noSlop = read("knowledge/words/no-slop-writing.md")!;
+    requireWritingFinding({
+      "knowledge/words/no-slop-writing.md": noSlop.replace("docs/ethos.md#kitchen-language-boundary", "docs/ethos.md#missing-boundary"),
+    });
+  });
   record("root guidance keeps each writing owner reachable", () => {
     requireFinding("AGENTS.md", root.replace("[technical documentation]", "technical rules"), "agent_entrypoints.standing_writing_owners_missing");
+  });
+  record("root guidance keeps the builder house-style discovery link", () => {
+    requireFinding("AGENTS.md", root.replace("[Original: Builder house style]", "builder house style"), "agent_entrypoints.standing_writing_owners_missing");
   });
   record("root setup diagnostics remain conditional", () => {
     requireFinding("SKILL.md", `${skill}\nDegraded execution still selects b2c-local.\n`, "agent_entrypoints.root_setup_diagnostics");

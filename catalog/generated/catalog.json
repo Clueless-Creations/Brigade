@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.55",
+  "skillVersion": "0.221.56",
   "areas": [
     {
       "id": "area.operating-system",
@@ -10146,7 +10146,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/words/no-slop-writing.md",
-        "sha256": "sha256:4dcb9d8a78fcee18daa5b46ced399f8b41992853141ff3a9e9b1906d263a98cb",
+        "sha256": "sha256:4c9e962cafa5da40dba01778e879b9687c940e0acf4ab298c1b2ef07cda4ffa2",
         "origin": "skill"
       }
     }
@@ -18866,14 +18866,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "2567fe4c1f3c413400bc30a075ab2cc11962e3a176f70a0a4f8c5bdfd797f3a6",
+    "fingerprint": "0f2ef3aecd4f8baa9a7566b0b6e5b9312133eb5c557474794b6e5ca5efbd0e6f",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.55",
-        "revision": "0.221.55",
-        "contentDigest": "e0a7f22530dde228e0d4d2d38e3c1ecd7f5a4e2d8ad028e411a6f3e8d0f834fa"
+        "version": "0.221.56",
+        "revision": "0.221.56",
+        "contentDigest": "15c17788ac861ba7515bbf35b480b281d0e8eb41e813a483d6d756b8f3793686"
       }
     ],
     "base": {

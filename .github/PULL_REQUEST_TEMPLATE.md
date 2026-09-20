@@ -21,7 +21,7 @@
 - [ ] I registered any new external source URL.
 - [ ] I included no secrets, personal data, or app workspace output.
 - [ ] I updated every active instruction surface that mirrors this contract.
-- [ ] Changed prose follows the builder house style and kitchen-language boundary; claims match the evidence in this pull request.
+- [ ] Changed prose follows the builder house style and kitchen-language boundary ([§9](../knowledge/words/no-slop-writing.md#9-original-builder-house-style), [#122](../docs/ethos.md#kitchen-language-boundary)); claims match the evidence in this pull request.
 
 ## Follow-up
 

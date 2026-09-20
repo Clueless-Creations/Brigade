@@ -134,7 +134,7 @@ If a piece of copy straddles both — for example, a paywall screen that include
 
 ## 9. Original: Builder house style
 
-Repository-original. This section is not in `petergyang/no-ai-slop`. Kitchen meanings live in the repository ethos Kitchen-language boundary. Do not copy that table here. Packaged business work uses this section only; it must not depend on repository-only docs.
+Repository-original. This section is not in `petergyang/no-ai-slop`. Kitchen meanings and approved display vocabulary are owned by #122 in the repository Kitchen-language boundary (`docs/ethos.md#kitchen-language-boundary`). Do not copy that table here or invent a competing glossary. In a source checkout, follow that owner for station labels and metaphor stops. Packaged business work uses this section only; it must not depend on repository-only docs.
 
 Lead with the outcome, finding, or decision needed. Use short, active, concrete sentences. State what changed, what was checked, what remains uncertain, and the next action when relevant. Do not print an eight-state checklist after every small update. Use sentence-case headings. Prefer one established term to rotating synonyms for capability, operation, provider, implementation, binding, recipe, evidence, or acceptance.
 
