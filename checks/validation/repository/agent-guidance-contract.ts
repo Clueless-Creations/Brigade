@@ -18,6 +18,14 @@ const REVIEW_SURFACES = [
     file: "knowledge/words/no-slop-writing.md",
     required: "## 9. Original: Builder house style",
   },
+  {
+    file: "knowledge/words/no-slop-writing.md",
+    required: "owned by #122",
+  },
+  {
+    file: "knowledge/words/no-slop-writing.md",
+    required: "docs/ethos.md#kitchen-language-boundary",
+  },
 ] as const;
 
 /** Structural evidence that review and canonical writing surfaces still reach the existing owner. */
@@ -93,7 +101,7 @@ export const STANDING_RULES: ReadonlyArray<{ id: string; terms: readonly string[
   { id: "workspace_boundary", terms: ["Workspace-facing guidance", "never maintainer ARCH rules", "contributor machinery"] },
   {
     id: "writing_owners",
-    terms: ["[no-slop writing]", "[technical documentation]", "[kitchen-language boundary]"],
+    terms: ["[no-slop writing]", "[Original: Builder house style]", "[technical documentation]", "[kitchen-language boundary]"],
   },
   {
     id: "completion",

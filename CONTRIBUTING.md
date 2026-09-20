@@ -239,11 +239,10 @@ Open a draft when feedback will help. Mark it ready when the focused evidence
 supports the change.
 
 When the change includes documentation, CLI help, issue or pull-request
-prose, or a status claim, follow the builder house style in
-`knowledge/words/no-slop-writing.md` and the
-[kitchen-language boundary](docs/ethos.md#kitchen-language-boundary). Keep
-technical identifiers and evidence claims exact. A checklist box is not
-independent review.
+prose, or a status claim, follow [Original: Builder house style](knowledge/words/no-slop-writing.md#9-original-builder-house-style)
+and the [kitchen-language boundary](docs/ethos.md#kitchen-language-boundary)
+(#122 vocabulary owner). Keep technical identifiers and evidence claims
+exact. A checklist box is not independent review.
 
 ## Generated files
 

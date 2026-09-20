@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.55",
+  "version": "0.221.56",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Builder house style discoverability (#129): Original \u00a79 in no-slop-writing links #122 vocabulary owner and ethos Kitchen-language boundary; short AGENTS discovery before docs/help/issue/PR/review/progress/handoff writing; thin host adapters; CONTRIBUTING + PR template linked reminders; agent-entrypoint regressions for \u00a79/#122/ethos/discovery; fresh-context review recorded with behavioral proof explicitly open. No npm publish. Stamp 0.221.56. STOP \u2192 #127 on HoE order only.",
     "Astra guidance migration A0\u2013A6 (#388): freeze tip 8384cb3 A0 packets; shrink root AGENTS to standing routing/invariants/authority + one positive local-completion grant; risk-proportional verification and bounded positive parallelism; keep root SKILL setup/provider conditional; progressive task-skill methods (shared applicability rule + ENGINEERING_PLAN specialty-when-implicated); contributor/maintainer routers link procedures conditionally. Deterministic before/after via check:agent-entrypoints; no live model traces. Migration-complete claim deferred to #392. Handoffs #73/#75/#126/#378. Stamp 0.221.55. No npm publish.",
     "Package+host-discovery proof (#386): portable exports + packed membership remain green; check:package-parity prefers npm_execpath (npm 10 / Node 24) so ambient npm 9 README ancestor false-leaks do not block pack proof; truthful source-only vs production-package docs for skills:export; Codex 0.151.0 native discovery verified for all nine tasks via codex debug prompt-input (no model turn); Claude Code discovery explicitly open (Not logged in). Handoffs for #26/#75 recorded. No npm publish.",
     "Docs(#378): align agents/skills README task-index prose with the nine focused task skills already on tip (was still saying three entrypoints). Regenerated firstparty pin/catalog-pack, hosted-knowledge bundle, and evidence-schema fingerprint for stamp 0.221.53. Coordinating residual only \u2014 no task rebuild; proof AC stays with #386/#75/#73; #26 owns publish.",

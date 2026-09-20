@@ -87,6 +87,8 @@ Be precise about what executes: `npm run launchbench` is a scenario **definition
 `evals/launchbench/house-style-*.yaml` are authored house-style routing examples.
 They must omit `behavioral: true`. A green lint is not proof that an agent followed
 the style, and it is not a fresh-context review of representative outputs.
+The #129 fresh-context review and open behavioral limits live in
+`docs/research/house-style-129-fresh-context-review.md`.
 
 ## Behavioral Eval Harness (manual, not PR-gating)
 
