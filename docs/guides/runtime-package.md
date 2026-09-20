@@ -102,6 +102,8 @@ Setup creates `~/.b2c-app-builder/workspaces.json` and prints the MCP registrati
 
 A packed install launches compiled ESM from `dist/` and does not need `tsx`. A source checkout runs `npm run build` (also via `prepack`) or falls back to `tsx` until that build exists.
 
+Portable task export (`npm run skills:export`) is a **source-checkout maintainer command** (needs `tsx` / devDependencies). It is not a supported consumer command from a production registry install. Packed installs already include the generated business task skill trees under `agents/skills/`.
+
 ## Package boundary
 
 One canonical public npm package: **`@cluelesscreations/brigade`**. It ships

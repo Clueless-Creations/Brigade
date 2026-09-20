@@ -16,11 +16,13 @@ Use available, authorized evidence and tools. You do not need the B2C runtime or
 
 ## Export one portable skill
 
-From a source checkout with Node.js 24 and dependencies installed:
+**Source-checkout command** (requires a Git checkout with `npm ci` / `npm install`, including **devDependency** `tsx`):
 
 ```bash
 npm run skills:export -- --skill b2c-research-opportunity --output /tmp/b2c-task-skills
 ```
+
+This is **not** a production-package consumer command. The `skills:export` script runs `tsx tooling/export-task-skill.ts`. A registry install of `@cluelesscreations/brigade` does not ship `tsx`, so `npm run skills:export` is unsupported there unless you separately install that toolchain. Packed installs still include the nine generated task skill trees under `agents/skills/` for direct host use; portable export remains a source/maintainer workflow.
 
 The command creates `/tmp/b2c-task-skills/b2c-research-opportunity/`. Choose a new output directory for each export. Existing installations are never overwritten. Outside a Git checkout, add `--source-revision` with the full reviewed source commit SHA.
 
@@ -39,6 +41,17 @@ Official format and host references, checked September 11, 2026:
 - [Agent Skills specification](https://agentskills.io/specification)
 - [OpenAI skills documentation](https://developers.openai.com/codex/skills/)
 - [Claude Code skills documentation](https://code.claude.com/docs/en/skills)
+
+## Host discovery evidence
+
+Package membership and portable-export relocation are deterministic checks (`npm run check:task-skills`, `npm run check:package-parity`). **Host discovery is separate:** a filesystem listing or mock manifest is packaging proof only.
+
+Current sanitized rehearsal: [`checks/verification/rehearsal/task-skill-host-discovery.md`](../../checks/verification/rehearsal/task-skill-host-discovery.md).
+
+- **Codex CLI** native discovery: recorded at a named version when an isolated install is probed with `codex debug prompt-input` (no model turn).
+- **Claude Code** native discovery: remains an **explicitly open** criterion when the host is not logged in or otherwise cannot run a repeatable native discovery probe. Do not treat login failure or quota messages as discovery success.
+
+Semantic model/tool outcomes stay with #75. Publication and install-doc claims stay with #26.
 
 ## Maintain the projections
 
