@@ -9,6 +9,7 @@ on:
       - contracts/product-profile/**
       - kernel/services/intended-product-profile*
       - kernel/services/product-profile-query*
+      - kernel/services/observed-product-profile*
       - .github/workflows/product-profile-contract.yml
   push:
     branches: [main]
@@ -37,3 +38,4 @@ jobs:
       - run: node --test docs/contracts/product-profile/contract.test.mjs
       - run: node --import tsx --test kernel/services/intended-product-profile.test.ts
       - run: node --import tsx --test kernel/services/product-profile-query.test.ts
+      - run: node --import tsx --test kernel/services/observed-product-profile.test.ts
