@@ -11,7 +11,7 @@
  * no network, no cache refresh. Stale or missing → deterministic fallback or
  * explicit unresolved — never invented certainty.
  *
- * Paper / synthetic. Consumes #522+#523. Does not implement #525–#529.
+ * Paper / synthetic. Consumes #522+#523. Does not implement #526–#529.
  */
 import {
   EVIDENCE_GAP_ACTION_CLASS_MAP,
@@ -40,7 +40,7 @@ export const EVIDENCE_GAP_RANKING_NO_AUTO_APPROVAL = true as const;
 export const EVIDENCE_GAP_RANKING_NO_INFERRED_PREFERENCES = true as const;
 export const EVIDENCE_GAP_RANKING_INFO_VALUE_IS_HEURISTIC = true as const;
 export const EVIDENCE_GAP_RANKING_NO_524_IMPL = false as const;
-export const EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE = "#525" as const;
+export const EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE = "#526" as const;
 
 export class EvidenceGapRankingError extends Error {
   readonly code: string;

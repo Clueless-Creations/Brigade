@@ -6,7 +6,7 @@
  * direct cache authority. Cache hits are receipt references, not authorization.
  *
  * Consumes #512–#519. Implements SQ-10 persist/replay/cache; coordinates
- * invalidation/erasure with kernel/engine + kernel/reducer. Consumes through #521 (SQ-09 applicability). NO_522_IMPL cleared by #522. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. Does not implement #525–#529.
+ * invalidation/erasure with kernel/engine + kernel/reducer. Consumes through #521 (SQ-09 applicability). NO_522_IMPL cleared by #522. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. Does not implement #526–#529.
  * Does not alter source-fingerprint guarantees. No TTL-only freshness, exactly-once
  * claim, silent result replacement, hash-as-privacy, or cache→provider from passive reads.
  *
@@ -34,7 +34,7 @@ export const INFERENCE_RECEIPT_STORE_NO_NETWORK = true as const;
 export const INFERENCE_RECEIPT_STORE_NO_PARALLEL_CACHE_AUTHORITY = true as const;
 export const INFERENCE_RECEIPT_STORE_NO_TTL_ONLY = true as const;
 export const INFERENCE_RECEIPT_STORE_NO_EXACTLY_ONCE = true as const;
-export const INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE = "#525" as const;
+export const INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE = "#526" as const;
 export const INFERENCE_RECEIPT_CANONICALIZATION_VERSION = PLAN_IDENTITY_CANONICALIZATION_VERSION;
 
 export class InferenceReceiptStoreError extends Error {

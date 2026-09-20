@@ -1,7 +1,7 @@
 /**
  * #524 SQ-12 — AC→evidence map for evidence-gap / decision-impact ranking.
  *
- * Consumes #522+#523. Does not redo them. Does not implement #525–#529.
+ * Consumes #522+#523. Does not redo them. Does not implement #526–#529.
  * Paper / synthetic fixtures only. Planner remains sole eligibility owner.
  * No network in plan reads / no new planner / no authority reorder /
  * no founder-question-count change / no auto-approval / no inferred preferences.
@@ -31,7 +31,7 @@ export const EVIDENCE_GAP_RANKING_NO_AUTO_APPROVAL = true as const;
 export const EVIDENCE_GAP_RANKING_NO_INFERRED_PREFERENCES = true as const;
 export const EVIDENCE_GAP_RANKING_INFO_VALUE_IS_HEURISTIC = true as const;
 export const EVIDENCE_GAP_RANKING_NO_524_IMPL = false as const;
-export const EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE = "#525" as const;
+export const EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE = "#526" as const;
 
 export const EVIDENCE_GAP_RANKING_AC = [
   {

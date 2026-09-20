@@ -127,8 +127,8 @@ export function register(harness: Harness): void {
     assert(EVIDENCE_GAP_RANKING_STAMP === "0.221.45" && SERVICE_STAMP === "0.221.45" && EVIDENCE_GAP_RANKING_RECIPE_STAMP === "0.221.45", "stamp");
     assert(EVIDENCE_GAP_RANKING_NO_524_IMPL === false && SERVICE_NO_524 === false && EVIDENCE_GAP_RANKING_RECIPE_NO_524_IMPL === false, "NO_524 cleared");
     assert(
-      EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE === "#525" && SERVICE_NEXT_AFTER === "#525" && EVIDENCE_GAP_RANKING_RECIPE_NEXT_AFTER_CLOSE === "#525",
-      "NEXT_AFTER=#525",
+      EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE === "#526" && SERVICE_NEXT_AFTER === "#526" && EVIDENCE_GAP_RANKING_RECIPE_NEXT_AFTER_CLOSE === "#526",
+      "NEXT_AFTER=#526",
     );
     assert(JSON.stringify([...EVIDENCE_GAP_RANKING_CONSUMES]) === JSON.stringify(["#522", "#523"]), "map consumes");
     assert(JSON.stringify([...SERVICE_CONSUMES]) === JSON.stringify(["#522", "#523"]), "service consumes");
