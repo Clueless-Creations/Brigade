@@ -2,7 +2,7 @@
  * #521 SQ-09 — AC→evidence map for context-bound knowledge applicability +
  * competing graph-path retention.
  *
- * Consumes #518–#520. Does not redo them. NEXT_AFTER=#524 via #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. Does not implement #526–#529.
+ * Consumes #518–#520. Does not redo them. NEXT_AFTER=#524 via #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. Does not implement #527–#529.
  * Paper / synthetic fixtures only. No network-in-knowledge-reads / no new
  * registry / no founder decision logic / no least-bad endorsement.
  * Coordinates closed #75. Path scores = ranking heuristics only.
@@ -30,7 +30,7 @@ export const KNOWLEDGE_APPLICABILITY_NO_FOUNDER_LOGIC = true as const;
 export const KNOWLEDGE_APPLICABILITY_NO_LEAST_BAD_ENDORSEMENT = true as const;
 export const KNOWLEDGE_APPLICABILITY_PATH_SCORES_ARE_HEURISTICS = true as const;
 export const KNOWLEDGE_APPLICABILITY_COORDINATES_75 = true as const;
-export const KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE = "#526" as const;
+export const KNOWLEDGE_APPLICABILITY_NEXT_AFTER_CLOSE = "#527" as const;
 
 export const KNOWLEDGE_APPLICABILITY_AC = [
   {
