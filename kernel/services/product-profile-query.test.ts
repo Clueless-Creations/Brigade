@@ -1,0 +1,12 @@
+import assert from "node:assert/strict";
+import { cpSync, mkdtempSync, rmSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { refreshIntendedProductProfile } from "./intended-product-profile.js";
+import { queryProductProfile } from "./product-profile-query.js";
+const fixture=path.resolve("examples/tuck");
+const withWorkspace=(run:(root:string)=>void)=>{const root=mkdtempSync(path.join(os.tmpdir(),"pp-query-"));try{cpSync(fixture,root,{recursive:true});refreshIntendedProductProfile(root,"2026-09-20T22:00:00Z");run(root)}finally{rmSync(root,{recursive:true,force:true})}};
+test("bounded query returns profile revision without raw evidence",()=>withWorkspace(root=>{const result=queryProductProfile(root,{maxRecords:6,maxChars:4000});assert.equal(result.selector,"intended");assert.ok(result.profile.revision.startsWith("sha256:"));assert.ok(result.records.length<=6);assert.deepEqual(result.evidence,[])}));
+test("same bounded query is deterministic",()=>withWorkspace(root=>{const a=queryProductProfile(root,{maxRecords:5,maxChars:4000});const b=queryProductProfile(root,{maxRecords:5,maxChars:4000});assert.deepEqual(a,b)}));
+test("unavailable observed and delta selectors fail closed without inference",()=>withWorkspace(root=>{assert.throws(()=>queryProductProfile(root,{selector:"observed"}),/selector_unavailable:observed/);assert.throws(()=>queryProductProfile(root,{selector:"delta"}),/selector_unavailable:delta/)}));

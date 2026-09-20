@@ -84,6 +84,10 @@ export const COMMANDS = new Map([
     { script: "kernel/services/intended-product-profile.ts", summary: "refresh intended Product Profile from accepted authored truth: b2c profile-refresh --workspace <path> [--json]" },
   ],
   [
+    "profile-query",
+    { script: "kernel/services/product-profile-query.ts", summary: "read a bounded Product Profile context projection: b2c profile-query --workspace <path> [--id <stable-id>] [--query <text>]" },
+  ],
+  [
     "bootstrap",
     {
       script: "kernel/session/bootstrap.ts",
@@ -160,7 +164,7 @@ export const HELP_SECTIONS = [
         label: "Business lifecycle (normal supported path)",
         commands: ["business-create", "business-initialize", "business-plan", "business-run", "business-status", "business-recover"],
       },
-      { label: "Research and operations", commands: ["research-lookup", "research-record", "research-decision", "operate", "market-report", "render-product", "profile-refresh"] },
+      { label: "Research and operations", commands: ["research-lookup", "research-record", "research-decision", "operate", "market-report", "render-product", "profile-refresh", "profile-query"] },
       {
         label: "Advanced session controls (supported; not aliases of business-* commands)",
         commands: ["new", "bootstrap", "status", "plan", "run", "schedule"],
