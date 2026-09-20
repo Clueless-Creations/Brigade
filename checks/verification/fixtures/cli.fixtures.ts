@@ -79,7 +79,7 @@ export function register(harness: Harness): void {
       manifest.bin?.["b2c-app-builder"] === "entrypoints/mcp/b2c-app-builder-mcp.mjs",
       "package.json bin.b2c-app-builder must alias the MCP launcher so npx -y b2c-app-builder starts the server",
     );
-    assert(PORTABLE_MCP_COMMAND === "npx -y b2c-app-builder", "portable MCP registration must be the package-name npx form");
+    assert(PORTABLE_MCP_COMMAND === "npx -y @cluelesscreations/brigade", "portable MCP registration must use the canonical scoped package (ADR-0018)");
   });
 
   harness.check("cli: --help lists every command and exits 0; no arguments exits 1", () => {
@@ -564,6 +564,16 @@ export function register(harness: Harness): void {
     assert(doctor.output.includes("doctor.eas_cli"), `doctor must report a doctor.eas_cli* finding: ${doctor.output.slice(-400)}`);
     assert(doctor.output.includes("doctor.expo_cli"), `doctor must report a doctor.expo_cli* finding: ${doctor.output.slice(-400)}`);
     assert(!doctor.output.includes("ERROR"), `a healthy repo checkout must produce no doctor errors: ${doctor.output.slice(-400)}`);
+    assert(doctor.output.includes("Connection receipt:"), `doctor must print a compact connection receipt: ${doctor.output.slice(-400)}`);
+    assert(
+      doctor.output.includes('"mode":"local_execution"') || doctor.output.includes('"mode": "local_execution"'),
+      `doctor receipt must declare local_execution: ${doctor.output.slice(-600)}`,
+    );
+    assert(
+      doctor.output.includes('"providerObservation":"not_tested"') || doctor.output.includes('"providerObservation": "not_tested"'),
+      `doctor receipt must not claim provider readiness: ${doctor.output.slice(-600)}`,
+    );
+    assert(doctor.output.includes("b2c-local"), `doctor receipt guidance must name b2c-local: ${doctor.output.slice(-400)}`);
   });
 
   harness.check("cli: inspect matches doctor findings and exit status without becoming workspace inspection", () => {
@@ -576,6 +586,7 @@ export function register(harness: Harness): void {
     assert(JSON.stringify(codes(inspect.output)) === JSON.stringify(codes(doctor.output)), "inspect and doctor must report the same finding codes");
     assert(inspect.output.includes("doctor.node"), "inspect must run the installation diagnostic, not workspace inspection");
     assert(!inspect.output.includes("productKind"), "inspect must not route to kernel/session/inspect.ts");
+    assert(inspect.output.includes("Connection receipt:"), `inspect must print the same compact connection receipt: ${inspect.output.slice(-400)}`);
   });
 
   harness.check("cli: setup creates the b2c home and registry, idempotently", () => {

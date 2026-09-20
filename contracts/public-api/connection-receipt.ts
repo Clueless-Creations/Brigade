@@ -169,6 +169,20 @@ export function formatConnectionReceipt(receipt: ConnectionReceipt): string {
   return `Connection receipt: ${JSON.stringify(receipt)}`;
 }
 
+/** Local install receipt for setup/doctor/inspect. Declares local support; observes worker-runtime health only. */
+export function localInstallConnectionReceipt(input: { engineVersion: string; workerRuntimeFound: boolean }): ConnectionReceipt {
+  return connectionReceipt({
+    mode: "local_execution",
+    engineVersion: input.engineVersion,
+    observed: observedLocalWorkspaceHealth({ workerRuntimeFound: input.workerRuntimeFound }),
+  });
+}
+
+/** Compact capability lines for existing setup/doctor/inspect surfaces. */
+export function localInstallConnectionLines(receipt: ConnectionReceipt): readonly string[] {
+  return [connectionCapabilityGuidance(receipt), formatConnectionReceipt(receipt)];
+}
+
 export function parseConnectionReceipt(text: string): ConnectionReceipt {
   const marker = "Connection receipt: ";
   const start = text.indexOf(marker);
@@ -376,6 +390,7 @@ export function leftoverNameMigrationGuidance(): string {
     "The leftover name is not a capability. The handshake receipt decides local execution versus hosted knowledge.",
     `Rename a leftover local entry to ${LOCAL_CLIENT_NAME}, or a leftover hosted entry to ${HOSTED_CLIENT_NAME}, only when you choose to.`,
     `Fresh local setup uses ${LOCAL_CLIENT_NAME}. Hosted snippets use ${HOSTED_CLIENT_NAME}.`,
+    "Portable MCP registration uses npx -y @cluelesscreations/brigade under that local name. The leftover client name b2c-app-builder is not the npm package identity.",
     bothConfiguredRoutingGuidance(),
     "Do not register hosted knowledge under the leftover name.",
   ].join("\n");
