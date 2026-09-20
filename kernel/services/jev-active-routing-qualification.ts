@@ -22,7 +22,7 @@
  *
  * Jev is neither the authority owner nor the source of product truth. Nothing
  * here admits a decision family for execution, implements #573's active loop,
- * rewrites #524's ranking, or closes #511.
+ * rewrites #524's ranking, or epic 511 remains open.
  *
  * Paper / synthetic. No network. Consumes #513+#514+#515+#518+#523+#524.
  * NO_571_IMPL cleared by #571.
@@ -120,12 +120,12 @@ export const JEV_ROUTING_PROVIDER_IS_SWAPPABLE = true as const;
 export const JEV_ROUTING_NO_DETERMINISTIC_THROUGH_MODEL = true as const;
 export const JEV_ROUTING_NO_FRONTIER_REINTERPRET_WRAPPER = true as const;
 export const JEV_ROUTING_NO_524_REWRITE = true as const;
-export const JEV_ROUTING_NO_573_IMPL = true as const;
+export const JEV_ROUTING_NO_573_IMPL = false as const;
 export const JEV_ROUTING_NO_511_AUTOCLOSE = true as const;
 export const JEV_ROUTING_CONFIDENCE_IS_NOT_CALIBRATION = true as const;
 export const JEV_ROUTING_STRICT_SHAPE_IS_NOT_TRUTH = true as const;
 export const JEV_ROUTING_NO_571_IMPL = false as const;
-export const JEV_ROUTING_NEXT_AFTER_CLOSE = "#573" as const;
+export const JEV_ROUTING_NEXT_AFTER_CLOSE = "#574" as const;
 
 export { JEV_ROUTING_QUALIFICATION_LIMITATIONS, JEV_ROUTING_QUALIFICATION_POLICY };
 export type { JevDecisionFamily, JevFanoutLimits, JevRoutingQualificationPolicy, RoutableBuildAction, RoutingCaseKind, RoutingOutcome };

@@ -11,7 +11,7 @@
  * no network, no cache refresh. Stale or missing → deterministic fallback or
  * explicit unresolved — never invented certainty.
  *
- * Paper / synthetic. Consumes #522+#523. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
+ * Paper / synthetic. Consumes #522+#523. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. #573 landed. epic 511 remains open. Does not implement #574 architecture as product code.
  */
 import {
   EVIDENCE_GAP_ACTION_CLASS_MAP,
@@ -40,7 +40,7 @@ export const EVIDENCE_GAP_RANKING_NO_AUTO_APPROVAL = true as const;
 export const EVIDENCE_GAP_RANKING_NO_INFERRED_PREFERENCES = true as const;
 export const EVIDENCE_GAP_RANKING_INFO_VALUE_IS_HEURISTIC = true as const;
 export const EVIDENCE_GAP_RANKING_NO_524_IMPL = false as const;
-export const EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE = "#573" as const;
+export const EVIDENCE_GAP_RANKING_NEXT_AFTER_CLOSE = "#574" as const;
 
 export class EvidenceGapRankingError extends Error {
   readonly code: string;

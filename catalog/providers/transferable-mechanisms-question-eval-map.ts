@@ -3,7 +3,7 @@
  * question evaluation.
  *
  * Consumes #514+#519+#521+#520+#522+#523. Coordinates #75/#74 (consume; do not
- * replace). Does not redo #512–#527. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
+ * replace). Does not redo #512–#527. NO_529_IMPL cleared by #529. #571 landed. #573 landed. epic 511 remains open. Does not implement #574 architecture as product code.
  * Paper / synthetic fixtures only. No cross-workspace customer pool / no new
  * experiment owner / no autonomous policy mutation / no causal growth promises /
  * no portfolio ranking from incomparable data / no shared visual template /
@@ -42,7 +42,7 @@ export const TRANSFERABLE_MECHANISMS_ANALOGY_IS_NOT_IDENTITY = true as const;
 export const TRANSFERABLE_MECHANISMS_ASSOCIATION_IS_NOT_CAUSAL = true as const;
 export const TRANSFERABLE_MECHANISMS_SESSIONS_ARE_NOT_PRODUCTS = true as const;
 export const TRANSFERABLE_MECHANISMS_NO_528_IMPL = false as const;
-export const TRANSFERABLE_MECHANISMS_NEXT_AFTER_CLOSE = "#573" as const;
+export const TRANSFERABLE_MECHANISMS_NEXT_AFTER_CLOSE = "#574" as const;
 
 export const TRANSFERABLE_MECHANISMS_AC = [
   {
