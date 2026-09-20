@@ -31,7 +31,12 @@ jobs:
           npm run render:evidence-schema-version
           npm run hosted:bundle
       - name: Test intended profile
-        run: node --import tsx --test kernel/services/intended-product-profile.test.ts
+        run: node --import tsx --test kernel/services/intended-product-profile.test.ts 2>&1 | tee /tmp/profile-test.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: profile-test-log
+          path: /tmp/profile-test.log
       - name: Test v1 contract
         run: node --test docs/contracts/product-profile/contract.test.mjs
       - name: Validate generated intended profile
