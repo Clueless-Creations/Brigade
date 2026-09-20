@@ -220,8 +220,8 @@ export function register(harness: Harness): void {
     assert(INFERENCE_RECEIPTS_LIVE_NOT_PERFORMED === true, "live not performed");
     assert(INFERENCE_RECEIPTS_IOS_SIM_OOS === true, "iOS-sim OOS");
     assert(INFERENCE_RECEIPTS_HOSTED_KEY_OWNER.includes("Eduardo"), "hosted key");
-    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#523", "next #523");
-    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#523", "store next");
+    assert(INFERENCE_RECEIPTS_NEXT_AFTER_CLOSE === "#524", "next #524");
+    assert(INFERENCE_RECEIPT_STORE_NEXT_AFTER_CLOSE === "#524", "store next");
     assert(INFERENCE_RECEIPTS_BASE_MAIN_SHA.startsWith("4a32176"), "base sha");
     assert(INFERENCE_RECEIPTS_MAP_PATH.includes("inference-receipts-map"), "map path");
     assert(INFERENCE_RECEIPTS_FIXTURE.includes("inference-receipts.fixtures"), "fixture path");
