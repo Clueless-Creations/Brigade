@@ -15,7 +15,7 @@ jobs:
         with: { node-version-file: .node-version, cache: npm }
       - run: |
           git fetch origin main
-          test "$(git rev-parse HEAD^)" = "$(git rev-parse origin/main)"
+          git merge-base --is-ancestor origin/main HEAD
           npm ci
       - name: Bump next patch and regenerate
         run: |
