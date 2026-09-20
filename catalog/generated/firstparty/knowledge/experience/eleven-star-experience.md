@@ -1,5 +1,7 @@
 # 11-Star Experience
 
+**Applicability:** The formal 11-star exploration and `11_STAR_EXPERIENCE.md` / visual board remain on their existing reference and workflow for **new-product or major-experience** work. They are **not** a prerequisite for a narrow bug fix, screenshot review, research comparison, or support response. The standing quality principle still applies implicitly through ordinary guidance. Do not enforce quality by searching for the phrase "11-star". `product.yaml` / `PRODUCT.md` / `DESIGN.md` ownership stands; do not instruct workers to write reducer-owned state outside supported operations.
+
 Use this after research and before product/design/build contracts harden. The goal is to force the product team to design the extreme experience first, then choose the smallest scalable slice that still carries the magic.
 
 This reference is based on Brian Chesky's 11-star framework as summarized by Reid Hoffman: design the unreasonable end-to-end experience, then work backward to the feasible version worth building. Source: `https://reid.medium.com/how-to-scale-a-magical-experience-4-lessons-from-airbnbs-brian-chesky-eca0a182f3e3`.
@@ -79,18 +81,18 @@ For each star level include:
 
 Every important product and launch surface must carry the same experience thesis.
 
-| Surface               | 11-star question                                                                                | Output                                                                                               |
-| --------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Product core loop     | What is the end-to-end result the user would retell?                                            | `PRODUCT.md`, `state/LAUNCH_TRACE.md`, `engineering/TECH_SPEC.md`                                    |
-| Onboarding            | What makes the user feel understood before payment or setup completes?                          | `product/ONBOARDING.md`, `product/onboarding.html`, analytics events                                 |
-| Paywall               | What makes purchase feel like unlocking momentum rather than hitting a toll booth?              | `revenue/REVENUE_OPS.md`, paywall copy, restore/legal state                                          |
-| Paid UA               | What tiny paid creative can truthfully preview the product experience and be measured against revenue?    | `PAID_UA.md`, `CONTENT_ASSETS.md`, `analytics/ANALYTICS.md`, `revenue/REVENUE_OPS.md`                |
-| Viral growth loop     | What product moment makes sharing, referral, or social participation feel natural?              | `VIRAL_GROWTH.md`, `analytics/ANALYTICS.md`, `state/LAUNCH_TRACE.md`                                 |
-| App Store screenshots | What visual proof shows the magic in three frames?                                              | `APP_STORE_LISTING.md`, `SCREENSHOTS.md`, `CONTENT_ASSETS.md`                                        |
-| Ad or creator hook    | What tiny version of the product experience can the ad itself deliver?                          | `growth/UGC_PLAYBOOK.md`, `growth/FASTLANE_OPS.md`, content scripts                                  |
-| Landing page          | What is the one scene that makes the visitor understand the promise instantly?                  | landing page, GEO/SEO, analytics                                                                     |
-| Lifecycle email       | What message would feel like the product remembered the user's goal?                            | `growth/EMAIL_OPS.md`, Resend templates                                                              |
-| Support               | What recovery path would make a frustrated user trust the product more?                         | support docs, customer-success prompts                                                               |
+| Surface               | 11-star question                                                                                                   | Output                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| Product core loop     | What is the end-to-end result the user would retell?                                                               | `PRODUCT.md`, `state/LAUNCH_TRACE.md`, `engineering/TECH_SPEC.md`                                    |
+| Onboarding            | What makes the user feel understood before payment or setup completes?                                             | `product/ONBOARDING.md`, `product/onboarding.html`, analytics events                                 |
+| Paywall               | What makes purchase feel like unlocking momentum rather than hitting a toll booth?                                 | `revenue/REVENUE_OPS.md`, paywall copy, restore/legal state                                          |
+| Paid UA               | What tiny paid creative can truthfully preview the product experience and be measured against revenue?             | `PAID_UA.md`, `CONTENT_ASSETS.md`, `analytics/ANALYTICS.md`, `revenue/REVENUE_OPS.md`                |
+| Viral growth loop     | What product moment makes sharing, referral, or social participation feel natural?                                 | `VIRAL_GROWTH.md`, `analytics/ANALYTICS.md`, `state/LAUNCH_TRACE.md`                                 |
+| App Store screenshots | What visual proof shows the magic in three frames?                                                                 | `APP_STORE_LISTING.md`, `SCREENSHOTS.md`, `CONTENT_ASSETS.md`                                        |
+| Ad or creator hook    | What tiny version of the product experience can the ad itself deliver?                                             | `growth/UGC_PLAYBOOK.md`, `growth/FASTLANE_OPS.md`, content scripts                                  |
+| Landing page          | What is the one scene that makes the visitor understand the promise instantly?                                     | landing page, GEO/SEO, analytics                                                                     |
+| Lifecycle email       | What message would feel like the product remembered the user's goal?                                               | `growth/EMAIL_OPS.md`, Resend templates                                                              |
+| Support               | What recovery path would make a frustrated user trust the product more?                                            | support docs, customer-success prompts                                                               |
 | Engineering           | What state, data, API, permission, analytics, or fixture is required to make the accepted product experience real? | `engineering/TECH_SPEC.md`, `engineering/ENGINEERING_PLAN.md`, `engineering/PRODUCTION_READINESS.md` |
 
 If a surface is not in scope, mark it `not needed` with a reason. Do not leave it blank.
@@ -168,7 +170,7 @@ If `strategy/BRAND.md` or `design.md` does not exist yet, flag that attestation 
 
 ## Gates Before Build
 
-Do not move to engineering handoff until:
+For **new-product or major-experience** work that selected this formal exploration, do not move to engineering handoff until:
 
 - `11_STAR_EXPERIENCE.md` exists.
 - the 1, 2, 5, 6, 7, 10, and 11-star ladder exists.
@@ -189,6 +191,6 @@ Do not move to engineering handoff until:
 - The engineering plan implements screens but not the state/data/API behavior needed for the magical moment.
 - The 11-star board is prose-only and cannot be inspected visually.
 - The line of feasibility is vague, so agents keep overbuilding or underbuilding.
-- The founder asks for an "11-star run" and the agent loads this reference but proceeds directly to code audits or implementation without writing `11_STAR_EXPERIENCE.md` and `11-star-experience.html` first. The artifact is required before any downstream work, not after.
+- The founder asks for an "11-star run" on new-product or major-experience work and the agent loads this reference but proceeds directly to code audits or implementation without writing `11_STAR_EXPERIENCE.md` and `11-star-experience.html` first. For that selected formal exploration, the artifact is required before downstream major-experience work — not after. Narrow fixes still do not inherit this gate.
 - UX audit findings are produced as narrative prose with no star-ladder level mapping. Findings that cannot be mapped to a star level cannot be integrated into the experience contract.
 - Copy outputs include no brand-voice attestation. Copy changes produced without verifying `strategy/BRAND.md` and `design.md` hard rules drift from the experience voice immediately.
