@@ -1,6 +1,10 @@
 # Consumer Quality Lens
 
-Use this reference when a Design Room mutation needs taste, consumer-grade judgment, or inspiration. This is a lens applied to state, not a mandatory output template.
+Use this reference when accepted product/design work needs taste, consumer-grade judgment, or inspiration. This is a standing quality principle applied to the accepted surfaces — not a mandatory output template, universal ladder, numeric taste score, or extra skill gate.
+
+**Ownership (narrow):** `product.yaml` remains accepted product truth, `PRODUCT.md` is rendered, and `DESIGN.md` remains accepted design truth. Reducer/business-state changes only through supported operations — do not treat this lens as permission to write reducer state by hand. The Design Room is a generated read-only review surface over `DESIGN.md`, not a parallel mutable authority.
+
+**Standing quality principle:** Deliver the user's intended outcome with specific, coherent, trustworthy behavior. Apply that bar to the current task's scope (including relevant visual, copy, accessibility, and recovery details) without expanding accepted product scope or requiring a formal 11-star exercise for every narrow fix, screenshot review, research comparison, or support response.
 
 ## What Good Means
 
@@ -16,14 +20,14 @@ The quality bar covers the complete accepted product: whether its design makes t
 
 ## 11-Star Lens
 
-Apply the 11-star material from [`eleven-star-experience.md`](../experience/eleven-star-experience.md) as a filter over state:
+Apply the 11-star material from [`eleven-star-experience.md`](../experience/eleven-star-experience.md) as a filter over accepted product and design decisions:
 
 - Which modeled surface proves the product's most valuable moment clearly?
 - Which ambitious idea improves that experience, and what implementation would make it real?
 - Does every required journey meet the accepted benchmark bar, including recovery and supporting business surfaces?
 - Which screenshot, onboarding step, or landing promise would a real user retell?
 
-Do not produce a 20-section ladder every time. Use the ladder to mutate the state where it matters.
+Do not produce a 20-section ladder every time. Use the ladder to improve the accepted product and design surfaces where it matters; keep formal exploration on its existing workflow for new-product or major-experience work.
 
 For a complete-business mandate, do not lower the craft bar to an unfinished first release. Use [consumer-craft-benchmarks.md](consumer-craft-benchmarks.md) to select transferable reference principles. Freeze the criteria before production, then use [design-acceptance.md](design-acceptance.md) to check current native and landing evidence. Internal critique and repair continue under the same mandate.
 
@@ -38,16 +42,16 @@ After that evidence pass, use these additional routes when they apply:
 - Taste-style review for visual distinctiveness and category fit
 - Layers-style product clarity before surface polish
 - Impeccable-style visual QA for typography, spacing, contrast, motion, responsive behavior, and UX writing
-- `ui-ux-pro-max` skill for senior-grade UI direction, palette/typography pairings, and motion/anti-pattern checklists when web-surface or design-system direction needs a stronger start (reference-only; adapt, do not copy its data). Capture the adapted result in `state.designBrief` via `npm run seed:design-brief` so the theme stops being provisional.
+- `ui-ux-pro-max` skill for senior-grade UI direction, palette/typography pairings, and motion/anti-pattern checklists when web-surface or design-system direction needs a stronger start (reference-only; adapt, do not copy its data). Capture the adapted result in accepted `DESIGN.md` (and only then any supported seed helper); do not treat a provisional `state.designBrief` scaffold as accepted design truth or as a reducer write shortcut.
 - `motion-craft-benchmarks.md` for named, numeric in-app motion recipes after the 60fps.design evidence lane identifies the relevant mechanic
 - Higgsfield for production-quality visuals when the founder approves paid/account-gated generation
 - Remotion for repeatable local rendered assets from real UI, captions, and tokens
 
-The result should be a state mutation: token, surface, claim, flow, screenshot, App Store page, or asset route.
+The result should be an accepted design/product change: token, surface, claim, flow, screenshot, App Store page, or asset route — recorded through DESIGN.md / product.yaml and supported operations.
 
 ## Anti-Generic Checks
 
-Before a design state mutation is accepted:
+Before an accepted design change is recorded:
 
 - the page or screen uses the business's actual nouns and verbs
 - the palette supports semantic roles; a single hue is valid when sufficient
@@ -58,21 +62,21 @@ Before a design state mutation is accepted:
 - edge states are represented when they affect conversion or trust
 - material decisions distinguish audience evidence, creative hypotheses, legibility, and platform constraints; the reviewer judges their effect on the user job. [`audience-derived-identity.md`](./audience-derived-identity.md) carries the tells table, the derivation chain, and the logo-swap test.
 
-If the mutation cannot pass these checks, keep the state in `draft` or `blocked`.
+If the change cannot pass these checks, keep the candidate in draft or blocked — do not mark accepted delivery.
 
 ## Defect diagnosis
 
 Review the actual candidate against its accepted communication priorities and constraints. A hash proves identity; a validator proves only the facts it checks. Neither proves comprehension or quality.
 
-| Defect class | Distinguishing observation | Repair owner and smallest useful action |
-| --- | --- | --- |
-| Brief | The intended audience, first message, or next action is contradictory or unsupported | Product/design producer resolves the communication priority before restyling |
-| Concept | The organizing idea conveys the wrong meaning or requires an irrelevant puzzle | Design producer revisits the concept; polishing spacing cannot fix the premise |
-| Composition | Correct content is grouped incorrectly, focal points compete, or responsive stacking changes the message | Design producer changes grouping, hierarchy, rhythm, scale, or layers |
-| Identity drift | A derivative changes the accepted logo, font, palette role, motif, or repeated control without an allowed variation | Asset or interface producer restores the invariant or requests an explicit contract revision |
-| Typography | Actual font fails to load, glyphs fall back unexpectedly, role metrics collapse, or representative text clips | Interface/asset producer fixes the resource, role, fallback, or layout and re-renders |
-| Implementation | Navigation, state recovery, keyboard order, reduced motion, or the selected renderer differs from the accepted contract | Implementation producer repairs behavior and supplies current runtime evidence |
-| Claim | Copy or imagery asserts an unverified result, certification, testimonial, price, or implemented feature | Owning producer substantiates the claim from the approved source or removes it |
+| Defect class   | Distinguishing observation                                                                                              | Repair owner and smallest useful action                                                      |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Brief          | The intended audience, first message, or next action is contradictory or unsupported                                    | Product/design producer resolves the communication priority before restyling                 |
+| Concept        | The organizing idea conveys the wrong meaning or requires an irrelevant puzzle                                          | Design producer revisits the concept; polishing spacing cannot fix the premise               |
+| Composition    | Correct content is grouped incorrectly, focal points compete, or responsive stacking changes the message                | Design producer changes grouping, hierarchy, rhythm, scale, or layers                        |
+| Identity drift | A derivative changes the accepted logo, font, palette role, motif, or repeated control without an allowed variation     | Asset or interface producer restores the invariant or requests an explicit contract revision |
+| Typography     | Actual font fails to load, glyphs fall back unexpectedly, role metrics collapse, or representative text clips           | Interface/asset producer fixes the resource, role, fallback, or layout and re-renders        |
+| Implementation | Navigation, state recovery, keyboard order, reduced motion, or the selected renderer differs from the accepted contract | Implementation producer repairs behavior and supplies current runtime evidence               |
+| Claim          | Copy or imagery asserts an unverified result, certification, testimonial, price, or implemented feature                 | Owning producer substantiates the claim from the approved source or removes it               |
 
 For each material finding name the surface/state, evidence, expected behavior, observed difference, consequence, severity, owner, and repair test. A high-impact concept failure can require new exploration. A local implementation defect usually preserves the accepted direction. Keep judgments and measurements separate; do not describe a predicted emotional response as observed.
 
@@ -91,9 +95,9 @@ For a bounded correction to an already accepted legacy design, the Design Room o
 Use this compact review prompt for a Design Room pass:
 
 ```text
-Review studio/seed/business.json and DESIGN.md through the consumer quality lens.
+Review the accepted product surfaces and DESIGN.md through the consumer quality lens.
 Name the one strongest inconsistency across app, landing, store, and marketing surfaces.
-Propose one state mutation, not a new document.
+Propose one concrete design/product repair bound to DESIGN.md (or product.yaml when product truth), not a parallel document and not a hand-written reducer write.
 Then apply design-worthiness.md. Do not invent a beauty score.
 Escalate taste to the founder with the two taste-gate questions.
 Then validate and render. Use Git history for revisions.
