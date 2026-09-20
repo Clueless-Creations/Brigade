@@ -145,11 +145,13 @@ product schema. The standalone Dissector describes the reference without
 performing downstream target adaptation. #562-#570 own that work.
 
 Keep existing public passive operations inference-free. Active sessions may
-refresh decisions at meaningful checkpoints under scoped authority. Route
-implementation through #524, qualification through #571 and integrated proof
-through #523. Propagate supported behavior through canonical catalog, skill and
-workspace-template owners, with #386 packaging and #392 fresh-agent evaluation.
-This refinement defines no new public command and enables no live provider.
+refresh decisions at meaningful checkpoints under scoped authority. Preserve
+#524's bounded ranking handoff; #573 owns the follow-on active checkpoint/dispatch
+integration. #571 owns Jev qualification. Reuse #523 / PR #572 safety and staged
+admission rather than recreating it. Propagate supported behavior through
+canonical catalog, skill and workspace-template owners, using #386 packaging
+and #392 fresh-agent evaluation. This refinement defines no new public command
+and enables no live provider.
 
 ## Compatibility and migration
 
