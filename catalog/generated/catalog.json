@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.62",
+  "skillVersion": "0.221.63",
   "areas": [
     {
       "id": "area.operating-system",
@@ -1777,6 +1777,7 @@
       "title": "Design",
       "referenceIds": [
         "reference.design.audience-derived-identity",
+        "reference.design.brand-system-skill-onboard",
         "reference.design.design-evidence-stack",
         "reference.design.design-room",
         "reference.design.design-visual-system",
@@ -1866,6 +1867,7 @@
       "id": "context.growth",
       "title": "Growth",
       "referenceIds": [
+        "reference.design.brand-system-skill-onboard",
         "reference.growth.appsflyer-mmp",
         "reference.growth.cro-landing",
         "reference.growth.geo-seo",
@@ -2366,6 +2368,71 @@
       }
     },
     {
+      "id": "reference.design.brand-system-skill-onboard",
+      "path": "knowledge/design/brand-system-skill-onboard.md",
+      "domainId": "domain.design",
+      "title": "Brand System Skill Onboard",
+      "loadWhen": "onboarding Amir Mushich brand-system-skill (or motion-brief for video), mapping DEEP PRODUCT DESIGN art-direction research to Brand Skill execution, or wiring UGC Ops / Studio / Fastlane desks so brand guide + Brand Lock exist before credit-burning generation",
+      "lifecycle": "active",
+      "applicabilityNotes": "Does not replace DEEP PRODUCT DESIGN. Upstream Skill install is opt-in; adapted Brand Lock procedure is the default process before credit-burning brand-bound gens. Human approval required before gen credits. Selective harvest only — no bulk kit install.",
+      "sources": [
+        {
+          "id": "amir-brand-system-builder",
+          "name": "Amir Mushich brand-system-skill",
+          "sourceType": "github",
+          "url": "https://github.com/amirmushichge/brand-system-skill",
+          "reviewCadenceDays": 30,
+          "claimScope": "Onboard path and Brand Lock process adaptation under CC BY 4.0; no case-study metrics claimed.",
+          "lastReviewDate": "2026-09-20",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Amir Mushich",
+          "revision": "30f6084ddf6adf4173cf882fce266015f8872c17",
+          "rights": {
+            "status": "verified",
+            "spdx": "CC-BY-4.0",
+            "evidence": "https://github.com/amirmushichge/brand-system-skill/blob/30f6084ddf6adf4173cf882fce266015f8872c17/LICENSE",
+            "evidenceSha256": "f5b745ef98087f531e719ee8ca6a96809444573ecc7173c6fa68eaad39b3cc3f",
+            "notes": "Selected method adaptation and onboard documentation only; third-party assets excluded."
+          },
+          "selectors": [
+            "SKILL.md",
+            "README.md",
+            "LICENSE"
+          ],
+          "upstreamId": "amir-brand-system"
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "amir-brand-system-builder"
+          ],
+          "relationship": "adapted",
+          "baseline": "30f6084ddf6adf4173cf882fce266015f8872c17",
+          "selectors": [
+            "SKILL.md",
+            "README.md",
+            "LICENSE"
+          ],
+          "rationale": "Onboard path, DEEP PRODUCT DESIGN boundary, desk gates, and opt-in decision reauthored for Brigade.",
+          "omissions": [
+            "No Lovart requirement or vendored executable Skill.",
+            "No upstream case studies, benchmarks, or commercial metrics claimed as ours.",
+            "No bulk install of unrelated creative kits."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-09-20",
+          "notice": "catalog/upstreams/notices/amir-brand-system.txt"
+        }
+      ],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/design/brand-system-skill-onboard.md",
+        "sha256": "sha256:8f193d797ecbacfb9691bc7b2550a2e28c5bc061cf35ca0aa41b9f42e6e44137",
+        "origin": "skill"
+      }
+    },
+    {
       "id": "reference.design.consumer-craft-benchmarks",
       "path": "knowledge/design/consumer-craft-benchmarks.md",
       "domainId": "domain.design",
@@ -2633,13 +2700,13 @@
       "title": "Design Room",
       "loadWhen": "planning or reviewing B2C screens and flows; changing the design system; routing store, landing, onboarding, paywall, or marketing-surface work; whenever a design output would otherwise become a second source of truth",
       "lifecycle": "active",
-      "applicabilityNotes": "See surfaces-b2c.md for App Store surface schemas and quality-lens.md for the taste filter applied during a mutation.",
+      "applicabilityNotes": "See surfaces-b2c.md for App Store surface schemas and quality-lens.md for the taste filter applied during a mutation. DEEP PRODUCT DESIGN (this loop) precedes Brand Skill execution — see brand-system-skill-onboard.md.",
       "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
       "sources": [],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/design-room.md",
-        "sha256": "sha256:9f1b1bec0df8146ae1bf4a59e61d66651d94eb47501ab5b8811aeb996e2cea2b",
+        "sha256": "sha256:ffa5499a1f9bc91c3f170ca6e2a632f60af47b6cc27ab50bcc253c535229db6b",
         "origin": "skill"
       }
     },
@@ -2892,7 +2959,7 @@
       ],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/design-visual-system.md",
-        "sha256": "sha256:7fbf482c8951354346b6b2352e16921453d33c9bf9f2f2f8bdd35447f9305639",
+        "sha256": "sha256:1a66f24a3394045e56a20b072dadffb115487a1e6a5df78edb0879b55432cf56",
         "origin": "skill"
       }
     },
@@ -3519,7 +3586,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/remotion-content-assets.md",
-        "sha256": "sha256:85bb3c771e06b56bf7baab1c6476de2f9d0415df4acfe14663afcbe466d4e9de",
+        "sha256": "sha256:7b6e2e37e2c587f9546233e09587a767366033f99f38888afade0fc1fd4b10eb",
         "origin": "skill"
       }
     },
@@ -4095,7 +4162,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/external-skill-packs.md",
-        "sha256": "sha256:6246b7c129c521c88867f32c3f1a326898116258405341d9db5833174658de2a",
+        "sha256": "sha256:7e25234185dcd544f7371f66d91b1a1d408ac006a6111ca33bf53167e0aadfc2",
         "origin": "skill"
       }
     },
@@ -5404,7 +5471,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/fastlane-growth-ops.md",
-        "sha256": "sha256:56a7f331fc8548f7b92957aa84fdd0c0fe6b679da38ad0b84d81537fc9b37646",
+        "sha256": "sha256:ddc400e5707700fd3f9a83b45a190149c0d8e21b2ccdefd9959f6a1aba6be508",
         "origin": "skill"
       }
     },
@@ -5625,7 +5692,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/ugc-creator-engine.md",
-        "sha256": "sha256:76d6b146205d0fc2b0e5c89839c6b199c643977f285e38c94783668a61f7235f",
+        "sha256": "sha256:d0ead25abc522c83fb37acdcb78474ec0cc37ea330b4c26571238c6561796d61",
         "origin": "skill"
       }
     },
@@ -7708,7 +7775,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/tool-recipes/visual-and-motion-production.md",
-        "sha256": "sha256:af67a9fdba6ec1c11053ffef9bdcf460a6ba551a98bf49ddce268b118db35bcb",
+        "sha256": "sha256:8edb9a73f46d1c197b1218262a6fb6e8c8c03bf4ea0c8311883fe7cddf4255d1",
         "origin": "skill"
       }
     },
@@ -11835,6 +11902,7 @@
       "consults": [],
       "referenceIds": [
         "reference.design.audience-derived-identity",
+        "reference.design.brand-system-skill-onboard",
         "reference.design.design-evidence-stack",
         "reference.design.design-visual-system"
       ],
@@ -11947,6 +12015,7 @@
       ],
       "referenceIds": [
         "reference.design.audience-derived-identity",
+        "reference.design.brand-system-skill-onboard",
         "reference.design.design-evidence-stack",
         "reference.design.design-room",
         "reference.design.design-visual-system",
@@ -12017,6 +12086,7 @@
       "consults": [],
       "referenceIds": [
         "reference.design.audience-derived-identity",
+        "reference.design.brand-system-skill-onboard",
         "reference.design.consumer-craft-benchmarks",
         "reference.design.design-acceptance",
         "reference.design.design-evidence-stack",
@@ -13506,6 +13576,7 @@
       ],
       "consults": [],
       "referenceIds": [
+        "reference.design.brand-system-skill-onboard",
         "reference.design.design-evidence-stack",
         "reference.design.design-visual-system",
         "reference.design.remotion-content-assets",
@@ -15729,6 +15800,7 @@
       ],
       "consults": [],
       "referenceIds": [
+        "reference.design.brand-system-skill-onboard",
         "reference.growth.influencer-sponsorship-engine",
         "reference.growth.ugc-creator-engine",
         "reference.growth.viral-growth-loops",
@@ -15782,6 +15854,7 @@
       ],
       "consults": [],
       "referenceIds": [
+        "reference.design.brand-system-skill-onboard",
         "reference.growth.fastlane-growth-ops",
         "reference.growth.ugc-creator-engine",
         "reference.growth.viral-growth-loops",
@@ -18901,14 +18974,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "91076248ffdf2791a5453abb1ee6c5c38c602f587ff76b191ea450baa9bcb8ec",
+    "fingerprint": "64aabb20b4d459dcb753e71e80ef874aa061fb8142b89ff81dedf014b935487e",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.62",
-        "revision": "0.221.62",
-        "contentDigest": "5f8c72a022d7633c5e1b4a5d1ba64d8388138447c62e0aea3d237eae809e4462"
+        "version": "0.221.63",
+        "revision": "0.221.63",
+        "contentDigest": "95df337c7254d4ee41d1c6f7c59f180d4302e6a99ece31d14a0b8732b5c9dcd4"
       }
     ],
     "base": {
@@ -18920,7 +18993,7 @@
       "business-pack.consumer-business": {
         "domains": 15,
         "workflows": 115,
-        "references": 146
+        "references": 147
       }
     }
   }

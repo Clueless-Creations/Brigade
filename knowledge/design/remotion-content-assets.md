@@ -86,7 +86,7 @@ The procedure adapts [Amir Mushich's Brand System Builder](https://github.com/am
 ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)) to the selected
 provider. Optional [Motion Brief](https://github.com/amirmushichge/motion-brief)
 guidance can structure a video brief; it does not choose the provider or grant
-spending authority.
+spending authority. Full onboard path and desk gates: [`brand-system-skill-onboard.md`](./brand-system-skill-onboard.md).
 
 Record a generation brief in the existing `growth/content-assets/CONTENT_ASSETS.md`
 asset entry before calling a model. Include the purpose and placement, output

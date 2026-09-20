@@ -27,6 +27,7 @@ relationships:
   local_owners:
   - knowledge/design/design-visual-system.md
   - knowledge/design/remotion-content-assets.md
+  - knowledge/design/brand-system-skill-onboard.md
   tests:
   - examples/contributions/bespoke-design-methods/ADOPTION_MAP.md
   upstream_paths:
@@ -57,6 +58,7 @@ support:
     title: Provider-neutral brand kit and reference roles
     owners:
     - knowledge/design/design-visual-system.md
+    - knowledge/design/brand-system-skill-onboard.md
   platforms: []
 adaptations:
 - id: conditional-provider-neutral-method

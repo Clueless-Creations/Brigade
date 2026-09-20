@@ -46,6 +46,7 @@ Cost-Tier Discipline: by default, use the quality-first model for each task (mat
 
 Rules:
 
+- Before any credit-burning still or video call, complete the Brand Lock gate in [`brand-system-skill-onboard.md`](../../design/brand-system-skill-onboard.md) (DEEP PRODUCT DESIGN accepted, Anchor Brand Kit, Generation Plan with human approval). Do not treat one-shot prompts as a substitute for that process.
 - Put `DESIGN.md` constraints into the generation brief: palette, typography mood, shapes, texture, motion energy, banned aesthetics, and intended surface.
 - All generated assets must be embedded or referenced in HTML proofs: `design/design-room.html`, `product/onboarding.html`, screenshot HTML, landing HTML, or ad-preview HTML.
 - Label assets as `direction`, `draft`, or `production`.

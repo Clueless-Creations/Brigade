@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640" role="img" aria-label="Fixture reference — warm geometric mark">
+  <rect width="640" height="640" fill="#1A1410"/>
+  <circle cx="320" cy="300" r="140" fill="#E8A87C"/>
+  <rect x="200" y="420" width="240" height="48" rx="8" fill="#F2E8DF"/>
+  <text x="320" y="452" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#1A1410">REFERENCE</text>
+</svg>
