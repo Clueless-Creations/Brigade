@@ -6,7 +6,7 @@
  * does not change eligibility, send founder questions, accept evidence, or
  * dispatch repairs. Passive planner may read stored results only.
  *
- * Paper / synthetic. No network. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
+ * Paper / synthetic. No network. NO_523_IMPL cleared by #523. NO_524_IMPL cleared by #524. NO_525_IMPL cleared by #525. NO_526_IMPL cleared by #526. NO_527_IMPL cleared by #527. NO_528_IMPL cleared by #528. NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
  */
 import { digestOf } from "../../contracts/semantic/canonicalize.js";
 import type {
@@ -29,7 +29,7 @@ export const WORK_PROPOSAL_SHADOW_EPIC = "#511" as const;
 export const WORK_PROPOSAL_SHADOW_STAMP = "0.221.43" as const;
 export const WORK_PROPOSAL_SHADOW_NO_NETWORK = true as const;
 export const WORK_PROPOSAL_SHADOW_SHADOW_ONLY = true as const;
-export const WORK_PROPOSAL_SHADOW_NEXT_AFTER_CLOSE = "#511" as const;
+export const WORK_PROPOSAL_SHADOW_NEXT_AFTER_CLOSE = "#573" as const;
 
 export type ShadowProposalKind = "retrieval" | "observation" | "review" | "repair";
 

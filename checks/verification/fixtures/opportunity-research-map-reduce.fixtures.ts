@@ -86,8 +86,8 @@ export function register(harness: Harness): void {
     assert(OPPORTUNITY_RESEARCH_STAMP === "0.221.48" && SERVICE_STAMP === "0.221.48" && OPPORTUNITY_RESEARCH_RECIPE_STAMP === "0.221.48", "stamp");
     assert(OPPORTUNITY_RESEARCH_NO_527_IMPL === false && SERVICE_NO_527 === false && OPPORTUNITY_RESEARCH_RECIPE_NO_527_IMPL === false, "NO_527 cleared");
     assert(
-      OPPORTUNITY_RESEARCH_NEXT_AFTER_CLOSE === "#511" && SERVICE_NEXT_AFTER === "#511" && OPPORTUNITY_RESEARCH_RECIPE_NEXT_AFTER_CLOSE === "#511",
-      "NEXT_AFTER=#511",
+      OPPORTUNITY_RESEARCH_NEXT_AFTER_CLOSE === "#573" && SERVICE_NEXT_AFTER === "#573" && OPPORTUNITY_RESEARCH_RECIPE_NEXT_AFTER_CLOSE === "#573",
+      "NEXT_AFTER=#573",
     );
     assert(JSON.stringify([...OPPORTUNITY_RESEARCH_CONSUMES]) === JSON.stringify(["#514", "#518", "#519", "#521", "#520", "#523"]), "map consumes");
     assert(JSON.stringify([...SERVICE_CONSUMES]) === JSON.stringify(["#514", "#518", "#519", "#521", "#520", "#523"]), "service consumes");

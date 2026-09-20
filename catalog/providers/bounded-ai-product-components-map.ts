@@ -3,7 +3,7 @@
  * tested fallback behavior.
  *
  * Consumes #512+#515+#516+#518+#520+#523. Does not redo #512–#528.
- * Does not implement #511 closeout or #573.
+ * #571 landed. Does not implement #511 closeout or #573.
  * Paper / synthetic fixtures only. Not a chatbot. No unconstrained tool
  * execution. No model-emitted code or privileged tool call. No runtime-generated
  * UI. No client-side credential. No on-device TypeSafe claim. No distillation.
@@ -44,7 +44,7 @@ export const BOUNDED_AI_COMPONENTS_CONFIDENCE_IS_NOT_AUTHORIZATION = true as con
 export const BOUNDED_AI_COMPONENTS_AMBIGUITY_IS_NOT_A_FACT = true as const;
 export const BOUNDED_AI_COMPONENTS_OUTAGE_STAYS_USEFUL = true as const;
 export const BOUNDED_AI_COMPONENTS_NO_529_IMPL = false as const;
-export const BOUNDED_AI_COMPONENTS_NEXT_AFTER_CLOSE = "#511" as const;
+export const BOUNDED_AI_COMPONENTS_NEXT_AFTER_CLOSE = "#573" as const;
 
 export const BOUNDED_AI_COMPONENTS_AC = [
   {

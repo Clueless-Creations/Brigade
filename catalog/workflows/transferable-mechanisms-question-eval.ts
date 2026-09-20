@@ -9,7 +9,7 @@
  * (consume; do not replace). Paper / synthetic. No network.
  *
  * Consumes #514+#519+#521+#520+#522+#523. Does not redo #512–#527.
- * NO_529_IMPL cleared by #529. Does not implement #511 closeout or #573.
+ * NO_529_IMPL cleared by #529. #571 landed. Does not implement #511 closeout or #573.
  */
 export const TRANSFERABLE_MECHANISMS_RECIPE_ISSUE = "#528" as const;
 export const TRANSFERABLE_MECHANISMS_RECIPE_EPIC = "#511" as const;
@@ -31,7 +31,7 @@ export const TRANSFERABLE_MECHANISMS_RECIPE_ANALOGY_IS_NOT_IDENTITY = true as co
 export const TRANSFERABLE_MECHANISMS_RECIPE_ASSOCIATION_IS_NOT_CAUSAL = true as const;
 export const TRANSFERABLE_MECHANISMS_RECIPE_SESSIONS_ARE_NOT_PRODUCTS = true as const;
 export const TRANSFERABLE_MECHANISMS_RECIPE_NO_528_IMPL = false as const;
-export const TRANSFERABLE_MECHANISMS_RECIPE_NEXT_AFTER_CLOSE = "#511" as const;
+export const TRANSFERABLE_MECHANISMS_RECIPE_NEXT_AFTER_CLOSE = "#573" as const;
 
 /** Existing owners this slice composes over (consume — do not replace). */
 export const TRANSFERABLE_MECHANISMS_OWNER_MODULES = [
