@@ -14,12 +14,15 @@ Success is an evidence-backed closed build loop, not merely a router returning v
 
 The inspected baseline is `8870d87bd79de4699dc271eafa7418c6175a639e`. Refresh main, issue discussion, active PRs and tests before implementation. Source presence and prior paper/fixture merges do not establish integrated or live execution.
 
+Coordination refresh: main subsequently reached `94334f9cabcaff98309fb80f893e58aa8f344f71` through #523 / PR #572, adding paper safety/rollout work. #524 has an active bounded ranking handoff. Preserve that assignment. [#573](https://github.com/Clueless-Creations/Brigade/issues/573) owns the subsequent active checkpoint and dispatch integration, consuming #524 rather than expanding its in-flight scope. This is a follow-on unit under #511, not a second execution program.
+
 | Work | Existing issue owner | Required integration |
 | --- | --- | --- |
 | Semantic architecture and program | [#511](https://github.com/Clueless-Creations/Brigade/issues/511) | Extend ADR-0016 and existing SQ work; do not create a Jev framework alongside it |
 | Provider qualification, adapter and actual Jev behavior | [#571](https://github.com/Clueless-Creations/Brigade/issues/571), reusing #513-#515 | Distinguish model, gateway/endpoint, API/SDK contract, binding and current proof |
-| Active next-work and within-task routing | [#524](https://github.com/Clueless-Creations/Brigade/issues/524) | Extend current frontier, briefs and session/executor checkpoints; not a second planner |
-| Integrated safety and staged autonomy | [#523](https://github.com/Clueless-Creations/Brigade/issues/523) | End-to-end evidence before enabling a decision family |
+| Eligible next-work ranking | [#524](https://github.com/Clueless-Creations/Brigade/issues/524) | Preserve its bounded current handoff and consume its result |
+| Active build-level and within-task routing | [#573](https://github.com/Clueless-Creations/Brigade/issues/573) | Extend current frontier, briefs and session/executor checkpoints; not a second planner |
+| Safety and staged autonomy | [#523](https://github.com/Clueless-Creations/Brigade/issues/523), consumed by #573 | Reuse landed safety machinery; end-to-end evidence still precedes live enablement |
 | Product Profile contract and views | [#562](https://github.com/Clueless-Creations/Brigade/issues/562), #563-#569 | One base schema; intended/observed views and reference specialization |
 | Reference composition | [#570](https://github.com/Clueless-Creations/Brigade/issues/570), coordinated with #528 | Preserve source profiles and accepted target-product authority |
 | Change impact, design, research and product-runtime consumers | #525-#529 | Reuse decision contracts and provider bindings without making every consumer a prerequisite |
@@ -30,7 +33,7 @@ The inspected baseline is `8870d87bd79de4699dc271eafa7418c6175a639e`. Refresh ma
 
 ### 1. Freeze a small decision contract and prove offline control flow
 
-Within #524 and the existing semantic contract owner, define only the request/result additions needed for one complete routing slice. Consume `contracts/semantic/`, the existing source projection, compiler, batch and receipt seams.
+Within #573, consume #524 and the existing semantic contract owner. Define only the request/result additions needed for one complete routing slice. Reuse `contracts/semantic/`, the existing source projection, compiler, batch and receipt seams.
 
 Start with current eligible work plus a bounded observation. Include explicit no-fit, insufficient-information and generation/escalation routes. Use a frozen candidate set and tests to prove that one input selects inspection, another selects local repair, and a third requests independent verification. Preserve material revisions, candidate omissions, binding identity and effect class.
 
@@ -46,7 +49,7 @@ Offline implementation and profile schema work can proceed without live credenti
 
 ### 3. Close the active build loop
 
-#524 implements meaningful checkpoints: new accepted input, completed bounded work, new observation, test failure, context gap, or stale decision. Active refresh runs under an admitted session; passive plan and status remain inference-free.
+#573 implements meaningful checkpoints: new accepted input, completed bounded work, new observation, test failure, context gap, or stale decision. Active refresh runs under an admitted session; passive plan and status remain inference-free.
 
 Policy selects one or several compatible actions from current eligible routes. Support within-task observe/repair/review continuation without launching the entire headless runner inside an interactive agent. Reconcile uncertain effects before retry. Retain candidates and alternatives so a mistaken omission can be diagnosed.
 
@@ -77,11 +80,11 @@ Root `AGENTS.md`, the conformance assignment template and `CONTRIBUTING.md` gove
 
 Keep host adapters thin. A focused code fix or a deterministic check does not need the whole architecture, a workspace initializer or a paid model call. A workspace pinned before this feature remains unchanged until explicit composition migration.
 
-#386 owns package/discovery proof; #392 owns fresh-agent behavioral evidence. Issue IDs are coordination pointers, not a replacement for published supported instructions. Packaged-source changes require the existing version and generation gates.
+#573 owns propagation for the new active loop, using #386's package/discovery proof and #392's fresh-agent evaluation mechanisms. These follow-on scenarios do not expand unrelated in-flight skill migration scope. Issue IDs are coordination pointers, not a replacement for published supported instructions. Packaged-source changes require the existing version and generation gates.
 
 ### 6. Promote by decision family and outcome evidence
 
-#523 owns integrated staging: offline conformance, authorized live shadow, advisory use, then active use for named qualified families. Record exit criteria and rollback per stage. Active build routing need not wait for research, generated-app AI or every future profile consumer.
+#573 reuses #523's staged admission: offline conformance, authorized live shadow, advisory use, then active use for named qualified families. Record exit criteria and rollback per stage. Active build routing need not wait for research, generated-app AI or every future profile consumer.
 
 After the first accepted slice, exercise a structurally different app and a new problem context. Expand through #525-#529 only where the evidence supports it. Human-reserved decisions, source-proof obligations and independent design review remain unchanged.
 
