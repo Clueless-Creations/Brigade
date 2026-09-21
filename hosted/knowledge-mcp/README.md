@@ -278,7 +278,7 @@ or disable the Worker route for an authorization failure. For a code regression,
 previous verified Worker version and preserve current D1 credential revocations. Recheck secret
 bindings after rollback; an old code version is not authority to restore an old credential.
 
-## Hosted scope
+## Product Profile boundary\n\nThe hosted knowledge Worker has no per-business Product Profile owner today. It therefore does not pretend that a workspace profile exists and does not infer one from the knowledge bundle. `product-profile-boundary.ts` pins the future read contract and an explicit `profile_source_unavailable` result. Local managed Brigade already owns bounded profile query/status/delta. A future hosted business-profile owner can implement this read contract without giving the knowledge Worker filesystem, execution, reducer-write, or hidden semantic-inference authority.\n\n## Hosted scope
 
 This Worker serves the versioned Brigade knowledge bundle to authorized agents through
 HTTP and MCP. It returns catalog and reference content. It does not expose local workspace

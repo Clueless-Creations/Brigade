@@ -1,0 +1,5 @@
+import { z } from "zod";
+export const hostedProfileReadInputSchema=z.object({workspaceId:z.string().min(1).max(128),selector:z.enum(["intended","observed","delta"]).default("intended"),query:z.string().max(200).optional(),ids:z.array(z.string().max(200)).max(20).optional(),includeEvidence:z.boolean().default(false),maxRecords:z.number().int().min(1).max(100).default(24)}).strict();
+export type HostedProfileReadInput=z.infer<typeof hostedProfileReadInputSchema>;
+export interface HostedProfileReader{read(input:HostedProfileReadInput):unknown}
+export function hostedProfileUnavailable(input:unknown){const parsed=hostedProfileReadInputSchema.parse(input);return{schemaVersion:1,kind:"product_profile",scope:"hosted_profile_read",workspaceId:parsed.workspaceId,selector:parsed.selector,available:false,error:{code:"profile_source_unavailable",message:"This hosted knowledge connection has no authorized per-business Product Profile source. Use the local managed runtime, or connect a future hosted business-profile owner. No profile data or observation was inferred."}} as const}
