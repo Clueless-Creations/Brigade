@@ -278,7 +278,7 @@ test("leftover-name client matrix covers Claude, Cursor, and Codex without silen
     assert(packageGuide.includes("A local receipt reports worker-runtime health separately"), "package guide omitted worker-runtime health");
     assert(hostedReadme.includes("A missing local worker CLI is local execution health"), "hosted README omitted worker-runtime health");
     const rootSkill = readFileSync(path.join(root, "SKILL.md"), "utf8");
-    const setupPath = "agents/skills/b2c-app-builder/references/setup.md";
+    const setupPath = "agents/skills/brigade/references/setup.md";
     assert(rootSkill.includes(`](${setupPath})`), "root skill omitted its conditional connection procedure");
     const skill = readFileSync(path.join(root, setupPath), "utf8");
     assert(skill.includes("When both are configured, select by that capability"), "skill omitted both-configured selection");
