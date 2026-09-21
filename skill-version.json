@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.72",
+  "version": "0.221.73",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Public legibility refresh (#607): clarify Brigade as context + operating layer, make Product Profile first-class in usage/status, and fix repository clone path. Stamp 0.221.73. No npm publish.",
     "Reference-profile composition (#570): deterministic adopt/adapt/reject/unresolved proposal contract with source profile/record and target-constraint traceability; proposals have no write authority over product/design truth. Stamp 0.221.72. No npm publish.",
     "Reference Product Profile interop (#569): validate observed-reference imports against canonical product-profile/v1, preserve profile/product revision identity, and keep imports read-only relative to managed intent. Stamp 0.221.71. No npm publish.",
     "Product Profile lifecycle (#568): passive freshness/status projection for intended profile and explicit refresh/query next action; no second orchestrator or inference. Stamp 0.221.70. No npm publish.",
