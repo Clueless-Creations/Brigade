@@ -8,7 +8,7 @@
  * the one import line their own module needed — see the "M5", "M6", and "Self-serve Checkout"
  * markers below for exactly where a future change to any of the three should land.
  *
- * This Worker is deliberately separate from b2c-app-builder-mcp. That Worker is an OAuth
+ * This Worker is deliberately separate from brigade-mcp. That Worker is an OAuth
  * authorization server whose trust model is an enumerated route allowlist plus an origin pin;
  * signup and billing do not share its blast radius.
  */
