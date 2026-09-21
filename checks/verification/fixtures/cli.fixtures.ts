@@ -68,15 +68,15 @@ export function register(harness: Harness): void {
   });
 
   harness.check("cli: the package-name bin aliases the MCP launcher", () => {
-    const mcpBin = path.join(skillRoot, "entrypoints", "mcp", "b2c-app-builder-mcp.mjs");
-    assert(existsSync(mcpBin), `entrypoints/mcp/b2c-app-builder-mcp.mjs is missing at ${mcpBin}`);
+    const mcpBin = path.join(skillRoot, "entrypoints", "mcp", "brigade-mcp.mjs");
+    assert(existsSync(mcpBin), `entrypoints/mcp/brigade-mcp.mjs is missing at ${mcpBin}`);
     const manifest = JSON.parse(readFileSync(path.join(skillRoot, "package.json"), "utf8")) as { bin?: Record<string, string> };
     assert(
-      manifest.bin?.["b2c-app-builder-mcp"] === "entrypoints/mcp/b2c-app-builder-mcp.mjs",
-      "package.json bin.b2c-app-builder-mcp must point at entrypoints/mcp/b2c-app-builder-mcp.mjs",
+      manifest.bin?.["brigade-mcp"] === "entrypoints/mcp/brigade-mcp.mjs",
+      "package.json bin.brigade-mcp must point at entrypoints/mcp/brigade-mcp.mjs",
     );
     assert(
-      manifest.bin?.["b2c-app-builder"] === "entrypoints/mcp/b2c-app-builder-mcp.mjs",
+      manifest.bin?.["b2c-app-builder"] === "entrypoints/mcp/brigade-mcp.mjs",
       "package.json bin.b2c-app-builder must alias the MCP launcher so npx -y b2c-app-builder starts the server",
     );
     assert(PORTABLE_MCP_COMMAND === "npx -y @cluelesscreations/brigade", "portable MCP registration must use the canonical scoped package (ADR-0018)");
@@ -605,7 +605,7 @@ export function register(harness: Harness): void {
       !/first call is almost always b2c_catalog|first call is almost always b2c_knowledge_search/.test(first.output),
       "setup still tells Claude the first call is catalog/search",
     );
-    assert(first.output.includes("b2c-app-builder-mcp.mjs"), "setup must print the MCP registration command with the real server path");
+    assert(first.output.includes("brigade-mcp.mjs"), "setup must print the MCP registration command with the real server path");
     // The three agent runtimes the engine dispatches are the three the machine owner will want
     // the MCP server registered with — setup prints each runtime's own config shape.
     for (const runtime of ["claude mcp add", "~/.cursor/mcp.json", "~/.codex/config.toml"]) {
