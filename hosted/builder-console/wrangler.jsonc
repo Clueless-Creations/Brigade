@@ -1,6 +1,6 @@
 {
   // App Worker — Google sign-in, console, API key management, Stripe webhooks, and the
-  // first-party PostHog relay. Separate from b2c-app-builder-mcp on purpose: that Worker is an
+  // first-party PostHog relay. Separate from brigade-mcp on purpose: that Worker is an
   // OAuth authorization server whose trust model is an enumerated route allowlist, and signup
   // and billing have no business sharing its blast radius.
   "$schema": "./node_modules/wrangler/config-schema.json",
