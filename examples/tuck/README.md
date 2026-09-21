@@ -30,6 +30,21 @@ records the original filenames, dimensions, and SHA-256 hashes. No source
 fingerprint was retained for these captures, so they do not certify the current
 build or satisfy the independent design acceptance gate.
 
+## Product Profile walkthrough
+
+Tuck is also the smallest end-to-end example of Brigade's product-context loop. The important distinction is between **accepted intent** and **demonstrated behavior**.
+
+1. `product.yaml` and `DESIGN.md` remain the accepted product/design owners.
+2. Generate the intended projection with `b2c profile-refresh --workspace examples/tuck --json`.
+3. Query only the context needed for a task with `b2c profile-query --workspace examples/tuck --query "<question>"`. The query returns a bounded, revision-bound projection rather than loading every source document.
+4. Runtime evidence can be projected into an observed Product Profile only when evidence has actually been supplied. The screenshots above are historical captures with the limitations stated in their manifest; this walkthrough does **not** promote them into current-build proof.
+5. An intended/observed delta is deterministic evidence for review. Missing observation stays unresolved rather than becoming a fabricated failure.
+6. If a review accepts a product or design change, write that decision back to the existing canonical owner and refresh the intended profile. The profile never becomes a second requirements store.
+
+Reference products use the same `product-profile/v1` core in `observed-reference` mode. Reference composition is proposal-only: a candidate mechanic can be marked adopt, adapt, reject, or unresolved with source-profile IDs and target constraints, but it cannot write Tuck's product truth. This keeps “learn from another product” separate from “copy another product.”
+
+The Product Profile contract and synthetic conformance fixtures live under [`contracts/product-profile/`](../../contracts/product-profile/) and [`docs/contracts/product-profile/`](../../docs/contracts/product-profile/).
+
 ## Explore the implementation
 
 - [Product contract](product.yaml) and [rendered product scope](PRODUCT.md): the promise, journeys, and accepted requirements.
