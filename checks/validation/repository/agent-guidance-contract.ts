@@ -40,7 +40,7 @@ export function checkWritingReviewSurfaces(read: ReadGuidance): GuidanceFinding[
 
 const ROOT = "AGENTS.md";
 const SKILL = "SKILL.md";
-const SETUP = "agents/skills/b2c-app-builder/references/setup.md";
+const SETUP = "agents/skills/brigade/references/setup.md";
 
 /** Each entry protects an obligation, not a prose-length target. */
 export const STANDING_RULES: ReadonlyArray<{ id: string; terms: readonly string[] }> = [
