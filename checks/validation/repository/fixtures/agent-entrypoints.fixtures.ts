@@ -12,7 +12,7 @@ import {
 
 const SCRIPT = "check-agent-entrypoints";
 const TEMPLATE = "surfaces/workspace-template/repo-agent-entrypoints";
-const SETUP = "agents/skills/b2c-app-builder/references/setup.md";
+const SETUP = "agents/skills/brigade/references/setup.md";
 const SHIPPED = [
   "AGENTS.md",
   "SKILL.md",
@@ -23,7 +23,7 @@ const SHIPPED = [
   SETUP,
   ".github/PULL_REQUEST_TEMPLATE.md",
   "knowledge/words/no-slop-writing.md",
-  "agents/skills/b2c-app-builder/references/business-lifecycle.md",
+  "agents/skills/brigade/references/business-lifecycle.md",
   `${TEMPLATE}/AGENTS.md`,
   `${TEMPLATE}/CLAUDE.md`,
   `${TEMPLATE}/.cursor/rules/agents.mdc`,
