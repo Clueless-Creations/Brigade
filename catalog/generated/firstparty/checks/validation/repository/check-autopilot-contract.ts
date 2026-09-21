@@ -214,7 +214,7 @@ if (existsSync(skillPath) && existsSync(evalPath)) {
     // package-local files can satisfy these checks; missing guidance stays an error.
     for (const reference of asArray(evals.reference_contracts)) {
       const relative = isRecord(reference) ? asString(reference.path) : undefined;
-      if (!relative || !/^agents\/skills\/b2c-app-builder\/references\/[a-z0-9-]+\.md$/u.test(relative)) {
+      if (!relative || !/^agents\/skills\/brigade\/references\/[a-z0-9-]+\.md$/u.test(relative)) {
         issues.push(issue("error", "autopilot.reference.invalid", "Reference contracts must name a local business procedure.", "SKILL.md"));
         continue;
       }

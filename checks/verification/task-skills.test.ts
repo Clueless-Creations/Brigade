@@ -224,7 +224,7 @@ void test("moving procedures preserves authority and fails on missing, unlinked,
   try {
     mkdirSync(path.dirname(path.join(temporary, fixture)), { recursive: true });
     cpSync(path.join(root, fixture), path.join(temporary, fixture));
-    cpSync(path.join(root, "agents/skills/b2c-app-builder/references"), path.join(temporary, "agents/skills/b2c-app-builder/references"), { recursive: true });
+    cpSync(path.join(root, "agents/skills/brigade/references"), path.join(temporary, "agents/skills/brigade/references"), { recursive: true });
     writeFileSync(path.join(temporary, "SKILL.md"), original);
     assert.equal(run().status, 0, "the complete linked contract must pass");
     const content = readFileSync(path.join(temporary, procedure), "utf8");

@@ -195,12 +195,7 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
   }
   if (bins["brigade-mcp"] !== "entrypoints/mcp/brigade-mcp.mjs") {
     issues.push(
-      issue(
-        "error",
-        "package_parity.mcp_bin_missing",
-        'package.json bin["brigade-mcp"] must point at entrypoints/mcp/brigade-mcp.mjs.',
-        "package.json",
-      ),
+      issue("error", "package_parity.mcp_bin_missing", 'package.json bin["brigade-mcp"] must point at entrypoints/mcp/brigade-mcp.mjs.', "package.json"),
     );
   }
 

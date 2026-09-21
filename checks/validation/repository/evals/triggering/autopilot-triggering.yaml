@@ -93,7 +93,7 @@ should_not_trigger:
   negative_terms:
   - B2B or internal tool
 reference_contracts:
-- path: agents/skills/b2c-app-builder/references/business-lifecycle.md
+- path: agents/skills/brigade/references/business-lifecycle.md
   required_terms:
   - Classify the start before catalog search
   - 'Existing app, focused change:'
@@ -122,18 +122,18 @@ reference_contracts:
   forbidden_terms:
   - bypass the reducer
   - ignore approval requirements
-- path: agents/skills/b2c-app-builder/references/setup.md
+- path: agents/skills/brigade/references/setup.md
   required_terms:
   - Keep the MCP read-only by default
   - Do not edit an agent configuration or install software unless the user requested setup
   - b2c inspect
   - Degraded execution still selects b2c-local
-- path: agents/skills/b2c-app-builder/references/composition.md
+- path: agents/skills/brigade/references/composition.md
   required_terms:
   - composition-activate
   - preview does not activate a workspace
   - local writes stay CLI-only
-- path: agents/skills/b2c-app-builder/references/mobile-operation.md
+- path: agents/skills/brigade/references/mobile-operation.md
   required_terms:
   - Honor explicit provider bindings
   - Never infer availability from the agent name

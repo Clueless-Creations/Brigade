@@ -167,7 +167,7 @@ export function register(h: Harness): void {
     path.join(autopilotStripped, "checks", "validation", "repository", "evals", "triggering", "autopilot-triggering.yaml"),
   );
   const shippedSkill = readFileSync(path.join(skillRoot, "SKILL.md"), "utf8");
-  const procedureDirectory = "agents/skills/b2c-app-builder/references";
+  const procedureDirectory = "agents/skills/brigade/references";
   cpSync(path.join(skillRoot, procedureDirectory), path.join(autopilotStripped, procedureDirectory), { recursive: true });
   writeFileSync(path.join(autopilotStripped, "SKILL.md"), shippedSkill, "utf8");
   runScriptArgs("autopilot root and linked procedures pass before mutation", "check-autopilot-contract.ts", ["--skill-root", autopilotStripped], 0);
