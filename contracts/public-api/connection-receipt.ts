@@ -387,7 +387,7 @@ export function leftoverNameMigrationGuidance(): string {
     `Claude leftover: ${leftoverNameClientMatrix[0].leftoverLocal}.`,
     `Cursor leftover: ${leftoverNameClientMatrix[1].leftoverLocal}.`,
     `Codex leftover: ${leftoverNameClientMatrix[2].leftoverLocal}.`,
-    "The leftover name is not a capability. The handshake receipt decides local execution versus hosted knowledge.",
+    "The leftover name is not a capability. The legacy local name remains only as a compatibility label. The handshake receipt decides local execution versus hosted knowledge.",
     `Rename a leftover local entry to ${LOCAL_CLIENT_NAME}, or a leftover hosted entry to ${HOSTED_CLIENT_NAME}, only when you choose to.`,
     `Fresh local setup uses ${LOCAL_CLIENT_NAME}. Hosted snippets use ${HOSTED_CLIENT_NAME}.`,
     "Portable MCP registration uses npx -y @cluelesscreations/brigade under that local name. The leftover client name b2c-app-builder is not the npm package identity.",
