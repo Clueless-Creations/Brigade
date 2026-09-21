@@ -116,8 +116,8 @@ test("After Credits start reaches status/plan without a maintainer tour or whole
     const agents = readFileSync(path.join(root, "AGENTS.md"), "utf8");
     const skill = readFileSync(path.join(root, "SKILL.md"), "utf8");
     const guide = readFileSync(path.join(root, "docs/guides/build-a-business.md"), "utf8");
-    const lifecyclePath = "agents/skills/b2c-app-builder/references/business-lifecycle.md";
-    const setupPath = "agents/skills/b2c-app-builder/references/setup.md";
+    const lifecyclePath = "agents/skills/brigade/references/business-lifecycle.md";
+    const setupPath = "agents/skills/brigade/references/setup.md";
     assert(skill.includes(`](${lifecyclePath})`), "root skill lost the managed lifecycle route");
     assert(skill.includes(`](${setupPath})`), "root skill lost the conditional setup route");
     const connect = readFileSync(path.join(root, setupPath), "utf8");
