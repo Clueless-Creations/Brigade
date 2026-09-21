@@ -9,7 +9,7 @@ function fixturePackage(h: Harness, name: string, dependency: boolean): string {
   const prefix = h.makeTempDir(name);
   const root = path.join(prefix, "node_modules", "b2c-app-builder");
   for (const dir of ["entrypoints/cli", "entrypoints/mcp", "tooling/lib"]) mkdirSync(path.join(root, dir), { recursive: true });
-  for (const file of ["entrypoints/cli/b2c.mjs", "entrypoints/cli/help.mjs", "entrypoints/mcp/b2c-app-builder-mcp.mjs", "tooling/lib/tsx-launcher.mjs"]) {
+  for (const file of ["entrypoints/cli/b2c.mjs", "entrypoints/cli/help.mjs", "entrypoints/mcp/brigade-mcp.mjs", "tooling/lib/tsx-launcher.mjs"]) {
     cpSync(path.join(skillRoot, file), path.join(root, file));
   }
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ name: "b2c-app-builder", type: "module" }));
@@ -51,7 +51,7 @@ export function register(h: Harness): void {
   h.check("runtime-launchers: MCP preserves stdio through the hoisted dependency with no global tsx", () => {
     const root = fixturePackage(h, "launcher-hoisted-mcp", true);
     writeFileSync(path.join(root, "entrypoints/mcp/server.ts"), "process.stdin.pipe(process.stdout);");
-    const result = spawnSync(process.execPath, [path.join(root, "entrypoints/mcp/b2c-app-builder-mcp.mjs")], {
+    const result = spawnSync(process.execPath, [path.join(root, "entrypoints/mcp/brigade-mcp.mjs")], {
       cwd: h.makeTempDir("launcher-mcp-cwd"),
       env: { ...process.env, PATH: "" },
       input: '{"probe":"stdio"}\n',
