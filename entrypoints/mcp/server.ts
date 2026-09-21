@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { resolveRuntimeNodeArgs } from "../../tooling/lib/tsx-launcher.mjs";
 /**
- * b2c-app-builder-mcp — the engine as a Model Context Protocol server (stdio).
+ * brigade-mcp — the engine as a Model Context Protocol server (stdio).
  *
  * Workspace tools exec the exact same CLI the packaged `b2c` bin dispatches to and the audit
  * proves (kernel/session/*.ts, adapters/install-schedule.ts): this server adds a typed,
@@ -29,7 +29,7 @@ import { resolveRuntimeNodeArgs } from "../../tooling/lib/tsx-launcher.mjs";
  * only through approve.ts, verification only under producer-never-verifies rules. The server
  * holds no state and grants no authority — it is a calling convention.
  *
- * Run: b2c-app-builder-mcp (stdio transport; register it as an MCP server pointing at this bin).
+ * Run: brigade-mcp (stdio transport; register it as an MCP server pointing at this bin).
  */
 import { registerPublicTools } from "./business.js";
 import { contributorToolsEnabled, registerContributorTools } from "./contribute.js";
@@ -128,7 +128,7 @@ try {
 } catch {
   // Do not expose bundle content, paths, or parser diagnostics in the warning.
   console.error(
-    "b2c-app-builder-mcp: Knowledge tools are unavailable. The local knowledge bundle could not be loaded or validated. Workspace tools remain available.",
+    "brigade-mcp: Knowledge tools are unavailable. The local knowledge bundle could not be loaded or validated. Workspace tools remain available.",
   );
 }
 
