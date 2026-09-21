@@ -138,7 +138,7 @@ checks source bytes, manifest bytes, active references, and engine version. Do n
 generated JSON. `wrangler types` owns `worker-configuration.d.ts`; hosted type checks verify
 its freshness. Regenerate it after a binding change with the hosted package's `types` script.
 
-The checked-in `OAUTH_KV` binding uses the dedicated `b2c-app-builder-mcp-oauth` namespace in the first-party
+The checked-in `OAUTH_KV` binding uses the dedicated `brigade-mcp-oauth` namespace in the first-party
 Cloudflare account. For another account, create a dedicated namespace and set
 its exact ID in `wrangler.jsonc`. Do not reuse another application's namespace.
 
@@ -211,7 +211,7 @@ capabilities.
 ## Analytics opt-out (operator action)
 
 `OAUTH_KV` (id `00000000000000000000000000000000`, see `wrangler.jsonc`) also holds the
-per-subject objection record for this Worker's own analytics, on the `b2c-app-builder-mcp`
+per-subject objection record for this Worker's own analytics, on the `brigade-mcp`
 deployment named there. `hosted/builder-console/analytics/capture.ts`'s `isAnalyticsSuppressed()` checks
 `analytics:optout:<subject>` before anything is captured or written, and it fails closed: an
 unreachable store is treated as an objection, not as consent to proceed.
