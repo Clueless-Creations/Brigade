@@ -345,8 +345,8 @@ export function register(h: Harness): void {
     assert(buildAt >= 0 && composeAt > buildAt, "skill teaches composition before the ordinary business path");
     assert(mobileAt > composeAt, "mobile capture precedes composition customization");
     assert(!/docs\/north-star-architecture|ARCH-\d+|docs\/architecture-conformance/.test(skill), "business skill requires maintainer architecture");
-    const setupPath = "agents/skills/b2c-app-builder/references/setup.md";
-    const lifecyclePath = "agents/skills/b2c-app-builder/references/business-lifecycle.md";
+    const setupPath = "agents/skills/brigade/references/setup.md";
+    const lifecyclePath = "agents/skills/brigade/references/business-lifecycle.md";
     assert(skill.includes(`](${setupPath})`) && skill.includes(`](${lifecyclePath})`), "skill lost a direct procedure route");
     const connect = readFileSync(path.join(skillRoot, setupPath), "utf8");
     assert(!/b2c_catalog|b2c_knowledge_search/.test(connect), "Connect still presents catalog/search as the start path");
