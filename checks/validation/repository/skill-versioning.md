@@ -23,7 +23,7 @@ explicit decision before continuing without verification.
 From the source repo:
 
 ```bash
-npm run check:skill-version -- --source . --installed ~/.codex/skills/b2c-app-builder
+npm run check:skill-version -- --source . --installed ~/.codex/skills/brigade
 npm run check:version-discipline -- --repo-root . --skill-root .
 ```
 
@@ -35,8 +35,8 @@ header. Do not put a token in the URL. Then run:
 
 ```bash
 npm run check:skill-version -- \
-  --installed ~/.codex/skills/b2c-app-builder \
-  --remote-url https://raw.githubusercontent.com/Clueless-Creations/b2c-app-builder/main/skill-version.json
+  --installed ~/.codex/skills/brigade \
+  --remote-url https://raw.githubusercontent.com/Clueless-Creations/Brigade/main/skill-version.json
 ```
 
 The reader refuses redirects and checks HTTP 200 before reading the body. A denied response
@@ -49,7 +49,7 @@ URLs and response text. An invalid remote manifest also fails verification.
 From the installed runtime:
 
 ```bash
-cd ~/.codex/skills/b2c-app-builder
+cd ~/.codex/skills/brigade
 # replace the --source path with your local clone of this repo
 npm run check:skill-version -- --source "$HOME/code/b2c-app-builder" --installed .
 ```
