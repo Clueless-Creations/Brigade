@@ -24,7 +24,8 @@ export const HOSTED_INSTRUCTIONS =
   "Find the workflow for the goal with b2c_catalog or b2c_knowledge_search, load it with b2c_workflow, " +
   "then expand its authored instructions through route.expand and retrieve the exact sections it names with b2c_knowledge_get. " +
   "A request that names two jobs usually spans two workflows: search for each part rather than trusting a single narrow result page. " +
-  "This knowledge connection does not currently own per-business Product Profiles; profile status/query/delta must come from the local managed runtime until an authorized hosted profile source is connected. " +\n  "These tools do not access local files, plan a workspace, approve actions, or execute applications. " +
+  "This knowledge connection does not currently own per-business Product Profiles; profile status/query/delta must come from the local managed runtime until an authorized hosted profile source is connected. " +
+  "These tools do not access local files, plan a workspace, approve actions, or execute applications. " +
   "They also observe nothing about this founder: whether a prerequisite workflow was ever run, whether an artifact exists, " +
   "and whether a provider account is connected are unknown here, not done and not undone. " +
   "Report such a prerequisite as unverified through this connection, and name where it can be checked.";

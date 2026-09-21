@@ -2,7 +2,7 @@
 
 Generated from active, bound knowledge source declarations and catalog/upstreams. This is a maintainer review queue, not a second registry. A cited repository may be an example, optional tool, adapted method or runtime dependency; the report does not infer adoption or permission from a URL. Only an explicit reviewed contribution changes support or acknowledgments.
 
-Scope: 39 referenced repositories, 93 source bindings, 65 bindings needing review or linkage.
+Scope: 40 referenced repositories, 96 source bindings, 68 bindings needing review or linkage.
 
 The scan excludes inactive/unbound knowledge, self-references, non-GitHub sources, undeclared prose URLs, package-manager dependencies and resources outside knowledge manifests. An empty queue is not proof that every dependency is tracked. Inspect those other surfaces during contribution review. Repository aliases are matched only when declared in an upstream manifest.
 
@@ -15,6 +15,9 @@ Use b2c contribute plan for an untracked source. For a maintained project, inspe
 | amirmushichge/motion-brief | `knowledge/design/remotion-content-assets.md` | amir-motion-brief | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
 | appllama/top-welcome-screens | `knowledge/design/motion-craft-benchmarks.md` | github-appllama-top-welcome-screens | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
 | appllama/top-welcome-screens | `knowledge/engineering/external-skill-packs.md` | github-appllama-top-welcome-screens | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
+| clueless-creations/b2c-app-builder | `knowledge/experience/emotional-design-system.md` | experience-card-deck | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
+| clueless-creations/b2c-app-builder | `knowledge/experience/experience-cards.md` | experience-card-deck | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
+| clueless-creations/b2c-app-builder | `knowledge/operations/paid-tool-routing.md` | experience-card-deck | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
 | coreyhaines31/marketingskills | `knowledge/engineering/external-skill-packs.md` | github-com-coreyhaines31-marketingskills | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
 | coreyhaines31/marketingskills | `knowledge/growth/cro-landing.md` | github-com-coreyhaines31-marketingskills | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |
 | coreyhaines31/marketingskills | `knowledge/words/conversion-copy.md` | github-com-coreyhaines31-marketingskills | none | untracked | Referenced repository has no maintained upstream identity. Review use and rights before adopting or crediting it. |

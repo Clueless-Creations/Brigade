@@ -1,6 +1,6 @@
 {
   "name": "@cluelesscreations/brigade",
-  "version": "0.221.66",
+  "version": "0.221.77",
   "description": "Brigade gives AI agents consumer-business primitives: capabilities, providers, recipes, and evidence through a CLI, MCP, and skill.",
   "keywords": [
     "mcp",
@@ -13,13 +13,13 @@
     "revenuecat",
     "posthog"
   ],
-  "homepage": "https://github.com/Clueless-Creations/b2c-app-builder#readme",
+  "homepage": "https://github.com/Clueless-Creations/Brigade#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Clueless-Creations/b2c-app-builder.git"
+    "url": "git+https://github.com/Clueless-Creations/Brigade.git"
   },
   "bugs": {
-    "url": "https://github.com/Clueless-Creations/b2c-app-builder/issues"
+    "url": "https://github.com/Clueless-Creations/Brigade/issues"
   },
   "author": "Clueless Creations",
   "license": "MIT",
@@ -29,10 +29,8 @@
   },
   "bin": {
     "b2c": "entrypoints/cli/b2c.mjs",
-    "brigade": "entrypoints/mcp/b2c-app-builder-mcp.mjs",
-    "brigade-mcp": "entrypoints/mcp/b2c-app-builder-mcp.mjs",
-    "b2c-app-builder-mcp": "entrypoints/mcp/b2c-app-builder-mcp.mjs",
-    "b2c-app-builder": "entrypoints/mcp/b2c-app-builder-mcp.mjs"
+    "brigade": "entrypoints/mcp/brigade-mcp.mjs",
+    "brigade-mcp": "entrypoints/mcp/brigade-mcp.mjs"
   },
   "files": [
     "SKILL.md",
@@ -67,7 +65,7 @@
     "!surfaces/studio/README.md",
     "examples/workspace",
     "examples/extensions",
-    "agents/skills/b2c-app-builder/references",
+    "agents/skills/brigade/references",
     "agents/skills/b2c-research-opportunity",
     "agents/skills/b2c-design-onboarding",
     "agents/skills/b2c-review-monetization"
