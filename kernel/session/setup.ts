@@ -59,7 +59,7 @@ function main(): number {
 
   const code = printFindings(runDoctor());
 
-  const mcpServer = path.join(skillRoot, "entrypoints", "mcp", "b2c-app-builder-mcp.mjs");
+  const mcpServer = path.join(skillRoot, "entrypoints", "mcp", "brigade-mcp.mjs");
   const cli = path.join(skillRoot, "entrypoints", "cli", "b2c.mjs");
   const node = process.execPath;
   let engineVersion = "0.0.0";
@@ -101,7 +101,7 @@ function main(): number {
         : [`Installed from npm: \`b2c\` is on PATH and the MCP server is ${mcpServer}`]),
       "",
       "Register the local MCP server as b2c-local. Hosted knowledge is a different connection (b2c-hosted).",
-      "A leftover b2c-app-builder registration is the legacy local name. Do not register hosted knowledge under that name.",
+      "",
       "",
       `  Claude Code:  claude mcp add --scope user b2c-local -- ${node} ${mcpServer}`,
       ...(fromCheckout
