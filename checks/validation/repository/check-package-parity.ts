@@ -183,22 +183,22 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
     }
   }
   const bins = runtimePkg.bin ?? {};
-  if (bins["b2c-app-builder"] !== "entrypoints/mcp/b2c-app-builder-mcp.mjs") {
+  if (bins["b2c-app-builder"] !== "entrypoints/mcp/brigade-mcp.mjs") {
     issues.push(
       issue(
         "error",
         "package_parity.mcp_package_bin_missing",
-        'package.json bin["b2c-app-builder"] must alias entrypoints/mcp/b2c-app-builder-mcp.mjs so `npx -y b2c-app-builder` starts the MCP server.',
+        'package.json bin["b2c-app-builder"] must alias entrypoints/mcp/brigade-mcp.mjs so `npx -y b2c-app-builder` starts the MCP server.',
         "package.json",
       ),
     );
   }
-  if (bins["b2c-app-builder-mcp"] !== "entrypoints/mcp/b2c-app-builder-mcp.mjs") {
+  if (bins["brigade-mcp"] !== "entrypoints/mcp/brigade-mcp.mjs") {
     issues.push(
       issue(
         "error",
         "package_parity.mcp_bin_missing",
-        'package.json bin["b2c-app-builder-mcp"] must point at entrypoints/mcp/b2c-app-builder-mcp.mjs.',
+        'package.json bin["brigade-mcp"] must point at entrypoints/mcp/brigade-mcp.mjs.',
         "package.json",
       ),
     );
@@ -239,7 +239,7 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
   const required = [
     "entrypoints/cli/b2c.mjs",
     "entrypoints/cli/help.mjs",
-    "entrypoints/mcp/b2c-app-builder-mcp.mjs",
+    "entrypoints/mcp/brigade-mcp.mjs",
     "dist/entrypoints/mcp/server.js",
     "dist/entrypoints/cli/business.js",
     "dist/kernel/session/doctor.js",
