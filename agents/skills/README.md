@@ -4,7 +4,7 @@ Use the main business entrypoint by default. Focused task skills are optional, g
 
 | Skill | Scope | Source | Business use |
 | --- | --- | --- | --- |
-| `b2c-app-builder` | business | [Main entrypoint](../../SKILL.md) | default |
+| `brigade` | business | [Main entrypoint](../../SKILL.md) | default |
 | `b2c-contributor` | contribution | [Contributor](b2c-contributor/SKILL.md) | explicit contribution work only |
 | `b2c-maintainer` | maintenance | [Maintainer](b2c-maintainer/SKILL.md) | repository-local, not a business installation |
 
