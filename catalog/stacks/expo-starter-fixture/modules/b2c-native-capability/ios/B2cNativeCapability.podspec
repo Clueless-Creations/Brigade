@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.homepage = package["homepage"]
   s.platforms = { :ios => "16.4" }
   s.swift_version = "5.9"
-  s.source = { :git => "https://github.com/Clueless-Creations/b2c-app-builder.git" }
+  s.source = { :git => "https://github.com/Clueless-Creations/Brigade.git" }
   s.static_framework = true
   s.dependency "ExpoModulesCore"
   s.source_files = "**/*.{h,m,mm,swift}"

@@ -144,7 +144,7 @@ Reserve aggregate cost before fanout, including allowed retries and unused specu
 
 ## Product Profiles are the common product representation
 
-The [Product Profile v1 contract](contracts/product-profile/README.md), defined by [ADR-0019](decisions/0019-product-profile-truth-ownership.md), is the foundational model. Its repository conformance reader is not the planned runtime generation/query service. It describes product entities, systems, journeys, states, surfaces, interaction contracts and their relationships. An intended profile projects accepted product/design truth; an observed profile projects evidence from a running product. Neither creates a competing authoring store.
+The [Product Profile v1 contract](contracts/product-profile/README.md), defined by [ADR-0019](decisions/0019-product-profile-truth-ownership.md), is the foundational model. Its conformance reader, intended/observed projections, deterministic delta, bounded query, lifecycle freshness, and reference interop are implemented runtime services. It describes product entities, systems, journeys, states, surfaces, interaction contracts and their relationships. An intended profile projects accepted product/design truth; an observed profile projects evidence from a running product. Neither creates a competing authoring store.
 
 A Reference Product Profile is a specialization of the same model with reference provenance and capture constraints. Its shared payload must conform to the base contract. Keep observation mode and reference origin distinguishable, whether the final schema uses separate fields or a compatible envelope. A managed app can also be observed; being a reference is not a new kind of truth.
 
