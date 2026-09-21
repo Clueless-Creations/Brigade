@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.74",
+  "version": "0.221.75",
   "updatedAt": "2026-09-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Repository cleanup: refresh canonical Brigade package/repository metadata and settled Product Profile docs; preserve intentional legacy compatibility aliases/history. Stamp 0.221.75. No npm publish.",
     "Focused Product Profile skills (#611): understand a product, audit implementation, and learn from a reference product using bounded v1 retrieval and existing truth owners. Stamp 0.221.74. No npm publish.",
     "Public legibility refresh (#607): clarify Brigade as context + operating layer, make Product Profile first-class in usage/status, and fix repository clone path. Stamp 0.221.73. No npm publish.",
     "Reference-profile composition (#570): deterministic adopt/adapt/reject/unresolved proposal contract with source profile/record and target-constraint traceability; proposals have no write authority over product/design truth. Stamp 0.221.72. No npm publish.",
