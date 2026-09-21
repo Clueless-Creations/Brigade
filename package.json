@@ -13,13 +13,13 @@
     "revenuecat",
     "posthog"
   ],
-  "homepage": "https://github.com/Clueless-Creations/b2c-app-builder#readme",
+  "homepage": "https://github.com/Clueless-Creations/Brigade#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Clueless-Creations/b2c-app-builder.git"
+    "url": "git+https://github.com/Clueless-Creations/Brigade.git"
   },
   "bugs": {
-    "url": "https://github.com/Clueless-Creations/b2c-app-builder/issues"
+    "url": "https://github.com/Clueless-Creations/Brigade/issues"
   },
   "author": "Clueless Creations",
   "license": "MIT",
