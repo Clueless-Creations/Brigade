@@ -16,7 +16,7 @@ A consumer business needs more than an app that compiles. It needs a product
 people want, a distinctive experience, a working funnel, and reliable
 monetization. It needs a way to learn what works and improve.
 
-Brigade gives AI agents a shared foundation for that whole business.
+Brigade gives AI agents a shared **context and operating layer** for that whole business. It keeps expertise, product understanding, execution, evidence, and authority connected instead of asking every agent to reconstruct the business from files on each turn.
 It is laid out like a restaurant kitchen. Stations are the responsibilities
 every consumer-app business has, and they do not change with the app.
 Capabilities define what each station must produce. Providers implement them.
@@ -47,7 +47,13 @@ evidence.
 
 ## Choose how to use it
 
-Use [a focused task skill](agents/skills/README.md) for research, an onboarding review, or a monetization question. Read and apply the expertise without creating a workspace. Use the main business skill when you need coordinated, durable creation or operation through status, plan, execution, and evidence. Both use the same catalog and knowledge.
+**Need expertise for one job?** Use [a focused task skill](agents/skills/README.md) for research, onboarding, monetization, release review, or another bounded task. You can use the expertise without creating a Brigade workspace.
+
+**Need an agent to understand and operate one product over time?** Use the managed business runtime. `product.yaml` and `DESIGN.md` keep accepted intent; the **Product Profile** projects that truth into a queryable product-system model; observed profiles and deltas describe what evidence says the running product actually does; status, plan, execution, evidence, and recovery preserve continuity and authority.
+
+**Need only a small piece of product context?** Query the Product Profile by stable ID or bounded text instead of loading the whole profile, source documents, screenshots, or recordings. Semantic judgment is a separate explicit operation. Passive profile/status reads never secretly call a model or provider.
+
+Both modes use the same catalog and sourced knowledge.
 
 [Browse the knowledge by business area](knowledge/README.md).
 
@@ -59,8 +65,8 @@ The canonical npm package is `@cluelesscreations/brigade`. The repository
 checkout remains the best path for contribution and source-level development.
 
 ```bash
-git clone https://github.com/Clueless-Creations/b2c-app-builder.git
-cd b2c-app-builder
+git clone https://github.com/Clueless-Creations/Brigade.git
+cd Brigade
 npm ci
 npm run setup
 ```
@@ -156,6 +162,7 @@ is implemented today.
 | Provider   | An implementation of specific operations, with declared support and limits | The purveyor                | Vendor, tool, native stack, or execution environment      |
 | Recipe     | A configurable creation or operating loop                                  | How you run service         | Sequence, review policy, parameters, and product approach |
 | Knowledge  | Sourced guidance, loaded in bounded amounts                                | Mise en place               | The expertise selected for the task, provider, and recipe |
+| Product Profile | Versioned projection of intended or observed product behavior, relationships, states, and claims | The working model at the pass | Which bounded product facts an agent needs for this task |
 | Evidence   | Observations tied to a claim, artifact, and environment                    | The plate check at the pass | The tool that produces the observation, not its meaning   |
 
 A provider swap does not redefine what an entitlement means. A different
@@ -218,6 +225,7 @@ verification limits.
 | --------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | Source-backed knowledge, workflow catalog, CLI, and local MCP         | Implemented                                                         |
 | Workspace creation, planning, bounded execution, review, and evidence | Implemented                                                         |
+| Product Profile v1: intended, observed, delta, bounded query, reference interop | Implemented; projections preserve existing truth owners and evidence boundaries |
 | `b2c/v1` discovery, composition preview, and business status          | Implemented, with shared CLI/MCP schemas and contract tests         |
 | Local package import and composition activation                       | Implemented with content pins, preview checks and recovery          |
 | Provider execution routes                                             | Explicit host adapters; declarations alone never execute            |
