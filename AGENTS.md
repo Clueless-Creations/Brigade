@@ -1,5 +1,9 @@
 # Brigade Agent Guide
 
+### Product context routing
+
+For a product-system question, prefer the smallest authoritative projection before opening source documents. Use the intended Product Profile for accepted behavior, the observed profile for demonstrated runtime behavior, the delta for discrepancies, and bounded profile query for focused context. Raw screenshots, recordings, and full profiles stay out of ordinary context unless the task explicitly needs their evidence. Product Profile is a projection, not a truth owner: accepted changes still land in `product.yaml` / `DESIGN.md`, and attempts/evidence/authority still flow through reducer-owned state. Passive profile reads never trigger Jev, a provider, or another semantic model; semantic judgment is an explicit admitted operation.
+
 ## Scope and routing
 
 Build primitives for consumer-app businesses, not a generic agent framework, B2B playbook, or internal-tool builder. Prove one excellent business, then a meaningfully different sibling, then experiments across independent businesses. Keep the skill small and durable expertise in manifest-backed knowledge. Planes remains [parked](docs/timeouts/planes.md) until explicitly reopened.

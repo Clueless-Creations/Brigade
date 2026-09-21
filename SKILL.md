@@ -9,6 +9,10 @@ metadata:
 
 Start with the user's job, not the framework. This is the default business entrypoint. Task skills project the same workflow and knowledge owners; they are not another execution system. Do not load the whole corpus.
 
+### Product context routing
+
+For a product-system question, prefer the smallest authoritative projection before opening source documents. Use the intended Product Profile for accepted behavior, the observed profile for demonstrated runtime behavior, the delta for discrepancies, and bounded profile query for focused context. Raw screenshots, recordings, and full profiles stay out of ordinary context unless the task explicitly needs their evidence. Product Profile is a projection, not a truth owner: accepted changes still land in `product.yaml` / `DESIGN.md`, and attempts/evidence/authority still flow through reducer-owned state. Passive profile reads never trigger Jev, a provider, or another semantic model; semantic judgment is an explicit admitted operation.
+
 ## Focused task
 
 Inspect the app's own instructions and affected surface. Open the matching task directly. Do not install software, require an MCP connection, create a workspace, or activate a full operating graph merely to apply the expertise. A review is read-only unless changes are also requested.
