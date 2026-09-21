@@ -183,22 +183,22 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
     }
   }
   const bins = runtimePkg.bin ?? {};
-  if (bins["b2c-app-builder"] !== "entrypoints/mcp/b2c-app-builder-mcp.mjs") {
+  if (bins["brigade"] !== "entrypoints/mcp/brigade-mcp.mjs") {
     issues.push(
       issue(
         "error",
         "package_parity.mcp_package_bin_missing",
-        'package.json bin["b2c-app-builder"] must alias entrypoints/mcp/b2c-app-builder-mcp.mjs so `npx -y b2c-app-builder` starts the MCP server.',
+        'package.json bin["brigade"] must alias entrypoints/mcp/brigade-mcp.mjs so `npx -y @cluelesscreations/brigade` starts the MCP server.',
         "package.json",
       ),
     );
   }
-  if (bins["b2c-app-builder-mcp"] !== "entrypoints/mcp/b2c-app-builder-mcp.mjs") {
+  if (bins["brigade-mcp"] !== "entrypoints/mcp/brigade-mcp.mjs") {
     issues.push(
       issue(
         "error",
         "package_parity.mcp_bin_missing",
-        'package.json bin["b2c-app-builder-mcp"] must point at entrypoints/mcp/b2c-app-builder-mcp.mjs.',
+        'package.json bin["brigade-mcp"] must point at entrypoints/mcp/brigade-mcp.mjs.',
         "package.json",
       ),
     );
@@ -239,7 +239,7 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
   const required = [
     "entrypoints/cli/b2c.mjs",
     "entrypoints/cli/help.mjs",
-    "entrypoints/mcp/b2c-app-builder-mcp.mjs",
+    "entrypoints/mcp/brigade-mcp.mjs",
     "dist/entrypoints/mcp/server.js",
     "dist/entrypoints/cli/business.js",
     "dist/kernel/session/doctor.js",
@@ -248,10 +248,10 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
     "dist/kernel/session/onboard.js",
     "dist/tooling/render-credits.js",
     "SKILL.md",
-    "agents/skills/b2c-app-builder/references/setup.md",
-    "agents/skills/b2c-app-builder/references/business-lifecycle.md",
-    "agents/skills/b2c-app-builder/references/composition.md",
-    "agents/skills/b2c-app-builder/references/mobile-operation.md",
+    "agents/skills/brigade/references/setup.md",
+    "agents/skills/brigade/references/business-lifecycle.md",
+    "agents/skills/brigade/references/composition.md",
+    "agents/skills/brigade/references/mobile-operation.md",
     ...taskSkills.flatMap((skill) => [`${skillDirectory(skill)}/SKILL.md`, `${skillDirectory(skill)}/references/task.md`]),
     "skill-version.json",
     "tsconfig.json",
@@ -300,7 +300,7 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
 
   // Development-only surfaces must never ride along.
   for (const prefix of ["checks/verification/", "content/", "business/", "agents/", "node_modules/"]) {
-    const businessSkillPrefixes = ["agents/skills/b2c-app-builder/references/", ...taskSkills.map((skill) => `${skillDirectory(skill)}/`)];
+    const businessSkillPrefixes = ["agents/skills/brigade/references/", ...taskSkills.map((skill) => `${skillDirectory(skill)}/`)];
     const leaked = packed.find(
       (file) => file.startsWith(prefix) && !(prefix === "agents/" && businessSkillPrefixes.some((allowed) => file.startsWith(allowed))),
     );

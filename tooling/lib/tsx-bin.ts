@@ -60,6 +60,6 @@ export function describeTsxSpawnFailure(binary: string, result: SpawnOutcome): s
   if (!described) return "";
   const missingLocalInstall = binary === TSX_PATH_FALLBACK && spawnErrorCode(result) === "ENOENT";
   return missingLocalInstall
-    ? `${described} — no local or package-resolved tsx dependency exists, so the bare "${TSX_PATH_FALLBACK}" on PATH was used and PATH does not provide it either; reinstall b2c-app-builder or run \`npm ci\` in a source checkout`
+    ? `${described} — no local or package-resolved tsx dependency exists, so the bare "${TSX_PATH_FALLBACK}" on PATH was used and PATH does not provide it either; reinstall @cluelesscreations/brigade or run \`npm ci\` in a source checkout`
     : described;
 }

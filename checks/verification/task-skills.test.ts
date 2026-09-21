@@ -144,7 +144,7 @@ void test("the packed runtime contains the canonical nine-task library", () => {
   const report = JSON.parse(result.stdout) as Array<{ files?: Array<{ path?: string }> }>;
   const files = new Set((report[0]?.files ?? []).map((entry) => entry.path).filter((entry): entry is string => typeof entry === "string"));
   assert.ok(files.has("SKILL.md"));
-  assert.ok(files.has("agents/skills/b2c-app-builder/references/business-lifecycle.md"));
+  assert.ok(files.has("agents/skills/brigade/references/business-lifecycle.md"));
   for (const skill of taskSkills) {
     const prefix = `${skillDirectory(skill)}/`;
     assert.ok(files.has(`${prefix}SKILL.md`), `${prefix}SKILL.md is missing from npm pack`);
@@ -212,7 +212,7 @@ void test("export refuses unknown skills, escaping resources, and symlinked dest
 
 void test("moving procedures preserves authority and fails on missing, unlinked, or oversized guidance", () => {
   const temporary = mkScratch("b2c-routing-contract-");
-  const procedure = "agents/skills/b2c-app-builder/references/business-lifecycle.md";
+  const procedure = "agents/skills/brigade/references/business-lifecycle.md";
   const fixture = "checks/validation/repository/evals/triggering/autopilot-triggering.yaml";
   const original = readFileSync(path.join(root, "SKILL.md"), "utf8");
   const run = () =>

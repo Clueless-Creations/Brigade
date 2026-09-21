@@ -179,7 +179,7 @@ try {
   if (!receiptLine) throw new Error("unavailable-knowledge handshake omitted connection receipt");
   const receipt = JSON.parse(receiptLine);
   if (receipt.mode !== "local_execution" || receipt.identity.recommended !== "b2c-local") throw new Error("unavailable-knowledge receipt identity");
-  if (!receipt.identity.legacy?.includes("b2c-app-builder")) throw new Error("legacy local name missing from unavailable-knowledge receipt");
+  if (!receipt.identity.legacy?.length === 0) throw new Error("legacy local name missing from unavailable-knowledge receipt");
   if (receipt.observed?.knowledge !== "unavailable") throw new Error("unavailable-knowledge receipt must observe knowledge unavailable");
   if (receipt.observed?.writes !== "mcp_write_enabled") throw new Error("unavailable-knowledge receipt must observe write flag");
   const names = (await client.listTools()).tools.map((tool) => tool.name).sort();
@@ -192,7 +192,7 @@ try {
 } finally {
   await client.close();
 }
-if (stderr !== "b2c-app-builder-mcp: Knowledge tools are unavailable. The local knowledge bundle could not be loaded or validated. Workspace tools remain available.\\n") throw new Error("expected one static warning without bundle contents or paths");
+if (stderr !== "brigade-mcp: Knowledge tools are unavailable. The local knowledge bundle could not be loaded or validated. Workspace tools remain available.\\n") throw new Error("expected one static warning without bundle contents or paths");
 console.log("mcp-unavailable-knowledge ok");
 `,
       );

@@ -55,7 +55,7 @@ anything, and nothing imports `checks`.
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `SKILL.md`, `agents/`   | Skill entrypoint and Codex routing metadata                                                                                                                                                                      |
 | `entrypoints/cli/`      | CLI entrypoint (`b2c.mjs`)                                                                                                                                                                                       |
-| `entrypoints/mcp/`      | MCP entrypoint (`b2c-app-builder-mcp.mjs`, `server.ts`)                                                                                                                                                          |
+| `entrypoints/mcp/`      | MCP entrypoint (`brigade-mcp.mjs`, `server.ts`)                                                                                                                                                          |
 | `contracts/public-api/` | Public `b2c/v1` schemas and operation declarations                                                                                                                                                               |
 | `kernel/`               | Execution kernel and shared application services: `engine/`, `reducer/`, `session/`, `work-orders/`, `operating-model/`, `autonomy/`, `context/`, `routing/`, `knowledge-service/`, `schema/`, `lib/`            |
 | `catalog/`              | Stable workflows, domains, gates, reference bindings, world ontology, and agent-graph overlay                                                                                                                    |
@@ -223,7 +223,7 @@ The input is canonical unpadded base64url SPKI DER text for an Ed25519 public ke
 
 ## MCP
 
-Register the absolute Node command and the `entrypoints/mcp/b2c-app-builder-mcp.mjs` path that `b2c setup` prints, under the name `b2c-local`. Without a local install, register the portable form instead: command `npx`, arguments `-y @cluelesscreations/brigade`. The transport is stdio. Hosted knowledge uses `b2c-hosted`. A leftover `b2c-app-builder` client name is the legacy local registration.
+Register the absolute Node command and the `entrypoints/mcp/brigade-mcp.mjs` path that `b2c setup` prints, under the name `b2c-local`. Without a local install, register the portable form instead: command `npx`, arguments `-y @cluelesscreations/brigade`. The transport is stdio. Hosted knowledge uses `b2c-hosted`. 
 
 ### Leftover names
 

@@ -122,7 +122,7 @@ test("setup prints a local connection receipt and distinct b2c-local registratio
     const parsed = parseConnectionReceipt(result.stdout);
     assert.equal(parsed.mode, "local_execution");
     assert.equal(parsed.identity.recommended, "b2c-local");
-    assert.deepEqual(parsed.identity.legacy, ["b2c-app-builder"]);
+    assert.deepEqual(parsed.identity.legacy, []);
     assert.equal(parsed.declares.workspaceExecution, "local_cli");
     assert.equal(parsed.declares.writes, "cli_default");
     assert.equal(parsed.providerObservation, "not_tested");
@@ -169,7 +169,7 @@ test("local MCP handshake name is b2c-local and leftover names stay on the recei
     const instructions = client.getInstructions() ?? "";
     const receipt = parseConnectionReceipt(instructions);
     assert.equal(receipt.identity.recommended, "b2c-local");
-    assert.deepEqual(receipt.identity.legacy, ["b2c-app-builder"]);
+    assert.deepEqual(receipt.identity.legacy, []);
     assert.equal(receipt.providerObservation, "not_tested");
     assert.notEqual(receipt.observed?.knowledge, undefined);
     assert.equal(receipt.observed?.workspacePlanning, "available");
@@ -210,7 +210,7 @@ test("local MCP instructions name local execution and refuse hosted-as-local", (
   assert.match(text, /b2c-hosted/);
   const receipt = parseConnectionReceipt(text);
   assert.equal(receipt.mode, "local_execution");
-  assert.deepEqual(receipt.identity.legacy, ["b2c-app-builder"]);
+  assert.deepEqual(receipt.identity.legacy, []);
   assert.equal(receipt.declares.knowledge, "bundled");
   assert.equal(receipt.providerObservation, "not_tested");
   assert.equal(receipt.observed?.knowledge, "available");
@@ -278,7 +278,7 @@ test("leftover-name client matrix covers Claude, Cursor, and Codex without silen
     assert(packageGuide.includes("A local receipt reports worker-runtime health separately"), "package guide omitted worker-runtime health");
     assert(hostedReadme.includes("A missing local worker CLI is local execution health"), "hosted README omitted worker-runtime health");
     const rootSkill = readFileSync(path.join(root, "SKILL.md"), "utf8");
-    const setupPath = "agents/skills/b2c-app-builder/references/setup.md";
+    const setupPath = "agents/skills/brigade/references/setup.md";
     assert(rootSkill.includes(`](${setupPath})`), "root skill omitted its conditional connection procedure");
     const skill = readFileSync(path.join(root, setupPath), "utf8");
     assert(skill.includes("When both are configured, select by that capability"), "skill omitted both-configured selection");
@@ -877,7 +877,7 @@ test("connection receipt never treats handshake or leftover names as provider re
   assert.equal(hosted.providerObservation, "not_tested");
   assert.equal(connectionCapabilityGuidance({ ...local, identity: { recommended: "b2c-hosted" } } as ConnectionReceipt), connectionCapabilityGuidance(local));
   assert.equal(
-    connectionCapabilityGuidance({ ...hosted, identity: { recommended: "b2c-local", legacy: ["b2c-app-builder"] } } as ConnectionReceipt),
+    connectionCapabilityGuidance({ ...hosted, identity: { recommended: "b2c-local", legacy: [] } } as ConnectionReceipt),
     connectionCapabilityGuidance(hosted),
   );
   assert.throws(() => connectionReceiptSchema.parse({ ...local, providerObservation: "ready" }), /invalid_literal|invalid_value/);

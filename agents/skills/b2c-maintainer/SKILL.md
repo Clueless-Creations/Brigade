@@ -1,6 +1,6 @@
 ---
 name: b2c-maintainer
-description: "Route the maintenance work on the B2C App Builder repository: mechanism changes, upstream support upkeep, and maintenance-grade provider integrations. Use for repository-local ownership only; use b2c-app-builder for operating one business and b2c-contributor for first source intake."
+description: "Route the maintenance work on the B2C App Builder repository: mechanism changes, upstream support upkeep, and maintenance-grade provider integrations. Use for repository-local ownership only; use Brigade for operating one business and b2c-contributor for first source intake."
 metadata:
   short-description: Maintain the builder and its upstreams
 ---
