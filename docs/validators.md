@@ -43,7 +43,7 @@ npm run check:revenue        -- --root /path/to/app
 From an installed runtime copy instead of this repo:
 
 ```bash
-cd ~/.codex/skills/b2c-app-builder
+cd ~/.codex/skills/brigade
 npm install
 npm run validate:launch-state -- --root /path/to/app
 ```
