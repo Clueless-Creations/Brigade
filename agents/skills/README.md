@@ -26,6 +26,14 @@ Use the main business entrypoint by default. Focused task skills are optional, g
 
 Nine focused task skills cover the six business areas. [Browse all six business areas](../../knowledge/README.md) for the supporting workflows and references. Internal onboarding stages remain behind one task skill, not 23 installations.
 
+## Product Profile jobs
+
+These focused skills use the same Product Profile contract as the managed runtime and stay bounded/read-only until an accepted change returns to the canonical product/design owners:
+
+- [Understand a product](b2c-understand-product/SKILL.md)
+- [Audit a product implementation](b2c-audit-product-implementation/SKILL.md)
+- [Learn from a reference product](b2c-learn-from-reference-product/SKILL.md)
+
 ## Installation and ownership
 
 Read [Use task skills](../../docs/guides/task-skills.md) to export a relocatable task directory and install it explicitly in a supported host. Keep its references and notices with SKILL.md. The builder never installs a skill or edits agent configuration automatically.
