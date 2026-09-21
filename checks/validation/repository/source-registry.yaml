@@ -1630,7 +1630,7 @@ sources:
   - id: github-repo-b2c-launch-skill-git
     name: This repository, git clone URL
     source_type: repository
-    url: https://github.com/Clueless-Creations/b2c-app-builder.git
+    url: https://github.com/Clueless-Creations/Brigade.git
     refresh_cadence_days: 90
     owner: maintainer
     locations:
@@ -1640,7 +1640,7 @@ sources:
   - id: github-repo-b2c-launch-skill-issues
     name: This repository, issue tracker
     source_type: repository
-    url: https://github.com/Clueless-Creations/b2c-app-builder/issues
+    url: https://github.com/Clueless-Creations/Brigade/issues
     refresh_cadence_days: 90
     owner: maintainer
     locations:
