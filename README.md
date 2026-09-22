@@ -47,6 +47,19 @@ evidence.
 
 ## Choose how to use it
 
+### If an agent is reading this repository
+
+Give the agent your actual question first. It should choose the smallest
+matching task skill, read the app's own instructions, and answer or make the
+scoped change. Focused research, review, planning, and existing-app fixes do
+not require Brigade setup, MCP, a registered workspace, or Jev.
+
+Use the managed business runtime only when you want one business carried across
+sessions with durable status, planning, execution, evidence, and recovery. Use
+provider or device connections only when the question asks for current facts
+from those systems. The [agent usage guide](docs/guides/use-with-an-agent.md)
+maps common requests to the right path and includes copy-paste prompts.
+
 **Need expertise for one job?** Use [a focused task skill](agents/skills/README.md) for research, onboarding, monetization, release review, or another bounded task. You can use the expertise without creating a Brigade workspace.
 
 **Need an agent to understand and operate one product over time?** Use the managed business runtime. `product.yaml` and `DESIGN.md` keep accepted intent; the **Product Profile** projects that truth into a queryable product-system model; observed profiles and deltas describe what evidence says the running product actually does; status, plan, execution, evidence, and recovery preserve continuity and authority.
@@ -59,7 +72,7 @@ Both modes use the same catalog and sourced knowledge.
 
 ## Get started
 
-Use Node.js 24.
+Use Node.js 24. The repository pins it in `.nvmrc` and `.node-version`.
 
 The canonical npm package is `@cluelesscreations/brigade`. The repository
 checkout remains the best path for contribution and source-level development.
@@ -67,6 +80,8 @@ checkout remains the best path for contribution and source-level development.
 ```bash
 git clone https://github.com/Clueless-Creations/Brigade.git
 cd Brigade
+nvm install
+nvm use
 npm ci
 npm run setup
 ```
