@@ -20,7 +20,7 @@ silent client-config mutation, npm publish, Product Profile #564+ work, or auto-
 | Doctor/inspect            | `kernel/session/doctor.ts`                   | same compact receipt on existing diagnostic surface        |
 | Leftover migration        | `leftoverNameMigrationGuidance()`            | additive; no silent rewrite                                |
 | Surface selection         | `selectConfiguredSurface`                    | evidence > name heuristics; wrong_surface guidance         |
-| Hosted read-only boundary | `b2c-hosted-ops` / hosted knowledge Worker   | preserved; no execution authority                          |
+| Hosted read-only boundary | hosted knowledge Worker                      | preserved; no execution authority                          |
 
 ## Acceptance → evidence
 

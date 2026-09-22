@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.78",
-  "updatedAt": "2026-09-20",
+  "version": "0.221.79",
+  "updatedAt": "2026-09-22",
   "sourcePath": ".",
   "releaseNotes": [
+    "Rehearsal record cleanup: drop an internal operator-repository reference from the connection-identity closeout table. Stamp 0.221.79. No npm publish.",
     "Public API compatibility wording: keep the legacy local name visible in setup receipts while preserving b2c-local as the recommended connection. Stamp 0.221.78.",
     "Release gate repair: align the packed Brigade references with the clean-break skill paths, restore strict Product Profile typing, and fix hosted instructions syntax. Stamp 0.221.77.",
     "Clean-break Brigade identity: remove b2c-app-builder compatibility bins/client identity and rename MCP launcher/business skill paths to Brigade. No backward-compatibility promise. Stamp 0.221.76. No npm publish.",
