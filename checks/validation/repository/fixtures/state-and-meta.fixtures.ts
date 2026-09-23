@@ -447,6 +447,30 @@ export function register(h: Harness): void {
   );
   runFixture("machine-local .claude worktree copies are not scanned as sources", sourceRegistryWorktree, "check-source-freshness.ts", 0);
 
+  // Regression pin: gitignored Cursor hook state carried an operator home path and turned the
+  // local audit red, although git would never publish it. At a checkout root the scan covers only
+  // what git would publish. The positive control proves an untracked file that is not ignored is
+  // still scanned before its first commit.
+  const sourceBoundaryIgnored = makeEmptyFixture("source-public-boundary-gitignored");
+  writeSourceRegistryFixture(sourceBoundaryIgnored);
+  spawnSync("git", ["init", "--quiet"], { cwd: sourceBoundaryIgnored });
+  writeFileSync(path.join(sourceBoundaryIgnored, ".gitignore"), ".cursor/hooks/state/\n", "utf8");
+  mkdirSync(path.join(sourceBoundaryIgnored, ".cursor", "hooks", "state"), { recursive: true });
+  writeFileSync(
+    path.join(sourceBoundaryIgnored, ".cursor", "hooks", "state", "index.json"),
+    `${JSON.stringify({ transcript: "/Users/canary-home/notes.md" })}\n`,
+    "utf8",
+  );
+  runFixture("gitignored agent state is not scanned for public-boundary residue", sourceBoundaryIgnored, "check-source-freshness.ts", 0);
+  writeFileSync(path.join(sourceBoundaryIgnored, "draft.md"), "# Draft\nNotes: /Users/canary-home/notes.md\n", "utf8");
+  runFixture(
+    "an untracked file that git would publish is still scanned",
+    sourceBoundaryIgnored,
+    "check-source-freshness.ts",
+    1,
+    "source_freshness.public_boundary.operator_path",
+  );
+
   // Regression pin: the #38–#54 app-Worker PRs added 21 "recent unregistered" URLs and turned
   // audit:ci red at step 5. Every one was a template-literal fragment (`https://${host}/relay`),
   // a reserved-TLD stand-in (`.invalid`), or a fixture value inside a test file. None is a source

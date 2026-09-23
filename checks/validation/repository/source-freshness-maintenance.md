@@ -69,6 +69,7 @@ environment. The job token used to open a refresh pull request is not a source-r
 
 - Any new external `http(s)` URL in `SKILL.md`, references, templates, scripts, README, `AGENTS.md`, `CLAUDE.md`, or workflows must be tracked in `source-registry.yaml`.
 - Example URLs such as `example.com`, localhost, and generated source-refresh reports are ignored.
+- At the root of a git checkout, the checker scans only what git would publish: tracked files and untracked files that are not gitignored. Machine-local state such as `.cursor/hooks/state/` is skipped. Any other root is scanned in full.
 - The checker scans Markdown, YAML, JSON, TypeScript, and MJS files, plus recent git additions. Do not exclude implementation code to hide unregistered URLs.
 - If a source is paid/account-gated, keep it in the registry but preserve the founder-approval/fallback rule in the relevant launch reference.
 
