@@ -232,7 +232,7 @@ test("GET /signin is the front door: the page for a visitor, carrying entry_poin
   assert.ok(html.includes('href="/auth/github/start?entry_point=header"'), "the GitHub button keeps the entry point the site sent");
   assert.match(html, /clueless-creations\.com\/terms\//);
   assert.match(html, /clueless-creations\.com\/privacy\//);
-  assert.match(html, /github\.com\/Clueless-Creations\/b2c-app-builder/);
+  assert.match(html, /github\.com\/Clueless-Creations\/Brigade"/);
   assert.doesNotMatch(html, /<script/i, "the sign-in page carries no script");
   // An unknown entry point is coerced to landing, and a notice renders only from the closed set.
   const coerced = await (await dispatch(new Request(`${ORIGIN}/signin?entry_point=evil&notice=<b>x</b>`), env)).text();

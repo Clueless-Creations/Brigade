@@ -11,7 +11,7 @@ import { knowledgeFreshnessPinPath, loadKnowledgeFreshnessPin } from "../../../.
 import { skillRoot, type Harness } from "./_harness.js";
 
 const fixtureDir = path.dirname(fileURLToPath(import.meta.url));
-const publicRawUrl = "https://raw.githubusercontent.com/Clueless-Creations/b2c-app-builder/main/skill-version.json";
+const publicRawUrl = "https://raw.githubusercontent.com/Clueless-Creations/Brigade/main/skill-version.json";
 const manifest = JSON.stringify({ skill: "b2c-app-builder", version: "0.0.1", sourcePath: "." });
 const primaryToken = "fixture-primary-token";
 const secondaryToken = "fixture-secondary-token";
