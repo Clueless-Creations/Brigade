@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.81",
+  "version": "0.221.82",
   "updatedAt": "2026-09-23",
   "sourcePath": ".",
   "releaseNotes": [
+    "A0 guidance replay after the skill move: frozen packet paths under agents/skills/b2c-app-builder/ are measured at agents/skills/brigade/ when the frozen path is absent, and the report records both paths. A pinned replay treats a path absent at a valid revision as unmeasured, so revisions after #619 replay too. The frozen A0 corpus is unchanged. Stamp 0.221.82. No npm publish.",
     "Brigade repository URL: the console Open source link, the exported task-skill repository field, and the source HTTP test helper use Clueless-Creations/Brigade, so the two pre-rename registry rows are gone. Seven source-registry notes that YAML cut off at an issue reference now parse in full. Stamp 0.221.81. No npm publish.",
     "Source-freshness gate repair: register the 37 unregistered external URLs (TypeSafe docs, GitHub sign-in endpoints, Brigade issue links, post-rename repository URLs) and, at a git checkout root, scan only what git would publish so gitignored agent state no longer trips the public-boundary check. Stamp 0.221.80. No npm publish.",
     "Rehearsal record cleanup: drop an internal operator-repository reference from the connection-identity closeout table. Stamp 0.221.79. No npm publish.",

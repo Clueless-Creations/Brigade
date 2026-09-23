@@ -1,4 +1,5 @@
-import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { type Harness, skillRoot } from "./_harness.js";
 import {
@@ -42,6 +43,22 @@ function seed(harness: Harness, name: string): string {
 function edit(root: string, relative: string, transform: (text: string) => string): void {
   const target = path.join(root, relative);
   writeFileSync(target, transform(readFileSync(target, "utf8")), "utf8");
+}
+
+const fixtureGitEnv: NodeJS.ProcessEnv = {
+  ...process.env,
+  GIT_AUTHOR_NAME: "fixture",
+  GIT_AUTHOR_EMAIL: "fixture@example.com",
+  GIT_COMMITTER_NAME: "fixture",
+  GIT_COMMITTER_EMAIL: "fixture@example.com",
+};
+delete fixtureGitEnv.GIT_DIR;
+delete fixtureGitEnv.GIT_WORK_TREE;
+
+function git(root: string, args: string[]): string {
+  const result = spawnSync("git", ["-c", "commit.gpgsign=false", ...args], { cwd: root, env: fixtureGitEnv, encoding: "utf8" });
+  if (result.status !== 0) throw new Error(`fixture git ${args.join(" ")} failed: ${result.stderr}`);
+  return result.stdout.trim();
 }
 
 export function register(harness: Harness): void {
@@ -267,6 +284,28 @@ export function register(harness: Harness): void {
     }
     if (!refused) throw new Error("Missing file counted as measured");
   });
+  const frozenLifecycle = "agents/skills/b2c-app-builder/references/business-lifecycle.md";
+  const movedLifecycle = "agents/skills/brigade/references/business-lifecycle.md";
+  const movedPacket = { id: "moved", measuredFiles: ["AGENTS.md", frozenLifecycle], fileCount: 2, utf8Bytes: 0 };
+  record("a declared move measures the new location and reports both paths", () => {
+    const file = measureGuidancePackets([movedPacket], (relative) => (relative === frozenLifecycle ? undefined : relative))[0]!.files[1]!;
+    if (file.path !== frozenLifecycle || file.measuredPath !== movedLifecycle || file.utf8Bytes !== Buffer.byteLength(movedLifecycle)) {
+      throw new Error(`Moved file was not measured at its declared location: ${JSON.stringify(file)}`);
+    }
+  });
+  record("the frozen path is measured where it still exists", () => {
+    const file = measureGuidancePackets([movedPacket], (relative) => relative)[0]!.files[1]!;
+    if (file.path !== frozenLifecycle || file.measuredPath !== undefined) throw new Error(`Frozen path was not preferred: ${JSON.stringify(file)}`);
+  });
+  record("a moved file missing at both paths stays unmeasured", () => {
+    let refused = false;
+    try {
+      measureGuidancePackets([movedPacket], (relative) => (relative === "AGENTS.md" ? relative : undefined));
+    } catch {
+      refused = true;
+    }
+    if (!refused) throw new Error("Missing moved file counted as measured");
+  });
 
   // An explicit comparison artifact in this fixture's temporary directory, never a business workspace.
   const report = path.join(harness.tempRoot, "agent-guidance-current.json");
@@ -278,7 +317,7 @@ export function register(harness: Harness): void {
   );
   record("A0 replay preserves all ten identities and does not invent model evidence", () => {
     const actual = JSON.parse(readFileSync(report, "utf8")) as {
-      cases: Array<{ id: string }>;
+      cases: Array<{ id: string; files: Array<{ path: string; measuredPath?: string }> }>;
       modelId: unknown;
       modelTokens: unknown;
       observedAgentTrace: unknown;
@@ -288,5 +327,55 @@ export function register(harness: Harness): void {
       throw new Error("A0 cases changed");
     if ([actual.modelId, actual.modelTokens, actual.observedAgentTrace, actual.serviceResult].some((value) => value !== null))
       throw new Error("Unobserved model/service evidence was populated");
+    const lifecycle = actual.cases.find((item) => item.id === "A0-04")?.files.find((file) => file.path === frozenLifecycle);
+    if (lifecycle?.measuredPath !== movedLifecycle) throw new Error("A0 replay did not report where the moved lifecycle reference was measured");
   });
+
+  // A revision pinned after the move lacks the frozen path, so replay reads the declared location there.
+  // The mobile reference then leaves the index only, so the working-tree gates still see it.
+  const corpusPath = path.join(skillRoot, "docs/research/agent-guidance-a0.json");
+  const corpus = JSON.parse(readFileSync(corpusPath, "utf8")) as { cases: Array<{ measuredFiles: string[] }> };
+  const pinned = seed(harness, "agent-guidance-pinned-after-move");
+  for (const relative of new Set(corpus.cases.flatMap((item) => item.measuredFiles))) {
+    if (!existsSync(path.join(skillRoot, relative))) continue;
+    mkdirSync(path.dirname(path.join(pinned, relative)), { recursive: true });
+    cpSync(path.join(skillRoot, relative), path.join(pinned, relative));
+  }
+  cpSync(path.join(skillRoot, "agents/skills/brigade/references"), path.join(pinned, "agents/skills/brigade/references"), { recursive: true });
+  git(pinned, ["init", "-q", "-b", "main"]);
+  git(pinned, ["add", "-A"]);
+  git(pinned, ["commit", "-q", "-m", "after the skill move"]);
+  const afterMove = git(pinned, ["rev-parse", "HEAD"]);
+  git(pinned, ["rm", "-q", "--cached", "agents/skills/brigade/references/mobile-operation.md"]);
+  git(pinned, ["commit", "-q", "-m", "lose the mobile reference"]);
+  const withoutMobile = git(pinned, ["rev-parse", "HEAD"]);
+  const pinnedReport = path.join(harness.tempRoot, "agent-guidance-pinned-after-move.json");
+  harness.runScriptArgs(
+    "pinned A0 replay measures a moved packet file at a revision after the move",
+    SCRIPT,
+    ["--repo-root", pinned, "--guidance-baseline", corpusPath, "--guidance-source-ref", afterMove, "--guidance-report", pinnedReport],
+    0,
+  );
+  record("pinned A0 replay reports the moved location it measured", () => {
+    const actual = JSON.parse(readFileSync(pinnedReport, "utf8")) as { cases: Array<{ id: string; files: Array<{ path: string; measuredPath?: string }> }> };
+    const mobile = actual.cases.find((item) => item.id === "A0-06")?.files.find((file) => file.path.endsWith("/references/mobile-operation.md"));
+    if (mobile?.measuredPath !== "agents/skills/brigade/references/mobile-operation.md")
+      throw new Error(`Unexpected pinned measurement: ${JSON.stringify(mobile)}`);
+  });
+  harness.runScriptArgs(
+    "pinned A0 replay keeps a file absent at both paths unmeasured",
+    SCRIPT,
+    [
+      "--repo-root",
+      pinned,
+      "--guidance-baseline",
+      corpusPath,
+      "--guidance-source-ref",
+      withoutMobile,
+      "--guidance-report",
+      path.join(harness.tempRoot, "agent-guidance-pinned-missing.json"),
+    ],
+    1,
+    "Unmeasured required packet file: agents/skills/b2c-app-builder/references/mobile-operation.md",
+  );
 }
