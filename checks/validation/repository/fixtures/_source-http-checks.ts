@@ -11,7 +11,7 @@ const test = async (label: string, run: () => Promise<void>): Promise<void> => {
     results.push({ label, ok: false, output: error instanceof Error ? error.message : String(error) });
   }
 };
-const publicRawUrl = "https://raw.githubusercontent.com/Clueless-Creations/b2c-app-builder/main/skill-version.json";
+const publicRawUrl = "https://raw.githubusercontent.com/Clueless-Creations/Brigade/main/skill-version.json";
 const token = "fixture-primary-token";
 const env = { GH_TOKEN: token, GITHUB_TOKEN: "fixture-secondary-token" };
 const publicUrl = "https://content.example.test/source";
@@ -32,6 +32,10 @@ await test("source HTTP never attaches authorization to any GitHub or foreign UR
   const targets = [
     publicUrl,
     publicRawUrl,
+    sourceUrl("github.com", "/Clueless-Creations/Brigade/blob/main/README.md").href,
+    sourceUrl("api.github.com", "/repos/Clueless-Creations/Brigade/contents/README.md").href,
+    // Pre-rename name: GitHub still redirects it, so an allow-list could name it too.
+    sourceUrl("raw.githubusercontent.com", "/Clueless-Creations/b2c-app-builder/main/skill-version.json").href,
     sourceUrl("github.com", "/Clueless-Creations/b2c-app-builder/blob/main/README.md").href,
     sourceUrl("raw.githubusercontent.com", "/Clueless-Creations/b2c-app-builder/main/README.md").href,
     sourceUrl("api.github.com", "/repos/Clueless-Creations/b2c-app-builder/contents/README.md").href,

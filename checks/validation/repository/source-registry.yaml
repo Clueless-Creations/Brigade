@@ -109,7 +109,7 @@ sources:
       - docs/upstreams/typesafe-qualification.md
       - adapters/providers/typesafe/transport.ts
       - adapters/providers/typesafe/effects.ts
-    notes: Hosted evaluation endpoint POST /v1/systemone. #515 records thin-direct-http transport against this host; fixtures use fake transport only — no live call from Brigade tests.
+    notes: "Hosted evaluation endpoint POST /v1/systemone. #515 records thin-direct-http transport against this host; fixtures use fake transport only — no live call from Brigade tests."
   - id: api-typesafe-ai-v1-systemone
     name: TypeSafe System One evaluation endpoint
     source_type: api
@@ -840,7 +840,7 @@ sources:
     owner: b2c-maintainers
     locations:
       - catalog/stacks/expo-capability-protocol.ts
-    notes: Citation for the #83 authentication protocol. Does not select a provider or spawn AuthSession.
+    notes: "Citation for the #83 authentication protocol. Does not select a provider or spawn AuthSession."
   - id: docs-expo-dev-guides-environment-variables
     name: Expo environment variables
     source_type: official_docs
@@ -1143,7 +1143,7 @@ sources:
       - adapters/providers/typesafe/decode.ts
       - adapters/providers/typesafe/transport.ts
       - checks/verification/fixtures/typesafe-adapter.fixtures.ts
-    notes: Official request/response/error shapes used as independent fixture provenance for #513; #515 adapter encode/decode/transport consumes the same shapes (paper; no live).
+    notes: "Official request/response/error shapes used as independent fixture provenance for #513; #515 adapter encode/decode/transport consumes the same shapes (paper; no live)."
   - id: docs-typesafe-ai-confidence
     name: TypeSafe confidence
     source_type: website
@@ -1299,7 +1299,7 @@ sources:
       - catalog/upstreams/typesafe-ai.yaml
       - docs/upstreams/typesafe-qualification.md
       - catalog/providers/typesafe-qualify-map.ts
-    notes: Native question/answer shapes mapped onto SQ-01 contracts in #513.
+    notes: "Native question/answer shapes mapped onto SQ-01 contracts in #513."
   - id: docs-typesafe-ai-sdk-javascript
     name: TypeSafe JavaScript SDK documentation
     source_type: website
@@ -1633,7 +1633,7 @@ sources:
       - docs/evaluation/semantic-ultrafast-interactive-candidate.md
       - catalog/providers/semantic-eval-baselines-map.ts
       - checks/verification/rehearsal/semantic-eval-baselines.md
-    notes: Upstream interactive/ultrafast pattern cite for #514 cheap paper fold. Not Brigade productization; fixture≠live≠browser; no clone/run in default CI.
+    notes: "Upstream interactive/ultrafast pattern cite for #514 cheap paper fold. Not Brigade productization; fixture≠live≠browser; no clone/run in default CI."
   - id: github-com-typesafe-ai-typesafe-sdk-python
     name: TypeSafe Python SDK repository
     source_type: github
@@ -1642,7 +1642,7 @@ sources:
     owner: b2c-maintainers
     locations:
       - catalog/upstreams/typesafe-ai.yaml
-    notes: Official Python client. Reviewed release baseline only; not installed as a Brigade dependency by #513.
+    notes: "Official Python client. Reviewed release baseline only; not installed as a Brigade dependency by #513."
   - id: github-com-typesafe-ai-typesafe-sdk-python-license
     name: TypeSafe Python SDK LICENSE
     source_type: github
@@ -1754,7 +1754,7 @@ sources:
     locations:
       - catalog/upstreams/typesafe-ai.yaml
       - docs/upstreams/typesafe-qualification.md
-    notes: Distinct distribution from Python SDK. Latest observed 0.6.0 on 2026-09-19; not installed by #513.
+    notes: "Distinct distribution from Python SDK. Latest observed 0.6.0 on 2026-09-19; not installed by #513."
   - id: opensource-org-license-mit
     name: opensource.org
     source_type: license
@@ -1835,18 +1835,10 @@ sources:
     owner: source-freshness
     locations:
       - checks/validation/repository/skill-versioning.md
-    notes: Remote manifest used when comparing installed runtime freshness against the public main branch. Renamed
-      from b2c-app-builder to Brigade; GitHub redirects the old URL.
-  - id: github-raw-b2c-launch-skill-version-main-legacy-name
-    name: b2c skill version manifest, pre-rename URL
-    source_type: raw_manifest
-    url: https://raw.githubusercontent.com/Clueless-Creations/b2c-app-builder/main/skill-version.json
-    refresh_cadence_days: 90
-    owner: maintainer
-    locations:
       - checks/validation/repository/fixtures/_source-http-checks.ts
-    notes: Pre-rename URL of github-raw-b2c-launch-skill-version-main, kept as a public raw URL in the source HTTP
-      test helper. GitHub redirects it to Clueless-Creations/Brigade.
+    notes: Remote manifest used when comparing installed runtime freshness against the public main branch, and the
+      public raw URL in the source HTTP test helper. Renamed from b2c-app-builder to Brigade; GitHub redirects the
+      old URL.
   - id: github-repo-b2c-launch-skill
     name: This repository on GitHub
     source_type: repository
@@ -1855,9 +1847,12 @@ sources:
     owner: maintainer
     locations:
       - package.json
-    notes: Canonical repo URL used by the package.json homepage field. Self-referential; tracked so the registry
-      stays exhaustive rather than because it can drift upstream. Renamed from b2c-mobile-business-launch-skill on
-      2026-08-05 and from b2c-app-builder to Brigade later; GitHub redirects both old URLs.
+      - hosted/builder-console/console/chrome.ts
+      - tooling/export-task-skill.ts
+    notes: Canonical repo URL used by the package.json homepage field, the console's Open source link, and the
+      exported task-skill repository field. Self-referential; tracked so the registry stays exhaustive rather than
+      because it can drift upstream. Renamed from b2c-mobile-business-launch-skill on 2026-08-05 and from
+      b2c-app-builder to Brigade later; GitHub redirects both old URLs.
   - id: github-repo-b2c-launch-skill-contributing
     name: This repository, CONTRIBUTING.md on main
     source_type: repository
@@ -1988,17 +1983,6 @@ sources:
     locations:
       - package.json
     notes: package.json bugs.url, so npm surfaces the right place to file a report.
-  - id: github-repo-b2c-launch-skill-legacy-name
-    name: This repository on GitHub, pre-rename URL
-    source_type: repository
-    url: https://github.com/Clueless-Creations/b2c-app-builder
-    refresh_cadence_days: 90
-    owner: maintainer
-    locations:
-      - hosted/builder-console/console/chrome.ts
-      - tooling/export-task-skill.ts
-    notes: Pre-rename URL of github-repo-b2c-launch-skill. The console's Open source link and the exported task-skill
-      repository field still use it. GitHub redirects it to Clueless-Creations/Brigade.
   - id: github-repo-b2c-launch-skill-security-advisory
     name: This repository, private vulnerability reporting
     source_type: repository

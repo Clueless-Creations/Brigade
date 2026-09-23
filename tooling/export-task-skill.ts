@@ -9,7 +9,7 @@ import { isMainModule } from "./lib/cli-entrypoint.js";
 import { resolveSkillRoot } from "./lib/skill-root.js";
 
 const digest = (bytes: string | Buffer): string => createHash("sha256").update(bytes).digest("hex");
-const repository = "https://github.com/Clueless-Creations/b2c-app-builder";
+const repository = "https://github.com/Clueless-Creations/Brigade";
 const external = (url: string): boolean => /^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/iu.test(url);
 const linkPattern = /(!?\[[^\]\n]*\]\()([^\s)]+)([^)\n]*\))/gu;
 

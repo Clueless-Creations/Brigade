@@ -15,7 +15,7 @@ import { BRAND_MARK_SVG, themeCss } from "../../knowledge-mcp/theme.js";
 export const CONSOLE_CSP = "default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
 
 export const SITE_ORIGIN = "https://clueless-creations.com";
-export const REPOSITORY_URL = "https://github.com/Clueless-Creations/b2c-app-builder";
+export const REPOSITORY_URL = "https://github.com/Clueless-Creations/Brigade";
 export const OFFER_PAGE_URL = `${SITE_ORIGIN}/b2c-app-builder/`;
 
 export function escapeHtml(value: string): string {
