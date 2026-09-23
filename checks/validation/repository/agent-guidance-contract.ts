@@ -269,6 +269,26 @@ export interface GuidancePacket {
   utf8Bytes: number;
 }
 
+/**
+ * Declared moves of frozen packet paths. A frozen corpus names files as they stood at its source
+ * revision and is never rewritten. A replay measures the frozen path when it exists and the declared
+ * new location only when it does not. An undeclared missing file stays unmeasured.
+ */
+const PACKET_PATH_MOVES: ReadonlyArray<{ from: string; to: string }> = [
+  // #619 renamed the business skill directory.
+  { from: "agents/skills/b2c-app-builder/", to: "agents/skills/brigade/" },
+];
+
+function readPacketFile(relative: string, read: ReadGuidance): { measuredPath: string; text: string } | undefined {
+  const text = read(relative);
+  if (text !== undefined) return { measuredPath: relative, text };
+  const move = PACKET_PATH_MOVES.find(({ from }) => relative.startsWith(from));
+  if (!move) return undefined;
+  const measuredPath = `${move.to}${relative.slice(move.from.length)}`;
+  const moved = read(measuredPath);
+  return moved === undefined ? undefined : { measuredPath, text: moved };
+}
+
 /** Replays only declared file packets. This does not infer a read path or execute a service. */
 export function measureGuidancePackets(
   packets: readonly GuidancePacket[],
@@ -277,7 +297,7 @@ export function measureGuidancePackets(
   id: string;
   fileCount: number;
   utf8Bytes: number;
-  files: Array<{ path: string; utf8Bytes: number; gitBlob: string }>;
+  files: Array<{ path: string; measuredPath?: string; utf8Bytes: number; gitBlob: string }>;
 }> {
   return packets.map((packet) => {
     if (new Set(packet.measuredFiles).size !== packet.measuredFiles.length || !packet.measuredFiles.includes(ROOT)) {
@@ -285,10 +305,13 @@ export function measureGuidancePackets(
     }
     const files = packet.measuredFiles.map((relative) => {
       if (path.posix.isAbsolute(relative) || relative.split("/").includes("..")) throw new Error(`Non-local packet file: ${relative}`);
-      const text = read(relative);
-      if (text === undefined) throw new Error(`Unmeasured required packet file: ${relative}`);
-      const bytes = Buffer.from(text, "utf8");
-      return { path: relative, utf8Bytes: bytes.length, gitBlob: createHash("sha1").update(`blob ${bytes.length}\0`).update(bytes).digest("hex") };
+      const found = readPacketFile(relative, read);
+      if (found === undefined) throw new Error(`Unmeasured required packet file: ${relative}`);
+      const bytes = Buffer.from(found.text, "utf8");
+      const gitBlob = createHash("sha1").update(`blob ${bytes.length}\0`).update(bytes).digest("hex");
+      return found.measuredPath === relative
+        ? { path: relative, utf8Bytes: bytes.length, gitBlob }
+        : { path: relative, measuredPath: found.measuredPath, utf8Bytes: bytes.length, gitBlob };
     });
     return { id: packet.id, fileCount: files.length, utf8Bytes: files.reduce((sum, file) => sum + file.utf8Bytes, 0), files };
   });

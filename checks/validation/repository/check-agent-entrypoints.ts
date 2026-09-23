@@ -233,10 +233,15 @@ if (baselinePath || reportPath || sourceRef) {
     ) {
       throw new Error("Expected the frozen ten-case A0 packet manifest with full AGENTS.md injection.");
     }
+    if (sourceRef) {
+      const pinned = spawnSync("git", ["cat-file", "-e", `${sourceRef}^{commit}`], { cwd: repoRoot, encoding: "utf8" });
+      if (pinned.status !== 0) throw new Error(`Cannot read pinned source ${sourceRef}: ${pinned.stderr.trim() || "not a commit"}`);
+    }
+    // The ref is a known commit, so a failed show means the path is absent at that revision.
     const historicalRead = (relative: string): string | undefined => {
       const shown = spawnSync("git", ["show", `${sourceRef}:${relative}`], { cwd: repoRoot, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
-      if (shown.status !== 0) throw new Error(`Cannot read pinned source ${sourceRef}:${relative}: ${shown.stderr.trim()}`);
-      return shown.stdout;
+      if (shown.error) throw new Error(`Cannot read pinned source ${sourceRef}:${relative}: ${shown.error.message}`);
+      return shown.status === 0 ? shown.stdout : undefined;
     };
     const cases = measureGuidancePackets(baseline.cases, sourceRef ? historicalRead : read);
     const report = {
