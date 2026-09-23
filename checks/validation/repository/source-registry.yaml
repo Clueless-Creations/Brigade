@@ -58,6 +58,26 @@ sources:
     locations:
       - docs/research/2026-09-04-graph-and-craft-audit.md
     notes: Auto-discovered from recently added repository content.
+  - id: api-github-com-user
+    name: GitHub REST API — authenticated user
+    source_type: api
+    url: https://api.github.com/user
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - hosted/builder-console/auth/github.ts
+    notes: fetchGitHubIdentity reads the stable numeric user id here after the token exchange. That id becomes the
+      console subject, never the login or email (ADR-0020, issue 6).
+  - id: api-github-com-user-emails
+    name: GitHub REST API — authenticated user emails
+    source_type: api
+    url: https://api.github.com/user/emails
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - hosted/builder-console/auth/github.ts
+    notes: fetchGitHubIdentity requires the primary verified email from this list, so a private profile email still
+      signs in. Needs the user:email scope (ADR-0020, issue 6).
   - id: api-revenuecat-com
     name: RevenueCat REST API v2 — API host
     source_type: api
@@ -90,6 +110,16 @@ sources:
       - adapters/providers/typesafe/transport.ts
       - adapters/providers/typesafe/effects.ts
     notes: Hosted evaluation endpoint POST /v1/systemone. #515 records thin-direct-http transport against this host; fixtures use fake transport only — no live call from Brigade tests.
+  - id: api-typesafe-ai-v1-systemone
+    name: TypeSafe System One evaluation endpoint
+    source_type: api
+    url: https://api.typesafe.ai/v1/systemone
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/upstreams/typesafe-qualification.md
+    notes: POST endpoint named in the issue 513 qualification. Brigade fixtures use a fake transport; no live call from
+      Brigade tests.
   - id: app-posthog-com
     name: PostHog Cloud — app host
     source_type: api
@@ -189,6 +219,16 @@ sources:
       authorized redirect URI on the Google OAuth 2.0 Web Client by a human per the Go-live checklist;
       googleRedirectUri (worker.ts) constructs this same URL from the incoming request rather than a hard-coded
       constant, so the two must stay identical by construction, not by convention.
+  - id: clueless-creations-app-auth-google-start
+    name: Clueless Creations app — Google sign-in start
+    source_type: api
+    url: https://app.clueless-creations.com/auth/google/start
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-u6-6-cross-repo-signin-followup.md
+    notes: First-party endpoint (hosted/builder-console/worker.ts). Kept for existing deep links and bookmarks after
+      /signin became the provider chooser (ADR-0020, issue 6).
   - id: clueless-creations-app-console
     name: Clueless Creations app — console
     source_type: api
@@ -230,6 +270,16 @@ sources:
     notes: First-party origin (hosted/builder-console/wrangler.jsonc's route). Registered as the authorized
       JavaScript origin on the Google OAuth 2.0 Web Client (M3) by a human per the Go-live checklist; this
       Worker does not call out to itself.
+  - id: clueless-creations-app-signin
+    name: Clueless Creations app — sign-in chooser
+    source_type: api
+    url: https://app.clueless-creations.com/signin
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-u6-6-cross-repo-signin-followup.md
+    notes: First-party page (hosted/builder-console/worker.ts SIGNIN_PATH). Offers Google and GitHub sign-in
+      (ADR-0020, issue 6).
   - id: clueless-creations-app-stripe-webhook
     name: Clueless Creations app — Stripe webhook endpoint
     source_type: api
@@ -1094,6 +1144,71 @@ sources:
       - adapters/providers/typesafe/transport.ts
       - checks/verification/fixtures/typesafe-adapter.fixtures.ts
     notes: Official request/response/error shapes used as independent fixture provenance for #513; #515 adapter encode/decode/transport consumes the same shapes (paper; no live).
+  - id: docs-typesafe-ai-confidence
+    name: TypeSafe confidence
+    source_type: website
+    url: https://docs.typesafe.ai/confidence
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+    notes: Answer distributions, derived confidence, and risk-dependent policy. Upstream pattern, not Brigade proof.
+  - id: docs-typesafe-ai-cookbook-autoresearch-feature-discovery
+    name: TypeSafe cookbook — feature discovery
+    source_type: website
+    url: https://docs.typesafe.ai/cookbooks/autoresearch_feature_discovery
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/semantic-execution.md
+    notes: Upstream pattern cited by the semantic execution design. Not Brigade proof.
+  - id: docs-typesafe-ai-cookbook-entity-alignment
+    name: TypeSafe cookbook — entity alignment
+    source_type: website
+    url: https://docs.typesafe.ai/cookbooks/entity_alignment
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/semantic-execution.md
+    notes: Upstream pattern cited by the semantic execution design. Not Brigade proof.
+  - id: docs-typesafe-ai-cookbook-function-calling
+    name: TypeSafe cookbook — function calling
+    source_type: website
+    url: https://docs.typesafe.ai/cookbooks/function_calling
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+      - docs/decisions/0016-compiled-semantic-execution.md
+    notes: Decisions over known functions and arguments. Upstream pattern, not Brigade proof.
+  - id: docs-typesafe-ai-cookbook-hierarchical-classification
+    name: TypeSafe cookbook — hierarchical classification
+    source_type: website
+    url: https://docs.typesafe.ai/cookbooks/hierarchical_classification
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/semantic-execution.md
+    notes: Upstream pattern cited by the semantic execution design. Not Brigade proof.
+  - id: docs-typesafe-ai-cookbook-parallel-questions
+    name: TypeSafe cookbook — parallel questions
+    source_type: website
+    url: https://docs.typesafe.ai/cookbooks/parallel_questions
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/semantic-execution.md
+    notes: Upstream pattern cited by the semantic execution design. Not Brigade proof.
+  - id: docs-typesafe-ai-cookbook-skill-suggestion
+    name: TypeSafe cookbook — skill suggestion
+    source_type: website
+    url: https://docs.typesafe.ai/cookbooks/skill_suggestion
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+      - docs/decisions/0016-compiled-semantic-execution.md
+    notes: Progressive candidate retrieval with a no-fit outcome. Upstream pattern, not Brigade proof.
   - id: docs-typesafe-ai-how-to-build
     name: TypeSafe how-to-build-with-system-one
     source_type: website
@@ -1104,6 +1219,16 @@ sources:
       - catalog/upstreams/typesafe-ai.yaml
       - docs/upstreams/typesafe-qualification.md
     notes: Upstream architecture patterns (code owns control flow; narrow typed questions). Not Brigade proof.
+  - id: docs-typesafe-ai-introduction
+    name: TypeSafe introduction
+    source_type: website
+    url: https://docs.typesafe.ai/introduction
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+      - docs/semantic-execution.md
+    notes: Typed questions and decision primitives. Upstream pattern, not Brigade proof.
   - id: docs-typesafe-ai-legal
     name: TypeSafe legal index
     source_type: website
@@ -1114,6 +1239,56 @@ sources:
       - catalog/upstreams/typesafe-ai.yaml
       - docs/upstreams/typesafe-qualification.md
     notes: Public DPA/MCA/Privacy pointers. Unreviewed for Brigade live authority; unknowns block live customer payloads.
+  - id: docs-typesafe-ai-llms-txt
+    name: TypeSafe docs llms.txt index
+    source_type: website
+    url: https://docs.typesafe.ai/llms.txt
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/upstreams/typesafe-qualification.md
+    notes: Machine-readable page index read during the 2026-09-19 qualification (#513).
+  - id: docs-typesafe-ai-model-jaggedness-jev-1-13
+    name: TypeSafe Jev 1.13 limitations
+    source_type: website
+    url: https://docs.typesafe.ai/model-jaggedness/jev-1.13
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+    notes: Numerical, context, structural, and adversarial limitations of one model version. Recheck during
+      qualification.
+  - id: docs-typesafe-ai-models
+    name: TypeSafe models
+    source_type: website
+    url: https://docs.typesafe.ai/models
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+    notes: Modality, version alias, and capacity facts. Recheck during qualification.
+  - id: docs-typesafe-ai-pattern-fan-out
+    name: TypeSafe pattern — speculative fan-out
+    source_type: website
+    url: https://docs.typesafe.ai/patterns/fan-out
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+      - docs/decisions/0016-compiled-semantic-execution.md
+      - docs/semantic-execution.md
+      - docs/upstreams/typesafe-qualification.md
+    notes: Independent questions with conditional consumption. Upstream pattern, not Brigade proof.
+  - id: docs-typesafe-ai-pattern-intent-routing
+    name: TypeSafe pattern — intent routing
+    source_type: website
+    url: https://docs.typesafe.ai/patterns/intent-routing
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/decision-driven-building.md
+      - docs/decisions/0016-compiled-semantic-execution.md
+    notes: Choosing deterministic, specialist, and human handlers. Upstream pattern, not Brigade proof.
   - id: docs-typesafe-ai-primitives
     name: TypeSafe primitives (Choice/Score/Noul)
     source_type: website
@@ -1125,6 +1300,33 @@ sources:
       - docs/upstreams/typesafe-qualification.md
       - catalog/providers/typesafe-qualify-map.ts
     notes: Native question/answer shapes mapped onto SQ-01 contracts in #513.
+  - id: docs-typesafe-ai-sdk-javascript
+    name: TypeSafe JavaScript SDK documentation
+    source_type: website
+    url: https://docs.typesafe.ai/sdk/javascript
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/upstreams/typesafe-qualification.md
+    notes: Documents @typesafe-ai/sdk. Not installed as a Brigade dependency.
+  - id: docs-typesafe-ai-sdk-python
+    name: TypeSafe Python SDK documentation
+    source_type: website
+    url: https://docs.typesafe.ai/sdk/python
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/upstreams/typesafe-qualification.md
+    notes: Documents the typesafe-sdk Python client. Not installed as a Brigade dependency.
+  - id: docs-typesafe-ai-use-case-map
+    name: TypeSafe use-case map
+    source_type: website
+    url: https://docs.typesafe.ai/concepts/use-case-map
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - docs/semantic-execution.md
+    notes: Code-controlled use cases for typed questions. Upstream pattern, not Brigade proof.
   - id: docs-whop-com-developer-websites-blueprints
     name: Whop Blueprints planning reference
     source_type: official_docs
@@ -1451,6 +1653,15 @@ sources:
       - catalog/upstreams/typesafe-ai.yaml
       - catalog/upstreams/notices/typesafe-ai.txt
     notes: MIT notice retained verbatim for credits. Does not license the hosted API.
+  - id: github-com-typesafe-ai-typesafe-sdk-python-release-v0-7-0
+    name: TypeSafe Python SDK v0.7.0 release
+    source_type: github
+    url: https://github.com/typesafe-ai/typesafe-sdk-python/releases/tag/v0.7.0
+    refresh_cadence_days: 14
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/observations/typesafe-ai.json
+    notes: Latest stable release recorded by the typesafe-ai upstream observation. Reviewed baseline only.
   - id: layers-com-docs-mcp
     name: layers.com
     source_type: official_docs
@@ -1483,6 +1694,26 @@ sources:
     locations:
       - catalog/upstreams/layers-growth-mcp.yaml
     notes: MIT license text retained verbatim at catalog/upstreams/notices/layers-growth-mcp.txt.
+  - id: github-com-login-oauth-access-token
+    name: GitHub — OAuth token endpoint
+    source_type: api
+    url: https://github.com/login/oauth/access_token
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - hosted/builder-console/auth/github.ts
+    notes: exchangeGitHubCode's POST target. Trades an authorization code for an access token (ADR-0020, issue 6).
+      GitHub's documented OAuth web application flow endpoint.
+  - id: github-com-login-oauth-authorize
+    name: GitHub — OAuth authorization endpoint
+    source_type: api
+    url: https://github.com/login/oauth/authorize
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - hosted/builder-console/auth/github.ts
+    notes: GET /auth/github/start redirects here to begin GitHub console sign-in (ADR-0020, issue 6). GitHub's documented
+      OAuth web application flow endpoint.
   - id: github-com-layers-cli
     name: github.com
     source_type: github
@@ -1599,24 +1830,34 @@ sources:
   - id: github-raw-b2c-launch-skill-version-main
     name: b2c skill version manifest
     source_type: raw_manifest
-    url: https://raw.githubusercontent.com/Clueless-Creations/b2c-app-builder/main/skill-version.json
+    url: https://raw.githubusercontent.com/Clueless-Creations/Brigade/main/skill-version.json
     refresh_cadence_days: 7
     owner: source-freshness
     locations:
       - checks/validation/repository/skill-versioning.md
-    notes: Remote manifest used when comparing installed runtime freshness against the public main branch.
-  - id: github-repo-b2c-launch-skill
-    name: This repository on GitHub
-    source_type: repository
-    url: https://github.com/Clueless-Creations/b2c-app-builder
+    notes: Remote manifest used when comparing installed runtime freshness against the public main branch. Renamed
+      from b2c-app-builder to Brigade; GitHub redirects the old URL.
+  - id: github-raw-b2c-launch-skill-version-main-legacy-name
+    name: b2c skill version manifest, pre-rename URL
+    source_type: raw_manifest
+    url: https://raw.githubusercontent.com/Clueless-Creations/b2c-app-builder/main/skill-version.json
     refresh_cadence_days: 90
     owner: maintainer
     locations:
-      - README.md
+      - checks/validation/repository/fixtures/_source-http-checks.ts
+    notes: Pre-rename URL of github-raw-b2c-launch-skill-version-main, kept as a public raw URL in the source HTTP
+      test helper. GitHub redirects it to Clueless-Creations/Brigade.
+  - id: github-repo-b2c-launch-skill
+    name: This repository on GitHub
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
       - package.json
-    notes: Canonical repo URL used by the README clone command and the package.json homepage field.
-      Self-referential; tracked so the registry stays exhaustive rather than because it can drift upstream.
-      Renamed from b2c-mobile-business-launch-skill on 2026-08-05; GitHub redirects the old URL.
+    notes: Canonical repo URL used by the package.json homepage field. Self-referential; tracked so the registry
+      stays exhaustive rather than because it can drift upstream. Renamed from b2c-mobile-business-launch-skill on
+      2026-08-05 and from b2c-app-builder to Brigade later; GitHub redirects both old URLs.
   - id: github-repo-b2c-launch-skill-contributing
     name: This repository, CONTRIBUTING.md on main
     source_type: repository
@@ -1634,9 +1875,110 @@ sources:
     refresh_cadence_days: 90
     owner: maintainer
     locations:
+      - README.md
       - package.json
-    notes: package.json repository.url. Update alongside github-repo-b2c-launch-skill if the repo is ever renamed or
+    notes: package.json repository.url and the README clone command. Update alongside github-repo-b2c-launch-skill if the repo is ever renamed or
       transferred.
+  - id: github-repo-b2c-launch-skill-issue-386
+    name: This repository, issue 386
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/386
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Packaged guidance and host discovery. Linked from the decision-driven building plan. Self-referential;
+      tracked so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-392
+    name: This repository, issue 392
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/392
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Fresh-agent autonomy and context evidence. Linked from the decision-driven building plan.
+      Self-referential; tracked so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-511
+    name: This repository, issue 511
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/511
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Semantic architecture and program epic. Linked from the decision-driven building plan. Self-referential;
+      tracked so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-523
+    name: This repository, issue 523
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/523
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Semantic-runtime safety and staged rollout. Linked from the decision-driven building plan.
+      Self-referential; tracked so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-524
+    name: This repository, issue 524
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/524
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Eligible next-work ranking. Linked from the decision-driven building plan. Self-referential; tracked so
+      the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-562
+    name: This repository, issue 562
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/562
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Product Profile program. Linked from the decision-driven building plan. Self-referential; tracked so the
+      registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-570
+    name: This repository, issue 570
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/570
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Reference-profile composition. Linked from the decision-driven building plan. Self-referential; tracked
+      so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-571
+    name: This repository, issue 571
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/571
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Jev qualification for active build routing. Linked from the decision-driven building plan.
+      Self-referential; tracked so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-573
+    name: This repository, issue 573
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/573
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/plans/2026-09-20-decision-driven-building.md
+    notes: Active Jev-directed build loop. Linked from the decision-driven building plan. Self-referential; tracked
+      so the registry stays exhaustive.
+  - id: github-repo-b2c-launch-skill-issue-6
+    name: This repository, issue 6
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/issues/6
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - docs/decisions/0020-provider-neutral-console-identity.md
+    notes: Provider-neutral console sign-in. Cited by ADR-0020. Self-referential; tracked so the registry stays
+      exhaustive.
   - id: github-repo-b2c-launch-skill-issues
     name: This repository, issue tracker
     source_type: repository
@@ -1646,6 +1988,17 @@ sources:
     locations:
       - package.json
     notes: package.json bugs.url, so npm surfaces the right place to file a report.
+  - id: github-repo-b2c-launch-skill-legacy-name
+    name: This repository on GitHub, pre-rename URL
+    source_type: repository
+    url: https://github.com/Clueless-Creations/b2c-app-builder
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - hosted/builder-console/console/chrome.ts
+      - tooling/export-task-skill.ts
+    notes: Pre-rename URL of github-repo-b2c-launch-skill. The console's Open source link and the exported task-skill
+      repository field still use it. GitHub redirects it to Clueless-Creations/Brigade.
   - id: github-repo-b2c-launch-skill-security-advisory
     name: This repository, private vulnerability reporting
     source_type: repository
@@ -2227,6 +2580,16 @@ sources:
       - tooling/probe-revenuecat.ts
     notes: RevenueCat v1 REST API reference cited in probe-revenuecat.ts header documentation explaining the v1 vs
       v2 endpoint difference.
+  - id: www-revenuecat-com-docs-getting-started-installation-reactnative
+    name: RevenueCat React Native SDK installation
+    source_type: official_docs
+    url: https://www.revenuecat.com/docs/getting-started/installation/reactnative
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/stacks/expo-revenuecat-wiring.ts
+    notes: Citation for the react-native-purchases development and release-build path (#83). Wiring notes only;
+      not an installed native module or store proof.
   - id: www-revenuecat-com-docs-integrations-attribution-appsflyer
     name: RevenueCat AppsFlyer attribution
     source_type: official_docs

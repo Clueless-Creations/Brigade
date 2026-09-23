@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
@@ -187,6 +187,43 @@ function shouldScan(filePath: string, root: string, registryPath: string, scanGe
   return textExtensions.has(path.extname(filePath));
 }
 
+// A gitignored path is machine-local state (agent hook state, deploy overlays, build output), not
+// content this checkout publishes. At the top of a git checkout, scan what git would publish:
+// tracked files plus untracked files that are not ignored, so a new file is still checked before
+// its first commit. Any other root (an installed package, a fixture copy) is scanned in full,
+// because an enclosing repository's ignore rules say nothing about that root's own content.
+function publishableFiles(root: string): Set<string> | undefined {
+  const toplevel = spawnSync("git", ["rev-parse", "--show-toplevel"], { cwd: root, encoding: "utf8" });
+  if (toplevel.status !== 0 || realpathSync(toplevel.stdout.trim()) !== realpathSync(root)) {
+    return undefined;
+  }
+  const listed = spawnSync("git", ["ls-files", "-z", "--cached", "--others", "--exclude-standard"], {
+    cwd: root,
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (listed.status !== 0) {
+    return undefined;
+  }
+  return new Set(
+    listed.stdout
+      .split("\0")
+      .filter(Boolean)
+      .map((relative) => path.resolve(root, relative)),
+  );
+}
+
+const publishableByRoot = new Map<string, Set<string> | undefined>();
+
+function scannedFiles(root: string): string[] {
+  if (!publishableByRoot.has(root)) {
+    publishableByRoot.set(root, publishableFiles(root));
+  }
+  const publishable = publishableByRoot.get(root);
+  const files = collectAllFiles(root, 20000);
+  return publishable ? files.filter((file) => publishable.has(path.resolve(file))) : files;
+}
+
 function loadRegistry(registryPath: string): MutableRecord {
   if (!existsSync(registryPath)) {
     return { schema_version: 1, sources: [] };
@@ -208,7 +245,7 @@ function sourceRecords(registry: MutableRecord): MutableRecord[] {
 function knowledgePackageUrls(root: string): Set<string> {
   const result = new Set<string>();
   const marker = `${path.sep}catalog${path.sep}knowledge${path.sep}`;
-  for (const file of collectAllFiles(root, 20000)) {
+  for (const file of scannedFiles(root)) {
     if (!file.includes(marker) || !/\.ya?ml$/u.test(file)) continue;
     const parsed = parseYaml(readFileSync(file, "utf8"));
     if (!isRecord(parsed) || !Array.isArray(parsed.sources)) continue;
@@ -222,7 +259,7 @@ function knowledgePackageUrls(root: string): Set<string> {
 
 function discoverCurrentUrls(args: Args): Map<string, DiscoveredUrl> {
   const discovered = new Map<string, DiscoveredUrl>();
-  for (const file of collectAllFiles(args.root, 20000)) {
+  for (const file of scannedFiles(args.root)) {
     if (!shouldScan(file, args.root, args.registryPath)) {
       continue;
     }
@@ -491,7 +528,7 @@ if (snapshotIds.size > 0) {
 const authoredHomes = new Set<string>();
 const authoredSecrets = new Set<string>();
 let authoredSibling = false;
-for (const file of collectAllFiles(args.root, 20000)) {
+for (const file of scannedFiles(args.root)) {
   if (!shouldScan(file, args.root, args.registryPath)) continue;
   const relative = path.relative(args.root, file);
   const residue = collectPublicBoundaryResidue(readFileSync(file, "utf8"));
@@ -509,7 +546,7 @@ for (const file of collectAllFiles(args.root, 20000)) {
 }
 
 const registryHasSibling = sourceRecords(registry).some((source) => isNonpublicSiblingSource(String(source.url ?? "")));
-for (const file of collectAllFiles(args.root, 20000)) {
+for (const file of scannedFiles(args.root)) {
   if (!shouldScan(file, args.root, args.registryPath, true)) continue;
   const relative = path.relative(args.root, file);
   if (!isGeneratedCopy(relative)) continue;
