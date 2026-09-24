@@ -13,8 +13,8 @@ import {
   writeDoctorHostObservation,
 } from "../../../kernel/session/doctor-host.js";
 
-const LATEST = "5.1.0";
-const COMPARED_AT = "2026-09-08T18:00:00.000Z";
+const LATEST = "5.5.0";
+const COMPARED_AT = "2026-09-24T18:00:00.000Z";
 
 function finding(findings: readonly DoctorFinding[], code: string): DoctorFinding | undefined {
   return findings.find((item) => item.code === code);

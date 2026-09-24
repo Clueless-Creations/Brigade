@@ -20,12 +20,14 @@ license:
   status: verified
   evidence_url: https://github.com/rorkai/App-Store-Connect-CLI/blob/main/LICENSE
   evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
-  reviewed_revision: main@ca759a3b6ab88c8c39aed13325461248436615ca (2026-09-08); release 5.1.0 tag shares the same LICENSE text
+  reviewed_revision: main@a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b (2026-09-24); release 5.5.0 tag shares the same LICENSE text
   notice_file: catalog/upstreams/notices/rork-app-store-connect-cli.txt
   scope: Root LICENSE of the CLI repository. The builder distributes no copied CLI source; the notice is retained because the executable is a direct upstream relationship and the command procedures are adapted from its documentation.
   notes: GitHub reports license key mit for this repository. The Homebrew formula also records MIT. Neither is legal advice.
 source_ids:
   - github-com-rorkai-app-store-connect-cli
+  - github-com-rorkai-app-store-connect-cli-releases-5-4-0
+  - github-com-rorkai-app-store-connect-cli-releases-5-5-0
   - github-com-rorkai-app-store-connect-cli-releases-4-9-0
   - github-com-rorkai-app-store-connect-cli-license
   - asccli-sh
@@ -63,23 +65,23 @@ relationships:
     pin_authority: knowledge manifest last_review_date and the reviewed baselines below
 baselines:
   reviewed_source:
-    revision: "5.1.0"
-    observed_at: "2026-09-08"
+    revision: "5.5.0"
+    observed_at: "2026-09-24"
     by: b2c-maintainers
-    note: Local `asc --help` of the PATH-winning 5.1.0 binary and the GitHub 5.1.0 tag on 2026-09-08 (knowledge/store/app-store-connect-cli.md, Current Sources To Refresh).
+    note: Local `asc --help` of the PATH-winning 5.5.0 binary and the GitHub 5.5.0 release on 2026-09-24. The exact 5.1.0 JSON samples remain historical.
   reviewed_guidance:
-    revision: "5.1.0"
-    observed_at: "2026-09-08"
+    revision: "5.5.0"
+    observed_at: "2026-09-24"
     by: b2c-maintainers
-    note: 5.0.0 is the hard break (`apps view --id`, `--build-id`, `auth logout --confirm`). 5.1.0 adds web-session deadline renewal after 2FA and `--session-from-env` on selected web reads. Reviewed guidance tracks this latest stable; it is not a workspace pin and inspect does not upgrade the host. `b2c doctor` is a supported equivalent.
+    note: Reviewed 5.4 version defaults and web-account selection plus the 5.5 all-localizations screenshot response. The exact 5.1.0 JSON samples remain historical. This is not a workspace pin; `b2c doctor` observes the host but does not upgrade it.
 support:
   policy: Executable guidance is stored per exact reviewed revision. Any other installed version re-verifies each command with `asc <cmd> --help` before first use (Verified Command Cookbook rule). A passing live probe proves the probed tokens on the probed binary only, never a version range. Support is `>= 5.0.0 < 6.0.0`. Major versions below 5 are unsupported. Web-login handoff is refused unless the winning binary is `>= 5.1.0`.
   versions:
     - range: ">=5.0.0 <6.0.0"
       status: supported
       evidence:
-        - knowledge/store/app-store-connect-cli.md Verified Command Cookbook (local --help, 2026-09-08)
-        - GitHub releases 5.0.0 (2026-09-06) and 5.1.0 (2026-09-08)
+        - knowledge/store/app-store-connect-cli.md Verified Command Cookbook (local --help, 2026-09-24)
+        - GitHub releases 5.0.0 (2026-09-06), 5.1.0 (2026-09-08), 5.4.0 (2026-09-18), and 5.5.0 (2026-09-24)
     - range: "<5.0.0"
       status: unsupported
       evidence:
@@ -116,6 +118,10 @@ support:
     - id: asc.screenshots.validate
       title: asc screenshots sizes / validate; upload after founder approval
       keywords: [screenshot, screenshots]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.screenshots.list
+      title: asc screenshots list (read-only; one locale or every version localization)
+      keywords: [screenshot, screenshots, localization]
       owners: [knowledge/store/app-store-connect-cli.md]
     - id: asc.diff.localizations
       title: asc diff localizations
@@ -203,7 +209,7 @@ host_probe:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-08"
+  last_review: "2026-09-24"
   status: current
 credits:
   acknowledge: true

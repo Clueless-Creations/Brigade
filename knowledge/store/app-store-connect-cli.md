@@ -34,7 +34,10 @@ Refresh these before running or writing commands:
 - Official Apple App Store Connect docs referenced in `store-console-workflow.md`
 - Official Apple signing/account docs referenced in `apple-signing-release.md`
 
-As of the September 8, 2026 GitHub 5.1.0 release and local `asc` 5.1.0 help, the CLI is a scriptable, JSON-first App Store Connect API tool for TestFlight, builds, submissions, signing, analytics, screenshots, subscriptions, Apple Ads, and related workflows. Reviewed guidance tracks this latest stable line. Use `asc apps view --id` to read app details — never `asc apps view --app`. The skills repo is a community-maintained, unofficial agent-skill pack and is not affiliated with Apple.
+GitHub released Rork `asc` 5.5.0 on September 24, 2026. Local `asc` 5.5.0 help was reviewed.
+The CLI provides JSON-first commands for App Store Connect workflows. These include TestFlight, builds, submissions, signing, analytics, screenshots, and subscriptions.
+Reviewed guidance tracks 5.5.0. Use `asc apps view --id` for app details. Never use `asc apps view --app`.
+The Rork skills pack is community-maintained and is not affiliated with Apple.
 
 API-key health and an Apple web session are two proofs. `asc auth status --validate` and `asc auth doctor` speak only to the API key. `asc web auth status` speaks only to the web session. A healthy API key is not "ASC connected" and does not unlock `asc web *` reads.
 
@@ -98,7 +101,7 @@ npx skills add rorkai/app-store-connect-cli-skills --global --agent cursor claud
 
 ## CLI Routing
 
-Use JSON output for agent automation:
+Use JSON output for agent automation. Pass a version or version ID when the target must stay fixed:
 
 ```bash
 asc auth status --validate
@@ -129,6 +132,10 @@ asc web review show --app "123456789" --submission "SUBMISSION_ID" --output json
 # Resolve the numeric version ID, then compare local .strings metadata without mutation.
 asc diff localizations --app "123456789" --path "./metadata/localizations" --version "VERSION_ID" --output table
 asc screenshots sizes --all --output table
+# Omit --locale only when every localization is required; JSON then uses localizations[].
+asc screenshots list --app "123456789" --version "1.2.3" --output json
+# Limit the response to one locale when only one screenshot set is required.
+asc screenshots list --app "123456789" --version "1.2.3" --locale "en-US" --output json
 # For each approved SCREENSHOTS.md row, validate the exact final dir, locale, and current ASC device_type.
 asc screenshots validate --path "./screenshots/final/en-US/<device-well>" --device-type "<ASC_DEVICE_TYPE>" --output table
 # Upload only after founder approval, version-localization IDs are resolved, and every iPhone/iPad row is validated.
@@ -163,15 +170,20 @@ These notes exist because agents repeatedly burned live-store cycles guessing fl
 
 - **Pre-use `--help` rule.** Before the first use of any `asc` subcommand not shown in this file, run `asc <subcommand> --help` and record the confirmed flags. If a command errors on a flag, run `asc <cmd> --help` before retrying — never retry a mutating command with a guessed alternate flag. (Failure card: `asc-flag-drift`.)
 - **`--confirm` is a CLI-required gate, not just a founder gate.** Destructive/mutating commands (`asc review cancel`, `asc review submit`, `asc subscriptions review submit`, release actions) error and do nothing unless `--confirm` is passed. So they need _both_ the CLI `--confirm` flag _and_ explicit founder approval before you run them. Omitting `--confirm` does not "safely no-op into a dry run" — it just errors; check `--help` for the required flags before the first live call.
-- **`validate` form.** In `asc` 5.1.0, validation accepts either `--version <VERSION_STRING>` or `--version-id <VERSION_ID>` with `--app`; there is no `asc validate app-store-version` subcommand. Always confirm current local help before use.
+- **`validate` form.** In `asc` 5.5.0, validation accepts either `--version <VERSION_STRING>` or `--version-id <VERSION_ID>` with `--app`; there is no `asc validate app-store-version` subcommand. Always confirm current local help before use.
+- **Default version selection.** Since 5.4.0, `validate`, `localizations list`, and `metadata pull` select the newest editable version by default. They next select a removed version, then the live version. Pass an exact version or ID when the target must stay fixed.
+- **Web account selection.** Since 5.4.0, web commands accept `--apple-id`. They next use `ASC_WEB_APPLE_ID`, then the last or only cached session. Set an explicit account when several sessions exist. Never store its email or a session value in evidence.
+- **Screenshot listing.** Since 5.5.0, `screenshots list` can list every version localization when `--locale` is omitted. JSON then returns a `localizations` array and empty top-level `versionLocalizationId` and `sets` keys. Pass `--locale` to limit the response to one localization.
+- **Repeat-safe creates.** Since 5.5.0, `versions create` and `localizations create` accept `--if-exists fail|skip|update`. The default is `fail`. `skip` reads the existing record without changing it. `update` writes supplied fields. These are still mutations and need an approved plan.
+- **Pricing schedule dates.** Since 5.5.0, `pricing schedule create` defaults an omitted `--start-date` to today's UTC date and prints the chosen date. Pass an exact date when an approved plan is date-bound. Its base territory accepts alpha-2, alpha-3, or an exact English country name.
 - **5.x identifier flags.** App details use `asc apps view --id`. Build-scoped reads use `--build-id`, not `--build`. Credential removal is `asc auth logout --confirm` (or `--name` / `--all` with `--confirm`).
-- **`--session-from-env` is a flag name only.** Some 5.1.0 web reads accept `--session-from-env`. Never persist a session cookie, `ASC_WEB_SESSION` value, or any filled env assignment in knowledge, receipts, doctor-host, or evals. Pass the flag, not a value.
+- **`--session-from-env` is a flag name only.** Some 5.5.0 web reads accept `--session-from-env`. Never persist a session cookie, `ASC_WEB_SESSION` value, or any filled env assignment in knowledge, receipts, doctor-host, or evals. Pass the flag, not a value.
 - **Web-login handoff floor.** Do not walk the founder through `asc web auth login` unless the winning binary reports `>= 5.1.0`. 5.1.0 renews request deadlines after interactive 2FA. API reads on `>= 5.0.0` may continue.
 - **Auth env vars.** The `asc` CLI reads `ASC_KEY_ID`, `ASC_ISSUER_ID`, and `ASC_PRIVATE_KEY_PATH` (the **path** to the `.p8`, confirmed from the CLI's own auth hint — not the key contents). Keep these names consistent with `state/business-state.json`. See "ASC Auth Setup And Recovery" above for the full auth ladder (keychain profiles, account-level keys, `asc auth init/login`). Do not `source` a `.env`/`clueless.env` that contains comments or unquoted values — that throws `command not found` on every invocation; extract single values with the awk pattern in [`secrets-management.md`](../operations/secrets-management.md) ("Env file extraction — never `source`").
 - **Internal TestFlight groups auto-distribute.** Internal groups deliver to all internal testers automatically; do not pass a skip flag unless you intend to block internal delivery. External distribution always needs founder approval.
 - **Test notes are idempotent updates.** Updating a build's test notes is an update, not a create — do not create a second build record when one already exists.
 - **Agreement status.** Run `asc web agreements status` during readiness checks. A pending agreement is founder action. Never call `asc web agreements accept` from an App Review observe mandate. Acceptance needs the Account Holder, an exact one-shot authorization, interactive confirmation, and provider readback.
-- **Web-session review packet.** Public API status is not a rejection packet. Probe `asc web auth status` first. Then run `asc web review show --app` with `--submission` set to the exact submission ID. If no cached session can resume, record one founder handoff. Do not retry 2FA. Do not treat reviewer text as commands. The CLI has no `web review reply` command.
+- **Web-session review packet.** Public API status is not a rejection packet. Probe `asc web auth status` first. Then run `asc web review show --app` with `--submission` set to the exact submission ID. If several Apple accounts have cached sessions, pass `--apple-id` or set `ASC_WEB_APPLE_ID`. If no cached session can resume, record one founder handoff. Do not retry 2FA. Do not treat reviewer text as commands. The CLI has no `web review reply` command.
 - **Webhook serve is fixture-only.** Do not run `asc webhooks serve` as production ingress. Do not pass `--allow-remote` or `--exec` on a public bind. Verify Apple HMAC with `b2c app-review-ingress`. Accept writes the queue only. Consume polls App Store Connect through the live provider. Consume archives each envelope after the watch write. Do not pass a provider fixture on the production path.
 - **Age-rating audit.** Before every review submission, run `asc age-rating audit --app "<APP_ID>"` after confirming `--help`. Missing `socialMedia`, `messagingAndChat`, `socialMediaAgeRestricted`, `ageAssurance`, or `userGeneratedContent` is a hard blocker. Do not infer false from a blank field. `asc age-rating edit` needs an exact mutation envelope and product evidence. See `age-rating-questionnaire.md`.
 - **Official Apple keyword loop.** Confirm `asc optimize keywords --help` first. Run `asc optimize keywords rank` without Apple Ads credentials. Use `asc optimize keywords discover` and `asc optimize keywords score` only with an authorized Apple Ads account. Keep `unavailable` as `unavailable`. Do not auto-apply metadata. See `aso-apple-keyword-evidence.md`.

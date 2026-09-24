@@ -1,61 +1,61 @@
 {
   "schemaVersion": 1,
   "upstreamId": "rork-app-store-connect-cli",
-  "checkedAt": "2026-09-08T22:30:00.000Z",
-  "method": "manual",
+  "checkedAt": "2026-09-24T18:37:18.799Z",
+  "method": "github-api",
   "latestStable": {
-    "tag": "5.1.0",
-    "publishedAt": "2026-09-08T12:08:54Z",
+    "tag": "5.5.0",
+    "publishedAt": "2026-09-24T05:26:09Z",
     "assets": [
       {
-        "name": "asc_5.1.0_checksums.txt",
-        "sha256": "94fdc0ac9d3d64bf3286bfda04ca6944e4feee9f474d03dc801ba0491cc7288a",
+        "name": "asc_5.5.0_checksums.txt",
+        "sha256": "4200e8fd9524df79fcdc3b0ef6630d9265d04acca6df1683658031f537e95859",
         "bytes": 446
       },
       {
-        "name": "asc_5.1.0_linux_amd64",
-        "sha256": "e540eb65adb8c3f8bb633e1a8f325eb707287896cd961e31ec67810501b48005",
-        "bytes": 57192610
+        "name": "asc_5.5.0_linux_amd64",
+        "sha256": "712b29762c7ad8c2624bccc9752a30ff3c1d4c5b4cb689a00680f45081939239",
+        "bytes": 58388642
       },
       {
-        "name": "asc_5.1.0_linux_arm64",
-        "sha256": "3476a4b4a2271730f59af245055397d1037110da6772a03e71f1ecc411dde499",
-        "bytes": 51970210
+        "name": "asc_5.5.0_linux_arm64",
+        "sha256": "c8f6d0adf7ca3ad41391adda3c83ff2023b921f4f9b077c6498c6d18b39aaebd",
+        "bytes": 52953250
       },
       {
-        "name": "asc_5.1.0_macOS_amd64",
-        "sha256": "e1b7ea538a9312d9a94523faf8b7ac74fe8bfa5ac8c93e65206eb3602b27212e",
-        "bytes": 58843760
+        "name": "asc_5.5.0_macOS_amd64",
+        "sha256": "296553af9cd63f9f93782f22dc12077c3d6678ee57cf52e05aee7e850fe13f63",
+        "bytes": 60228336
       },
       {
-        "name": "asc_5.1.0_macOS_arm64",
-        "sha256": "dc5d5a720e124d90d10111c4c2378db48bd4e1cd4039bd653c7818c3cf06c935",
-        "bytes": 53042976
+        "name": "asc_5.5.0_macOS_arm64",
+        "sha256": "8d0c38ad9c7e3094d2fc9b7b5a86d7c9a08fd2b36a3df081aefbf60503035b29",
+        "bytes": 54242960
       },
       {
-        "name": "asc_5.1.0_windows_amd64.exe",
-        "sha256": "19d7ebcdb4e88b88c8decb600b9d9cebae1c9ffe5179d77427a786d960781f49",
-        "bytes": 57994752
+        "name": "asc_5.5.0_windows_amd64.exe",
+        "sha256": "52d1eb290139570b377b8fca439c84be7275934209dd342bb2a8b44f14e00c89",
+        "bytes": 59192832
       }
     ]
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "ca759a3b6ab88c8c39aed13325461248436615ca",
-    "committedAt": "2026-09-08T11:24:53Z"
+    "sha": "a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+    "committedAt": "2026-09-24T02:28:07Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b",
   "licenseChanged": false,
   "archived": false,
   "host": {
-    "observedAt": "2026-09-08T22:20:00.000Z",
+    "observedAt": "2026-09-24T18:37:19.730Z",
     "executables": [
       {
-        "path": "~/.local/bin/asc",
-        "version": "5.1.0",
-        "sha256": "666eba47518669e2bf491386feba04ff5658f44fa1160409cc3a488fbc07608d",
+        "path": "/usr/local/bin/asc",
+        "version": "5.5.0",
+        "sha256": "8d0c38ad9c7e3094d2fc9b7b5a86d7c9a08fd2b36a3df081aefbf60503035b29",
         "pathOrder": 0
       },
       {
@@ -64,15 +64,15 @@
         "sha256": "666eba47518669e2bf491386feba04ff5658f44fa1160409cc3a488fbc07608d",
         "pathOrder": 1,
         "manager": "homebrew"
+      },
+      {
+        "path": "~/.local/bin/asc",
+        "version": "5.5.0",
+        "sha256": "8d0c38ad9c7e3094d2fc9b7b5a86d7c9a08fd2b36a3df081aefbf60503035b29",
+        "pathOrder": 2
       }
     ],
-    "selected": "~/.local/bin/asc"
+    "selected": "/usr/local/bin/asc"
   },
-  "unknowns": [
-    "Reviewed guidance is 5.1.0, so there are no stable releases after the baseline.",
-    "The two PATH entries share one digest and do not match the GitHub macOS arm64 5.1.0 release asset digest; they match each other and the Homebrew-linked 5.1.0 bottle.",
-    "Windows and Linux release assets were not exercised.",
-    "--session-from-env is a flag name only; no session, cookie, or env value was recorded.",
-    "Assembled by a maintainer from GitHub API responses and a local host-observe on 2026-09-08; not written by upstream-check --write. Re-run upstream-check --fetch --observe-host --write to replace it."
-  ]
+  "unknowns": []
 }

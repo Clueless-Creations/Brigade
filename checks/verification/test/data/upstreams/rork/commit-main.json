@@ -1,13 +1,118 @@
 {
-  "sha": "3a2318a756f78ef6d2d9101f68124ce26cbb056c",
-  "html_url": "https://github.com/rorkai/App-Store-Connect-CLI/commit/3a2318a756f78ef6d2d9101f68124ce26cbb056c",
+  "sha": "a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+  "node_id": "C_kwDOQ9ePjNoAKGEyODM1MDZiYWIyM2Y1ZDZkMGJmODFmMmFiOTJjYTVjM2M2M2U3N2I",
   "commit": {
-    "message": "Merge pull request #2444 from rorkai/codex/2288-distribution-write-reconciliation-20260906",
     "author": {
-      "date": "2026-09-05T21:19:48Z"
+      "name": "Rudrank Riyam",
+      "email": "rudrankriyam@gmail.com",
+      "date": "2026-09-24T02:28:07Z"
     },
     "committer": {
-      "date": "2026-09-05T21:19:48Z"
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-24T02:28:07Z"
+    },
+    "message": "Merge pull request #2742 from rorkai/codex/fix-app-group-identity-lookup\n\nfix(web): fail closed on ambiguous App Group removals",
+    "tree": {
+      "sha": "21cdd0201e10eaa2012465dcc2cd5d7f85080c8a",
+      "url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/git/trees/21cdd0201e10eaa2012465dcc2cd5d7f85080c8a"
+    },
+    "url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/git/commits/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqtIq3CRC1aQ7uu5UhlAAAywUQAAECFSci0MA8oIHmXkqvEI3U\nt/qreSTBKqvuGHVj4v1PF4FcKYGkUzdEXJYkMbqJYwP0y2GUOVjvav2a54tUS++j\nrnhPZNimfEQJWazhDkB5PcrFtpJqufGlcG1lKnKhVtjWvjKqUej8hJtUGGgLjZxx\nd0gJSqy80zqSQqaEOaa5kmgsU3BEScca3/nuC4CPlNalPnxF8dz/c/ruiC5gpAb1\noh808ot6JkwHTZNykGV9DDK7z73FDHhGXEf0NrYeyPuDRodwqaphYITLW++5hXpQ\nkiZGYUrbkAc9NrEWWsb6+XcvZtyA81Po9CT4n5I9svoKF09HozJITIg+KkW3c0JA\nMBTc4LTa4Kr0iJxHRx8OrWtlNHwFwqn8uisa6xxtDySpycZ08GDo1M8UGX79Yc+p\nu5jgc5WeZSNhnlQ8ZKrcBmnU1XeetYhXHHR9SzpEjml4AGKBe568x8DHpgGHF2Ek\nuvWO+6IijnAQblNr+sL6DmGeNhcS/flkhqq3anAeuUqQwy+W+BjnNLKFfAawJztc\neQBrthlDbc5z/fPbgO013oMBoX2meymYIOFk55S3HyOZAGt2GGIPHOTxMXDDna/0\nG7ThcPn63hwA68PHcnP+LedfPw1D/sn0OIKh83/iTwPElspv1F1HaaHt/rOVY1WJ\nkOotp0KPyYthFK8n1xgK\n=PgD6\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 21cdd0201e10eaa2012465dcc2cd5d7f85080c8a\nparent d07b97883b1c9232f1292b4ca72dd9518c4b31be\nparent b0d2f6bea2621308c8f5419a7ecbffa00fde8d68\nauthor Rudrank Riyam <rudrankriyam@gmail.com> 1790216887 +0800\ncommitter GitHub <noreply@github.com> 1790216887 +0800\n\nMerge pull request #2742 from rorkai/codex/fix-app-group-identity-lookup\n\nfix(web): fail closed on ambiguous App Group removals",
+      "verified_at": "2026-09-24T02:28:08Z"
     }
-  }
+  },
+  "url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/commits/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+  "html_url": "https://github.com/rorkai/App-Store-Connect-CLI/commit/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+  "comments_url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/commits/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b/comments",
+  "author": {
+    "login": "rudrankriyam",
+    "id": 30552772,
+    "node_id": "MDQ6VXNlcjMwNTUyNzcy",
+    "avatar_url": "https://avatars.githubusercontent.com/u/30552772?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/rudrankriyam",
+    "html_url": "https://github.com/rudrankriyam",
+    "followers_url": "https://api.github.com/users/rudrankriyam/followers",
+    "following_url": "https://api.github.com/users/rudrankriyam/following{/other_user}",
+    "gists_url": "https://api.github.com/users/rudrankriyam/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/rudrankriyam/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/rudrankriyam/subscriptions",
+    "organizations_url": "https://api.github.com/users/rudrankriyam/orgs",
+    "repos_url": "https://api.github.com/users/rudrankriyam/repos",
+    "events_url": "https://api.github.com/users/rudrankriyam/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/rudrankriyam/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "d07b97883b1c9232f1292b4ca72dd9518c4b31be",
+      "url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/commits/d07b97883b1c9232f1292b4ca72dd9518c4b31be",
+      "html_url": "https://github.com/rorkai/App-Store-Connect-CLI/commit/d07b97883b1c9232f1292b4ca72dd9518c4b31be"
+    },
+    {
+      "sha": "b0d2f6bea2621308c8f5419a7ecbffa00fde8d68",
+      "url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/commits/b0d2f6bea2621308c8f5419a7ecbffa00fde8d68",
+      "html_url": "https://github.com/rorkai/App-Store-Connect-CLI/commit/b0d2f6bea2621308c8f5419a7ecbffa00fde8d68"
+    }
+  ],
+  "stats": {
+    "total": 163,
+    "additions": 148,
+    "deletions": 15
+  },
+  "files": [
+    {
+      "sha": "dd28082dae01dbe950eb86f838f9e4f77001bae4",
+      "filename": "internal/web/developer_app_groups.go",
+      "status": "modified",
+      "additions": 23,
+      "deletions": 15,
+      "changes": 38,
+      "blob_url": "https://github.com/rorkai/App-Store-Connect-CLI/blob/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b/internal%2Fweb%2Fdeveloper_app_groups.go",
+      "raw_url": "https://github.com/rorkai/App-Store-Connect-CLI/raw/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b/internal%2Fweb%2Fdeveloper_app_groups.go",
+      "contents_url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/contents/internal%2Fweb%2Fdeveloper_app_groups.go?ref=a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+      "patch": "@@ -788,22 +788,28 @@ func (c *Client) CreateDeveloperAppGroup(ctx context.Context, request DeveloperA\n //\n // Only a value that cannot be confused with an opaque ID is examined, and only\n // against the team's own listing, so a team whose resource IDs happen to look\n-// like identifiers is never refused. A listing that cannot be read leaves the\n-// assignment to proceed exactly as before.\n-func (c *Client) rejectDeveloperAppGroupIdentifier(ctx context.Context, groupID string) error {\n+// like identifiers is never refused. Assign keeps its historical best-effort\n+// lookup. Callers require a complete lookup when an unproven ID could cause\n+// a false unassign no-op or removal of existing assignments.\n+func (c *Client) rejectDeveloperAppGroupIdentifier(ctx context.Context, groupID string, requireLookup bool) error {\n \tif !strings.HasPrefix(groupID, developerAppGroupIdentifierPrefix) {\n \t\treturn nil\n \t}\n \tteamID := c.developerPortalTeamID()\n \tif teamID == \"\" {\n+\t\tif requireLookup {\n+\t\t\treturn fmt.Errorf(\"%w; %s\", ErrDeveloperPortalTeamNotSelected, developerPortalAuthHint)\n+\t\t}\n \t\treturn nil\n \t}\n \t// Only a complete listing can prove the value is not a resource ID: a\n \t// success envelope that is short or sparse may omit the very group that\n-\t// was named, so the strict read is required and any failure leaves the\n-\t// assignment to proceed.\n+\t// was named, so the strict read is required to reject an identifier.\n \tgroups, err := c.listDeveloperAppGroupPages(ctx, teamID, true, true)\n-\tif err != nil || groups == nil {\n+\tif err != nil {\n+\t\tif requireLookup {\n+\t\t\treturn developerAppGroupResponseError(fmt.Errorf(\"verify App Group resource ID %q: %w\", groupID, err))\n+\t\t}\n \t\treturn nil\n \t}\n \tfor _, group := range groups.Data {\n@@ -819,9 +825,9 @@ func (c *Client) rejectDeveloperAppGroupIdentifier(ctx context.Context, groupID\n \treturn &DeveloperAppGroupIdentifierError{Given: groupID}\n }\n \n-func (c *Client) rejectDeveloperAppGroupIdentifiers(ctx context.Context, groupIDs []string) error {\n+func (c *Client) rejectDeveloperAppGroupIdentifiers(ctx context.Context, groupIDs []string, requireLookup bool) error {\n \tfor _, groupID := range groupIDs {\n-\t\tif err := c.rejectDeveloperAppGroupIdentifier(ctx, groupID); err != nil {\n+\t\tif err := c.rejectDeveloperAppGroupIdentifier(ctx, groupID, requireLookup); err != nil {\n \t\t\treturn err\n \t\t}\n \t}\n@@ -843,7 +849,7 @@ func (c *Client) AssignDeveloperAppGroup(ctx context.Context, request DeveloperA\n \tif err := c.ensureDeveloperPortalSession(ctx); err != nil {\n \t\treturn nil, developerAppGroupResponseError(err)\n \t}\n-\tif err := c.rejectDeveloperAppGroupIdentifier(ctx, request.GroupID); err != nil {\n+\tif err := c.rejectDeveloperAppGroupIdentifier(ctx, request.GroupID, false); err != nil {\n \t\treturn nil, err\n \t}\n \tcurrent, state, err := c.loadDeveloperBundleIDAppGroups(ctx, request.BundleID)\n@@ -881,14 +887,14 @@ func (c *Client) UnassignDeveloperAppGroup(ctx context.Context, request Develope\n \tif err := c.ensureDeveloperPortalSession(ctx); err != nil {\n \t\treturn nil, developerAppGroupResponseError(err)\n \t}\n-\tif err := c.rejectDeveloperAppGroupIdentifier(ctx, request.GroupID); err != nil {\n-\t\treturn nil, err\n-\t}\n \tcurrent, state, err := c.loadDeveloperBundleIDAppGroups(ctx, request.BundleID)\n \tif err != nil {\n \t\treturn nil, err\n \t}\n \tif !slices.Contains(state.GroupIDs, request.GroupID) {\n+\t\tif err := c.rejectDeveloperAppGroupIdentifier(ctx, request.GroupID, true); err != nil {\n+\t\t\treturn nil, err\n+\t\t}\n \t\treturn &asc.WebAppGroupUnassignResult{BundleID: request.BundleID, GroupID: request.GroupID, RemainingGroupIDs: append([]string{}, state.GroupIDs...), Changed: false, Status: \"not-assigned\"}, nil\n \t}\n \tdesired := make([]string, 0, len(state.GroupIDs))\n@@ -919,15 +925,17 @@ func (c *Client) SetDeveloperAppGroups(ctx context.Context, request DeveloperApp\n \tif err := c.ensureDeveloperPortalSession(ctx); err != nil {\n \t\treturn nil, developerAppGroupResponseError(err)\n \t}\n-\tif err := c.rejectDeveloperAppGroupIdentifiers(ctx, desired); err != nil {\n-\t\treturn nil, err\n-\t}\n \tcurrent, state, err := c.loadDeveloperBundleIDAppGroups(ctx, request.BundleID)\n \tif err != nil {\n \t\treturn nil, err\n \t}\n \tadded := differenceStrings(desired, state.GroupIDs)\n \tremoved := differenceStrings(state.GroupIDs, desired)\n+\t// IDs already in the relationship are proven resource IDs. Unknown IDs\n+\t// need a complete lookup before replacing existing assignments.\n+\tif err := c.rejectDeveloperAppGroupIdentifiers(ctx, added, len(removed) > 0); err != nil {\n+\t\treturn nil, err\n+\t}\n \tresult := &asc.WebAppGroupSetResult{BundleID: request.BundleID, GroupIDs: desired, Added: added, Removed: removed}\n \t// A disabled capability that already lists the desired groups still needs a\n \t// write so the groups become effective."
+    },
+    {
+      "sha": "5020b75991e36beee7928f5d332bc2a9f4a045a0",
+      "filename": "internal/web/developer_app_groups_test.go",
+      "status": "modified",
+      "additions": 125,
+      "deletions": 0,
+      "changes": 125,
+      "blob_url": "https://github.com/rorkai/App-Store-Connect-CLI/blob/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b/internal%2Fweb%2Fdeveloper_app_groups_test.go",
+      "raw_url": "https://github.com/rorkai/App-Store-Connect-CLI/raw/a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b/internal%2Fweb%2Fdeveloper_app_groups_test.go",
+      "contents_url": "https://api.github.com/repos/rorkai/App-Store-Connect-CLI/contents/internal%2Fweb%2Fdeveloper_app_groups_test.go?ref=a283506bab23f5d6d0bf81f2ab92ca5c3c63e77b",
+      "patch": "@@ -2148,6 +2148,8 @@ func TestUnassignAndSetRejectAppGroupIdentifierBeforeWrite(t *testing.T) {\n \t\t\t\tcase 1:\n \t\t\t\t\treturn assertDeveloperPortalBootstrap(t, request), nil\n \t\t\t\tcase 2:\n+\t\t\t\t\treturn developerPortalTestResponse(http.StatusOK, developerBundleAppGroupsFixture(true, \"GROUP12345\", \"OTHER\"), nil), nil\n+\t\t\t\tcase 3:\n \t\t\t\t\treturn developerPortalTestResponse(http.StatusOK, listing, nil), nil\n \t\t\t\tdefault:\n \t\t\t\t\tt.Fatalf(\"identifier refusal must not lead to request %d (%s %s)\", requestNumber, request.Method, request.URL.Path)\n@@ -2166,6 +2168,129 @@ func TestUnassignAndSetRejectAppGroupIdentifierBeforeWrite(t *testing.T) {\n \t}\n }\n \n+func TestUnassignAndSetStopWhenAppGroupIdentifierLookupFails(t *testing.T) {\n+\toperations := map[string]func(*Client) error{\n+\t\t\"unassign\": func(client *Client) error {\n+\t\t\t_, err := client.UnassignDeveloperAppGroup(context.Background(), DeveloperAppGroupUnassignRequest{BundleID: \"bundle-1\", GroupID: \"group.com.example.GROUP12345\"})\n+\t\t\treturn err\n+\t\t},\n+\t\t\"set\": func(client *Client) error {\n+\t\t\t_, err := client.SetDeveloperAppGroups(context.Background(), DeveloperAppGroupSetRequest{BundleID: \"bundle-1\", GroupIDs: []string{\"GROUP12345\", \"group.com.example.GROUP12345\"}})\n+\t\t\treturn err\n+\t\t},\n+\t}\n+\tresponses := map[string]string{\n+\t\t\"malformed\":  `{\"resultCode\":0,\"applicationGroupList\":`,\n+\t\t\"incomplete\": `{\"resultCode\":0,\"applicationGroupList\":[]}`,\n+\t\t\"refused\":    `{\"resultCode\":1100,\"userString\":\"Access denied\"}`,\n+\t}\n+\tfor operation, run := range operations {\n+\t\tfor name, body := range responses {\n+\t\t\tt.Run(operation+\"/\"+name, func(t *testing.T) {\n+\t\t\t\tlookupFailed := false\n+\t\t\t\tclient := newDeveloperAppGroupsTestClient(t, func(requestNumber int, request *http.Request) (*http.Response, error) {\n+\t\t\t\t\tif requestNumber == 1 {\n+\t\t\t\t\t\treturn assertDeveloperPortalBootstrap(t, request), nil\n+\t\t\t\t\t}\n+\t\t\t\t\tif lookupFailed {\n+\t\t\t\t\t\tt.Fatalf(\"failed identifier lookup must stop before any further request: %s %s\", request.Method, request.URL.Path)\n+\t\t\t\t\t}\n+\t\t\t\t\tif request.URL.Path == \"/services-account/QH65B2\"+developerAppGroupsListPath {\n+\t\t\t\t\t\tlookupFailed = true\n+\t\t\t\t\t\treturn developerPortalTestResponse(http.StatusOK, body, nil), nil\n+\t\t\t\t\t}\n+\t\t\t\t\tif request.URL.Path != \"/services-account/v1/bundleIds/bundle-1\" || request.Method != http.MethodPost || request.Header.Get(\"X-HTTP-Method-Override\") != http.MethodGet {\n+\t\t\t\t\t\tt.Fatalf(\"unexpected request: %s %s\", request.Method, request.URL.Path)\n+\t\t\t\t\t}\n+\t\t\t\t\treturn developerPortalTestResponse(http.StatusOK, developerBundleAppGroupsFixture(true, \"GROUP12345\", \"OTHER\"), nil), nil\n+\t\t\t\t})\n+\t\t\t\terr := run(client)\n+\t\t\t\tif name == \"refused\" {\n+\t\t\t\t\tvar refusal *DeveloperPortalResultError\n+\t\t\t\t\tif !errors.As(err, &refusal) || refusal.ResultCode != 1100 {\n+\t\t\t\t\t\tt.Fatalf(\"expected original portal refusal, got %v\", err)\n+\t\t\t\t\t}\n+\t\t\t\t} else {\n+\t\t\t\t\tvar unreadable *DeveloperAppGroupUnreadableResponseError\n+\t\t\t\t\tif !errors.As(err, &unreadable) {\n+\t\t\t\t\t\tt.Fatalf(\"expected unreadable App Groups response, got %v\", err)\n+\t\t\t\t\t}\n+\t\t\t\t}\n+\t\t\t})\n+\t\t}\n+\t}\n+}\n+\n+func TestUnassignAndSetAcceptAppGroupResourceIDLookingLikeIdentifier(t *testing.T) {\n+\tconst groupID = \"group.com.example.shared\"\n+\ttests := []struct {\n+\t\tname     string\n+\t\tunassign bool\n+\t\tbefore   []string\n+\t\tafter    []string\n+\t\tchanged  bool\n+\t\tcomplete bool\n+\t}{\n+\t\t{name: \"unassign attached\", unassign: true, before: []string{\"OTHER\", groupID}, after: []string{\"OTHER\"}, changed: true},\n+\t\t{name: \"unassign not attached\", unassign: true, before: []string{\"OTHER\"}, after: []string{\"OTHER\"}, complete: true},\n+\t\t{name: \"set unchanged\", before: []string{groupID}, after: []string{groupID}},\n+\t\t{name: \"set add only\", before: []string{\"OTHER\"}, after: []string{\"OTHER\", groupID}, changed: true},\n+\t\t{name: \"set keep proven id\", before: []string{\"OTHER\", groupID}, after: []string{groupID}, changed: true},\n+\t}\n+\tfor _, test := range tests {\n+\t\tt.Run(test.name, func(t *testing.T) {\n+\t\t\tpatched := false\n+\t\t\tclient := newDeveloperAppGroupsTestClient(t, func(requestNumber int, request *http.Request) (*http.Response, error) {\n+\t\t\t\tif requestNumber == 1 {\n+\t\t\t\t\treturn assertDeveloperPortalBootstrap(t, request), nil\n+\t\t\t\t}\n+\t\t\t\tif request.URL.Path == \"/services-account/QH65B2\"+developerAppGroupsListPath {\n+\t\t\t\t\tbody := `{\"resultCode\":0,\"applicationGroupList\":[]}`\n+\t\t\t\t\tif test.complete {\n+\t\t\t\t\t\tbody = developerAppGroupsListFixture(groupID)\n+\t\t\t\t\t}\n+\t\t\t\t\treturn developerPortalTestResponse(http.StatusOK, body, http.Header{\"csrf\": {\"primed-csrf\"}, \"csrf_ts\": {\"primed-ts\"}}), nil\n+\t\t\t\t}\n+\t\t\t\tif request.URL.Path != \"/services-account/v1/bundleIds/bundle-1\" {\n+\t\t\t\t\tt.Fatalf(\"unexpected request: %s %s\", request.Method, request.URL.Path)\n+\t\t\t\t}\n+\t\t\t\tif request.Method == http.MethodPatch {\n+\t\t\t\t\tpatched = true\n+\t\t\t\t\tbody, err := io.ReadAll(request.Body)\n+\t\t\t\t\tif err != nil {\n+\t\t\t\t\t\tt.Fatal(err)\n+\t\t\t\t\t}\n+\t\t\t\t\tcapabilities := decodeDeveloperBundlePatchCapabilities(t, body)\n+\t\t\t\t\tgroups, enabled := decodeDeveloperAppGroupsCapability(t, capabilities[1])\n+\t\t\t\t\tif !enabled || strings.Join(groups, \",\") != strings.Join(test.after, \",\") {\n+\t\t\t\t\t\tt.Fatalf(\"unexpected assignments in PATCH: %v, enabled=%t\", groups, enabled)\n+\t\t\t\t\t}\n+\t\t\t\t\treturn developerPortalTestResponse(http.StatusOK, `{\"data\":{\"type\":\"bundleIds\",\"id\":\"bundle-1\"}}`, nil), nil\n+\t\t\t\t}\n+\t\t\t\tgroups := test.before\n+\t\t\t\tif patched {\n+\t\t\t\t\tgroups = test.after\n+\t\t\t\t}\n+\t\t\t\treturn developerPortalTestResponse(http.StatusOK, developerBundleAppGroupsFixture(true, groups...), nil), nil\n+\t\t\t})\n+\t\t\tif test.unassign {\n+\t\t\t\tresult, err := client.UnassignDeveloperAppGroup(context.Background(), DeveloperAppGroupUnassignRequest{BundleID: \"bundle-1\", GroupID: groupID})\n+\t\t\t\tif err != nil || result == nil || result.Changed != test.changed {\n+\t\t\t\t\tt.Fatalf(\"unexpected unassign result: %+v, %v\", result, err)\n+\t\t\t\t}\n+\t\t\t} else {\n+\t\t\t\tresult, err := client.SetDeveloperAppGroups(context.Background(), DeveloperAppGroupSetRequest{BundleID: \"bundle-1\", GroupIDs: test.after})\n+\t\t\t\tif err != nil || result == nil || result.Changed != test.changed {\n+\t\t\t\t\tt.Fatalf(\"unexpected set result: %+v, %v\", result, err)\n+\t\t\t\t}\n+\t\t\t}\n+\t\t\tif patched != test.changed {\n+\t\t\t\tt.Fatalf(\"PATCH sent = %t, want %t\", patched, test.changed)\n+\t\t\t}\n+\t\t})\n+\t}\n+}\n+\n // TestAssignDeveloperAppGroupKeepsAssigningOnIncompleteListing proves the\n // identifier refusal needs a complete listing: a success envelope that omits\n // its record count could be missing the very group that was named, so the"
+    }
+  ]
 }
