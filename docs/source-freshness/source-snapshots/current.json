@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T04:21:32.882Z",
+  "generated_at": "2026-09-24T18:39:28.165Z",
   "registry": "checks/validation/repository/source-registry.yaml",
   "sources": [
     {
@@ -706,6 +706,48 @@
       "previous_hash": "a2409b470f1eb7e44986b49ea530e7d8656610b0affdf2bbdba11d89ae27c9a6",
       "changed": true,
       "title": "GitHub - RinDig/Interpretable-Context-Methodology at 02ba5d85c7871b75c7c702a2d8da6524723d53d4 · GitHub"
+    },
+    {
+      "id": "github-com-rorkai-app-store-connect-cli",
+      "name": "github.com",
+      "url": "https://github.com/rorkai/App-Store-Connect-CLI",
+      "source_type": "github",
+      "owner": "source-freshness",
+      "status": "fresh",
+      "http_status": 200,
+      "checked_at": "2026-09-24T18:32:24.232Z",
+      "last_verified_at": "2026-09-24T18:32:24.232Z",
+      "hash": "e8c35e75db4c32e707dc34ae7dc7fd1a6a8580f2d8d58bbc53bd42c5d8cda3b6",
+      "changed": false,
+      "title": "GitHub - rorkai/App-Store-Connect-CLI: Fast, scriptable CLI for the App Store Connect API. Automate TestFlight, builds, submissions, signing, analytics, screenshots, subscriptions, and more · GitHub"
+    },
+    {
+      "id": "github-com-rorkai-app-store-connect-cli-releases-5-4-0",
+      "name": "github.com",
+      "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.4.0",
+      "source_type": "official_docs",
+      "owner": "source-freshness",
+      "status": "fresh",
+      "http_status": 200,
+      "checked_at": "2026-09-24T18:39:28.165Z",
+      "last_verified_at": "2026-09-24T18:39:28.165Z",
+      "hash": "753846220312ac1a876ecd79768070fbf8757f923988b6322099e4e8bbd75fba",
+      "changed": false,
+      "title": "Release 5.4.0 · rorkai/App-Store-Connect-CLI · GitHub"
+    },
+    {
+      "id": "github-com-rorkai-app-store-connect-cli-releases-5-5-0",
+      "name": "github.com",
+      "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0",
+      "source_type": "official_docs",
+      "owner": "source-freshness",
+      "status": "fresh",
+      "http_status": 200,
+      "checked_at": "2026-09-24T18:32:24.232Z",
+      "last_verified_at": "2026-09-24T18:32:24.232Z",
+      "hash": "0a62e3154a7e87ec0a1db980e0d48e8af86ce586069b5af9fdb31e5611b77065",
+      "changed": false,
+      "title": "Release 5.5.0 · rorkai/App-Store-Connect-CLI · GitHub"
     },
     {
       "id": "instagram-aj-on-ai-vibecoded-checklist",

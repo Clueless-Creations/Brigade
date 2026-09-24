@@ -1808,6 +1808,36 @@ sources:
       - catalog/knowledge/store/store-app-review-resubmit.yaml
       - knowledge/store/app-review-resubmit.md
     notes: Rork asc web review show and web auth status are the Phase 1 rejection-packet route.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-4-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.4.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-review-observe.yaml
+      - knowledge/store/app-store-connect-cli.md
+      - knowledge/store/app-review-observe.md
+    notes: Rork asc 5.4.0 release notes document default version and cached web-account selection.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-5-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-review-observe.yaml
+      - catalog/knowledge/store/store-aso-apple-keyword-evidence.yaml
+      - catalog/knowledge/money/money-subscription-price-derivation.yaml
+      - knowledge/store/app-store-connect-cli.md
+      - knowledge/store/app-review-observe.md
+      - knowledge/store/aso-apple-keyword-evidence.md
+      - knowledge/money/subscription-price-derivation.md
+    notes: Official Rork CLI 5.5.0 release notes; review changed defaults and screenshot-list behavior.
   - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
     name: github.com
     source_type: official_docs

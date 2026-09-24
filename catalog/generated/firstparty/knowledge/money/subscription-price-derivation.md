@@ -3,7 +3,7 @@
 Part of the [Revenue, Monetization, And Purchase Funnels](./revenue-monetization.md) hub. Honor the **Founder-Only Gates** there before creating live products, changing prices, or submitting for review.
 
 Use this before deriving one subscription's territory prices from another.
-Rork `asc` 5.1.0 keeps `asc subscriptions pricing derive`.
+Rork `asc` 5.5.0 keeps `asc subscriptions pricing derive`.
 `--dry-run` is mandatory. A multiplier is not approval.
 
 Load `app-store-connect-cli.md` before any `asc` command.
@@ -79,6 +79,10 @@ An unauthorized run must not emit an apply command.
 Before apply, detect scheduled price changes.
 Apple permits only one future change per storefront and billing plan type.
 Warn when a derive would overwrite a scheduled change.
+
+App-level `asc pricing schedule create` is a separate operation.
+In `asc` 5.5.0, an omitted `--start-date` defaults to today's UTC date.
+Pass the exact approved date. The default never approves a price change.
 
 ## 6. Provider Readback
 

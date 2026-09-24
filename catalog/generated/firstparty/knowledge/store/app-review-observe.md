@@ -172,6 +172,8 @@ It needs interactive confirmation and provider readback.
 Use `asc web review show --app APP_ID --submission SUBMISSION_ID`.
 Scope the read to the exact app.
 Scope the read to the exact submission ID from public API readback.
+If several Apple accounts have cached sessions, pass `--apple-id` or set `ASC_WEB_APPLE_ID`.
+Do not record the account email or session value in the packet.
 The CLI "latest unresolved" selection is discovery only.
 It is not durable identity.
 Do not rewrite `latest-unresolved` or `latest` as `explicit`.

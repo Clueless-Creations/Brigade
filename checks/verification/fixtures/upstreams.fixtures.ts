@@ -251,8 +251,8 @@ async function prove(): Promise<void> {
   await proofCase(PROOFS.inventoryReal, () => {
     const inventory = listUpstreams(realDeps(), {});
     const rork = row(inventory, RORK);
-    assert(rork.reviewedSource === "5.1.0", `reviewedSource ${rork.reviewedSource}`);
-    assert(rork.reviewedGuidance === "5.1.0", `reviewedGuidance ${rork.reviewedGuidance}`);
+    assert(rork.reviewedSource === "5.5.0", `reviewedSource ${rork.reviewedSource}`);
+    assert(rork.reviewedGuidance === "5.5.0", `reviewedGuidance ${rork.reviewedGuidance}`);
     assert(recordedObservation.latestStable, "the recorded observation carries a stable release");
     assert(rork.latestStable !== "unknown", "latestStable must come from the recorded observation");
     assert(
@@ -294,7 +294,7 @@ async function prove(): Promise<void> {
     const rork = row(inventory, RORK);
     assert(rork.installed === "not-observed", `installed ${JSON.stringify(rork.installed)}`);
     assert(rork.latestStable !== "unknown" && rork.latestStable.tag === recordedTag, "latestStable comes from the observation just recorded");
-    assert(rork.reviewedSource === "5.1.0" && rork.reviewedGuidance === "5.1.0", "baselines come from the manifest");
+    assert(rork.reviewedSource === "5.5.0" && rork.reviewedGuidance === "5.5.0", "baselines come from the manifest");
     const skills = row(inventory, SKILLS);
     assert(
       skills.installed === "not-observed" && skills.latestStable === "unknown" && skills.reviewedGuidance === "unrecorded",
@@ -419,8 +419,8 @@ async function prove(): Promise<void> {
     const root = copyUpstreamsRoot(tempDir("check-fetch-lagged-baseline"), [RORK, SKILLS], { observations: true });
     const copiedManifest = upstreamManifestPath(root, RORK);
     const lagged = readFileSync(copiedManifest, "utf8")
-      .replace(/reviewed_source:\n    revision: "5\.1\.0"\n    observed_at: "2026-09-08"/u, 'reviewed_source:\n    revision: "4.4.3"\n    observed_at: "2026-08-17"')
-      .replace(/reviewed_guidance:\n    revision: "5\.1\.0"\n    observed_at: "2026-09-08"/u, 'reviewed_guidance:\n    revision: "4.9.0"\n    observed_at: "2026-08-24"');
+      .replace(/reviewed_source:\n    revision: "5\.5\.0"\n    observed_at: "2026-09-24"/u, 'reviewed_source:\n    revision: "4.4.3"\n    observed_at: "2026-08-17"')
+      .replace(/reviewed_guidance:\n    revision: "5\.5\.0"\n    observed_at: "2026-09-24"/u, 'reviewed_guidance:\n    revision: "4.9.0"\n    observed_at: "2026-08-24"');
     assert(lagged.includes('revision: "4.9.0"'), "classification proof needs a lagged reviewed_guidance against the recorded 4.x notes");
     writeFileSync(copiedManifest, lagged);
     const { fetchText, requested } = recordedFetch(rorkManifest.canonicalUrl);

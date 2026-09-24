@@ -33,11 +33,11 @@ sources:
     url: https://github.com/rorkai/App-Store-Connect-CLI
     review_cadence_days: 7
     claim_scope: Command families, auth ladder, safe automation boundaries, telemetry disclosure, and the verified command cookbook are adapted from the CLI README, local --help output, and release notes.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-09-24
     reviewer: b2c-maintainers
     publisher: Rudrank Riyam (author); Rork (maintainer)
-    revision: 5.1.0 latest stable and reviewed guidance 2026-09-08
-    retrieved_at: "2026-09-08"
+    revision: 5.5.0 latest stable and reviewed guidance 2026-09-24
+    retrieved_at: "2026-09-24"
     rights:
       status: verified
       spdx: MIT
@@ -48,6 +48,46 @@ sources:
       - README.md
       - asc --help output
       - releases
+    upstream_id: rork-app-store-connect-cli
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-5-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0
+    review_cadence_days: 7
+    claim_scope: Release date, changed command defaults, screenshot-list behavior, and fixes that affect supported CLI guidance.
+    last_review_date: 2026-09-24
+    reviewer: b2c-maintainers
+    publisher: Rork (maintainer)
+    revision: 5.5.0
+    retrieved_at: "2026-09-24"
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/rork-app-store-connect-cli.txt
+      evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+      notes: Release notes are linked for review; no upstream source text is copied.
+    selectors:
+      - release notes
+    upstream_id: rork-app-store-connect-cli
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-4-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.4.0
+    review_cadence_days: 7
+    claim_scope: Release date, default version selection, and web-account selection changes in the Rork CLI.
+    last_review_date: 2026-09-24
+    reviewer: b2c-maintainers
+    publisher: Rork (maintainer)
+    revision: 5.4.0
+    retrieved_at: "2026-09-24"
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/rork-app-store-connect-cli.txt
+      evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+      notes: Release notes are linked for review; no upstream source text is copied.
+    selectors:
+      - release notes
     upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli-skills
     name: github.com
@@ -75,7 +115,9 @@ derivations:
     source_ids:
       - github-com-rorkai-app-store-connect-cli
       - github-com-rorkai-app-store-connect-cli-skills
-    baseline: 5.1.0 help and release notes (2026-09-08)
+      - github-com-rorkai-app-store-connect-cli-releases-5-4-0
+      - github-com-rorkai-app-store-connect-cli-releases-5-5-0
+    baseline: 5.5.0 help and release notes (2026-09-24)
     selectors:
       - README.md
       - asc --help
@@ -86,5 +128,5 @@ derivations:
       - asc webhooks serve as production ingress
       - asc apps get, asc apps view --app, and asc validate app-store-version (invalid forms)
     reviewer: b2c-maintainers
-    reviewed_at: "2026-09-08"
+    reviewed_at: "2026-09-24"
     evaluation: check:asc-command-contract; LaunchBench asc-flag-drift-runtime and asc-stale-command-guidance

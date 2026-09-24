@@ -15,6 +15,14 @@ bindings:
 applicability_notes: Dry-run is mandatory. A multiplier is not approval. Missing territories stay
   blockers.
 sources:
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-5-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0
+    review_cadence_days: 7
+    claim_scope: Rork asc 5.5.0 retains asc subscriptions pricing derive; its new schedule defaults do not change this dry-run guidance.
+    last_review_date: 2026-09-24
+    reviewer: b2c-maintainers
   - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0-pricing-derive
     name: github.com
     source_type: official_docs
