@@ -157,7 +157,7 @@ The first version of a package cannot use trusted publishing. Publish it once
 from a maintainer machine, then register the trusted publisher on npmjs.com
 under the package settings for `@cluelesscreations/brigade`: owner
 `Clueless-Creations`, repository
-`b2c-app-builder`, workflow `publish.yml`.
+`Brigade`, workflow `publish.yml`.
 
 ## Checks
 
