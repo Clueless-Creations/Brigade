@@ -16,7 +16,7 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | posthog-wizard | PostHog wizard | adapted-method | 41c12328636f46a517777b17359dd8f5b3d14d96@2026-09-06 | 41c12328636f46a517777b17359dd8f5b3d14d96@2026-09-06 | `41c12328636f46a517777b17359dd8f5b3d14d96` untested | v2.73.0 (published 2026-09-04) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 1 | 1 |
 | revenuecat-ai-toolkit | RevenueCat AI Toolkit | adapted-method | b9b77b12da33213c9c2e750b06cd6270c1d8ed65@2026-09-06 | b9b77b12da33213c9c2e750b06cd6270c1d8ed65@2026-09-06 | `b9b77b12da33213c9c2e750b06cd6270c1d8ed65` untested | v2.2.0 (published 2026-08-28) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 1 | 1 |
 | revenuecat-cli | RevenueCat CLI | adapted-method, external-executable | 448a9998bd2107c274b9eb1cf55ad5d5d81f6377@2026-09-08 | 1a3d2820b3166dd6d4cc4775902e43eeeab5f004@2026-09-06 | `0.1.1` untested; `1a3d2820b3166dd6d4cc4775902e43eeeab5f004` untested | v0.1.1 (published 2026-08-27) | 2026-09-06 | not observed | current; last 2026-09-09; due 2026-09-16 | 11 | 4 |
-| rork-app-store-connect-cli | App Store Connect CLI (asc) | external-executable, adapted-method | 5.5.0@2026-09-24 | 5.5.0@2026-09-24 | `>=5.0.0 <6.0.0` supported; `<5.0.0` unsupported | 5.5.0 (published 2026-09-24) | 2026-09-24 | /usr/local/bin/asc 5.5.0 | current; last 2026-09-24; due 2026-10-01 | 10 | 4 |
+| rork-app-store-connect-cli | App Store Connect CLI (asc) | external-executable, adapted-method | 5.7.0@2026-09-28 | 5.7.0@2026-09-28 | `>=5.0.0 <6.0.0` supported; `<5.0.0` unsupported | 5.7.0 (published 2026-09-27) | 2026-09-28 | /usr/local/bin/asc 5.7.0 | current; last 2026-09-28; due 2026-10-05 | 10 | 4 |
 | rork-app-store-connect-cli-skills | App Store Connect CLI skills (asc skill pack) | selected-skill-guidance | unknown | unrecorded@2026-08-18 | `main (unpinned by the builder)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-09-12 | 2 | 1 |
 | sentry-snapshotpreviews | SnapshotPreviews | adapted-method | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | `856a1c1585e31d4113c019050d6d0712cf6ddadc` untested | v0.18.0 (published 2026-07-07) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
 | sentry-xcodebuildmcp | XcodeBuildMCP | adapted-method | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | `e6ef59b49b44012c824f0a0de261c96142e37390` untested | v2.7.0 (published 2026-07-23) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
@@ -298,7 +298,7 @@ Intentional adaptations:
 - telemetry-disclosure: The `asc telemetry status` output is recorded as evidence because the CLI sends pseudonymous usage telemetry by default. (owner: knowledge/store/app-store-connect-cli.md)
 - skill-pack-subordinate: Skill pack guidance is subordinate reference material routed by name; no upstream SKILL.md becomes a top-level builder skill. (owner: knowledge/store/app-store-connect-cli.md)
 
-Unknowns (observation 2026-09-24, method github-api):
+Unknowns (observation 2026-09-28, method github-api):
 
 - None recorded.
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.83",
+  "skillVersion": "0.221.84",
   "areas": [
     {
       "id": "area.operating-system",
@@ -6113,6 +6113,16 @@
           "reviewer": "b2c-maintainers"
         },
         {
+          "id": "github-com-rorkai-app-store-connect-cli-releases-5-7-0",
+          "name": "github.com",
+          "sourceType": "official_docs",
+          "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.7.0",
+          "reviewCadenceDays": 7,
+          "claimScope": "Rork asc 5.7.0 schedule-create date defaults and current subscription price derivation help.",
+          "lastReviewDate": "2026-09-28",
+          "reviewer": "b2c-maintainers"
+        },
+        {
           "id": "github-com-rorkai-app-store-connect-cli-releases-4-9-0-pricing-derive",
           "name": "github.com",
           "sourceType": "official_docs",
@@ -6146,7 +6156,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/money/subscription-price-derivation.md",
-        "sha256": "sha256:7b9e2eb1e65aa8cfbcb1fc6c2a61b1508f568247bf58e84bb7c9b5b68f2f1a6f",
+        "sha256": "sha256:f9718330f3bed245e89980cbbb5f03cc716f9d456da8a9109a526e8171153461",
         "origin": "skill"
       }
     },
@@ -8072,13 +8082,13 @@
           "reviewer": "b2c-maintainers"
         },
         {
-          "id": "github-com-rorkai-app-store-connect-cli-releases-5-5-0",
+          "id": "github-com-rorkai-app-store-connect-cli-releases-5-7-0",
           "name": "github.com",
           "sourceType": "official_docs",
-          "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0",
+          "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.7.0",
           "reviewCadenceDays": 7,
-          "claimScope": "Current Rork asc 5.5.0 review command flags.",
-          "lastReviewDate": "2026-09-24",
+          "claimScope": "Current Rork asc review command flags.",
+          "lastReviewDate": "2026-09-28",
           "reviewer": "b2c-maintainers"
         },
         {
@@ -8288,11 +8298,11 @@
           "url": "https://github.com/rorkai/App-Store-Connect-CLI",
           "reviewCadenceDays": 7,
           "claimScope": "Command families, auth ladder, safe automation boundaries, telemetry disclosure, and the verified command cookbook are adapted from the CLI README, local --help output, and release notes.",
-          "lastReviewDate": "2026-09-24",
+          "lastReviewDate": "2026-09-28",
           "reviewer": "b2c-maintainers",
           "publisher": "Rudrank Riyam (author); Rork (maintainer)",
-          "revision": "5.5.0 latest stable and reviewed guidance 2026-09-24",
-          "retrievedAt": "2026-09-24",
+          "revision": "5.7.0 latest stable and reviewed guidance 2026-09-28",
+          "retrievedAt": "2026-09-28",
           "rights": {
             "status": "verified",
             "spdx": "MIT",
@@ -8304,6 +8314,54 @@
             "README.md",
             "asc --help output",
             "releases"
+          ],
+          "upstreamId": "rork-app-store-connect-cli"
+        },
+        {
+          "id": "github-com-rorkai-app-store-connect-cli-releases-5-7-0",
+          "name": "github.com",
+          "sourceType": "official_docs",
+          "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.7.0",
+          "reviewCadenceDays": 7,
+          "claimScope": "Rork asc 5.7.0 global read-only mode, flag-value indirection, and current verified command guidance.",
+          "lastReviewDate": "2026-09-28",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Rork (maintainer)",
+          "revision": "5.7.0",
+          "retrievedAt": "2026-09-28",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/rork-app-store-connect-cli.txt",
+            "evidenceSha256": "56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b",
+            "notes": "Release notes are linked for review; no upstream source text is copied."
+          },
+          "selectors": [
+            "release notes"
+          ],
+          "upstreamId": "rork-app-store-connect-cli"
+        },
+        {
+          "id": "github-com-rorkai-app-store-connect-cli-releases-5-6-0",
+          "name": "github.com",
+          "sourceType": "official_docs",
+          "url": "https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.6.0",
+          "reviewCadenceDays": 7,
+          "claimScope": "Rork asc 5.6.0 metadata push if-exists behavior and current verified command guidance.",
+          "lastReviewDate": "2026-09-28",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Rork (maintainer)",
+          "revision": "5.6.0",
+          "retrievedAt": "2026-09-28",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/rork-app-store-connect-cli.txt",
+            "evidenceSha256": "56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b",
+            "notes": "Release notes are linked for review; no upstream source text is copied."
+          },
+          "selectors": [
+            "release notes"
           ],
           "upstreamId": "rork-app-store-connect-cli"
         },
@@ -8386,11 +8444,13 @@
           "sourceIds": [
             "github-com-rorkai-app-store-connect-cli",
             "github-com-rorkai-app-store-connect-cli-skills",
+            "github-com-rorkai-app-store-connect-cli-releases-5-7-0",
+            "github-com-rorkai-app-store-connect-cli-releases-5-6-0",
             "github-com-rorkai-app-store-connect-cli-releases-5-4-0",
             "github-com-rorkai-app-store-connect-cli-releases-5-5-0"
           ],
           "relationship": "adapted",
-          "baseline": "5.5.0 help and release notes (2026-09-24)",
+          "baseline": "5.7.0 help and release notes (2026-09-28)",
           "selectors": [
             "README.md",
             "asc --help"
@@ -8403,14 +8463,14 @@
             "asc apps get, asc apps view --app, and asc validate app-store-version (invalid forms)"
           ],
           "reviewer": "b2c-maintainers",
-          "reviewedAt": "2026-09-24",
+          "reviewedAt": "2026-09-28",
           "evaluation": "check:asc-command-contract; LaunchBench asc-flag-drift-runtime and asc-stale-command-guidance"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-connect-cli.md",
-        "sha256": "sha256:0b845db0d6a3a59451e6b5c151134428ecf7689a8d028f47f57825141c68198c",
+        "sha256": "sha256:3ea40e4d15805e0c0911831f01f31b59df7fbd270d386be3f150f33cdae39079",
         "origin": "skill"
       }
     },
@@ -19064,14 +19124,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "0982e1a37b7d69d869dd0e6d9b0e87ad69a70342a66175a22fc3c6f623dbcdc0",
+    "fingerprint": "811aeb52fd221a5c65331306a7ee53f0917fb5d62fcf8f0e466c3a994aac9685",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.83",
-        "revision": "0.221.83",
-        "contentDigest": "8c94bf66cfccb29e427957a3a9d93054242aa3be62a51de59b990d1549a55c2d"
+        "version": "0.221.84",
+        "revision": "0.221.84",
+        "contentDigest": "7336f9e0a849adf090b96344d0f93298aff145738c3e6e593e4432c3dc3b0f76"
       }
     ],
     "base": {
