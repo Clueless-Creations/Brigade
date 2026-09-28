@@ -451,6 +451,7 @@ sources:
     owner: source-freshness
     locations:
       - catalog/knowledge/store/store-app-review-observe.yaml
+      - catalog/knowledge/money/money-subscription-price-derivation.yaml
       - knowledge/store/app-review-observe.md
     notes: Apple signs webhook POST bodies with HMAC-SHA256 in x-apple-signature.
   - id: developer-apple-com-documentation-appstoreconnectapi-webhook-events
@@ -1838,6 +1839,32 @@ sources:
       - knowledge/store/aso-apple-keyword-evidence.md
       - knowledge/money/subscription-price-derivation.md
     notes: Official Rork CLI 5.5.0 release notes; review changed defaults and screenshot-list behavior.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-6-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.6.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.6.0 release notes; review metadata push if-exists behavior.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-7-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.7.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-review-observe.yaml
+      - catalog/knowledge/money/money-subscription-price-derivation.yaml
+      - knowledge/store/app-store-connect-cli.md
+      - knowledge/store/app-review-observe.md
+      - knowledge/money/subscription-price-derivation.md
+    notes: Rork asc 5.7.0 release notes; review remote read-only mode, flag-value indirection, Pacific time date default, and supported command guidance.
   - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
     name: github.com
     source_type: official_docs
