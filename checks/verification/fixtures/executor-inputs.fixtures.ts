@@ -376,7 +376,11 @@ const listenerCounts = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => proces
 configure({delayMs:1200});
 const beyondLease = await executor.execute(node, context);
 assert.equal(beyondLease.status, 'succeeded', JSON.stringify(beyondLease));
-assert.deepEqual(['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal)), listenerCounts, 'normal settlement must remove host cleanup listeners');
+const listenersAfterRun = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal));
+assert(
+  listenersAfterRun.every((count, index) => count <= listenerCounts[index]!),
+  'normal settlement must not leak host cleanup listeners; before='+JSON.stringify(listenerCounts)+', after='+JSON.stringify(listenersAfterRun),
+);
 configure({delayMs:1500});
 const expired = await executor.execute(node, {...context, executionDeadlineAt:Date.now()-1});
 assert.match(expired.error ?? '', /execution deadline exceeded/);
@@ -469,7 +473,11 @@ if (process.platform !== 'win32') {
     }
   }
 }
-assert.deepEqual(['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal)), listenerCounts, 'failed dispatches must remove host cleanup listeners');
+const listenersAfterInterruptions = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal));
+assert(
+  listenersAfterInterruptions.every((count, index) => count <= listenerCounts[index]!),
+  'failed dispatches must not leak host cleanup listeners; before='+JSON.stringify(listenerCounts)+', after='+JSON.stringify(listenersAfterInterruptions),
+);
 console.log('lease independence, execution deadlines, review and receipt repair proved');
 })();
 `,

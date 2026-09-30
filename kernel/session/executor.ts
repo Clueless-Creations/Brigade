@@ -541,10 +541,10 @@ export function refreshWorkspaceFileDigests(fileDigests: Record<string, string>,
 }
 
 /**
- * Contract files and read-only inputs keep their dispatch-time hashes. Only a declared
- * output that was also opened as a task artifact may change after the worker writes.
+ * Contract files and read-only inputs keep their dispatch-time hashes. Opened outputs and
+ * explicitly writable source inputs may change after the worker writes.
  */
-export function postWorkerWorkspaceDigestRefreshPaths(brief: Pick<NodeBrief, "open" | "produce">): readonly string[] {
+export function postWorkerWorkspaceDigestRefreshPaths(brief: Pick<NodeBrief, "open" | "produce" | "sourceAccess">): readonly string[] {
   return mutableTaskArtifactPaths(brief);
 }
 

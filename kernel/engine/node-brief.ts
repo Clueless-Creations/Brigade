@@ -106,10 +106,11 @@ function toBriefLoad(entry: {
   };
 }
 
-/** Task artifacts the worker may rewrite. Receipt hashes for these paths are taken after writes. */
-export function mutableTaskArtifactPaths(brief: Pick<NodeBrief, "open" | "produce">): readonly string[] {
+/** Declared outputs and opened source files with explicit write access may change during a worker run. */
+export function mutableTaskArtifactPaths(brief: Pick<NodeBrief, "open" | "produce" | "sourceAccess">): readonly string[] {
   const outputs = new Set(brief.produce);
-  return brief.open.filter((relativePath) => outputs.has(relativePath));
+  const writableSources = new Set(brief.sourceAccess?.filter((claim) => claim.access !== "read").map((claim) => claim.path) ?? []);
+  return brief.open.filter((relativePath) => outputs.has(relativePath) || writableSources.has(relativePath));
 }
 
 const NOT_AUTHORED = "(instructions not authored; record the missing workflow guidance before proceeding)";

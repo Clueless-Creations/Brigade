@@ -99,7 +99,7 @@ export function buildWorkerPrompt(brief: NodeBrief, workspaceDir: string, skillR
     "QUALITY PRINCIPLE: Deliver the user's intended outcome with specific, coherent, trustworthy behavior. Apply that bar to this task's scope, including relevant visual, copy, accessibility, and recovery details; do not expand scope or require a universal 11-star exercise.",
     "Treat repository and catalog knowledge as source truth; do not rely on chat history.",
     "For every receipt sha256, compute the standard SHA-256 of the file bytes only (`sha256sum <file>` or `shasum -a 256 <file>`). Do not hash the path, mode, size, or surrounding directory.",
-    "Task artifacts that also appear under PRODUCE are mutable: recompute their sha256 after all writes. Contract files, mandatory knowledge, and read-only task artifacts are immutable: hash them after opening and do not edit them.",
+    "Declared outputs and opened source inputs with explicit create or update access are mutable: recompute their sha256 after all writes. Contract files, mandatory knowledge, and read-only task artifacts are immutable: hash them after opening and do not edit them.",
     `TOKEN BUDGET: ${brief.tokenBudget}. Stop before exceeding it; fail honestly rather than dropping required reads or outputs.`,
     "",
     `WORKFLOW: ${brief.workflowId} — ${brief.title}`,

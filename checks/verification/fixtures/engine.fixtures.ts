@@ -3063,7 +3063,7 @@ export function register(harness: Harness): void {
     );
     assert(prompt.includes("standard SHA-256 of the file bytes only"), "the worker must receive the exact reproducible receipt digest algorithm");
     assert(
-      prompt.includes("Task artifacts that also appear under PRODUCE are mutable"),
+      prompt.includes("Declared outputs and opened source inputs with explicit create or update access are mutable"),
       "the receipt contract must tell the worker when to recompute hashes after writes",
     );
     assert(
@@ -3188,7 +3188,15 @@ export function register(harness: Harness): void {
     assert(validateKnowledgeReceipt(receipt, brief, expectations).length === 0, "an exact structured knowledge receipt must pass");
     const sourcePath = "app/src/app/index.tsx";
     const sourceDigest = `sha256:${"f".repeat(64)}`;
-    const inputBrief = { ...brief, open: [...brief.open, sourcePath] };
+    const inputBrief = { ...brief, open: [...brief.open, sourcePath], sourceAccess: [{ path: sourcePath, access: "update" as const }] };
+    const inputPrompt = buildWorkerPrompt(inputBrief, "/tmp/business", "/tmp/skill", {
+      ...expectations,
+      fileDigests: { ...fileDigests, [sourcePath]: sourceDigest },
+    });
+    assert(
+      inputPrompt.includes(`${sourcePath} sha256=<compute sha256 after all writes>`),
+      "an authorized source update must be hashed after the worker's writes",
+    );
     const inputReceipt = `BEGIN_KNOWLEDGE_RECEIPT\n${JSON.stringify({
       ...receiptBody,
       taskArtifacts: [...receiptBody.taskArtifacts, { path: sourcePath, sha256: sourceDigest }],

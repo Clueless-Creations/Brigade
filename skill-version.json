@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.86",
+  "version": "0.221.87",
   "updatedAt": "2026-09-29",
   "sourcePath": ".",
   "releaseNotes": [
+    "Treat writable task source files as mutable receipt inputs, and align the executor, provider, catalog, and capability regression fixtures with their current contracts. Stamp 0.221.87. No npm publish.",
     "Allow worker evidence to cite authorized task inputs, close receipt-only retries with precise feedback, and keep source evidence bound to declared paths. Stamp 0.221.86. No npm publish.",
     "Bound worker execution to the session deadline, recover eligible failed local attempts within existing authority and retry limits, preserve independent acceptance, and simplify continuation and experience-review guidance. Stamp 0.221.85. No npm publish.",
     "Refresh Rork asc support to 5.7.0, update the local CLI, document remote read-only mode and current command changes, and correct pricing schedule dates to US Pacific time. Redeploy the hosted MCP and prepare npm 0.221.84 publication.",
