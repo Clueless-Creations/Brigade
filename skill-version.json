@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.93",
+  "version": "0.221.94",
   "updatedAt": "2026-09-29",
   "sourcePath": ".",
   "releaseNotes": [
+    "Keep the guarded verification fixtures and stamped source on one current release commit. Stamp 0.221.94. No npm publish.",
     "Use the canonical scoped Brigade package name when validating installed Expo consumer files. Stamp 0.221.93. No npm publish.",
     "Refresh stale verification fixtures, package compatibility expectations, and current upstream evidence. Stamp 0.221.92. No npm publish.",
     "Align public API expectations with the retained legacy local MCP label. Stamp 0.221.91. No npm publish.",
