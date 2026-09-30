@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.88",
+  "version": "0.221.89",
   "updatedAt": "2026-09-29",
   "sourcePath": ".",
   "releaseNotes": [
+    "Refresh package lock and generated evidence-schema identity for the 0.221.89 package after the independent-review digest clarification. No npm publish.",
     "Tell independent reviewers that receipt byte digests and Brigade artifact identities use different algorithms. Stamp 0.221.88. No npm publish.",
     "Treat writable task source files as mutable receipt inputs, and align the executor, provider, catalog, and capability regression fixtures with their current contracts. Stamp 0.221.87. No npm publish.",
     "Allow worker evidence to cite authorized task inputs, close receipt-only retries with precise feedback, and keep source evidence bound to declared paths. Stamp 0.221.86. No npm publish.",
