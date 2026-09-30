@@ -25,11 +25,16 @@ For a review, assess the existing evidence against this method and return findin
 
 Carry the accepted user's intended outcome through the work: make the result meaningfully better for that user, preserve relevant identity, hierarchy, accessibility, and recovery constraints, and verify behavior as well as presence. Apply this only where relevant; a narrow fix stays narrow. This principle does not require an 11-star exercise or a numeric taste score.
 
-Run this review per feature or per journey before build handoff. Each lens has an exact question, evidence to capture on a real device, and a sub-score (0–2). Total score: 0–12. The total is a discussion aid. It cannot establish readiness or override a material defect.
+Inspect the affected feature or journey against the user's goal, behavior, visual craft, accessibility, and recovery needs.
+Use the relevant lenses below to explain a concrete problem. Preserve independent acceptance and required runtime evidence.
 
-These bands are canonical in [`emotional-design-system.md`](../../../knowledge/experience/emotional-design-system.md) §Emotional Review Framework. This file must not restate them differently.
+Each finding states the observed problem, user impact, proposed change, and verification needed.
+Identify the affected screen or component and cite the evidence. Separate observed defects from hypotheses and unavailable proof.
+Use the UX And Onboarding Audit Output Contract in [`eleven-star-experience.md`](../../../knowledge/experience/eleven-star-experience.md).
 
-Use this framework as the operative tool for any UX or onboarding audit subagent. Each finding must reference its lens, its score change, and its star-ladder level per the UX And Onboarding Audit Output Contract in `eleven-star-experience.md`.
+Score lenses or map star levels only when the selected task explicitly requests that exercise.
+Optional scoring bands remain in [`emotional-design-system.md`](../../../knowledge/experience/emotional-design-system.md) §Emotional Review Framework.
+Scores support discussion; they cannot establish readiness or override a material defect.
 
 ---
 

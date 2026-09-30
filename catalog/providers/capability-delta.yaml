@@ -2,7 +2,7 @@
 # This file is not the UPGRADE_PROVIDER native-contract delta. That optional
 # field lives on `b2c contribute upgrade-plan` output (ADR-0013 / #111).
 schema_version: 1
-reviewed_at: "2026-08-24"
+reviewed_at: "2026-09-28"
 entries:
   - provider_id: revenuecat
     source_id: api-revenuecat-com
@@ -14,17 +14,17 @@ entries:
   - provider_id: revenuecat
     source_id: www-revenuecat-com-docs-api-v1
     from_hash: d84c363c16334dde0057a3090df4a4c739b0de6faec84c7b8bcc4c0033b5d953
-    to_hash: d84c363c16334dde0057a3090df4a4c739b0de6faec84c7b8bcc4c0033b5d953
-    classification: ignore
-    summary: REST API v1 docs hash is unchanged. Keep current probe and proof guidance.
-    migration: none
+    to_hash: 63842b0340eed43b66623eece578cfceb46a4861aef8bf0dc13691c49133a7fd
+    classification: docs
+    summary: Current REST v1 docs include customer-scoped offerings and current_offering_id. Correct the probe comment; retain its project-level v2 offerings and entitlements checks and health-only v1 fallback. Historical page bodies are unavailable, so no chrome-only claim is made.
+    migration: complete
   - provider_id: revenuecat
     source_id: www-revenuecat-com-docs-tools-experiments-v1
     from_hash: unsnapped
-    to_hash: unsnapped
+    to_hash: 7c86047b9e77a98483e1cfa27145aa47d4b7bef1b412d4a7299f021f2ea19864
     classification: docs
-    summary: Experiments v1 docs are contracted. No snapshot row exists yet. Classify on first fetch.
-    migration: none
+    summary: First verified baseline documents two Offering variants, SDK current-offering assignment, and Pro or Enterprise access. Clarify access checks in paywall guidance; existing experiment routing remains unchanged.
+    migration: complete
   - provider_id: agent-runtime-claude
     source_id: claude-com-claude-code
     from_hash: c33fd1af5779903945c41bda4526e72aff31ffbd405b0e804eadb0914cdd5c82
@@ -34,8 +34,8 @@ entries:
     migration: none
   - provider_id: apple-asc
     source_id: developer-apple-com-help-app-store-connect-manage-builds-upload-builds
-    from_hash: 3c93c30a6e76c1a11db6f8e919d86047251f6dd53d4df1bd16479b192556b2d6
-    to_hash: a7f28429ed420f684e5f7fa8ec8e0354d22e927795b6b23b8bf9625320f45d4d
+    from_hash: a7f28429ed420f684e5f7fa8ec8e0354d22e927795b6b23b8bf9625320f45d4d
+    to_hash: 955d0e8d87ecae2f17dc1a4fd1211f3edb61dfe33bbf6ce21486878d5bd66aaa
     classification: ignore
-    summary: Upload-builds help chrome changed. Slice 0 ASC capability receipt still names the observe commands.
+    summary: Reviewed current official upload routes and build-versus-upload requirements. Existing signing guidance already refreshes live Xcode, SDK, and upload requirements for each release; no fixed-minimum or observe-command migration is needed. Historical page bodies are unavailable.
     migration: none

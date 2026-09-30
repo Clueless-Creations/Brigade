@@ -11,7 +11,7 @@ enforces the required section phrases and per-card attestation fields in artifac
 
 Cross-references (do NOT duplicate; integrate):
 
-- `knowledge/experience/eleven-star-experience.md` — star-ladder mapping required for every finding
+- `knowledge/experience/eleven-star-experience.md` — audit finding contract; star-ladder exercises apply only when explicitly selected
 - `knowledge/data/analytics-attribution.md` — every emotional moment must emit a named PostHog event
 - `knowledge/experience/onboarding-conversion.md` — paywall timing, App Review popup placement, consent
 - `knowledge/process/failure-cards.md` — dark-pattern violations become failure cards

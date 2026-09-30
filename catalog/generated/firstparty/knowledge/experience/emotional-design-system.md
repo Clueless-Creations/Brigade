@@ -7,10 +7,14 @@ Card selection is conditional; the discipline of making and reviewing that selec
 
 Psychological theories and examples below motivate hypotheses. They do not establish a universal effect size, a guaranteed star-level improvement, or a measured benefit in this product. Keep observed user response separate from intended tone. Every applied card retains its ethics, truthful progress, accessibility and measurement obligations; marking another card non-applicable waives none of them.
 
+Focused audits use the Audit Output Contract below and the evidence relevant to their scope.
+The formal producer and auditor artifacts apply when the selected task requires those deliverables.
+Numeric scoring and star-ladder exercises apply only when the selected task explicitly requests them.
+Do not create formal artifacts or runtime state merely to report a focused finding.
 
 Cross-references (do NOT duplicate; integrate):
 
-- `knowledge/experience/eleven-star-experience.md` — the star ladder is the target; emotional mechanics are the means. Every card application must map to a star level.
+- `knowledge/experience/eleven-star-experience.md` — audit finding contract and an optional, explicitly selected star-ladder exercise.
 - `knowledge/design/quality-lens.md` — "specific to the user's emotional job, not a generic SaaS wrapper."
 - `knowledge/experience/onboarding-conversion.md` — onboarding is the primary sales surface; card timing relative to paywall and App Review popup is governed here.
 - `knowledge/data/analytics-attribution.md` — every emotional moment must emit a named PostHog event; the event catalog is extended here, not duplicated.
@@ -106,13 +110,18 @@ nothing compares the two tables.
 
 ## Emotional Review Framework
 
-Use this framework on any feature, screen, or user journey before committing to build. Run it on the running app when auditing an existing app: the in-app iOS Simulator (rung 0) pre-walks a journey quickly, while the audit of record needs a real device via MobAI, because haptics, thermals, and real-network latency drive the emotional read. Run it on rendered HTML proofs when auditing a spec in progress.
+Use relevant lenses to inspect the affected feature, screen, or journey against the accepted user outcome.
+Inspect the running app for behavior claims and rendered proofs for design proposals.
+Use an authorized provider that supplies the required evidence. Haptics, thermals, and real-device latency require device proof.
+Label unavailable evidence instead of inferring it from a simulator or screenshot.
 
-Score each lens 0–2 (0 = absent or harmful, 1 = present but weak, 2 = deliberate and strong). Total out of 12. The total is a discussion aid, not acceptance authority. Resolve material defects and inspect the actual flow regardless of the total.
+Only when explicitly requested, score each lens 0–2 (0 = absent or harmful, 1 = weak, 2 = strong).
+The optional total is out of 12. It supports discussion and grants no acceptance authority.
+Resolve material defects and verify behavior, visual craft, accessibility, and recovery regardless of scoring.
 
 ### Lens 1 — Human Goal And JTBD
 
-Does this feature serve the job the user actually hired the app to do? Not what the feature does, but what the user was trying to accomplish in their life. State the JTBD in one sentence using the form: "When [situation], I want to [motivation], so I can [expected outcome]." If the team cannot agree on the JTBD sentence, score 0 and do not proceed.
+Does this feature serve the job the user actually hired the app to do? Not what the feature does, but what the user was trying to accomplish in their life. State the JTBD in one sentence using the form: "When [situation], I want to [motivation], so I can [expected outcome]." If the user goal is unresolved, record that gap before accepting a design decision.
 
 Evidence required: `PRODUCT.md` JTBD statement or `11_STAR_EXPERIENCE.md` user scene for the relevant star level.
 
@@ -154,7 +163,8 @@ Evidence required: the frontstage/backstage dependency table in `engineering/TEC
 
 ### Emotional Curve Artifact
 
-The Emotional Curve is a required output of the Emotional Review Framework. It is a plot of emotional intensity over the session or flow, derived from the Lens 3 journey table.
+Produce an Emotional Curve when the selected task requires that artifact. It plots the session or flow using Lens 3 observations.
+A focused review may describe the relevant transitions directly without creating a plot or estimating numeric intensity.
 
 Requirements:
 
@@ -180,7 +190,7 @@ This protocol produces `EMOTIONAL_DESIGN.md` updates, card applications, measure
 
 2. **Name the JTBD.** Write one JTBD sentence for the feature being charged. If it does not exist in `PRODUCT.md`, add it before proceeding.
 
-3. **Run the Emotional Review Framework.** Score all six lenses for the current state of the feature. Record the score in `EMOTIONAL_DESIGN.md §Review Scores`. Use actual findings to decide whether a repair is needed; the score alone establishes no outcome.
+3. **Run the Emotional Review Framework.** Record concrete findings for the relevant lenses. Score them only when the selected task requests scoring. Keep the formal artifact's Review Scores section, stating when scoring was not selected. Actual findings determine repairs; scores establish no outcome.
 
 4. **Select cards.** From the twelve-card deck, identify which cards apply to this feature and at which moments. Evaluate the four foundational cards (Commitment, Variable Reward, Perceived Effort Delay, Intent Mirroring) at applicability depth; mark them not-applicable with a user-job reason when unsuitable. Justify each selected additional card with a JTBD-level reason, not a "would be cool" reason.
 
@@ -214,29 +224,32 @@ This protocol produces `EMOTIONAL_DESIGN.md` updates, card applications, measure
 
 Use this when the task is to audit an existing app's emotional design ("audit this app's emotional design", "score this flow", "find where we're leaving emotional value on the table").
 
-This protocol runs against the live app, scores each screen against the Emotional Review Framework, and produces `EMOTIONAL_AUDIT.md` with a pathway to a better state. The in-app iOS Simulator (rung 0) is the fast way to pre-walk a journey and draft the step list, but it does not satisfy `EMOTIONAL_AUDIT.md`'s real-device checkbox: haptics, thermal behavior, and real-network latency are exactly the inputs a simulator cannot reproduce, and they are what the emotional read depends on. Use MobAI or a real device for the audit of record.
+Inspect the running app and report concrete findings with a repair and verification path.
+Produce `EMOTIONAL_AUDIT.md` when the selected task requires that formal artifact. A focused review returns findings directly.
+Simulator evidence supports the behavior it demonstrates. Use an authorized device provider for haptics, thermals, or real-device latency claims.
+Formal managed acceptance retains its required evidence and independent review.
 
 ### Ordered Steps
 
-1. **Load context.** Read `eleven-star-experience.md`, `emotional-experience-design.md`, `mobai-toolbelt.md`, and `ethics-guardrail.md`. Read the existing `11_STAR_EXPERIENCE.md` and `EMOTIONAL_DESIGN.md` if present.
+1. **Load context.** Read the accepted product and design context relevant to the journey. Load the selected device provider's instructions when needed. Apply the ethics guardrail to persuasive mechanisms. Open the star ladder only when the selected task requires that exercise.
 
 2. **List screens.** On rung 0, ask the runtime to run the app in the simulator and read the screen; on MobAI, read the active MCP resources or current CLI help and use the exposed app/device/bridge route. Navigate each screen in the primary journey (onboarding → first value → paywall → core loop → re-engagement). Use the route's screenshot tool — the pane's capture shortcut, the Codex screenshot tool, or the `mobai screenshot` form from live help — to capture each state. Do not pre-choreograph multi-step chains without per-step screen verification; that applies to a rung-0 tap sequence exactly as it does to a MobAI DSL block (see `mobai-onboarding-chain-unverified` failure card).
 
-3. **Score each screen.** Apply the six-lens framework to each captured screen. Record: lens scores, which cards are present / missing / misused, the emotional curve impact of this screen, and any dark-pattern signals.
+3. **Inspect each relevant screen.** Record observed friction, user impact, behavior, visual craft, accessibility, recovery, and any dark-pattern signals. Use scores only when explicitly requested.
 
-4. **Plot the actual Emotional Curve.** Map the screen sequence to an emotional intensity estimate. Identify the actual peak. Compare it to the expected peak position from `11_STAR_EXPERIENCE.md`. If the actual peak is after the paywall, flag a critical finding.
+4. **Inspect the journey.** Trace first value, friction, and resolution through the requested flow. Produce a curve or star comparison only when the selected task requests it. Distinguish observed behavior from inferred emotional response.
 
-5. **Write findings.** Each finding follows the Audit Output Contract (see below). Do not write findings as narrative prose.
+5. **Write findings.** Use the Audit Output Contract below. A short paragraph or table is sufficient when it contains the required evidence.
 
 6. **Generate pathways to better state.** For each material finding, write a specific repair. Select a card only when it addresses the diagnosed need; ordinary feedback, clearer content or removing a delay may be the appropriate repair. Include the card name, the trigger moment, the copy sketch, and the PostHog event that would measure the change.
 
-7. **Open failure cards.** For any finding where a dark-pattern flag is YES, open a failure card in `operations/FAILURE_CARDS.md` using the shape from `failure-cards.md`. For a missing selected card, judge severity from the unmet user need. A documented non-applicable card is not a failure.
+7. **Record material defects.** Flag dark patterns and unmet user needs. Open required failure cards for managed work through its supported process. A focused review reports them directly. A documented non-applicable card is not a failure.
 
-8. **Update `state/business-state.json`.** Add the audit result to `lanes.emotional_design.evidence` with a path to `EMOTIONAL_AUDIT.md` and the overall score (total / 12 per screen, median across the primary journey).
+8. **Record managed evidence.** When the selected task requires runtime evidence, use the supported operation for the audit result. Include scores only when selected. Never edit reducer-owned state directly.
 
-9. **Run `npm run check:emotional-design -- --root .`.** Record any validator errors as additional failure cards. Do not mark the audit complete until the validator is run.
+9. **Verify applicable contracts.** For formal emotional-design deliverables, run `npm run check:emotional-design -- --root .` and resolve errors. Focused reviews report the evidence examined and the checks needed to verify proposed repairs. Neither path substitutes a score for independent acceptance.
 
-**Output.** `EMOTIONAL_AUDIT.md`, updated `operations/FAILURE_CARDS.md`, updated `state/business-state.json`.
+**Output.** Findings and verification gaps. Formal managed tasks also produce their declared artifacts and record evidence through supported operations.
 
 ---
 
@@ -286,14 +299,14 @@ lanes:
 
 ### Eleven-Star Experience (`eleven-star-experience.md`)
 
-Every card application must reference a star level in `11_STAR_EXPERIENCE.md`. The mapping rule:
+When the selected task requests star-ladder mapping, relate card applications to its accepted experience contract. Suggested mapping:
 
 - 5-star: no card applied; the feature works but creates no emotional memory.
 - 6-star (better than expected): Commitment, Variable Reward, Perceived Effort Delay, Endowed Progress, Streak, Reciprocity, Fresh Start, Recovery cards elevate to this level.
 - 7-star (made for me): Intent Mirroring, Identity and Self-Expression, Mastery and Status, Peak-End cards operate primarily at this level.
 - 10–11 star: inspiration reference only; no cards operate here by default.
 
-The Emotional Review Framework score (Lens 3 — Emotional Journey) maps directly to the star level achieved by the feature.
+Lens scores and star levels are discussion tools. Neither establishes the experience achieved without current evidence.
 
 ### Quality Lens (`quality-lens.md`)
 
@@ -350,7 +363,10 @@ Card-level failure shapes to open when violations are found:
 
 ## Run Protocol
 
-When the founder says "turn this feature into an emotional experience", "charge this feature", "audit this app's emotional design", "score this flow", or "apply the X card", the first output must be a written or updated `EMOTIONAL_DESIGN.md`. Do not begin code changes, subagent audits, or implementation before `EMOTIONAL_DESIGN.md` is created or updated. This is a hard ordered sequence, not a preference.
+Classify the requested work before selecting a protocol. A focused review returns findings without creating producer artifacts.
+For implementation, author the product and design decisions required by the accepted scope before dependent changes.
+Create `EMOTIONAL_DESIGN.md` when the selected producer task requires that formal deliverable.
+Requests to improve emotional design do not automatically request numeric scoring or a star-ladder exercise.
 
 **Trigger phrases that invoke the Producer Protocol:**
 
@@ -372,21 +388,13 @@ The ordered output sequences are the Producer Protocol and Auditor Protocol abov
 
 ## Audit Output Contract
 
-When an auditor subagent or the Auditor Protocol produces findings, each finding must include all of the following. Findings missing any field are incomplete and must be rejected by the orchestrator.
+Use the UX And Onboarding Audit Output Contract in [`eleven-star-experience.md`](eleven-star-experience.md):
+observed problem, user impact, proposed change, and verification, with the affected surface and supporting evidence.
 
-| Field                     | Required Content                                                                                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `journey_step`            | The specific screen name and position in the primary journey (e.g. "Onboarding step 3 — Goal selection")                                                                             |
-| `cards_involved`          | Which card(s) from the deck are present, missing, or misused at this step                                                                                                            |
-| `present_missing_misused` | One of: `present` (correctly applied), `missing` (applicable but absent), `misused` (present but crosses a dark line or is weakly implemented)                                       |
-| `emotional_curve_impact`  | How this screen's state affects the Emotional Curve: raises, lowers, or disrupts the arc; approximate intensity score 0–10                                                           |
-| `dark_pattern_flag`       | `yes` or `no`; if yes, name the specific prohibited pattern from `ethics-guardrail.md §Non-Negotiable Prohibitions`                                                                  |
-| `measurement_event`       | The PostHog event that would measure improvement at this step; must be present in or added to `analytics/ANALYTICS.md`                                                               |
-| `recommendation`          | The specific card application or design change recommended; include trigger moment, copy sketch, and motion token                                                                    |
-| `pathway_to_better_state` | The ordered steps to move this screen from its current star level to the target star level in `11_STAR_EXPERIENCE.md`; include which card to apply first and what artifact to update |
-| `star_level_current`      | The star level (1–11) this screen currently achieves, mapped to `11_STAR_EXPERIENCE.md`                                                                                              |
-| `star_level_target`       | The star level the screen should reach with the recommended change                                                                                                                   |
-| `failure_card_flag`       | `open failure card: yes/no` with reason; if yes, include the draft card shape from `failure-cards.md`                                                                                |
+Include mechanism, ethics, motion, and measurement details when they affect the finding or repair.
+Numeric lens scores, emotional intensity estimates, and current/target star levels are optional unless the selected task explicitly requests them.
+Formal artifacts retain their required sections; state when an optional exercise was not selected.
+No score, card selection, or document can replace observed behavior, accessibility proof, or independent acceptance.
 
 ---
 
@@ -406,7 +414,7 @@ second place to drift from the validator.
 - The Intent Mirroring Card copy uses generic filler ("Great job on your session!") rather than the user's own words from the Commitment Card. This is a 5-star implementation labeled as 7-star.
 - The Emotional Curve peaks after the paywall. Conversion suffers because the user's highest-engagement moment is locked behind a purchase gate rather than creating the motivation to purchase.
 - Cards are applied to success paths only. Failure states (errors, lapsed streaks, payment failures) receive no card — producing negative peaks that dominate the user's memory per the peak-end rule.
-- The audit produces narrative findings with no `journey_step`, `star_level_current`, or `pathway_to_better_state`. Findings that cannot be integrated into the experience contract are wasted effort.
+- The audit omits the affected journey step, observed problem, user impact, proposed change, or verification. Optional scores cannot supply missing evidence.
 - `check:emotional-design` is never run during the producer or auditor session. Known validation gaps accumulate invisibly and block the next agent.
 - The ethics attestation blocks in `EMOTIONAL_DESIGN.md` are filled with "N/A" or empty strings. Empty attestations are not compliant; they are the same as no attestation.
 - An auditor chains 6+ onboarding steps in a single MobAI DSL block without per-step screen verification. Navigation silently stalls on the wrong screen and the audit findings are invalid. Follow the Onboarding-Flow Navigation Pattern in `mobai-toolbelt.md`.

@@ -8,7 +8,7 @@ Card selection is conditional; the discipline of making and reviewing that selec
 Psychological theories and examples below motivate hypotheses. They do not establish a universal effect size, a guaranteed star-level improvement, or a measured benefit in this product. Keep observed user response separate from intended tone. Every applied card retains its ethics, truthful progress, accessibility and measurement obligations; marking another card non-applicable waives none of them.
 
 
-Load [`eleven-star-experience.md`](eleven-star-experience.md) first. The star ladder defines the target emotional state; this reference defines the mechanics and verification to reach it. Load `analytics-attribution.md` before implementation: every emotional moment named here must emit a named PostHog event or it is unmeasurable.
+Load [`eleven-star-experience.md`](eleven-star-experience.md) for its audit finding contract. Run its star-ladder exercise only when the selected task explicitly requests it. Load `analytics-attribution.md` before implementing a selected emotional mechanism and verify its measurement contract.
 
 ## Contents
 
@@ -117,11 +117,16 @@ For each selected card: implement the pattern, emit the named PostHog event, ver
 
 ## Six-Lens Design Review Framework
 
-Run this review per feature or per journey before build handoff. Each lens has an exact question, evidence to capture on a real device, and a sub-score (0–2). Total score: 0–12. The total is a discussion aid. It cannot establish readiness or override a material defect.
+Inspect the affected feature or journey against the user's goal, behavior, visual craft, accessibility, and recovery needs.
+Use the relevant lenses below to explain a concrete problem. Preserve independent acceptance and required runtime evidence.
 
-These bands are canonical in [`emotional-design-system.md`](./emotional-design-system.md) §Emotional Review Framework. This file must not restate them differently.
+Each finding states the observed problem, user impact, proposed change, and verification needed.
+Identify the affected screen or component and cite the evidence. Separate observed defects from hypotheses and unavailable proof.
+Use the UX And Onboarding Audit Output Contract in [`eleven-star-experience.md`](eleven-star-experience.md).
 
-Use this framework as the operative tool for any UX or onboarding audit subagent. Each finding must reference its lens, its score change, and its star-ladder level per the UX And Onboarding Audit Output Contract in `eleven-star-experience.md`.
+Score lenses or map star levels only when the selected task explicitly requests that exercise.
+Optional scoring bands remain in [`emotional-design-system.md`](./emotional-design-system.md) §Emotional Review Framework.
+Scores support discussion; they cannot establish readiness or override a material defect.
 
 ---
 

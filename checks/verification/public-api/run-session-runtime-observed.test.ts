@@ -7,6 +7,7 @@ import path from "node:path";
 import type { SessionBrief } from "../../../kernel/session/brief.js";
 import { runSession } from "../../../kernel/session/run.js";
 import { workspaceRevision } from "../../../kernel/session/workspace-revision.js";
+import { writeRunState } from "../../../kernel/engine/runstate.js";
 import type { Harness } from "../fixtures/_harness.js";
 import {
   bootstrapWorkspace,
@@ -133,6 +134,64 @@ test("public runSession fixture loop cannot invent runtime=checked even with the
       Boolean(proof?.includes("runtime=unknown") && !proof.includes("runtime=checked")),
       `fixture public runSession cannot invent runtime proof, got ${proof ?? "none"}`,
     );
+  } finally {
+    env.cleanup();
+  }
+});
+
+test("public session resumes a recoverable worker failure and independently verifies its repair", async () => {
+  const env = tempHarness("public-run-worker-recovery");
+  try {
+    const catalog = researchScanCatalog("catalog.public-run-session.worker-recovery");
+    const handle = bootstrapWorkspace(env.harness, "public-run-worker-recovery", catalog, {
+      grants: { "domain.research": grant("domain.research", "run-with-guardrails") },
+    });
+    seedWorkspacePendingResearch(handle, catalog, "prior-producer");
+    const run = readRunState(handle);
+    const state = run.nodes["run.research-scan"]!;
+    const prior = state.attempts.at(-1)!;
+    prior.status = "failed";
+    prior.error = "codex worker exceeded 300s TTL";
+    state.status = "failed";
+    state.blocker = prior.error;
+    for (const binding of run.artifactBindings) binding.accepted = false;
+    writeRunState(path.join(handle.dir, "run/run-state.json"), run);
+    const failedAttempt = structuredClone(prior);
+    await invokePublicSession(handle, "public-run-worker-recovery");
+    const repaired = readRunState(handle).nodes["run.research-scan"]!;
+    assert.equal(repaired.status, "succeeded");
+    assert.equal(repaired.attempts.length, 2);
+    assert.deepEqual(repaired.attempts[0], failedAttempt);
+    assert.equal(repaired.attempts[1]!.independentVerification?.verdict, "accepted");
+    assert.equal(repaired.attempts[1]!.proofSource, "synthetic");
+  } finally {
+    env.cleanup();
+  }
+});
+
+test("public session reports an unrecoverable worker failure as held work, not nothing to do", async () => {
+  const env = tempHarness("public-run-worker-held");
+  try {
+    const catalog = researchScanCatalog("catalog.public-run-session.worker-held");
+    const handle = bootstrapWorkspace(env.harness, "public-run-worker-held", catalog, {
+      grants: { "domain.research": grant("domain.research", "run-with-guardrails") },
+    });
+    seedWorkspacePendingResearch(handle, catalog, "prior-producer");
+    const run = readRunState(handle);
+    const state = run.nodes["run.research-scan"]!;
+    const prior = state.attempts.at(-1)!;
+    prior.status = "failed";
+    prior.error = "codex worker exited 1: not logged in";
+    state.status = "failed";
+    state.blocker = prior.error;
+    for (const binding of run.artifactBindings) binding.accepted = false;
+    writeRunState(path.join(handle.dir, "run/run-state.json"), run);
+    const failedAttempt = structuredClone(prior);
+    const result = await invokePublicSession(handle, "public-run-worker-held");
+    assert.equal(result.completed, 0);
+    assert.equal(result.held, 1);
+    assert.notEqual(result.outcome, "nothing_to_do");
+    assert.deepEqual(readRunState(handle).nodes["run.research-scan"]!.attempts, [failedAttempt]);
   } finally {
     env.cleanup();
   }

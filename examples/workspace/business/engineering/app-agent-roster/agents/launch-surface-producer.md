@@ -13,7 +13,7 @@ Use one of these modes in each assignment:
 - `bounded-update`: Update only the exact paths in the assignment.
 - `approved-external-apply`: Deploy or upload already-approved artifacts to the exact target covered by a current standing envelope.
 
-Read first: `PRODUCT.md`, `DESIGN.md`, `state/LAUNCH_TRACE.md`, `product/ONBOARDING.md`, `product/copy/COPY_DECK.md`, and the exact brand, analytics, revenue, store, or growth contract needed for the assigned surface. Use `b2c status` when execution state is relevant.
+Read first: `PRODUCT.md`, `DESIGN.md`, `state/LAUNCH_TRACE.md`, `product/ONBOARDING.md`, `product/copy/COPY_DECK.md`, and the exact brand, analytics, revenue, store, or growth contract needed for the assigned surface. Use `b2c business-status` then `b2c business-plan` with the registered workspace ID when execution state is relevant.
 
 If a read-first file does not exist, record that fact. Do not invent its decisions.
 

@@ -19,14 +19,21 @@ const RUNTIME_UNAVAILABLE = /(auth|log[ -]?in|api[_ -]?key|unauthori[sz]ed|crede
 export function classifyAttemptFailure(error: string | undefined): AttemptFailureCode {
   const text = error ?? "";
   if (!text.trim()) return "attempt.error";
-  if (/exceeded \d+s TTL/.test(text)) return "worker.timeout";
+  if (/exceeded \d+s TTL|execution deadline exceeded/.test(text)) return "worker.timeout";
   if (/declared output is missing|no path binding for declared output|required worker task artifact|output is unchanged from before dispatch/.test(text))
     return "worker.output_missing";
-  if (/changed outside declared source\/output scope|task input inventory changed|read-only task input changed|binding\.verifier_mutated_workspace/.test(text))
+  if (/changed outside declared source\/output scope|task input inventory changed|read-only task input changed|binding\.(?:verifier_mutated_workspace|worker_mutated_undeclared_workspace)/.test(text))
     return "worker.scope_violation";
   if (/knowledge receipt rejected/.test(text)) return "worker.receipt_rejected";
   if (/worker exited \d+/.test(text)) return RUNTIME_UNAVAILABLE.test(text) ? "worker.runtime_unavailable" : "worker.exited";
   return "attempt.error";
+}
+
+/** A repair candidate still requires the reducer's idempotency, effect, and attempt-budget checks. */
+export function isRetryableWorkerFailure(error: string | undefined): boolean {
+  // Missing inputs and bindings need a changed task contract, not another identical worker.
+  if (/required worker task artifact|no path binding for declared output/.test(error ?? "")) return false;
+  return ["worker.timeout", "worker.exited", "worker.output_missing", "worker.receipt_rejected"].includes(classifyAttemptFailure(error));
 }
 
 /**

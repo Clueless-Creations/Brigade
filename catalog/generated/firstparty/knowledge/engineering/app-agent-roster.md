@@ -36,7 +36,7 @@ Use `surfaces/workspace-template/repo-agent-entrypoints/` for the repo-root `AGE
 The app-local roster is not a replacement for `AGENTS.md`, `product/experience/11-star-experience/11_STAR_EXPERIENCE.md`, `engineering/TECH_SPEC.md`, `DESIGN.md`, `analytics/ANALYTICS.md`, `product/ONBOARDING.md`, or `engineering/PRODUCTION_READINESS.md`. It is a lightweight routing layer for future agents. `AGENTS.md` remains the business-specific canonical guide and must explicitly tell future agents to continue using the `b2c` workflow instead of asking the founder to re-invoke it.
 
 - Orchestrator owns sequencing, source truth, founder-zero business operations, `operations/BUSINESS_ACCESS.md`, its structured ledger, reducer-mediated `state/business-state.json`, orchestration, failure cards, validators, integration, git/release coordination, and final proof.
-- Orchestrator owns Session Continuity: read `AGENTS.md`, durable state, both business/agent operations ledgers, orchestration/readiness/failure docs, and git status; do not rely on chat memory over durable state.
+- Orchestrator owns Session Continuity: read `AGENTS.md` and git status, then `business-status` and `business-plan` for the registered workspace ID. Follow the current task and load only its required context. Open raw state and operational ledgers when that task requires them. Do not rely on chat memory over current evidence.
 - Orchestrator assumes beginner founder knowledge. It runs `operator-readiness.md` once at orient,
   creates standing authority for routine external work, and combines missing access into one handoff.
 - Orchestrator owns the generalized onboarding `ONB-00` through `ONB-22` graph, its single-writer artifact, evidence and architecture joins, canonical IDs, Compound Engineering handoff, cutover, and target-runtime verdict.
@@ -110,7 +110,7 @@ If any item is missing, do not call attribution wired, complete, or launch-ready
 - `APP_AGENTS.md` points to canonical docs and states the orchestrator is the integration owner.
 - `AGENTS.md` and `CLAUDE.md` are filled for the current business, not copied from this skill repo's maintainer docs.
 - `AGENTS.md` tells future agents to keep using `b2c`, update `state/business-state.json` only through the reducer, and run validators until a founder-only gate.
-- `AGENTS.md`, `CLAUDE.md`, `APP_AGENTS.md`, `.b2c-launch/runtime.json`, `.b2c-launch/BUSINESS_CONTEXT.md`, `catalog.json`, `operations/ORCHESTRATION.md`, and `state/business-state.json` encode the Session Continuity source set and next-action handoff.
+- `AGENTS.md`, its host adapters, and `APP_AGENTS.md` share the current status/plan continuation. Runtime state, business context, and evidence retain their existing owners. A passive resume requires no document or state mutation.
 - The orchestrator, specialist prompts, engineering integration prompt, and customer-success prompt exist and remain short enough to be used.
 - The launch-surface prompt gives future agents exact initial-build, impact-audit, bounded-update, and approved-external-apply modes.
 - Each role has clear onboarding graph responsibilities, forbidden actions, founder-only gates, and output shape.

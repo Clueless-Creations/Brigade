@@ -94,4 +94,4 @@ Current activity after four live weeks must include one monetization row on `rev
 
 Creative-only bandit rows do not satisfy the paywall program.
 
-RevenueCat Experiments may need a paid plan. Record that as a founder decision when the Free tier blocks it.
+[RevenueCat Experiments documentation](https://www.revenuecat.com/docs/tools/experiments-v1) lists Pro and Enterprise access. Check the project's current access before proposing an upgrade. A paid-plan change remains a founder decision.
