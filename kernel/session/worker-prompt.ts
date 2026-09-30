@@ -227,6 +227,7 @@ export function buildVerifierPrompt(brief: NodeBrief, workspaceDir: string, skil
     "Your ONLY job is to judge whether already-produced work satisfies its own brief. Read; never write.",
     "Do not create, edit, move, or delete any file. Do not rerun or repair the work. If the work is incomplete or wrong, your verdict says so — fixing it is a producer's job, and a verifier who repairs work has verified nothing.",
     "Use the brief, current contract, rubric, reference pack, implementation, and runtime evidence. Do not rely on chat history or producer claims.",
+    "Keep digest types distinct: receipt sha256 values are SHA-256 of exact file bytes. A run-state artifactBindings[].fingerprint is Brigade's internal artifact identity; for files it also includes relative path, mode, and size, and for directories it covers a sorted tree. Never compare these values as if they were the same digest or reject output because they differ.",
     "For visual or interaction work, inspect the rendered native and web surfaces and recorded interactions against the frozen rubric. Document titles, screenshots paths, and prose claims alone cannot establish visual quality or working behavior. If required evidence is inaccessible, reject with the exact missing evidence.",
     ...(brief.review?.reviewOf.length
       ? [
