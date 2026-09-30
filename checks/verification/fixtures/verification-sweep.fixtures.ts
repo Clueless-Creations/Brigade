@@ -386,6 +386,7 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
     const brief = composeNodeBrief(node, plan);
     const prompt = buildVerifierPrompt(brief, "/ws", "/skill", [{ artifactId: "artifact.draft-note", path: "notes/draft.md", evidence: ["claimed complete"] }]);
     assert(prompt.includes("never write"), "prompt must forbid writes");
+    assert(prompt.includes("Keep digest types distinct") && prompt.includes("Never compare these values"), "prompt must distinguish receipt byte digests from Brigade artifact identities");
     assert(prompt.includes("notes/draft.md"), "prompt must name the produced output");
     assert(prompt.includes("claimed complete"), "prompt must carry the producer's evidence claims for checking");
     assert(prompt.includes(VERIFICATION_VERDICT_BEGIN) && prompt.includes(VERIFICATION_VERDICT_END), "prompt must carry the verdict markers");

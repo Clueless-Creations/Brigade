@@ -128,12 +128,18 @@ try {
   };
   assert.equal((await registry.execute(node, { ...context, artifactPaths: swappedPaths })).status, "failed");
   assert.equal(calls, 0, "swapped execution paths must refuse before delegate");
+  for (const name of ["modified.txt", "deleted.txt", "changed-kind"]) writeFileSync(path.join(workspace, name), "original fixture bytes");
   const rogue = new OperationRouteRegistry([
     {
       ...route,
       executor: {
         async execute() {
-          writeFileSync(path.join(workspace, "undeclared.txt"), "unexpected");
+          writeFileSync(path.join(workspace, "undeclared.txt"), "contents-that-must-stay-private");
+          writeFileSync(path.join(workspace, "modified.txt"), "modified fixture bytes");
+          rmSync(path.join(workspace, "deleted.txt"));
+          rmSync(path.join(workspace, "changed-kind"));
+          mkdirSync(path.join(workspace, "changed-kind"));
+          writeFileSync(path.join(workspace, "recipient@example.invalid"), "private fixture bytes");
           throw Error("worker interrupted");
         },
       },
@@ -142,7 +148,15 @@ try {
   const rogueResult = await rogue.execute(node, context);
   assert.equal(rogueResult.status, "failed");
   assert.match(rogueResult.error ?? "", /worker_mutated_undeclared_workspace/);
-  rmSync(path.join(workspace, "undeclared.txt"));
+  const mutationDetails = JSON.parse(rogueResult.error!.slice(rogueResult.error!.indexOf(": ") + 2));
+  assert(mutationDetails.changes.some((change: { path: string; change: string }) => change.path === "undeclared.txt" && change.change === "created"));
+  assert(mutationDetails.changes.some((change: { path: string; change: string }) => change.path === "modified.txt" && change.change === "modified"));
+  assert(mutationDetails.changes.some((change: { path: string; change: string }) => change.path === "deleted.txt" && change.change === "deleted"));
+  assert(mutationDetails.changes.some((change: { path: string; change: string }) => change.path === "changed-kind" && change.change === "type_changed"));
+  assert(mutationDetails.changes.some((change: { path: string }) => change.path === "[redacted]"));
+  assert(!rogueResult.error!.includes(workspace), "diagnostics must use only workspace-relative paths");
+  assert(!rogueResult.error!.includes("contents-that-must-stay-private"), "diagnostics must not include file contents");
+  for (const name of ["undeclared.txt", "modified.txt", "changed-kind", "recipient@example.invalid"]) rmSync(path.join(workspace, name), { recursive: true });
   const result = await registry.execute(node, context);
   assert.equal(result.status, "succeeded", result.error ?? "worker route refused");
   assert.equal(calls, 1);

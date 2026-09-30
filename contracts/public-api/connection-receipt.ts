@@ -126,7 +126,7 @@ export function connectionReceipt(input: {
   }
   return {
     mode: "local_execution",
-    identity: { recommended: "b2c-local", legacy: [] },
+    identity: { recommended: "b2c-local", legacy: [LEFTOVER_LOCAL_CLIENT_NAME] },
     engineVersion,
     declares: {
       knowledge: "bundled",

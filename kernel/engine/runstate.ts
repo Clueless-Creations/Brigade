@@ -668,6 +668,33 @@ export function invalidateStaleReviews(plan: CompiledPlan, run: RunStateDocument
   return stale;
 }
 
+/** Reopen one failed worker through the normal frontier; never replay uncertain protected effects. */
+export function requestExecutionRepair(plan: CompiledPlan, run: RunStateDocument, nodeId: RunNodeId, finding: string, now: string): boolean {
+  const node = plan.nodes.find((candidate) => candidate.id === nodeId);
+  const state = run.nodes[nodeId];
+  const attempt = state?.attempts.at(-1);
+  if (!node || !state || state.status !== "failed" || attempt?.status !== "failed" || !finding.trim()) return false;
+  state.acceptedOutputFingerprint = undefined;
+  state.verifiedBySessionId = undefined;
+  for (const binding of run.artifactBindings) if (node.outputs.includes(binding.artifactId as never)) binding.accepted = false;
+  // A worker failure is not a rejected judgment of the producer it reviews.
+  invalidateDescendants(plan, run, node.outputs, now, new Set(node.reviewOf ?? []));
+  state.repairInstructions = [`The previous attempt failed: ${finding}. Inspect its existing work, repair only the declared task, and rerun its required checks. Do not repeat an external effect or weaken acceptance.`];
+  if (requiresReadbackBeforeRepeat(node) || node.sharedResources?.length) {
+    state.status = "needs_readback";
+    attempt.readbackRequired = true;
+    state.blocker = "The failed attempt needs effect reconciliation before it can be repeated.";
+  } else if (attemptsUsedInCurrentCycle(state) >= node.maxAttempts) {
+    state.status = "blocked";
+    state.blocker = `Worker repair attempts exhausted after ${node.maxAttempts} attempts: ${finding}`;
+  } else {
+    state.status = "stale";
+    state.blocker = undefined;
+  }
+  run.updatedAt = now;
+  return state.status === "stale";
+}
+
 /** Rejected judgment creates bounded producer work, never fresh authority for a side effect. */
 export function requestVerificationRepair(
   plan: CompiledPlan,

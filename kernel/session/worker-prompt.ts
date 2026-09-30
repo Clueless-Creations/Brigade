@@ -99,7 +99,7 @@ export function buildWorkerPrompt(brief: NodeBrief, workspaceDir: string, skillR
     "QUALITY PRINCIPLE: Deliver the user's intended outcome with specific, coherent, trustworthy behavior. Apply that bar to this task's scope, including relevant visual, copy, accessibility, and recovery details; do not expand scope or require a universal 11-star exercise.",
     "Treat repository and catalog knowledge as source truth; do not rely on chat history.",
     "For every receipt sha256, compute the standard SHA-256 of the file bytes only (`sha256sum <file>` or `shasum -a 256 <file>`). Do not hash the path, mode, size, or surrounding directory.",
-    "Task artifacts that also appear under PRODUCE are mutable: recompute their sha256 after all writes. Contract files, mandatory knowledge, and read-only task artifacts are immutable: hash them after opening and do not edit them.",
+    "Declared outputs and opened source inputs with explicit create or update access are mutable: recompute their sha256 after all writes. Contract files, mandatory knowledge, and read-only task artifacts are immutable: hash them after opening and do not edit them.",
     `TOKEN BUDGET: ${brief.tokenBudget}. Stop before exceeding it; fail honestly rather than dropping required reads or outputs.`,
     "",
     `WORKFLOW: ${brief.workflowId} — ${brief.title}`,
@@ -160,7 +160,7 @@ export function buildWorkerPrompt(brief: NodeBrief, workspaceDir: string, skillR
       ? brief.verify.gateCommands.map((g) => `- ${g}`)
       : [`- ${brief.verify.kind}${brief.verify.failClosed ? "; fail-closed" : ""}`]),
     "",
-    "Finish with the role handoff headings, then append exactly one JSON receipt between these markers. Every routed item needs one decision; every declared output needs a knowledge-to-output explanation. Keep outputEvidence as [] when PRODUCE says no declared artifact.",
+    "Finish with the role handoff headings, then append exactly one JSON receipt between these markers. Every routed item needs one decision; every declared output needs a knowledge-to-output explanation. In outputEvidence.knowledgePaths, cite only material you actually used: mandatory or selected conditional knowledge, contract files, or declared task input paths listed under taskArtifacts. Keep outputEvidence as [] when PRODUCE says no declared artifact.",
     KNOWLEDGE_RECEIPT_BEGIN,
     JSON.stringify({
       schemaVersion: "2.0.0",
@@ -227,6 +227,7 @@ export function buildVerifierPrompt(brief: NodeBrief, workspaceDir: string, skil
     "Your ONLY job is to judge whether already-produced work satisfies its own brief. Read; never write.",
     "Do not create, edit, move, or delete any file. Do not rerun or repair the work. If the work is incomplete or wrong, your verdict says so — fixing it is a producer's job, and a verifier who repairs work has verified nothing.",
     "Use the brief, current contract, rubric, reference pack, implementation, and runtime evidence. Do not rely on chat history or producer claims.",
+    "Keep digest types distinct: receipt sha256 values are SHA-256 of exact file bytes. A run-state artifactBindings[].fingerprint is Brigade's internal artifact identity; for files it also includes relative path, mode, and size, and for directories it covers a sorted tree. Never compare these values as if they were the same digest or reject output because they differ.",
     "For visual or interaction work, inspect the rendered native and web surfaces and recorded interactions against the frozen rubric. Document titles, screenshots paths, and prose claims alone cannot establish visual quality or working behavior. If required evidence is inaccessible, reject with the exact missing evidence.",
     ...(brief.review?.reviewOf.length
       ? [
@@ -558,7 +559,7 @@ export function validateKnowledgeReceipt(output: string, brief: NodeBrief, expec
     if (!Array.isArray(entry.knowledgePaths) || entry.knowledgePaths.length === 0) issues.push(`outputEvidence ${entry.outputPath} must cite knowledge`);
     else
       for (const cited of entry.knowledgePaths)
-        if (!usedKnowledge.has(cited) && !brief.contractFiles.includes(cited))
+        if (!usedKnowledge.has(cited) && !brief.contractFiles.includes(cited) && !brief.open.includes(cited))
           issues.push(`outputEvidence ${entry.outputPath} cites unused knowledge ${cited}`);
     if (!entry.summary || entry.summary.trim().length < 12) issues.push(`outputEvidence ${entry.outputPath} needs a concrete summary`);
   }

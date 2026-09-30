@@ -162,7 +162,7 @@ export function register(harness: Harness): void {
   });
 
   harness.check("doctor-asc: winner ahead of recorded latest is ok, not a warn", () => {
-    const { findings } = runIsolated(harness, "doctor-asc-ahead", fakeFacts([{ path: "/opt/homebrew/bin/asc", version: "5.2.0" }]));
+    const { findings } = runIsolated(harness, "doctor-asc-ahead", fakeFacts([{ path: "/opt/homebrew/bin/asc", version: "5.8.0" }]));
     assert(finding(findings, "doctor.asc")?.severity === "ok", `ahead of latest must be ok, got ${JSON.stringify(findings.filter((item) => item.code.startsWith("doctor.asc")))}`);
     assert(!finding(findings, "doctor.asc_stale"), "ahead of latest must not be labeled stale");
   });

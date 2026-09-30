@@ -19,6 +19,8 @@ export interface WorkflowSeed {
   dependencies?: WorkflowId[];
   refreshDependencies?: Array<{ workflowId: WorkflowId; instructions: string }>;
   outputPaths?: string[];
+  /** Exact app source paths owned by this task; separate from its acceptance artifacts. */
+  sourceAccess?: CatalogWorkflowDef["sourceAccess"];
   gates?: string[];
   providers?: string[];
   founderOnlyActions?: string[];
@@ -84,6 +86,7 @@ export function workflow(seed: WorkflowSeed): CatalogWorkflowDef {
     dependencies: dependenciesFor(seed),
     ...(seed.refreshDependencies?.length ? { refreshDependencies: seed.refreshDependencies } : {}),
     outputPaths: seed.outputPaths ?? [],
+    ...(seed.sourceAccess?.length ? { sourceAccess: seed.sourceAccess } : {}),
     gateCommands: seed.gates ?? [],
     providerIds: seed.providers ?? [],
     founderOnlyActions: seed.founderOnlyActions ?? [],

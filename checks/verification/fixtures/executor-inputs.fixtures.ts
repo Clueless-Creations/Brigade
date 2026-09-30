@@ -2,8 +2,17 @@ import { chmodSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { assert, skillRoot, type Harness } from "./_harness.js";
 import { snapshotTaskInputs, verifyTaskInputs } from "../../../kernel/session/input-inventory.js";
+import { workerExecutionDeadline } from "../../../kernel/session/executor.js";
 
 export function register(harness: Harness): void {
+  harness.check("executor deadlines: task bounds and remaining session time are independent of heartbeat leases", () => {
+    const now = 1000;
+    assert(workerExecutionDeadline({}, {}, now) === now + 1800000, "standalone work must retain a bounded thirty-minute default");
+    assert(workerExecutionDeadline({ executionTimeoutSeconds: 5 }, {}, now) === 6000, "explicit task execution limits must be preserved");
+    assert(workerExecutionDeadline({ executionTimeoutSeconds: 5 }, { executionDeadlineAt: 3000 }, now) === 3000, "session deadline must cap a task");
+    assert(workerExecutionDeadline({}, { executionDeadlineAt: 900 }, now) === 900, "an expired session must never receive fresh time");
+    assert(workerExecutionDeadline({}, { executionDeadlineAt: Number.NaN }, now) === now, "an invalid deadline must fail closed");
+  });
   harness.check("executor inputs: audit directories expand to stable file-byte receipts", () => {
     const root = harness.makeTempDir("audit-inputs");
     mkdirSync(path.join(root, "design/reference-packs/nested"), { recursive: true });
@@ -203,5 +212,281 @@ const context = { runId: 'run', attemptId: 'attempt', workspaceDir: ${JSON.strin
     [],
     0,
     "receipt repair bounded to one continuation with candidate preserved",
+  );
+
+  const failureWorkspace = harness.makeTempDir("executor-failure-diagnostics");
+  const failureBin = path.join(failureWorkspace, "bin");
+  mkdirSync(failureBin);
+  const failureCli = path.join(failureBin, "codex");
+  writeFileSync(
+    failureCli,
+    `#!/usr/bin/env node
+const fs = require('node:fs');
+if (process.argv.includes('--version')) { console.log('fixture-runtime'); process.exit(0); }
+const options = JSON.parse(fs.readFileSync('failure.json', 'utf8'));
+fs.appendFileSync('invocations', 'worker\\n');
+if (options.repair && !process.argv.at(-1).includes('RECEIPT-ONLY REPAIR')) {
+  fs.writeFileSync('result.md', 'candidate retained');
+  console.log('invalid receipt transport');
+} else {
+  process.stdout.write(options.stdout);
+  process.stderr.write(options.stderr);
+  process.exitCode = 1;
+}
+`,
+  );
+  chmodSync(failureCli, 0o755);
+  symlinkSync(failureCli, path.join(failureBin, "claude"));
+  symlinkSync(failureCli, path.join(failureBin, "cursor-agent"));
+  const failureIntegration = path.join(failureWorkspace, "integration.ts");
+  writeFileSync(
+    failureIntegration,
+    `
+import assert from 'node:assert/strict';
+import { createCliExecutor, createCliVerifier } from ${JSON.stringify(path.join(skillRoot, "kernel/session/executor.ts"))};
+import { readFileSync, writeFileSync } from 'node:fs';
+process.env.PATH = ${JSON.stringify(failureBin)} + ':' + process.env.PATH;
+process.chdir(${JSON.stringify(failureWorkspace)});
+const node = {id:'failure',workflowId:'workflow.failure',title:'Failure fixture',reads:[],references:[],outputs:['result'],approvals:[],tokenBudget:12000,ttlSeconds:10,verification:{kind:'deterministic',gateIds:[],failClosed:true}} as any;
+const context = {runId:'run',attemptId:'attempt',workspaceDir:process.cwd(),skillRootDir:process.cwd(),artifactPaths:{result:'result.md'},now:'2026-09-28T00:00:00Z',heartbeat(){}};
+const reason = 'The selected model requires a newer version of the CLI.';
+const noise = ('Unrelated MCP OAuth startup error.\\n').repeat(100);
+const configure = (stdout, stderr=noise, repair=false) => {writeFileSync('failure.json',JSON.stringify({stdout,stderr,repair}));writeFileSync('invocations','');};
+const events = [
+  {type:'task_complete',error:JSON.stringify({type:'error',error:{message:reason}})},
+  {type:'event_msg',payload:{type:'task_complete',error:{message:reason}}},
+  {type:'turn.failed',error:{message:reason}},
+  {type:'error',message:reason},
+];
+(async () => {
+  for (const event of events) {
+    configure(JSON.stringify(event)+'\\n');
+    const failed = await createCliExecutor('auto').execute(node,context);
+    assert.equal(failed.status,'failed');
+    assert.equal(failed.error,'codex worker exited 1: '+reason);
+    assert.equal(readFileSync('invocations','utf8'),'worker\\n','MCP auth noise must not replace the actual fatal cause or trigger an unrelated fallback');
+  }
+  const email = ['operator','example.invalid'].join('@');
+  const secret = ['sk','test','1234567890abcdefghijkl'].join('_');
+  configure(JSON.stringify({type:'turn.failed',error:{message:reason+' '+email+' '+secret+' /home/fixture/private '+('detail '.repeat(300))}}));
+  const sanitized = await createCliExecutor('codex').execute(node,context);
+  assert(sanitized.error.startsWith('codex worker exited 1: '+reason));
+  assert(!sanitized.error.includes(email) && !sanitized.error.includes(secret) && !sanitized.error.includes('/home/fixture'));
+  assert(sanitized.error.length <= 830,'diagnostic must remain bounded');
+  for (const stdout of ['{broken',JSON.stringify({type:'item.completed',item:{type:'agent_message',text:reason}}),JSON.stringify({type:'error',message:'x'.repeat(70000)})]) {
+    configure(stdout,'plain stderr fallback');
+    const fallback = await createCliExecutor('codex').execute(node,context);
+    assert.equal(fallback.error,'codex worker exited 1: plain stderr fallback','unrecognized, malformed, and oversized records must not become errors');
+  }
+  configure(JSON.stringify(events[0]),'other runtime stderr');
+  const otherRuntime = await createCliExecutor('claude').execute(node,context);
+  assert.equal(otherRuntime.error,'claude worker exited 1: other runtime stderr');
+  configure(JSON.stringify(events[0]));
+  const verifier = await createCliVerifier('codex').verify(node,{workspaceDir:process.cwd(),skillRootDir:process.cwd(),outputs:[],now:context.now});
+  assert.equal(verifier.status,'unavailable');
+  assert.equal(verifier.error,'codex verifier exited 1: '+reason);
+  configure(JSON.stringify(events[0]),noise,true);
+  const repair = await createCliExecutor('codex').execute(node,context);
+  assert.equal(repair.error,'receipt-only repair did not complete: worker exited 1: '+reason);
+  assert.equal(repair.outputs.length,1,'failed receipt repair must retain its candidate');
+  console.log('structured fatal errors survive MCP noise with bounded sanitized fallback');
+})();
+`,
+  );
+  harness.runScript(
+    "executor failures: fatal Codex events survive MCP noise without changing runtime authority",
+    failureIntegration,
+    [],
+    0,
+    "structured fatal errors survive MCP noise with bounded sanitized fallback",
+  );
+
+  const deadlineWorkspace = harness.makeTempDir("executor-deadlines");
+  const deadlineBin = path.join(deadlineWorkspace, "bin");
+  mkdirSync(deadlineBin);
+  writeFileSync(path.join(deadlineWorkspace, "method.md"), "Produce the assigned local fixture output.");
+  const deadlineCli = path.join(deadlineBin, "codex");
+  writeFileSync(
+    deadlineCli,
+    `#!/usr/bin/env node
+const fs = require('node:fs');
+const crypto = require('node:crypto');
+if (process.argv.includes('--version')) { console.log('fixture-runtime'); process.exit(0); }
+const options = JSON.parse(fs.readFileSync('timing.json', 'utf8'));
+const prompt = process.argv.at(-1);
+const verifying = prompt.includes('BEGIN_VERIFICATION_VERDICT');
+const repairing = prompt.includes('RECEIPT-ONLY REPAIR');
+fs.appendFileSync('invocations', verifying ? 'verify\\n' : repairing ? 'repair\\n' : 'worker\\n');
+fs.writeFileSync('worker-pid', String(process.pid));
+if (options.authFallback && process.argv[1].endsWith('/codex')) {
+  setTimeout(() => { console.error('authentication required'); process.exit(1); }, options.delayMs);
+  return;
+}
+if (options.descendant) {
+  const child = require('node:child_process').spawn(process.execPath, ['-e', "process.on('SIGTERM', () => {}); setInterval(() => {}, 1000);"], {stdio:'ignore'});
+  fs.writeFileSync('descendant-pid', String(child.pid));
+}
+setTimeout(() => {
+  if (verifying) {
+    console.log('BEGIN_VERIFICATION_VERDICT\\n' + JSON.stringify({schemaVersion:'1.0.0', workflowId:'workflow.deadline', verdict:'accepted', evidence:'Checked the current local fixture output.', repairWorkflowIds:[]}) + '\\nEND_VERIFICATION_VERDICT');
+    return;
+  }
+  fs.writeFileSync('result.md', 'deadline fixture candidate');
+  if (options.invalidFirst && !repairing) { console.log('invalid receipt transport'); return; }
+  const begin = 'BEGIN_KNOWLEDGE_RECEIPT', end = 'END_KNOWLEDGE_RECEIPT';
+  const receipt = JSON.parse(prompt.slice(prompt.lastIndexOf(begin) + begin.length, prompt.lastIndexOf(end)).trim());
+  for (const entry of receipt.mandatoryKnowledge) entry.sha256 = 'sha256:' + crypto.createHash('sha256').update(fs.readFileSync(entry.path)).digest('hex');
+  for (const output of receipt.outputEvidence) { output.knowledgePaths = receipt.mandatoryKnowledge.map(entry => entry.path); output.summary = 'Produced the current local fixture output.'; }
+  console.log(begin + '\\n' + JSON.stringify(receipt) + '\\n' + end);
+}, repairing ? options.repairDelayMs : options.authFallback ? options.fallbackDelayMs : options.delayMs);
+`,
+  );
+  chmodSync(deadlineCli, 0o755);
+  symlinkSync(deadlineCli, path.join(deadlineBin, "claude"));
+  symlinkSync(deadlineCli, path.join(deadlineBin, "cursor-agent"));
+  const interruptedHost = path.join(deadlineWorkspace, "interrupted-host.ts");
+  writeFileSync(
+    interruptedHost,
+    `
+import { createCliExecutor } from ${JSON.stringify(path.join(skillRoot, "kernel/session/executor.ts"))};
+import { writeFileSync } from 'node:fs';
+process.chdir(process.argv[2]);
+if (process.argv[3] === 'handled') process.on('SIGTERM', () => { writeFileSync('handled-signal', 'observed'); process.exit(42); });
+process.on('message', (message) => { if (message === 'exit') process.exit(23); });
+const node = { id:'deadline', workflowId:'workflow.deadline', title:'Interrupted fixture', reads:[], references:[{path:'method.md',title:'Fixture method',loadWhen:'before work'}], outputs:['result'], approvals:[], tokenBudget:12000, ttlSeconds:1, verification:{kind:'deterministic',gateIds:[],failClosed:true} } as any;
+void createCliExecutor('codex').execute(node, {runId:'run',attemptId:'attempt',workspaceDir:process.cwd(),skillRootDir:process.cwd(),artifactPaths:{result:'result.md'},now:'2026-09-28T00:00:00Z',heartbeat() {}});
+`,
+  );
+  const deadlineIntegration = path.join(deadlineWorkspace, "integration.ts");
+  writeFileSync(
+    deadlineIntegration,
+    `
+import assert from 'node:assert/strict';
+import { createCliExecutor, createCliVerifier } from ${JSON.stringify(path.join(skillRoot, "kernel/session/executor.ts"))};
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { spawn } from 'node:child_process';
+process.env.PATH = ${JSON.stringify(deadlineBin)} + ':' + process.env.PATH;
+process.chdir(${JSON.stringify(deadlineWorkspace)});
+const node = { id:'deadline', workflowId:'workflow.deadline', title:'Deadline fixture', reads:[], references:[{path:'method.md', title:'Fixture method', loadWhen:'before work'}], outputs:['result'], approvals:[], tokenBudget:12000, ttlSeconds:1, verification:{kind:'deterministic', gateIds:[], failClosed:true} } as any;
+const context = { runId:'run', attemptId:'attempt', workspaceDir:process.cwd(), skillRootDir:process.cwd(), artifactPaths:{result:'result.md'}, now:'2026-09-28T00:00:00Z', heartbeat() {} };
+const executor = createCliExecutor('codex');
+const configure = (options) => { writeFileSync('timing.json', JSON.stringify(options)); writeFileSync('invocations', ''); };
+const listenerCounts = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal));
+(async () => {
+configure({delayMs:1200});
+const beyondLease = await executor.execute(node, context);
+assert.equal(beyondLease.status, 'succeeded', JSON.stringify(beyondLease));
+const listenersAfterRun = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal));
+assert(
+  listenersAfterRun.every((count, index) => count <= listenerCounts[index]!),
+  'normal settlement must not leak host cleanup listeners; before='+JSON.stringify(listenerCounts)+', after='+JSON.stringify(listenersAfterRun),
+);
+configure({delayMs:1500});
+const expired = await executor.execute(node, {...context, executionDeadlineAt:Date.now()-1});
+assert.match(expired.error ?? '', /execution deadline exceeded/);
+assert.equal(readFileSync('invocations', 'utf8'), '', 'expired session must not spawn a worker');
+let heartbeats = 0;
+const started = Date.now();
+const timer = setInterval(() => { heartbeats++; context.heartbeat(); }, 10);
+const timed = await executor.execute(node, {...context, executionDeadlineAt:started+400});
+clearInterval(timer);
+assert.match(timed.error ?? '', /execution deadline exceeded/);
+assert(heartbeats > 0, 'fixture must send heartbeats while the worker is alive');
+assert(Date.now()-started < 1200, 'heartbeats must not extend the execution deadline');
+configure({delayMs:1500});
+const explicit = await executor.execute({...node, executionTimeoutSeconds:0.4}, context);
+assert.match(explicit.error ?? '', /execution deadline exceeded/, 'an explicit task bound must still stop work');
+configure({delayMs:150, authFallback:true, fallbackDelayMs:1500});
+const fallbackStarted = Date.now();
+const fallback = await createCliExecutor('auto').execute(node, {...context, executionDeadlineAt:fallbackStarted+650});
+assert.match(fallback.error ?? '', /claude worker execution deadline exceeded/);
+assert.equal(readFileSync('invocations', 'utf8'), 'worker\\nworker\\n', 'auth fallback must reach only the next fake runtime');
+assert(Date.now()-fallbackStarted < 1250, 'auth fallback must not reset the deadline');
+configure({delayMs:1500});
+const verification = await createCliVerifier('codex').verify(node, {workspaceDir:process.cwd(), skillRootDir:process.cwd(), outputs:beyondLease.outputs, now:context.now, executionDeadlineAt:Date.now()+400});
+assert.equal(verification.status, 'unavailable', 'timeout is never an acceptance or a rejection');
+assert.match(verification.error ?? '', /execution deadline exceeded/);
+configure({delayMs:150, invalidFirst:true, repairDelayMs:1500});
+const repairStarted = Date.now();
+const repaired = await executor.execute(node, {...context, executionDeadlineAt:repairStarted+650});
+assert.match(repaired.error ?? '', /receipt-only repair.*execution deadline exceeded/);
+assert.equal(repaired.outputs.length, 1, 'repair timeout must retain the candidate snapshot');
+assert.equal(readFileSync('invocations', 'utf8'), 'worker\\nrepair\\n', 'receipt repair must use the existing dispatch budget');
+assert(Date.now()-repairStarted < 1250, 'receipt repair must not reset the deadline');
+if (process.platform !== 'win32') {
+  const sibling = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], {stdio:'ignore'});
+  let descendantPid;
+  try {
+    configure({delayMs:1500, descendant:true});
+    const treeResult = await executor.execute(node, {...context, executionDeadlineAt:Date.now()+400});
+    assert.match(treeResult.error ?? '', /execution deadline exceeded/);
+    descendantPid = Number(readFileSync('descendant-pid', 'utf8'));
+    let descendantAlive = true;
+    for (let check = 0; check < 20 && descendantAlive; check++) {
+      try { process.kill(descendantPid, 0); await new Promise(resolve => setTimeout(resolve, 25)); }
+      catch (error) { if (error.code !== 'ESRCH') throw error; descendantAlive = false; }
+    }
+    assert.equal(descendantAlive, false, 'timed out worker must not leave a tool process running');
+    assert.equal(sibling.exitCode, null, 'termination must preserve unrelated sibling processes');
+    assert.equal(sibling.signalCode, null, 'termination must not signal the parent process group');
+    process.kill(sibling.pid, 0);
+  } finally {
+    sibling.kill('SIGKILL');
+    if (descendantPid) { try { process.kill(descendantPid, 'SIGKILL'); } catch {} }
+  }
+  const alive = (pid) => { try { process.kill(pid, 0); return true; } catch (error) { if (error.code !== 'ESRCH') throw error; return false; } };
+  for (const mode of ['SIGTERM','SIGINT','SIGHUP','exit','handled']) {
+    const directory = process.cwd() + '/interrupt-' + mode;
+    mkdirSync(directory);
+    writeFileSync(directory + '/method.md', 'Produce the assigned local fixture output.');
+    writeFileSync(directory + '/timing.json', JSON.stringify({delayMs:60000, descendant:true}));
+    const sibling = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], {stdio:'ignore'});
+    const host = spawn(process.execPath, ['--import','tsx',${JSON.stringify(interruptedHost)},directory,mode], {cwd:${JSON.stringify(skillRoot)},stdio:['ignore','ignore','pipe','ipc'],detached:true});
+    let hostError = '';
+    host.stderr.on('data', chunk => hostError += chunk);
+    const exited = new Promise(resolve => host.once('exit', (code, signal) => resolve({code,signal})));
+    let workerPid, descendantPid;
+    try {
+      const readyUntil = Date.now()+10000;
+      while (!existsSync(directory+'/descendant-pid') && Date.now()<readyUntil) {
+        assert.equal(host.exitCode, null, 'fake host failed before dispatch: '+hostError);
+        await new Promise(resolve => setTimeout(resolve,25));
+      }
+      assert(existsSync(directory+'/descendant-pid'), 'fake host must dispatch worker and descendant before interruption: '+hostError);
+      workerPid = Number(readFileSync(directory+'/worker-pid','utf8'));
+      descendantPid = Number(readFileSync(directory+'/descendant-pid','utf8'));
+      if (mode === 'exit') host.send('exit');
+      else process.kill(-host.pid, mode === 'handled' ? 'SIGTERM' : mode);
+      let waitTimer;
+      const outcome = await Promise.race([exited,new Promise((_, reject) => { waitTimer = setTimeout(() => reject(new Error('interrupted host did not exit')),5000); })]).finally(() => clearTimeout(waitTimer));
+      if (mode === 'exit' || mode === 'handled') assert.equal(outcome.code, mode === 'exit' ? 23 : 42, 'existing host exit behavior must survive cleanup');
+      else assert.equal(outcome.signal, mode, 'default signal exit behavior must survive cleanup');
+      for (let check=0; check<40 && (alive(workerPid)||alive(descendantPid)); check++) await new Promise(resolve => setTimeout(resolve,25));
+      assert.equal(alive(workerPid), false, mode+' must terminate the detached worker');
+      assert.equal(alive(descendantPid), false, mode+' must terminate the worker descendant');
+      assert.equal(alive(sibling.pid), true, mode+' must preserve unrelated sibling processes');
+      if (mode === 'handled') assert.equal(readFileSync(directory+'/handled-signal','utf8'),'observed');
+    } finally {
+      for (const pid of [workerPid,descendantPid]) if (pid) { try { process.kill(pid,'SIGKILL'); } catch {} }
+      try { process.kill(-host.pid,'SIGKILL'); } catch {}
+      sibling.kill('SIGKILL');
+    }
+  }
+}
+const listenersAfterInterruptions = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal));
+assert(
+  listenersAfterInterruptions.every((count, index) => count <= listenerCounts[index]!),
+  'failed dispatches must not leak host cleanup listeners; before='+JSON.stringify(listenerCounts)+', after='+JSON.stringify(listenersAfterInterruptions),
+);
+console.log('lease independence, execution deadlines, review and receipt repair proved');
+})();
+`,
+  );
+  harness.runScript(
+    "executor deadlines: fake CLI survives lease expiry, honors shared deadlines, and cleans up on host interruption",
+    deadlineIntegration,
+    [],
+    0,
+    "lease independence, execution deadlines, review and receipt repair proved",
   );
 }

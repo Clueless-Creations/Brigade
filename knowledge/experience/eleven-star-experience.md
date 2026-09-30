@@ -1,6 +1,6 @@
 # 11-Star Experience
 
-**Applicability:** The formal 11-star exploration and `11_STAR_EXPERIENCE.md` / visual board remain on their existing reference and workflow for **new-product or major-experience** work. They are **not** a prerequisite for a narrow bug fix, screenshot review, research comparison, or support response. The standing quality principle still applies implicitly through ordinary guidance. Do not enforce quality by searching for the phrase "11-star". `product.yaml` / `PRODUCT.md` / `DESIGN.md` ownership stands; do not instruct workers to write reducer-owned state outside supported operations.
+**Applicability:** Run the formal 11-star exploration and create its artifacts only when the selected task explicitly requests that exercise. New-product or major-experience work may select it; scope alone does not require it. Ordinary reviews use the audit finding contract below. Narrow fixes, screenshot reviews, research comparisons, and support responses need no star ladder. Preserve the accepted quality bar and verify the actual experience. `product.yaml` / `PRODUCT.md` / `DESIGN.md` ownership stands; change reducer-owned state only through supported operations.
 
 Use this after research and before product/design/build contracts harden. The goal is to force the product team to design the extreme experience first, then choose the smallest scalable slice that still carries the magic.
 
@@ -144,21 +144,25 @@ When the founder says "run an 11-star experience", "run it through the 11-star f
 2. Read the existing `11_STAR_EXPERIENCE.md` if it exists; otherwise create it from `business/product/experience/11-star-experience/11_STAR_EXPERIENCE.md`.
 3. Write or update `11_STAR_EXPERIENCE.md` with a complete ladder for this specific product. All seven star levels (1, 2, 5, 6, 7, 10, 11) must be present with product-specific labels, not Airbnb copy.
 4. Write or update `11-star-experience.html` with the visual ladder, line of feasibility, complete product experience, and surface translation board.
-5. Update `state/business-state.json` `lanes.experience` status and evidence fields.
+5. For managed work, record `lanes.experience` status and evidence through the supported runtime operation.
 6. Only after the above five steps: proceed to implementation changes, subagent code audits, or UX audit work.
 
 If the founder asks for both "11-star experience" and "make your changes" in a single turn, produce the artifacts first, then apply changes using the complete product experience as the governing constraint.
 
 ## UX And Onboarding Audit Output Contract
 
-When a UX or onboarding audit subagent produces findings, each finding **must** include:
+Each UX or onboarding finding includes:
 
-- **star-ladder level**: which star level (1–11) the finding maps to in `11_STAR_EXPERIENCE.md` (e.g. "2-star friction", "5-star expected", "7-star way-beyond target")
-- **file/component**: the specific file, screen, or component affected
-- **recommendation**: what to change and why, grounded in the complete product experience
-- **failure-card flag**: "open failure card: yes/no" with reason — if yes, include a draft card shape from `failure-cards.md`
+- **Observed problem:** identify the affected screen, component, or journey step and cite the evidence.
+- **User impact:** explain what prevents, delays, confuses, or harms the user's intended outcome.
+- **Proposed change:** describe the smallest change that addresses the problem within accepted product and design constraints.
+- **Verification:** name the behavior, visual result, accessibility check, or runtime evidence needed to confirm the repair.
 
-Findings that do not map to a star-ladder level or do not reference `11_STAR_EXPERIENCE.md` are incomplete and must be rejected by the orchestrator. The orchestrator must convert starred findings into `state/business-state.json` updates or failure cards before claiming any progress.
+Label hypotheses and unavailable evidence. Preserve material defects, independent review, and applicable acceptance requirements.
+Add numeric scores or star-ladder mappings only when the selected task explicitly requests them.
+Missing optional scores do not invalidate a finding. A score cannot substitute for evidence or accept a repair.
+For managed work, record accepted findings through supported runtime operations when the current task requires them.
+Focused reviews do not require a new ladder, failure-card document, or runtime state.
 
 ## Copy Output Brand-Voice Attestation
 
@@ -192,5 +196,5 @@ For **new-product or major-experience** work that selected this formal explorati
 - The 11-star board is prose-only and cannot be inspected visually.
 - The line of feasibility is vague, so agents keep overbuilding or underbuilding.
 - The founder asks for an "11-star run" on new-product or major-experience work and the agent loads this reference but proceeds directly to code audits or implementation without writing `11_STAR_EXPERIENCE.md` and `11-star-experience.html` first. For that selected formal exploration, the artifact is required before downstream major-experience work — not after. Narrow fixes still do not inherit this gate.
-- UX audit findings are produced as narrative prose with no star-ladder level mapping. Findings that cannot be mapped to a star level cannot be integrated into the experience contract.
+- UX findings omit the observed problem, user impact, proposed change, or verification. A star rating does not supply that evidence.
 - Copy outputs include no brand-voice attestation. Copy changes produced without verifying `strategy/BRAND.md` and `design.md` hard rules drift from the experience voice immediately.

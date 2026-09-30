@@ -946,7 +946,7 @@ export function register(harness: Harness): void {
     const firstparty = composition!.deltas["business-pack.consumer-business"]!;
     assert(firstparty.domains === 15, `expected 15 firstparty domains, got ${firstparty.domains}`);
     assert(firstparty.workflows === 115, `expected 115 firstparty workflows, got ${firstparty.workflows}`);
-    assert(firstparty.references === 145, `expected 145 firstparty references, got ${firstparty.references}`);
+    assert(firstparty.references === 147, `expected 147 firstparty references, got ${firstparty.references}`);
     const deltaWorkflows = Object.values(composition!.deltas).reduce((sum, delta) => sum + delta.workflows, 0);
     const deltaDomains = Object.values(composition!.deltas).reduce((sum, delta) => sum + delta.domains, 0);
     const deltaReferences = Object.values(composition!.deltas).reduce((sum, delta) => sum + delta.references, 0);

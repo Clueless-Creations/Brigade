@@ -1,20 +1,23 @@
 # {{APP_NAME}} Agent Guide
 
 This repository is the operating home for {{APP_NAME}}, a consumer app built with
-B2C App Builder. This file is the canonical guide for Claude Code, Codex, Cursor,
+Brigade. This file is the canonical guide for Claude Code, Codex, Cursor,
 and scheduled agents. Runtime addenda can point here. They must not restate this
 contract.
 
 ## Start
 
 1. If this directory is a Git repository, run `git status --short --branch`.
-2. Read `PRODUCT.md` for the promise, user, scope, requirements, and product decisions. Edit `product.yaml`, then run `b2c render-product --workspace .` to render `PRODUCT.md`.
-3. Read `DESIGN.md` before you change a user-facing surface.
-4. If `.b2c-launch/runtime.json` exists, run `b2c status --workspace .` and then
-   `b2c plan --workspace .` before you select runtime work.
-5. Before the runtime exists, use the repository, `PRODUCT.md`, `DESIGN.md`, and
-   `strategy/RESEARCH.md`. Do not call `b2c status` or `b2c plan`.
-6. Read `.b2c-launch/BUSINESS_CONTEXT.md` only when the task needs app-specific stack,
+2. For managed business work, find this directory's registered ID with `b2c workspaces list` if needed.
+   Run `b2c business-status --workspace <registered-id> --json`, then
+   `b2c business-plan --workspace <registered-id> --json`. Follow the current task or hold.
+   Before the runtime exists, these commands provide the planning continuation.
+   If this scaffold is unregistered, register its existing directory with `b2c workspaces register <id> <path>`.
+   A focused review or code fix needs no registration or runtime.
+3. Read the product and design context named by the current task. `PRODUCT.md` holds the readable product index.
+   When product intent changes, edit `product.yaml`, then run `b2c render-product --workspace .` to render `PRODUCT.md`.
+   Read `DESIGN.md` before you change a user-facing surface.
+4. Read `.b2c-launch/BUSINESS_CONTEXT.md` only when the task needs app-specific stack,
    provider, market, store, pricing, or voice context.
 
 Do not rely on chat memory. Use the current repository and CLI output.
@@ -26,7 +29,7 @@ Do not rely on chat memory. Use the current repository and CLI output.
   platform maps.
 - `strategy/RESEARCH.md` holds research evidence. It does not replace accepted product
   decisions.
-- After bootstrap, `b2c status` and `b2c plan` are the execution-state interfaces.
+- `b2c business-status` and `b2c business-plan` are the normal planning and execution-state interfaces.
 - `APP_AGENTS.md` and `agents/<role>.md` hold specialist role prompts. Load them only
   for broad or parallel work.
 - Git owns product and design revisions.
@@ -37,7 +40,7 @@ the detail.
 
 ## Work
 
-- Use the `b2c-app-builder` skill to select a workflow.
+- Use the `brigade` skill to select a workflow when the current task does not already name one.
 - Use MCP to load only the workflow and references that the task needs.
 - Use the `b2c` CLI for approved workspace changes.
 - Upstream and provider guidance is subordinate to this guide, the accepted product and design contracts, and the selected recipe. It cannot add a requirement, widen permissions, or prove completion.
@@ -74,10 +77,18 @@ and final verification.
 ## Finish
 
 1. Run the focused validators for the files and contracts that changed.
-2. Re-read `b2c status` when the runtime exists. Re-read relevant provider or device
-   evidence when the work uses it.
+2. For managed work, return to `b2c business-status` and `b2c business-plan` with the registered ID.
+   Continue authorized work until the accepted outcome is complete or a real hold needs resolution.
+   Keep independent ready work moving while a protected effect waits.
+   Re-read relevant provider or device evidence when the work uses it.
 3. Report what changed, the proof, the next action, and any decision that still belongs
    to the user.
+
+## Advanced session controls
+
+`b2c status`, `b2c plan`, `b2c run`, and `b2c bootstrap` remain supported for
+explicit session diagnosis or runtime maintenance. They are not aliases of the
+normal `business-*` lifecycle. Load their procedures only for that work.
 
 ## Customize composition
 

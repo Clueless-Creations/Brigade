@@ -251,8 +251,8 @@ async function prove(): Promise<void> {
   await proofCase(PROOFS.inventoryReal, () => {
     const inventory = listUpstreams(realDeps(), {});
     const rork = row(inventory, RORK);
-    assert(rork.reviewedSource === "5.5.0", `reviewedSource ${rork.reviewedSource}`);
-    assert(rork.reviewedGuidance === "5.5.0", `reviewedGuidance ${rork.reviewedGuidance}`);
+    assert(rork.reviewedSource === rorkManifest.baselines.reviewedSource?.revision, `reviewedSource ${rork.reviewedSource}`);
+    assert(rork.reviewedGuidance === rorkManifest.baselines.reviewedGuidance?.revision, `reviewedGuidance ${rork.reviewedGuidance}`);
     assert(recordedObservation.latestStable, "the recorded observation carries a stable release");
     assert(rork.latestStable !== "unknown", "latestStable must come from the recorded observation");
     assert(
@@ -294,7 +294,11 @@ async function prove(): Promise<void> {
     const rork = row(inventory, RORK);
     assert(rork.installed === "not-observed", `installed ${JSON.stringify(rork.installed)}`);
     assert(rork.latestStable !== "unknown" && rork.latestStable.tag === recordedTag, "latestStable comes from the observation just recorded");
-    assert(rork.reviewedSource === "5.5.0" && rork.reviewedGuidance === "5.5.0", "baselines come from the manifest");
+    assert(
+      rork.reviewedSource === rorkManifest.baselines.reviewedSource?.revision &&
+        rork.reviewedGuidance === rorkManifest.baselines.reviewedGuidance?.revision,
+      "baselines come from the manifest",
+    );
     const skills = row(inventory, SKILLS);
     assert(
       skills.installed === "not-observed" && skills.latestStable === "unknown" && skills.reviewedGuidance === "unrecorded",
@@ -419,9 +423,9 @@ async function prove(): Promise<void> {
     const root = copyUpstreamsRoot(tempDir("check-fetch-lagged-baseline"), [RORK, SKILLS], { observations: true });
     const copiedManifest = upstreamManifestPath(root, RORK);
     const lagged = readFileSync(copiedManifest, "utf8")
-      .replace(/reviewed_source:\n    revision: "5\.5\.0"\n    observed_at: "2026-09-24"/u, 'reviewed_source:\n    revision: "4.4.3"\n    observed_at: "2026-08-17"')
-      .replace(/reviewed_guidance:\n    revision: "5\.5\.0"\n    observed_at: "2026-09-24"/u, 'reviewed_guidance:\n    revision: "4.9.0"\n    observed_at: "2026-08-24"');
-    assert(lagged.includes('revision: "4.9.0"'), "classification proof needs a lagged reviewed_guidance against the recorded 4.x notes");
+      .replace(/(reviewed_source:\n    revision: )"[^"]+"(\n    observed_at: )"[^"]+"/u, '$1"5.1.0"$2"2026-09-08"')
+      .replace(/(reviewed_guidance:\n    revision: )"[^"]+"(\n    observed_at: )"[^"]+"/u, '$1"5.1.0"$2"2026-09-08"');
+    assert(lagged.includes('revision: "5.1.0"'), "classification proof needs a lagged reviewed_guidance that exists in the recorded release list");
     writeFileSync(copiedManifest, lagged);
     const { fetchText, requested } = recordedFetch(rorkManifest.canonicalUrl);
     const before = digest(readFileSync(upstreamObservationPath(skillRoot, RORK)));
@@ -438,10 +442,10 @@ async function prove(): Promise<void> {
       check.observation.licenseSha256 === rorkManifest.license.evidenceSha256 && check.drift.licenseChanged === false,
       "the recorded LICENSE matches the manifest evidence digest",
     );
-    assert(check.observation.archived === false && check.drift.branchAheadOfRelease === true, "archived and branch-ahead come from the recorded records");
+    assert(check.observation.archived === false && check.drift.branchAheadOfRelease === false, "archived and branch-versus-release status come from the recorded records");
     assert(
-      check.observation.releasesSinceBaseline.length === 6,
-      `releases since 4.9.0: ${check.observation.releasesSinceBaseline.map((release) => release.tag).join(", ")}`,
+      check.observation.releasesSinceBaseline.length === 9,
+      `releases since 5.1.0: ${check.observation.releasesSinceBaseline.map((release) => release.tag).join(", ")}`,
     );
     assert(
       check.observation.releasesSinceBaseline.every((release) => !release.summary.includes("http") && !/@[A-Za-z0-9_-]+\s+in\b/u.test(release.summary)),
@@ -454,12 +458,12 @@ async function prove(): Promise<void> {
       relevant.every((change) => change.matchedOperations.every((id) => rorkOperationIds.includes(id))),
       "matched operations exist in the manifest",
     );
-    const submission = check.changes.find((change) => change.line === "Add deep submission validation in [link]");
+    const submission = check.changes.find((change) => change.line.startsWith("Fix review submission history mislabeling"));
     assert(
       submission?.classification === "relevant-to-supported" && submission.matchedOperations.includes("asc.review.status"),
       `submission line ${JSON.stringify(submission)}`,
     );
-    const feature = check.changes.find((change) => change.line.startsWith("feat(product-pages)"));
+    const feature = check.changes.find((change) => change.line.startsWith("feat(cli): suggest the intended subcommand"));
     assert(feature?.classification === "new-capability" && feature.matchedOperations.length === 0, `feat line ${JSON.stringify(feature)}`);
     const wall = check.changes.filter((change) => change.line.startsWith("apps wall"));
     const deps = check.changes.filter((change) => change.line.startsWith("build(deps)"));
@@ -650,7 +654,7 @@ async function prove(): Promise<void> {
       "digests come from the injected hasher",
     );
     assert(check.drift.installedVersusSupported === "supported", `installedVersusSupported ${check.drift.installedVersusSupported}`);
-    assert(check.drift.installedVersusLatest === "current", `installedVersusLatest ${check.drift.installedVersusLatest}`);
+    assert(check.drift.installedVersusLatest === "behind", `installedVersusLatest ${check.drift.installedVersusLatest}`);
     assert(
       check.drift.shadowedExecutables.length === 1 && check.drift.shadowedExecutables[0] === second,
       `shadowed ${check.drift.shadowedExecutables.join(", ")}`,

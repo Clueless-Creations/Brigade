@@ -17,6 +17,7 @@ import {
   connectionReceiptSchema,
   HOSTED_WRONG_SURFACE_LEFTOVER_CLI_ONLY_TOOL_NAMES,
   HOSTED_WRONG_SURFACE_TOOL_NAMES,
+  LEFTOVER_LOCAL_CLIENT_NAME,
   hostedMcpInstructionsSuffix,
   hostedWrongSurfaceRefusal,
   interpretConfiguredConnection,
@@ -122,7 +123,7 @@ test("setup prints a local connection receipt and distinct b2c-local registratio
     const parsed = parseConnectionReceipt(result.stdout);
     assert.equal(parsed.mode, "local_execution");
     assert.equal(parsed.identity.recommended, "b2c-local");
-    assert.deepEqual(parsed.identity.legacy, []);
+    assert.deepEqual(parsed.identity.legacy, [LEFTOVER_LOCAL_CLIENT_NAME]);
     assert.equal(parsed.declares.workspaceExecution, "local_cli");
     assert.equal(parsed.declares.writes, "cli_default");
     assert.equal(parsed.providerObservation, "not_tested");
@@ -169,7 +170,7 @@ test("local MCP handshake name is b2c-local and leftover names stay on the recei
     const instructions = client.getInstructions() ?? "";
     const receipt = parseConnectionReceipt(instructions);
     assert.equal(receipt.identity.recommended, "b2c-local");
-    assert.deepEqual(receipt.identity.legacy, []);
+    assert.deepEqual(receipt.identity.legacy, [LEFTOVER_LOCAL_CLIENT_NAME]);
     assert.equal(receipt.providerObservation, "not_tested");
     assert.notEqual(receipt.observed?.knowledge, undefined);
     assert.equal(receipt.observed?.workspacePlanning, "available");
@@ -210,7 +211,7 @@ test("local MCP instructions name local execution and refuse hosted-as-local", (
   assert.match(text, /b2c-hosted/);
   const receipt = parseConnectionReceipt(text);
   assert.equal(receipt.mode, "local_execution");
-  assert.deepEqual(receipt.identity.legacy, []);
+  assert.deepEqual(receipt.identity.legacy, [LEFTOVER_LOCAL_CLIENT_NAME]);
   assert.equal(receipt.declares.knowledge, "bundled");
   assert.equal(receipt.providerObservation, "not_tested");
   assert.equal(receipt.observed?.knowledge, "available");

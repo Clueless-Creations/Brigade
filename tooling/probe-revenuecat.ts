@@ -23,8 +23,8 @@
  * RevenueCat REST API v1 reference:
  *   https://www.revenuecat.com/docs/api-v1
  *   GET /v1/subscribers/$appUserId — subscriber object (not useful for offerings)
- *   Offerings are app-level, accessible via the SDK, but the REST API does not
- *   expose a public "get current offering" endpoint in v1.
+ *   GET /v1/subscribers/$appUserId/offerings includes current_offering_id.
+ *   This admin probe uses project-level v2 checks instead of customer targeting.
  *
  * RevenueCat REST API v2 reference (Projects scope):
  *   https://www.revenuecat.com/docs/api-v2

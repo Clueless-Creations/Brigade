@@ -2,7 +2,7 @@
   "extension": {
     "apiVersion": "b2c.extension/v1",
     "id": "b2c/consumer-business",
-    "version": "0.221.84",
+    "version": "0.221.96",
     "hostApiVersion": "b2c/v1",
     "title": "Consumer business",
     "dependencies": [],
@@ -4877,7 +4877,7 @@
           "workflowId": "workflow.process.launch-trace-and-build-contracts",
           "instructions": "When work crosses from research into product/design/build, create or update `state/LAUNCH_TRACE.md` as the decision-trace table (evidence ID, source, tool route, research finding, experience/product/brand decision, build contract, analytics/security/revenue/privacy/store impact, verification, status) so every screen, claim, or paywall behavior traces back to the evidence that produced it. Decide whether `engineering/TECH_SPEC.md` is needed — create it when the app has backend APIs, database/storage, auth, subscriptions, email, analytics, AI, push, account deletion, or non-trivial platform behavior, and cover the data model, API/RPC/webhook contracts, state machines, permissions, and integration contracts so a builder never has to invent schema or endpoint behavior. Do not let a claim, screen, onboarding question, or paywall behavior move forward without a trace row or an explicit, documented founder-only decision.",
           "providerIds": [],
-          "contextFingerprint": "sha256:fdf9a1c606aebfcf1cae845e599a9e7ab0782fc8e8213355cf91a4420d0cec90"
+          "contextFingerprint": "sha256:0ac749f5f7a99d1c690e1d8cc2da41298c112875030db1af54fe7c54414731a6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Crossing research → product/design/build; deciding if engineering/TECH_SPEC.md is needed",
@@ -5147,7 +5147,7 @@
           "providerIds": [
             "provider.doppler"
           ],
-          "contextFingerprint": "sha256:64209548eef1ca5366ee8b836038e6222cf16cf33d9532936b8e419cbcafc6ac"
+          "contextFingerprint": "sha256:53c2722c8297f7d12c71a4ff57aaf7e948ebcaacb21be8f4a4f17fb15bcb3f45"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before any new secret, key, token, env var, webhook secret, or .env",
@@ -5267,7 +5267,7 @@
           "workflowId": "workflow.operations.post-launch-operations",
           "instructions": "Run the named Weekly Ops Review in fixed order — metrics pull (PostHog/RevenueCat/console numbers, not adjectives), crash/review triage, support sweep, ASO delta, growth/spend review against `growth/PAID_UA.md`'s stop/scale rules, then ship one user-visible improvement — and log a one-line delta per step in `operations/POST_LAUNCH_OPS.md` dated against `lanes.post_launch_ops.live_since`. Before automating a value-producing loop, record one manual run with its input, output, result, cost, and failure mode; exempt necessary security, compliance, backup, and monitoring controls. Track discovery-to-owned-contact, owned-contact-to-activation, owned-contact-to-paid, and external-platform concentration when those metrics apply. Route involuntary billing churn through the recovery levers, not written off as normal, and when retention cohorts show a consistent drop at one step, open it through `change-cascade.md` rather than patching only the surface that failed. At the day-30 and day-90 checkpoints, prepare the Kill/Hold/Fix/Scale evidence pack (MRR trajectory, D7/D30 retention trend, CAC/LTV payback, founder hours) in `operations/LAUNCH_RETRO.md` — the agent assembles evidence, the founder makes the verdict. `check:post-launch` fails a checkpoint left uncompleted past its due date or a metric cell holding a placeholder instead of a number.",
           "providerIds": [],
-          "contextFingerprint": "sha256:b6a98871a7c81eae1c6bb721c2af8406e48188c69cf2e15ff16f5af5a0e259dd"
+          "contextFingerprint": "sha256:fa847856b915336e4811ae1f2fd05257a5e2ee84c5f834b56b03f28431d22f7c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App live (phase_6/6b), \"what now\", weekly ops, incident response, retention reviews",
@@ -5324,7 +5324,7 @@
           "providerIds": [
             "provider.resend"
           ],
-          "contextFingerprint": "sha256:c65db24151bc5c4179e127c4e18beb937530bbd5a0e94f48b964df855efb0fc6"
+          "contextFingerprint": "sha256:342789ce96b3affb03c24fe7794d495cf10f3d2605be85c8518fa8b2a0015249"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App live: the recurring support sweep; an inbox, review queue, or refund/restore request needing a worked answer",
@@ -5367,7 +5367,7 @@
           "workflowId": "workflow.operations.retention-intervention",
           "instructions": "Read the cohorts every cycle and do something about them, and prove both in `operations/RETENTION_OPS.md`: name the cohort source once (PostHog cohorts plus RevenueCat renewals — `check:post-launch` fails a program with no named source), record a dated row with the measured D7/D30 values (percentages, or the dated blocker that stopped the pull), and keep an Intervention section logging what was tried, when, and what moved. Route involuntary billing churn through the recovery levers in `billing-health-and-reactivation.md` — failed payments written off as normal churn is the named anti-pattern. When a cohort shows a consistent drop at one step, open it through `change-cascade.md` rather than patching only the surface that failed. Interventions that change pricing or public messaging are founder-only; everything else ships within the standing autonomy grants and reports in the row it shipped in.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9cfbc23d0696c9f799f7b6d28584d056defe14b13f9839913009f0ae893e6c29"
+          "contextFingerprint": "sha256:099ba04fd3e8a825d70e99a02e3db68ae7fcd43ccf73f25803318f423cd7c0ed"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App live: the recurring retention pass; a cohort drop, involuntary-churn spike, or cancellation trend needing a worked response",
@@ -5413,7 +5413,7 @@
           "providerIds": [
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:6edd7152243d09637cfe1b38a522374c38ce47ddae2db49de9b1c29c1d026818"
+          "contextFingerprint": "sha256:c8fa53d826bca45aa94e9b235fdb01891ce9cef5120c165b33b871fb36de48a2"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App live: the recurring financial pulse; a spend change, refund spike, or runway question",
@@ -5463,7 +5463,7 @@
           "workflowId": "workflow.operations.scheduled-autonomy-installation",
           "instructions": "Install the OS-level trigger that keeps the operating loop alive: run `adapters/install-schedule.ts` in its default dry-run first and show the founder the exact crontab line (or launchd plist) it would install — mechanism, cadence, runtime, wrapper path, and log path — then run it with `--apply --approval workflow.operations.scheduled-autonomy-installation.approval.1` only after the current scheduled-autonomy founder approval is approved, because a standing schedule on their machine is their call, every time. Verify the installation with the command the dry-run prints (`crontab -l | grep b2c:<slug>` or `launchctl list`), and record the whole arrangement in `operations/SCHEDULE.md`: mechanism, cadence, runtime, brief path, wall-clock cap, the verify command, the exact uninstall command (`--uninstall --apply --approval workflow.operations.scheduled-autonomy-installation.approval.1`), and the note that the kill switch in `control/control.json` stops every scheduled session cold even while the OS keeps firing the trigger. The scheduled session itself reopens recurring work (the weekly ops review, the growth iteration loop) on its own calendar — this node installs the heartbeat, it does not do the week's work.",
           "providerIds": [],
-          "contextFingerprint": "sha256:a96684fbb9d47aacff7b6657ace9c8233342960d833da893da7dbf858e7db8bc"
+          "contextFingerprint": "sha256:e3fef495f28fd1eebfcb2955ac58f28fff9ba6a4810133e81984d9a8ff0d6432"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Business live and the founder wants the operating rhythm to run without anyone starting sessions by hand; changing or removing that schedule",
@@ -5641,7 +5641,7 @@
             "provider.security-review",
             "provider.sentry"
           ],
-          "contextFingerprint": "sha256:a97ec345366ef8452b93854b2f3b69e4b7a130311c4d877dfbf1618571db0d5c"
+          "contextFingerprint": "sha256:a99a325027f1d1fb17445f7b115c94846821b0959d8040d9027bec5fdf871ccd"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before threat modeling, hardening, scans, or any security-readiness claim. Founder phrasing: checked nobody can hack in or steal data.",
@@ -5745,7 +5745,7 @@
           "workflowId": "workflow.trust.community-and-user-safety",
           "instructions": "Confirm whether users can create, share, discover, or message content. When required, define moderation, reporting, blocking, escalation, support contact, age controls, response targets, and evidence. Record the operating model in trust/COMMUNITY_SAFETY.md. Test the common abuse and recovery paths. Do not mark this work as not needed without a reason and product evidence.",
           "providerIds": [],
-          "contextFingerprint": "sha256:ed5ab2093c4e030a79c2426d900b41029fb15da36dc96058e04e1203796d33f2"
+          "contextFingerprint": "sha256:ef7f46e4f58ee71069248a8bdc515c2a343662a31ca0694d095711afc7b749be"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When the product includes social, chat, creator, or other user-generated content",
@@ -5807,7 +5807,7 @@
           "workflowId": "workflow.trust.generative-ai-safety",
           "instructions": "Confirm whether the product generates text, images, audio, or video. When required, define prohibited uses, input and output controls, reporting, enforcement, human escalation, age controls, and model or provider responsibilities. Test harmful, deceptive, exploitative, and sexual-content abuse cases. Define a named self-harm and crisis response — detect self-harm/suicide/crisis language and respond with a real crisis resource, not a generic refusal — and test that path explicitly; it is not covered by the general harmful-content test. Record controls and evidence in trust/AI_SAFETY.md. When a capability can create paid model-provider spend, write trust/AI_PROVIDER_CONTROLS.md with auth, entitlement, reservation, kill switch, one backend secret, and separate application versus provider-account cap status. If paid generation does not apply, still write that file with Paid generation: not applicable and a named reason. Do not mark this work as not needed without a reason and product evidence.",
           "providerIds": [],
-          "contextFingerprint": "sha256:5d2ef1e79800d4c9864ff17879d3cb15854cf2c55ef02fbca01dcfa224d90b9f"
+          "contextFingerprint": "sha256:0d1c565f720108c329ef80b0b1f2777fa13d95b6089b48dfe6557d5f6ca9de35"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When the product generates text, images, audio, or video",
@@ -5869,7 +5869,7 @@
           "workflowId": "workflow.product.app-archetype-detection-and-starter",
           "instructions": "Compare the accepted product shape with the four shipped archetypes: habit tracker, photo or AI media, social network, and AI chat companion. When one is the product's center of gravity, copy its starter into the app instead of rebuilding the same wiring. Use an opening mandate that delegates stack and implementation choices. Ask the founder only when the match is ambiguous and that choice was not delegated. The copied starter and its README are the durable selection record. Do not rewrite PRODUCT.md or raw runtime state here. Run check:app-archetype and check:archetype-starter. If the product only contains a similar feature, use the general core-loop and complete-product method instead of forcing a pack.",
           "providerIds": [],
-          "contextFingerprint": "sha256:2b4781444b9314a4c775922bb36d1ee4b4d8145a4aac9b29d4e9f3cfd735f621"
+          "contextFingerprint": "sha256:0468caa5ec1158606b42754214e3609273c15d8ad29056336cef88054e0a1647"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Request matches a known product shape (social / AI-chat / habit / photo-AI)",
@@ -6063,7 +6063,7 @@
           "workflowId": "workflow.experience.11-star-experience",
           "instructions": "Run the 11-Star Run Protocol: for the product's core promise, name what would happen at 1★ (failure), 2★ (friction), 5★ (expected/works-but-forgettable), and the absurd 9-11★ concierge version, then work backward to the feasible 6-7★ slice that still carries the magic and is buildable in the accepted product. Write the ladder into 11_STAR_EXPERIENCE.md and its visual storyboard into 11-star-experience.html, and trace the promise through product/design/engineering/analytics/revenue/store/content in state/LAUNCH_TRACE.md so downstream nodes inherit the same target instead of re-deciding it. The decision that matters most is the accepted scope boundary — which normal product, design, onboarding, and paywall calls change because of the chosen slice — not the impressive 11★ idea itself, which stays inspiration.",
           "providerIds": [],
-          "contextFingerprint": "sha256:a137f7ea98045e850632e360cf2bb63a0d9385732a7b5e8c13d562e083cc0463"
+          "contextFingerprint": "sha256:7ce0d428284e4669183f5704434b5aa9ca0d8663a11f5cb9cc49a659e8b8ec37"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "\"11-star run\" / before PRODUCT.md, onboarding, ads, store creative, or engineering plans harden",
@@ -6121,7 +6121,7 @@
           "workflowId": "workflow.experience.emotional-experience-design-producer",
           "instructions": "Evaluate the Experience Cards against the actual product moment and record selected or not-applicable with a reason. No card is universally required. Implement each selected card with its applicable truthfulness, user-control, accessibility, and exit guardrails and evidence in engineering/PRODUCTION_READINESS.md. Never invent delay, randomness, or a commitment step merely to satisfy a card. Claims about emotional or conversion effects require observed evidence. Select additional cards from experience-cards.md only when the product moment fits; give every emotional moment a named PostHog event per emotional-experience-measurement.md before build, not invented ad hoc. Apply the three-question bright-line test from ethics-guardrail.md (goal alignment, truthfulness, informed exit) to each card before it ships — any NO answer means redesign, not a documented exception — and check:emotional-design enforces the resulting attestation fields in EMOTIONAL_DESIGN.md.",
           "providerIds": [],
-          "contextFingerprint": "sha256:aa195cced6d1af9c6d753cb7c38978dbe8fdb6a15e8f7f2a316697cfeee58986"
+          "contextFingerprint": "sha256:10d9f9848b25eafd154257de2f1ff0cd7ed153ff596d321f78dc8af5e730347b"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Feature whose 11-star target is 6★+ / \"charge this with emotion\", \"build a habit\"",
@@ -6184,7 +6184,7 @@
           "workflowId": "workflow.experience.emotional-design-audit-auditor",
           "instructions": "Audit EMOTIONAL_DESIGN.md against every card the app actually implements — for each, verify the specific bright-line/dark-line test from that card's own file (experience-cards/<name>-card.md) and verify the selection rationale against the actual product moment, not just that a card is named. When no card is selected, independently review the visible, explicit not-applicable decision and alternative; do not invent four required mechanisms. HIGH-risk cards (Variable Reward, Streak & Loss Aversion) get the strictest read: confirm the escape hatch, counter-metric, and non-empty fallback are real, not aspirational language. Write findings as EMOTIONAL_AUDIT.md's Audit Output Contract, and any dark-pattern violation or missing per-card attestation field becomes a failure card per failure-cards.md rather than a note to fix later — check:emotional-design enforces the attestation fields this audit must produce.",
           "providerIds": [],
-          "contextFingerprint": "sha256:99a792e7168ab102c5f056f54c5d5c3b5af4864ce33f778e2387a5f28ca820c2"
+          "contextFingerprint": "sha256:48de89e984a96668174c545660d9c095b17afa03036c6257d5db7f984e637c19"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "\"Audit this app's emotional design\" / \"emotional UX audit\"",
@@ -6252,7 +6252,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-00-resume-scope",
           "instructions": "Determine whether this onboarding pass is greenfield, replacement, audit-only, or a founder-scoped incremental change, and record the affected product surfaces, freshness date, responsible owner, the durable user value at stake, and whether the mode requires a hard cutover with only the target runtime. Write the decision into product/onboarding/graph/ONB-00-resume-scope.md's Execution Mode fields — check:onboarding-evidence-onb-00 rejects a stub or templated packet, and every downstream node through ONB-21 blocks on this classification.",
           "providerIds": [],
-          "contextFingerprint": "sha256:bf1fdae727ba38cc7f23eb4b6dd04728f58dd86ac0d37dd65d87c88e584d5167"
+          "contextFingerprint": "sha256:a8321d3a5bfb6afff41e4c144893a3b52fd636520f8a8218026d5ec00bbb276c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Consumer onboarding work begins or resumes; classify greenfield, replacement, audit-only, or a bounded incremental onboarding change",
@@ -6310,7 +6310,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-01-current-state-trace",
           "instructions": "Trace the onboarding implementation as it exists today, surface by surface: for each route, state slice, provider call, event, permission, paywall, and replaced code path, record owner, source of truth, persisted state, API/event contract, consumers, and failure behavior. Write the trace to product/onboarding/graph/ONB-01-current-state-trace.md — check:onboarding-evidence-onb-01 rejects a thin or placeholder packet, and ONB-02's evidence plan depends on knowing what actually exists before scoping new evidence collection.",
           "providerIds": [],
-          "contextFingerprint": "sha256:711f7453941d31ef32e65feffdd605948cc0e194f4978a9563b48b3f0e776c26"
+          "contextFingerprint": "sha256:e16be2966fc0acbd3f22e90050380ceb1879ae959dc07145e364876b452f5a9f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Trace the actual onboarding implementation, documents, routes, state, providers, events, failures, tests, and replaced surfaces. Founder phrasing: signup behaves like this today, screen by screen.",
@@ -6368,7 +6368,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-02-evidence-plan",
           "instructions": "Define the evidence hierarchy (rule, evidence, benchmark, observation, heuristic, hypothesis, or open question), the access constraints per source (e.g. authorized-only Onbo Hub access, no scraping), a sample plan per evidence node, and a freshness cutoff date beyond which a finding must be re-verified. Write the plan to product/onboarding/graph/ONB-02-evidence-plan.md so ONB-03 through ONB-08 collect against one shared standard instead of six competing ones; check:onboarding-evidence-onb-02 rejects a packet with no real plan.",
           "providerIds": [],
-          "contextFingerprint": "sha256:aa2aebe1ab850cca78a53edbcb7a5690b6a7ac4464b33ed0227c73fd092e2d69"
+          "contextFingerprint": "sha256:7fabf3c21ff6aaf1c200214ca48184fcc8cca6944291cd289fded0700a56a540"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define the onboarding evidence hierarchy, access constraints, sample plan, and freshness cutoff",
@@ -6426,7 +6426,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-03-current-guidance",
           "instructions": "Research current consumer-onboarding evidence — platform guidance, published benchmarks, and practitioner heuristics — that bears on this product's onboarding decisions, each dated and sourced per ONB-02's evidence hierarchy and freshness cutoff. Write findings as Evidence Ledger rows in product/onboarding/graph/ONB-03-current-guidance.md; check:onboarding-evidence-onb-03 rejects a packet with no prose finding or a templated stub, and ONB-09 joins this evidence into explicit product decisions.",
           "providerIds": [],
-          "contextFingerprint": "sha256:3ff5bb666d8c2d791ed1eab62e8922e91395be38b2e060b2668af7a77abff993"
+          "contextFingerprint": "sha256:902ec09a63f18f8e5915cdca673a58e44dae9b59dcfc2ada7662f110d778bdf0"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Research current consumer onboarding evidence, platform guidance, benchmarks, and practitioner heuristics",
@@ -6484,7 +6484,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-04-competitor-reviews",
           "instructions": "Mine direct and adjacent competitors' reviews for negative onboarding themes, each backed by dates, versions, and sample size, and pair every theme with a positive-review control so the finding isn't cherry-picked. Record each as a Competitor Review Matrix row (root-cause class, disposition, test) in product/onboarding/graph/ONB-04-competitor-reviews.md — report frequency only within the sample, and do not let an onboarding fix paper over an underlying product defect; check:onboarding-evidence-onb-04 rejects a stub packet.",
           "providerIds": [],
-          "contextFingerprint": "sha256:85a416d15309c237373df778ead227b686f974c224c750645570a5717701b813"
+          "contextFingerprint": "sha256:0e677cedad0bb7d82a8816a5dd06b8d802debce720f2065797462d8daeae0d4d"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Mine direct and adjacent competitor reviews, including negative themes and a positive-review control",
@@ -6542,7 +6542,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-05-onbo-hub-atlas",
           "instructions": "Build the authorized Onbo Hub flow atlas using only authorized access — do not scrape, bypass access controls, reuse credentials, or infer locked screens — recording screens, effort, first-value class, paywall placement, and review tension per flow, with an adopt/test/reject/investigate decision for each. Write the atlas to product/onboarding/graph/ONB-05-onbo-hub-atlas.md; check:onboarding-evidence-onb-05 rejects a stub or templated packet.",
           "providerIds": [],
-          "contextFingerprint": "sha256:0802268ea4f3fea31563ac6654478a85469c0ae13ac4b6d732533d3c80b00ee8"
+          "contextFingerprint": "sha256:7b003913e8723b4cd9cc6213338ae05607c1668b034c7ee6fdf7e80096c4099b"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Build an authorized Onbo Hub flow atlas without scraping, bypassing access controls, or inferring locked screens",
@@ -6600,7 +6600,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-06-internal-guidance-audit",
           "instructions": "Audit every applicable B2C App Builder and internal B2C guidance source against this product's onboarding decisions, recording each rule, its evidence class, and a pass/partial/fail/outdated/conflict/not-applicable verdict, and resolve any conflict or outdated rule explicitly rather than leaving it ambiguous. Write the audit to product/onboarding/graph/ONB-06-internal-guidance-audit.md; check:onboarding-evidence-onb-06 rejects a packet with no real prose findings.",
           "providerIds": [],
-          "contextFingerprint": "sha256:e7387bf30981a422cb2aebff2210d559e227b208e3eee4aeb07d0e4ca1cb3f51"
+          "contextFingerprint": "sha256:01c2f209197fa5e46ebd020d5a23a75ea0a7b5f25317cf5afe13c41780cdfe44"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Audit applicable B2C App Builder and internal B2C guidance and resolve conflicts or outdated rules",
@@ -6663,7 +6663,7 @@
             "provider.app-store-connect",
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:c32834242d6a15b8c5263f162ac7143ff631712c0d37085ed68f4b85a875fd5f"
+          "contextFingerprint": "sha256:4ef1829462e65610e4b90a8aa519b5e2f7da0797052a18f30db10937406da46f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Refresh monetization, identity, analytics, RevenueCat, billing, platform-policy, and regional capability facts",
@@ -6723,7 +6723,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-08-motion-research",
           "instructions": "Research interaction and motion for the surfaces actually selected. Resolve applicability from studio/seed/business.json `job` (conversion purpose) and `interaction` (technique) on each listed surface, implemented scroll-linked hooks attributed to that surface's file stem under growth/landing, growth/funnel, or web when that landing is active, and growth/landing/surface-contract.json `scrollytelling.applicable` when that file exists; do not infer a technique or conversion job from purpose prose or from packet sentences. Not selected, selected but unavailable, and not yet inspected stay different. A producer sentence that motion research is not applicable cannot override a selected or implemented rich-motion surface. static-document surfaces, and conversion surfaces that did not select or implement scroll-linked interaction, need semantic content, legibility, accessibility, and truthful claims — not invented scroll choreography or 60fps shot IDs. A conversion job on a scroll-linked surface keeps both conversion measurement and motion proof. standard-transition native UI needs usable feedback, interruption, accessibility, and applicable performance, not a paid catalog. When interaction is bespoke-motion or scroll-linked, or that page already implements scroll-linked hooks, and strategy/TOOL_DECISIONS.md records the 60fps MCP as ready, active, or connected without a fallback route, use search_shots, get_shot, get_motion_breakdown, and get_related_shots (motion code only when it clarifies) and record Motion Research rows (target/problem, reference shot ID, adopted principle, implementation/haptic/interruption behavior, reduced-motion behavior). When that technique is selected and the 60fps MCP is blocked or a fallback, hold with the current selection and authority — do not spend, and do not claim a distilled recipe is equivalent. When a listed surface omits `interaction`, hold. An empty studio inventory means 60fps is not selected. Translate adopted principles into this product's own behavior and target framework, not a copy of the reference. Write the packet to product/onboarding/graph/ONB-08-motion-research.md; check:onboarding-evidence-onb-08 rejects a stub packet and an applicability hold.",
           "providerIds": [],
-          "contextFingerprint": "sha256:153aedf7ced8910f9a12858e3626d038b6aab77abe8516da30ac51c07f7ae28b"
+          "contextFingerprint": "sha256:aa0b5bd8fd11c68e399cac3c076eebe7e2a1445a7d1d89bdd0c258ad1a9a6c90"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Research interaction and motion for the selected surfaces and translate applicable references into the target framework",
@@ -6781,7 +6781,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-09-evidence-join",
           "instructions": "Join the current guidance, competitor reviews, Onbo Hub atlas, internal guidance audit, provider/policy landscape, and motion research into explicit, evidence-and-complaint-traceable decisions (adopt/adapt/test/reject/investigate), each naming the affected screen, control, architecture, or product work, its analytics implication, its test, and remaining risk; also run the seven-principle activation audit against the joined evidence. Write the join to product/onboarding/graph/ONB-09-evidence-join.md. Write the research Foundation contract from reference.experience.onboarding-foundations, pinning applied knowledge, resolved observations, and the decisions each changes. check:onboarding-evidence-onb-09 rejects a stub packet, and ONB-10 through ONB-14 all branch from this decision set.",
           "providerIds": [],
-          "contextFingerprint": "sha256:85c1c46689606f604f15b74979d8e7d945eca54d7f0bcdbff2b03a527e453da8"
+          "contextFingerprint": "sha256:8154efb958c801625db4f600271e534677dbf51d027615e0f1b74daa0fec4953"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Join guidance, reviews, flow evidence, internal doctrine, provider facts, policy, and motion research into explicit decisions",
@@ -6841,7 +6841,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-10-first-value-activation",
           "instructions": "Separately define first value rendered (the real, personalized result the user sees), first value engaged (the meaningful action they take on it), activation (the retention hypothesis and its derived condition), habit signal, monetization, review eligibility, and onboarding completion — first value must be real, actionable, persistent, recoverable, and visible inside the populated normal product experience, not a canned demo. Write the milestones to product/onboarding/graph/ONB-10-first-value-activation.md; check:onboarding-evidence-onb-10 rejects a stub packet, and ONB-15's architecture decision depends on these being real, distinct milestones.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9baac424b6895fc2340604bf41e1032f408f1f4a229cce3835d39862c718eb0d"
+          "contextFingerprint": "sha256:801acfe98cf64070f3749e6c425bd1e328890cb289403cb9b7c4f6c72d8c9fb6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define first value rendered, first value engaged, activation, habit, and retention hypotheses",
@@ -6899,7 +6899,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-11-effort-question-audit",
           "instructions": "Audit every step for effort placed before value is shown (class each passive/low/moderate/high/sensitive/permission/account/financial, and decide keep/defer/infer/delete) and every question for whether it is required, changes downstream logic, and produces visible personalization proof the user actually sees — including the total interruption budget across the flow. Write the audit to product/onboarding/graph/ONB-11-effort-question-audit.md; check:onboarding-evidence-onb-11 rejects a stub packet.",
           "providerIds": [],
-          "contextFingerprint": "sha256:3ca3ec9525663aa4129470f9ff92049bdb3a5ae07adfa84addba0f840554b26e"
+          "contextFingerprint": "sha256:b40095f2139ff95288de3d35ac75a1ae182521c1ee4830ddf095fb48a7ff9775"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Audit effort before value, question usefulness, permissions, interruption budget, and visible personalization proof",
@@ -6959,7 +6959,7 @@
           "providerIds": [
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:66c75f428be282eb2193bfa8779ab70d5c9cb1e98d7b2e061c33662d0218c7bc"
+          "contextFingerprint": "sha256:afe3953d23ad358c5f724eadde75c82d68e80040e47cfa992259f3e0cfac2216"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define canonical journey, profile, identity, entitlement, continuity, and cross-surface state transitions",
@@ -7023,7 +7023,7 @@
             "provider.posthog",
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:1971156672949aceab40f364d352088cfdc4a9d7e6ad8c355a696649e423417a"
+          "contextFingerprint": "sha256:9f9f4f8c42d2b6af65ef1e627460e51431af02525ec27e6b87c1bc57bfae967a"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define typed analytics, authoritative emitters, identity stitching, deduplication, experiment assignment, exposure, and expected sequences",
@@ -7084,7 +7084,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-14-trust-lifecycle-policy",
           "instructions": "Define native-only review-request timing (eligibility may be earned early, but the request happens outside first-run onboarding, ungated by sentiment, with a remote kill switch), the permission-request and lifecycle orchestration strategy (request only after a user action with visible benefit; one strategy spanning onboarding recovery through win-back), and the privacy/security/accessibility policy behavior this flow must honor. Write the contract to product/onboarding/graph/ONB-14-trust-lifecycle-policy.md; check:onboarding-evidence-onb-14 rejects a stub packet.",
           "providerIds": [],
-          "contextFingerprint": "sha256:2e0727282ea09bde64d6a78a9893253233de22826231dbe5415fa6181bd8a76e"
+          "contextFingerprint": "sha256:f48a4442746da104b56cdbeed1c7cdd02dc94362932a303c59965680c9d76d11"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define review timing, permissions, lifecycle, privacy, security, accessibility, and policy behavior",
@@ -7142,7 +7142,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-15-architecture-decision",
           "instructions": "Compare native-first, hosted-funnel-first, hybrid, web-first, and any other evidence-backed architecture against first value, conversion/retention, identity/analytics, policy/economics, and operations, using the first-value, effort, state, analytics, and trust decisions from ONB-10 through ONB-14, then select exactly one target architecture with a stated reason. Write the decision to product/onboarding/graph/ONB-15-architecture-decision.md; check:onboarding-evidence-onb-15 rejects a stub packet, and every node from ONB-16 onward builds on this one selected model.",
           "providerIds": [],
-          "contextFingerprint": "sha256:b6cdebd21576768cd8cd9569d0f2daeef48b524a2fd737c68b10af90d340dc6c"
+          "contextFingerprint": "sha256:6492125cd237aa3a86e60a2c3bb51adaf06915e2fed4e42486c59d858e2a304f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Compare native-first, hosted-funnel-first, hybrid, web-first, and evidence-backed alternatives and select one target architecture",
@@ -7200,7 +7200,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-16-journey-graph",
           "instructions": "Draw the acquisition-specific journeys and converge them into one semantic onboarding state graph, marking each step's entry condition, owner/renderer, input/transition, canonical event, back/skip/close/resume behavior, and failure/next-step path — and mark where the acquisition promise, first effort, first value, engagement, account creation, paywall, purchase, activation, review eligibility, normal-product entry, and interruption budget each land on the graph. Resolve applicability from accepted product.yaml feature scopes and declared b2c.yaml monetization bindings when present: not selected, selected but unavailable, and unresolved stay different. Record first value, navigation/recovery, identity, accessibility, and the monetization boundary actually selected. When feature.commitment-funnel is required, record the Commitment Funnel in first-session order (welcome, quiz or goals, micro-commitment with a skip path, personalized insight, hard paywall) and Funnel Quality Metrics; when that feature is excluded or a non-goal, do not add a quiz or hard paywall to satisfy a gate; when the instance is absent, hold rather than treating the funnel as free or as selected. Keep that funnel in its recipe and reference.experience.commitment-funnel; do not silently select RevenueCat. Write the graph to product/onboarding/graph/ONB-16-journey-graph.md; check:onboarding-evidence-onb-16 rejects a stub packet.",
           "providerIds": [],
-          "contextFingerprint": "sha256:2c7e95007324974f4d5d5c75e31ffd74486859570f5742c8b33cee24f09630ad"
+          "contextFingerprint": "sha256:6f70536e5bf9a5d97e8ed682caf63c63b396831716dda116476a1fa96eb5f933"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define acquisition-specific journeys that converge on one semantic onboarding state graph",
@@ -7259,7 +7259,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-17-screen-control-paywall-contract",
           "instructions": "Specify every onboarding screen with a stable ID and exactly one dominant action, pulling on-screen copy by key from product/copy/COPY_DECK.md rather than inventing strings, and define every control's enable/validation rule, state mutation, and exact idempotent provider action, plus failure/recovery and accessibility/localization behavior per screen. Resolve applicability from accepted product.yaml feature scopes and declared b2c.yaml monetization bindings when present; a producer sentence that a bind is not applicable cannot override a required feature. Specify the paywall contract for the selected purchase and presentation owners, including restore, pending, expiry, cancellation, offline, truthful-offer, and entitlement behavior those owners declare — do not invent RevenueCat offerings or customVariables for an unselected presenter. When feature.paywall-goal-headline is required and the presenter can bind it, record the Paywall Goal Headline contract: quiz writes paywall_headline_key, templates live in RevenueCat offering metadata, customVariables bind the selected key, and a skipped goal uses the fallback template with no invented outcome; when that feature is excluded or a non-goal, omit that bind; when the instance is absent, hold. Write the contract to product/onboarding/graph/ONB-17-screen-control-paywall-contract.md; check:onboarding-evidence-onb-17 rejects a stub packet, and ONB-20's adversarial QA runs directly against this contract.",
           "providerIds": [],
-          "contextFingerprint": "sha256:a43a906b30179ee9c06dd67088c90830a1838b94f903e604fe2f47e78808f9aa"
+          "contextFingerprint": "sha256:5ab4a0215a4d05b984b4356ad01718a7484fc016ad37dd87a32bc114e28cf199"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Specify every onboarding screen, copy key, control, action, paywall state, failure, recovery, accessibility, and localization behavior",
@@ -7318,7 +7318,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-18-visual-design-prototype",
           "instructions": "Author the high-fidelity onboarding design in DESIGN.md — Git owns revisions — then render the generated read-only Design Room for review; the Design Room is not a mutable design store or a second design authority. Produce an interactive prototype covering the happy path and critical branches on the shipping platforms recorded in studio/seed/business.json mobileApp.platforms and DESIGN.md accepted surfaces, plus small viewports, large text, and reduced motion on those selected surfaces, and run design QA against it. Do not fabricate captures for an unselected platform; a selected platform without a supported adapter is an explicit unsupported or missing-implementation hold, not assumed parity from a shared component contract; the host recipe target, including host/agent-cli, is not the consumer app's shipping scope. After DESIGN.md changes, regenerate the review page and renew affected proof — old screenshots do not certify new code. Record the design proof — with the inspectable artifact path, not just adjectives — in product/onboarding/graph/ONB-18-visual-design-prototype.md. Map each ONB-09 decision to rendered design evidence in the Foundation contract. Instrument the prototype now, not after implementation: capture fresh install, consent denial, unknown attribution and analytics-unavailable traces in product/onboarding/prototype-evidence.json; a static mockup or event-name list is insufficient. check:onboarding-evidence-onb-18 rejects a stub packet, and ONB-20's adversarial QA depends on this prototype actually existing.",
           "providerIds": [],
-          "contextFingerprint": "sha256:1d1cf3024ea54f794e26a7bfa463f7d03a6ad627dd970282813195ab7d66bda2"
+          "contextFingerprint": "sha256:97c02841baac59b8a2e3feea43189dc65d6da5b02ba29404f45d4489ac71c376"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Produce actual high-fidelity onboarding design, motion, an interactive prototype, and design QA",
@@ -7379,7 +7379,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-19-implementation-cutover-contract",
           "instructions": "Define the implementation task list plus reliability behavior (pending purchases, restore, entitlement delay, network, generation, analytics-non-blocking, deep link, identity, unsupported-client), performance/observability budgets (P50/P95 and failure budgets for startup, first value, provider init, paywall, checkout, entitlement, handoff), and the hard-cutover Removal Inventory for anything the new graph replaces (replaced code, data, config, provider setup, dashboards, tests, docs, secrets, transformation tooling), each with a disposition and a verification method. Write the contract to product/onboarding/graph/ONB-19-implementation-cutover-contract.md; check:onboarding-evidence-onb-19 rejects a stub packet, and this is the plan ONB-22 later executes and the manifest ONB-22's cutover proves against the real repository.",
           "providerIds": [],
-          "contextFingerprint": "sha256:7e700f483b52c2fd819c3a590df599df53d9136583c8605a717e219d8a4be244"
+          "contextFingerprint": "sha256:df40338f8d3ba411bd29291097cdecac7e58f6020205beb6deb3fa9aeb0ab691"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Define implementation units, reliability, performance, observability, privacy, migration, hard cutover, and deletion work",
@@ -7439,7 +7439,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-20-adversarial-qa",
           "instructions": "Run the synthetic one-star pre-mortem (privacy, permission, poor result, slow network, trial, subscriber, restore, web purchase, accessibility, identity, or subscription-aversion scenarios, each with root cause, likelihood/severity, mitigation, test, and remaining risk) plus a policy review, instrumentation QA, accessibility review, and provider-realism review against the actual ONB-17 contract, ONB-18 prototype, and ONB-19 cutover plan — assume the flow fails before crediting that it works. Use a fresh reviewer session, inspect the prototype event traces and source hashes, and reject missing first-session instrumentation or untested identity/consent boundaries. Write findings to product/onboarding/graph/ONB-20-adversarial-qa.md; check:onboarding-evidence-onb-20 rejects a stub packet, and an unresolved high-severity finding must not be waved through to ONB-21's implementation plan.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9ad0520a2840b678a6a72cccc13779465fa1864ccbece6224e99cb8ed42c8bcc"
+          "contextFingerprint": "sha256:eaada92c25165f3ff4069974a13f3156acb47cfe00a2429341555a214666dffd"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Run the synthetic one-star pre-mortem, policy review, instrumentation QA, accessibility review, and provider-realism review",
@@ -7500,7 +7500,7 @@
           "workflowId": "workflow.experience.onboarding-system.onb-21-compound-engineering-plan",
           "instructions": "Translate the accepted onboarding graph and its adversarial-QA findings into an implementation-ready Compound Engineering plan (ce-plan when available, or this skill's equivalent), breaking work into tasks each with an outcome, exact paths, dependencies/contracts, required analytics/provider work, tests, removal work, and acceptance criteria. Write the plan as ONB-TASK rows in product/onboarding/graph/ONB-21-compound-engineering-plan.md; check:onboarding-evidence-onb-21 rejects a stub packet, and ONB-22 executes exactly this task list rather than improvising new scope.",
           "providerIds": [],
-          "contextFingerprint": "sha256:ddea3812bf54f5712351c20fb459b31c72e13eb6a639c201623589ae616583d5"
+          "contextFingerprint": "sha256:a0ab5175a4b5734a986589bb721b3c0afb9803dde2ee6633c54786872d306366"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Translate the accepted onboarding graph into an implementation-ready Compound Engineering plan, or the B2C App Builder-equivalent fallback",
@@ -7561,7 +7561,7 @@
             "provider.revenuecat",
             "provider.posthog"
           ],
-          "contextFingerprint": "sha256:dbc6f7747bdf8a2165404f3e938e895ffea2ae0cb1c1082efb565dadf77b7e37"
+          "contextFingerprint": "sha256:e26b0b41527f8e8b2e325ae03c2eb99aebe5d37c6141808f2d5b44facbae37f4"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Implement or finalize the accepted onboarding graph, verify the canonical artifacts, cut over, and prove the target is the only runtime",
@@ -7624,7 +7624,7 @@
           "workflowId": "workflow.design.brand-definition",
           "instructions": "Write `strategy/BRAND.md` as the voice and identity contract every downstream copy and design surface answers to: name, one-line promise, the audience it speaks to (from `strategy/RESEARCH.md`'s evidence, not aspiration), voice register with three do/don't example pairs, vocabulary the brand owns and words it never uses, and the visual-identity intent the Design Room turns into tokens. Derive it from the research and the 11-star experience bar — a brand document that could describe any app in the category is template residue, not a brand. This file is the standard `writing-quality-no-slop` protects and the store listing speaks in.",
           "providerIds": [],
-          "contextFingerprint": "sha256:bb5bcc598e080bbb57f7b49114deba334ed4a925a2923ef572d5a43daeffac02"
+          "contextFingerprint": "sha256:6105b10fd63130abd3240a42fbae804f820188110f26f824d7d816c74a6efe95"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Crossing research into design: before the Design Room locks visual identity, and before any marketing or store copy claims a brand voice",
@@ -7677,7 +7677,7 @@
           "providerIds": [
             "provider.refero"
           ],
-          "contextFingerprint": "sha256:b7b965f4c5c923f5fddc12edf92373a050382f87e6cbc95a0368d431677160bc"
+          "contextFingerprint": "sha256:948b167efe37a02cc7af691f3f24266736071a6677ccbdd7203cbf2776a2a9ba"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before DESIGN.md mutation, generated visuals, native animation, or landing motion for a high-impact surface: onboarding, core loop, landing story, paywall, store first frames, trust and consent",
@@ -7735,7 +7735,7 @@
           "workflowId": "workflow.design.design-room",
           "instructions": "Read PRODUCT.md first. DESIGN.md is the design authority; studio/seed/business.json is its structured screen and flow map. Load only the bound evidence and craft references needed for the affected surface. For substantive work, inspect the relevant references and rough direction, make a tangible draft of the important journey, critique concrete hierarchy/UX/identity/interaction/accessibility/recovery defects, revise the candidate substantively, and compare the revised candidate with the selected target before implementation. Develop at least three distinct concepts before selecting one. Preserve them in DESIGN.md frontmatter under exploration with unique concept IDs, reference-to-principle mappings, native/mobile-web/desktop-web treatments, a distinguishing mechanic, one selected decision, rejected decisions, and the rationale for each. The generated Design Room must expose this evidence beside the selected system. For new substantive design work, author the versioned foundation in DESIGN.md: communication priorities, material decision rationale, identity invariants, reference influence, and typography resources. Distinguish researched facts from creative hypotheses and platform or legibility constraints. Explore mechanisms that differ in communication and composition, not just names, palettes, or prose. For bounded maintenance of an accepted legacy design, the same Design Room owner follows quality-lens Focused review using direct compatible checks and fresh independent review; that procedure does not execute or accept this full workflow. Within this full workflow, repairs preserve accepted exploration and the required foundation while correcting the affected contract and dependencies. A physical metaphor, expressive motion, or layered composition is selected only when it improves the user job. Recompose each form factor with representative content and protect hierarchy. Keep durable decisions in DESIGN.md. Add screen or flow files only when the structured route is not enough. Use platform-neutral component contracts and the selected stack adapter. Update one coherent scope, validate it, and render the read-only Design Room. Git records revisions. When the opening mandate delegates design direction, choose and record the strongest direction. Otherwise, recommend it for founder approval.",
           "providerIds": [],
-          "contextFingerprint": "sha256:332327605c7e3a2b6d93a78eb71731cf6e40dd78082d995e1ed0712f8099d49e"
+          "contextFingerprint": "sha256:df4336093b4ad5e8bffaef0e925b70e555e58d413ce6ebfdbc44ec0319724800"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "New or substantively revised design systems, concepts, or cross-surface direction. Founder phrasing: design how every screen looks and feels. A bounded correction to an accepted legacy contract uses the direct focused-maintenance procedure in quality-lens, not full Design Room execution.",
@@ -7788,7 +7788,7 @@
           "workflowId": "workflow.design.design-system-audit",
           "instructions": "Audit DESIGN.md, studio/seed/business.json, and design/design-room.html in a fresh context that never saw the producer's transcript, against the frozen rubric under design/reviews/rubrics/ and the reference pack for the surface. Use quality-lens defect diagnosis to separate brief, concept, composition, identity drift, typography, implementation, and claim failures. Inspect actual representative states; record a consequential defect, its evidence, the smallest appropriate repair, and any justified exception. Similar vocabulary or a completed checklist does not prove quality. Apply the quality-lens facets, the design-worthiness questions, the vibecoded tells, the audience-derived-identity checklist, and the twelve craft-bar conditions from the full-launch-program reference; score each condition meet, exceed, deliberately break with a reason, or fail. Run npx @google/design.md lint on DESIGN.md and diff it against the last accepted version; run the Impeccable critique and audit commands as read-only lenses when installed. Regenerate design/reviews/DESIGN_SYSTEM_REVIEW.md during every audit attempt; the engine rejects unchanged pre-existing review bytes instead of rebinding a stale decision. Write a ## Findings section with exactly one `Severity: <value>.` line; allowed values are none, minor, major, high, high-severity, and blocker, and any explanation follows the period. Also include `Candidate input fingerprint: <ENGINE-BOUND INPUT FINGERPRINT>` exactly once and `Frozen rubric: design/reviews/rubrics/<file> version <version>`. Read the immutable `ENGINE-ISSUED DESIGN TASTE DELEGATION` authority block. It is the externally trusted signed receipt snapshot captured for this exact attempt before dispatch. A delegation recorded after dispatch never authorizes these audit bytes and requires a fresh attempt. When its status is approved, also write exactly one ## Delegated Taste Decision table with columns Decision authority, Date, Surfaces reviewed, One-product stranger test, Copy-test, and Verdict. Omit that table when the status is rejected, absent, or stale; never infer delegation from workspace files or read run/run-state.json. Decision authority must be exactly Founder opening mandate; Verdict must be pass or fail; the three observations must be substantive. A pass cannot coexist with an unresolved blocker, a high or high-severity finding, or a major finding. Do not write or trust a reviewer identity or delegation claim in the artifact: the gate derives the current engine-issued audit identity, the current-run signed founder delegation, and producer exclusion from engine-owned state, the protected trust binding, its audit chain, and the exact artifact binding. A direct signed founder pass for the exact current DESIGN.md may resolve only a delegated taste fail after Findings contains no unresolved major, high, high-severity, or blocker issue; it never clears an independent finding. Do not edit DESIGN.md, restyle, edit copy, or mark the review done. A structured fail or an unresolved high or high-severity finding rejects the product direction and returns actionable findings only to the Design Room producer for bounded internal repair and a fresh independent review. Missing, malformed, stale, changed-after-gate, or non-independent audit evidence consumes a bounded retry of this audit node only and never reopens Design Room; persistent invalid audit evidence blocks at the audit cap. If product repair makes no progress, change the approach using the frozen rubric; ask the founder only for retained authority or a decision the mandate did not delegate. Exhausted repair attempts remain incomplete rather than lowering the bar.",
           "providerIds": [],
-          "contextFingerprint": "sha256:c292d952bcdc9a6ef3d8ff73c1a3b0402dc5eb84e17efad9c6bf4dd57c5589f5"
+          "contextFingerprint": "sha256:012bd98b956e7908b1feee9224b5dbb69738ce0bf9e93abead1f410ab84294f9"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After DESIGN.md or the Design Room changes for a high-impact surface, before the recorded taste decision and before landing, screenshots, generated visuals, or engineering consume the direction",
@@ -7843,7 +7843,7 @@
           "workflowId": "workflow.design.implementation-craft-audit",
           "instructions": "Independently inspect the actual native app and desktop/mobile landing runtime against the accepted DESIGN.md acceptance scope and frozen reference rubrics. Apply reference.design.consumer-craft-benchmarks principles only where they serve this product. Diagnose brief, concept, composition, identity drift, typography, implementation, and claim defects separately using reference.design.quality-lens. Inspect actual font loading, script coverage, text expansion, fallback behavior, recovery, and repeated controls. Reject unsupported claims and report unobserved capabilities as missing evidence. A conventional control, system font, monochrome palette, or quiet surface can be the correct result. Regenerate design/proofs/design-acceptance.json and design/reviews/IMPLEMENTATION_REVIEW.md during every audit attempt; write exactly one `Acceptance report SHA-256: <64 lowercase hex>` line in the Markdown bound to the current JSON bytes. Set report.reviewer.sessionId to the immutable engine-issued execution identity for this exact audit attempt. Both audit files must remain exact output bindings produced by that same attempt; never invent a reviewer label or reuse another attempt's output. The engine rejects unchanged pre-existing audit bytes instead of rebinding stale evidence. Use reference.design.design-acceptance and record actionable findings. Load the optional Interfaces review guidance in reference.design.design-visual-system when available; scope it to implemented screens and states, record unreviewed domains, and keep its findings in this same review. Companion review never substitutes for the independent acceptance evidence. The report may only index capture and interaction receipts with `{id, receipt, producer}`. Consume machine-produced native evidence from the selected proof/ios-* or proof/android-* lane and browser evidence from growth/landing/proof/. Each strict producer receipt owns the evidence artifact byte digest, candidate and runtime identity, observed timestamp, surface and evidence IDs, platform, tool, and exact device or browser identity. Never author or repair producer receipts inside this audit. Register each installed native runtime in nativeRuntimes[] with id, platform (ios or android), its platform-specific target, candidateSha256, sourceFingerprint, deviceId, and receipt path/hash. Register each landing runtime in browserRuntimes[] from the immutable receipt selected by growth/landing/proof/browser-proof.json. Bind its current candidate and source fingerprint, exact build fingerprint, served origin and URL, browser and OS identity, new browser context ID, launch and navigation transcript hashes, and receipt path/hash. The browser receipt sessionId must equal the current accepted landing producer attempt that ran `b2c browser-proof --session-id`; reject a copied, hand-authored, older, or relabeled page even when its screenshot looks plausible. Require every browser surface, capture, and interaction to cite the matching runtime and browser context. iOS runtimes bind bundleId, buildNumber, executableSha256, and bundleContentSha256 identity. Consume simulator rung-2 receipts from proof/ios-simulator/ and physical-ios-install receipts from proof/ios-device/; physical iPhones also bind deviceModelIdentifier, osVersion, and osBuild plus the four hashed tool transcripts. Android runtimes bind packageName, integer versionCode, built APK-or-AAB format/hash, exact installation APK hash, device model/API/OS identity, and an android-emulator-install receipt from proof/android-emulator/ or physical-android-install receipt from proof/android-device/. For every Android receipt, builtPackage.source.root must equal the canonical business root and builtPackage.source.roots must equal the sorted, deduplicated Android native implementationPaths in accepted DESIGN.md. Consume only a named machine-produced strict receipt; never reconstruct or hand-author one from MobAI output. If the built package is an AAB, require the derived installation APK and a distinct hashed conversion transcript; install and read back that derived APK's package/version identity. All receipt timelines must build, install, read back the installed identity, and launch on the same target after candidate production and before review. Each native surface lists matching runtimeIds[]; every native capture and interaction receipt cites its matching runtimeId. screenReader: true is valid only for a physical-device runtime, and its VoiceOver or TalkBack interaction must cite that same physical runtime. For every evidence reference, require current accepted run-state provenance from the declared native or landing producer workflow and exact attempt, recompute the current ancestor artifact binding, and reject the implementation-craft audit as producedBy. Reject any identity, chronology, target, producer, or hash mismatch. Require every calibrated facet and every required state on each surface to meet its floor; never average away a failing native experience. Do not repair product code or weaken scope, references, or criteria during review. A product or craft rejection routes each finding only to a declared reviewOf producer for a fresh bounded repair attempt. A missing declared report, malformed report schema or worker knowledge receipt, stale report/candidate hash, invented or same-identity review, invalid review chronology, or audit output changed after its gate retries this audit node alone within its attempt budget; it never reopens a product producer. Other failed acceptance criteria route their actionable findings to the declared producer that owns the evidence. Continue while producer evidence changes, stop after two consecutive unchanged product rounds or eight audit attempts, and keep the work incomplete rather than lowering the bar. Mechanical integrity checks and independent rendered judgment must both pass.",
           "providerIds": [],
-          "contextFingerprint": "sha256:006f1111286b7c02d342aaa0f72e452c0780d2e2903da13bb1de95704b068c6d"
+          "contextFingerprint": "sha256:bb4237fdbbe2a54fbb6ccb4acf44efbd1636c2bf7705918d903ccd3705210ab5"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "The native app and landing page run and their required behavior has evidence, before full business closeout",
@@ -7896,7 +7896,7 @@
           "workflowId": "workflow.design.token-promotion",
           "instructions": "Run npm run promote:design-tokens to derive the DTCG JSON, CSS, SwiftUI, Expo/React Native, and Flutter token files from the accepted tokens in DESIGN.md. This is a mechanical adapter step, not a redesign. Promoted values must match the authored contract exactly. Promote only after check:design-worthiness accepts either a direct founder/owner Taste Gate decision bound to the exact current DESIGN.md bytes by its protected-store-verified signed receipt, or the exact dispatch-bound delegated decision in design/reviews/DESIGN_SYSTEM_REVIEW.md under the same externally anchored current-run receipt chain. This acceptance does not grant publish or release authority. check:token-promotion proves that every emitted target is current.",
           "providerIds": [],
-          "contextFingerprint": "sha256:6684df46c8c51c6da4247a6e54c2a02839808da01f5270105407d793a779b23b"
+          "contextFingerprint": "sha256:959650ed0cc329a46c37353a3a836f3d69796d9ec6ec528abe459d4a37fefc39"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "DESIGN.md tokens change and the design is accepted",
@@ -7949,7 +7949,7 @@
           "providerIds": [
             "provider.refero"
           ],
-          "contextFingerprint": "sha256:d0c9ea1ad8c9af8f09a71af5d24f244bfcf762e007c69d8f9fb068542dbb0fec"
+          "contextFingerprint": "sha256:877257c205dc537abed835137f95608b661dd3df8b0e46250591d2af9078ce74"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before flow maps, state matrices, UX_PATTERNS.md, or bug-trap coverage",
@@ -8001,7 +8001,7 @@
           "workflowId": "workflow.design.premium-mobile-craft",
           "instructions": "Wire the five invisible premium details into every screen: press states, subtle structural motion, semantic haptics, keyboard behavior, and loading or empty states. Start with the platform-neutral contracts in surfaces/ui-library/components/. Then implement them through the selected stack adapter. SwiftUI has the current reference adapter in surfaces/ui-library/adapters/swiftui.json. For Expo, React Native, Flutter, or another stack, create the equivalent native adapter and record real implementation proof before marking it implemented. Shared tokens express intent; they do not imply behavioral parity. Never hand-type a motion value in view code. Read the promoted preset layer, reserve celebration motion for earned moments, and honor reduced-motion preferences. Route advanced effects to motion-craft-benchmarks.md. Bind every live effect to real state, a plain fallback, and a reduced-motion result. Ground catalog recipes in a live 60fps MCP exemplar only when studio/seed/business.json records interaction bespoke-motion or scroll-linked and strategy/TOOL_DECISIONS.md records that MCP as ready, active, or connected; if the technique is selected and the MCP is unavailable, hold rather than claiming a distilled recipe is equivalent. Translate mechanics rather than brand or exact layout. check:motion-contract proves the contract was applied; adjectives in DESIGN.md do not.",
           "providerIds": [],
-          "contextFingerprint": "sha256:62c76385d3bcefbcb9232e2f48afba70c772a86a2d68da54530f9309c3b08dbe"
+          "contextFingerprint": "sha256:86dce846d9d23ccd97e401e25a337108cda6514f21b30f4fb8f8af0d7228a895"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before in-app UI build/polish, press-state/haptics/loading-empty wiring, live-state effects, or \"premium feel\"",
@@ -8055,7 +8055,7 @@
           "providerIds": [
             "provider.higgsfield"
           ],
-          "contextFingerprint": "sha256:e306b1d7d7649615a6d3cb308f9ba999225d2541b9e11d3f6c398d8792c39db5"
+          "contextFingerprint": "sha256:58f3e0aa2c73d1b739ad749afcf8081e909e46a2e1df29939b78b4e9abc81a06"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before rendered videos/stills, app previews, ad/social variants. Founder phrasing: demo videos and preview clips from real screens for ads.",
@@ -8108,7 +8108,7 @@
           "workflowId": "workflow.words.writing-quality-no-slop",
           "instructions": "Before any founder-facing or marketing copy ships, identify which voice you are protecting — this skill's own direct/no-filler voice for founder-facing surfaces, or the launched business's strategy/BRAND.md voice and the tone 11_STAR_EXPERIENCE.md set for marketing copy — and make the minimum effective edit: strip filler, hedging, importance-inflation, and interpretive asides without flattening a brand's playful or clinical register into generic 'clean' English. Apply the portability test to each generic sentence: if it can move unchanged to another person, company, country, or product, replace it with a specific fact, mechanism, consequence, or judgment. Author every user-facing string as a keyed row in product/copy/COPY_DECK.md (with product/copy/COPY_BRIEF.md as the brief that precedes it) before any builder consumes it — builders read deck keys, they do not invent strings from the spec. Run the banned-words/patterns self-check and channel-specific limits (store character counts, push/email subject limits) before handoff; check:app-copy is the gate that fails a placeholder-shaped or missing deck row.",
           "providerIds": [],
-          "contextFingerprint": "sha256:003a936c7aa07b24af41af64c3b3329834db314410f326cf33e21fb14df2b022"
+          "contextFingerprint": "sha256:95cf644cec8b87b745717e48f92a029d9dc1543defd3a4716150631f6cf82246"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before writing or reviewing any founder-facing copy or any marketing copy the skill generates",
@@ -8165,7 +8165,7 @@
           "workflowId": "workflow.words.copy-review-audit",
           "instructions": "Review product/copy/COPY_BRIEF.md and product/copy/COPY_DECK.md in a fresh context that never saw the producer's transcript, per surface (app strings, paywall and offer, store fields, lifecycle email, launch posts). Score against the frozen voice benchmarks and phrase bank in the brief, not a moving one. Run no-ai-slop in detect mode and quote every pattern; do not rewrite. Check every quantified, comparative, health, or urgency claim against the claims ledger and mark unsubstantiated claims for removal. Check paywall and offer copy against reference.experience.ethics-guardrail: no guilt, urgency, or fake timers. Check store fields against the field limits. Write findings only, versioned against the rubric, into product/copy/COPY_REVIEW.md, one section per surface with severity. Producers fix; the auditor never edits the deck. check:app-copy is the mechanical gate; a passing gate does not replace this review. The string freeze is dated in the review only when every surface has passed.",
           "providerIds": [],
-          "contextFingerprint": "sha256:f9e5d5ba1a7f26011056fee0e33fbf066c8dda150ead88f8ed980b1d307b9aa6"
+          "contextFingerprint": "sha256:0dff55e1cba331791852a643fde8e8bf85c9df764c50a63e1bae87a3bece937a"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After the copy brief and deck exist, before the string freeze that store screenshots, translations, and listing fields depend on; again after any deck change",
@@ -8225,7 +8225,7 @@
           "workflowId": "workflow.store.aso-and-store-ops",
           "instructions": "Build app-marketing-context (app name, category, target country, top competitors, primary/secondary/long-tail keyword candidates, current listing state, and public support/privacy URLs) before locking a single metadata field, then run keyword and name-collision checks in the target country and separate brand language from search language. Route any localization call through the demand-first priority tiers in LOCALIZATION_MARKET_RESEARCH.md rather than translating on inference, and route Apple Search Ads storefront targeting from the same tiers. Draft final metadata fields plus rejected alternatives with rationale into STORE_OPS.md, and run every metadata/keyword string through the no-slop-writing.md self-check before calling it locked. For the recurring post-launch loop, track keyword rank deltas, ASA search-term mining, and localization opportunities weekly rather than treating ASO as a one-time pass. Prefer `asc optimize keywords rank` first without Apple Ads credentials; record storefront, platform, locale, query set, CLI version, source availability, raw inputs, rank-window limitation, and collection time in STORE_OPS.md; keep `unavailable` as `unavailable`; do not auto-apply metadata.",
           "providerIds": [],
-          "contextFingerprint": "sha256:e5a00ec08eb16c0256b549c9978ec9f3688e1be3f179eb798474e147ce5bb2ee"
+          "contextFingerprint": "sha256:0839505e2b7cf07873f7912d6542899e45f0cd4a1a3cb29ccf4c12da3bc7dcbf"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before App Store/Play metadata, keyword research, ASA, or post-launch ASO loops",
@@ -8284,7 +8284,7 @@
           "workflowId": "workflow.store.app-store-listing-prep-packet",
           "instructions": "Build APP_STORE_LISTING.md as the bridge document: default listing fields, App Privacy answers derived from the actual data inventory and SDK/vendor behavior (never from policy prose alone), and pricing/subscription mapping reconciled against revenue/REVENUE_OPS.md's RevenueCat/Stripe/web-funnel state. Anchor screenshot, App Preview, custom-product-page, and In-App Event concepts to the real complete product experience in 11_STAR_EXPERIENCE.md so the listing never invents a promise the app cannot keep. Run the finished description/keyword/promotional-text copy through the no-slop-writing.md self-check, then confirm `npm run check:store-console -- --root .` passes before calling the packet ready. Founder approval gates any live product creation, price change, or submission — draft the packet, do not publish it.",
           "providerIds": [],
-          "contextFingerprint": "sha256:7ea9b71eb7501ae06bbd40c28ff76416678c053b7bb46780dd29e59916eb667b"
+          "contextFingerprint": "sha256:59752a692798cf76e35ae5ec060c088961333cf2f9c60988ae6acd313c77cc0f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before listing fields, privacy questionnaire, IAP/subscription field maps, CPPs, in-app events",
@@ -8344,7 +8344,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:34ff79223b67484429fc223d73d4c0c43f26afc22ff6e690cd6b57bc0bb5a63b"
+          "contextFingerprint": "sha256:1275c71e218a476a1977ad67a6ffa2f6c7172c27fd68efa7f76e061c9a04e398"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Apple Developer enrollment, Team ID, signing, profiles, archive/upload, TestFlight. Founder phrasing: get on the App Store, ship to TestFlight, get the ios build signed and into testers hands.",
@@ -8416,7 +8416,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:66114bd2382b5c30583c35c0625b90a944fc3660fb141e81fe9777369f49374c"
+          "contextFingerprint": "sha256:6ed1bf8ca3d72b7bde7c610ca49e96fb3969f719af6ffaacf30c9edae458e78f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before ASC upload — PrivacyInfo.xcprivacy, required-reason APIs, App Privacy answers",
@@ -8483,7 +8483,7 @@
             "provider.app-store-connect",
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:3a064cf63280223403258a4e8ec02f0c0445824c8ea5359c54926134a2b3b751"
+          "contextFingerprint": "sha256:412c326c84a680cb53d6a2e31893381eb115740f440c3ad87e66a31ddd53d3a6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before \"where do I click / what do I paste\" in ASC or Play Console",
@@ -8541,7 +8541,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:c5623b4e89324d9ca387c5cb4ee1cbec3483246112292084f40dd43e28a0d48d"
+          "contextFingerprint": "sha256:ba4ba6ef56045c912c1f13faedc1c2f7bf514df94623b7a04f9eee9ea5b04d28"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Rork asc CLI app creation, metadata, screenshots, TestFlight, RevenueCat sync",
@@ -8615,7 +8615,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:dc7b7973caa7448ddaaf4b67ed9854bca6eb71bdcbb9b75020e4ed057ce8d609"
+          "contextFingerprint": "sha256:794b4b4ba5317e51133d1d08ea71739e7ef8d0d8b880b890728e448f6a7597db"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When an App Store version is in review, or after a status change, before any remediation or resubmission",
@@ -8686,7 +8686,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:0fb5de6ad28d44b3751d280dec435dcadcd92b64b184751cddcfb73a8c2191d3"
+          "contextFingerprint": "sha256:9d231c987a04e81ba6472d0c8af1e093674e7a17dbf7477d13d81d55a5541fa6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After App Review observe classifies a rejection, before any store submission",
@@ -8757,7 +8757,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:fb8aa4567c5156d158401d973b484ae0c04d930498ad759a18590f2f0e640a19"
+          "contextFingerprint": "sha256:cab0f4329e1ad81e825806a43c5db609261333729b2ea6051f8a2361d8533974"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After bounded App Review remediation is independently verified, before any further Apple mutation",
@@ -8828,7 +8828,7 @@
           "providerIds": [
             "provider.app-store-screenshots"
           ],
-          "contextFingerprint": "sha256:408eb27457a192de37733fd12b9a084a8d478635389a2da8e09ca29de1a78286"
+          "contextFingerprint": "sha256:eed0b33e3cf931550bef804793116f73865945d0e44e656ca601d183194b856e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Store screenshots needed (raw capture → composed iPhone/iPad/Play assets), including the set uploaded to App Store Connect",
@@ -8886,7 +8886,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:a3acf35d04a00c7acc701fff1356bfcdcb0f034c54ba72b1dbfb79201affabc7"
+          "contextFingerprint": "sha256:b69062131d32213c08292d0381d5ec00272e68e02cbf23c572861e19d39815da"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Android in scope (platforms include android or an android bundle id exists)",
@@ -8958,7 +8958,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:dcf19d2c5e131e0f190fa0299befcaeaba8c2197ce6b11d857be9b9d268ab82b"
+          "contextFingerprint": "sha256:f7558a08960fc359cb5065d4367d693714cdccb13b8ebd0bc032322ae4fff07f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Google Play listing metadata is ready and a matching metadata standing envelope is current",
@@ -9016,7 +9016,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:2bb64a7c63747f376f763222b05da928b78af263f777bbb91e16834cb7834c67"
+          "contextFingerprint": "sha256:7b8105c0378c58e8e40e93e308bfe25029ea8c20524d9e88dc5e17f387c9c0f2"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Google Play screenshots, feature graphics, or promo video are ready and a matching media standing envelope is current",
@@ -9074,7 +9074,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:4900591075f724bf710b19c066f89e1574f8946819de43eb4ea95bf6b7f086eb"
+          "contextFingerprint": "sha256:80b72b7398d69d2bc54f5474664f29559dddcdfa44131143812724cb57601972"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App Store screenshots or app previews are ready and a matching media standing envelope is current",
@@ -9132,7 +9132,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:974c1eeda7f9a39191442c9111dc17c4b782ed6b3d964cc57829d0874b62e9e3"
+          "contextFingerprint": "sha256:195c18d285af8e7ae83f13f3cf86650e2525ee4bff666b6a54be42f3536748ce"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App Store listing text is ready and a matching metadata standing envelope is current",
@@ -9190,7 +9190,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:694c9d6dff5e4becb56cb3935b5096138b7f132921515c22adf6151c301ec441"
+          "contextFingerprint": "sha256:cbc31b71eed649e20ca015ddf3a70c7a83acd6c520732bc773d54b31ce36803e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "A signed iOS build is proven and an exact TestFlight group standing envelope is current",
@@ -9262,7 +9262,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:2d39593c060e038813545e83240c5e77de10e3d4520a1ebc61a33e02e7ea8cdb"
+          "contextFingerprint": "sha256:cced28ec9da0d72a48ce317a42bcc9ef66f89139de71af284608e5daeb33f276"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "An AAB is proven and an exact internal or closed-testing track standing envelope is current",
@@ -9335,7 +9335,7 @@
             "provider.app-store-connect",
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:9f704c00b85c30a1e16e7486920a6743c56052821429e8574cabc3bb179815d2"
+          "contextFingerprint": "sha256:1b83345ab26902d88c2bdbc51e6724abb1048d6641c285e6c47c78b3cbd474a7"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before store distribution in every selected region",
@@ -9404,7 +9404,7 @@
           "workflowId": "workflow.engineering.source-change-manifest",
           "instructions": "Fingerprint the mobile source roots, dependency locks, build configuration, localization resources, analytics schema, onboarding, paywall, and privacy manifests. Compare them with the last accepted checkpoint. Write engineering/SOURCE_CHANGE_MANIFEST.json with changed paths, before/after digests, and every applicable Change Cascade Map type. A change can carry multiple types. Open the matching change-cascade work before the app slice merges. An empty change list is valid only when the current aggregate digest matches the accepted checkpoint.",
           "providerIds": [],
-          "contextFingerprint": "sha256:b3ce969fa20feb7eff84ddd67339b9728f6b5948f8ab13f202df5026ac1d6dd4"
+          "contextFingerprint": "sha256:9ee9496ad3f64d02859fd463ecfd593f9fa91ce657feffe0083447f9e217cdd1"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When design is accepted and after every accepted app-source, build-config, localization, onboarding, feature, paywall, SDK, or visual change",
@@ -9473,7 +9473,7 @@
           "workflowId": "workflow.engineering.engineering-orchestration-ce-production-readiness",
           "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
           "providerIds": [],
-          "contextFingerprint": "sha256:0ac06ea36be034ce082a347771e8f18c5eaa72337f76280870b5ae25bdf1deff"
+          "contextFingerprint": "sha256:6162e413b56c4e3a4b1bbbe6879db75bbd8910d5b2e4751a7fd793ba2fc99f5a"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before actual app implementation, builder prompts, or production-readiness claims",
@@ -9546,7 +9546,7 @@
           "workflowId": "workflow.engineering.backend-data-contract",
           "instructions": "Pick one backend route (Supabase, Firebase, or custom), record the reason in engineering/TECH_SPEC.md's Backend Selection sub-section, and never silently substitute another route mid-build — a switch is a change-cascade event and a founder-only gate. Write the Data Model as one row per entity (owner, key fields, relationships, retention/deletion path, PII class) and the Authorization Model as a create/read/update/delete matrix expressed in the route's actual enforcement mechanism — RLS policies, Firestore security rules, or middleware authz — deny by default. Treat untested authorization as absent: exercise owner/anonymous/other-user access for every matrix row and record the exact test command and evidence path, not just 'RLS' in prose. Pass `npm run check:backend-contract -- --root . --state state/business-state.json`; the account-deletion promise in this contract's retention rules must match trust/PRIVACY.md's deletion promise exactly, not just approximately.",
           "providerIds": [],
-          "contextFingerprint": "sha256:10d952583a829bf30ed3aec75fdca3817250b554f8aeae81ac12beb5e920bedc"
+          "contextFingerprint": "sha256:93056ac2d5ae8aaaedca1aae6e63bf2084aff51562c0ce47104cfeb36ed77855"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before schema/auth prompts or engineering/TECH_SPEC.md data/API sections harden",
@@ -9608,7 +9608,7 @@
           "workflowId": "workflow.engineering.app-agent-roster-and-repo-entrypoints",
           "instructions": "Fill AGENTS.md, CLAUDE.md, APP_AGENTS.md, and the complete agents/ roster from the current business documents. Include agents/launch-surface-producer.md. AGENTS.md must tell future agents to keep using the B2C App Builder skill's workflow. It must require state updates, validators, and the design-lock fan-out. Assign each role its audit surface. Specialists can edit only an assigned disjoint scope. They never stage, commit, release, spend, submit, or publish. A fresh agent must be able to resume from AGENTS.md and the roster without chat history.",
           "providerIds": [],
-          "contextFingerprint": "sha256:a15ce61ee78f5cf4fae0939d53fe500fd9ab20f0730e0469e10ce634ce3856b6"
+          "contextFingerprint": "sha256:7afb6248cdad1a223ab6d2704aa4aa543d974a6ae2cf9b8cd6c5cd8de9aaf7e4"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before builder handoff bundles, AGENTS.md/CLAUDE.md, APP_AGENTS.md, agents/",
@@ -9660,7 +9660,7 @@
           "providerIds": [
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:8b175caedf51bd943709df73b23741e814cecbfa215c016c08011204b9b3b711"
+          "contextFingerprint": "sha256:3b7f79a7018f86d73f9b69a50727ce28e4a1c4e98720198f25deb25e968bbd61"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before MobAI-delta device work — Android coverage, repeatable .mob suites, multi-device or physical-hardware runs, performance gates, MobAI CI, or recorder-skill demo videos/app previews — after the Route Ladder (native-ios-proof-route-ladder) routes past the in-app simulator",
@@ -9737,7 +9737,7 @@
             "provider.serve-sim",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:48ab8375c3c130da28461d7e73a2bc0d82c0c734cbf1195c153890832dcc2c92"
+          "contextFingerprint": "sha256:f34bf5a4f9ae33cc5b6130f993df32ba2f2f9a40882cca2ec20bc5e2a668854c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "First for any iOS or Android device automation, run-the-app, screen-check, flow-walk, bug-repro, screenshot, or screen-recording request — read the selected platforms, then pick the lightest proof rung that covers them",
@@ -9811,7 +9811,7 @@
             "provider.in-app-ios-simulator",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:818d6c41f8007c39b8dc34786e678326774030c9de2a876c885a0d6dd2efd28d"
+          "contextFingerprint": "sha256:22fbaeaee4be7a3541afdd821487c530c5eecd5f28ff62e04babec10223e5227"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -9883,7 +9883,7 @@
           "providerIds": [
             "provider.sentry"
           ],
-          "contextFingerprint": "sha256:abda1fa6f005d36a8b721baffd921ed3fd351d628d65acb42799d361e62ca779"
+          "contextFingerprint": "sha256:edd184f84c5dc765858083c40d9fc486db39e5fa0aa0e0129e7097bccd18ebf9"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -9953,7 +9953,7 @@
           "workflowId": "workflow.data.analytics-and-attribution-blueprint",
           "instructions": "Write analytics/ANALYTICS.md and render analytics/analytics-plan.html before onboarding, paywall, funnel, or store-CTA copy locks. Define one internal user ID, UTMs/click IDs plus self-reported source keys, and an event catalog with owner, trigger, properties, and QA method. Record the HDYHAU survey: randomize options, allow multi-select, include TV/offline, place it mid-onboarding, and connect it to blended ROAS. Name when paid acquisition would require AppsFlyer. Pass check:analytics-catalog and check:attribution against the authored contract and local implementation evidence. Live PostHog capture remains a later provider-proof boundary.",
           "providerIds": [],
-          "contextFingerprint": "sha256:3ab1d9ebaabf1e06e5e3ce83940b2e74d55212d5c9d32d6978a3fd4cb6d1fb08"
+          "contextFingerprint": "sha256:f2ca3d5a2694eb7ad2ca6ccd098b3de1584602e79300fda8c24aeb9348d8454d"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before locking onboarding/paywall/funnels/store CTAs or any prompt naming events",
@@ -10021,7 +10021,7 @@
             "provider.posthog",
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:53597efcff84c39f0527f2ad212ac841e17d925c877dc621b94858e35941aa35"
+          "contextFingerprint": "sha256:b0ccbd870a0b9ca37a6631b8c50235e1ed7f60d8bc1701489cc9cb233fa5e517"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before paid ads, ASA, Meta/TikTok/Google campaigns, or spend-readiness claims",
@@ -10080,7 +10080,7 @@
           "workflowId": "workflow.growth.viral-growth-loop",
           "instructions": "Write growth/VIRAL_GROWTH.md: record the fit-gate decision, the product-specific growth thesis (audience/platform, visible result, emotional trigger, product loop, content loop, conversion moment), and the full Product Loop Contract (trigger, reward, recipient value, share artifact, surface, fallback, abuse controls, policy constraints). Sequence monetization timing so the paywall catches demand after emotional investment forms, not before, per onboarding-conversion.md and revenue-monetization.md. Compute the loop's real economics weekly in the Loop Economics section — viral coefficient k = (invites/shares per active user) x (recipient conversion rate to install/activation), plus cycle time — since k below 0.15 means the loop is decoration, not a growth engine, and share/view counts alone never justify calling the lane done. Any referral/share/unlock mechanic carrying streak, scarcity, or social-proof pressure gets an ethics-guardrail pass before it ships.",
           "providerIds": [],
-          "contextFingerprint": "sha256:5739e3da06fd115a0457916d3b7a855afa86de37b02a070be16197bcfaf6406a"
+          "contextFingerprint": "sha256:fd5070280b8aec773d9f767173cd5571ca663607d4b2595e2b25d8d6cded7057"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before referral/share-to-unlock/invite/comment-loop mechanics",
@@ -10140,7 +10140,7 @@
           "workflowId": "workflow.growth.launch-narrative-and-cadence",
           "instructions": "Write growth/LAUNCH_NARRATIVE.md covering the Fit Gate, feeling-first Launch Thesis, the Two Launch Types (rare tentpole vs. weekly feature-launch heartbeat), the Launch-Day Run-of-Show, and all post copy in fenced code blocks. Build the content direction from strategy/SIGNAL_CORPUS.md and the distribution evidence in strategy/RESEARCH.md. Keep a structured content-intelligence table with source, account baseline, audience fit, hook, structure, emotion, format, sales intent, and downstream result. Normalize outliers against the source account's normal result, and extract patterns without copying words, identity, assets, or exact composition. Judge audience quality through owned contacts, activation, and revenue when those values exist. Every post shapes a feeling before naming the feature and clears the 2026 DO-NOT-DO list: no hashtags, no emojis carrying the message, no link in the root post (first self-reply only), no seeded 'congrats!' replies, plus the no-slop-writing.md self-check. Public claims are limited to what is true and attributable — never launder the launch agency's own aggregate stats as this app's results — and any rage-bait line clears an ethics-guardrail review before it ships. Public posting, account connections, and paid amplification spend are founder-only gates that must be confirmed before launch goes live.",
           "providerIds": [],
-          "contextFingerprint": "sha256:49ff5d70f03c8ad28eae9602aacae9f0dff6e8b7f4faae691c96f007a46a857b"
+          "contextFingerprint": "sha256:8573916dcf89ed23d01b504432d845895744e4558efcc2f122493a699f39404e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before the public announcement, launch-day run-of-show, or weekly release rhythm",
@@ -10200,7 +10200,7 @@
           "workflowId": "workflow.growth.geo-seo-public-visibility",
           "instructions": "Write GEO_SEO.md before an agent edits a landing, policy, or blog file. Run the Copy Compliance Pre-Edit Scan. Reject false claims, unshipped-feature promises, implied-authority claims, and price promises that conflict with revenue/REVENUE_OPS.md. Define the title, description, canonical URL, social cards, robots.txt, sitemap.xml, llms.txt, and JSON-LD contract. Localize only for Tier 1 markets in LOCALIZATION_MARKET_RESEARCH.md. This node prepares the local contract. It does not publish the site. The public-deploy node runs the live HTTP and JSON-LD checks after founder approval.",
           "providerIds": [],
-          "contextFingerprint": "sha256:192009bdefdfc006f1738df6b0ef07f6ddb0bacfaefff30f395e860168788fcd"
+          "contextFingerprint": "sha256:4fe22b8ca2f4528dc7e1efad150d8dbba68e5772fb6ee9ccc89ecf4be99d024b"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before editing any landing/policy/blog copy, robots.txt, llms.txt, sitemap, schema, or metadata",
@@ -10257,7 +10257,7 @@
           "workflowId": "workflow.growth.pre-launch-funnel-landing-waitlist",
           "instructions": "Build a runnable local landing site in growth/landing/ after the landing-specific Design Room refresh. Use the approved promise, one conversion goal, current copy keys, a mobile CTA, truthful proof, responsive behavior, and a local build check. For static-document and conventional conversion surfaces, keep the quality bar on semantic content, legibility, accessibility, responsive behavior, and truthful claims even when motion is not applicable. Add onboarding, localization, pricing, or screenshot material only when the accepted product makes it applicable. Write growth/landing/surface-contract.json with canonical input digests, applicability decisions, and local proof. Apply scrollytelling only when studio/seed/business.json records interaction scroll-linked or that surface's own landing source already implements scroll-linked hooks; static-document surfaces, and conversion surfaces that did not select or implement scroll-linked interaction, must not invent a scroll choreography because another recipe uses one. When that selected or implemented scroll-linked surface is in scope, follow editorial-scrollytelling.md for that surface only: move from situation to mechanism to outcome to proof; record stable scene states, copy hashes, accessible descriptions, save-data and reduced-motion behavior, forward/reverse behavior, and desktop/mobile browser QA. A conversion job does not waive scroll-linked proof. Do not follow editorial-scrollytelling.md on static-document pages or on conversion pages that did not select or implement scroll-linked interaction. Use live motion exemplars only for a selected or implemented rich-motion surface, and express them through this product's design system. Author growth/landing/browser-proof.json for the accepted landing surface IDs with the current candidate SHA-256, exact implementation source roots, exact built entrypoint and resource-to-URL mapping, served origin and URL, and Chrome channel. Start the local server, then run `b2c browser-proof --workspace . --session-id <authorization.executionIdentity>` inside this exact engine attempt. The command must open a new browser context and materialize growth/landing/proof/browser-proof.json plus its immutable build, response, launch, navigation, and runtime receipt files. Never author, copy, relabel, or repair those proof files by hand. Run check:design-md, check:design-room, check:design-worthiness, check:vibecoded-tells, check:scrollytelling, and check:browser-runtime-proof. Do not deploy from this node.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9ab5f6a0cc78aeaa7a3e4d23999ff0829ca2bde943b443dbe07790211df57d84"
+          "contextFingerprint": "sha256:3c105f652cd30d445b4610ed5608b11349e28843a493af660cc91c056984e564"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Immediately after DESIGN.md is accepted — build the local landing site while app implementation runs",
@@ -10311,7 +10311,7 @@
           "workflowId": "workflow.growth.landing-funnel-audit",
           "instructions": "Audit every modeled public page in growth/landing/ in a fresh context that never saw the producer's transcript: landing, waitlist, web-to-app worksheet, support, privacy, terms, deletion, and any referral or purchase page. Resolve each page from studio/seed/business.json `job` (conversion purpose) and `interaction` (technique), implemented scroll-linked hooks attributed to that page, and growth/landing/surface-contract.json when that file exists; do not infer a technique from purpose prose. Score conversion structure with the CRO discipline in reference.growth.cro-landing only when that page has a conversion job (promise, proof, first useful action before email; no invented social proof, no fake processing). Score the story map against reference.design.editorial-scrollytelling only when scroll-linked is selected or implemented on that page: situation to mechanism to outcome to proof, one measured controller, stable scene IDs, no-JS reading sequence, reduced-motion and Save-Data behavior, mobile recomposition. A static legal or support page is scored for semantic content, legibility, accessibility, and working links — not invented scroll choreography or conversion experiments. Selected or implemented scrollytelling still needs the full interaction, interruption, reduced-motion, and performance evidence. Apply the vibecoded tells and the twelve craft-bar conditions to the techniques that page actually uses. Run no-ai-slop in detect mode on every visible string and the Impeccable detector when installed; record the detector JSON path. Re-run the GEO/SEO audit against the local preview and compare it with the dated baseline in GEO_SEO.md. Write findings only, with severity per page and the rubric version, into growth/CRO_AUDIT.md. Do not restyle or edit copy. An unresolved high-severity finding blocks publication.",
           "providerIds": [],
-          "contextFingerprint": "sha256:eeccef1b914073f67c62b876388bfaf228425b3ca4dca2804a1fadf8b5bfe496"
+          "contextFingerprint": "sha256:69cc902fd788c0b7b68a47afee4da58ce74cef1dc2f1f59ea3f14c5b146d2676"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After the local landing and funnel pages build, before publication and before any public page is called done; again after any accepted landing change",
@@ -10374,7 +10374,7 @@
           "workflowId": "workflow.growth.landing-funnel-publication-and-live-proof",
           "instructions": "Use agents/launch-surface-producer.md in approved-external-apply mode. A matching current standing envelope is sufficient authority; do not ask again. Otherwise park this one action in the consolidated founder handoff. Check the working tree, artifact digest, deployment-tool version, authenticated account, token scope, project, environment, and target domain before deployment. Publish only the accepted growth/landing/ build, then read back the deployment and check live HTTP status, mobile and desktop renders, browser form submission, duplicate submission behavior, analytics events, crawler files, social metadata, and every JSON-LD block. Record the URL and proof in growth/landing/README.md and engineering/PRODUCTION_READINESS.md. Run check:landing-funnel. Do not change product claims, prices, legal text, or store state during this node.",
           "providerIds": [],
-          "contextFingerprint": "sha256:62691e37cc3a6de7a5203e762c4c4f986f272fea17e52eeb443ed42ad2a6cd63"
+          "contextFingerprint": "sha256:83d165f0cda7609cc7c6b8867acd5e551ca577bba5b8ce5cb236e824c525c587"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After the local landing build passes and an exact website-deployment standing envelope or one-shot approval is current",
@@ -10423,7 +10423,7 @@
           "workflowId": "workflow.growth.ugc-creator-engine",
           "instructions": "Write growth/UGC_PLAYBOOK.md: record the fit-gate decision, then use strategy/SIGNAL_CORPUS.md and structured content intelligence to select formats. Normalize outliers against each source account's baseline, and extract patterns without copying words, people, assets, or exact compositions. Run the Day 0 format-discovery model — 3-5 creators, founder-written scripts for the first 4-8 weeks, same-day time-coded feedback, and 5-8 reps per format before judging it — and only call a format scale-ready after 2-3 hits from the same structure across 2+ creators plus downstream install, owned-contact, activation, referral, or revenue evidence. Every script in ugc/script-bank.md survives the judge panel (separate reviewer passes with fresh context, one job each — pacing, vocabulary, idea strength, structure — at least one grounded in a real creator's transcript corpus) before it earns filming or generation spend; record script_id and a passed/survived judge_verdict, since check:content-assets blocks any UGC-family generation missing either. Route to influencer-sponsorship-engine.md instead when the plan is paying creators who already have an audience rather than running new niche accounts. Creator payments, paid creator-platform spend, and public posting/scheduling are founder-only gates.",
           "providerIds": [],
-          "contextFingerprint": "sha256:854bf72cd21daf19cc89d707abd6cb9bd7f62f2326a2edde40a59dad84c919a9"
+          "contextFingerprint": "sha256:2b97a1bdbcdafe748d36387a31165ab57c0c9163724512e6ab762e9bfada77de"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before founder-led organic social, creator sourcing/contracts, format-discovery tests",
@@ -10483,7 +10483,7 @@
           "workflowId": "workflow.growth.fastlane-growth-ops",
           "instructions": "Write growth/FASTLANE_OPS.md and the fastlane/ artifact set (campaign-brief.md, prompts.md, angles.json, preferences.json, schedule.json) only after the Launch Readiness Gate is true: live store/TestFlight URL, current brand/onboarding/design docs, and product claims matching store/legal/revenue docs. Run safe API reads (GET /connections, /blitz/preferences, /blitz/angles, /content, /posts) before any mutation, keep format weights summing to 100 and angle weights covering every active angle exactly once, and never write FASTLANE_API_KEY to a committed file. Source real app media through the Route Ladder — in-app iOS Simulator (rung 0) first on a local Mac, MobAI for Android coverage, a repeatable capture cadence, or recorder-polished demo output — before generic generated visuals, and run the weekly Analytics And Iteration loop tying posts back to installs/trials/purchases/attribution rather than vanity engagement. Connecting accounts, first public post, and any scheduling change are founder-only gates; check:post-launch is the pass signal.",
           "providerIds": [],
-          "contextFingerprint": "sha256:eed9ed529538bfc22e9876168c57adfd6091de2f203e314e2b10b6784d83499d"
+          "contextFingerprint": "sha256:ed8c04b508459f912bfb9e601ab3480de03fe83dc7c9f8dc8ddd564dd5d01954"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After launch approval/public beta, or usefastlane.ai/Blitz setup, scheduling, social analytics",
@@ -10545,7 +10545,7 @@
             "provider.revenuecat",
             "provider.stripe"
           ],
-          "contextFingerprint": "sha256:701760b905aa35cda6635a9517273fd9947b3e478e32578cdef3785081b52663"
+          "contextFingerprint": "sha256:710316ebbec6c90c81aab10638757f1945b007e5b44c187541ae708a6835b1b9"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before RevenueCat/Stripe/web billing, products, paywall, entitlement, webhooks, pricing. Founder phrasing: how do I charge for subscriptions or a purchase.",
@@ -10631,7 +10631,7 @@
           "providerIds": [
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:87ea69765196036b3a57542dfa33910b987e7bbfac43eb95488286c6ba269f15"
+          "contextFingerprint": "sha256:7e4569f639d8bae425ffaa016f1fa31615846cb0dba5da4cd776523da2a7840f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After a live paywall exists, or when the experiment backlog needs a next test",
@@ -15838,12 +15838,12 @@
     ]
   },
   "files": {
-    "extension.yaml": "760c2d264179842bb7a5a536bd18351b988edb9cdbb2f8b0cd5bf3e4df235413",
-    "catalog-pack.yaml": "f82c8415a62df546aefce36feb8dbc33eb534a3f55ecc563a6e65833f97c0552",
+    "extension.yaml": "ad7274e397be27fbe41926993537660966631dd04081c8dc244f97d484a7af74",
+    "catalog-pack.yaml": "5fede55f5e5c82c8574a708d71d1cd1f69e3c32558668d88c1fca94a3121e855",
     "knowledge/data/analytics-attribution.md": "0bba4685b2188b9e80b7fcc14fdac9472c6c4aeac5bc59703188eaa5e26f234a",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
     "knowledge/design/audience-derived-identity.md": "04c90b39c9d41cf00257c70b4e579f3e29684254d444917b9a5690d48be74f5f",
-    "knowledge/design/brand-system-skill-onboard.md": "8f193d797ecbacfb9691bc7b2550a2e28c5bc061cf35ca0aa41b9f42e6e44137",
+    "knowledge/design/brand-system-skill-onboard.md": "2de2406b14565be80fcda7cdf53ffaf436336d60b0017cc3c67767f1c5cc307c",
     "knowledge/design/consumer-craft-benchmarks.md": "31c718cfa67c770ff32fef11d9305df94e9de206318baa59022c8d0efda2a273",
     "knowledge/design/design-acceptance.md": "9cd87cf6db6486513ce8f8cb928a1e00292c7d0ee5bcb4da93775ddbbb157e01",
     "knowledge/design/design-evidence-stack.md": "64c5185a250bedb81d2b0b5a3ca081e0e0a5eec43705853cf6954a9ffc52d99f",
@@ -15861,7 +15861,7 @@
     "knowledge/design/surfaces-b2c.md": "656699f28354e78fa2b297489b51f8cc1acf082e2559f4c221f480ab3156e54f",
     "knowledge/design/vibecoded-tells.md": "dd734cb5892448dc23836783fcb100973aa3e6f0245c3a69d66135ddb91c0919",
     "knowledge/engineering/accessibility-readiness.md": "34a99193a4f8566331f04f8eb79687136a3ed619b742ebbf1c1c444814413bef",
-    "knowledge/engineering/app-agent-roster.md": "723f94c8d160ec5e97e1284e35ee299cf344ca249658303b1c4bf0311625b90d",
+    "knowledge/engineering/app-agent-roster.md": "2bf6fed311e0d84ac964c5f849ae3002ec3237c497c68d54786b6af68df5f082",
     "knowledge/engineering/app-quality.md": "1d0c12d9151484e0660a3f93322440b5a279b307cd268dd3e5dc386032d19895",
     "knowledge/engineering/backend-data-contract.md": "4519931a783e460c9eca66792e7bf8a0b9293739a1332b143bf1a7818fede601",
     "knowledge/engineering/engineering-orchestration.md": "fd660917fbe2a1647971caa165f0a0e18fa22f6045f4ad8b5077641bdb5fec84",
@@ -15889,11 +15889,11 @@
     "knowledge/experience/experience-cards.md": "c6c75d8d1b9e02eba4df7970ef224b961d84b4b2c80bc36872157991e57e25b6",
     "knowledge/experience/commitment-funnel.md": "abe64444f25a9f5f8438a099e087baa50fb7552735cc4abdd93d47cca1aa5227",
     "knowledge/experience/consumer-product-design-agency.md": "dd6d4d26cf9dd235e0c95ed828c9656329a3c3d12e4178a8f2cd560a55985d2f",
-    "knowledge/experience/eleven-star-experience.md": "f7a0681ba23e34818208cf0efe05a0d526c1b4d574a898539442203e9168db76",
-    "knowledge/experience/emotional-design-system.md": "01682fdb9459c61308781dbc35196e6d26847939bb8b26c49e88ee1f7225a2e0",
-    "knowledge/experience/emotional-experience-design.md": "25f2878955db40ff9f641bb4688241f8a750d2ae85e769a7eabebe86f47d14f1",
+    "knowledge/experience/eleven-star-experience.md": "3b2dba7ea3bc8df6a403164b58e18f5ff3dc98dd53278e9c6e2c5c2671b40c42",
+    "knowledge/experience/emotional-design-system.md": "2a86f36ef84fe1ea553cd7cb80ef0e6111124430fda74953430fd7e86875d6c8",
+    "knowledge/experience/emotional-experience-design.md": "4f197b021c5f38e32693074ab0f39c9c26dab048c94201091810b38e20a511aa",
     "knowledge/experience/emotional-experience-measurement.md": "4ac6f83d8bb5cb762a81ee21dfa7d1ac358ef70f30e9c33fcf8d219476304a13",
-    "knowledge/experience/ethics-guardrail.md": "b4b18f41ab2aa76f7b70409f719eb6c7a4553cbb41fc8ac5a87f16ee7a8591dd",
+    "knowledge/experience/ethics-guardrail.md": "9c8edb71bb47da6efdd4e1b87eb91c23c508d18f5e180705af2fb1a332ab54e8",
     "knowledge/experience/onboarding-conversion.md": "62cd863fbb0daa8146bb380f0d8e86b26b3ba7091ebb0c50c9c6309dad713d6f",
     "knowledge/experience/onboarding-foundations.md": "b5c68705ba9d88cdf46d28f2ab8c8e004a7ee205f7ad2e5cba687bb77b11b369",
     "knowledge/experience/paywall-goal-headline.md": "6d1b15a21fe5104601083ec6022b74632ab3b8466ac349e5e64725cbe20e96da",
@@ -15912,7 +15912,7 @@
     "knowledge/growth/viral-growth-loops.md": "11ecb78f81968dc0bf2faf85bba05463249e43ac2feb8521dbaf29d51b268ea9",
     "knowledge/money/billing-health-and-reactivation.md": "d524ea8ba1e4073a7b78b30cd4d419c3df8db829cb6a018023c63120401b8823",
     "knowledge/money/offer-and-pricing-decisions.md": "7ab3804a448bf9736dcab27bb40c7fd5a1404e49d300c4cfbe6ca26fec51568a",
-    "knowledge/money/paywall-pricing-and-experiments.md": "28ae9fe61d999ddd3556b6e7e211317aa0deabf44f6c31ec1852ff9caa1e584c",
+    "knowledge/money/paywall-pricing-and-experiments.md": "a287104f720d04b0e6c385688fed3890947844c221dcca9fab70e89004a41f05",
     "knowledge/money/revenue-monetization.md": "91cacab4e540d573046776ed06783e0df6f9efac594c1ec4099e1f4eade896e1",
     "knowledge/money/revenuecat-agent-tooling.md": "0aa207d56ce0fcdcd20c297d1cb21bd09077e47d5ab2e03d14731e2c45184ad9",
     "knowledge/money/revenuecat-and-store-products.md": "1a78b6a1ec8227ff614d87c6c7768cf316fe9ad6a5500b2b426a91416062d3c6",
@@ -15923,7 +15923,7 @@
     "knowledge/operations/founder-zero-operator.md": "ccaf23b53ffc289c31b2618f208753636ecd4ad49265cb9cdb07d10cc2334d31",
     "knowledge/operations/frontier-agent-operations.md": "00afc54d128ab1c975bfb9a3eaaca1023d540b27ba32cecd45ee7e9a6795bdf2",
     "knowledge/operations/paid-tool-routing.md": "0cfd7a3bf0ea814348c7fd5e8a0e012b6680dbbf95e915ef5903247084937d45",
-    "knowledge/operations/post-launch-operations.md": "27b0e6e2861f8f3ef83e8d2233041e6cce325e313c13f2ecffd3a7f5d9cff297",
+    "knowledge/operations/post-launch-operations.md": "1027ac3e36dadaa2233b35d045779f494b29957d6b68f706e5199efa2adc349b",
     "knowledge/operations/provider-state-recipes.md": "4a2354331b6fd32c8d8db486282799bcaebb79fee396fe9950bd2cab77a1006e",
     "knowledge/operations/resend-email-ops.md": "2ffcd2cc4ceae64dc590343fcb41b4dbd4398a5fe7012cf09ee8f426a32c624e",
     "knowledge/operations/secrets-management.md": "9cd7d56e680be2503dd33f278589c02277d0009231da6a34cdb1469291ee412e",
@@ -15988,7 +15988,7 @@
     "knowledge/words/conversion-copy.md": "68739b91f0f977f28718f48dd2368bb8c59a03a3f3d44a30efa08d12eb2956ab",
     "knowledge/words/no-slop-writing.md": "4c9e962cafa5da40dba01778e879b9687c940e0acf4ab298c1b2ef07cda4ffa2",
     "checks/validation/repository/audit-skill-links.ts": "781b1715e075b59ce673fbefad9bacab29eceb93e9f96ef60944bfda884eaf5c",
-    "package.json": "794c1f0117f9c0ccc02edc68fe4682960720082980670e44d3bf4ba025c3c071",
+    "package.json": "dbad0e5bf10762d315d614bc7fe99ac316c9ef491aea660ba817a84e8956587a",
     "tooling/catalog-scaffold.ts": "6a54386c9259c97834599249115b0dd82308c16e2c9bb35c02f3058280467077",
     "catalog/render-routing.ts": "938e29aaed5cf37c03afe8a2cf755af35b8921ad5ca86fd54968095291c2898c",
     "checks/validation/repository/check-agent-entrypoints.ts": "fde2977df566923626a647ccacec7bea6dacb00ffd1ed00ceeb860f8203b0bef",
@@ -16301,5 +16301,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:120e67504313dcad74d97c4151cd124c230dc53a110d184bfc4618db46e63580"
+  "digest": "sha256:c94a04336f2b44b441b7160a91795452d40efea2ede477d9c3526da037853ffe"
 }

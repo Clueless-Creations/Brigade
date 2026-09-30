@@ -196,6 +196,26 @@ SwiftUI reference adapter and claims no others.
 
 The Design Room is generated from the current contract and structured routes. It is a read-only review page. Git owns revisions.
 
+## Worker deadlines and recovery
+
+The session wall-clock budget bounds workers and independent reviewers. The
+default five-minute attempt TTL detects a stale heartbeat; it does not kill an
+active worker. An explicitly authored workflow TTL retains its task deadline.
+Runtime fallback and receipt repair share the original deadline.
+
+Recoverable worker failures return to the normal planner within the existing
+attempt limit. Every dispatch rechecks scope, authority, dependencies and budget.
+Missing setup, input contracts and unauthorized writes require a correction
+before another attempt. Protected or uncertain external effects require
+reconciliation. A failed attempt never becomes accepted evidence.
+
+App implementation tasks declare exact writable source paths with the existing
+`sourceAccess` contract (`source_access` in a package). These claims are separate
+from report outputs. Bind the accepted implementation unit's existing files with
+`update` and its new destinations with `create`; never infer a workspace-wide
+write grant from a stack name. The generic engineering coordinator's report
+outputs alone do not authorize app-source writes.
+
 ## Complete design loop
 
 One founder mandate carries design through research, production, implementation,

@@ -13,7 +13,30 @@ import { workflowContractFingerprint } from "../engine/review-evidence.js";
 import { outputFingerprintPath } from "../engine/artifact-fingerprint.js";
 import type { CatalogWorkflowNode, CompiledRunNode } from "../engine/compile.js";
 import type { NodeExecutor, NodeVerifier, NodeExecutionContext, NodeExecutionResult, NodeVerificationContext, VerificationOutcome } from "./executor.js";
-import { snapshotWorkspaceChanges, verifyWorkspaceChanges } from "./input-inventory.js";
+import { snapshotWorkspaceChanges, verifyWorkspaceChanges, workspaceChangeEntry, type WorkspaceChangeSnapshot } from "./input-inventory.js";
+import { redactSensitiveText } from "./attempt-failure.js";
+
+/** Preserve useful scope diagnostics without exposing file contents or filesystem signatures. */
+function workspaceMutationDetails(workspace: string, before: WorkspaceChangeSnapshot, violations: readonly string[]): string {
+  const prefix = "workspace changed outside declared source/output scope: ";
+  const details = violations.slice(0, 10).map((violation) => {
+    if (!violation.startsWith(prefix)) return { change: "audit_unavailable" };
+    const relative = violation.slice(prefix.length);
+    const prior = before.entries[relative];
+    let current: WorkspaceChangeSnapshot["entries"][string] | undefined;
+    try {
+      current = workspaceChangeEntry(path.join(workspace, relative));
+    } catch {
+      // A file that disappeared after the audit is still a scope violation.
+    }
+    return {
+      path: redactSensitiveText(relative).slice(0, 240),
+      change: !prior ? "created" : !current ? "deleted" : prior.kind !== current.kind ? "type_changed" : "modified",
+      kind: current?.kind ?? prior?.kind ?? "unknown",
+    };
+  });
+  return JSON.stringify({ changes: details, omitted: Math.max(0, violations.length - details.length) });
+}
 
 export interface OperationRouteRequest {
   input: unknown;
@@ -402,8 +425,9 @@ export class OperationRouteRegistry {
         try {
           result = await route.executor.execute(node, context);
         } finally {
-          if (verifyWorkspaceChanges(context.workspaceDir, before, allowedSource, allowedOutputs, runtimeWrites).length)
-            throw Error("binding.worker_mutated_undeclared_workspace");
+          const violations = verifyWorkspaceChanges(context.workspaceDir, before, allowedSource, allowedOutputs, runtimeWrites);
+          if (violations.length)
+            throw Error(`binding.worker_mutated_undeclared_workspace: ${workspaceMutationDetails(context.workspaceDir, before, violations)}`);
         }
         this.#route(node);
         executionCycle(node, context);

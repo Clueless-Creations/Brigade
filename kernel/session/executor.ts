@@ -23,6 +23,7 @@ import {
   type TaskInputSnapshot,
 } from "./input-inventory.js";
 import { inspectRenderedH2Section } from "../lib/required-table-section.js";
+import { redactSensitiveText } from "./attempt-failure.js";
 import {
   buildVerifierPrompt,
   buildWorkerPrompt,
@@ -245,6 +246,8 @@ export interface NodeExecutionResult {
 }
 
 export interface NodeExecutionContext {
+  /** Absolute host-owned execution deadline. Heartbeats renew leases, never this deadline. */
+  readonly executionDeadlineAt?: number;
   /** Exact trusted runtime writes during this callback; never supplied by a worker. */
   readonly runtimeWrites?: () => WorkspaceChangeSnapshot;
   readonly runId: string;
@@ -276,6 +279,21 @@ export interface WorkerCommand {
   readonly command: string;
   readonly args: readonly string[];
   readonly prompt: string;
+}
+
+const DEFAULT_EXECUTION_TIMEOUT_SECONDS = 30 * 60;
+
+/** Bound one dispatch, including authentication fallbacks and receipt repair, independently of its heartbeat lease. */
+export function workerExecutionDeadline(
+  node: Pick<CompiledRunNode, "executionTimeoutSeconds">,
+  context: { readonly executionDeadlineAt?: number },
+  now = Date.now(),
+): number {
+  const timeoutSeconds = node.executionTimeoutSeconds ?? DEFAULT_EXECUTION_TIMEOUT_SECONDS;
+  if (!Number.isFinite(timeoutSeconds) || timeoutSeconds <= 0) return now;
+  const taskDeadline = now + timeoutSeconds * 1000;
+  if (context.executionDeadlineAt === undefined) return taskDeadline;
+  return Number.isFinite(context.executionDeadlineAt) ? Math.min(taskDeadline, context.executionDeadlineAt) : now;
 }
 
 const runtimeCommands: Record<Exclude<WorkerRuntime, "auto">, string> = { claude: "claude", codex: "codex", cursor: "cursor-agent" };
@@ -323,37 +341,144 @@ export function receiptFileDigest(target: string): string {
   return createHash("sha256").update(readFileSync(target)).digest("hex");
 }
 
+const HOST_INTERRUPTION_SIGNALS = ["SIGINT", "SIGTERM", "SIGHUP"] as const;
+const activeWorkerCleanup = new Set<() => void>();
+const stopActiveWorkers = () => {
+  for (const stop of activeWorkerCleanup) stop();
+};
+const hostInterruptionHandlers = Object.fromEntries(
+  HOST_INTERRUPTION_SIGNALS.map((signal) => [
+    signal,
+    () => {
+      // The host may exit immediately after its signal handlers return. Kill descendants now,
+      // rather than leaving escalation to a timer that would disappear with the host.
+      stopActiveWorkers();
+      const handler = hostInterruptionHandlers[signal];
+      if (process.listeners(signal).every((listener) => listener === handler)) {
+        process.removeListener(signal, handler);
+        process.kill(process.pid, signal);
+      }
+    },
+  ]),
+) as Record<(typeof HOST_INTERRUPTION_SIGNALS)[number], () => void>;
+
+/** Host lifecycle owns detached workers; ordinary settlement removes its temporary listeners. */
+function registerWorkerCleanup(stop: () => void): () => void {
+  if (activeWorkerCleanup.size === 0) {
+    for (const signal of HOST_INTERRUPTION_SIGNALS) process.prependListener(signal, hostInterruptionHandlers[signal]);
+    process.prependListener("exit", stopActiveWorkers);
+  }
+  activeWorkerCleanup.add(stop);
+  return () => {
+    activeWorkerCleanup.delete(stop);
+    if (activeWorkerCleanup.size === 0) {
+      for (const signal of HOST_INTERRUPTION_SIGNALS) process.removeListener(signal, hostInterruptionHandlers[signal]);
+      process.removeListener("exit", stopActiveWorkers);
+    }
+  };
+}
+
 async function runWorker(
   command: WorkerCommand,
   cwd: string,
-  timeoutMs: number,
+  executionDeadlineAt: number,
 ): Promise<{ status: number | null; stdout: string; stderr: string; timedOut: boolean }> {
   return await new Promise((resolve) => {
-    const child = spawn(command.command, [...command.args], { cwd, env: workerEnvironment(command.runtime), stdio: ["ignore", "pipe", "pipe"] });
+    const remainingMs = executionDeadlineAt - Date.now();
+    if (remainingMs <= 0) {
+      resolve({ status: null, stdout: "", stderr: "", timedOut: true });
+      return;
+    }
+    // Give this worker its own process group so its tool subprocesses share deadline cleanup.
+    const isolatedProcessGroup = process.platform !== "win32";
+    const child = spawn(command.command, [...command.args], {
+      cwd,
+      env: workerEnvironment(command.runtime),
+      stdio: ["ignore", "pipe", "pipe"],
+      detached: isolatedProcessGroup,
+    });
     let stdout = "";
     let stderr = "";
     const cap = (value: string, chunk: Buffer): string => `${value}${chunk.toString("utf8")}`.slice(-2_000_000);
     child.stdout.on("data", (chunk: Buffer) => (stdout = cap(stdout, chunk)));
     child.stderr.on("data", (chunk: Buffer) => (stderr = cap(stderr, chunk)));
     let timedOut = false;
+    let killTimer: ReturnType<typeof setTimeout> | undefined;
+    const terminate = (signal: NodeJS.Signals) => {
+      try {
+        if (isolatedProcessGroup && child.pid) process.kill(-child.pid, signal);
+        else child.kill(signal);
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ESRCH") stderr += "\nWorker process termination could not be confirmed.";
+      }
+    };
+    const unregisterCleanup = registerWorkerCleanup(() => terminate("SIGKILL"));
     const timer = setTimeout(
       () => {
         timedOut = true;
-        child.kill("SIGTERM");
-        setTimeout(() => child.kill("SIGKILL"), 2_000).unref();
+        terminate("SIGTERM");
+        killTimer = setTimeout(() => terminate("SIGKILL"), 2_000);
       },
-      Math.max(1_000, timeoutMs),
+      Math.max(1, Math.min(remainingMs, 2_147_483_647)),
     );
     timer.unref();
     child.on("error", (error) => {
       clearTimeout(timer);
+      if (killTimer) clearTimeout(killTimer);
+      unregisterCleanup();
       resolve({ status: null, stdout, stderr: `${stderr}\n${error.message}`, timedOut });
     });
     child.on("close", (status) => {
       clearTimeout(timer);
+      // The CLI can exit before descendants that ignored SIGTERM. Do not abandon them when the session returns.
+      if (timedOut) terminate("SIGKILL");
+      if (killTimer) clearTimeout(killTimer);
+      unregisterCleanup();
       resolve({ status, stdout, stderr, timedOut });
     });
   });
+}
+
+/** Read only known fatal event envelopes, never assistant text, tool output, or prompt records. */
+function codexFailureMessage(stdout: string): string | undefined {
+  const message = (value: unknown, depth = 0): string | undefined => {
+    if (depth > 4) return undefined;
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (!trimmed || trimmed.length > 16_384) return undefined;
+      if (trimmed.startsWith("{")) {
+        try {
+          return message(JSON.parse(trimmed), depth + 1);
+        } catch {
+          return undefined;
+        }
+      }
+      return trimmed;
+    }
+    if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+    const object = value as Record<string, unknown>;
+    return message(object.error, depth + 1) ?? message(object.message, depth + 1);
+  };
+  const lines = stdout.slice(-131_072).split(/\r?\n/).slice(-256);
+  for (const line of lines.reverse()) {
+    if (line.length > 65_536) continue;
+    try {
+      let event = JSON.parse(line) as Record<string, unknown> | null;
+      if (event?.type === "event_msg") event = event.payload as Record<string, unknown> | null;
+      if (!event || !["task_complete", "turn.failed", "error"].includes(String(event.type))) continue;
+      const detail = message(event.error ?? (event.type === "error" ? event.message : undefined));
+      if (detail) return detail;
+    } catch {
+      // Logs and partial JSONL lines are not a fatal event.
+    }
+  }
+  return undefined;
+}
+
+function workerFailureSummary(runtime: Exclude<WorkerRuntime, "auto">, result: { stdout: string; stderr: string }): string {
+  const structured = runtime === "codex" ? codexFailureMessage(result.stdout) : undefined;
+  if (structured) return redactSensitiveText(structured).replace(/\s+/g, " ").slice(0, 800);
+  return redactSensitiveText(result.stderr.trim()).slice(-800);
 }
 
 /** Do not leak arbitrary session/provider secrets into a specialist subprocess. */
@@ -416,10 +541,10 @@ export function refreshWorkspaceFileDigests(fileDigests: Record<string, string>,
 }
 
 /**
- * Contract files and read-only inputs keep their dispatch-time hashes. Only a declared
- * output that was also opened as a task artifact may change after the worker writes.
+ * Contract files and read-only inputs keep their dispatch-time hashes. Opened outputs and
+ * explicitly writable source inputs may change after the worker writes.
  */
-export function postWorkerWorkspaceDigestRefreshPaths(brief: Pick<NodeBrief, "open" | "produce">): readonly string[] {
+export function postWorkerWorkspaceDigestRefreshPaths(brief: Pick<NodeBrief, "open" | "produce" | "sourceAccess">): readonly string[] {
   return mutableTaskArtifactPaths(brief);
 }
 
@@ -430,10 +555,7 @@ export function postWorkerWorkspaceDigestRefreshPaths(brief: Pick<NodeBrief, "op
  * after this continuation, so a worker that edits or redoes the task cannot turn the continuation
  * into accepted work.
  */
-export function buildReceiptRepairPrompt(
-  originalPrompt: string,
-  outputs: readonly Pick<NodeExecutionOutput, "artifactId" | "path" | "fingerprint">[],
-): string {
+export function buildReceiptRepairPrompt(originalPrompt: string, outputs: readonly Pick<NodeExecutionOutput, "artifactId" | "path" | "fingerprint">[]): string {
   const manifest = outputs.map((output) => `- ${output.artifactId}: ${output.path} fingerprint=${output.fingerprint}`).join("\n");
   return [
     originalPrompt,
@@ -503,6 +625,7 @@ export function createCliExecutor(requestedRuntime: WorkerRuntime = "auto", oper
 function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor {
   return {
     async execute(node, context) {
+      const executionDeadlineAt = workerExecutionDeadline(node, context);
       const runtimes = workerRuntimeCandidates(requestedRuntime);
       if (runtimes.length === 0)
         return { status: "failed", outputs: [], evidence: [], error: `no worker CLI is installed for requested runtime ${requestedRuntime}` };
@@ -589,7 +712,7 @@ function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor 
       const authFailures: string[] = [];
       for (const candidate of runtimes) {
         runtime = candidate;
-        result = await runWorker(buildWorkerCommand(candidate, prompt), context.workspaceDir, node.ttlSeconds * 1000);
+        result = await runWorker(buildWorkerCommand(candidate, prompt), context.workspaceDir, executionDeadlineAt);
         const scopeErrors = [
           ...verifyTaskInputs(context.workspaceDir, taskInputs, postWorkerWorkspaceDigestRefreshPaths(brief), node.sourceAccess),
           ...verifySourceAccess(context.workspaceDir, sourceSnapshot),
@@ -598,19 +721,25 @@ function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor 
             : []),
         ];
         if (scopeErrors.length) return { status: "failed", outputs: [], evidence: [], error: scopeErrors.join("; ") };
-        const failureText = `${result.stdout}\n${result.stderr}`;
-        if (result.status === 0 || requestedRuntime !== "auto" || !/(auth|log[ -]?in|api[_ -]?key|unauthori[sz]ed|credential)/i.test(failureText)) break;
+        const failureText = (candidate === "codex" ? codexFailureMessage(result.stdout) : undefined) ?? `${result.stdout}\n${result.stderr}`;
+        if (
+          result.timedOut ||
+          result.status === 0 ||
+          requestedRuntime !== "auto" ||
+          !/(auth|log[ -]?in|api[_ -]?key|unauthori[sz]ed|credential)/i.test(failureText)
+        )
+          break;
         authFailures.push(`${candidate}: authentication unavailable`);
       }
       if (!result) return { status: "failed", outputs: [], evidence: [], error: "worker runtime selection produced no invocation" };
-      if (result.timedOut) return { status: "failed", outputs: [], evidence: [], error: `${runtime} worker exceeded ${node.ttlSeconds}s TTL` };
+      if (result.timedOut) return { status: "failed", outputs: [], evidence: [], error: `${runtime} worker execution deadline exceeded` };
       if (result.status !== 0) {
         const tried = authFailures.length > 0 ? `; fallbacks tried: ${authFailures.join(", ")}` : "";
         return {
           status: "failed",
           outputs: [],
           evidence: [],
-          error: `${runtime} worker exited ${String(result.status)}: ${result.stderr.trim().slice(-800)}${tried}`,
+          error: `${runtime} worker exited ${String(result.status)}: ${workerFailureSummary(runtime, result)}${tried}`,
         };
       }
       const refreshError = refreshWorkspaceFileDigests(fileDigests, context.workspaceDir, postWorkerWorkspaceDigestRefreshPaths(brief));
@@ -643,7 +772,7 @@ function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor 
         const repairResult = await runWorker(
           buildWorkerCommand(runtime, buildReceiptRepairPrompt(prompt, candidateOutputs)),
           context.workspaceDir,
-          node.ttlSeconds * 1000,
+          executionDeadlineAt,
         );
         const repairScopeErrors = [
           ...verifyTaskInputs(context.workspaceDir, taskInputs, postWorkerWorkspaceDigestRefreshPaths(brief), node.sourceAccess),
@@ -658,7 +787,7 @@ function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor 
             status: "failed",
             outputs: candidateOutputs,
             evidence: [],
-            error: `receipt-only repair did not complete: ${repairResult.timedOut ? "worker timed out" : `worker exited ${String(repairResult.status)}`}`,
+            error: `receipt-only repair did not complete: ${repairResult.timedOut ? "worker execution deadline exceeded" : `worker exited ${String(repairResult.status)}: ${workerFailureSummary(runtime, repairResult)}`}`,
           };
         }
         const changedCandidate = candidateOutputs.find((candidate) => {
@@ -790,6 +919,8 @@ export interface VerificationOutcome {
 }
 
 export interface NodeVerificationContext {
+  /** The same host-owned session deadline used for production, capped by any explicit task bound. */
+  readonly executionDeadlineAt?: number;
   readonly runtimeWrites?: () => WorkspaceChangeSnapshot;
   readonly runId?: string;
   readonly inputFingerprint?: string;
@@ -841,6 +972,7 @@ export function createCliVerifier(requestedRuntime: WorkerRuntime = "auto", oper
 function createCliWorkerVerifier(requestedRuntime: WorkerRuntime): NodeVerifier {
   return {
     async verify(node, context) {
+      const executionDeadlineAt = workerExecutionDeadline(node, context);
       const runtimes = workerRuntimeCandidates(requestedRuntime);
       if (runtimes.length === 0) {
         return { status: "unavailable", evidence: "", error: `no worker CLI is installed for requested runtime ${requestedRuntime}` };
@@ -869,14 +1001,20 @@ function createCliWorkerVerifier(requestedRuntime: WorkerRuntime): NodeVerifier 
       let result: Awaited<ReturnType<typeof runWorker>> | undefined;
       for (const candidate of runtimes) {
         runtime = candidate;
-        result = await runWorker(buildVerifierCommand(candidate, prompt), context.workspaceDir, node.ttlSeconds * 1000);
-        const failureText = `${result.stdout}\n${result.stderr}`;
-        if (result.status === 0 || requestedRuntime !== "auto" || !/(auth|log[ -]?in|api[_ -]?key|unauthori[sz]ed|credential)/i.test(failureText)) break;
+        result = await runWorker(buildVerifierCommand(candidate, prompt), context.workspaceDir, executionDeadlineAt);
+        const failureText = (candidate === "codex" ? codexFailureMessage(result.stdout) : undefined) ?? `${result.stdout}\n${result.stderr}`;
+        if (
+          result.timedOut ||
+          result.status === 0 ||
+          requestedRuntime !== "auto" ||
+          !/(auth|log[ -]?in|api[_ -]?key|unauthori[sz]ed|credential)/i.test(failureText)
+        )
+          break;
       }
       if (!result) return { status: "unavailable", evidence: "", error: "verifier runtime selection produced no invocation" };
-      if (result.timedOut) return { status: "unavailable", evidence: "", error: `${runtime} verifier exceeded ${node.ttlSeconds}s TTL` };
+      if (result.timedOut) return { status: "unavailable", evidence: "", error: `${runtime} verifier execution deadline exceeded` };
       if (result.status !== 0) {
-        return { status: "unavailable", evidence: "", error: `${runtime} verifier exited ${String(result.status)}: ${result.stderr.trim().slice(-800)}` };
+        return { status: "unavailable", evidence: "", error: `${runtime} verifier exited ${String(result.status)}: ${workerFailureSummary(runtime, result)}` };
       }
       const parsed = parseVerifierVerdict(`${result.stdout}\n${result.stderr}`, brief);
       if (!parsed.verdict) {

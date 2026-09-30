@@ -243,8 +243,8 @@ export function register(h: Harness): void {
     assert(!upstreamCoverage([inactive, unbound, own, other], manifests, "git+https://github.com/Clueless-Creations/b2c-app-builder.git").length, "scope widened");
   });
   h.check("upstream coverage: rendered queue is deterministic and empty scope is honest", () => {
-    const rows = upstreamCoverage(refs, manifests, "https://github.com/Clueless-Creations/b2c-app-builder");
-    const reversed = upstreamCoverage([...refs].reverse(), [...manifests].reverse(), "https://github.com/Clueless-Creations/b2c-app-builder");
+    const rows = upstreamCoverage(refs, manifests, "https://github.com/Clueless-Creations/Brigade");
+    const reversed = upstreamCoverage([...refs].reverse(), [...manifests].reverse(), "https://github.com/Clueless-Creations/Brigade");
     assert(JSON.stringify(rows) === JSON.stringify(reversed), "ordering changed");
     assert(read("docs/upstreams/coverage-report.md") === renderUpstreamCoverage(rows), "committed queue stale");
     assert(renderUpstreamCoverage([]).includes("not proof that every dependency is tracked"), "empty scope certified whole system");

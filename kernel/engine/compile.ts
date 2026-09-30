@@ -192,6 +192,8 @@ export interface CompiledRunNode {
   maxAttempts: number;
   maxConsecutiveNoProgressAttempts?: number;
   ttlSeconds: number;
+  /** Preserve an explicitly authored task limit; the default heartbeat lease is not an execution deadline. */
+  executionTimeoutSeconds?: number;
   tokenBudget: number;
   costEstimate?: CostEstimate;
   phaseIds: string[];
@@ -348,6 +350,7 @@ export function compilePlan(catalog: CatalogInput, now = "1970-01-01T00:00:00.00
       maxAttempts: workflow.maxAttempts ?? DEFAULT_MAX_ATTEMPTS,
       ...(workflow.maxConsecutiveNoProgressAttempts !== undefined ? { maxConsecutiveNoProgressAttempts: workflow.maxConsecutiveNoProgressAttempts } : {}),
       ttlSeconds: workflow.ttlSeconds ?? DEFAULT_TTL_SECONDS,
+      ...(workflow.ttlSeconds !== undefined ? { executionTimeoutSeconds: workflow.ttlSeconds } : {}),
       tokenBudget: workflow.tokenBudget ?? (judgment ? JUDGMENT_TOKEN_BUDGET : DEFAULT_TOKEN_BUDGET),
       costEstimate: workflow.costEstimate,
       phaseIds: workflow.phaseIds ?? [],

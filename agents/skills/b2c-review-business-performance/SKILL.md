@@ -31,9 +31,12 @@ Load this reference when any of the following is true:
 - The founder asks "what now", "the app is live, what do I do", or any variant of "how do I run this".
 - A weekly ops session is due (the rhythm in §2 — the default standing session once live).
 - An incident is in progress: crash spike, review-bombing, billing outage, store policy notice, or a bad release.
-- An agent resumes work on an app that is already live (continuity review shows a shipped app but no `operations/POST_LAUNCH_OPS.md` — create it before doing anything else).
+- The current task concerns a live app's operating rhythm or missing operational coverage.
 
-If the app is live and `lanes.post_launch_ops` is still not_started, that is the highest-priority gap: a live business with no operating rhythm is the launch-and-vanish failure mode in progress.
+For a focused review, inspect the requested metrics and existing evidence. Report the problem, business impact, proposed action, and verification.
+Treat a missing runbook as an operational gap when relevant; it does not block the review or unrelated authorized work.
+Create or update operational artifacts only when the accepted task includes establishing or maintaining that operating rhythm.
+Prioritize actual customer harm, incidents, and material business losses using current evidence.
 
 ## Load only what the task needs
 

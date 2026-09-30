@@ -183,10 +183,10 @@ export function register(harness: Harness): void {
       `  - provider_id: revenuecat
     source_id: www-revenuecat-com-docs-tools-experiments-v1
     from_hash: unsnapped
-    to_hash: unsnapped
+    to_hash: 7c86047b9e77a98483e1cfa27145aa47d4b7bef1b412d4a7299f021f2ea19864
     classification: docs
-    summary: Experiments v1 docs are contracted. No snapshot row exists yet. Classify on first fetch.
-    migration: none
+    summary: First verified baseline documents two Offering variants, SDK current-offering assignment, and Pro or Enterprise access. Clarify access checks in paywall guidance; existing experiment routing remains unchanged.
+    migration: complete
 `,
       "",
     ),
@@ -243,7 +243,7 @@ export function register(harness: Harness): void {
     "capability-delta.yaml",
     shipped("capability-delta.yaml")
       .replace(
-        "classification: ignore\n    summary: Upload-builds help chrome changed. Slice 0 ASC capability receipt still names the observe commands.",
+        "classification: ignore\n    summary: Reviewed current official upload routes and build-versus-upload requirements. Existing signing guidance already refreshes live Xcode, SDK, and upload requirements for each release; no fixed-minimum or observe-command migration is needed. Historical page bodies are unavailable.",
         "classification: breaking\n    summary: Apple ASC changed a contracted observe command without a migration path.",
       )
       .replace(

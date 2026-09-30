@@ -50,14 +50,18 @@ export function register(harness: Harness): void {
   harness.check("cli: research check exposes a bounded read-only contract explanation", () => {
     const text = runBin(["check", "research", "--explain"]);
     assert(text.code === 0, `research explanation must exit 0, got ${text.code}: ${text.output}`);
-    assert(text.output.includes("Research contract 1.0.0"), "explanation must identify its contract version");
+    assert(text.output.includes("Research contract 1.1.0"), "explanation must identify its contract version");
     assert(text.output.includes("Go, Pivot, Or Kill"), "explanation must list the checkpoint section");
     assert(text.output.includes("valid Pivot or Kill is a held checkpoint"), "explanation must preserve the non-Go hold meaning");
     const json = runBin(["check", "research", "--explain", "--json"]);
     assert(json.code === 0, `JSON research explanation must exit 0, got ${json.code}: ${json.output}`);
     const parsed = JSON.parse(json.output.trim()) as { check?: string; explanation?: { sections?: unknown[]; safety?: string } };
     assert(parsed.check === "research", "JSON explanation must identify the check");
-    assert(parsed.explanation?.sections?.length === 7, "JSON explanation must expose the seven bounded research sections");
+    const sections = parsed.explanation?.sections ?? [];
+    const headings = sections.map((section) => (section as { heading?: string }).heading);
+    for (const required of ["Source Ledger", "Signal Records", "Go, Pivot, Or Kill", "Exposure And Conversion", "Founder Waiver"]) {
+      assert(headings.includes(required), `JSON explanation omitted ${required}`);
+    }
     assert(parsed.explanation?.safety?.includes("read-only"), "JSON explanation must state its safety boundary");
   });
 
@@ -76,8 +80,8 @@ export function register(harness: Harness): void {
       "package.json bin.brigade-mcp must point at entrypoints/mcp/brigade-mcp.mjs",
     );
     assert(
-      manifest.bin?.["b2c-app-builder"] === "entrypoints/mcp/brigade-mcp.mjs",
-      "package.json bin.b2c-app-builder must alias the MCP launcher so npx -y b2c-app-builder starts the server",
+      manifest.bin?.brigade === "entrypoints/mcp/brigade-mcp.mjs",
+      "package.json bin.brigade must alias the MCP launcher so npx -y @cluelesscreations/brigade starts the server",
     );
     assert(PORTABLE_MCP_COMMAND === "npx -y @cluelesscreations/brigade", "portable MCP registration must use the canonical scoped package (ADR-0018)");
   });

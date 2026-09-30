@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.84",
+  "skillVersion": "0.221.96",
   "areas": [
     {
       "id": "area.operating-system",
@@ -2428,7 +2428,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/brand-system-skill-onboard.md",
-        "sha256": "sha256:8f193d797ecbacfb9691bc7b2550a2e28c5bc061cf35ca0aa41b9f42e6e44137",
+        "sha256": "sha256:2de2406b14565be80fcda7cdf53ffaf436336d60b0017cc3c67767f1c5cc307c",
         "origin": "skill"
       }
     },
@@ -3742,7 +3742,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/app-agent-roster.md",
-        "sha256": "sha256:723f94c8d160ec5e97e1284e35ee299cf344ca249658303b1c4bf0311625b90d",
+        "sha256": "sha256:2bf6fed311e0d84ac964c5f849ae3002ec3237c497c68d54786b6af68df5f082",
         "origin": "skill"
       }
     },
@@ -5115,7 +5115,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/experience/eleven-star-experience.md",
-        "sha256": "sha256:f7a0681ba23e34818208cf0efe05a0d526c1b4d574a898539442203e9168db76",
+        "sha256": "sha256:3b2dba7ea3bc8df6a403164b58e18f5ff3dc98dd53278e9c6e2c5c2671b40c42",
         "origin": "skill"
       }
     },
@@ -5142,7 +5142,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/experience/emotional-design-system.md",
-        "sha256": "sha256:01682fdb9459c61308781dbc35196e6d26847939bb8b26c49e88ee1f7225a2e0",
+        "sha256": "sha256:2a86f36ef84fe1ea553cd7cb80ef0e6111124430fda74953430fd7e86875d6c8",
         "origin": "skill"
       }
     },
@@ -5158,7 +5158,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/experience/emotional-experience-design.md",
-        "sha256": "sha256:25f2878955db40ff9f641bb4688241f8a750d2ae85e769a7eabebe86f47d14f1",
+        "sha256": "sha256:4f197b021c5f38e32693074ab0f39c9c26dab048c94201091810b38e20a511aa",
         "origin": "skill"
       }
     },
@@ -5190,7 +5190,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/experience/ethics-guardrail.md",
-        "sha256": "sha256:b4b18f41ab2aa76f7b70409f719eb6c7a4553cbb41fc8ac5a87f16ee7a8591dd",
+        "sha256": "sha256:9c8edb71bb47da6efdd4e1b87eb91c23c508d18f5e180705af2fb1a332ab54e8",
         "origin": "skill"
       }
     },
@@ -5767,7 +5767,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/money/paywall-pricing-and-experiments.md",
-        "sha256": "sha256:28ae9fe61d999ddd3556b6e7e211317aa0deabf44f6c31ec1852ff9caa1e584c",
+        "sha256": "sha256:a287104f720d04b0e6c385688fed3890947844c221dcca9fab70e89004a41f05",
         "origin": "skill"
       }
     },
@@ -6324,7 +6324,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/operations/post-launch-operations.md",
-        "sha256": "sha256:27b0e6e2861f8f3ef83e8d2233041e6cce325e313c13f2ecffd3a7f5d9cff297",
+        "sha256": "sha256:1027ac3e36dadaa2233b35d045779f494b29957d6b68f706e5199efa2adc349b",
         "origin": "skill"
       }
     },
@@ -19124,14 +19124,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "811aeb52fd221a5c65331306a7ee53f0917fb5d62fcf8f0e466c3a994aac9685",
+    "fingerprint": "113a3e076290528ff92b5d8123fd6d30e643b51e5eeacf8fb93b4f8fc28c24df",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.84",
-        "revision": "0.221.84",
-        "contentDigest": "7336f9e0a849adf090b96344d0f93298aff145738c3e6e593e4432c3dc3b0f76"
+        "version": "0.221.96",
+        "revision": "0.221.96",
+        "contentDigest": "9308b873242b7c784782bc8345f79548adcc05bd307b7bc697355e3b97498194"
       }
     ],
     "base": {

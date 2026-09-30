@@ -2,7 +2,7 @@
 
 Use this after the first store approval. A launched app is a live business, not a finished launch package: approval is the moment crash health, reviews, retention, support, and growth start compounding — or start decaying while nobody watches. This reference is the operating system for the first 90 days of running the live app. It orchestrates the weekly rhythm; the tactical lanes (`aso-store-ops.md`, `paid-user-acquisition.md`, `fastlane-growth-ops.md`, `revenue-monetization.md`) own their own playbooks.
 
-Track the lane in `lanes.post_launch_ops` in `state/business-state.json`, using the standard status vocabulary (not_started → partial → blocked/not_needed/deferred → done, with evidence paths). The artifacts are `operations/POST_LAUNCH_OPS.md` (the live runbook: rhythm, routes, SLAs, thresholds) and `operations/LAUNCH_RETRO.md` (the retrospective that feeds `failure-cards.md`). Enforced by `npm run check:post-launch`.
+For managed operations work, track `lanes.post_launch_ops` through supported runtime operations, with evidence paths and the standard status vocabulary. The artifacts are `operations/POST_LAUNCH_OPS.md` (the live runbook: rhythm, routes, SLAs, thresholds) and `operations/LAUNCH_RETRO.md` (the retrospective that feeds `failure-cards.md`). Enforced by `npm run check:post-launch`. A focused performance review uses existing evidence and reports findings without creating these artifacts.
 
 This lane covers the `launch-coverage.md` rows "Crash/performance", "Support/reputation", and "Post-launch loop" as a single rhythm. Do not duplicate the per-lane tactics here; cross-reference them.
 
@@ -31,9 +31,12 @@ Load this reference when any of the following is true:
 - The founder asks "what now", "the app is live, what do I do", or any variant of "how do I run this".
 - A weekly ops session is due (the rhythm in §2 — the default standing session once live).
 - An incident is in progress: crash spike, review-bombing, billing outage, store policy notice, or a bad release.
-- An agent resumes work on an app that is already live (continuity review shows a shipped app but no `operations/POST_LAUNCH_OPS.md` — create it before doing anything else).
+- The current task concerns a live app's operating rhythm or missing operational coverage.
 
-If the app is live and `lanes.post_launch_ops` is still not_started, that is the highest-priority gap: a live business with no operating rhythm is the launch-and-vanish failure mode in progress.
+For a focused review, inspect the requested metrics and existing evidence. Report the problem, business impact, proposed action, and verification.
+Treat a missing runbook as an operational gap when relevant; it does not block the review or unrelated authorized work.
+Create or update operational artifacts only when the accepted task includes establishing or maintaining that operating rhythm.
+Prioritize actual customer harm, incidents, and material business losses using current evidence.
 
 ## 2. Weekly Operating Rhythm
 

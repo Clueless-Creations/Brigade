@@ -39,6 +39,7 @@ import {
   invalidateStaleReviews,
   invalidateDescendants,
   requestVerificationRepair,
+  requestExecutionRepair,
   retainUnacceptedCandidateOutputs,
   reconcileWorkflowApplicability,
   refreshHeartbeat,
@@ -95,6 +96,7 @@ import {
 } from "../engine/founder-trust-store.js";
 import { appendAuditEntry } from "../reducer/audit.js";
 import { BriefInvalid, loadBrief, nodeInScope, type SessionBrief } from "./brief.js";
+import { isRetryableWorkerFailure, summarizeAttemptFailure } from "./attempt-failure.js";
 import { loadWorkspaceCatalog, renderCatalogRefusal } from "./catalog-contract.js";
 import { resolveCliWorkspace } from "./status.js";
 import {
@@ -843,6 +845,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
   if (!host.request) mkdirSync(path.dirname(paths.runState), { recursive: true });
   const sessionId = args.session!;
   const startedAt = args.now ?? new Date().toISOString();
+  const executionStartedAt = Date.now();
   let executor: NodeExecutor = noOpExecutor;
 
   let lockAcquired = false;
@@ -1136,6 +1139,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
     });
 
     const wallClockCapSeconds = Number(args["wall-clock-seconds"] ?? brief.wallClockSecondsOverride ?? 1800);
+    const executionDeadlineAt = executionStartedAt + wallClockCapSeconds * 1000;
 
     const resumedExistingRun = existsSync(paths.runState);
     let run = (() => {
@@ -1398,6 +1402,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
             : node;
           assertReviewOwnership();
           const outcome = await verifier.verify(reviewNode, {
+            executionDeadlineAt,
             runtimeWrites: reviewRuntimeWrites?.snapshot,
             runId: run.runId,
             inputFingerprint: attempt?.inputFingerprint,
@@ -1581,6 +1586,15 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
       }
       applyStandingApprovals(plan, run, paths.agentOperations, sessionNow());
       const activeScopeHints = brief?.scopeHints;
+      // Resume recoverable worker failures through ordinary admission, including failures
+      // retained by an earlier version. Scope, grants, approvals and budgets are rechecked
+      // by the frontier; no retry can create authority or reset the attempt allowance.
+      for (const node of plan.nodes) {
+        const state = run.nodes[node.id];
+        if (!state || state.status !== "failed" || !nodeInScope(activeScopeHints, node.domainId, node.workflowId)) continue;
+        const error = state.attempts.at(-1)?.error;
+        if (isRetryableWorkerFailure(error)) requestExecutionRepair(plan, run, node.id, summarizeAttemptFailure(error, 1000), sessionNow());
+      }
       const scopedRefreshConsumers = refreshAdmissibleConsumerIds(plan, run, businessState, captured);
       if (activeScopeHints?.length) {
         for (const consumerId of [...scopedRefreshConsumers]) {
@@ -1895,6 +1909,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
               const capsule = capsuleFromOccurrence(occurrence);
               assertSharedOwnership();
               result = await executor.execute(node, {
+                executionDeadlineAt,
                 runId: run.runId,
                 attemptId: attempt.id,
                 workspaceDir: workspace,
@@ -1925,6 +1940,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
               if (result.status === "failed") {
                 const failedState = run.nodes[nodeId];
                 const retryableAuditEvidenceFailure = isRetryableDesignAuditExecutorFailure(node, result.error);
+                let workerRepairQueued = false;
                 if (result.error?.startsWith("worker knowledge receipt rejected:")) {
                   retainUnacceptedCandidateOutputs(run, node, attempt.id, result.outputs);
                 }
@@ -1958,6 +1974,9 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
                   } else {
                     failedState.status = "failed";
                     failedState.blocker = result.error ?? "The work didn't complete.";
+                    if (isRetryableWorkerFailure(result.error)) {
+                      workerRepairQueued = requestExecutionRepair(plan, run, nodeId, summarizeAttemptFailure(result.error, 1000), finishedAt);
+                    }
                   }
                 }
                 run.updatedAt = finishedAt;
@@ -1968,7 +1987,9 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
                 anomalies.push({
                   message: retryableAuditEvidenceFailure
                     ? `I tried "${node.title}", but its audit evidence was invalid. I kept its bounded audit-only retry queued.`
-                    : `I tried "${node.title}" and it didn't go through. I'll leave it for a future session or for you to look at.`,
+                    : workerRepairQueued
+                      ? `I tried "${node.title}" and it didn't go through. I queued a repair within its existing attempt limit.`
+                      : `I tried "${node.title}" and it didn't go through. It remains incomplete; its recorded failure explains what must change before continuing.`,
                 });
               } else {
                 reconcilePatch(
@@ -2131,14 +2152,16 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
     const parked: DigestParkedItem[] = [];
     for (const node of plan.nodes) {
       const state = run.nodes[node.id];
-      if (!state || !["blocked", "waiting_founder", "needs_readback"].includes(state.status)) continue;
+      if (!state || !["blocked", "waiting_founder", "needs_readback", "failed"].includes(state.status)) continue;
       const detail = decisions.get(node.id);
       const pendingGate = businessState.founderGates.pending.find((gate) => gate.reason.includes(node.title));
       parked.push({
         nodeId: node.id,
         title: node.title,
         unit: domainBusinessUnit(node.domainId, catalog.authority),
-        reasonText: translateParkReason({ reasonCode: detail?.allowed === false ? detail.reasonCode : undefined, blocker: state.blocker }),
+        reasonText: state.status === "failed"
+          ? "The worker could not finish this task. Its recorded failure needs a correction before work can continue."
+          : translateParkReason({ reasonCode: detail?.allowed === false ? detail.reasonCode : undefined, blocker: state.blocker }),
         ageText: pendingGate ? formatAge(pendingGate.createdAt, sessionNow()) : undefined,
       });
     }

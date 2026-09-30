@@ -1,6 +1,6 @@
 # {{APP_NAME}} App Agents
 
-`AGENTS.md` is canonical. These role files are lightweight entrypoints for continuing the app after bootstrap. Do not duplicate product truth here; point back to the source docs.
+`AGENTS.md` is canonical. These role prompts are lightweight entrypoints for continuing the app after bootstrap. Do not duplicate product truth here; point back to the source docs.
 
 ## Source Docs
 
@@ -31,7 +31,7 @@
 
 ## Operating Rules
 
-- Session Continuity: before role work after a new session, resume, status check, or handoff, the orchestrator reconstructs current state from `AGENTS.md`, `.b2c-launch/runtime.json`, `catalog.json`, `.b2c-launch/BUSINESS_CONTEXT.md`, `state/business-state.json`, `control/control.json`, `control/budget-ledger.json`, `run/run-state.json`, `operations/BUSINESS_ACCESS.md`, `operations/business-access.json`, `operations/AGENT_OPERATIONS.md`, `operations/agent-operations.json`, `operations/ORCHESTRATION.md`, `engineering/PRODUCTION_READINESS.md`, `operations/FAILURE_CARDS.md`, and `git status --short`. Do not rely on chat memory; role prompts inherit this source set.
+- Session Continuity: read `AGENTS.md`, run `git status --short`, then use `b2c business-status` and `b2c business-plan` with the registered workspace ID. Follow the current bounded task and its required context. Open raw state, ledgers, orchestration, readiness, or failure documents only when that task requires them. Do not rely on chat memory or reconstruct the whole business before every assignment.
 - The orchestrator owns reducer-mediated changes to `state/business-state.json`, `control/`, `operations/BUSINESS_ACCESS.md`, `operations/business-access.json`, `operations/AGENT_OPERATIONS.md`, `operations/agent-operations.json`, `operations/ORCHESTRATION.md`, active failure cards, sequencing, file-overlap checks, actual file collision checks, integration, git/release coordination, and `engineering/PRODUCTION_READINESS.md`.
 - Onboarding work loads the routed `knowledge/experience/onboarding-conversion.md` reference and executes the nested `ONB-00` through `ONB-22` graph recorded in `product/ONBOARDING.md`. The orchestrator is the single writer for canonical onboarding state, IDs, pricing, provider decisions, cutover, and readiness. Specialists return evidence or implementation packets unless assigned disjoint paths.
 - A rebuild, standardization, replacement, or from-first-principles onboarding request defaults to replacement mode: preserve durable user value through an isolated one-time transformation, hard-cut to the target system, and remove all old runtime code, state, events, provider configuration, tests, and documents. Do not invent an incremental compatibility project because the rebuild is difficult.
