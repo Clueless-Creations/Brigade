@@ -111,7 +111,7 @@ export function register(h: Harness): void {
     0,
     undefined,
     ["--repo-root", skillRoot, "--skill-root", skillRoot],
-    { GITHUB_ACTIONS: "", GITHUB_BASE_SHA: "" },
+    { B2C_REQUIRE_GIT_HISTORY: "", GITHUB_ACTIONS: "", GITHUB_BASE_SHA: "" },
   );
   runFixture("artifact template coverage passes", path.join(skillRoot, "examples", "workspace", "business"), "check-artifact-templates.ts", 0, undefined, [
     "--skill-root",
