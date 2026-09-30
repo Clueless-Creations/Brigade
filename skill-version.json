@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.95",
-  "updatedAt": "2026-09-29",
+  "version": "0.221.96",
+  "updatedAt": "2026-09-30",
   "sourcePath": ".",
   "releaseNotes": [
+    "Run the clean version-discipline fixture in its synthetic full-history repository. Stamp 0.221.96. No npm publish.",
     "Clear the inherited CI history requirement for the synthetic version-discipline fixture. Stamp 0.221.95. No npm publish.",
     "Keep the guarded verification fixtures and stamped source on one current release commit. Stamp 0.221.94. No npm publish.",
     "Use the canonical scoped Brigade package name when validating installed Expo consumer files. Stamp 0.221.93. No npm publish.",

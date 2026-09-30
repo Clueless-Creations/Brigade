@@ -104,15 +104,6 @@ export function register(h: Harness): void {
   runFixture("complete emotional design packet passes", clean, "check-emotional-design.ts", 0);
   runFixture("landing funnel skips without landing scope", clean, "check-landing-funnel.ts", 0);
   runFixture("current skill version passes", skillRoot, "check-skill-version.ts", 0, undefined, ["--source", skillRoot, "--installed", skillRoot]);
-  runFixture(
-    "current version discipline passes",
-    skillRoot,
-    "check-version-discipline.ts",
-    0,
-    undefined,
-    ["--repo-root", skillRoot, "--skill-root", skillRoot],
-    { B2C_REQUIRE_GIT_HISTORY: "", GITHUB_ACTIONS: "", GITHUB_BASE_SHA: "" },
-  );
   runFixture("artifact template coverage passes", path.join(skillRoot, "examples", "workspace", "business"), "check-artifact-templates.ts", 0, undefined, [
     "--skill-root",
     skillRoot,
@@ -1087,7 +1078,7 @@ export function register(h: Harness): void {
   versionGit(versionOnBase, ["add", "-A"]);
   versionGit(versionOnBase, ["commit", "-q", "--no-verify", "-m", "baseline"]);
   runScriptArgs(
-    "version discipline does not fail a clean checkout that is itself the base",
+    "current version discipline passes on a clean checkout that is itself the base",
     "check-version-discipline.ts",
     ["--repo-root", versionOnBase, "--skill-root", versionOnBase],
     0,
