@@ -1443,7 +1443,7 @@ export function register(harness: Harness): void {
       mkdirSync(path.join(workspace, "store"), { recursive: true });
       seedCompatibleCatalog(workspace);
       writeFakeAsc(binDir);
-      const watching = startObserveMandate(mandateInput(), createFixtureProvider(loadPack()), now);
+      const watching = startObserveMandate({ ...mandateInput(), expiresAt: "2026-10-24T12:00:00.000Z" }, createFixtureProvider(loadPack()), now);
       writeAppReviewWatch(workspace, watching);
       const accepted = signedRequest(webhookFixtureBody, { queue: createFileWebhookQueue(queueDir) });
       assert(accepted.result.stored === true, "accept persists the envelope");
@@ -1458,7 +1458,7 @@ export function register(harness: Harness): void {
       const after = readAppReviewState(path.join(workspace, "run", "app-review.json"));
       assert(after.status === "ok", "live consume writes a valid watch");
       if (after.status !== "ok") return;
-      assert(after.state.currentCase.appVersion.providerObjectId === "asv-live-1", "live consume writes provider truth, not fixture ids");
+      assert(after.state.currentCase.appVersion.providerObjectId === "asv-live-1", `live consume writes provider truth, not fixture ids: ${after.state.currentCase.appVersion.providerObjectId}`);
       assert(createFileWebhookQueue(queueDir).list().length === 0, "live consume archives the envelope");
     } finally {
       rmSync(dir, { recursive: true, force: true });

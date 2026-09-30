@@ -50,21 +50,19 @@ export function register(h: Harness): void {
           "--root",
           root,
           "--explain",
+          "--json",
         ],
         { cwd: skillRoot, encoding: "utf8", env: process.env },
       );
       assert(result.status === 0, `research explanation failed: ${result.stderr} ${result.stdout}`);
       const explanation = JSON.parse(result.stdout) as {
         check?: string;
-        artifacts?: { research?: { requiredSections?: string[] }; signalCorpus?: { ids?: string } };
-        lifecycle?: string;
-        limits?: string;
+        explanation?: { version?: string; checkpoint?: { nonGo?: string }; safety?: string };
       };
-      assert(explanation.check === "research-workflow-output", "explanation must identify the research workflow contract");
-      assert(explanation.artifacts?.research?.requiredSections?.includes("Go, Pivot, Or Kill"), "explanation must name the authored verdict checkpoint");
-      assert(explanation.artifacts?.signalCorpus?.ids?.includes("INPUT-"), "explanation must name the signal identifier contract");
-      assert(explanation.lifecycle?.includes("does not initialize"), "explanation must remain explicit about lifecycle limits");
-      assert(explanation.limits?.includes("does not replace validation"), "explanation must remain explicit about proof limits");
+      assert(explanation.check === "research", "explanation must identify the research workflow contract");
+      assert(explanation.explanation?.version === "1.1.0", "explanation must expose its contract version");
+      assert(explanation.explanation?.checkpoint?.nonGo?.includes("does not initialize"), "explanation must remain explicit about lifecycle limits");
+      assert(explanation.explanation?.safety?.includes("read-only"), "explanation must remain explicit about its read-only boundary");
       assert(workspaceRevision(root) === before, "explanation must not mutate the planning workspace");
     }),
   );

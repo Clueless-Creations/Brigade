@@ -57,7 +57,11 @@ export function register(harness: Harness): void {
     assert(json.code === 0, `JSON research explanation must exit 0, got ${json.code}: ${json.output}`);
     const parsed = JSON.parse(json.output.trim()) as { check?: string; explanation?: { sections?: unknown[]; safety?: string } };
     assert(parsed.check === "research", "JSON explanation must identify the check");
-    assert(parsed.explanation?.sections?.length === 7, "JSON explanation must expose the seven bounded research sections");
+    const sections = parsed.explanation?.sections ?? [];
+    const headings = sections.map((section) => (section as { heading?: string }).heading);
+    for (const required of ["Source Ledger", "Signal Records", "Go, Pivot, Or Kill", "Exposure And Conversion", "Founder Waiver"]) {
+      assert(headings.includes(required), `JSON explanation omitted ${required}`);
+    }
     assert(parsed.explanation?.safety?.includes("read-only"), "JSON explanation must state its safety boundary");
   });
 

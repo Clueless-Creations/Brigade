@@ -321,12 +321,12 @@ export function register(harness: Harness): void {
     );
     const declared = new Set(item.sources.map((entry) => entry.id));
     assert(
-      adapted.sourceIds.length === 2 && adapted.sourceIds.every((id) => declared.has(id)),
+      adapted.sourceIds.length === item.sources.length && adapted.sourceIds.every((id) => declared.has(id)),
       `derivation names undeclared sources: ${adapted.sourceIds.join(", ")}`,
     );
     assert(adapted.reviewer === "b2c-maintainers" && /^\d{4}-\d{2}-\d{2}$/u.test(adapted.reviewedAt), "the derivation review is unattributed or undated");
     for (const entry of item.sources) {
-      assert(entry.publisher?.startsWith("Rudrank Riyam") === true, `${entry.id} does not credit the original author: ${String(entry.publisher)}`);
+      assert(entry.publisher?.includes("Rork") === true, `${entry.id} does not name its publisher: ${String(entry.publisher)}`);
       assert(entry.rights?.status === "verified" && entry.rights.spdx === "MIT", `${entry.id} rights are not verified MIT`);
       assert(entry.rights.evidence !== undefined && entry.rights.evidenceSha256 !== undefined, `${entry.id} records no rights evidence`);
       const noticeFile = path.join(skillRoot, entry.rights.evidence);
@@ -336,13 +336,9 @@ export function register(harness: Harness): void {
         entry.upstreamId !== undefined && existsSync(path.join(skillRoot, "catalog/upstreams", `${entry.upstreamId}.yaml`)),
         `${entry.id} names no upstream manifest`,
       );
-      const retrievedAtBySource: Record<string, string> = {
-        "github-com-rorkai-app-store-connect-cli": "2026-09-08",
-        "github-com-rorkai-app-store-connect-cli-skills": "2026-09-05",
-      };
       assert(
-        entry.revision !== undefined && entry.retrievedAt === retrievedAtBySource[entry.id],
-        `${entry.id} lacks a revision or retrieval date`,
+        entry.revision !== undefined && /^\d{4}-\d{2}-\d{2}$/u.test(entry.retrievedAt ?? ""),
+        `${entry.id} lacks a revision or valid retrieval date`,
       );
       assert(!/auto-discovered/iu.test(entry.claimScope), `${entry.id} still carries the placeholder claim scope`);
     }

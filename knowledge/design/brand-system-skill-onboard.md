@@ -21,7 +21,7 @@ create a second design authority.
 | UGC Ops desk | `../growth/ugc-creator-engine.md` |
 | Fastlane AI marketing path | `../growth/fastlane-growth-ops.md` |
 | Paid/gen spend gate | `../operations/paid-tool-routing.md` |
-| Upstream pin + notice | `catalog/upstreams/amir-brand-system.yaml`, `catalog/upstreams/notices/amir-brand-system.txt` |
+| Source record | Contributor-maintained source and license records for the reviewed public repository |
 | Fixture spike (no paid gen) | `examples/contributions/brand-system-skill-spike/` |
 
 Selective harvest only: primary is `brand-system-skill`. Use `motion-brief` only
@@ -75,7 +75,7 @@ results as ours.
 7. Record pack use (if any) in `strategy/TOOL_DECISIONS.md` with role, mode, and
    verified installed set.
 
-Upstream pin: `catalog/upstreams/amir-brand-system.yaml` (reviewed commit
+Source record: the reviewed commit
 `30f6084ddf6adf4173cf882fce266015f8872c17`). Refresh on the upstream review
 cadence; do not silently float.
 
@@ -129,8 +129,7 @@ Do not auto-spend gen credits under this issue or this Skill alone.
 - License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 - Credit: Amir Mushich — Brand System Skill
   (https://github.com/amirmushichge/brand-system-skill).
-- Notices: `catalog/upstreams/notices/amir-brand-system.txt`,
-  `ACKNOWLEDGMENTS.md`, `THIRD_PARTY_NOTICES.md`.
+- Attribution and license evidence remain in the repository's contributor records.
 - Do not claim upstream case studies, benchmarks, or commercial results as
   Clueless Creations outcomes.
 

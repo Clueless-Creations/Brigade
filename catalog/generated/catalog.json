@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.90",
+  "skillVersion": "0.221.93",
   "areas": [
     {
       "id": "area.operating-system",
@@ -2428,7 +2428,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/brand-system-skill-onboard.md",
-        "sha256": "sha256:8f193d797ecbacfb9691bc7b2550a2e28c5bc061cf35ca0aa41b9f42e6e44137",
+        "sha256": "sha256:2de2406b14565be80fcda7cdf53ffaf436336d60b0017cc3c67767f1c5cc307c",
         "origin": "skill"
       }
     },
@@ -19124,14 +19124,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "ae2632db7b6adc525797b3f3befb3b17f094a9ff840971d8e49a8fc60c95edc2",
+    "fingerprint": "e52e723c35b39776e99cb14530bfb7c6c46c1198f579968c02fe32d383253f4c",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.90",
-        "revision": "0.221.90",
-        "contentDigest": "a803f771df980cc90cb0a5959a8776927b4a3113551d583ca945f9998daccdcf"
+        "version": "0.221.93",
+        "revision": "0.221.93",
+        "contentDigest": "accb5448727c19c08812db2aba50fc4d4c13ea4f869ade151948b553705832d6"
       }
     ],
     "base": {

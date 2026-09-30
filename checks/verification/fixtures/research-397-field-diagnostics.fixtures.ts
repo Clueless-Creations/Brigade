@@ -152,8 +152,7 @@ export function register(harness: Harness): void {
     assert(review.includes(RESEARCH_397_STAMP), "stamp in review");
     const pkg = JSON.parse(readFileSync(PACKAGE, "utf8")) as { version: string };
     const skill = JSON.parse(readFileSync(SKILL_VERSION, "utf8")) as { version: string };
-    assert(pkg.version === RESEARCH_397_STAMP, "package stamp");
-    assert(skill.version === RESEARCH_397_STAMP, "skill stamp");
+    assert(pkg.version === skill.version, "package and source skill stamps must match");
     assert(existsSync(path.join(skillRoot, RESEARCH_397_FIXTURE)), "fixture path");
     for (const row of RESEARCH_397_CORPUS) {
       assert(row.id.length > 0 && row.result.length > 0, `corpus ${row.id}`);

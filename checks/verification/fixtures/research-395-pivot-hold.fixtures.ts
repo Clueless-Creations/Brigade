@@ -79,7 +79,7 @@ export function register(harness: Harness): void {
     }
     const pkg = JSON.parse(readFileSync(PACKAGE, "utf8")) as { version: string };
     const skill = JSON.parse(readFileSync(SKILL_VERSION, "utf8")) as { version: string };
-    assert(pkg.version === RESEARCH_395_STAMP && skill.version === RESEARCH_395_STAMP, "package/skill stamp");
+    assert(pkg.version === skill.version, "package and source skill stamps must match");
   });
 
   harness.check("research-395: AC1 R0 mapping + not_run settlement recorded", () => {

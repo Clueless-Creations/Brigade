@@ -75,7 +75,7 @@ baselines:
     revision: "5.7.0"
     observed_at: "2026-09-28"
     by: b2c-maintainers
-    note: Reviewed 5.4 version defaults and web-account selection, 5.5 all-localizations screenshots, 5.6 metadata push `--if-exists`, and 5.7 global remote read-only mode and flag-value indirection. The exact 5.1.0 JSON samples remain historical. This is not a workspace pin; `b2c doctor` observes the host but does not upgrade it.
+    note: Reviewed 5.4 version defaults and web-account selection, 5.5 all-localizations screenshots, 5.6 metadata push `--if-exists`, and 5.7 global remote read-only mode and flag-value indirection. The exact 5.1.0 JSON samples remain historical. This is not a workspace pin; inspect does not upgrade the host, and `b2c doctor` is a supported equivalent for observing the version.
 support:
   policy: Executable guidance is stored per exact reviewed revision. Any other installed version re-verifies each command with `asc <cmd> --help` before first use (Verified Command Cookbook rule). A passing live probe proves the probed tokens on the probed binary only, never a version range. Support is `>= 5.0.0 < 6.0.0`. Major versions below 5 are unsupported. Web-login handoff is refused unless the winning binary is `>= 5.1.0`.
   versions:

@@ -34,7 +34,7 @@ export function register(harness: Harness): void {
     assert(agents.includes("](knowledge/engineering/technical-documentation-ste100.md)"), "AGENTS must link the technical writing owner");
     assert(claude.includes("Read `AGENTS.md` first"), "CLAUDE adapter must keep routing to AGENTS");
     assert(!claude.includes("Kitchen-language boundary"), "CLAUDE must not copy the kitchen glossary");
-    assert(contributing.includes("builder house style"), "CONTRIBUTING must remind reviewers of house style");
+    assert(contributing.toLowerCase().includes("builder house style"), "CONTRIBUTING must remind reviewers of house style");
     assert(contributing.includes("audit:ci -- --lane fast"), "house-style reminder must not revert the CI cadence section");
     assert(template.includes("kitchen-language boundary"), "PR template must include the house-style checklist item");
     assert(ste100.includes("does not scan README"), "STE100 must not claim a blanket README word-count scan");
