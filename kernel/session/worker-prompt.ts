@@ -160,7 +160,7 @@ export function buildWorkerPrompt(brief: NodeBrief, workspaceDir: string, skillR
       ? brief.verify.gateCommands.map((g) => `- ${g}`)
       : [`- ${brief.verify.kind}${brief.verify.failClosed ? "; fail-closed" : ""}`]),
     "",
-    "Finish with the role handoff headings, then append exactly one JSON receipt between these markers. Every routed item needs one decision; every declared output needs a knowledge-to-output explanation. Keep outputEvidence as [] when PRODUCE says no declared artifact.",
+    "Finish with the role handoff headings, then append exactly one JSON receipt between these markers. Every routed item needs one decision; every declared output needs a knowledge-to-output explanation. In outputEvidence.knowledgePaths, cite only material you actually used: mandatory or selected conditional knowledge, contract files, or declared task input paths listed under taskArtifacts. Keep outputEvidence as [] when PRODUCE says no declared artifact.",
     KNOWLEDGE_RECEIPT_BEGIN,
     JSON.stringify({
       schemaVersion: "2.0.0",
@@ -558,7 +558,7 @@ export function validateKnowledgeReceipt(output: string, brief: NodeBrief, expec
     if (!Array.isArray(entry.knowledgePaths) || entry.knowledgePaths.length === 0) issues.push(`outputEvidence ${entry.outputPath} must cite knowledge`);
     else
       for (const cited of entry.knowledgePaths)
-        if (!usedKnowledge.has(cited) && !brief.contractFiles.includes(cited))
+        if (!usedKnowledge.has(cited) && !brief.contractFiles.includes(cited) && !brief.open.includes(cited))
           issues.push(`outputEvidence ${entry.outputPath} cites unused knowledge ${cited}`);
     if (!entry.summary || entry.summary.trim().length < 12) issues.push(`outputEvidence ${entry.outputPath} needs a concrete summary`);
   }

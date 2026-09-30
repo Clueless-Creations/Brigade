@@ -3066,6 +3066,10 @@ export function register(harness: Harness): void {
       prompt.includes("Task artifacts that also appear under PRODUCE are mutable"),
       "the receipt contract must tell the worker when to recompute hashes after writes",
     );
+    assert(
+      prompt.includes("or declared task input paths listed under taskArtifacts"),
+      "the receipt contract must allow outputs to cite source files that the task was authorized to inspect",
+    );
     const rmwPrompt = buildWorkerPrompt({ ...brief, open: [...brief.open, "research/brief.md"] }, "/tmp/business", "/tmp/skill", expectations);
     assert(
       rmwPrompt.includes("research/brief.md sha256=<compute sha256 after all writes>"),
@@ -3182,6 +3186,22 @@ export function register(harness: Harness): void {
     };
     const receipt = `BEGIN_KNOWLEDGE_RECEIPT\n${JSON.stringify(receiptBody)}\nEND_KNOWLEDGE_RECEIPT`;
     assert(validateKnowledgeReceipt(receipt, brief, expectations).length === 0, "an exact structured knowledge receipt must pass");
+    const sourcePath = "app/src/app/index.tsx";
+    const sourceDigest = `sha256:${"f".repeat(64)}`;
+    const inputBrief = { ...brief, open: [...brief.open, sourcePath] };
+    const inputReceipt = `BEGIN_KNOWLEDGE_RECEIPT\n${JSON.stringify({
+      ...receiptBody,
+      taskArtifacts: [...receiptBody.taskArtifacts, { path: sourcePath, sha256: sourceDigest }],
+      outputEvidence: brief.produce.map((entry) => ({
+        outputPath: entry,
+        knowledgePaths: [sourcePath],
+        summary: "The authorized source input informed this bounded output and its checks.",
+      })),
+    })}\nEND_KNOWLEDGE_RECEIPT`;
+    assert(
+      validateKnowledgeReceipt(inputReceipt, inputBrief, { ...expectations, fileDigests: { ...fileDigests, [sourcePath]: sourceDigest } }).length === 0,
+      "an output may cite the exact authorized task input it inspected",
+    );
     assert(
       validateKnowledgeReceipt(receipt.replace('"engineVersion":"0.220.70"', '"engineVersion":"0.220.69"'), brief, expectations).includes(
         "receipt engineVersion must equal 0.220.70",
