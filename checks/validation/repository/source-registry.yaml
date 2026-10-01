@@ -3395,3 +3395,123 @@ sources:
       - knowledge/design/consumer-craft-benchmarks.md
       - catalog/knowledge/design/design-consumer-craft-benchmarks.yaml
     notes: First-party Android listing used to corroborate product scope and identity; no installed-app or cross-platform parity claim.
+  - id: agent-plugins-mcp-schema-1-0-0
+    name: Portable plugin MCP schema 1.0.0
+    source_type: official_docs
+    url: https://agent-plugins.org/schemas/1.0.0/mcp.schema.json
+    refresh_cadence_days: 30
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Canonical schema downloaded for offline pilot validation. Format validity does not prove a working connection.
+  - id: agent-plugins-plugin-schema-1-0-0
+    name: Portable plugin manifest schema 1.0.0
+    source_type: official_docs
+    url: https://agent-plugins.org/schemas/1.0.0/plugin.schema.json
+    refresh_cadence_days: 30
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Canonical schema downloaded for offline pilot validation. Format validity does not prove platform acceptance.
+  - id: openai-plugins-build-portable
+    name: OpenAI portable plugin packaging
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/build/plugins
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/AUTHENTICATED_TEST_PLAN.md
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Current layout and local testing guidance for the bounded audit pilot. Installed behavior remains unqualified.
+  - id: openai-plugins-connect-test
+    name: OpenAI plugin connection and testing
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/deploy/connect-chatgpt
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/AUTHENTICATED_TEST_PLAN.md
+    notes: Test-route guidance only. No developer connection, client registration, or account change occurred.
+  - id: openai-plugins-submission
+    name: OpenAI plugin submission
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/deploy/submission
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/AUTHENTICATED_TEST_PLAN.md
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+      - entrypoints/plugins/brigade-first-five-minutes/SUBMISSION_READINESS.md
+    notes: Initial skills plus MCP submission requirements and owner actions. No draft upload or public submission occurred.
+  - id: openai-plugins-review-discovery
+    name: OpenAI plugin review and discovery
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/deploy/app-review
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/SUBMISSION_READINESS.md
+    notes: Review and discovery constraints. No directory acceptance or enhanced distribution claim.
+  - id: openai-plugins-guidelines
+    name: OpenAI plugin guidelines
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/plugin-guidelines
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/SUBMISSION_READINESS.md
+    notes: Public plugin requirements and commerce boundaries. Existing paid login is distinct from an in-plugin upsell.
+  - id: brigade-first-five-oauth-source
+    name: Brigade consent implementation at the pilot base
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/hosted/knowledge-mcp/oauth.ts
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/AUTHENTICATED_TEST_PLAN.md
+    notes: Pinned existing source inspected for test planning. Source behavior is not live OAuth qualification.
+  - id: brigade-first-five-access-source
+    name: Brigade access checks at the pilot base
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/hosted/knowledge-mcp/access.ts
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/AUTHENTICATED_TEST_PLAN.md
+    notes: Pinned existing source inspected for entitlement boundaries. Public reviewer access remains unqualified.
+  - id: brigade-first-five-onb10-source
+    name: Brigade first-value method at the pilot base
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/agents/skills/b2c-design-onboarding/references/workflow.experience.onboarding-system.onb-10-first-value-activation.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned first-party method used for bounded retrieval and attribution. No live workflow execution is added.
+  - id: brigade-first-five-onb11-source
+    name: Brigade effort and question method at the pilot base
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/agents/skills/b2c-design-onboarding/references/workflow.experience.onboarding-system.onb-11-effort-question-audit.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned first-party method used for bounded retrieval and attribution. No empirical conversion claim.
+  - id: brigade-first-five-onboarding-source
+    name: Brigade onboarding knowledge at the pilot base
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/knowledge/experience/onboarding-conversion.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned onboarding source. The pilot distinguishes guidance, capture evidence, and measured outcomes.
+  - id: brigade-first-five-paywall-source
+    name: Brigade paywall knowledge at the pilot base
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/knowledge/money/paywall-pricing-and-experiments.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned paywall source for applicable disclosure and recovery sections. Benchmarks do not become local conversion claims.
