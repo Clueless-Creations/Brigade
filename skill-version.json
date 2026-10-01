@@ -1,9 +1,11 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.96",
-  "updatedAt": "2026-09-30",
+  "version": "0.221.98",
+  "updatedAt": "2026-10-01",
   "sourcePath": ".",
   "releaseNotes": [
+    "Ignore unknown OAuth authorization fields, including ui_locales, while retaining explicit scope, redirect, resource, state and S256 checks. Stamp 0.221.98. No deployment or npm publish.",
+    "Verify CIMD consent compatibility, duplicate and credential-query rejection, query-bound consent challenges, strict forms and no reflection using synthetic tests.",
     "Run the clean version-discipline fixture in its synthetic full-history repository. Stamp 0.221.96. No npm publish.",
     "Clear the inherited CI history requirement for the synthetic version-discipline fixture. Stamp 0.221.95. No npm publish.",
     "Keep the guarded verification fixtures and stamped source on one current release commit. Stamp 0.221.94. No npm publish.",

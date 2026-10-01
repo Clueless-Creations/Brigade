@@ -14,7 +14,6 @@ import { failure, RequestError, uniqueParams } from "./http.js";
 type OAuthEnv = Env & { OAUTH_PROVIDER?: OAuthHelpers };
 type ConsentError = "missing_key" | "invalid_key" | "invalid_challenge";
 const COOKIE_PREFIX = "__Host-b2c-consent-";
-const AUTH_PARAMS = ["client_id", "redirect_uri", "response_type", "state", "scope", "code_challenge", "code_challenge_method", "resource"];
 /** The consent screen shares the console theme. This Worker serves no font files. */
 const AUTH_PAGE_STYLES = themeCss({ fonts: false });
 const AUTH_PAGE_HEADER = `<header class="site wrap"><span class="brand">${BRAND_MARK_SVG}<span>Clueless Creations <small>Hosted access</small></span></span></header>`;
@@ -84,7 +83,8 @@ ${guidance}
 }
 
 async function validatedAuthorization(request: Request, helpers: OAuthHelpers, origin: string, trusted: readonly string[]): Promise<AuthRequest> {
-  const query = uniqueParams(new URL(request.url).searchParams, AUTH_PARAMS);
+  // RFC 6749 section 3.1: ignore unknown authorization fields; keep duplicate and explicit security checks.
+  const query = uniqueParams(new URL(request.url).searchParams);
   if (
     !query.client_id ||
     query.client_id.length > 256 ||
