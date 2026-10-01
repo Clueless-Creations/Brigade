@@ -1,9 +1,11 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.98",
+  "version": "0.221.99",
   "updatedAt": "2026-10-01",
   "sourcePath": ".",
   "releaseNotes": [
+    "Prepare the bounded first-five-minutes ChatGPT and Codex plugin with the existing read-only knowledge MCP. Local draft only; no install, deployment, or publication.",
+    "Add original synthetic captures, matched baseline evaluation preparation, credential-free deterministic packaging, and submission holds. Comparison remains unrun; no empirical utility claim.",
     "Ignore unknown OAuth authorization fields, including ui_locales, while retaining explicit scope, redirect, resource, state and S256 checks. Stamp 0.221.98. No deployment or npm publish.",
     "Verify CIMD consent compatibility, duplicate and credential-query rejection, query-bound consent challenges, strict forms and no reflection using synthetic tests.",
     "Run the clean version-discipline fixture in its synthetic full-history repository. Stamp 0.221.96. No npm publish.",
