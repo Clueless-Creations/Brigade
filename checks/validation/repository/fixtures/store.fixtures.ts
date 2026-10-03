@@ -1648,6 +1648,8 @@ export function registerReviewAccess(h: Harness): void {
     ["not-needed", ["Review access: not required"]],
     ["acknowledgement", ["Review access: yes"]],
     ["boolean", ["Review access: true"]],
+    ["false", ["Review access: false"]],
+    ["no", ["Review access: no."]],
     ["unset", ["Review access: not set"]],
   ] as const) {
     runFixture(
@@ -1690,6 +1692,7 @@ export function registerReviewAccess(h: Harness): void {
     ["no-approved-information", "Review notes: N/A — no new functionality."],
     ["unknown-reuse", `${reusedNotes} Review instructions remain unknown.`],
     ["unresolved-privacy", `${reusedNotes} App Privacy: N/A.`],
+    ["unrelated-first-marker", "Review notes: Reuse existing approved review information from APP_STORE_LISTING.md; no new functionality. App Privacy: N/A."],
   ] as const) {
     runFixture(
       `review readiness rejects ${name} Notes explanation`,

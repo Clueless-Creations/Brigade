@@ -16077,7 +16077,7 @@
     "checks/validation/repository/check-skill-version.ts": "849ea8c56b9606dbae6fdcdb2f2833819e117b67701066f0ccc187ce44297076",
     "checks/validation/business/engineering/check-source-checkpoint.ts": "cb9d03afbe84ba922be7fe91f7e6195b43d7dbf6b59f7612f08a2d0d9d2a2721",
     "checks/validation/repository/check-source-freshness.ts": "8e5a75fd1ff54062fe20acf816efe4007b5c8a84f9b075690455e33ebc6c3824",
-    "checks/validation/business/store/check-store-console-packet.ts": "4208ae3998c8c151ddfd76f75c524e7b99815ca2f8ba0f6d329d1eec91343874",
+    "checks/validation/business/store/check-store-console-packet.ts": "e7c748681353c752e4b796b8f38feb17761c485e7feecbebd769bf858a803c30",
     "checks/validation/business/store/check-store-screenshots.ts": "acda2c6cf6777a0de4436ace56610f6fd35b4b6ee1f0041c5225f2879e68e182",
     "checks/validation/repository/check-task-skills.ts": "a467f9d7b3e7aa575510efc08c3049cb1c7a46b671a0ab04958baebc026a04fd",
     "checks/validation/business/engineering/check-template-safety.ts": "151a3c96b76db8859098805dc6d6f69765e5888d4388786c80459050dbe761cc",
@@ -16301,5 +16301,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:908cb3c08ca78be295521083ac0977cbf1bb7aaac983e28b52644e5239f0240f"
+  "digest": "sha256:2e7347cd07ccc5e95b543597ad27bca10fc96501b424cc455688b4c14700a895"
 }
