@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.101",
-  "updatedAt": "2026-10-03",
+  "version": "0.221.102",
+  "updatedAt": "2026-10-04",
   "sourcePath": ".",
   "releaseNotes": [
+    "Deliver scoped app guidance before planning and carry selected task inputs into independent verification. Stamp 0.221.102; no deployment or npm publish.",
     "Add conditional web and agent interaction guidance for visible work, status, responsibility, evidence and action; distinguish human and AI activity and preserve journey permissions and external-operation proof. Stamp 0.221.101; no deployment or npm publish.",
     "Make Apple review access conditional on login, preserve Notes reuse without masking unresolved fields, and clarify live privacy collection and stand-alone companion applicability. Render the store example from its source. Stamp 0.221.100; no deployment or npm publish.",
     "Clarify Apple payment-rule applicability, location and final-archive privacy evidence, label/server/binary change boundaries, independent ASC authentication routes, privacy planning and deep validation. Stamp 0.221.99; no deployment or npm publish.",

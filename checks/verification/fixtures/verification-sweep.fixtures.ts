@@ -392,6 +392,21 @@ main().catch((error) => { console.error(error instanceof Error ? error.message :
     assert(prompt.includes(VERIFICATION_VERDICT_BEGIN) && prompt.includes(VERIFICATION_VERDICT_END), "prompt must carry the verdict markers");
   });
 
+  harness.check("verifier prompt: selected input constraints reach fresh review without promoting optional consults", () => {
+    const plan = compilePlan(testCatalog(), now);
+    const node = plan.nodes.find((candidate) => candidate.id === "run.draft-note")!;
+    const brief = composeNodeBrief(node, plan);
+    brief.open = ["DESIGN.md", "engineering/TECH_SPEC.md", "product/journeys/report-review.md"];
+    brief.consult = ["engineering/DECISIONS.md"];
+    const prompt = buildVerifierPrompt(brief, "/ws", "/skill", [{ artifactId: "artifact.draft-note", path: "notes/draft.md", evidence: [] }]);
+    const inputSection = prompt.split("TASK INPUTS")[1]?.split("CONSULT WHEN PRESENT AND RELEVANT")[0] ?? "";
+    for (const input of brief.open) assert(inputSection.includes(`- ${input}\n`), `required source ${input} omitted from review`);
+    assert(!inputSection.includes("engineering/DECISIONS.md"), "optional consult became a required input");
+    assert(prompt.includes("- engineering/DECISIONS.md\n"), "selected optional source became undiscoverable");
+    assert(!prompt.includes("database.md") && !prompt.includes("deployment.md"), "unselected guidance leaked into review");
+    assert(prompt.includes("never write"), "source delivery must preserve review-only authority");
+  });
+
   harness.check("verifier verdict: strict parse accepts one well-formed pair and nothing else", () => {
     const plan = compilePlan(testCatalog(), now);
     const node = plan.nodes.find((candidate) => candidate.id === "run.draft-note")!;
