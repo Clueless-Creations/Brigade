@@ -267,7 +267,7 @@ if (!markdown) {
       "asc-id-resolver",
       "TestFlight",
       "review status",
-      // App Review Information packet (prevents Guideline 2.1 "Information Needed" rejection).
+      // Brigade packet coverage; demo access and explanatory notes depend on the app's review needs.
       "App Review Information",
       "demo account",
       "test device",

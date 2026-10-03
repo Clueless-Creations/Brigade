@@ -409,7 +409,10 @@ sources:
     owner: source-freshness
     locations:
       - examples/workspace/business/store/APPLE_APP_STORE_REQUIREMENTS.md
-    notes: Auto-discovered from recently added repository content.
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+      - knowledge/store/app-store-listing-prep.md
+    notes: Apple collection and location-resolution definitions; checked 2026-10-03. Artifact reconciliation is Brigade's separate evidence rule.
   - id: developer-apple-com-app-store-review-guidelines
     name: developer.apple.com
     source_type: official_docs
@@ -422,7 +425,28 @@ sources:
       - knowledge/store/app-review-remediate.md
       - catalog/knowledge/store/store-app-review-resubmit.yaml
       - knowledge/store/app-review-resubmit.md
-    notes: Auto-discovered from recently added repository content.
+      - knowledge/store/app-store-listing-prep.md
+    notes: App Review access and explanatory notes, plus conditional free-companion IAP treatment in 3.1.3(f); checked 2026-10-03.
+  - id: developer-apple-com-help-app-store-connect-platform-version-information
+    name: Apple Platform version information
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Review contact, additional Notes, and conditional demo credentials; checked 2026-10-03. Brigade packet coverage does not predict rejection.
+  - id: developer-apple-com-help-app-store-connect-manage-submissions-submit-an-app
+    name: Apple Submit an app
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - knowledge/store/app-store-connect-cli.md
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+    notes: Required metadata and selected build, draft addition, and final submission; checked 2026-10-03. Brigade packets are not Apple fields.
   - id: developer-apple-com-app-store-submitting
     name: developer.apple.com
     source_type: official_docs

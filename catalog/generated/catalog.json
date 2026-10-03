@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.98",
+  "skillVersion": "0.221.99",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3871,7 +3871,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:fd660917fbe2a1647971caa165f0a0e18fa22f6045f4ad8b5077641bdb5fec84",
+        "sha256": "sha256:0407bdbe36a18c0e9034bc4c162c56ba23df687d62228cab76eb206ca17ddcb5",
         "origin": "skill"
       }
     },
@@ -8292,17 +8292,27 @@
       "lifecycle": "active",
       "sources": [
         {
+          "id": "developer-apple-com-help-app-store-connect-manage-submissions-submit-an-app",
+          "name": "Apple Submit an app",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app",
+          "reviewCadenceDays": 7,
+          "claimScope": "Required metadata and selected build, adding to a draft submission, and the separate final submit action. Brigade packets are not Apple fields.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
           "id": "github-com-rorkai-app-store-connect-cli",
           "name": "github.com",
           "sourceType": "github",
           "url": "https://github.com/rorkai/App-Store-Connect-CLI",
           "reviewCadenceDays": 7,
-          "claimScope": "Command families, auth ladder, safe automation boundaries, telemetry disclosure, and the verified command cookbook are adapted from the CLI README, local --help output, and release notes.",
-          "lastReviewDate": "2026-09-28",
+          "claimScope": "Command families and confirmed local 5.7.0 help for privacy catalog/pull/plan/apply/publish, deep validation, capabilities and redacted review details. Authentication routes and authority remain separate.",
+          "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers",
           "publisher": "Rudrank Riyam (author); Rork (maintainer)",
-          "revision": "5.7.0 latest stable and reviewed guidance 2026-09-28",
-          "retrievedAt": "2026-09-28",
+          "revision": "5.7.0 reviewed command baseline; local command help checked 2026-10-03",
+          "retrievedAt": "2026-10-03",
           "rights": {
             "status": "verified",
             "spdx": "MIT",
@@ -8470,7 +8480,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-connect-cli.md",
-        "sha256": "sha256:3ea40e4d15805e0c0911831f01f31b59df7fbd270d386be3f150f33cdae39079",
+        "sha256": "sha256:3c5d61ac53850b7eb3c322a2e1788201b0c0e4be52907cf26062e0ba5672d036",
         "origin": "skill"
       }
     },
@@ -8488,8 +8498,8 @@
           "sourceType": "official_docs",
           "url": "https://developer.apple.com/app-store/app-privacy-details",
           "reviewCadenceDays": 7,
-          "claimScope": "Auto-discovered from recently added repository content.",
-          "lastReviewDate": "2026-08-17",
+          "claimScope": "Data collection and location disclosure definitions; source and final-archive reconciliation remain separate Brigade evidence checks.",
+          "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers"
         },
         {
@@ -8508,8 +8518,18 @@
           "sourceType": "official_docs",
           "url": "https://developer.apple.com/app-store/review/guidelines",
           "reviewCadenceDays": 7,
-          "claimScope": "Auto-discovered from recently added repository content.",
-          "lastReviewDate": "2026-08-17",
+          "claimScope": "Guideline 3.1.3(f) payment applicability and Guidelines 2.1/2.3.1 review access and explanatory notes.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-help-app-store-connect-platform-version-information",
+          "name": "Apple Platform version information",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information",
+          "reviewCadenceDays": 7,
+          "claimScope": "App Review contact and Notes fields, with demo credentials conditional on required login; Brigade packet fields are separate.",
+          "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers"
         },
         {
@@ -8844,7 +8864,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:96998ce062444b47e2b2515df06df60c748085fff4c4946cb4050438385d89ab",
+        "sha256": "sha256:31956ceac89ea10074979e452bc7e0a394d539af0cfb02433e509bba88fa7b6e",
         "origin": "skill"
       }
     },
@@ -9916,7 +9936,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/store-console-workflow.md",
-        "sha256": "sha256:255c090fec11879c72ae4c1bb9b7b0439c19d5745d8cb8aba6319b28a0c75b9e",
+        "sha256": "sha256:17a70b5af9e7f27d3ad3d3998de8adad86683999a855c0065224db4cc401ec64",
         "origin": "skill"
       }
     },
@@ -10040,6 +10060,16 @@
       "lifecycle": "active",
       "sources": [
         {
+          "id": "developer-apple-com-app-store-app-privacy-details",
+          "name": "Apple App Privacy Details",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/app-store/app-privacy-details",
+          "reviewCadenceDays": 7,
+          "claimScope": "Location disclosure follows collected resolution; Approximate Location Services is Apple's coarse-location example. Archive reconciliation is Brigade's evidence rule.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
           "id": "general-legal-template-collection",
           "name": "General Legal template collection",
           "sourceType": "attorney_template_repository",
@@ -10053,7 +10083,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/privacy-terms.md",
-        "sha256": "sha256:e4d2218b6a59dbfbd279ebad3657bfdc3f05b04ee5fddc968beb63d4d83daeec",
+        "sha256": "sha256:d9fb5ac769a223e703c8e646ca0d695020f889d6acd6606825d80f10f723e918",
         "origin": "skill"
       }
     },
@@ -14161,7 +14191,7 @@
         "use the CLI instead of clicking through the console",
         "script the App Store Connect metadata updates"
       ],
-      "instructions": "Default to the `asc` CLI/skill-pack route for App Store Connect work — reads, ID resolution, metadata/screenshot dry-runs, and TestFlight/review-status checks are safe without new approval. Work the auth ladder before reporting ASC as blocked: check an existing keychain profile first (`asc --profile <Name>`), never `source` a credential `.env` file, and treat 'app record not found' as a setup step. Confirm `--help` before any unverified subcommand. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use the required confirmation flag, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, agreements, final review submission, and public release remain exceptional unless explicitly named in the envelope. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
+      "instructions": "Discover supported `asc` CLI/skill-pack capabilities before manual console work. Reads, ID resolution, dry-runs, and readiness checks are observe actions. Check only the selected operation's authentication: API keys, cached CLI web sessions, and browser sessions are separate. Local credential-store errors do not prove Apple permission denial. Use another existing authorized working route when available, preserving account, target, and effect scope; never extract browser credentials or require a new CLI login when the browser suffices. Confirm command help once per binary version and after flag errors. Confirm visibility and pagination before treating an absent app as a missing record. Use privacy pull/plan and exact-version validate --deep when the required existing sessions work; otherwise record unchecked findings and equivalent browser evidence. Require IAP/product checks only for the applicable payment model. Reuse accepted packets and refresh affected evidence. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use required confirmation flags, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, privacy mutations or publication, agreements, final submission, and release retain their applicable authority boundary. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
       "reads": [
         "store/STORE_CONSOLE.md",
         "store/store-console.html",
@@ -19124,14 +19154,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "ad4eda7210f5c2a914399e6760e71d01fd9131e339c396a5042889826cb5b0d5",
+    "fingerprint": "ce62d9bce34e1040ce525d3ea349b5d636bb1b76e8f8656193c87886cd896de4",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.98",
-        "revision": "0.221.98",
-        "contentDigest": "c6d038c40b5284c33c7edce2089ef5c9a7253f26bc6a6346bb79885008ec2799"
+        "version": "0.221.99",
+        "revision": "0.221.99",
+        "contentDigest": "d580247e1557de8a4ffaebcd87ceb01842a16e74cc68746bf639a31a421a058b"
       }
     ],
     "base": {

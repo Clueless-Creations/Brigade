@@ -3,8 +3,11 @@
 For public-facing work, audit the [public interface](public-interface.md) and saved
 v1 fixtures before inspecting implementation. The founder directed a greenfield
 architecture. Existing command names, folders, and runtime types do not constrain
-the target. ADR-0003 authorizes one current format because there are no installed
-users. Remove obsolete owners and update their callers in the same change.
+the target. ADR-0003 recorded a single-format migration before installed users existed.
+That historical assumption does not authorize removal of currently supported contracts or workspace data.
+Check current consumers, package pins, and migration obligations before removing an owner.
+Preserve supported meanings within a public major version; breaking changes require a decision and migration.
+Remove obsolete owners and update their callers together after those obligations are resolved.
 Review the README, agent guides, skill, source templates, setup and help output,
 CLI and MCP, generated schemas, and examples as one release surface. U23 and U24
 precede the internal roadmap. U25 owns the lifecycle facade and U26 owns mobile

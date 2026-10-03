@@ -8,6 +8,9 @@ Use this before App Store Connect or Google Play Console setup, Apple app-record
 
 The goal is to produce a console-ready packet that tells the user exactly where to click, what to paste, what still needs their approval, and what was verified.
 
+For a narrow ASC inspection or repair, update the existing evidence and affected fields rather than creating every packet again.
+The selected complete store workflow retains its required outputs. Handoff views are Brigade deliverables, not additional Apple submission requirements.
+
 ## Contents
 
 - Current Sources To Refresh
@@ -237,6 +240,10 @@ Packet sections:
 
 Never answer App Privacy from generic policy text alone. Use the real data inventory and SDK/vendor behavior.
 
+Apply the [location and artifact evidence rules](../trust/privacy-terms.md#apple-location-and-artifact-evidence) to source behavior and the final archive.
+Use supported `asc web privacy` reads/plans when the selected CLI web session works; otherwise use an existing authorized browser.
+Saved answers, published ASC labels, app manifests, SDK manifests, and observed telemetry establish different facts. Record which evidence exists.
+
 Interactive worksheet:
 
 - Use `business/store/app-store-listing/app-privacy-questionnaire.html` or a project-specific equivalent when the founder needs to review answers manually.
@@ -278,12 +285,15 @@ ASO and marketing rules:
 
 ### Pricing, Availability, IAP, And Subscriptions
 
+First establish the [applicable payment model](./app-store-listing-prep.md#pricing-revenuecat-and-web-funnel-alignment).
+Require product setup, review attachment, and RevenueCat reconciliation only when that model or the shipped app uses them.
+
 Click paths vary by app setup. The packet must show:
 
 - app price/free status and territory availability
 - subscription group, products, localizations, prices, intro/trial offers, review notes, and family sharing status where applicable
-- App Store Server Notification URL, shared secret/API keys where needed by RevenueCat, and sandbox tester status
-- product mapping to `revenue/REVENUE_OPS.md` and RevenueCat offering/package IDs
+- App Store Server Notification URL, shared secret/API keys, and sandbox tester status where needed by the purchase integration
+- product mapping to `revenue/REVENUE_OPS.md`, with RevenueCat offering/package IDs when RevenueCat is used
 
 Founder gates:
 
@@ -292,9 +302,9 @@ Founder gates:
 Revenue alignment:
 
 - Load `revenue-monetization.md` before product or price changes.
-- Reconcile App Store Connect products with RevenueCat entitlements/offerings/packages before applying listing or paywall copy.
+- When the app uses IAP and RevenueCat, reconcile App Store Connect products with RevenueCat entitlements/offerings/packages before applying listing or paywall copy.
 - If Stripe or RevenueCat Web is used for a web funnel, record the web checkout route, redemption link/deep link, billing portal, and whether Apple rules allow any in-app mention or call to action.
-- Do not mark pricing ready until App Store products, RevenueCat, web funnel, screenshots, terms, privacy, analytics, and review notes all use the same product IDs, prices, trial/intro details, and cancellation/refund posture.
+- Before marking pricing ready, reconcile product IDs, prices, trial/intro details, and cancellation/refund posture across the billing systems and user-facing surfaces used by the accepted payment model.
 
 ### Custom Product Pages
 
@@ -391,14 +401,17 @@ Before clicking:
 - age rating/export compliance answered, including the Age Rating Questionnaire fields `socialMedia`, `messagingAndChat`, `socialMediaAgeRestricted`, `ageAssurance`, and `userGeneratedContent`
 - `asc age-rating audit` recorded for the exact app; do not infer false from a blank field
 - IAP/subscriptions are submitted separately where required
-- review notes and demo account work on a clean install
+- reviewer access works on a clean install, with demo credentials when login is required and explanatory notes where needed
 - founder approves final submission
 
 ## App Store Connect CLI Route
 
 Use the Rork `asc` CLI to reduce clicking and make App Store Connect state inspectable, but do not let CLI automation replace the founder-facing store packet.
 
-ASC CLI-first rule: app creation, app-record inspection, metadata, localizations, screenshots, TestFlight, review status, subscriptions/IAP, RevenueCat reconciliation, and release validation should route through `app-store-connect-cli.md` before a manual-only handoff. A blocked auth session, missing role, 2FA prompt, unsigned agreement, or unapproved app name/SKU/bundle ID is a named blocker; it is not a reason to claim the agent cannot create or operate the app in App Store Connect.
+Discover supported operations through `app-store-connect-cli.md` before choosing a manual-only handoff. API keys, CLI web sessions, and browser sessions are separate.
+Check the authentication required by the selected operation. A local credential-store error does not prove an Apple permission denial.
+Use an existing authorized working browser when CLI access fails; do not require new CLI login, cookie extraction, or wider grants.
+Preserve target, account, effect scope, applicable approval, and read-back proof across routes.
 
 Safe read/dry-run uses:
 

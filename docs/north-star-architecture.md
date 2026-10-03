@@ -10,8 +10,10 @@ assigns the work. The [conformance protocol](architecture-conformance.md) explai
 how an auditor, implementer, and architecture steward use these documents.
 
 The founder's [single-mandate decision](decisions/0003-single-mandate-business-system.md)
-supersedes requirements to preserve obsolete formats or duplicate interfaces.
-There are no installed users to migrate. Keep one current contract per responsibility.
+removed obsolete formats and duplicate interfaces under its original migration assumptions.
+Its statement about installed users is historical, not evidence about current consumers.
+Keep one authoritative contract per responsibility and preserve currently supported meanings.
+Resolve current package pins, workspace data, and migration obligations before removing an owner or supported format.
 
 ## Purpose and success
 

@@ -6,7 +6,9 @@ Use this before automating App Store Connect work with the Rork `asc` CLI or the
 
 The goal is to reduce App Store Connect clicking while preserving founder control over credentials, pricing, products, privacy answers, screenshots, and final submission.
 
-Default stance: if the work is App Store Connect related, try the ASC CLI or ASC CLI skill pack route first. Do not tell the founder an agent cannot create the app, inspect ASC state, upload screenshots, manage metadata, run TestFlight, or reconcile products until `asc auth status`, the local `asc --help`/skill-pack help, and the current docs prove the route is unavailable. Missing credentials, 2FA, unsigned agreements, unapproved sticky fields, or missing founder approval are blockers, not proof the CLI cannot do the work.
+Discover the supported CLI or skill-pack capability before choosing manual console work. Check only the authentication needed by that operation.
+Use an existing authorized working route when another route fails. Missing credentials or approval block that route, not every ASC operation.
+Keep the exact account, app, version, effect, and approval scope fixed when changing routes.
 
 ## Contents
 
@@ -14,6 +16,7 @@ Default stance: if the work is App Store Connect related, try the ASC CLI or ASC
 - When To Use
 - Skill Pack Routing
 - CLI Routing
+- Privacy And Submission Readiness
 - ASC Auth Setup And Recovery
 - Verified Command Cookbook
 - Promoted In-App Purchase Images
@@ -27,21 +30,25 @@ Default stance: if the work is App Store Connect related, try the ASC CLI or ASC
 
 ## Current Sources To Refresh
 
-Refresh these before running or writing commands:
+Refresh the applicable sources before storing new commands or making a readiness claim. Reuse confirmed help for the same binary version.
 
 - App Store Connect CLI skills: `https://github.com/rorkai/app-store-connect-cli-skills`
 - App Store Connect CLI: `https://github.com/rorkai/App-Store-Connect-CLI`
 - Official Apple App Store Connect docs referenced in `store-console-workflow.md`
 - Official Apple signing/account docs referenced in `apple-signing-release.md`
 
-GitHub released Rork `asc` 5.5.0 on September 24, 2026. Local `asc` 5.5.0 help was reviewed.
+The reviewed upstream baseline is Rork `asc` 5.7.0. Local 5.7.0 capability, privacy, review, and validation help was checked on October 3, 2026.
 The CLI provides JSON-first commands for App Store Connect workflows. These include TestFlight, builds, submissions, signing, analytics, screenshots, and subscriptions.
-Reviewed guidance tracks 5.5.0. Use `asc apps view --id` for app details. Never use `asc apps view --app`.
+Use `asc apps view --id` for app details. Never use `asc apps view --app`.
 The Rork skills pack is community-maintained and is not affiliated with Apple.
 
-API-key health and an Apple web session are two proofs. `asc auth status --validate` and `asc auth doctor` speak only to the API key. `asc web auth status` speaks only to the web session. A healthy API key is not "ASC connected" and does not unlock `asc web *` reads.
+API-key access, the CLI's cached Apple web session, and an authenticated browser session are three separate proofs.
+`asc auth status --validate` and `asc auth doctor` concern API authentication. `asc web auth status` concerns the CLI web session.
+Browser access proves neither CLI authentication method. A CLI credential-store failure leaves API access unverified; it is not Apple's permission denial.
+Do not extract browser cookies or credentials to repair CLI access. Use the authorized browser route when it covers the operation.
 
-Refuse an `asc web auth login` handoff unless the winning `asc` binary is `>= 5.1.0`. 5.0.0 may continue API reads with a warn. A 503 while Apple's status page is green is a stale-client signature, not an Apple outage.
+Refuse an `asc web auth login` handoff unless the winning `asc` binary is `>= 5.1.0`. 5.0.0 may continue API reads with a warn.
+A 503 with a green status page does not identify the cause. Check the client version and affected route before diagnosing it.
 
 ## When To Use
 
@@ -56,7 +63,8 @@ Use the CLI route when:
 - Apple Developer account, bundle ID/App ID, app record, signing, certificate/profile, or first upload state needs deterministic inspection
 - RevenueCat catalog/subscription mapping needs reconciliation against ASC products
 
-Still create `store/STORE_CONSOLE.md` and `store/store-console.html`. The CLI can automate or verify pieces, but the founder-facing copy-paste packet remains the durable handoff.
+For the selected store-packet workflow, maintain its required founder-facing outputs. For a narrow read or repair, update the existing evidence owner.
+Do not create another packet merely to run an ASC command.
 
 ## Skill Pack Routing
 
@@ -88,7 +96,8 @@ When installed, route to these skill areas:
 - `asc-notarization`: macOS Developer ID archive/export/notarization when a macOS launch is in scope
 - `asc-wall-submit`: optional Wall of Apps public submission, always founder-approved
 
-For App Store listing work, also load `app-store-listing-prep.md`. CLI automation can apply or verify pieces of the listing, but the durable deliverable still needs `APP_STORE_LISTING.md`, `app-store-listing.html`, `store/STORE_CONSOLE.md`, and founder-visible approval gates.
+For App Store listing work, also load `app-store-listing-prep.md`. Preserve the selected workflow's durable outputs and applicable approval gates.
+Reuse current accepted packets and refresh affected fields rather than recreating every view.
 
 Treat `asc-app-create-ui` as the expected app-record creation route when the API route is missing or the upstream skill pack says browser automation is required. That still counts as ASC CLI skill-pack routing; it is not a reason to declare the task impossible.
 
@@ -122,6 +131,7 @@ asc validate --app "123456789" --version "1.2.3"
 asc review status --app "123456789" --output table
 asc review doctor --app "123456789" --output table
 asc review submissions-list --app "123456789" --output table
+asc review details-get --id "DETAIL_ID" --output json
 asc metadata pull --app "123456789" --version "1.2.3" --platform IOS --dir "./metadata"
 asc metadata validate --dir "./metadata" --output table
 asc metadata push --app "123456789" --version "1.2.3" --platform IOS --dir "./metadata" --dry-run --output table
@@ -150,25 +160,53 @@ Before any first-time app creation claim, refresh and record the exact creation 
 
 Use `--dry-run` and read commands first. Do not use `--confirm`, `--submit`, pricing changes, screenshot replacement, metadata apply, TestFlight external distribution, or release actions without explicit founder approval.
 
+## Privacy And Submission Readiness
+
+Check `asc capabilities` and the exact command help before choosing a browser fallback. The public API's limits are not CLI limits.
+In 5.7.0, these privacy reads use the CLI's cached web session:
+
+```bash
+asc web privacy catalog --output json
+asc web privacy pull --app "123456789" --out "./privacy.json"
+asc web privacy plan --app "123456789" --file "./privacy.json" --output json
+```
+
+Review `staleTokens`, `unrepresentableCount`, and planned changes; a successful read or plan does not establish accurate answers or publication.
+`asc web privacy apply` mutates declarations and may affect published-state metadata. `asc web privacy publish` explicitly publishes and requires `--confirm`.
+Both require applicable founder authority and read-back evidence. Never treat apply as a harmless draft or infer publication from plan success.
+
+Use `asc validate --app "123456789" --version-id "VERSION_ID"` for the exact candidate.
+With working API access and an existing CLI web session, add `--deep` for privacy publication, agreements, and applicable subscription attachment checks.
+Deep validation does not start interactive login. If its authentication route fails, record the unchecked findings and use an authorized browser when available.
+An API-only validation pass does not prove web-only checks passed. Reuse current evidence until the candidate or relevant state changes.
+
+[Apple's submission instructions](https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app) require metadata and a selected build.
+They distinguish adding a version to a draft from submitting it for review. Brigade packets organize evidence; they are not additional Apple submission requirements.
+Use existing review details and attachments where applicable. Keep reviewer credentials out of ordinary output; do not enable `--include-sensitive` for evidence capture.
+
+Determine payment-rule applicability before validating products; see [listing preparation](./app-store-listing-prep.md#pricing-revenuecat-and-web-funnel-alignment).
+An empty subscription catalog alone does not prove a missing IAP requirement.
+
 ## ASC Auth Setup And Recovery
 
-"I cannot access App Store Connect" is almost always wrong when the `asc` CLI is installed — it usually means auth is **not set up yet**, which is a fixable step, not a dead end. Work this ladder before reporting ASC as blocked.
+Use this ladder for an operation that needs API-key access. For a CLI web operation, check its web session instead.
+If an authorized browser already covers the task, a new CLI login is not a prerequisite. Credentials and access changes retain their approval boundary.
 
 **This ladder assumes you can run commands.** Every rung below is a shell command. An agent reached through a knowledge-only connection — hosted MCP, a docs surface, any context with no terminal — cannot run any of them, and for that agent "I cannot verify ASC access from here" is the accurate report, not a failure to try. Say which check is required and where it must run; do not report the account as blocked, and do not report it as healthy.
 
-1. **Check what's actually wrong.** `asc auth status --validate --output json` and `asc auth doctor`. A common output is `Error: ... missing authentication. Run 'asc auth login' or create ~/.asc/config.json (see 'asc auth init')` with the hint to set `ASC_KEY_ID` / `ASC_ISSUER_ID` / `ASC_PRIVATE_KEY_PATH`. That is a setup instruction, not an access denial.
-2. **Look for an existing keychain profile first.** Founders often already have an API key stored under a named profile (e.g. from another app on the same team). List/try profiles and use `asc --profile <Name> <cmd>` (e.g. `asc --profile Clueless apps list`). A **team** API key reaches the apps its assigned role permits — for Admin or App Manager that is normally every app on the team, which is why a profile created for another app is worth trying here. It is a candidate to verify, not proof of authority: Apple also issues **individual** keys, which reach only the apps that user can see, and a role-limited team key (Developer, Marketing, Customer Support) reaches less than an Admin one. Confirm with `asc --profile <Name> apps list` rather than assuming. Do not declare "no ASC access" before checking for an existing profile.
+1. **Classify the failed boundary.** Use `asc auth status --validate --output json` and `asc auth doctor` for the selected API profile. Missing configuration and local credential-store errors leave Apple's authorization unverified. A completed Apple response supplies different evidence. Record the exact failed operation without secrets.
+2. **Check an authorized existing profile first.** Use `asc --profile <Name> <cmd>` only for the selected account and task. Team and individual keys have different role and app scopes. Confirm target visibility without assuming that a profile from another app supplies authority here.
 3. **Do not `source` a credential/profile `.env` blindly.** Profile env files often contain shell-unsafe values (an unquoted brand name like `Clueless Clothing` makes `source clueless.env` throw `command not found: Clothing`, which then breaks **every** `asc` call). Instead: use `asc --profile <Name>`, or extract the three vars with the awk pattern in [`secrets-management.md`](../operations/secrets-management.md) ("Env file extraction — never `source`"), or run `asc auth init` (writes `~/.asc/config.json`) / `asc auth login`.
-4. **Set the env vars if no profile exists.** The `asc` CLI reads `ASC_KEY_ID`, `ASC_ISSUER_ID`, and `ASC_PRIVATE_KEY_PATH` (the **path** to the `.p8`, not the key contents). Route these through Doppler/keychain; never print the `.p8`.
-5. **Distinguish "not authenticated" from "this app/record/cert doesn't exist yet."** Healthy API read access plus `apps list` not showing the app means the **app record must be created** (via `asc-app-create-ui`/the app-create route, founder-gated) — not that ASC is inaccessible. Same for a missing distribution certificate, provisioning profile, or RevenueCat app: each is a setup step with a precise next command.
+4. **Configure credentials only when required and authorized.** The CLI reads `ASC_KEY_ID`, `ASC_ISSUER_ID`, and `ASC_PRIVATE_KEY_PATH` (the `.p8` path, not contents). Route these through Doppler/keychain; never print the `.p8`. A working authorized browser may avoid credential setup for this task.
+5. **Distinguish visibility from absence.** An app missing from `apps list` may be outside the key's app scope or omitted by pagination. Confirm the selected account, visibility, and complete listing before proposing app creation. A confirmed missing record is a setup step with its own authority boundary.
 6. **Distinguish "not authenticated" from "authenticated but not permitted."** A `403`/`FORBIDDEN`/permission-denied response is an authorization result, not a setup failure: the key is valid and the request reached Apple. Re-running `asc auth init`, re-entering credentials, or cycling this ladder will not change it. Report the role or key scope as the blocker and name what would fix it — a role change on the existing key, or a key issued at the required level — both founder-gated. Looping the ladder on a 403 is the failure mode this rung exists to stop.
-7. **Report blockers as setup steps with the exact next action and founder gate** — e.g. "ASC read access healthy via profile `X`; app record for `com.acme.app` does not exist yet → next: create app record (founder approval)". Once you have actually run the rungs above, do not write "cannot access ASC" — name the rung that failed and what it means. Where you could not run them at all, say that instead: "not verified from this connection", never a verdict either way. (Failure card: `asc-auth-not-set-up`.)
+7. **Report the affected route and next safe action.** Distinguish local credentials, expired CLI web sessions, Apple permission responses, and unverified access. Continue independent work or use another permitted working route. Where checks cannot run, report access as unverified. (Failure card: `asc-auth-not-set-up`.)
 
 ## Verified Command Cookbook
 
 These notes exist because agents repeatedly burned live-store cycles guessing flag and subcommand forms. The CLI evolves — treat every form below as "confirm with `--help` first," not as memorized fact.
 
-- **Pre-use `--help` rule.** Before the first use of any `asc` subcommand not shown in this file, run `asc <subcommand> --help` and record the confirmed flags. If a command errors on a flag, run `asc <cmd> --help` before retrying — never retry a mutating command with a guessed alternate flag. (Failure card: `asc-flag-drift`.)
+- **Pre-use `--help` rule.** Confirm each command's flags once for the winning binary version; refresh after a version change or flag error. Record the confirmed form. Never retry a mutating command with guessed flags. (Failure card: `asc-flag-drift`.)
 - **`--confirm` is a CLI-required gate, not just a founder gate.** Destructive/mutating commands (`asc review cancel`, `asc review submit`, `asc subscriptions review submit`, release actions) error and do nothing unless `--confirm` is passed. So they need _both_ the CLI `--confirm` flag _and_ explicit founder approval before you run them. Omitting `--confirm` does not "safely no-op into a dry run" — it just errors; check `--help` for the required flags before the first live call.
 - **Remote read-only mode.** Since `asc` 5.7.0, root `--read-only` or `ASC_READ_ONLY=1` refuses remote POST, PATCH, PUT, and DELETE requests before sending them. Use this as an extra API boundary for read-only probes. It does not make local file changes read-only, replace founder gates, or turn a mutating command into an approved operation.
 - **Flag value indirection.** Since `asc` 5.7.0, string flag values accept `@env:NAME` and `@file:PATH`; a literal leading `@` is written `@@`. Use secure profiles or the existing secret-management route for credentials; do not put credential contents in command history, reports, or evidence.
@@ -261,7 +299,9 @@ Safe without new approval when credentials are already configured and the user a
 
 Use `frontier-agent-operations.md` for the shared action contract. Reads, ID resolution, exports, diffs, validation, dry-runs, reviews/performance/insights, and account/status discovery are `observe`. Reversible draft changes may run only inside the exact `mutate` scope recorded in an approval envelope with before/after read-back proof. Sticky identity/security/legal fields, pricing, privacy publishing, public review responses, external testers, submission, release, cancellation, and destructive actions keep their explicit founder gate.
 
-When `asc account status` or another API read reports that agreements, tax, banking, role, or a console-only field is unavailable through the public API, use the authenticated-browser route from `frontier-agent-operations.md` rather than declaring the workflow impossible. Capture redacted state text, never credential or financial screenshots.
+When an API read cannot inspect a field, check supported CLI web-session capabilities before choosing the authenticated-browser route.
+Use the permitted working route from `frontier-agent-operations.md`; do not require new CLI authentication when the browser suffices.
+Capture redacted state text, never credential or financial screenshots. A transport change does not widen account or effect authority.
 
 Founder approval required:
 
@@ -318,14 +358,15 @@ For pricing:
 
 For release health:
 
-- use `asc-submission-health` and `asc-release-flow` for `asc validate`, digital-goods readiness, encryption/content-rights checks, App Privacy advisory, and review monitoring
+- use `asc-submission-health` and `asc-release-flow` for exact-version `asc validate`, applicable product checks, and review monitoring
+- use supported privacy pull/plan and `validate --deep` with an existing CLI web session, or record equivalent authorized browser evidence
 - use `asc-build-lifecycle`, `asc-testflight-orchestration`, and `asc-crash-triage` during beta and post-upload monitoring
 
 For App Store marketing surfaces:
 
 - use CLI/API reads and dry-runs to resolve localization IDs, screenshot set IDs, IAP/subscription IDs, custom product page IDs, In-App Event IDs, and app version IDs
 - keep manual click paths in `app-store-listing.html` even when CLI apply is available
-- do not skip App Privacy, age rating, accessibility labels, review notes, or product attachment checks because metadata dry-run succeeded
+- verify applicable App Privacy, age rating, accessibility, review notes, and product attachments; metadata dry-run success proves none of these
 
 ## Evidence Requirements
 
@@ -358,4 +399,5 @@ Record in `engineering/PRODUCTION_READINESS.md` when release work is in scope:
 - Losing track of localization IDs and uploading screenshots to the wrong locale.
 - Storing App Store Connect credentials in committed files.
 - Using unofficial skill-pack guidance without refreshing official Apple docs for the current required fields.
-- Skipping `store/store-console.html` because CLI automation exists.
+- Recreating every store packet for a narrow read, or treating Brigade's handoff files as extra Apple submission requirements.
+- Treating a local credential-store error or expired CLI web session as denial of separately authorized browser access.

@@ -59,6 +59,18 @@ For each data type, record:
 - deletion path
 - app-store disclosure mapping
 
+### Apple location and artifact evidence
+
+[Apple's privacy definitions](https://developer.apple.com/app-store/app-privacy-details/) classify location by the resolution of collected information.
+Apple explicitly lists Approximate Location Services under Coarse Location. Extra decimal places in serialization do not establish measured precision.
+Audit every reachable flow, including reduced accuracy, full accuracy, temporary upgrades, selected coordinates, SDKs, and retained telemetry.
+Declare both location categories when the app collects both. Keep uncertain behavior unresolved until evidence establishes the collection.
+
+Keep evidence for ASC disclosures, the app's embedded manifest, SDK manifests, and production telemetry separate.
+Check source behavior and configuration, then inspect manifests inside the final archive used for upload.
+Bind artifact evidence to that archive's identity; a source-file check alone does not prove the uploaded binary's declarations.
+Reconcile actual data flows, the Xcode privacy report, privacy policy, and published ASC answers before claiming privacy readiness.
+
 ## 3. Privacy Policy Drafting Rules
 
 The policy must reflect actual practices, not aspirations. Include:

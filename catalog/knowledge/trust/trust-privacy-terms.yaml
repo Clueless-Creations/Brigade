@@ -16,6 +16,14 @@ bindings:
   context_pack_ids:
     - context.trust
 sources:
+  - id: developer-apple-com-app-store-app-privacy-details
+    name: Apple App Privacy Details
+    source_type: official_docs
+    url: https://developer.apple.com/app-store/app-privacy-details
+    review_cadence_days: 7
+    claim_scope: Location disclosure follows collected resolution; Approximate Location Services is Apple's coarse-location example. Archive reconciliation is Brigade's evidence rule.
+    last_review_date: 2026-10-03
+    reviewer: b2c-maintainers
   - id: general-legal-template-collection
     name: General Legal template collection
     source_type: attorney_template_repository

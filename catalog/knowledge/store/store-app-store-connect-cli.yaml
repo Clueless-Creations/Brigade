@@ -27,17 +27,25 @@ bindings:
   context_pack_ids:
     - context.store
 sources:
+  - id: developer-apple-com-help-app-store-connect-manage-submissions-submit-an-app
+    name: Apple Submit an app
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app
+    review_cadence_days: 7
+    claim_scope: Required metadata and selected build, adding to a draft submission, and the separate final submit action. Brigade packets are not Apple fields.
+    last_review_date: 2026-10-03
+    reviewer: b2c-maintainers
   - id: github-com-rorkai-app-store-connect-cli
     name: github.com
     source_type: github
     url: https://github.com/rorkai/App-Store-Connect-CLI
     review_cadence_days: 7
-    claim_scope: Command families, auth ladder, safe automation boundaries, telemetry disclosure, and the verified command cookbook are adapted from the CLI README, local --help output, and release notes.
-    last_review_date: 2026-09-28
+    claim_scope: Command families and confirmed local 5.7.0 help for privacy catalog/pull/plan/apply/publish, deep validation, capabilities and redacted review details. Authentication routes and authority remain separate.
+    last_review_date: 2026-10-03
     reviewer: b2c-maintainers
     publisher: Rudrank Riyam (author); Rork (maintainer)
-    revision: 5.7.0 latest stable and reviewed guidance 2026-09-28
-    retrieved_at: "2026-09-28"
+    revision: 5.7.0 reviewed command baseline; local command help checked 2026-10-03
+    retrieved_at: "2026-10-03"
     rights:
       status: verified
       spdx: MIT
