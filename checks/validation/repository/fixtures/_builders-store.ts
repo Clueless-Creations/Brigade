@@ -178,7 +178,8 @@ export function writeCompleteStoreConsole(root: string): void {
     [
       "# Store Console",
       "App Store Connect click path and ASC CLI routes cover app creation, asc-id-resolver ID resolution, app info, SKU, primary locale, bundle ID, App Privacy, pricing, RevenueCat, asc-revenuecat-catalog-sync, subscription setup, localization, custom product page strategy, In-App Event planning, Higgsfield-backed marketing assets, screenshots, TestFlight, review status, review notes, and account deletion.",
-      "App Review Information notes cover purpose and target audience, setup and access instructions, the demo account decision (including an explicit no-login confirmation when there is no account system), the list of test devices and OS versions, and the external services used.",
+      "App Review Information provides contact details and review access as applicable. Review notes describe current changes and app-specific testing instructions.",
+      "Sign-in required: no — the fixture core features do not require authentication.",
       "Age Rating Questionnaire records socialMedia, messagingAndChat, socialMediaAgeRestricted, ageAssurance, and userGeneratedContent from product evidence.",
       "Run asc age-rating audit before submission.",
       "Do not infer false from a blank field.",

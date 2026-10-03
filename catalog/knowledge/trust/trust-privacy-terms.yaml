@@ -21,7 +21,15 @@ sources:
     source_type: official_docs
     url: https://developer.apple.com/app-store/app-privacy-details
     review_cadence_days: 7
-    claim_scope: Location resolution, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Scoped artifact and build decisions remain Brigade evidence rules.
+    claim_scope: Location resolution and immediate coarsening, request-only non-retention, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Serialization precision is a Brigade engineering inference, not Apple wording.
+    last_review_date: 2026-10-03
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-help-app-store-connect-manage-app-information-manage-app-pri
+    name: Apple Manage app privacy
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy
+    review_cadence_days: 7
+    claim_scope: Published responses describe collection from the currently available app version and must stay accurate as data practices change. Backend and binary sequencing is Brigade operational interpretation.
     last_review_date: 2026-10-03
     reviewer: b2c-maintainers
   - id: developer-apple-com-documentation-bundleresources-describing-data-use-in-privac

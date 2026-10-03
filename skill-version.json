@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.99",
+  "version": "0.221.100",
   "updatedAt": "2026-10-03",
   "sourcePath": ".",
   "releaseNotes": [
+    "Make Apple review access conditional on login, remove unsupported universal Notes claims, and clarify live privacy collection and stand-alone companion applicability. Stamp 0.221.100; no deployment or npm publish.",
     "Clarify Apple payment-rule applicability, location and final-archive privacy evidence, label/server/binary change boundaries, independent ASC authentication routes, privacy planning and deep validation. Stamp 0.221.99; no deployment or npm publish.",
     "Make developer setup and scoped journey delivery proportional; reuse authoritative data, distinguish implementation from proof, and preserve contracts, migration obligations and independent review.",
     "Preserve App Store Connect discovery, refresh current ASC fixture inputs, and separate the Apple primary citation from Rork adaptation rights without relaxing provenance checks.",

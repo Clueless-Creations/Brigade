@@ -79,6 +79,6 @@ Rules:
 - [ ] `Info.plist` purpose strings exist for every protected resource touched by code or SDKs.
 - [ ] `NSUserTrackingUsageDescription` and ATT flow are present when tracking is in scope.
 - [ ] Privacy Policy URL, Privacy Choices URL, in-app privacy link, and account deletion route are verified.
-- [ ] Review notes explain login/demo mode, purchase path, account deletion, privacy-sensitive flows, and entitlement restoration.
+- [ ] Review notes describe new features, functionality, and product changes specifically, plus login/access, purchase, deletion, privacy, or restoration instructions when needed to test them. Review access is resolved from actual login requirements.
 - [ ] Archive/upload proof in `store/APPLE_SIGNING.md` has no unresolved ASC delivery warnings.
 - [ ] Founder approval is recorded before ASC upload, App Review submission, or public release.

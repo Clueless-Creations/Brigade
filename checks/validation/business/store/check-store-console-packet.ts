@@ -84,6 +84,60 @@ function requirePhrases(text: string, phrases: string[], prefix: string, file: s
   }
 }
 
+// The packet records applicability; this check does not authenticate a reviewer or inspect credentials.
+function reviewFieldValues(text: string, labels: string[]): string[] {
+  const label = labels.join("|");
+  const values: string[] = [];
+  for (const line of text.split(/\r?\n/)) {
+    const plain = line.replaceAll("**", "").replaceAll("`", "");
+    const field = plain.match(new RegExp(`^\\s*(?:[-*]\\s*)?(?:${label})\\s*:\\s*(.*)$`, "i"));
+    const row = plain.match(new RegExp(`^\\s*\\|\\s*(?:${label})\\s*\\|\\s*([^|]*)\\|`, "i"));
+    if (field || row) values.push((field?.[1] ?? row?.[1] ?? "").trim());
+  }
+  return values;
+}
+
+function checkIosReviewAccess(text: string, file: string, ready: boolean): void {
+  const answers = reviewFieldValues(text, ["Sign-in required", "Login required"]).map((value) => {
+    if (/^(yes|true|required)\s*(?:$|[—–,:()-])/i.test(value)) return "required";
+    if (/^(no|false|not required)\s*(?:$|[—–,:()-])/i.test(value)) return "not_required";
+    return "unknown";
+  });
+  const unique = new Set(answers);
+  const login = unique.size === 1 ? answers[0] : "unknown";
+  const severity = ready ? "error" : "warning";
+  if (!login || login === "unknown") {
+    issues.push(
+      issue(
+        severity,
+        "store_console.review_login_applicability_unknown",
+        `${file} must resolve Sign-in required to yes or no from the shipped reviewable features before claiming ready. Missing, unknown, or conflicting answers do not establish that login is unnecessary.`,
+        file,
+      ),
+    );
+  } else if (login === "required") {
+    const access = reviewFieldValues(text, ["Review access"]);
+    if (
+      access.length === 0 ||
+      access.some(
+        (value) =>
+          value.length < 3 ||
+          /\b(TODO|TBD|unknown|missing|pending|blocked|placeholder)\b/i.test(value) ||
+          /^(none|N\/A|not (required|needed|applicable)|no (demo|account|access))\b/i.test(value),
+      )
+    ) {
+      issues.push(
+        issue(
+          severity,
+          "store_console.review_access_unresolved",
+          `${file} requires a Review access reference to the secure demo-account route or Apple-approved demo-mode instructions covering all login-gated features. Keep credentials out of the packet.`,
+          file,
+        ),
+      );
+    }
+  }
+}
+
 const AGE_RATING_FIELDS = ["socialMedia", "messagingAndChat", "socialMediaAgeRestricted", "ageAssurance", "userGeneratedContent"] as const;
 type AgeRatingField = (typeof AGE_RATING_FIELDS)[number];
 type AgeRatingAnswer = "true" | "false" | "missing";
@@ -267,11 +321,7 @@ if (!markdown) {
       "asc-id-resolver",
       "TestFlight",
       "review status",
-      // Brigade packet coverage; demo access and explanatory notes depend on the app's review needs.
       "App Review Information",
-      "demo account",
-      "test device",
-      "external service",
       "Age Rating Questionnaire",
       "asc age-rating audit",
       "messagingAndChat",
@@ -292,6 +342,7 @@ if (!markdown) {
 
   if (hasIos) {
     requireAgeRatingAnswers(markdown, markdownPath, storeConsoleDone || statusLineClaimsReady(markdown));
+    checkIosReviewAccess(markdown, markdownPath, storeConsoleDone || statusLineClaimsReady(markdown));
   }
 
   for (const line of collisionFallbackLines(markdown)) {

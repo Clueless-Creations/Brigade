@@ -62,7 +62,7 @@ For each data type, record:
 ### Apple location and artifact evidence
 
 [Apple's privacy definitions](https://developer.apple.com/app-store/app-privacy-details/) classify location by the resolution of collected information.
-Apple explicitly lists Approximate Location Services under Coarse Location. Extra decimal places in serialization do not establish measured precision.
+Apple explicitly lists Approximate Location Services under Coarse Location. As an engineering inference from that resolution-based definition, extra decimal places in serialization do not establish measured precision. Apple's [coarsening guidance](https://developer.apple.com/app-store/app-privacy-details/#additional-guidance) also permits Coarse disclosure when precise data is immediately de-identified and coarsened before storage; inspect server and partner retention before applying that case.
 Audit every reachable flow, including reduced accuracy, full accuracy, temporary upgrades, selected coordinates, SDKs, and retained telemetry.
 Declare both location categories when the app collects both. Keep uncertain behavior unresolved until evidence establishes the collection.
 
@@ -75,6 +75,8 @@ Reconcile actual data flows, the Xcode privacy report, privacy policy, and publi
 
 Apple's [App Privacy guidance](https://developer.apple.com/app-store/app-privacy-details/) permits answer updates without an app update.
 Publishing labels changes ASC metadata. Changing a bundled manifest requires a new binary and archive evidence.
+Apple's [Manage app privacy guidance](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy/) requires published responses to reflect collection from the currently available app version. Prepare future-binary answers separately until that behavior is live. Update responses when backend or configuration changes alter collection reachable from the live app; those changes do not necessarily require a new binary.
+Apple's collection definition excludes off-device data discarded after servicing the request. Confirm that neither the developer nor its partners retain it longer, including in logs or telemetry, before using that exception.
 Apple's [manifest guidance](https://developer.apple.com/documentation/bundleresources/describing-data-use-in-privacy-manifests) separates app and SDK collection; Xcode aggregates their manifests from an archive. SDK-owned collection need not be duplicated in the app's manifest.
 
 Classify retained payloads and purposes, not vendor names. Sanitized server exceptions may fit Other Diagnostic Data for App Functionality when that matches their actual use.
