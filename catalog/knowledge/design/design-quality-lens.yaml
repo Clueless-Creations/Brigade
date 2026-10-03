@@ -3,9 +3,9 @@ id: reference.design.quality-lens
 title: Quality Lens
 domain_id: domain.design
 document_path: knowledge/design/quality-lens.md
-load_when: judging whether a design-room output is actually good, not just present — the 11-star taste filter,
-  anti-generic checks, and inspiration sources applied during a design-room mutation (distinct from design-room.md's
-  protocol and surfaces-b2c.md's schemas)
+load_when: judging accepted design quality, including web workspace or agent-assisted interaction clarity;
+  use the 11-star taste filter, anti-generic checks, and inspiration sources during relevant design work
+  (distinct from design-room.md's protocol and surfaces-b2c.md's schemas)
 lifecycle: active
 bindings:
   workflow_ids:

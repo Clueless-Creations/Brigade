@@ -18,6 +18,16 @@ A B2C mobile app launch design should feel:
 
 The quality bar covers the complete accepted product: whether its design makes the promise credible, the full journey useful, and the business ready for people to use, share, and buy.
 
+## Work-centered web and agent interaction
+
+When accepted scope includes a web workspace or agent-assisted interaction, organize it around the object and work the person came to resolve. Keep a useful, stable shell and reveal contextual panels as the task needs them. Panel count follows the journey, screen size, and accessibility needs; six panes are not a universal layout. Conversations support the work rather than becoming a channel maze the person must navigate to find its state.
+
+Keep canonical status, the next responsible actor, relevant evidence, and the next permitted action visible in context. Role views serve the same accepted journey and authoritative records, with controls and information limited by actual permissions. Attribute human decisions and AI proposals or actions clearly. Acknowledged, reviewed, approved, and completed describe different events; do not infer review, approval, or completion from seeing a message or generating text.
+
+After an action, show a receipt grounded in the observed result, including pending or failed outcomes and the useful recovery action. A proposal or click is not a completed provider action. Continue within the existing authority; pause at a real permission or capability boundary with the exact blocker and resume step. Customer-product actions follow their accepted authorization and data contracts. When Brigade performs external operations, use its existing [authority and proof contract](../operations/frontier-agent-operations.md); this lens adds no approval gate.
+
+Make escalation direct and humane: explain the issue in ordinary language, identify the responsible person or service, and let the user reach them through the supported path. Agents should help resolve the issue, not hide its owner or become an opaque gatekeeper. Carry these decisions into the existing [affected journey](../product/core-loop-and-complete-scope.md#define-the-affected-journeys) and accepted design; do not create another artifact set.
+
 ## 11-Star Lens
 
 Apply the 11-star material from [`eleven-star-experience.md`](../experience/eleven-star-experience.md) as a filter over accepted product and design decisions:

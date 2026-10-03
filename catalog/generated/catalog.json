@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.100",
+  "skillVersion": "0.221.101",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3359,7 +3359,7 @@
       "path": "knowledge/design/quality-lens.md",
       "domainId": "domain.design",
       "title": "Quality Lens",
-      "loadWhen": "judging whether a design-room output is actually good, not just present — the 11-star taste filter, anti-generic checks, and inspiration sources applied during a design-room mutation (distinct from design-room.md's protocol and surfaces-b2c.md's schemas)",
+      "loadWhen": "judging accepted design quality, including web workspace or agent-assisted interaction clarity; use the 11-star taste filter, anti-generic checks, and inspiration sources during relevant design work (distinct from design-room.md's protocol and surfaces-b2c.md's schemas)",
       "lifecycle": "active",
       "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
       "sources": [],
@@ -3380,7 +3380,7 @@
       ],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/quality-lens.md",
-        "sha256": "sha256:3993d315eadc83c4944775b8704cd99985254163b1ce457ae59b607b7e078be5",
+        "sha256": "sha256:060c3cd05125d933fff0912acb1ed4555495a9282eeea9a7d3d9979b7aa91024",
         "origin": "skill"
       }
     },
@@ -3871,7 +3871,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:3f6e5cd375cdb1a995996d96becfe58b1ad1e2066537a5931eae328626ae6097",
+        "sha256": "sha256:63979d960b62ea2ca98591653ff2bb59345d662fe00cc7b616004f3def1a553b",
         "origin": "skill"
       }
     },
@@ -6282,7 +6282,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/operations/frontier-agent-operations.md",
-        "sha256": "sha256:00afc54d128ab1c975bfb9a3eaaca1023d540b27ba32cecd45ee7e9a6795bdf2",
+        "sha256": "sha256:70d23e5e94f86484bec07176edebd7121fb23cacc8545bb2438d0d566f9cb3ce",
         "origin": "skill"
       }
     },
@@ -19174,14 +19174,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "748abbb907733858af970c78b182d041d7a425276ec3bae36a82a9a772e9179e",
+    "fingerprint": "58289966eed813c44ead79136d94be8f5fcdf5ea19a5430bae4a26e1051b75c0",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.100",
-        "revision": "0.221.100",
-        "contentDigest": "626f94d8db30906a452c3204dd9ebf083194548f28e7bb096e38c79447b3ca32"
+        "version": "0.221.101",
+        "revision": "0.221.101",
+        "contentDigest": "71759e70655f9fc810e46052981b2827b15da204f9ac90d58e888214b9b00e5b"
       }
     ],
     "base": {
