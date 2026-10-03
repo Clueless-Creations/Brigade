@@ -392,6 +392,7 @@ export function register(h: Harness): void {
   const ascContract = makeEmptyFixture("asc-command-contract");
   mkdirSync(path.join(ascContract, "knowledge", "store"), { recursive: true });
   const currentAscCommands = [
+    "asc capabilities",
     "asc install-skills",
     "asc telemetry status",
     "asc-analytics-reports",
@@ -414,6 +415,13 @@ export function register(h: Harness): void {
     "asc web agreements status",
     "asc web auth status",
     "asc web review show",
+    "asc web privacy catalog",
+    "asc web privacy pull",
+    "asc web privacy plan",
+    "asc web privacy apply",
+    "asc web privacy publish",
+    "asc review details-get",
+    "--deep",
     "asc validate --app APP_ID --version VERSION_STRING or --version-id <VERSION_ID>",
   ].join("\n");
   writeFileSync(path.join(ascContract, "knowledge", "store", "app-store-connect-cli.md"), currentAscCommands, "utf8");

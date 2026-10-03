@@ -8537,11 +8537,11 @@
       {
         "workerContext": {
           "workflowId": "workflow.store.asc-cli-automation",
-          "instructions": "Discover supported `asc` CLI/skill-pack capabilities before manual console work. Reads, ID resolution, dry-runs, and readiness checks are observe actions. Check only the selected operation's authentication: API keys, cached CLI web sessions, and browser sessions are separate. Local credential-store errors do not prove Apple permission denial. Use another existing authorized working route when available, preserving account, target, and effect scope; never extract browser credentials or require a new CLI login when the browser suffices. Confirm command help once per binary version and after flag errors. Confirm visibility and pagination before treating an absent app as a missing record. Use privacy pull/plan and exact-version validate --deep when the required existing sessions work; otherwise record unchecked findings and equivalent browser evidence. Require IAP/product checks only for the applicable payment model. Reuse accepted packets and refresh affected evidence. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use required confirmation flags, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, privacy mutations or publication, agreements, final submission, and release retain their applicable authority boundary. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
+          "instructions": "Discover supported App Store Connect (`asc`) CLI/skill-pack capabilities before manual console work. Reads, ID resolution, dry-runs, and readiness checks are observe actions. Check only the selected operation's authentication: API keys, cached CLI web sessions, and browser sessions are separate. Local credential-store errors do not prove Apple permission denial. Use another existing authorized working route when available, preserving account, target, and effect scope; never extract browser credentials or require a new CLI login when the browser suffices. Confirm command help once per binary version and after flag errors. Confirm visibility and pagination before treating an absent app as a missing record. Use privacy pull/plan and exact-version validate --deep when the required existing sessions work; otherwise record unchecked findings and equivalent browser evidence. Require IAP/product checks only for the applicable payment model. Reuse accepted packets and refresh affected evidence. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use required confirmation flags, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, privacy mutations or publication, agreements, final submission, and release retain their applicable authority boundary. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:ccae822a631db07de501aa7589a60ead6d3c267ef6f034259e0771132b759679"
+          "contextFingerprint": "sha256:d206951167bb500aa84b1ba6c2481b8cb30a0556bbff629dd8559edf132a3e7e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Rork asc CLI app creation, metadata, screenshots, TestFlight, RevenueCat sync",
@@ -15838,8 +15838,8 @@
     ]
   },
   "files": {
-    "extension.yaml": "cb99b7b2f097a9c704c4bf084303b3c16fb49de4e6d2c7a3377c7bdd93c1f3d6",
-    "catalog-pack.yaml": "d43885e59a9a67cf6f91973594fa7c38c2d8a7d21ee6cc810792823103c11392",
+    "extension.yaml": "a8a780fbf7f7828f7a1996b52b5452b571187687e71be150c5deff645b84359b",
+    "catalog-pack.yaml": "dd39b30ffb2d7e2bdbed7be249d40f71d89104a05c20112edfc820c4ba4c0afc",
     "knowledge/data/analytics-attribution.md": "0bba4685b2188b9e80b7fcc14fdac9472c6c4aeac5bc59703188eaa5e26f234a",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
     "knowledge/design/audience-derived-identity.md": "04c90b39c9d41cf00257c70b4e579f3e29684254d444917b9a5690d48be74f5f",
@@ -16301,5 +16301,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:846ce35f185157df9c3ec30407fb9a702539be8aa53fc152bf0cbaf85772061d"
+  "digest": "sha256:1a9aa46229c81bba7587474374e63658a5569af4a0e4ce04c4904cb0f0f63649"
 }

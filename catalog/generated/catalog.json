@@ -14201,7 +14201,7 @@
         "use the CLI instead of clicking through the console",
         "script the App Store Connect metadata updates"
       ],
-      "instructions": "Discover supported `asc` CLI/skill-pack capabilities before manual console work. Reads, ID resolution, dry-runs, and readiness checks are observe actions. Check only the selected operation's authentication: API keys, cached CLI web sessions, and browser sessions are separate. Local credential-store errors do not prove Apple permission denial. Use another existing authorized working route when available, preserving account, target, and effect scope; never extract browser credentials or require a new CLI login when the browser suffices. Confirm command help once per binary version and after flag errors. Confirm visibility and pagination before treating an absent app as a missing record. Use privacy pull/plan and exact-version validate --deep when the required existing sessions work; otherwise record unchecked findings and equivalent browser evidence. Require IAP/product checks only for the applicable payment model. Reuse accepted packets and refresh affected evidence. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use required confirmation flags, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, privacy mutations or publication, agreements, final submission, and release retain their applicable authority boundary. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
+      "instructions": "Discover supported App Store Connect (`asc`) CLI/skill-pack capabilities before manual console work. Reads, ID resolution, dry-runs, and readiness checks are observe actions. Check only the selected operation's authentication: API keys, cached CLI web sessions, and browser sessions are separate. Local credential-store errors do not prove Apple permission denial. Use another existing authorized working route when available, preserving account, target, and effect scope; never extract browser credentials or require a new CLI login when the browser suffices. Confirm command help once per binary version and after flag errors. Confirm visibility and pagination before treating an absent app as a missing record. Use privacy pull/plan and exact-version validate --deep when the required existing sessions work; otherwise record unchecked findings and equivalent browser evidence. Require IAP/product checks only for the applicable payment model. Reuse accepted packets and refresh affected evidence. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use required confirmation flags, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, privacy mutations or publication, agreements, final submission, and release retain their applicable authority boundary. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
       "reads": [
         "store/STORE_CONSOLE.md",
         "store/store-console.html",
@@ -19164,14 +19164,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "cb2a09f3fd8359d9eac579485fa2852a95d3f1a62709118c081cef3e41d8e94b",
+    "fingerprint": "17fd4243fe697499029f454393df0e8f5613f16cbcb6a7e831c8a618820ae3c3",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
         "version": "0.221.99",
         "revision": "0.221.99",
-        "contentDigest": "e688e5e474eaefca4b1ab098fccf75b60dbd89bbb408a2e9763587dfe5583402"
+        "contentDigest": "6a005dd9e98f8ac8b152aa332424d37bb560a7d0982f9df89a4c98d370dbd638"
       }
     ],
     "base": {

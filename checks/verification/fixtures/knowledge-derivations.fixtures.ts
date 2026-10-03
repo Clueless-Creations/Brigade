@@ -320,12 +320,17 @@ export function register(harness: Harness): void {
       `omissions do not name the agreement acceptance: ${JSON.stringify(adapted.omissions)}`,
     );
     const declared = new Set(item.sources.map((entry) => entry.id));
+    const appleCitationId = "developer-apple-com-help-app-store-connect-manage-submissions-submit-an-app";
+    const adaptedSources = item.sources.filter((entry) => entry.id !== appleCitationId);
     assert(
-      adapted.sourceIds.length === item.sources.length && adapted.sourceIds.every((id) => declared.has(id)),
+      sameList([...adapted.sourceIds].sort(), adaptedSources.map((entry) => entry.id).sort()) && adapted.sourceIds.every((id) => declared.has(id)),
       `derivation names undeclared sources: ${adapted.sourceIds.join(", ")}`,
     );
+    const appleCitation = item.sources.find((entry) => entry.id === appleCitationId);
+    assert(appleCitation?.sourceType === "official_docs", "Apple submission guidance must retain its primary citation");
+    assert(!adapted.sourceIds.includes(appleCitation.id), "the Apple citation must not be claimed as MIT-adapted Rork material");
     assert(adapted.reviewer === "b2c-maintainers" && /^\d{4}-\d{2}-\d{2}$/u.test(adapted.reviewedAt), "the derivation review is unattributed or undated");
-    for (const entry of item.sources) {
+    for (const entry of adaptedSources) {
       assert(entry.publisher?.includes("Rork") === true, `${entry.id} does not name its publisher: ${String(entry.publisher)}`);
       assert(entry.rights?.status === "verified" && entry.rights.spdx === "MIT", `${entry.id} rights are not verified MIT`);
       assert(entry.rights.evidence !== undefined && entry.rights.evidenceSha256 !== undefined, `${entry.id} records no rights evidence`);
@@ -336,10 +341,7 @@ export function register(harness: Harness): void {
         entry.upstreamId !== undefined && existsSync(path.join(skillRoot, "catalog/upstreams", `${entry.upstreamId}.yaml`)),
         `${entry.id} names no upstream manifest`,
       );
-      assert(
-        entry.revision !== undefined && /^\d{4}-\d{2}-\d{2}$/u.test(entry.retrievedAt ?? ""),
-        `${entry.id} lacks a revision or valid retrieval date`,
-      );
+      assert(entry.revision !== undefined && /^\d{4}-\d{2}-\d{2}$/u.test(entry.retrievedAt ?? ""), `${entry.id} lacks a revision or valid retrieval date`);
       assert(!/auto-discovered/iu.test(entry.claimScope), `${entry.id} still carries the placeholder claim scope`);
     }
     const issues = validateKnowledgePackages([item], skillRoot, domains, workflows, contextPacks, subscribers, loadPinnedKnowledgeFreshnessNow(skillRoot))
