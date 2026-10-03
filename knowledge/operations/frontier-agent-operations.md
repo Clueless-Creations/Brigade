@@ -169,6 +169,8 @@ A completed external action needs:
 - redaction attestation
 - reconciliation into canonical lane docs, provider proof when applicable, `state/business-state.json`
 
+For user-facing operation status and controls, apply the [web interaction lens](../design/quality-lens.md#work-centered-web-and-agent-interaction) alongside this authority and proof contract.
+
 Run `npm run check:agent-operations -- --root .` before claiming authenticated operations, provider mutations, public responses, research provenance, or native-device operations are ready.
 
 ## Failure Conditions
