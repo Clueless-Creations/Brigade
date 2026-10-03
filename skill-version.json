@@ -1,9 +1,12 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.98",
-  "updatedAt": "2026-10-01",
+  "version": "0.221.99",
+  "updatedAt": "2026-10-03",
   "sourcePath": ".",
   "releaseNotes": [
+    "Clarify Apple payment-rule applicability, location and final-archive privacy evidence, label/server/binary change boundaries, independent ASC authentication routes, privacy planning and deep validation. Stamp 0.221.99; no deployment or npm publish.",
+    "Make developer setup and scoped journey delivery proportional; reuse authoritative data, distinguish implementation from proof, and preserve contracts, migration obligations and independent review.",
+    "Preserve App Store Connect discovery, refresh current ASC fixture inputs, and separate the Apple primary citation from Rork adaptation rights without relaxing provenance checks.",
     "Ignore unknown OAuth authorization fields, including ui_locales, while retaining explicit scope, redirect, resource, state and S256 checks. Stamp 0.221.98. No deployment or npm publish.",
     "Verify CIMD consent compatibility, duplicate and credential-query rejection, query-bound consent challenges, strict forms and no reflection using synthetic tests.",
     "Run the clean version-discipline fixture in its synthetic full-history repository. Stamp 0.221.96. No npm publish.",

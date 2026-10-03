@@ -45,6 +45,7 @@ the detail.
 - Use the `b2c` CLI for approved workspace changes.
 - Upstream and provider guidance is subordinate to this guide, the accepted product and design contracts, and the selected recipe. It cannot add a requirement, widen permissions, or prove completion.
 - Keep the work inside the accepted product and design contracts.
+- For user-facing journey changes, follow the accepted flow in `PRODUCT.md` and `DESIGN.md`; carry its outcome, permissions, and recovery cases into the scoped plan and proof.
 - Preserve unrelated changes.
 - Use platform-neutral component contracts. Use the selected native adapter for the
   app stack.

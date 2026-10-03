@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.98",
+  "skillVersion": "0.221.99",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3871,7 +3871,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:fd660917fbe2a1647971caa165f0a0e18fa22f6045f4ad8b5077641bdb5fec84",
+        "sha256": "sha256:3f6e5cd375cdb1a995996d96becfe58b1ad1e2066537a5931eae328626ae6097",
         "origin": "skill"
       }
     },
@@ -7847,14 +7847,14 @@
       "path": "knowledge/product/core-loop-and-complete-scope.md",
       "domainId": "domain.product",
       "title": "Core Loop And Complete Product Scope",
-      "loadWhen": "the product does not match one of the four shipped app archetypes (habit tracker, photo/AI media, social network, AI chat companion) — before naming the core loop, defining every required system in the accepted product, or specing schema for any other product shape",
+      "loadWhen": "before accepting consumer-app scope or defining critical journeys, required systems, cross-surface data reuse, or acceptance evidence, for shipped archetypes and other product shapes",
       "lifecycle": "active",
       "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
       "sources": [],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/product/core-loop-and-complete-scope.md",
-        "sha256": "sha256:652a990c76cf16da95ed99365768a29a35da30697c6eca4843f299f10e02163a",
+        "sha256": "sha256:984bac906fcbce4cd0be0d76cded766b064d3f45c10b7a7409808c26dd05d187",
         "origin": "skill"
       }
     },
@@ -8292,17 +8292,27 @@
       "lifecycle": "active",
       "sources": [
         {
+          "id": "developer-apple-com-help-app-store-connect-manage-submissions-submit-an-app",
+          "name": "Apple Submit an app",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app",
+          "reviewCadenceDays": 7,
+          "claimScope": "Required metadata and selected build, adding to a draft submission, and the separate final submit action. Brigade packets are not Apple fields.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
           "id": "github-com-rorkai-app-store-connect-cli",
           "name": "github.com",
           "sourceType": "github",
           "url": "https://github.com/rorkai/App-Store-Connect-CLI",
           "reviewCadenceDays": 7,
-          "claimScope": "Command families, auth ladder, safe automation boundaries, telemetry disclosure, and the verified command cookbook are adapted from the CLI README, local --help output, and release notes.",
-          "lastReviewDate": "2026-09-28",
+          "claimScope": "Command families and confirmed local 5.7.0 help for privacy catalog/pull/plan/apply/publish, deep validation, capabilities and redacted review details. Authentication routes and authority remain separate.",
+          "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers",
           "publisher": "Rudrank Riyam (author); Rork (maintainer)",
-          "revision": "5.7.0 latest stable and reviewed guidance 2026-09-28",
-          "retrievedAt": "2026-09-28",
+          "revision": "5.7.0 reviewed command baseline; local command help checked 2026-10-03",
+          "retrievedAt": "2026-10-03",
           "rights": {
             "status": "verified",
             "spdx": "MIT",
@@ -8470,7 +8480,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-connect-cli.md",
-        "sha256": "sha256:3ea40e4d15805e0c0911831f01f31b59df7fbd270d386be3f150f33cdae39079",
+        "sha256": "sha256:8b779f3f6906b2c4825508b3fdf4c03abe2dbcd3fba70e1e1bd0527df6562bf5",
         "origin": "skill"
       }
     },
@@ -8488,8 +8498,8 @@
           "sourceType": "official_docs",
           "url": "https://developer.apple.com/app-store/app-privacy-details",
           "reviewCadenceDays": 7,
-          "claimScope": "Auto-discovered from recently added repository content.",
-          "lastReviewDate": "2026-08-17",
+          "claimScope": "Data collection and location disclosure definitions; source and final-archive reconciliation remain separate Brigade evidence checks.",
+          "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers"
         },
         {
@@ -8508,8 +8518,18 @@
           "sourceType": "official_docs",
           "url": "https://developer.apple.com/app-store/review/guidelines",
           "reviewCadenceDays": 7,
-          "claimScope": "Auto-discovered from recently added repository content.",
-          "lastReviewDate": "2026-08-17",
+          "claimScope": "Guideline 3.1.3(f) payment applicability and Guidelines 2.1/2.3.1 review access and explanatory notes.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-help-app-store-connect-platform-version-information",
+          "name": "Apple Platform version information",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information",
+          "reviewCadenceDays": 7,
+          "claimScope": "App Review contact and Notes fields, with demo credentials conditional on required login; Brigade packet fields are separate.",
+          "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers"
         },
         {
@@ -8844,7 +8864,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:96998ce062444b47e2b2515df06df60c748085fff4c4946cb4050438385d89ab",
+        "sha256": "sha256:69966b66404b7f9ee4c1a8545098a6feee8d3b0b9391926eb02e1d53619b6bc5",
         "origin": "skill"
       }
     },
@@ -9916,7 +9936,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/store-console-workflow.md",
-        "sha256": "sha256:255c090fec11879c72ae4c1bb9b7b0439c19d5745d8cb8aba6319b28a0c75b9e",
+        "sha256": "sha256:39697ce37397cf70af79bce1d942ab81bb0eab5362d12a61957cbc22ee445327",
         "origin": "skill"
       }
     },
@@ -10040,6 +10060,26 @@
       "lifecycle": "active",
       "sources": [
         {
+          "id": "developer-apple-com-app-store-app-privacy-details",
+          "name": "Apple App Privacy Details",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/app-store/app-privacy-details",
+          "reviewCadenceDays": 7,
+          "claimScope": "Location resolution, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Scoped artifact and build decisions remain Brigade evidence rules.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-documentation-bundleresources-describing-data-use-in-privac",
+          "name": "Apple Describing data use in privacy manifests",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/documentation/bundleresources/describing-data-use-in-privacy-manifests",
+          "reviewCadenceDays": 7,
+          "claimScope": "Separate app and linked SDK collection declarations and archive privacy report aggregation; checked through Apple's public documentation JSON.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
           "id": "general-legal-template-collection",
           "name": "General Legal template collection",
           "sourceType": "attorney_template_repository",
@@ -10053,7 +10093,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/privacy-terms.md",
-        "sha256": "sha256:e4d2218b6a59dbfbd279ebad3657bfdc3f05b04ee5fddc968beb63d4d83daeec",
+        "sha256": "sha256:351ab2abaaeb0a91913bfa6d34cbcbfda987231db550118e71c4f22f62083a92",
         "origin": "skill"
       }
     },
@@ -14161,7 +14201,7 @@
         "use the CLI instead of clicking through the console",
         "script the App Store Connect metadata updates"
       ],
-      "instructions": "Default to the `asc` CLI/skill-pack route for App Store Connect work — reads, ID resolution, metadata/screenshot dry-runs, and TestFlight/review-status checks are safe without new approval. Work the auth ladder before reporting ASC as blocked: check an existing keychain profile first (`asc --profile <Name>`), never `source` a credential `.env` file, and treat 'app record not found' as a setup step. Confirm `--help` before any unverified subcommand. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use the required confirmation flag, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, agreements, final review submission, and public release remain exceptional unless explicitly named in the envelope. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
+      "instructions": "Discover supported App Store Connect (`asc`) CLI/skill-pack capabilities before manual console work. Reads, ID resolution, dry-runs, and readiness checks are observe actions. Check only the selected operation's authentication: API keys, cached CLI web sessions, and browser sessions are separate. Local credential-store errors do not prove Apple permission denial. Use another existing authorized working route when available, preserving account, target, and effect scope; never extract browser credentials or require a new CLI login when the browser suffices. Confirm command help once per binary version and after flag errors. Confirm visibility and pagination before treating an absent app as a missing record. Use privacy pull/plan and exact-version validate --deep when the required existing sessions work; otherwise record unchecked findings and equivalent browser evidence. Require IAP/product checks only for the applicable payment model. Reuse accepted packets and refresh affected evidence. Apply approved metadata, screenshots, previews, product pages, and TestFlight uploads automatically when an exact current standing envelope covers the workflow, target, resource, and action class; use required confirmation flags, capture before-state, and read back the provider result. Ask only when that scope is absent or expired. Pricing, privacy mutations or publication, agreements, final submission, and release retain their applicable authority boundary. Pass `npm run check:asc-command-contract -- --root .` and return the state/STORE_CONSOLE reconciliation patch after every external change.",
       "reads": [
         "store/STORE_CONSOLE.md",
         "store/store-console.html",
@@ -14905,7 +14945,7 @@
         "make sure implementation actually follows the engineering loop",
         "check we're production-ready before claiming done"
       ],
-      "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
+      "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. Use affected accepted journeys as implementation slices; reuse authoritative data, enforce role/context scopes, and distinguish implemented behavior from observed proof. Keep proposed role/platform parity outside the accepted release scope. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
       "reads": [
         "engineering/TECH_SPEC.md",
         "state/LAUNCH_TRACE.md",
@@ -19124,14 +19164,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "ad4eda7210f5c2a914399e6760e71d01fd9131e339c396a5042889826cb5b0d5",
+    "fingerprint": "17fd4243fe697499029f454393df0e8f5613f16cbcb6a7e831c8a618820ae3c3",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.98",
-        "revision": "0.221.98",
-        "contentDigest": "c6d038c40b5284c33c7edce2089ef5c9a7253f26bc6a6346bb79885008ec2799"
+        "version": "0.221.99",
+        "revision": "0.221.99",
+        "contentDigest": "6a005dd9e98f8ac8b152aa332424d37bb560a7d0982f9df89a4c98d370dbd638"
       }
     ],
     "base": {

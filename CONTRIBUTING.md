@@ -4,25 +4,26 @@ Brigade gives agents primitives for building and operating consumer-app
 businesses. A contribution earns its place by making the workflows, knowledge,
 execution, or evidence more useful for that job.
 
-Start with the [documentation index](docs/README.md), the
-[extension guide](docs/guides/extend-the-system.md), and the
-[public interface](docs/public-interface.md).
+Start with [AGENTS.md](AGENTS.md), its matching router, and the affected source
+and tests. Use the [documentation index](docs/README.md) for orientation when
+needed. Load the [extension guide](docs/guides/extend-the-system.md) for extension
+work and the [public interface](docs/public-interface.md) for contract work.
 
 ## Start
 
 Use Node.js 24.
 
+For a fresh checkout, install dependencies or reuse a verified installation.
+Run this when the dependency lockfile or Node runtime changes:
+
 ```bash
 npm ci
 ```
 
-Read these files before editing:
-
-1. `README.md`
-2. `AGENTS.md`
-3. `SKILL.md`, or the contributor or maintainer router that `AGENTS.md` names for your scope
-4. `docs/guides/runtime-package.md`
-5. The source and focused tests for your change
+Reuse a verified dependency installation when those inputs match. Read
+`README.md` when product orientation is needed, and
+`docs/guides/runtime-package.md` for package, installation, or runtime work.
+Other prerequisites come from the selected router and affected owners.
 
 Edit the repository source. Do not edit an installed skill copy.
 
@@ -167,8 +168,10 @@ verification still exists; it is explicit.
 
 ```text
 Every change:
-  npm ci
   npm run audit:ci -- --lane presubmit
+
+Missing verified dependencies or changed dependency/Node inputs:
+  npm ci
 
 Matches the change (focused, while iterating):
   npm run validate:skill          # local only; paste on the PR

@@ -66,18 +66,21 @@ an upstream skill name or introduce a competing app-context artifact.
 
 ## Required Outputs
 
-For iOS store submission or marketing prep, produce:
+For the selected complete listing workflow, produce its required outputs:
 
 - `APP_STORE_LISTING.md`: canonical Apple listing, privacy, pricing, localization, custom product page, In-App Event, screenshot, and approval packet.
 - `store/APPLE_APP_STORE_REQUIREMENTS.md`: pre-ASC upload gate covering privacy manifest files, required reason APIs, third-party SDK manifests/signatures, Xcode privacy report, App Privacy labels, purpose strings, ATT, account deletion, review notes, and archive/upload warnings.
 - `app-store-listing.html`: founder-facing copy-paste view with ASC click paths, field limits, character counts, and status badges.
 - `app-privacy-questionnaire.html`: interactive local worksheet for Apple App Privacy data types, linked/tracking/purpose answers, vendors, and proof.
 - `store/STORE_CONSOLE.md` and `store/store-console.html`: manual console packet across App Store Connect and Play Console when relevant.
-- `revenue/REVENUE_OPS.md`: product, entitlement, offering, price, trial, intro offer, RevenueCat/Stripe/web funnel mapping, and sandbox proof.
+- `revenue/REVENUE_OPS.md`: the applicable payment model, product mappings, and purchase evidence; explain non-applicability when no store products are required.
 - `SCREENSHOTS.md`: slot-by-slot screenshot/app-preview plan, ParthJadhav/app-store-screenshots export route when used, iPhone/iPad device-well matrix, and ASC CLI upload proof.
 - `SCREENSHOT_RUBRIC.md`: the grading rubric and separate-pass grader protocol behind `grade-screenshots.ts` and `check:store-screenshots`. Seed it from [`business/store/app-store-listing/SCREENSHOT_RUBRIC.md`](../../examples/workspace/business/store/app-store-listing/SCREENSHOT_RUBRIC.md) next to `SCREENSHOTS.md` so the grader agent scores against the same dimensions the validator enforces.
 
 Small projects may merge the listing packet into `store/STORE_CONSOLE.md`, but keep the App Privacy questionnaire and HTML copy-paste surface when privacy, subscriptions, localization, screenshots, or custom product pages are in scope.
+
+For a narrow read or repair, reuse the existing packet and refresh affected evidence. Do not recreate unrelated marketing surfaces.
+These are Brigade workflow outputs, not extra Apple submission fields. Reuse valid scoped approval; changed targets or effects require matching authority.
 
 ## Listing Packet Shape
 
@@ -127,21 +130,31 @@ The worksheet should ask:
 
 Use `business/store/app-store-listing/app-privacy-questionnaire.html` as the local interactive worksheet or render an equivalent project-specific HTML page.
 
+Apply the [location and artifact evidence rules](../trust/privacy-terms.md#apple-location-and-artifact-evidence).
+Scope label, binary, and telemetry work using the [privacy change boundaries](../trust/privacy-terms.md#apple-telemetry-and-change-boundaries).
+Use supported CLI privacy pull/plan or an authorized browser before requesting manual re-entry of already verified answers.
+
 ## Pricing, RevenueCat, And Web Funnel Alignment
 
-Load `revenue-monetization.md` before pricing or product mutations. The App Store listing cannot be launch-ready unless pricing and entitlement truth line up across:
+Determine payment-rule applicability from the shipped experience before requiring ASC products or RevenueCat reconciliation.
+[Apple guideline 3.1.3(f)](https://developer.apple.com/app-store/review/guidelines/) permits qualifying free companions to paid web tools without IAP.
+That route requires no purchasing inside the app and no calls to action for purchase outside the app. Document the evidence for those conditions and the applicable storefront rules.
+An empty subscription catalog alone is not an IAP blocker; a web subscription alone does not establish an exemption.
+When IAP is required or used, preserve product, review, entitlement, and purchase checks. Do not change the business model merely to satisfy a tool checklist.
 
-- App Store Connect products/subscriptions
-- RevenueCat products, entitlements, offerings, packages, web billing, web purchase links, or redemption links
+Load `revenue-monetization.md` before pricing or product mutations. Reconcile pricing and entitlements across the surfaces used by the accepted payment model:
+
+- App Store Connect products/subscriptions when IAP is used
+- RevenueCat products, entitlements, offerings, packages, web billing, web purchase links, or redemption links when RevenueCat is used
 - Stripe products/prices/customer portal/webhooks when web billing is used
-- in-app paywall copy and restore purchases
-- web funnel and landing page pricing
+- in-app paywall copy and restore purchases when present
+- web funnel and landing page pricing when present
 - terms, privacy, refund/cancellation language, screenshots, and review notes
 - analytics events and revenue dimensions
 
 Founder approval is required before creating live products, changing prices, changing trials/intro offers, publishing purchase links, submitting IAP/subscriptions for review, or enabling external purchase calls to action.
 
-For every product, record:
+For each actual IAP product, record the applicable fields:
 
 - ASC product ID and type
 - subscription group and rank
@@ -262,12 +275,12 @@ Do not call the App Store listing ready unless:
 - live ASC metadata was read via `asc metadata pull` (or the asc-metadata-sync read route) before any metadata audit or diff; build log files must not be used as the authoritative current App Store Connect state
 - `PrivacyInfo.xcprivacy` is present in the app target resources before a ready/upload claim
 - required reason API declarations, third-party SDK privacy manifests/signatures, Xcode privacy report, protected-resource purpose strings, ATT, App Privacy labels, account deletion, review notes, and archive/upload warnings are reconciled before App Store Connect upload
-- the App Review Information Notes packet is written (purpose+audience, setup/access instructions, demo credentials OR an explicit no-login "no account, no demo needed" confirmation with the demo-account-required flag cleared, test devices+OS, external services, regional differences, regulated-material proof) — empty notes or a missing no-login confirmation cause a Guideline 2.1 "Information Needed" rejection (failure card: `asc-review-information-missing`)
+- App Review Information provides current contact details and working access to all reviewable features. Supply demo credentials when login is required. Notes explain new or non-obvious features, product changes, and any settings, services, or account details needed to test them. Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and Guidelines 2.1/2.3.1; Brigade's supporting packet fields do not create additional Apple requirements or predict automatic rejection.
 - every **promoted** in-app purchase/subscription has a unique 1024×1024 promotional image that depicts that specific product — never the app icon and never a duplicate across products — or the promotional image is removed for products that will not be promoted (failure card: `asc-promoted-iap-image-duplicate`; Guideline 2.3.2). Produce each image via `higgsfield generate create gpt_image_2 --aspect_ratio 1:1` with a per-product DESIGN.md brief (palette, product name, key benefit, banned aesthetics, intended surface: promoted-IAP). Spend-confirm before generating; record each output in `CONTENT_ASSETS.md` with `prompt_brief` and approval gate. Cross-ref `app-store-connect-cli.md` for the ASC upload route and `revenue-monetization.md` for product/entitlement source of truth. See the **Cheap-First Direction** recipe in `tool-recipes/visual-and-motion-production.md` as a spend-reduction option at the spend-confirmation prompt.
 - listing copy (promotional text, description, keywords, What's New notes) passes the `no-slop-writing.md` self-check (§6) in the business's `strategy/BRAND.md` voice before the packet is called ready
 - default listing fields are paste-ready with character/byte counts
 - App Privacy answers are derived from real data inventory and third-party partners
-- pricing/subscriptions/products match RevenueCat/Stripe/web funnel/paywall/legal copy
+- pricing, products, entitlements, and legal copy agree across the surfaces used by the accepted payment model
 - screenshots/previews have real app UI, final dimensions, locale/device targets, and upload status
 - `SCREENSHOTS.md` proves raw captures, composed production assets, iPhone/iPad device wells, App Icon/App Preview route, visual QA, and `check-store-screenshots` status
 - custom product pages, In-App Events, and ASA/marketing routing are either planned with proof or explicitly not needed

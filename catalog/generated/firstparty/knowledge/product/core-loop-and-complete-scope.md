@@ -15,6 +15,31 @@ supplied choice. Escalate a genuinely ambiguous product decision only when its a
 not delegated. Record product meaning in `product.yaml`; render `PRODUCT.md`. Never write
 product decisions into reducer-owned execution state.
 
+## Define the affected journeys
+
+For each critical journey in the accepted scope, connect the user's role, goal, and starting state
+to the next useful action. Specify the authority and existing data that action uses, its pending
+and exception states, its recovery path, and the observable result that would establish success.
+Reuse the accepted product and design contracts; add missing detail to their existing owners.
+A narrow repair needs only the affected journey, not a new workshop or artifact set.
+
+Lead with the user's current job. For a scheduling journey, show the next booking or availability
+action, current commitment, or missing prerequisite before a feature tour. Reuse known profile
+information where purpose and permission allow; ask only for information the next action needs.
+
+When intake, web, and mobile share a person's identity and profile, name the authoritative records
+and their identity mapping. Reuse that owner across the selected surfaces rather than creating
+independent profiles that drift. Role, brand or organization, and region views follow the actual
+authorization contract. Client filters do not grant access; verify applicable cross-scope denials
+as well as successful reads and writes through the selected backend's enforcement mechanism.
+
+Keep proposed parity for another role or platform separate from the accepted release scope.
+Parity already required by the promise remains pending until it has evidence.
+
+Report implementation and proof separately for each affected journey. Link observed client behavior
+to the corresponding data or provider result when applicable. Include the meaningful pending,
+denied, exception, and recovery cases. Unrun paths remain unverified even when the code compiles.
+
 ## Enumerate every required system
 
 Work backward from the promise and every critical journey. Name the systems required to make

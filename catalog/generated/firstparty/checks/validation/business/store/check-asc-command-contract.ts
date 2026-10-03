@@ -27,6 +27,14 @@ const requiredContractTerms = [
   "asc web agreements status",
   "asc web auth status",
   "asc web review show",
+  "asc capabilities",
+  "asc web privacy catalog",
+  "asc web privacy pull",
+  "asc web privacy plan",
+  "asc web privacy apply",
+  "asc web privacy publish",
+  "asc review details-get",
+  "--deep",
   "asc-analytics-reports",
   "asc-ad-hoc-distribution",
   "--version-id <VERSION_ID>",
@@ -75,8 +83,16 @@ if (!existsSync(referencePath)) {
 
 const version = spawnSync("asc", ["--version"], { encoding: "utf8" });
 if (!version.error && version.status === 0) {
-  const installedMajor = parseMajorVersion(`${version.stdout ?? ""}\n${version.stderr ?? ""}`);
-  verifyLiveHelp(["validate", "--help"], ["--version", "--version-id"]);
+  const installedVersion = parseVersion(`${version.stdout ?? ""}\n${version.stderr ?? ""}`);
+  const installedMajor = installedVersion?.major ?? null;
+  const reviewedReadiness = installedVersion && (installedVersion.major > 5 || (installedVersion.major === 5 && installedVersion.minor >= 7));
+  verifyLiveHelp(["validate", "--help"], ["--version", "--version-id", ...(reviewedReadiness ? ["--deep", "--apple-id"] : [])]);
+  // Older 5.x API-only clients remain supported; the reviewed 5.7 baseline adds these checks.
+  if (reviewedReadiness) {
+    verifyLiveHelp(["capabilities", "--help"], ["--area", "--status"]);
+    verifyLiveHelp(["web", "privacy", "--help"], ["catalog", "pull", "plan", "apply", "publish"]);
+    verifyLiveHelp(["review", "details-get", "--help"], ["--id"]);
+  }
   if (installedMajor !== null && installedMajor < 5) {
     issues.push(
       issue(
@@ -154,13 +170,14 @@ function hasHelpToken(output: string, term: string): boolean {
   return new RegExp(`^\\s{0,12}${escapeRegex(term)}(?::|\\s|$)`, "m").test(output);
 }
 
-function parseMajorVersion(output: string): number | null {
-  const match = output.match(/(?:^|\s)v?(\d+)\.\d+\.\d+(?:\s|$)/);
-  if (!match?.[1]) {
+function parseVersion(output: string): { major: number; minor: number } | null {
+  const match = output.match(/(?:^|\s)v?(\d+)\.(\d+)\.\d+(?:\s|$)/);
+  if (!match?.[1] || !match[2]) {
     return null;
   }
   const major = Number.parseInt(match[1], 10);
-  return Number.isFinite(major) ? major : null;
+  const minor = Number.parseInt(match[2], 10);
+  return Number.isFinite(major) && Number.isFinite(minor) ? { major, minor } : null;
 }
 
 function code(value: string): string {
