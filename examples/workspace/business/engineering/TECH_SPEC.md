@@ -6,6 +6,15 @@ Status: partial until implementation contracts, data model, provider boundaries,
 
 For core engineering work, check Compound Engineering freshness, route through CE skills when available, and record plan, work, review, test, and proof evidence.
 
+## Affected Accepted Journeys
+
+For user-facing behavior, link the affected accepted product/design flow and reuse its existing contract. Add missing detail here only when needed; changes outside journey behavior do not need this section completed.
+
+| Journey / source | Role, goal, starting state | Next useful action / outcome | Authority and reused data owner | Pending, exception, recovery | Implemented behavior / observed proof / remaining uncertainty |
+| ---------------- | -------------------------- | ---------------------------- | ------------------------------- | ---------------------------- | ------------------------------------------------------------ |
+
+Share authoritative profile records across selected intake, web, and mobile surfaces when identity and purpose match. Prove applicable role, organization/brand, and region boundaries in the authorization model. Keep proposed role/platform parity outside the accepted release scope; retain any parity the promise already requires.
+
 ## Data Contract
 
 The backend-agnostic contract the build must satisfy regardless of provider. See `knowledge/engineering/backend-data-contract.md`; gate with `npm run check:backend-contract -- --root . --state state/business-state.json`.

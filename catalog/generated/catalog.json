@@ -3871,7 +3871,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:0407bdbe36a18c0e9034bc4c162c56ba23df687d62228cab76eb206ca17ddcb5",
+        "sha256": "sha256:3f6e5cd375cdb1a995996d96becfe58b1ad1e2066537a5931eae328626ae6097",
         "origin": "skill"
       }
     },
@@ -7847,14 +7847,14 @@
       "path": "knowledge/product/core-loop-and-complete-scope.md",
       "domainId": "domain.product",
       "title": "Core Loop And Complete Product Scope",
-      "loadWhen": "the product does not match one of the four shipped app archetypes (habit tracker, photo/AI media, social network, AI chat companion) — before naming the core loop, defining every required system in the accepted product, or specing schema for any other product shape",
+      "loadWhen": "before accepting consumer-app scope or defining critical journeys, required systems, cross-surface data reuse, or acceptance evidence, for shipped archetypes and other product shapes",
       "lifecycle": "active",
       "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
       "sources": [],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/product/core-loop-and-complete-scope.md",
-        "sha256": "sha256:652a990c76cf16da95ed99365768a29a35da30697c6eca4843f299f10e02163a",
+        "sha256": "sha256:984bac906fcbce4cd0be0d76cded766b064d3f45c10b7a7409808c26dd05d187",
         "origin": "skill"
       }
     },
@@ -14945,7 +14945,7 @@
         "make sure implementation actually follows the engineering loop",
         "check we're production-ready before claiming done"
       ],
-      "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
+      "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. Use affected accepted journeys as implementation slices; reuse authoritative data, enforce role/context scopes, and distinguish implemented behavior from observed proof. Keep proposed role/platform parity outside the accepted release scope. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
       "reads": [
         "engineering/TECH_SPEC.md",
         "state/LAUNCH_TRACE.md",
@@ -19164,14 +19164,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "27581a10edc46a2cb0660ef63c7b2a74e5fb99a985318dbb839163435637a697",
+    "fingerprint": "cb2a09f3fd8359d9eac579485fa2852a95d3f1a62709118c081cef3e41d8e94b",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
         "version": "0.221.99",
         "revision": "0.221.99",
-        "contentDigest": "c1ff9b6397ba174ef1c2eba78012fcc7e12e6368d2bdf9b7d58b0de094441c52"
+        "contentDigest": "e688e5e474eaefca4b1ab098fccf75b60dbd89bbb408a2e9763587dfe5583402"
       }
     ],
     "base": {
