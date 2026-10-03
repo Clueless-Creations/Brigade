@@ -1646,6 +1646,9 @@ export function registerReviewAccess(h: Harness): void {
     ["missing", []],
     ["pending", ["Review access: TBD"]],
     ["not-needed", ["Review access: not required"]],
+    ["acknowledgement", ["Review access: yes"]],
+    ["boolean", ["Review access: true"]],
+    ["unset", ["Review access: not set"]],
   ] as const) {
     runFixture(
       `login-required review readiness rejects ${name} access`,
@@ -1674,4 +1677,26 @@ export function registerReviewAccess(h: Harness): void {
     1,
     "store_console.placeholder_or_unknown",
   );
+  const reusedNotes =
+    "Review notes: N/A — metadata-only submission; no new functionality or product/testing changes; current approved review information reused from APP_STORE_LISTING.md.";
+  runFixture(
+    "review readiness accepts explained reuse of current approved Notes",
+    reviewPacket("review-notes-reused", ["Sign-in required: no", reusedNotes]),
+    reviewCheck,
+    0,
+  );
+  for (const [name, notes] of [
+    ["bare", "Review notes: N/A"],
+    ["no-approved-information", "Review notes: N/A — no new functionality."],
+    ["unknown-reuse", `${reusedNotes} Review instructions remain unknown.`],
+    ["unresolved-privacy", `${reusedNotes} App Privacy: N/A.`],
+  ] as const) {
+    runFixture(
+      `review readiness rejects ${name} Notes explanation`,
+      reviewPacket(`review-notes-${name}`, ["Sign-in required: no", notes]),
+      reviewCheck,
+      1,
+      "store_console.placeholder_or_unknown",
+    );
+  }
 }

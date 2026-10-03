@@ -122,8 +122,9 @@ function checkIosReviewAccess(text: string, file: string, ready: boolean): void 
       access.some(
         (value) =>
           value.length < 3 ||
-          /\b(TODO|TBD|unknown|missing|pending|blocked|placeholder)\b/i.test(value) ||
-          /^(none|N\/A|not (required|needed|applicable)|no (demo|account|access))\b/i.test(value),
+          /\b(TODO|TBD|unknown|missing|pending|blocked|placeholder|not set|not configured|unverified|unavailable|fill in|to fill)\b/i.test(value) ||
+          /^(none|N\/A|not (required|needed|applicable)|no (demo|account|access))\b/i.test(value) ||
+          /^(yes|true|ready|complete|approved|available|provided|done|ok)[.!]?$/i.test(value),
       )
     ) {
       issues.push(
@@ -262,7 +263,16 @@ function checkUnresolvedStoreLines(text: string, file: string, terms: string[]):
       continue;
     }
     const mentionsStoreTerm = terms.some((term) => trimmed.toLowerCase().includes(term.toLowerCase()));
-    const unresolved = /\b(TODO|TBD|unknown|missing|not configured|not set|placeholder|fill in|to fill|pending|blocked|N\/A)\b/i.test(trimmed);
+    // Only new Notes drafting is inapplicable: existing approved review information must still cover the submission.
+    const notesReuse = reviewFieldValues(trimmed, ["Review notes"]).some(
+      (value) =>
+        /\bN\/A\b/i.test(value) &&
+        /\bno new (features|functionality|product changes)\b/i.test(value) &&
+        /\b(current|existing) approved (review information|review notes|notes)\b/i.test(value) &&
+        /\breus(e|ed|ing)\b/i.test(value),
+    );
+    const unresolvedText = notesReuse ? trimmed.replace(/\bN\/A\b/i, "") : trimmed;
+    const unresolved = /\b(TODO|TBD|unknown|missing|not configured|not set|placeholder|fill in|to fill|pending|blocked|N\/A)\b/i.test(unresolvedText);
     if (mentionsStoreTerm && unresolved) {
       issues.push(issue("error", "store_console.placeholder_or_unknown", `Store packet contains unresolved placeholder state: "${trimmed}"`, file));
     }

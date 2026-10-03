@@ -43,6 +43,7 @@ Review access: pending — when sign-in is required, reference the secure route 
 An app without login does not need demo credentials. That does not establish that all data stays on-device or that Notes are unnecessary. Describe test devices, external services, regional behavior, or regulated material when they affect review/testing or Apple requests them; they are not a universal Notes checklist. Do not predict automatic rejection or invent an automated no-login flag.
 
 Record reusable, non-secret Notes content in `APP_STORE_LISTING.md`. Read existing review details and reuse verified information before preparing an authorized update through the supported ASC review-details route. Refresh the applicable command's help for current flags; preserve founder approval for mutations and submission.
+If no new functionality or product/testing changes need new Notes, an explained `Review notes: N/A` can record reuse of current approved review information. Bare N/A remains unresolved; reuse does not exempt the Notes obligations above or imply an empty Apple field.
 
 ## Age Rating Questionnaire
 
