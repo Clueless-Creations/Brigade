@@ -4,7 +4,7 @@
   "updatedAt": "2026-10-03",
   "sourcePath": ".",
   "releaseNotes": [
-    "Clarify Apple payment-rule applicability, location and final-archive privacy evidence, independent ASC authentication routes, privacy planning and deep validation. Stamp 0.221.99; no deployment or npm publish.",
+    "Clarify Apple payment-rule applicability, location and final-archive privacy evidence, label/server/binary change boundaries, independent ASC authentication routes, privacy planning and deep validation. Stamp 0.221.99; no deployment or npm publish.",
     "Make developer startup reads, dependency reuse and focused regression work proportional; preserve current public contracts, migration obligations and independent review.",
     "Ignore unknown OAuth authorization fields, including ui_locales, while retaining explicit scope, redirect, resource, state and S256 checks. Stamp 0.221.98. No deployment or npm publish.",
     "Verify CIMD consent compatibility, duplicate and credential-query rejection, query-bound consent challenges, strict forms and no reflection using synthetic tests.",

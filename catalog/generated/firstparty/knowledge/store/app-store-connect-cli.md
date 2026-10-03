@@ -174,6 +174,7 @@ asc web privacy plan --app "123456789" --file "./privacy.json" --output json
 Review `staleTokens`, `unrepresentableCount`, and planned changes; a successful read or plan does not establish accurate answers or publication.
 `asc web privacy apply` mutates declarations and may affect published-state metadata. `asc web privacy publish` explicitly publishes and requires `--confirm`.
 Both require applicable founder authority and read-back evidence. Never treat apply as a harmless draft or infer publication from plan success.
+Apply the [privacy change boundaries](../trust/privacy-terms.md#apple-telemetry-and-change-boundaries): label updates need no app update; bundled-manifest changes require a new binary. Scope server telemetry and unknown analytics findings to their actual effects.
 
 Use `asc validate --app "123456789" --version-id "VERSION_ID"` for the exact candidate.
 With working API access and an existing CLI web session, add `--deep` for privacy publication, agreements, and applicable subscription attachment checks.

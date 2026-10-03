@@ -243,6 +243,7 @@ Never answer App Privacy from generic policy text alone. Use the real data inven
 Apply the [location and artifact evidence rules](../trust/privacy-terms.md#apple-location-and-artifact-evidence) to source behavior and the final archive.
 Use supported `asc web privacy` reads/plans when the selected CLI web session works; otherwise use an existing authorized browser.
 Saved answers, published ASC labels, app manifests, SDK manifests, and observed telemetry establish different facts. Record which evidence exists.
+Use the [privacy change boundaries](../trust/privacy-terms.md#apple-telemetry-and-change-boundaries) to distinguish label publication, bundled-manifest changes, and server telemetry. Unresolved label questions do not automatically block an independent local build.
 
 Interactive worksheet:
 

@@ -71,6 +71,21 @@ Check source behavior and configuration, then inspect manifests inside the final
 Bind artifact evidence to that archive's identity; a source-file check alone does not prove the uploaded binary's declarations.
 Reconcile actual data flows, the Xcode privacy report, privacy policy, and published ASC answers before claiming privacy readiness.
 
+### Apple telemetry and change boundaries
+
+Apple's [App Privacy guidance](https://developer.apple.com/app-store/app-privacy-details/) permits answer updates without an app update.
+Publishing labels changes ASC metadata. Changing a bundled manifest requires a new binary and archive evidence.
+Apple's [manifest guidance](https://developer.apple.com/documentation/bundleresources/describing-data-use-in-privacy-manifests) separates app and SDK collection; Xcode aggregates their manifests from an archive. SDK-owned collection need not be duplicated in the app's manifest.
+
+Classify retained payloads and purposes, not vendor names. Sanitized server exceptions may fit Other Diagnostic Data for App Functionality when that matches their actual use.
+A server-only collector does not prove native Crash Data collection or a bundled SDK. Inspect actual flows and package contents before requiring native manifest changes.
+Check retained identifiers, joinability, de-identification before collection, and later joins before declaring data unlinked. Removing email alone is insufficient.
+Assess tracking separately against Apple's definition; diagnostic collection alone does not establish tracking.
+
+Verify analytics enablement from scoped, redacted configuration or runtime evidence. Unknown enablement remains unknown; do not guess or export a complete secret environment.
+Record unresolved questions against the affected disclosure, publication, or submission claim. Permit independent local builds and reversible preparation.
+A confirmed bundled-manifest defect prevents calling that binary ready for submission; an unrelated label question does not automatically require rebuilding it.
+
 ## 3. Privacy Policy Drafting Rules
 
 The policy must reflect actual practices, not aspirations. Include:

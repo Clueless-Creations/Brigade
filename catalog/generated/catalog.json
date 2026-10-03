@@ -8480,7 +8480,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-connect-cli.md",
-        "sha256": "sha256:3c5d61ac53850b7eb3c322a2e1788201b0c0e4be52907cf26062e0ba5672d036",
+        "sha256": "sha256:8b779f3f6906b2c4825508b3fdf4c03abe2dbcd3fba70e1e1bd0527df6562bf5",
         "origin": "skill"
       }
     },
@@ -8864,7 +8864,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:31956ceac89ea10074979e452bc7e0a394d539af0cfb02433e509bba88fa7b6e",
+        "sha256": "sha256:69966b66404b7f9ee4c1a8545098a6feee8d3b0b9391926eb02e1d53619b6bc5",
         "origin": "skill"
       }
     },
@@ -9936,7 +9936,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/store-console-workflow.md",
-        "sha256": "sha256:17a70b5af9e7f27d3ad3d3998de8adad86683999a855c0065224db4cc401ec64",
+        "sha256": "sha256:39697ce37397cf70af79bce1d942ab81bb0eab5362d12a61957cbc22ee445327",
         "origin": "skill"
       }
     },
@@ -10065,7 +10065,17 @@
           "sourceType": "official_docs",
           "url": "https://developer.apple.com/app-store/app-privacy-details",
           "reviewCadenceDays": 7,
-          "claimScope": "Location disclosure follows collected resolution; Approximate Location Services is Apple's coarse-location example. Archive reconciliation is Brigade's evidence rule.",
+          "claimScope": "Location resolution, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Scoped artifact and build decisions remain Brigade evidence rules.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-documentation-bundleresources-describing-data-use-in-privac",
+          "name": "Apple Describing data use in privacy manifests",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/documentation/bundleresources/describing-data-use-in-privacy-manifests",
+          "reviewCadenceDays": 7,
+          "claimScope": "Separate app and linked SDK collection declarations and archive privacy report aggregation; checked through Apple's public documentation JSON.",
           "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers"
         },
@@ -10083,7 +10093,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/privacy-terms.md",
-        "sha256": "sha256:d9fb5ac769a223e703c8e646ca0d695020f889d6acd6606825d80f10f723e918",
+        "sha256": "sha256:351ab2abaaeb0a91913bfa6d34cbcbfda987231db550118e71c4f22f62083a92",
         "origin": "skill"
       }
     },
@@ -19154,14 +19164,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "ce62d9bce34e1040ce525d3ea349b5d636bb1b76e8f8656193c87886cd896de4",
+    "fingerprint": "27581a10edc46a2cb0660ef63c7b2a74e5fb99a985318dbb839163435637a697",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
         "version": "0.221.99",
         "revision": "0.221.99",
-        "contentDigest": "d580247e1557de8a4ffaebcd87ceb01842a16e74cc68746bf639a31a421a058b"
+        "contentDigest": "c1ff9b6397ba174ef1c2eba78012fcc7e12e6368d2bdf9b7d58b0de094441c52"
       }
     ],
     "base": {

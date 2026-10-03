@@ -131,6 +131,7 @@ The worksheet should ask:
 Use `business/store/app-store-listing/app-privacy-questionnaire.html` as the local interactive worksheet or render an equivalent project-specific HTML page.
 
 Apply the [location and artifact evidence rules](../trust/privacy-terms.md#apple-location-and-artifact-evidence).
+Scope label, binary, and telemetry work using the [privacy change boundaries](../trust/privacy-terms.md#apple-telemetry-and-change-boundaries).
 Use supported CLI privacy pull/plan or an authorized browser before requesting manual re-entry of already verified answers.
 
 ## Pricing, RevenueCat, And Web Funnel Alignment

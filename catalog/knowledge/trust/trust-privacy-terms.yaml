@@ -21,7 +21,15 @@ sources:
     source_type: official_docs
     url: https://developer.apple.com/app-store/app-privacy-details
     review_cadence_days: 7
-    claim_scope: Location disclosure follows collected resolution; Approximate Location Services is Apple's coarse-location example. Archive reconciliation is Brigade's evidence rule.
+    claim_scope: Location resolution, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Scoped artifact and build decisions remain Brigade evidence rules.
+    last_review_date: 2026-10-03
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-documentation-bundleresources-describing-data-use-in-privac
+    name: Apple Describing data use in privacy manifests
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/bundleresources/describing-data-use-in-privacy-manifests
+    review_cadence_days: 7
+    claim_scope: Separate app and linked SDK collection declarations and archive privacy report aggregation; checked through Apple's public documentation JSON.
     last_review_date: 2026-10-03
     reviewer: b2c-maintainers
   - id: general-legal-template-collection
