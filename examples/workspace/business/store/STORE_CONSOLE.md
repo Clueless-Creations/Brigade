@@ -38,11 +38,13 @@ This packet is the copy-paste operator surface for App Store Connect and Google 
 Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and [Guidelines 2.1/2.3.1](https://developer.apple.com/app-store/review/guidelines/). Provide current review contact details and access to all reviewable features. Notes must describe new features, functionality, and product changes specifically, plus any settings or instructions needed to test them.
 
 Sign-in required: unknown — inspect the shipped reviewable features, then record yes or no. Unknown is an unresolved Brigade packet state, not an Apple checkbox value.
+
 Review access: pending — when sign-in is required, reference the secure route for a working, non-expiring demo account covering all account types and login-gated features. A built-in demo mode in place of an account requires Apple's prior approval under 2.1(a). Keep credentials out of this packet.
 
 An app without login does not need demo credentials. That does not establish that all data stays on-device or that Notes are unnecessary. Describe test devices, external services, regional behavior, or regulated material when they affect review/testing or Apple requests them; they are not a universal Notes checklist. Do not predict automatic rejection or invent an automated no-login flag.
 
 Record reusable, non-secret Notes content in `APP_STORE_LISTING.md`. Read existing review details and reuse verified information before preparing an authorized update through the supported ASC review-details route. Refresh the applicable command's help for current flags; preserve founder approval for mutations and submission.
+
 If no new functionality or product/testing changes need new Notes, an explained `Review notes: N/A` can record reuse of current approved review information. Bare N/A remains unresolved; reuse does not exempt the Notes obligations above or imply an empty Apple field.
 
 ## Age Rating Questionnaire
