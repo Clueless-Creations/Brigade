@@ -10103,7 +10103,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/privacy-terms.md",
-        "sha256": "sha256:c3768f2a797c654ddaa7fd1850806eb2b417dfd9f2a0ef3ea41afa5edce3b6db",
+        "sha256": "sha256:52400dbfd46fee5ab5692c2e71bf48051bcf2637891a7302e1b21adce0c92205",
         "origin": "skill"
       }
     },
@@ -19174,14 +19174,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "fb3dca47153bc822067889d8d1b282709bb4e6121ed052796576deaad7bb270d",
+    "fingerprint": "748abbb907733858af970c78b182d041d7a425276ec3bae36a82a9a772e9179e",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
         "version": "0.221.100",
         "revision": "0.221.100",
-        "contentDigest": "e24145df7f4feb65b2ce09e8ac5d8d246af1c3b46e62fb21824ee65528655f9c"
+        "contentDigest": "626f94d8db30906a452c3204dd9ebf083194548f28e7bb096e38c79447b3ca32"
       }
     ],
     "base": {

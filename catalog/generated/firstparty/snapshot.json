@@ -5147,7 +5147,7 @@
           "providerIds": [
             "provider.doppler"
           ],
-          "contextFingerprint": "sha256:ca1b702f73ba570e7101f01c69b283ded5cd2df22ed6bab6b754396d793808cf"
+          "contextFingerprint": "sha256:22db44588f89bde59e96d9ed10f72b5edeb411d45c48d7d66fbe0d1ee39e5bce"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before any new secret, key, token, env var, webhook secret, or .env",
@@ -5222,7 +5222,7 @@
           "providerIds": [
             "provider.resend"
           ],
-          "contextFingerprint": "sha256:eb1cca68aaea3dfedc6f74f972010a4f1561be8212c0566cd441836dbf6c2b10"
+          "contextFingerprint": "sha256:d4114f68a2daab5cc3c6803b70b0f3ccdbee58cd53ac017840fa6dd4daf810ec"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Resend domains/keys, transactional/lifecycle/broadcast email, deliverability",
@@ -5324,7 +5324,7 @@
           "providerIds": [
             "provider.resend"
           ],
-          "contextFingerprint": "sha256:b0c65ab368f11109bcc924d834339c9816dafd0a1e4e89e0931ab8c79b512b9a"
+          "contextFingerprint": "sha256:682d80dda1e439e547e4eeced103653cc9ad12ef6c11d369a9909700e5a2f034"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App live: the recurring support sweep; an inbox, review queue, or refund/restore request needing a worked answer",
@@ -5367,7 +5367,7 @@
           "workflowId": "workflow.operations.retention-intervention",
           "instructions": "Read the cohorts every cycle and do something about them, and prove both in `operations/RETENTION_OPS.md`: name the cohort source once (PostHog cohorts plus RevenueCat renewals — `check:post-launch` fails a program with no named source), record a dated row with the measured D7/D30 values (percentages, or the dated blocker that stopped the pull), and keep an Intervention section logging what was tried, when, and what moved. Route involuntary billing churn through the recovery levers in `billing-health-and-reactivation.md` — failed payments written off as normal churn is the named anti-pattern. When a cohort shows a consistent drop at one step, open it through `change-cascade.md` rather than patching only the surface that failed. Interventions that change pricing or public messaging are founder-only; everything else ships within the standing autonomy grants and reports in the row it shipped in.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9eaf081c1c4b6593a2bd622dd5d415c68bc2acfceb302f6397c396beaa176c11"
+          "contextFingerprint": "sha256:2e946885d8d0f927b66b5c472d073201f5e1ddd06a642dc1f278c3fa7dca4321"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "App live: the recurring retention pass; a cohort drop, involuntary-churn spike, or cancellation trend needing a worked response",
@@ -5641,7 +5641,7 @@
             "provider.security-review",
             "provider.sentry"
           ],
-          "contextFingerprint": "sha256:0808f3db517da49e788c474619ffa2cad2f0bf7ff52e28b644a79e0692994b0a"
+          "contextFingerprint": "sha256:72fa976e08ba9ffb13f3f0dbd1ed1eef86644c208114782e2629677ae13d485e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before threat modeling, hardening, scans, or any security-readiness claim. Founder phrasing: checked nobody can hack in or steal data.",
@@ -5703,7 +5703,7 @@
           "workflowId": "workflow.trust.privacy-and-terms",
           "instructions": "Build the data inventory before drafting any policy text — trace actual data flows from `state/LAUNCH_TRACE.md` and `engineering/TECH_SPEC.md` (accounts, user content, device permissions, analytics/ads vendors, payments, AI processing) rather than starting from a template. Draft `trust/PRIVACY.md` and `trust/TERMS.md` to match actual practice — Apple's App Privacy answers and Google Play Data safety must match the same inventory — and publish stable `/privacy`, `/terms`, and `/delete-account` pages that return HTTP 200 and are linked from settings, App Store Connect, and Play Console. Clear the ten-risk checklist in `privacy-terms.md` §7 before calling this lane done: a findable data-collection disclosure, named third-party recipients, AI-processing disclosure when the product generates content, deletion that actually purges stored uploads, no public storage bucket, cancellation as easy as signup, and an auto-renewal reminder commitment. Produce `LEGAL_REVIEW.md` with sources checked, the data inventory table, store-disclosure mapping, and an explicit founder/counsel approval checkbox; never mark legal pages final without that approval. Verify contact-email MX records with `dig MX yourdomain.com +short` before writing any `@yourdomain.com` address into published copy — an unverified address that never receives mail is a store-policy and reputation risk. `npm run check:privacy` verifies the checklist's mechanical subset, not legal correctness.",
           "providerIds": [],
-          "contextFingerprint": "sha256:ef9cab7988715cee828a554412d93ea740ff29ddd40ef79e2e875e776e75c846"
+          "contextFingerprint": "sha256:f749a4127bc73c72a16320aa124e9ad89fc7f1a84fce8fc80f7959fff7e6f57c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before privacy policy, terms, EULA, subscription terms, account-deletion, store disclosures. Founder phrasing: legal pages about data we collect, and agreeing to terms.",
@@ -5745,7 +5745,7 @@
           "workflowId": "workflow.trust.community-and-user-safety",
           "instructions": "Confirm whether users can create, share, discover, or message content. When required, define moderation, reporting, blocking, escalation, support contact, age controls, response targets, and evidence. Record the operating model in trust/COMMUNITY_SAFETY.md. Test the common abuse and recovery paths. Do not mark this work as not needed without a reason and product evidence.",
           "providerIds": [],
-          "contextFingerprint": "sha256:72b9ef21b3eeea83f8a44b04c42a10a56201c85af80532fac07a8ba586ef120e"
+          "contextFingerprint": "sha256:b67ae927bb6eaa1009bc79ab6370c139019a83dd740b2c35c590795932753530"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When the product includes social, chat, creator, or other user-generated content",
@@ -5807,7 +5807,7 @@
           "workflowId": "workflow.trust.generative-ai-safety",
           "instructions": "Confirm whether the product generates text, images, audio, or video. When required, define prohibited uses, input and output controls, reporting, enforcement, human escalation, age controls, and model or provider responsibilities. Test harmful, deceptive, exploitative, and sexual-content abuse cases. Define a named self-harm and crisis response — detect self-harm/suicide/crisis language and respond with a real crisis resource, not a generic refusal — and test that path explicitly; it is not covered by the general harmful-content test. Record controls and evidence in trust/AI_SAFETY.md. When a capability can create paid model-provider spend, write trust/AI_PROVIDER_CONTROLS.md with auth, entitlement, reservation, kill switch, one backend secret, and separate application versus provider-account cap status. If paid generation does not apply, still write that file with Paid generation: not applicable and a named reason. Do not mark this work as not needed without a reason and product evidence.",
           "providerIds": [],
-          "contextFingerprint": "sha256:30fcc1fcd06f7bd984d1ba140c129406b7899629fb7468d6eadef2c9d68665c1"
+          "contextFingerprint": "sha256:933ad22fb6fb34d78486658e7354069870069b99e068d1e226201fbd903bfc99"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When the product generates text, images, audio, or video",
@@ -6184,7 +6184,7 @@
           "workflowId": "workflow.experience.emotional-design-audit-auditor",
           "instructions": "Audit EMOTIONAL_DESIGN.md against every card the app actually implements — for each, verify the specific bright-line/dark-line test from that card's own file (experience-cards/<name>-card.md) and verify the selection rationale against the actual product moment, not just that a card is named. When no card is selected, independently review the visible, explicit not-applicable decision and alternative; do not invent four required mechanisms. HIGH-risk cards (Variable Reward, Streak & Loss Aversion) get the strictest read: confirm the escape hatch, counter-metric, and non-empty fallback are real, not aspirational language. Write findings as EMOTIONAL_AUDIT.md's Audit Output Contract, and any dark-pattern violation or missing per-card attestation field becomes a failure card per failure-cards.md rather than a note to fix later — check:emotional-design enforces the attestation fields this audit must produce.",
           "providerIds": [],
-          "contextFingerprint": "sha256:d4ef5c4dcb353ea4a1f86ccdc514c79889fa5d18b2592509b9a93fa545a5d212"
+          "contextFingerprint": "sha256:10874f1ba7f6545006492ab7a6699f0aa13c09dc03704a98058054b26430c95f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "\"Audit this app's emotional design\" / \"emotional UX audit\"",
@@ -8344,7 +8344,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:f2c18c9f95b92ce698f13bf5f08286a1ae7a2ed20b5edee9b4d02172223980c3"
+          "contextFingerprint": "sha256:2bf0307e3c93f0480810f249bff68fdb7a03a17cc7497d77f7fa9e52c1e1da21"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Apple Developer enrollment, Team ID, signing, profiles, archive/upload, TestFlight. Founder phrasing: get on the App Store, ship to TestFlight, get the ios build signed and into testers hands.",
@@ -8416,7 +8416,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:9a43e4c71f126f030c6f45e98e53935aa2050eb81f98ab3f493d1bc725ce80be"
+          "contextFingerprint": "sha256:74ee62769b003bb546cf20bb82ea28b3db9da3bba7ad27b469ba48bbe61f4f1c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before ASC upload — PrivacyInfo.xcprivacy, required-reason APIs, App Privacy answers",
@@ -8541,7 +8541,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:3a0852cbac596d9683f572766ce1626d73975e9d0c0bf711d1e07e9710e95ed0"
+          "contextFingerprint": "sha256:a9ea88ef9b1474955cc02fb2ce67a552f41b2705cce2dbea10e6750f90ec5b28"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Rork asc CLI app creation, metadata, screenshots, TestFlight, RevenueCat sync",
@@ -8615,7 +8615,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:f2aeeff7418a029ee1cb2fa514419f5fc71f8af5c80dd34404a3d680c9e8d13e"
+          "contextFingerprint": "sha256:b24159014729d9e6d28f1102e614a8bee6ccb696c42e672abfdb5b53f81ad157"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When an App Store version is in review, or after a status change, before any remediation or resubmission",
@@ -8686,7 +8686,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:bb2f33267442caeda8ced982ff1b069c9b2d5dd7d8d125dd97f1b080b3a2d43e"
+          "contextFingerprint": "sha256:5777d1973d02b485e8d757b54a978816807f5a4775351583a67a6f74f7ffcbb5"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After App Review observe classifies a rejection, before any store submission",
@@ -8757,7 +8757,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:44a2a36cedf937852832ffb87deb4962e7ea4f32dacc17d2572549a1cfd5253b"
+          "contextFingerprint": "sha256:80dbc21bc1122efaaf5735d4b7402ecbabcf05b3ce7e4679a44ac0153d1007b2"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After bounded App Review remediation is independently verified, before any further Apple mutation",
@@ -8886,7 +8886,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:6510e39f1a95d62d6e6337d3b79e95c7bd5a2e186e1eaba32415dd96da5dbad4"
+          "contextFingerprint": "sha256:e9842aafbdcf66efc9819985b23a6c0b91bb944781a9966775cdb171211524f5"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Android in scope (platforms include android or an android bundle id exists)",
@@ -9190,7 +9190,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:d244f954e51bae5dd2debda8fe912a05f627ddb14f67e3af1eb2f5b497c957fb"
+          "contextFingerprint": "sha256:1961bcc27f1206c6bbce5ff6b3cffd1f3d70121ae2ca83ea530908de77b459b9"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "A signed iOS build is proven and an exact TestFlight group standing envelope is current",
@@ -9262,7 +9262,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:ba99d2a5124785dad649c07ea075a096158eb38d83408e8c9224fa84ad901bb9"
+          "contextFingerprint": "sha256:fe7ef13b3759923f50c6a30de8de73348ae28cba7ff6f3211b0e60b4fe72a01e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "An AAB is proven and an exact internal or closed-testing track standing envelope is current",
@@ -9335,7 +9335,7 @@
             "provider.app-store-connect",
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:e42fe74d62dc2a591b9cedb19dbcb140c4a238831c287e6b11bedb67ded897a2"
+          "contextFingerprint": "sha256:224330e40758830cc5ef22ebea2967796316e60ec787052e563407a45fa112c6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before store distribution in every selected region",
@@ -9473,7 +9473,7 @@
           "workflowId": "workflow.engineering.engineering-orchestration-ce-production-readiness",
           "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. Use affected accepted journeys as implementation slices; reuse authoritative data, enforce role/context scopes, and distinguish implemented behavior from observed proof. Keep proposed role/platform parity outside the accepted release scope. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
           "providerIds": [],
-          "contextFingerprint": "sha256:345f9cdb94f16f45c181af88a4cff23812299af733b12561e11fab888185eb02"
+          "contextFingerprint": "sha256:6785105c74ad5ec4be0c5d1c030ca44fee45df1997d4c413c179cafecfc161d8"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before actual app implementation, builder prompts, or production-readiness claims",
@@ -9546,7 +9546,7 @@
           "workflowId": "workflow.engineering.backend-data-contract",
           "instructions": "Pick one backend route (Supabase, Firebase, or custom), record the reason in engineering/TECH_SPEC.md's Backend Selection sub-section, and never silently substitute another route mid-build — a switch is a change-cascade event and a founder-only gate. Write the Data Model as one row per entity (owner, key fields, relationships, retention/deletion path, PII class) and the Authorization Model as a create/read/update/delete matrix expressed in the route's actual enforcement mechanism — RLS policies, Firestore security rules, or middleware authz — deny by default. Treat untested authorization as absent: exercise owner/anonymous/other-user access for every matrix row and record the exact test command and evidence path, not just 'RLS' in prose. Pass `npm run check:backend-contract -- --root . --state state/business-state.json`; the account-deletion promise in this contract's retention rules must match trust/PRIVACY.md's deletion promise exactly, not just approximately.",
           "providerIds": [],
-          "contextFingerprint": "sha256:53a2f8d09a32bea2e3d2a2a49d28973082ecf708e6c26c46d9a5087a5b3d8e73"
+          "contextFingerprint": "sha256:268003895b8583d4bddcc745067d412a12593f9309b5f0f3ebbf9988f8a12c1d"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before schema/auth prompts or engineering/TECH_SPEC.md data/API sections harden",
@@ -9660,7 +9660,7 @@
           "providerIds": [
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:5bfec2cca9b1003ba4c3a93f42ff8055afbd7dd510d38df08f053cbae7d067cc"
+          "contextFingerprint": "sha256:7cf3de9ee3e81cb49d14ff0d191526fe2da647cd21c70e7fea3a682173bdb1b1"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before MobAI-delta device work — Android coverage, repeatable .mob suites, multi-device or physical-hardware runs, performance gates, MobAI CI, or recorder-skill demo videos/app previews — after the Route Ladder (native-ios-proof-route-ladder) routes past the in-app simulator",
@@ -9737,7 +9737,7 @@
             "provider.serve-sim",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:f74ecc9083a53f609a4d358c1a4f4fe20f89627fed409cdeece6ae30502acd56"
+          "contextFingerprint": "sha256:4be2ffb387875a69f92ab10738a26fc7edf6bd99655f8db33f584ccc7ceff5ff"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "First for any iOS or Android device automation, run-the-app, screen-check, flow-walk, bug-repro, screenshot, or screen-recording request — read the selected platforms, then pick the lightest proof rung that covers them",
@@ -9811,7 +9811,7 @@
             "provider.in-app-ios-simulator",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:e8ecd3339a16599e77b59be709487e740fd8f4c1ec6f470212e59de37e8e961c"
+          "contextFingerprint": "sha256:4adab0d7714e00f34d2be235ed86e900258c9de4c4b1916a57216db3e92e6101"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -9883,7 +9883,7 @@
           "providerIds": [
             "provider.sentry"
           ],
-          "contextFingerprint": "sha256:4eea1266dc4499f7278030c329347960c37e44cf98362baa6901ee246f01c5de"
+          "contextFingerprint": "sha256:42eb5cb9778ad48d1fe80b735e06c894d8a44c048312b0a0078d4c24e2527ac4"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -9953,7 +9953,7 @@
           "workflowId": "workflow.data.analytics-and-attribution-blueprint",
           "instructions": "Write analytics/ANALYTICS.md and render analytics/analytics-plan.html before onboarding, paywall, funnel, or store-CTA copy locks. Define one internal user ID, UTMs/click IDs plus self-reported source keys, and an event catalog with owner, trigger, properties, and QA method. Record the HDYHAU survey: randomize options, allow multi-select, include TV/offline, place it mid-onboarding, and connect it to blended ROAS. Name when paid acquisition would require AppsFlyer. Pass check:analytics-catalog and check:attribution against the authored contract and local implementation evidence. Live PostHog capture remains a later provider-proof boundary.",
           "providerIds": [],
-          "contextFingerprint": "sha256:2f35c684e3d0efed7c516b70673e6372646e5ea70a55ca1812450e86dc59aaf8"
+          "contextFingerprint": "sha256:5ea076ca5d3f961efe062f94b5763310006c484daa3b06a824a1ebebbf4b797f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before locking onboarding/paywall/funnels/store CTAs or any prompt naming events",
@@ -10545,7 +10545,7 @@
             "provider.revenuecat",
             "provider.stripe"
           ],
-          "contextFingerprint": "sha256:949195b0f02c031aa75019c9e01e42ebaaf3c0d13e9b77caaf0d044e9cda7827"
+          "contextFingerprint": "sha256:17e1632c48e8c0509799108090c34689897a500dbe0082d101276648345d418f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before RevenueCat/Stripe/web billing, products, paywall, entitlement, webhooks, pricing. Founder phrasing: how do I charge for subscriptions or a purchase.",
@@ -10631,7 +10631,7 @@
           "providerIds": [
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:3cc8377bce0482d1c56c975aebaf4ae52e6eee0e869e630c7615443f976f7ac8"
+          "contextFingerprint": "sha256:020f77b3515780829be32d7daff8e708457caab4d5f6c380a741b8c163657448"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After a live paywall exists, or when the experiment backlog needs a next test",
@@ -15838,7 +15838,7 @@
     ]
   },
   "files": {
-    "extension.yaml": "1421e4f50db149c79b8e7d94323cf6f1500a35faf3d792e4a20d37f67a8d69e6",
+    "extension.yaml": "7b28c1897df38aadc6e58a51ebbf6a82d7b93cb01269dc57f3ba4982a1c58658",
     "catalog-pack.yaml": "7c8d3c497f00e3dea7cbbb29d3717f1b6912329e2de8c68cc08870b03c74038d",
     "knowledge/data/analytics-attribution.md": "0bba4685b2188b9e80b7fcc14fdac9472c6c4aeac5bc59703188eaa5e26f234a",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
@@ -15982,7 +15982,7 @@
     "knowledge/trust/community-safety.md": "1702549b7f5e7d4fa1e39a9df0d02e73ccf5745d6c0e85fdb0b774fb5bd5afd9",
     "knowledge/trust/generative-ai-safety.md": "5bf9a3f3c55573fdb5c565976f187ef590d4878a36dac8749e9ed4e8880e2ec3",
     "knowledge/trust/paid-generative-ai-controls.md": "c30ec5d20f9ed2c2d0688095e3ba66ef5360dc359b32d1e05b017cbe2e2f87ba",
-    "knowledge/trust/privacy-terms.md": "c3768f2a797c654ddaa7fd1850806eb2b417dfd9f2a0ef3ea41afa5edce3b6db",
+    "knowledge/trust/privacy-terms.md": "52400dbfd46fee5ab5692c2e71bf48051bcf2637891a7302e1b21adce0c92205",
     "knowledge/trust/security-release-hardening.md": "356090eab4fcb4b08d28c3bf01d4fa5d04693d0beb0d73b91f4baa91da860fa4",
     "knowledge/words/consumer-copy-benchmarks.md": "b0306d0ae703ff599acb1e99b6cafef27e5c7ff3e245b044dd4ee6e6b6801b9d",
     "knowledge/words/conversion-copy.md": "68739b91f0f977f28718f48dd2368bb8c59a03a3f3d44a30efa08d12eb2956ab",
@@ -16301,5 +16301,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:2e7347cd07ccc5e95b543597ad27bca10fc96501b424cc455688b4c14700a895"
+  "digest": "sha256:561c540329d6d491acd202fc6bbbb27816da98feb5cacc30eae545b248675f8a"
 }
