@@ -176,7 +176,7 @@ Load `store-console-workflow.md` and refresh official Apple/Google docs before p
 
 Apple checklist:
 
-- bundle ID, SKU, category, age rating, availability, pricing, IAP/subscriptions, review notes, demo credentials, export compliance, and build status are known
+- bundle ID, SKU, category, age rating, availability, pricing, applicable IAP/subscriptions, review notes, review access, export compliance, and build status are known; demo credentials are needed when login is required
 - privacy policy URL and optional privacy choices/account deletion URL are live
 - App Privacy responses match the actual data inventory and third-party SDKs
 - `store/APPLE_APP_STORE_REQUIREMENTS.md` proves privacy manifest and required-reason API declarations, third-party SDK manifests/signatures, Xcode privacy report, purpose strings, ATT, account deletion, review notes, and upload warnings for the app and bundled SDKs

@@ -228,22 +228,17 @@
       <section class="card">
         <h2>Review Packet</h2>
         <ul>
-          <li>Review notes describe account setup, demo credentials route, entitlement test path, purchase restoration, account deletion, and support contact.</li>
+          <li>Review notes describe new features and product changes, plus any account setup, entitlement, restoration, deletion, or privacy-sensitive instructions needed to test them.</li>
           <li>App Store Connect upload readiness is blocked until <code>store/APPLE_APP_STORE_REQUIREMENTS.md</code> accounts for privacy manifests, required reason APIs, SDK manifest/signature status, App Privacy labels, purpose strings, ATT, account deletion, review notes, and archive/upload warnings.</li>
           <li>If the app name is already in use, stop for founder approval before using any fallback name.</li>
         </ul>
-        <h3>App Review Information (App Store Connect Notes field)</h3>
-        <p>Populate the App Review Information <strong>Notes</strong> field before submitting, or App Review returns a Guideline 2.1 &quot;Information Needed&quot; rejection that costs a full review cycle. Cover all of Apple's requested items:</p>
-        <ol>
-          <li><strong>Purpose and target audience</strong> — the problem the app solves and who it is for.</li>
-          <li><strong>Setup and access instructions</strong> — how to reach the core features, plus any required login credentials or sample data.</li>
-          <li><strong>Demo account decision</strong> — if the app has a login, provide a working demo username/password (one per account type) in the Demo Account fields. <strong>If the app has NO login/account system, the automated reviewer still flags &quot;login without demo account&quot; — you must add an explicit line such as &quot;No login / no account: all data is stored locally on device; no demo account is needed&quot; and clear the demo-account-required flag.</strong></li>
-          <li><strong>Test devices and OS</strong> — the physical device models and OS versions the app was tested on before submission.</li>
-          <li><strong>External services</strong> — data providers, authentication services, payment processors, and AI services the app relies on for core functionality.</li>
-          <li><strong>Regional differences</strong> — any regional feature/content differences, or confirm the app functions consistently across all regions.</li>
-          <li><strong>Regulated material</strong> — documentation/credentials if the app operates in a regulated industry or uses protected third-party material.</li>
-        </ol>
-        <p>Record the Notes content in <code>APP_STORE_LISTING.md</code> so it is reusable across submissions, and set it via the ASC CLI review-details route (refresh <code>asc &lt;review-details cmd&gt; --help</code> for current flags) rather than re-typing it each time.</p>
+        <h3>App Review Information</h3>
+        <p>Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and [Guidelines 2.1/2.3.1](https://developer.apple.com/app-store/review/guidelines/). Provide current review contact details and access to all reviewable features. Notes must describe new features, functionality, and product changes specifically, plus any settings or instructions needed to test them.</p>
+        <p>Sign-in required: unknown — inspect the shipped reviewable features, then record yes or no. Unknown is an unresolved Brigade packet state, not an Apple checkbox value.</p>
+        <p>Review access: pending — when sign-in is required, reference the secure route for a working, non-expiring demo account covering all account types and login-gated features. A built-in demo mode in place of an account requires Apple's prior approval under 2.1(a). Keep credentials out of this packet.</p>
+        <p>An app without login does not need demo credentials. That does not establish that all data stays on-device or that Notes are unnecessary. Describe test devices, external services, regional behavior, or regulated material when they affect review/testing or Apple requests them; they are not a universal Notes checklist. Do not predict automatic rejection or invent an automated no-login flag.</p>
+        <p>Record reusable, non-secret Notes content in <code>APP_STORE_LISTING.md</code>. Read existing review details and reuse verified information before preparing an authorized update through the supported ASC review-details route. Refresh the applicable command's help for current flags; preserve founder approval for mutations and submission.</p>
+        <p>If no new functionality or product/testing changes need new Notes, an explained <code>Review notes: N/A</code> can record reuse of current approved review information. Bare N/A remains unresolved; reuse does not exempt the Notes obligations above or imply an empty Apple field.</p>
       </section>
       <section class="card">
         <h2>Age Rating Questionnaire</h2>

@@ -616,7 +616,8 @@ export function register(h: Harness): void {
     [
       "# Store Console",
       "App Store Connect click path and ASC CLI routes cover app creation, asc-id-resolver ID resolution, app info, SKU, primary locale, bundle ID, App Privacy, pricing, RevenueCat, asc-revenuecat-catalog-sync, subscription setup, localization, custom product page strategy, In-App Event planning, Higgsfield-backed marketing assets, screenshots, TestFlight, review status, review notes, and account deletion.",
-      "App Review Information notes cover purpose and target audience, setup and access instructions, the demo account decision (including an explicit no-login confirmation when there is no account system), the list of test devices and OS versions, and the external services used.",
+      "App Review Information provides contact details and review access as applicable. Review notes describe current changes and app-specific testing instructions.",
+      "Sign-in required: no — the fixture core features do not require authentication.",
       "Age Rating Questionnaire records socialMedia, messagingAndChat, socialMediaAgeRestricted, ageAssurance, and userGeneratedContent from product evidence.",
       "Run asc age-rating audit before submission.",
       "Do not infer false from a blank field.",
@@ -639,6 +640,8 @@ export function register(h: Harness): void {
   writeFileSync(path.join(iosOnlyStore, "app-privacy-questionnaire.html"), "<!doctype html><html><body>iOS privacy questionnaire</body></html>", "utf8");
   writeCompleteStoreScreenshots(iosOnlyStore);
   runFixture("iOS-only store packet does not require Google Play fields", iosOnlyStore, "check-store-console-packet.ts", 0);
+
+  registerReviewAccess(h);
 
   const ageRatingFieldMissing = makeFixture("store-age-rating-field-missing");
   writeCompleteStoreConsole(ageRatingFieldMissing);
@@ -778,7 +781,8 @@ export function register(h: Harness): void {
     [
       "# Store Console",
       "App Store Connect click path and ASC CLI routes cover app creation, asc-id-resolver ID resolution, app info, SKU, primary locale, bundle ID, App Privacy, pricing, RevenueCat, asc-revenuecat-catalog-sync, subscription setup, localization, custom product page strategy, In-App Event planning, Higgsfield-backed marketing assets, screenshots, TestFlight, review status, review notes, and account deletion.",
-      "App Review Information notes cover purpose and target audience, setup and access instructions, the demo account decision (including an explicit no-login confirmation when there is no account system), the list of test devices and OS versions, and the external services used.",
+      "App Review Information provides contact details and review access as applicable. Review notes describe current changes and app-specific testing instructions.",
+      "Sign-in required: no — the fixture core features do not require authentication.",
       "The founder must manually create the app record in App Store Connect.",
       "Google Play click path covers package name, Data safety, screenshots, review notes, privacy, and account deletion.",
       "If the app name is already in use, stop for founder approval before using any fallback name.",
@@ -1570,4 +1574,132 @@ interface MutableAppReview {
     appVersion: { rawValue: string; normalized: string };
     reviewSubmission?: { rawValue: string; normalized: string };
   };
+}
+
+export function registerReviewAccess(h: Harness): void {
+  const { makeFixture, runFixture } = h;
+  const reviewPacket = (name: string, reviewLines: string[], ready = true): string => {
+    const root = makeFixture(name);
+    writeCompleteStoreConsole(root);
+    const packet = path.join(root, "store/STORE_CONSOLE.md");
+    const text = readFileSync(packet, "utf8").replace(/^Sign-in required:.*\n?/m, "");
+    writeFileSync(
+      packet,
+      [
+        text,
+        ready ? "Status: ready for founder approval." : "Status: preparation.",
+        ...reviewLines,
+        "socialMedia: false",
+        "messagingAndChat: false",
+        "socialMediaAgeRestricted: false",
+        "ageAssurance: false",
+        "userGeneratedContent: false",
+      ].join("\n"),
+      "utf8",
+    );
+    return root;
+  };
+  const reviewCheck = "check-store-console-packet.ts";
+  const unknownLogin = "store_console.review_login_applicability_unknown";
+  const missingAccess = "store_console.review_access_unresolved";
+  runFixture(
+    "no-login review readiness does not require demo, device, or service phrases",
+    reviewPacket("review-no-login", ["Sign-in required: no — all reviewable features are accessible without authentication."]),
+    reviewCheck,
+    0,
+  );
+  runFixture(
+    "login-required review readiness accepts a secure access reference without credentials",
+    reviewPacket("review-login-access", [
+      "- **Sign-in required:** yes",
+      "- **Review access:** approved secure reviewer account route in operations/BUSINESS_ACCESS.md covers every gated role.",
+    ]),
+    reviewCheck,
+    0,
+  );
+  runFixture(
+    "table review fields accept an Apple-approved demo-mode reference",
+    reviewPacket("review-table-access", [
+      "| Sign-in required | true |",
+      "| Review access | Apple-approved demo-mode instructions and approval reference in operations/BUSINESS_ACCESS.md. |",
+    ]),
+    reviewCheck,
+    0,
+  );
+  runFixture("legacy login-required alias accepts false", reviewPacket("review-login-alias", ["Login required: false"]), reviewCheck, 0);
+  for (const [name, lines] of [
+    ["missing", []],
+    ["unknown", ["Sign-in required: unknown"]],
+    ["ambiguous", ["Sign-in required: yes or no"]],
+    ["conflicting", ["Sign-in required: yes", "Login required: no"]],
+  ] as const) {
+    runFixture(`review readiness rejects ${name} login applicability`, reviewPacket(`review-login-${name}`, [...lines]), reviewCheck, 1, unknownLogin);
+    runFixture(
+      `review preparation warns for ${name} login applicability`,
+      reviewPacket(`review-login-${name}-preparation`, [...lines], false),
+      reviewCheck,
+      0,
+      unknownLogin,
+    );
+  }
+  for (const [name, access] of [
+    ["missing", []],
+    ["pending", ["Review access: TBD"]],
+    ["not-needed", ["Review access: not required"]],
+    ["acknowledgement", ["Review access: yes"]],
+    ["boolean", ["Review access: true"]],
+    ["false", ["Review access: false"]],
+    ["no", ["Review access: no."]],
+    ["unset", ["Review access: not set"]],
+  ] as const) {
+    runFixture(
+      `login-required review readiness rejects ${name} access`,
+      reviewPacket(`review-access-${name}`, ["Sign-in required: yes", ...access]),
+      reviewCheck,
+      1,
+      missingAccess,
+    );
+  }
+  runFixture(
+    "login-required review preparation warns for missing access",
+    reviewPacket("review-access-preparation", ["Sign-in required: yes"], false),
+    reviewCheck,
+    0,
+    missingAccess,
+  );
+  const succeeded = reviewPacket("review-succeeded-unknown-login", [], false);
+  const succeededState = readState(succeeded);
+  getLane(succeededState, "store_console")["status"] = "succeeded";
+  writeState(succeeded, succeededState);
+  runFixture("succeeded store lane rejects unresolved login applicability", succeeded, reviewCheck, 1, unknownLogin);
+  runFixture(
+    "no-login review readiness still rejects unresolved Notes",
+    reviewPacket("review-no-login-missing-notes", ["Sign-in required: no", "Review notes: TODO describe the new feature."]),
+    reviewCheck,
+    1,
+    "store_console.placeholder_or_unknown",
+  );
+  const reusedNotes =
+    "Review notes: N/A — metadata-only submission; no new functionality or product/testing changes; current approved review information reused from APP_STORE_LISTING.md.";
+  runFixture(
+    "review readiness accepts explained reuse of current approved Notes",
+    reviewPacket("review-notes-reused", ["Sign-in required: no", reusedNotes]),
+    reviewCheck,
+    0,
+  );
+  for (const [name, notes] of [
+    ["bare", "Review notes: N/A"],
+    ["no-approved-information", "Review notes: N/A — no new functionality."],
+    ["unknown-reuse", `${reusedNotes} Review instructions remain unknown.`],
+    ["unresolved-privacy", `${reusedNotes} App Privacy: N/A.`],
+    ["unrelated-first-marker", "Review notes: Reuse existing approved review information from APP_STORE_LISTING.md; no new functionality. App Privacy: N/A."],
+  ] as const) {
+    runFixture(
+      `review readiness rejects ${name} Notes explanation`,
+      reviewPacket(`review-notes-${name}`, ["Sign-in required: no", notes]),
+      reviewCheck,
+      1,
+      "store_console.placeholder_or_unknown",
+    );
+  }
 }

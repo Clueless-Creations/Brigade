@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.99",
+  "skillVersion": "0.221.100",
   "areas": [
     {
       "id": "area.operating-system",
@@ -7218,7 +7218,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/failure-cards.md",
-        "sha256": "sha256:aa35b1227d118cfdb4c0243b835ad3015b6ca6e0e80a716b591bc70c026294a0",
+        "sha256": "sha256:dac0380c4d24f929b74dfff41be6d6363c726cbd9715b0320b56955bb0f941d3",
         "origin": "skill"
       }
     },
@@ -8864,7 +8864,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:69966b66404b7f9ee4c1a8545098a6feee8d3b0b9391926eb02e1d53619b6bc5",
+        "sha256": "sha256:894097a4f1394b28e143d4cd8f7cb3d4dc002f48b7edf708088e9a85a2e2d950",
         "origin": "skill"
       }
     },
@@ -9224,7 +9224,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/aso-store-ops.md",
-        "sha256": "sha256:078bb9ddc54554775b5f2ccad294d21c2aa7a8a7e05ed7bc30d1f804d34ac8af",
+        "sha256": "sha256:6bb6c27b95dbd990ed3c305d0ad6be92382612656f7fb9d7ffabc4d75d882685",
         "origin": "skill"
       }
     },
@@ -10065,7 +10065,17 @@
           "sourceType": "official_docs",
           "url": "https://developer.apple.com/app-store/app-privacy-details",
           "reviewCadenceDays": 7,
-          "claimScope": "Location resolution, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Scoped artifact and build decisions remain Brigade evidence rules.",
+          "claimScope": "Location resolution and immediate coarsening, request-only non-retention, diagnostic type/purpose, linkage and tracking definitions, and label updates without an app update. Serialization precision is a Brigade engineering inference, not Apple wording.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-help-app-store-connect-manage-app-information-manage-app-pri",
+          "name": "Apple Manage app privacy",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy",
+          "reviewCadenceDays": 7,
+          "claimScope": "Published responses describe collection from the currently available app version and must stay accurate as data practices change. Backend and binary sequencing is Brigade operational interpretation.",
           "lastReviewDate": "2026-10-03",
           "reviewer": "b2c-maintainers"
         },
@@ -10093,7 +10103,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/privacy-terms.md",
-        "sha256": "sha256:351ab2abaaeb0a91913bfa6d34cbcbfda987231db550118e71c4f22f62083a92",
+        "sha256": "sha256:52400dbfd46fee5ab5692c2e71bf48051bcf2637891a7302e1b21adce0c92205",
         "origin": "skill"
       }
     },
@@ -19164,14 +19174,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "17fd4243fe697499029f454393df0e8f5613f16cbcb6a7e831c8a618820ae3c3",
+    "fingerprint": "748abbb907733858af970c78b182d041d7a425276ec3bae36a82a9a772e9179e",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.99",
-        "revision": "0.221.99",
-        "contentDigest": "6a005dd9e98f8ac8b152aa332424d37bb560a7d0982f9df89a4c98d370dbd638"
+        "version": "0.221.100",
+        "revision": "0.221.100",
+        "contentDigest": "626f94d8db30906a452c3204dd9ebf083194548f28e7bb096e38c79447b3ca32"
       }
     ],
     "base": {

@@ -1,16 +1,17 @@
 id: asc-review-information-missing
-title: Build submitted for App Review with empty App Review Information / no demo-account confirmation
+title: App Review access and Notes applicability are unresolved
 prompt: >
-  The agent submits a build for App Review. The App Store Connect App Review Information Notes field is left empty. The app has no login or account system, but the automated reviewer flags 'app may include a login but was submitted without a demo account.' App Review returns a Guideline 2.1 - Information Needed rejection requesting purpose, test devices, external services, and a demo account.
+  A store packet claims ready but does not establish whether reviewable features require login. Notes omit a newly added feature and the settings needed to test it. The agent proposes creating a demo account and a fixed seven-item Notes package for every app, including an app whose features do not require login.
 expected_guardrail: >
-  Before submitting, the App Review Information Notes must be populated with purpose and target audience, setup and access instructions, the demo-account decision (working credentials per account type, OR an explicit 'no login / no account / no demo needed' confirmation that also clears the demo-account-required flag), the list of test devices and OS versions, the external services used, regional differences, and any regulated-material proof. The notes must be recorded in APP_STORE_LISTING.md and set via the ASC review-details route.
+  Resolve login applicability from shipped features before claiming ready. Provide working, non-expiring demo access for login-gated features, or a built-in demo mode with Apple's prior approval under 2.1(a). No-login apps do not require demo credentials; unknown is not no. Under 2.3.1, Notes must describe new features, functionality, and product changes specifically, plus app-specific instructions needed for testing. Devices, services, regional behavior, and regulated material are conditional or reviewer-requested information, not a universal package. Reuse existing review details and non-secret APP_STORE_LISTING.md content; credentials and ASC mutations retain their access and approval boundaries.
 validators:
   - check-store-console-packet
 must_catch:
-  - App Review Information Notes field must be populated before submission or App Review returns Guideline 2.1 Information Needed
-  - a no-login app still gets auto-flagged for 'login without demo account' and must add an explicit no-account confirmation and clear the demo-account-required flag
-  - the notes must list test devices/OS, external services, purpose, and setup/access instructions
+  - unknown or conflicting login applicability cannot establish review readiness
+  - login-gated features require working review access while no-login features do not require demo credentials
+  - Notes must describe new functionality and app-specific testing instructions independently of login
+  - no login does not establish local-only data, an automated reviewer flag, or guaranteed rejection
 should_say:
-  - Populate App Store Connect App Review Information Notes before submitting for review.
-  - For a no-login app, add an explicit 'no account, no demo needed' line and clear the demo-account-required flag.
-  - Record the notes in APP_STORE_LISTING.md and set them via the ASC review-details route.
+  - Follow Apple's review field definitions and Guidelines 2.1 and 2.3.1.
+  - Resolve Sign-in required and reference secure reviewer access only when needed.
+  - Reuse verified review details and prepare only applicable Notes changes through the supported ASC route with the required approval.
