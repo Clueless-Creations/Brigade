@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.102",
+  "skillVersion": "0.221.103",
   "areas": [
     {
       "id": "area.operating-system",
@@ -5733,12 +5733,51 @@
       "title": "Viral Growth Loops",
       "loadWhen": "before referral unlocks, share-to-unlock, invite systems, social/comment loops, viral onboarding or paywall flows, creator CTAs, content format labs, or features meant to spread on TikTok/Reels/Shorts",
       "lifecycle": "active",
-      "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
-      "sources": [],
+      "sources": [
+        {
+          "id": "lenny-nikita-bier-2024-first-value",
+          "name": "Nikita Bier interview with Lenny Rachitsky",
+          "sourceType": "primary_podcast_show_notes",
+          "url": "https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier",
+          "reviewCadenceDays": 365,
+          "claimScope": "The published show notes emphasize rapid first value. No universal time target, demographic tactic, invitation threshold, revenue benchmark, or product-market-fit test is adopted from the interview.",
+          "lastReviewDate": "2026-10-04",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Lenny Rachitsky",
+          "revision": "sha256:d1687bc4a0f1345b8015ecc80f4751bce611c9823837ac0ff2c0927851c45be8",
+          "publishedAt": "2024-08-25",
+          "retrievedAt": "2026-10-04",
+          "rights": {
+            "status": "unknown",
+            "spdx": "NOASSERTION",
+            "notes": "No redistribution license established. Cite ideas in original guidance; copy no source text, image, or assets."
+          },
+          "selectors": [
+            "Published takeaways about reaching the core value moment quickly"
+          ]
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "lenny-nikita-bier-2024-first-value"
+          ],
+          "relationship": "informed",
+          "selectors": [
+            "knowledge/growth/viral-growth-loops.md#bounded-cohort-learning"
+          ],
+          "rationale": "Original conditional pilot guidance uses the first-value lens. Cohort measurement, consent, feedback, scope preservation, and safety boundaries are Brigade instructions, not attributed interview quotations.",
+          "omissions": [
+            "No infographic reproduction, school or demographic defaults, fixed time targets, or binary PMF thresholds."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-04"
+        }
+      ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/viral-growth-loops.md",
-        "sha256": "sha256:11ecb78f81968dc0bf2faf85bba05463249e43ac2feb8521dbaf29d51b268ea9",
+        "sha256": "sha256:6a07294b4e29ce7f5e447f440fd3d614c1e8f1cfcf8b91e0ae84b3783bb58bbc",
         "origin": "skill"
       }
     },
@@ -7987,12 +8026,51 @@
           "claimScope": "Primary example of corpus compression, dated inline claims, question-led publishing, portable Markdown, distribution hypotheses, owned-channel guidance, and manual-before-automation guidance. Treat business claims as personal hypotheses, not verified facts. Do not transfer deceptive, unsafe, or platform-circumvention tactics.",
           "lastReviewDate": "2026-08-20",
           "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "lenny-nikita-bier-2024-discovery",
+          "name": "Nikita Bier interview with Lenny Rachitsky",
+          "sourceType": "primary_podcast_show_notes",
+          "url": "https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier",
+          "reviewCadenceDays": 365,
+          "claimScope": "The published show notes suggest investigating inefficient workarounds as demand signals. This historical interview is a contextual lens, not proof of adoption, payment, or product-market fit.",
+          "lastReviewDate": "2026-10-04",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Lenny Rachitsky",
+          "revision": "sha256:d1687bc4a0f1345b8015ecc80f4751bce611c9823837ac0ff2c0927851c45be8",
+          "publishedAt": "2024-08-25",
+          "retrievedAt": "2026-10-04",
+          "rights": {
+            "status": "unknown",
+            "spdx": "NOASSERTION",
+            "notes": "No redistribution license established. Cite ideas in original guidance; copy no source text, image, or assets."
+          },
+          "selectors": [
+            "Published takeaways about inefficient existing behavior as latent demand"
+          ]
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "lenny-nikita-bier-2024-discovery"
+          ],
+          "relationship": "informed",
+          "selectors": [
+            "knowledge/research/distribution-offer-signal.md#discovery-hypotheses"
+          ],
+          "rationale": "Original discovery instructions use the workaround lens. Hypothesis selection, existing evidence owners, authorization boundaries, and contradiction criteria are Brigade guidance, not attributed interview quotations.",
+          "omissions": [
+            "No infographic reproduction, demographic defaults, numerical growth thresholds, or extra pre-Go gates."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-04"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/research/distribution-offer-signal.md",
-        "sha256": "sha256:bad48f3e8d0a37465a0891c6a5cc476220920e759e8b8e477525be2ab5fe3b0a",
+        "sha256": "sha256:43076b03bcf009ed6e143440432a9fffba0528776c653449ac648c266984ade6",
         "origin": "skill"
       }
     },
@@ -8008,7 +8086,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/research/go-pivot-or-kill.md",
-        "sha256": "sha256:b10c098dae100e1174c62f812027e137caa10cfb494f1ad934977f204de46b8d",
+        "sha256": "sha256:acb481c2cfbf8cc3e17af1df1ecb4b9873793b96279f513fdb5450068a75085f",
         "origin": "skill"
       }
     },
@@ -19204,14 +19282,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "dc2bb0c18cd38271f1ea7c03e256b167798b36e870b0abd7512f78813fc895ad",
+    "fingerprint": "feca5174d73aabacd294504f869a796711e4bb2681fba5da2488e08b4d8f61b3",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.102",
-        "revision": "0.221.102",
-        "contentDigest": "e7310a2623d2602e1a8a9bda99c2cb66da1b92303e9b5e9dd28273b423685ecb"
+        "version": "0.221.103",
+        "revision": "0.221.103",
+        "contentDigest": "48ffdf164a71a62e1b57d43ff402458e514c4a13da87a1c5b31aa61169ec41b3"
       }
     ],
     "base": {

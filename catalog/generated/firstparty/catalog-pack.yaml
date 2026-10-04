@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.102
-revision: 0.221.102
+version: 0.221.103
+revision: 0.221.103
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -7643,8 +7643,36 @@ references:
     path: knowledge/growth/viral-growth-loops.md
     load_when: before referral unlocks, share-to-unlock, invite systems, social/comment loops, viral onboarding or paywall flows, creator CTAs, content format labs, or features meant to spread on TikTok/Reels/Shorts
     lifecycle: active
-    source_exemption: This package contains internal operating guidance or has no external factual claims.
-    sources: []
+    sources:
+      - id: lenny-nikita-bier-2024-first-value
+        name: Nikita Bier interview with Lenny Rachitsky
+        source_type: primary_podcast_show_notes
+        url: https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier
+        review_cadence_days: 365
+        claim_scope: The published show notes emphasize rapid first value. No universal time target, demographic tactic, invitation threshold, revenue benchmark, or product-market-fit test is adopted from the interview.
+        last_review_date: 2026-10-04
+        reviewer: b2c-maintainers
+        publisher: Lenny Rachitsky
+        revision: sha256:d1687bc4a0f1345b8015ecc80f4751bce611c9823837ac0ff2c0927851c45be8
+        published_at: 2024-08-25
+        retrieved_at: 2026-10-04
+        rights:
+          status: unknown
+          spdx: NOASSERTION
+          notes: No redistribution license established. Cite ideas in original guidance; copy no source text, image, or assets.
+        selectors:
+          - Published takeaways about reaching the core value moment quickly
+    derivations:
+      - source_ids:
+          - lenny-nikita-bier-2024-first-value
+        relationship: informed
+        rationale: Original conditional pilot guidance uses the first-value lens. Cohort measurement, consent, feedback, scope preservation, and safety boundaries are Brigade instructions, not attributed interview quotations.
+        reviewer: b2c-maintainers
+        reviewed_at: 2026-10-04
+        selectors:
+          - knowledge/growth/viral-growth-loops.md#bounded-cohort-learning
+        omissions:
+          - No infographic reproduction, school or demographic defaults, fixed time targets, or binary PMF thresholds.
     replacement_ids: []
   - id: reference.money.billing-health-and-reactivation
     title: Billing Health And Reactivation
@@ -9218,6 +9246,35 @@ references:
         claim_scope: Primary example of corpus compression, dated inline claims, question-led publishing, portable Markdown, distribution hypotheses, owned-channel guidance, and manual-before-automation guidance. Treat business claims as personal hypotheses, not verified facts. Do not transfer deceptive, unsafe, or platform-circumvention tactics.
         last_review_date: 2026-08-20
         reviewer: b2c-maintainers
+      - id: lenny-nikita-bier-2024-discovery
+        name: Nikita Bier interview with Lenny Rachitsky
+        source_type: primary_podcast_show_notes
+        url: https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier
+        review_cadence_days: 365
+        claim_scope: The published show notes suggest investigating inefficient workarounds as demand signals. This historical interview is a contextual lens, not proof of adoption, payment, or product-market fit.
+        last_review_date: 2026-10-04
+        reviewer: b2c-maintainers
+        publisher: Lenny Rachitsky
+        revision: sha256:d1687bc4a0f1345b8015ecc80f4751bce611c9823837ac0ff2c0927851c45be8
+        published_at: 2024-08-25
+        retrieved_at: 2026-10-04
+        rights:
+          status: unknown
+          spdx: NOASSERTION
+          notes: No redistribution license established. Cite ideas in original guidance; copy no source text, image, or assets.
+        selectors:
+          - Published takeaways about inefficient existing behavior as latent demand
+    derivations:
+      - source_ids:
+          - lenny-nikita-bier-2024-discovery
+        relationship: informed
+        rationale: Original discovery instructions use the workaround lens. Hypothesis selection, existing evidence owners, authorization boundaries, and contradiction criteria are Brigade guidance, not attributed interview quotations.
+        reviewer: b2c-maintainers
+        reviewed_at: 2026-10-04
+        selectors:
+          - knowledge/research/distribution-offer-signal.md#discovery-hypotheses
+        omissions:
+          - No infographic reproduction, demographic defaults, numerical growth thresholds, or extra pre-Go gates.
     replacement_ids: []
   - id: reference.research.go-pivot-or-kill
     title: "Go, Pivot, Or Kill: The Pre-Build Research Verdict"

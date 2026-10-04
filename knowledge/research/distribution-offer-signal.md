@@ -16,6 +16,27 @@ Research must answer five questions before design or build work starts:
 Category revenue proves that money exists in a market.
 It does not prove that this business can reach the market.
 
+### Discovery hypotheses
+
+For demand discovery, investigate costly or awkward workarounds people already use to accomplish the proposed goal.
+This demand lens comes from [Nikita Bier's August 2024 interview with Lenny Rachitsky](https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier).
+Record the actor, goal, friction, observation date, and source in the existing Signal Corpus.
+A workaround suggests a hypothesis; it does not prove adoption or willingness to pay.
+
+Choose the next unresolved assumption and a result that could contradict it:
+
+- core value: can the intended user complete one valuable flow?
+- community adoption, when relevant: will the intended group use it together?
+- propagation, when selected: do users voluntarily bring recipients who receive value?
+- willingness to pay, when relevant: does the existing truthful Offer Test produce a payment-specific response?
+
+Sign-ups and booked calls are non-payment responses; distinguish them from commitments to pay and actual payments.
+Use one core flow as the test unit, while preserving the complete accepted product scope and safety requirements.
+Reuse the current evidence and plan; do not create another research packet or four new pre-Go gates.
+The existing Offer Test and founder Go decision remain required before build work.
+An already-authorized pilot can test later assumptions with a named cohort, recruitment basis, observation window, and contradiction criteria.
+One cohort's response does not establish broad product-market fit.
+
 ### Strict Evidence Markdown
 
 Validator-backed evidence sections use a narrow Markdown dialect. Each section has one exact rendered H2 and one simple pipe table. Validators resolve required columns by name. Approved column-zero backtick and tilde fences may hold hidden examples. Outside those fences, every nonblank line indented four or more columns invalidates the evidence document. HTML comment opener tokens, raw HTML block syntax, non-column-zero fences, and container-relative raw HTML also invalidate it. Write checkable records as top-level Markdown.

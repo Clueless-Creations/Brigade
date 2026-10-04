@@ -7,6 +7,7 @@ This reference factors in the user-provided Glam Up case study PDF, "From 0 to 1
 ## Contents
 
 - Fit Gate
+- Bounded cohort learning
 - Growth System Thesis
 - Product Loop Contract
 - Content Format Lab
@@ -35,6 +36,24 @@ Defer or reject viral loops when:
 - the acquisition platform does not match the likely paying buyer or device mix
 
 Record the fit decision in `VIRAL_GROWTH.md`, update `state/business-state.json` `lanes.growth`, and trace the decision into `state/LAUNCH_TRACE.md`.
+
+## Bounded cohort learning
+
+Use this only for an already-authorized pilot when community adoption or voluntary propagation is an unresolved assumption.
+Record the cohort, recruitment basis, observation window, expected result, and contradiction criteria in the existing growth plan.
+Separate recruited users, organic referrals, activation, return use, and payment evidence.
+Early saturation in one group does not prove durable growth or broad product-market fit.
+
+[Nikita Bier's August 2024 interview with Lenny Rachitsky](https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier) emphasizes reaching core value quickly.
+Measure time to that value and remove unnecessary friction while preserving consent, authentication, security, and accepted scope.
+Keep the acquisition promise, first valuable flow, and referral benefit consistent.
+Give participants an accessible feedback route through an approved support or research channel.
+
+Invitations remain optional and must offer recipient value with clear consent and recipient controls.
+Do not use this interview to target minors. Preserve applicable age, privacy, consent, and safety requirements.
+Do not harvest contacts, import contacts without consent, or use referral spam or coercive unlocks.
+School saturation, age or gender effects, naming tactics, invitation counts, and revenue benchmarks are not defaults from this interview.
+Choose cohort-specific evidence; do not impose a universal time limit or binary product-market-fit score.
 
 ## Growth System Thesis
 

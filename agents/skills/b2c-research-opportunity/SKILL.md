@@ -48,6 +48,8 @@ prose, and requires:
 A pass verdict over no stated threshold, or a table with rows but no judgment line, is data
 collection wearing a gate's clothes.
 
+For demand discovery or an authorized pilot, use [discovery hypotheses](../../../knowledge/research/distribution-offer-signal.md#discovery-hypotheses) to test the relevant assumption.
+
 ## Load only what the task needs
 
 [Task inputs, outputs, checks, and knowledge selectors](references/task.md) supplies the canonical details when they are needed. Open the specific referenced sections, not the whole library. In connected knowledge retrieval, follow exact section selectors, revision hashes, and continuation calls. Unresolved guidance remains unresolved.

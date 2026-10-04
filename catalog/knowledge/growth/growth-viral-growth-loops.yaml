@@ -13,5 +13,35 @@ bindings:
     - workflow.growth.ugc-creator-engine
     - workflow.growth.fastlane-growth-ops
   context_pack_ids: []
-sources: []
-source_exemption: This package contains internal operating guidance or has no external factual claims.
+sources:
+  - id: lenny-nikita-bier-2024-first-value
+    name: Nikita Bier interview with Lenny Rachitsky
+    source_type: primary_podcast_show_notes
+    url: https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier
+    publisher: Lenny Rachitsky
+    published_at: 2024-08-25
+    retrieved_at: 2026-10-04
+    revision: sha256:d1687bc4a0f1345b8015ecc80f4751bce611c9823837ac0ff2c0927851c45be8
+    selectors:
+      - Published takeaways about reaching the core value moment quickly
+    review_cadence_days: 365
+    claim_scope: The published show notes emphasize rapid first value. No universal time target, demographic tactic,
+      invitation threshold, revenue benchmark, or product-market-fit test is adopted from the interview.
+    last_review_date: 2026-10-04
+    reviewer: b2c-maintainers
+    rights:
+      status: unknown
+      spdx: NOASSERTION
+      notes: No redistribution license established. Cite ideas in original guidance; copy no source text, image, or assets.
+derivations:
+  - source_ids:
+      - lenny-nikita-bier-2024-first-value
+    relationship: informed
+    selectors:
+      - knowledge/growth/viral-growth-loops.md#bounded-cohort-learning
+    rationale: Original conditional pilot guidance uses the first-value lens. Cohort measurement, consent, feedback,
+      scope preservation, and safety boundaries are Brigade instructions, not attributed interview quotations.
+    omissions:
+      - No infographic reproduction, school or demographic defaults, fixed time targets, or binary PMF thresholds.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-04

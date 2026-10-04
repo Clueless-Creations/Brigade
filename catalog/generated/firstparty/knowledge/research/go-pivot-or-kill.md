@@ -40,6 +40,8 @@ prose, and requires:
 A pass verdict over no stated threshold, or a table with rows but no judgment line, is data
 collection wearing a gate's clothes.
 
+For demand discovery or an authorized pilot, use [discovery hypotheses](./distribution-offer-signal.md#discovery-hypotheses) to test the relevant assumption.
+
 ## 2. The Go, Pivot, Or Kill Table Contract
 
 The verdict itself lives in a `## Go, Pivot, Or Kill` table with these required named columns.
