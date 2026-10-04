@@ -1,6 +1,6 @@
 ---
 name: b2c-maintainer
-description: "Route the maintenance work on the B2C App Builder repository: mechanism changes, upstream support upkeep, and maintenance-grade provider integrations. Use for repository-local ownership only; use Brigade for operating one business and b2c-contributor for first source intake."
+description: "Route the maintenance work on the B2C App Builder repository: instructions and routing, mechanism changes, upstream support upkeep, and maintenance-grade provider integrations. Use for repository-local ownership only; use Brigade for operating one business and b2c-contributor for first source intake."
 metadata:
   short-description: Maintain the builder and its upstreams
 ---
@@ -13,24 +13,30 @@ This skill is a thin, repository-local router for maintenance work. Do not insta
 
 Use this router for one of the following:
 
+- instruction, skill, and routing maintenance
 - architecture/conformance edits that touch canonical boundaries
 - maintenance ownership of existing upstreams and generated credits
 - post-adoption maintenance for provider integration and support changes already adopted by the repo
 
 ## Route conditionally
 
-1. **Architectural or mechanism edits**
+1. **Instruction and routing maintenance**
+
+- when changing agent guides, skills, task cues, scoped routers, or their links, use [Maintaining instructions and routing](../../../CONTRIBUTING.md#maintaining-instructions-and-routing)
+- select the affected authored owners before planning; apply architecture, provider, and upstream routes only when their existing triggers are implicated
+
+2. **Architectural or mechanism edits**
 
 - load `docs/architecture-conformance.md` and `docs/north-star-architecture.md` as required
 - record boundary changes with evidence (`path:line`) and keep decision ownership in `docs/decisions/`
 
-2. **Upstream support maintenance**
+3. **Upstream support maintenance**
 
 - load `workflow.machine.upstream-support-maintainer` from the catalog
 - own `catalog/upstreams/<id>.yaml`, `docs/upstreams/`, and generated credit evidence
 - run `b2c contribute upstream-check`, `b2c contribute upgrade-plan`, `npm run render:credits`, and the matching gates (`npm run check:upstreams`, `npm run check:credits`) for affected work
 
-3. **Provider maintenance after adoption**
+4. **Provider maintenance after adoption**
 
 - continue through `docs/guides/provider-integrations.md` and ADR-0013
 - map native capability to canonical operations and independent conformance evidence

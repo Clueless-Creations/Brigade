@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.103",
+  "version": "0.221.104",
   "updatedAt": "2026-10-04",
   "sourcePath": ".",
   "releaseNotes": [
+    "Route instruction and routing maintenance to existing authored owners, preserve current-versus-historical authority, and verify its section anchor. Stamp 0.221.104; no deployment or npm publish.",
     "Add conditional discovery hypotheses and authorized cohort learning from primary Nikita Bier show notes, preserving existing offer, consent and founder gates. Stamp 0.221.103; no deployment or npm publish.",
     "Deliver scoped app guidance before planning and carry selected task inputs into independent verification. Stamp 0.221.102; no deployment or npm publish.",
     "Add conditional web and agent interaction guidance for visible work, status, responsibility, evidence and action; distinguish human and AI activity and preserve journey permissions and external-operation proof. Stamp 0.221.101; no deployment or npm publish.",
