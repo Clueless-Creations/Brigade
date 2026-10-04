@@ -116,6 +116,27 @@ void test("normal planning entry delivers scoped app sources before authoring an
   assert.ok(workspaceEntry.includes("Reviewers independently open the applicable guides"));
 });
 
+void test("opportunity discovery routes to a bound subsection without adding universal growth startup", () => {
+  const skill = taskSkills.find((entry) => entry.name === "b2c-research-opportunity")!;
+  const file = `${skillDirectory(skill)}/SKILL.md`;
+  const files = renderTaskSkillFiles(catalog);
+  const projected = files[file]!;
+  const route = projected.match(/For demand discovery or an authorized pilot, use \[discovery hypotheses\]\(([^)]+)\)/u);
+  assert.ok(route, "the normal opportunity entry must deliver the conditional discovery route");
+  const [relativePath, anchor] = route[1]!.split("#");
+  const sourcePath = path.posix.normalize(path.posix.join(path.posix.dirname(file), relativePath!));
+  const reference = referencesForTask(catalog, skill).find((entry) => entry.path === sourcePath);
+  assert.ok(reference, "the discovery route must resolve to workflow-bound guidance");
+  const source = readFileSync(path.join(root, sourcePath), "utf8");
+  assert.ok(source.split(/\r?\n/u).some((line) => line === "### Discovery hypotheses" && anchor === "discovery-hypotheses"));
+  const bundle = collectTaskSkillPackage(root, catalog, skill.name, revision);
+  assert.ok(bundle.sourcePaths.includes(sourcePath), "standalone opportunity exports must carry the discovery owner");
+  for (const other of taskSkills.filter((entry) => entry.name !== skill.name)) {
+    assert.doesNotMatch(files[`${skillDirectory(other)}/SKILL.md`]!, /\[discovery hypotheses\]|Bounded cohort learning/u);
+  }
+  assert.doesNotMatch(readFileSync(path.join(root, "SKILL.md"), "utf8"), /Discovery hypotheses|Bounded cohort learning/u);
+});
+
 void test("missing workflow or required reference fails closed", () => {
   const skill = taskSkills[0]!;
   assert.throws(

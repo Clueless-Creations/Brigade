@@ -29,3 +29,34 @@ sources:
       personal hypotheses, not verified facts. Do not transfer deceptive, unsafe, or platform-circumvention tactics.
     last_review_date: 2026-08-20
     reviewer: b2c-maintainers
+  - id: lenny-nikita-bier-2024-discovery
+    name: Nikita Bier interview with Lenny Rachitsky
+    source_type: primary_podcast_show_notes
+    url: https://www.lennysnewsletter.com/p/how-to-consistently-go-viral-nikita-bier
+    publisher: Lenny Rachitsky
+    published_at: 2024-08-25
+    retrieved_at: 2026-10-04
+    revision: sha256:d1687bc4a0f1345b8015ecc80f4751bce611c9823837ac0ff2c0927851c45be8
+    selectors:
+      - Published takeaways about inefficient existing behavior as latent demand
+    review_cadence_days: 365
+    claim_scope: The published show notes suggest investigating inefficient workarounds as demand signals.
+      This historical interview is a contextual lens, not proof of adoption, payment, or product-market fit.
+    last_review_date: 2026-10-04
+    reviewer: b2c-maintainers
+    rights:
+      status: unknown
+      spdx: NOASSERTION
+      notes: No redistribution license established. Cite ideas in original guidance; copy no source text, image, or assets.
+derivations:
+  - source_ids:
+      - lenny-nikita-bier-2024-discovery
+    relationship: informed
+    selectors:
+      - knowledge/research/distribution-offer-signal.md#discovery-hypotheses
+    rationale: Original discovery instructions use the workaround lens. Hypothesis selection, existing evidence owners,
+      authorization boundaries, and contradiction criteria are Brigade guidance, not attributed interview quotations.
+    omissions:
+      - No infographic reproduction, demographic defaults, numerical growth thresholds, or extra pre-Go gates.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-04
