@@ -212,6 +212,17 @@ export function checkStandingGuidance(read: ReadGuidance): GuidanceFinding[] {
     }
   };
   checkOwnerLinks(ROOT, root);
+  const maintainer = read("agents/skills/b2c-maintainer/SKILL.md");
+  if (maintainer !== undefined) {
+    const route = "../../../CONTRIBUTING.md#maintaining-instructions-and-routing";
+    if (!localMarkdownLinks(maintainer).includes(route)) {
+      add("maintenance_route_missing", "agents/skills/b2c-maintainer/SKILL.md", "Instruction maintenance must reach its scoped CONTRIBUTING section.");
+    }
+    const owner = read("CONTRIBUTING.md");
+    if (owner === undefined || !/^## Maintaining instructions and routing\s*$/mu.test(owner)) {
+      add("maintenance_owner_unreachable", "CONTRIBUTING.md", "The instruction-maintenance route must resolve to its canonical section heading.");
+    }
+  }
   const portableRule = completionRule(root);
   if (!portableRule || !skill.includes(portableRule)) {
     add(

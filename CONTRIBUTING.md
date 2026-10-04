@@ -252,8 +252,56 @@ exact. A checklist box is not independent review.
 Do not hand-edit generated catalog projections. Use the owning renderer and
 include the generated diff.
 
-When you change a workspace entrypoint, update the install source and the
-reference business copy. Run the related entrypoint and continuity checks.
+When you change a workspace entrypoint, update its authored template and keep
+the installer's source map and affected reference-business guidance consistent.
+Run the related entrypoint and continuity checks.
+
+## Maintaining instructions and routing
+
+Use this section when changing agent guides, skills, task cues, scoped routers,
+or their links. Before planning, select the affected authoritative owners.
+
+| If changing… | Read and edit the existing owner |
+| --- | --- |
+| Repository instructions, a scoped guide, or a host adapter | [Authored and generated ownership](AGENTS.md#authored-and-generated-ownership) and the affected guide; host adapters point to the canonical guide |
+| A focused task cue or method | [Task-skill ownership](docs/decisions/0014-task-skill-projections.md), `catalog/task-skills.ts`, and the selected workflow or manifest-backed knowledge section; render its projections |
+| A business workspace entrypoint | The authored [workspace guide](surfaces/workspace-template/repo-agent-entrypoints/AGENTS.md), its [installer source map](adapters/install-entrypoints.ts), and affected [reference-business guidance](examples/workspace/business/engineering/app-agent-roster/APP_AGENTS.md); preserve its public business contracts |
+| Guidance that changes an existing app's accepted product or experience | The affected accepted `product.yaml`, `DESIGN.md`, linked journey/interaction sources, and applicable scoped guides |
+| An architecture or public-contract boundary | The existing [architecture-sensitive change](#architecture-sensitive-changes) and [public contract](#public-contract) routes, with their affected source and tests |
+
+Reusable product and experience guidance stays with its affected catalog,
+workflow, or manifest-backed knowledge owner; app artifacts apply when changing
+an existing app's accepted behavior.
+
+Keep one authoritative home per rule. Link to its owner rather than duplicate
+authored instructions. When moving or removing a rule, record its preserved home
+and affected delivery surfaces in the existing plan or PR. Preserve substantive
+requirements, bindings, and the standing [authority and protected-effect
+rules](AGENTS.md#completion-authority-and-protected-effects). Reconcile overlapping
+instructions with their current owners before editing.
+
+Use [Authority and status](docs/README.md#authority-and-status) to distinguish
+accepted owners from plans and research snapshots. An older accepted ADR remains
+binding until a later accepted decision changes it. Preserve historical records;
+label a relevant limitation or supersession at its existing home. Retrieval time
+changes neither authority nor implementation proof.
+
+Follow consequential routes before planning for every affected path, including
+paths outside the starting directory. Carry selected sources into the existing
+plan and give reviewers the same relevant set. Reviewers independently check
+the final diff and behavior or evidence, and investigate missing routes.
+
+For routing changes, check affected files, headings, old entry links, and
+frontmatter or manifests where edited. `audit:links` checks local file targets;
+verify affected fragments explicitly. Use the existing entrypoint, task-skill,
+and continuity checks when their surfaces change. Walk fresh representative
+tasks through source selection before planning; include cross-area and focused
+business cases when those reading paths are affected. Account for removed
+requirements through their preserved homes. A prose-only correction needs
+checks for its affected text and links, rather than a new task-walk campaign.
+Independent final-head review and the applicable [repository checks](#checks)
+remain required. Link and task walks do not establish runtime, device, provider,
+or release proof.
 
 ## Security
 

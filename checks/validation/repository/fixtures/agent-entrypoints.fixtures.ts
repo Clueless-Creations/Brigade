@@ -197,6 +197,22 @@ export function register(harness: Harness): void {
   record("standing contract rejects a broken destination", () => {
     requireFinding("AGENTS.md", root.replace("docs/architecture-conformance.md", "docs/missing-owner.md"), "agent_entrypoints.standing_owner_link_broken");
   });
+  record("instruction maintenance rejects a wrong section anchor even when its file exists", () => {
+    const maintainer = read("agents/skills/b2c-maintainer/SKILL.md")!;
+    requireFinding(
+      "agents/skills/b2c-maintainer/SKILL.md",
+      maintainer.replace("CONTRIBUTING.md#maintaining-instructions-and-routing", "CONTRIBUTING.md#missing-section"),
+      "agent_entrypoints.maintenance_route_missing",
+    );
+  });
+  record("instruction maintenance rejects a missing owner heading", () => {
+    const contributing = read("CONTRIBUTING.md")!;
+    requireFinding(
+      "CONTRIBUTING.md",
+      contributing.replace("## Maintaining instructions and routing", "## Retired instruction guidance"),
+      "agent_entrypoints.maintenance_owner_unreachable",
+    );
+  });
   record("portable completion does not disappear with repository AGENTS omitted from the export", () => {
     const rule = completionRule(root);
     if (!rule || !skill.includes(rule)) throw new Error("Portable completion rule is missing");
