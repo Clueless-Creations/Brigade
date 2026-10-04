@@ -99,6 +99,23 @@ void test("plan-implementation method keeps specialty concerns conditional", () 
   assert.doesNotMatch(method, /The plan must include:\n\n- requirements trace to launch docs and `state\/LAUNCH_TRACE\.md` IDs\n- 11-star complete product experience/);
 });
 
+void test("normal planning entry delivers scoped app sources before authoring and retains implementation/review trace", () => {
+  const skill = taskSkills.find((entry) => entry.name === "b2c-plan-implementation")!;
+  const file = `${skillDirectory(skill)}/SKILL.md`;
+  const projected = renderTaskSkillFiles(catalog)[file]!;
+  const beforePlan = projected.indexOf("For work in an existing app repository, before planning");
+  assert.ok(beforePlan >= 0 && beforePlan < projected.indexOf("Before `ce-work`"), "app sources must precede plan authoring in the delivered method");
+  for (const route of ["architecture/decision owners", "affected flow/screen", "feature, journey, and customer acceptance", "source section → design/engineering choice → observable check", "Independent reviewers read the applicable app guides"]) {
+    assert.ok(projected.includes(route), `missing delivered route: ${route}`);
+  }
+  assert.ok(projected.includes("Do not read every document"));
+  assert.ok(projected.includes("Supplied-evidence advice without a repository uses the supplied constraints"));
+  const workspaceEntry = readFileSync(path.join(root, "surfaces/workspace-template/repo-agent-entrypoints/AGENTS.md"), "utf8");
+  assert.ok(workspaceEntry.includes("Before planning, read the applicable nested `AGENTS.md`"));
+  assert.ok(workspaceEntry.includes("outside the session's starting directory"));
+  assert.ok(workspaceEntry.includes("Reviewers independently open the applicable guides"));
+});
+
 void test("missing workflow or required reference fails closed", () => {
   const skill = taskSkills[0]!;
   assert.throws(

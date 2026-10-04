@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.101
-revision: 0.221.101
+version: 0.221.102
+revision: 0.221.102
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -6346,6 +6346,30 @@ references:
         review_cadence_days: 30
         claim_scope: Basis for the "reviewers grow less critical once an artifact looks finished" note in §7, grounding the edge-case-listing self-check before accepting a slice as done.
         last_review_date: 2026-09-02
+        reviewer: b2c-maintainers
+      - id: openai-codex-agents-md-discovery
+        name: OpenAI
+        source_type: official_docs
+        url: https://developers.openai.com/codex/guides/agents-md
+        review_cadence_days: 30
+        claim_scope: Codex project instruction discovery follows the root-to-starting-directory chain; applicable paths outside it need explicit scoped reads.
+        last_review_date: 2026-10-03
+        reviewer: b2c-maintainers
+      - id: openai-task-specific-guidance
+        name: OpenAI
+        source_type: official_docs
+        url: https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra
+        review_cadence_days: 30
+        claim_scope: Contextual architecture, schema, and deployment routes avoid unnecessary document loading for unrelated edits.
+        last_review_date: 2026-10-03
+        reviewer: b2c-maintainers
+      - id: agents-md-scoped-instructions
+        name: AGENTS.md
+        source_type: official_docs
+        url: https://agents.md/index
+        review_cadence_days: 30
+        claim_scope: Shared repository instructions can be narrowed by nested project guides while explicit user instructions prevail.
+        last_review_date: 2026-10-03
         reviewer: b2c-maintainers
     replacement_ids: []
   - id: reference.engineering.expo-compatibility

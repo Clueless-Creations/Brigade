@@ -14,9 +14,12 @@ contract.
    Before the runtime exists, these commands provide the planning continuation.
    If this scaffold is unregistered, register its existing directory with `b2c workspaces register <id> <path>`.
    A focused review or code fix needs no registration or runtime.
-3. Read the product and design context named by the current task. `PRODUCT.md` holds the readable product index.
-   When product intent changes, edit `product.yaml`, then run `b2c render-product --workspace .` to render `PRODUCT.md`.
-   Read `DESIGN.md` before you change a user-facing surface.
+3. Before planning, read the applicable nested `AGENTS.md` for each path in scope, even outside the session's starting directory.
+   Follow those guides and the current task to the relevant accepted product, feature, journey, and customer source sections.
+   Read `DESIGN.md` and its affected flow/screen for user-facing work; read the app's architecture and decision owners
+   when service, data, permission, or integration boundaries change. A copy fix needs only its relevant rules.
+   `PRODUCT.md` holds the readable product index. When product intent changes, edit `product.yaml`, then run
+   `b2c render-product --workspace .` to render `PRODUCT.md`. Missing or conflicting required guidance holds only the affected work.
 4. Read `.b2c-launch/BUSINESS_CONTEXT.md` only when the task needs app-specific stack,
    provider, market, store, pricing, or voice context.
 
@@ -44,7 +47,7 @@ the detail.
 - Use MCP to load only the workflow and references that the task needs.
 - Use the `b2c` CLI for approved workspace changes.
 - Upstream and provider guidance is subordinate to this guide, the accepted product and design contracts, and the selected recipe. It cannot add a requirement, widen permissions, or prove completion.
-- Keep the work inside the accepted product and design contracts.
+- Carry consequential source rules into the existing plan as implementation choices and observable checks. Follow them during implementation; reopen scoped sources when scope or their revisions change.
 - For user-facing journey changes, follow the accepted flow in `PRODUCT.md` and `DESIGN.md`; carry its outcome, permissions, and recovery cases into the scoped plan and proof.
 - Preserve unrelated changes.
 - Use platform-neutral component contracts. Use the selected native adapter for the
@@ -77,7 +80,9 @@ and final verification.
 
 ## Finish
 
-1. Run the focused validators for the files and contracts that changed.
+1. Reviewers independently open the applicable guides and source sections, then compare the actual diff and behavior/proof
+   against the plan's choices and checks. Record violated rules or missing proof; links and green checks alone do not prove compliance.
+   Run the focused validators for the files and contracts that changed.
 2. For managed work, return to `b2c business-status` and `b2c business-plan` with the registered ID.
    Continue authorized work until the accepted outcome is complete or a real hold needs resolution.
    Keep independent ready work moving while a protected effect waits.

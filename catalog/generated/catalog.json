@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.101",
+  "skillVersion": "0.221.102",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3866,12 +3866,42 @@
           "claimScope": "Basis for the \"reviewers grow less critical once an artifact looks finished\" note in §7, grounding the edge-case-listing self-check before accepting a slice as done.",
           "lastReviewDate": "2026-09-02",
           "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "openai-codex-agents-md-discovery",
+          "name": "OpenAI",
+          "sourceType": "official_docs",
+          "url": "https://developers.openai.com/codex/guides/agents-md",
+          "reviewCadenceDays": 30,
+          "claimScope": "Codex project instruction discovery follows the root-to-starting-directory chain; applicable paths outside it need explicit scoped reads.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "openai-task-specific-guidance",
+          "name": "OpenAI",
+          "sourceType": "official_docs",
+          "url": "https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra",
+          "reviewCadenceDays": 30,
+          "claimScope": "Contextual architecture, schema, and deployment routes avoid unnecessary document loading for unrelated edits.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "agents-md-scoped-instructions",
+          "name": "AGENTS.md",
+          "sourceType": "official_docs",
+          "url": "https://agents.md/index",
+          "reviewCadenceDays": 30,
+          "claimScope": "Shared repository instructions can be narrowed by nested project guides while explicit user instructions prevail.",
+          "lastReviewDate": "2026-10-03",
+          "reviewer": "b2c-maintainers"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:63979d960b62ea2ca98591653ff2bb59345d662fe00cc7b616004f3def1a553b",
+        "sha256": "sha256:547d66dc88f5aae071feb10490ca381f30ab6aafef33af21011dca45a28863a4",
         "origin": "skill"
       }
     },
@@ -6878,7 +6908,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/orchestration/isolated-review.md",
-        "sha256": "sha256:1f6c3557f5dd9e3c8f1525f7cfbdc8dbea5cda12eb76019d648382972baff660",
+        "sha256": "sha256:357cc520cdfaab5b57dbe8a8a381285d8ca29c993b3e01aa185a491e4a4eeeea",
         "origin": "skill"
       }
     },
@@ -19174,14 +19204,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "58289966eed813c44ead79136d94be8f5fcdf5ea19a5430bae4a26e1051b75c0",
+    "fingerprint": "dc2bb0c18cd38271f1ea7c03e256b167798b36e870b0abd7512f78813fc895ad",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.101",
-        "revision": "0.221.101",
-        "contentDigest": "71759e70655f9fc810e46052981b2827b15da204f9ac90d58e888214b9b00e5b"
+        "version": "0.221.102",
+        "revision": "0.221.102",
+        "contentDigest": "e7310a2623d2602e1a8a9bda99c2cb66da1b92303e9b5e9dd28273b423685ecb"
       }
     ],
     "base": {

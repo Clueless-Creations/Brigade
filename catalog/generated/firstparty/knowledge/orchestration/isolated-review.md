@@ -82,7 +82,7 @@ Freeze the rubric before the producer runs. `workflow.design.reference-pack-libr
 
 The auditor brief contains only:
 
-1. The product files under review.
+1. The product files under review and applicable app guides, accepted source sections, and plan choices/checks for that scope. The auditor opens those sources independently and compares actual changes and behavior/proof with their rules; links or passing checks alone do not establish compliance.
 2. The frozen rubric path and version, or the workflow's own auditor contract.
 3. The structured reference pack for the surface.
 4. The read-only tool list.
