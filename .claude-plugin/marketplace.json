@@ -1,0 +1,15 @@
+{
+  "name": "brigade",
+  "owner": {
+    "name": "Clueless Creations",
+    "url": "https://clueless-creations.com/"
+  },
+  "plugins": [
+    {
+      "name": "brigade-first-five-minutes",
+      "source": "./entrypoints/plugins/brigade-first-five-minutes",
+      "description": "Audit a consumer app's onboarding and paywall from supplied captures, target user, and intended first value.",
+      "version": "0.1.0"
+    }
+  ]
+}

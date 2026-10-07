@@ -51,7 +51,9 @@ if (manifest) {
 const REPOSITORY_ONLY_PATHS = [
   "docs",
   ".github",
+  ".agents",
   ".claude",
+  ".claude-plugin",
   ".codex",
   ".cursor",
   ".superdesign",

@@ -1,0 +1,20 @@
+{
+  "name": "brigade",
+  "interface": {
+    "displayName": "Brigade"
+  },
+  "plugins": [
+    {
+      "name": "brigade-first-five-minutes",
+      "source": {
+        "source": "local",
+        "path": "./entrypoints/plugins/brigade-first-five-minutes"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_FIRST_USE"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

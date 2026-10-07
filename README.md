@@ -90,7 +90,15 @@ From a checkout, setup runs `npm link`, so `b2c` resolves to that checkout.
 Setup creates the local workspace registry and prints the MCP registration
 command for Claude Code, Cursor, and Codex. Register that local server as
 `b2c-local`. Hosted knowledge is a separate `b2c-hosted` connection and cannot
-run a workspace.
+run a workspace. ChatGPT desktop and Codex can install the repo marketplace
+without review:
+
+```bash
+codex plugin marketplace add Clueless-Creations/Brigade
+```
+
+Then install **Brigade First Five Minutes**. Knowledge tools need no Brigade API
+key. Claude Code can run `claude plugin marketplace add Clueless-Creations/Brigade`.
 
 After the first authorized publish, the consumer path is:
 

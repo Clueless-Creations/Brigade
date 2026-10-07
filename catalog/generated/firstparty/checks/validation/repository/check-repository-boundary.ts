@@ -31,7 +31,9 @@ const repoRoot = path.resolve(flagString(flags, "repoRoot") ?? defaultRepoRoot);
 const issues: Issue[] = [];
 
 const allowedTopLevelDirectories = new Set([
+  ".agents",
   ".claude",
+  ".claude-plugin",
   ".codex",
   ".cursor",
   ".git",

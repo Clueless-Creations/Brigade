@@ -100,6 +100,7 @@ test("billingNoticeEmail: plain copy, the date, the next step, escaped HTML, and
   const activated = billingNoticeEmail("sam@example.com", { kind: "plan_activated", subscriptionId: "sub_a", planName: "Monthly", periodEnd: "2026-10-05T12:00:00.000Z" }, "evt_act");
   assert.equal(activated.subject, "Your hosted access is on");
   assert.match(activated.text, /Your Monthly plan is active and renews on 5 Oct 2026\./);
+  assert.match(activated.text, /Hosted knowledge tools need no key/);
   assert.match(activated.text, /Create a key: https:\/\/app\.clueless-creations\.com\/console\/keys/);
   assert.match(activated.html, /href="https:\/\/app\.clueless-creations\.com\/console\/keys"/);
   assert.equal(activated.idempotencyKey, "evt_act:plan_activated");

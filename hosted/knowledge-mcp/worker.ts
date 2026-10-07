@@ -7,7 +7,7 @@ import { registerKnowledgeTools } from "../../kernel/knowledge-service/tools.js"
 import type { HostedKnowledgeBundle, KnowledgeService } from "../../kernel/knowledge-service/types.js";
 import { resolveApiKeyAccess, resolveGrantAccess } from "./access.js";
 import { recordMcpActivation } from "./analytics.js";
-import { AccessError, isConsentSecret, READ_SCOPE } from "./auth.js";
+import { AccessError, isConsentSecret, READ_SCOPE, type Principal } from "./auth.js";
 import {
   boundedBody,
   failure,
@@ -62,9 +62,11 @@ async function checkRate(limiter: RateLimit, key: string): Promise<void> {
   if (!(await limiter.limit({ key })).success) throw new RequestError(429, "rate_limited");
 }
 
-async function mcpResponse(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-  const { principal } = await resolveGrantAccess(env, ctx.props);
-  await checkRate(env.API_LIMITER, principal.subject);
+type McpCaller = Principal | "anonymous";
+
+async function mcpResponse(request: Request, env: Env, ctx: ExecutionContext, caller: McpCaller): Promise<Response> {
+  const rateKey = caller === "anonymous" ? `anonymous:${request.headers.get("CF-Connecting-IP") ?? "unknown"}` : caller.subject;
+  await checkRate(env.API_LIMITER, rateKey);
   // Stateless clients use POST. GET would open an unbounded SSE stream in the SDK.
   if (request.method !== "POST") return failure(405, "method_not_allowed", { Allow: "POST" });
   const service = getService();
@@ -89,7 +91,7 @@ async function mcpResponse(request: Request, env: Env, ctx: ExecutionContext): P
     const body = await response.arrayBuffer();
     if (body.byteLength > MAX_HOSTED_RESPONSE_BYTES) throw new RequestError(500, "response_too_large");
     // Activation signal. No-op unless POSTHOG_PROJECT_TOKEN is set; cannot throw, delay, or alter this response.
-    if (response.ok) recordMcpActivation(env, ctx, request, principal.subject, service.metadata.engineVersion);
+    if (response.ok && caller !== "anonymous") recordMcpActivation(env, ctx, request, caller.subject, service.metadata.engineVersion);
     return new Response(body.byteLength ? body : null, { status: response.status, headers: response.headers });
   } finally {
     await server.close();
@@ -131,7 +133,8 @@ async function dispatch(request: Request, env: Env, ctx: ExecutionContext, cors:
   if (path === "/")
     return json({
       service: "B2C App Builder",
-      access: "api_key",
+      access: "anonymous_knowledge",
+      httpApiAccess: "api_key",
       scope: "knowledge_only",
       mcp: `${url.origin}/mcp`,
       api: `${url.origin}/api/v1`,
@@ -164,9 +167,16 @@ async function dispatch(request: Request, env: Env, ctx: ExecutionContext, cors:
     await checkRate(env.API_LIMITER, principal.subject);
     return handleApi(request, getService());
   }
+  if (isMcp && !request.headers.has("authorization")) {
+    if (request.method !== "POST") return failure(405, "method_not_allowed", { Allow: "POST" });
+    return mcpResponse(request, env, ctx, "anonymous");
+  }
   if (isMcp && request.headers.has("authorization")) readBearer(request);
   const provider = createOAuthProvider(env, trusted, {
-    fetch: (incoming, incomingEnv, incomingCtx) => mcpResponse(incoming, incomingEnv, incomingCtx),
+    fetch: async (incoming, incomingEnv, incomingCtx) => {
+      const { principal } = await resolveGrantAccess(incomingEnv, incomingCtx.props);
+      return mcpResponse(incoming, incomingEnv, incomingCtx, principal);
+    },
   });
   // The OAuth library injects helpers into env. A fresh object prevents cross-request reuse.
   return provider.fetch(request, { ...env }, ctx);

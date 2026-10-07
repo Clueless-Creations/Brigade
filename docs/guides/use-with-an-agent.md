@@ -14,6 +14,7 @@ that can answer it.
 | Build and operate one business over multiple sessions | Create or resume a registered workspace, then read status and plan before running bounded work. | Local CLI runtime; agent execution tools when running work |
 | Ask for current store, billing, analytics, device, or provider facts | Use the named provider/device tools and report missing evidence as a blocker. | The relevant provider or device connection |
 | Ask to inspect the catalog or preview a composition | Use `b2c catalog` or `b2c compose`. Treat preview as a declaration, not proof of executable provider support. | Node 24 and `npm ci` for a checkout; no Jev |
+| Use Brigade knowledge from ChatGPT desktop or Codex | Add the repo marketplace, then install Brigade First Five Minutes. Knowledge tools need no API key. | `codex plugin marketplace add Clueless-Creations/Brigade` |
 
 Do not create a workspace, install MCP, or configure Jev just to answer a
 focused question. A task skill is intentionally usable on its own.
