@@ -231,10 +231,11 @@ Use this checklist for new apps.
 
 1. Inspect relevant competitors' onboarding, paywall, core loop, and pricing. Record sources, access limits, observations, and implications in `strategy/RESEARCH.md`.
 2. Inherit accepted product and offer decisions. Treat competitor prices and hard paywalls as hypotheses until approved.
-3. Define typography, color, spacing, shape, and motion tokens in `DESIGN.md` and its token contracts before coding screens.
-4. Use consistent icon and image styles. Record asset rights and reusable generation instructions; preserve selected providers and existing authority.
-5. Name bounded implementation slices in this plan. Preserve reducer-owned pending work and the existing press/celebration and Reduce Motion rules.
-6. Build and inspect each visible slice. Use §8's selected simulator/device route for mobile slices. Use §1b's browser route for web slices. Capture actual UI, repair observed gaps, and record proof limits.
+3. Write the [spec pack](../design/spec-pack.md) and get founder approval before coding screens.
+4. Define typography, color, spacing, shape, and motion tokens in `DESIGN.md` and its token contracts before coding screens.
+5. Use consistent icon and image styles. Record asset rights and reusable generation instructions; preserve selected providers and existing authority.
+6. Name bounded implementation slices in this plan. Preserve reducer-owned pending work and the existing press/celebration and Reduce Motion rules.
+7. Build and inspect each visible slice. Use §8's selected simulator/device route for mobile slices. Use §1b's browser route for web slices. Capture actual UI, repair observed gaps, and record proof limits.
 
 Original Brigade guidance informed by the supplied prompt summary, attributed to `ernestosoftware`; source access and rights remain unverified.
 

@@ -56,6 +56,8 @@ npm run render:design-room -- --root /path/to/app
 npm run check:design-room -- --root /path/to/app
 ```
 
+The [spec pack](spec-pack.md) is the pre-build approval view.
+
 The generated page is `design/design-room.html`. It presents:
 
 - the product brief and visual direction

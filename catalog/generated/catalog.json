@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.105",
+  "skillVersion": "0.221.106",
   "areas": [
     {
       "id": "area.operating-system",
@@ -1786,6 +1786,7 @@
         "reference.design.mobile-flow-craft",
         "reference.design.premium-mobile-craft",
         "reference.design.quality-lens",
+        "reference.design.spec-pack",
         "reference.design.surfaces-b2c",
         "reference.design.vibecoded-tells",
         "reference.engineering.recommended-agent-skills"
@@ -2706,7 +2707,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/design-room.md",
-        "sha256": "sha256:ffa5499a1f9bc91c3f170ca6e2a632f60af47b6cc27ab50bcc253c535229db6b",
+        "sha256": "sha256:44466142c988f6ce3cc7921f70d42a88c06df979effb99817dbfc9df050a6156",
         "origin": "skill"
       }
     },
@@ -3591,6 +3592,23 @@
       }
     },
     {
+      "id": "reference.design.spec-pack",
+      "path": "knowledge/design/spec-pack.md",
+      "domainId": "domain.design",
+      "title": "Spec Pack",
+      "loadWhen": "starting a new consumer app before screens are built; writing or reviewing a spec pack; preparing founder approval of screens, web pages, tokens, store listing and event map",
+      "lifecycle": "active",
+      "applicabilityNotes": "Pre-build approval view. Not a product, design, task, or state store. After Gate 1, sections land in existing owners.",
+      "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
+      "sources": [],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
+        "sha256": "sha256:b5e9a5db9f3b91451406ced3cdcab71ec0db757b3f21450e3727ef497cbbe94f",
+        "origin": "skill"
+      }
+    },
+    {
       "id": "reference.design.surfaces-b2c",
       "path": "knowledge/design/surfaces-b2c.md",
       "domainId": "domain.design",
@@ -3939,7 +3957,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:b926479c74636a0d6524d811bf5daf32a584e3afeeffbff9d4f93636b88e55c0",
+        "sha256": "sha256:c3a009fcdfb14afd5185ff892236fa5d49886d1a42332668da12e2bbc3814937",
         "origin": "skill"
       }
     },
@@ -19320,14 +19338,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "b7e8b8934e7d895fa231c91dc6b4c620f6a0fd5abc49e9f68ec0aade33c8b36c",
+    "fingerprint": "b965e80d5462fadafdbaaa46f1338714c6e031dee67673525e8461b9ef268e67",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.105",
-        "revision": "0.221.105",
-        "contentDigest": "3bca31d53d861a477dbca2e2f0f517c86be3439faaf2ed0237a2acf6000d9bb3"
+        "version": "0.221.106",
+        "revision": "0.221.106",
+        "contentDigest": "6bf71517b8295b89e2e0b55bd06dc4f2305ac4599a521ebefeee71f23027d7b5"
       }
     ],
     "base": {
@@ -19339,7 +19357,7 @@
       "business-pack.consumer-business": {
         "domains": 15,
         "workflows": 115,
-        "references": 147
+        "references": 148
       }
     }
   }
