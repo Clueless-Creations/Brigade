@@ -15,11 +15,10 @@ bindings:
   context_pack_ids:
     - context.engineering
     - context.design
-applicability_notes: expo/skills and emilkowalski animate-expo/review-animations are optional for a selected
-  Expo session after founder approval; they are not default installs. Appllama's app-design skill is an opt-in
-  stack-specific companion; appllama-usage is loaded only when the user's Appllama MCP is independently connected
-  and authorized. last30days is an opt-in host engine for scored recency briefs; it is not a default and does not
-  replace AppKittie, XPOZ, or Firecrawl. Keep paid/vendor MCPs off the default surface.
+applicability_notes: Stack-specific packs apply only when the selected stack matches. Expo, Emil, Appllama,
+  SwiftUI Pro, and Vercel packs are never Flutter prescriptions. last30days is an opt-in host engine for scored
+  recency briefs; it is not a default and does not replace AppKittie, XPOZ, or Firecrawl. Keep paid/vendor MCPs
+  off the default surface.
 sources:
   - id: github-appllama-skills
     name: Appllama agent skills
@@ -64,3 +63,111 @@ sources:
       evidence: catalog/upstreams/notices/last30days-skill.txt
       evidence_sha256: 31803213a789825dc419de43542381e1d570b4408cf2bcf2e8a9947a6d3fd2ab
       notes: Skill name and install syntax only; no SKILL.md is copied into the builder.
+  - id: github-com-expo-skills
+    name: Official Expo agent skills
+    source_type: agent_skill_pack
+    url: https://github.com/expo/skills
+    review_cadence_days: 30
+    claim_scope: MIT-licensed official Expo skills. Skill names and install syntax only. expo-skill-feedback,
+      hooks, and Expo MCP stay refused. Paid EAS skills stay unselected until chosen.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: 650 Industries, Inc. (aka Expo)
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    upstream_id: expo-skills
+    selectors:
+      - README.md
+      - LICENSE
+      - skills.sh.json
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/expo-skills.txt
+      evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+      notes: Routing only. No SKILL.md is copied. expo-animation carries Emil Kowalski's notice.
+  - id: github-emilkowalski-skills
+    name: Emil Kowalski agent skills
+    source_type: agent_skill_pack
+    url: https://github.com/emilkowalski/skills
+    review_cadence_days: 30
+    claim_scope: MIT-licensed motion and review skills. animate-expo is the Expo/RN producer. Review skills
+      are auditor-mode. write-swift is SwiftUI only. Web skills stay in the landing lane.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Emil Kowalski
+    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    upstream_id: emilkowalski-skills
+    selectors:
+      - README.md
+      - LICENSE
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/emilkowalski-skills.txt
+      evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
+      notes: Routing only. No SKILL.md is copied.
+  - id: github-vercel-labs-agent-skills
+    name: Vercel Labs agent skills
+    source_type: agent_skill_pack
+    url: https://github.com/vercel-labs/agent-skills
+    review_cadence_days: 30
+    claim_scope: Tracking-only. README and four SKILL.md frontmatter blocks declare MIT; no LICENSE file
+      exists. Brigade adapts nothing. Deploy, token, and optimize skills stay rejected.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Vercel
+    revision: 063bee94c3f4df8453406c830b0a7df0f2860278
+    upstream_id: vercel-agent-skills
+    selectors:
+      - README.md
+    rights:
+      status: unverified
+      notes: No license text or copyright notice at the reviewed revision. Informed citation only.
+  - id: github-twostraws-swiftui-agent-skill
+    name: SwiftUI Pro agent skill
+    source_type: agent_skill_pack
+    url: https://github.com/twostraws/SwiftUI-Agent-Skill
+    review_cadence_days: 30
+    claim_scope: MIT-licensed SwiftUI auditor skill. Opt-in auditor mode for SwiftUI apps only. Unverified
+      Core Instructions version claims stay refused.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Paul Hudson
+    revision: f9800713b24580bc444931949aad4519128605e8
+    upstream_id: swiftui-pro-skill
+    selectors:
+      - README.md
+      - LICENSE
+      - swiftui-pro/SKILL.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/swiftui-pro-skill.txt
+      evidence_sha256: b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc
+      notes: Routing only. No SKILL.md is copied.
+derivations:
+  - source_ids:
+      - github-com-expo-skills
+      - github-appllama-skills
+      - github-emilkowalski-skills
+      - github-twostraws-swiftui-agent-skill
+    relationship: referenced
+    rationale: Name each pack's stack applicability, producer versus auditor mode, and approval gate. No
+      skill text is copied.
+    omissions:
+      - Do not install a pack as a default.
+      - Do not apply Expo or SwiftUI prescriptions to Flutter.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+  - source_ids:
+      - github-vercel-labs-agent-skills
+    relationship: informed
+    baseline: 063bee94c3f4df8453406c830b0a7df0f2860278
+    selectors:
+      - README.md
+    rationale: Keep the rights hold. The React Native skill may be installed only after a LICENSE file
+      exists; Brigade still adapts nothing from it.
+    omissions:
+      - Do not adapt or copy Vercel skill text.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07

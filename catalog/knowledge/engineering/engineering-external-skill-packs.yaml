@@ -110,3 +110,66 @@ sources:
     reviewer: b2c-maintainers
     revision: 30f6084ddf6adf4173cf882fce266015f8872c17
     upstream_id: amir-brand-system
+  - id: github-com-expo-skills
+    name: Official Expo skills
+    source_type: skill_pack
+    url: https://github.com/expo/skills
+    review_cadence_days: 30
+    claim_scope: MIT-licensed official Expo producer pack for a selected Expo session. Mapped skill names
+      come from catalog/stacks/expo-agent-tools.ts. expo-skill-feedback stays refused.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: 650 Industries, Inc. (aka Expo)
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    upstream_id: expo-skills
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/expo-skills.txt
+      evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+  - id: github-emilkowalski-skills
+    name: Emil Kowalski agent skills
+    source_type: skill_pack
+    url: https://github.com/emilkowalski/skills
+    review_cadence_days: 30
+    claim_scope: MIT-licensed producer and auditor motion skills. animate-expo is Expo/RN producer.
+      review-animations, improve-animations, and find-animation-opportunities are auditor-mode.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Emil Kowalski
+    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    upstream_id: emilkowalski-skills
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/emilkowalski-skills.txt
+      evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
+  - id: github-twostraws-swiftui-agent-skill
+    name: SwiftUI Pro agent skill
+    source_type: skill_pack
+    url: https://github.com/twostraws/SwiftUI-Agent-Skill
+    review_cadence_days: 30
+    claim_scope: MIT-licensed SwiftUI auditor pack. Producer and reviewer are different agents. Not for
+      Expo or Flutter.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Paul Hudson
+    revision: f9800713b24580bc444931949aad4519128605e8
+    upstream_id: swiftui-pro-skill
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/swiftui-pro-skill.txt
+      evidence_sha256: b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc
+derivations:
+  - source_ids:
+      - github-com-expo-skills
+      - github-emilkowalski-skills
+      - github-twostraws-swiftui-agent-skill
+    relationship: referenced
+    rationale: Add producer and auditor routing rows. Brigade owners win on conflict. No skill text is copied.
+    omissions:
+      - Do not install a pack as a default.
+      - Do not let the same agent hold producer and auditor modes for one surface.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07

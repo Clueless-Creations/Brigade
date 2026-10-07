@@ -1,0 +1,102 @@
+schema_version: 1
+id: swiftui-pro-skill
+project: SwiftUI Pro agent skill
+canonical_url: https://github.com/twostraws/SwiftUI-Agent-Skill
+aliases:
+  - twostraws/SwiftUI-Agent-Skill
+authors:
+  - name: Paul Hudson
+    role: original author or copyright holder identified in the reviewed source
+maintainers:
+  - name: twostraws (github.com/twostraws)
+    role: current upstream maintainer
+copyright: Copyright (c) 2026 Paul Hudson.
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/twostraws/SwiftUI-Agent-Skill/blob/f9800713b24580bc444931949aad4519128605e8/LICENSE
+  evidence_sha256: b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc
+  reviewed_revision: f9800713b24580bc444931949aad4519128605e8
+  notice_file: catalog/upstreams/notices/swiftui-pro-skill.txt
+  scope: Root LICENSE. Skill text is cited for routing only. No reference file, host copy, or plugin is imported.
+    Unverified version claims in Core Instructions are refused.
+source_ids:
+  - github-twostraws-swiftui-agent-skill
+  - swiftui-pro-skill-license
+  - swiftui-pro-skill-file
+relationships:
+  - kind: selected-skill-guidance
+    consumption: swiftui-pro is an opt-in auditor-mode pack for SwiftUI apps. The producer and the reviewer are
+      different agents. Not for Expo or Flutter. Brigade's SwiftUI reference adapter and accessibility-readiness
+      remain the contracts.
+    local_owners:
+      - knowledge/engineering/recommended-agent-skills.md
+      - knowledge/engineering/external-skill-packs.md
+    tests:
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-swiftui-auditor.yaml
+    upstream_paths:
+      - README.md
+      - LICENSE
+      - swiftui-pro/SKILL.md
+    pin_authority: npx skills add carries no pin. Reviewed commit below identifies the README and skill name this routing cites.
+baselines:
+  reviewed_source:
+    revision: f9800713b24580bc444931949aad4519128605e8
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Read-only license, README, and swiftui-pro/SKILL.md inspection; no skill install or live host execution.
+  reviewed_guidance:
+    revision: f9800713b24580bc444931949aad4519128605e8
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Skill name routed as opt-in SwiftUI auditor guidance only. Version claims in Core Instructions refused.
+support:
+  policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
+    provider bindings or certification of installed versions.
+  versions:
+    - range: f9800713b24580bc444931949aad4519128605e8
+      status: untested
+      evidence:
+        - Source inspection and the ios-skill-pack-boundary routing eval only; no live host-skill execution
+          from this repository.
+  operations:
+    - id: swiftui-pro-auditor-routing
+      title: Opt-in SwiftUI Pro auditor-mode routing
+      keywords:
+        - swiftui
+        - review
+        - auditor
+      owners:
+        - knowledge/engineering/recommended-agent-skills.md
+        - knowledge/engineering/external-skill-packs.md
+  unsupported_operations:
+    - id: automatic-install-or-upgrade
+      reason: Requires explicit target, selected compatible revision, scoped authority and independent
+        verification. No host installation, business repin or publication is automatic.
+    - id: unverified-platform-versions
+      reason: Core Instructions claim iOS 27 as the default target, Xcode 27.1, Swift 6.4, and iPhone Duo.
+        Those claims stay refused. Platform-version guidance must come from current Apple documentation.
+    - id: host-plugin-or-openai-yaml
+      reason: .claude-plugin, agents/openai.yaml, and the duplicated skills/swiftui-pro/SKILL.md host copy
+        are not adopted.
+  platforms: []
+adaptations:
+  - id: auditor-not-producer
+    description: The same agent never holds producer and auditor modes for one SwiftUI surface.
+    owner: knowledge/engineering/external-skill-packs.md
+    intentional: true
+  - id: not-required
+    description: Citing the pack does not require installing it. SwiftUI reference adapters remain the contract.
+    owner: knowledge/engineering/recommended-agent-skills.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-07"
+  status: current
+credits:
+  acknowledge: true
+  use: inspiration
+  summary: SwiftUI Pro is named as an opt-in auditor-mode companion pack for SwiftUI apps. No skill text is
+    adapted. Original authors and license notices are retained; no live integration is claimed.

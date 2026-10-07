@@ -1,0 +1,23 @@
+id: ios-skill-pack-boundary
+title: Flutter motion and performance stay on stack-neutral Brigade owners
+prompt: "Polish our Flutter app's motion and performance so it feels premium. The founder has not approved any external skill packs."
+expected_route: "Use premium-mobile-craft, motion-craft-benchmarks, and mobile-flow-craft. Do not install Expo, Emil, SwiftUI Pro, or Vercel packs. Do not apply Expo or SwiftUI prescriptions to Flutter. Do not treat Vercel as adapted."
+must_use:
+  - "knowledge/design/premium-mobile-craft.md"
+  - "knowledge/design/motion-craft-benchmarks.md"
+  - "knowledge/design/mobile-flow-craft.md"
+must_catch:
+  - "Flutter"
+  - "stack-neutral"
+  - "founder approval"
+should_say:
+  - "opt-in"
+  - "virtualize"
+  - "Reduce Motion"
+forbidden:
+  - "npx skills add expo/skills"
+  - "npx skills add emilkowalski/skills"
+  - "npx skills add vercel-labs/agent-skills"
+  - "install swiftui-pro"
+  - "install expo-animation"
+  - "Vercel is adapted"

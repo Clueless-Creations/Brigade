@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "upstreamId": "expo-skills",
+  "checkedAt": "2026-10-07T16:46:13.626Z",
+  "method": "github-api",
+  "latestStable": null,
+  "prereleases": [],
+  "branchHead": {
+    "branch": "main",
+    "sha": "d4f484024fec15196bfd3c272e953e3f983972cf",
+    "committedAt": "2026-10-05T17:42:22Z"
+  },
+  "releasesSinceBaseline": [],
+  "licenseSha256": "49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93",
+  "licenseChanged": false,
+  "archived": false,
+  "host": null,
+  "unknowns": [
+    "no stable release was read; releases since baseline are unknown",
+    "host executable not observed: pass --observe-host to probe PATH"
+  ]
+}

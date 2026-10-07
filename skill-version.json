@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.106",
+  "version": "0.221.107",
   "updatedAt": "2026-10-07",
   "sourcePath": ".",
   "releaseNotes": [
+    "Adopt five iOS and app agent-skill sources as maintained upstreams; adapt stack-neutral craft methods; route stack-specific packs as opt-in. Rebase onto main after #649; re-render generated files; pin vibecoded-tells for the design-taste rubric. Stamp 0.221.107; no deployment or npm publish.",
     "Add a spec-pack contract and example template so new apps get founder-approved screens before implementation. Stamp 0.221.106; no deployment or npm publish.",
     "Add a summary-informed new-app kickoff checklist for competitor flow research, design tokens, asset consistency, bounded implementation, and visual verification. Stamp 0.221.105; no deployment or npm publish.",
     "Record unverified prompt attribution and rights, retain existing product/provider/motion/state owners, and route the checklist through the generated implementation skill.",

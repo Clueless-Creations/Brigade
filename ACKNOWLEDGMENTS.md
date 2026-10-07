@@ -46,6 +46,17 @@ B2C App Builder is built on open-source work and adapts published methods. This 
   - adapted-method: Selected cross-platform flow-research, navigation-semantics, native-fidelity, anti-generic, motion, and verification methods are reauthored in knowledge/design/mobile-flow-craft.md. No whole skill, executable, native dependency, or asset was installed by this contribution.
   - selected-skill-guidance: The Expo/React Native app-design skill and the provider-usage skill are named as opt-in companion packs. Installation happens only with founder approval. No SKILL.md is auto-installed as a top-level builder skill, and Appllama MCP is never a default dependency.
 
+**Emil Kowalski agent skills**
+
+- Original author: Emil Kowalski, original author or copyright holder identified in the reviewed source
+- Current maintainer: emilkowalski (github.com/emilkowalski), current upstream maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/emilkowalski/skills
+- Contributes: Selected Emil Kowalski agent-skill methods inform knowledge/design/premium-mobile-craft.md, knowledge/design/motion-craft-benchmarks.md, and knowledge/design/mobile-flow-craft.md. Named skills remain opt-in producer or auditor packs. Original authors and license notices are retained; no live integration is claimed.
+- How we consume it:
+  - adapted-method: Selected stack-neutral motion-review, momentum-projection, directional-hint, and worst-case-data methods are reauthored in knowledge/design/premium-mobile-craft.md, knowledge/design/motion-craft-benchmarks.md, and knowledge/design/mobile-flow-craft.md. Frequency and purpose gates already owned locally stay kept.
+  - selected-skill-guidance: animate-expo is the Expo/RN producer (do not also install Expo's expo-animation copy). review-animations, improve-animations, and find-animation-opportunities are auditor-mode packs. write-swift is SwiftUI-stack only. Web skills stay in the landing lane.
+
 **ASO and App Marketing Skills**
 
 - Original author: Erencan, original author or copyright holder identified in the reviewed source
@@ -63,6 +74,17 @@ B2C App Builder is built on open-source work and adapts published methods. This 
 - Contributes: Selected serve-sim methods inform knowledge/engineering/xcodebuildmcp-testing.md, knowledge/process/tool-recipes/device-capture-and-proof.md. Original authors and license notices are retained; no live integration is claimed.
 - How we consume it:
   - adapted-method: Selected published methods and tool procedures are adapted into existing builder guidance. No whole skill, executable, native dependency or asset was installed by this contribution.
+
+**Official Expo agent skills**
+
+- Original authors: 650 Industries, Inc. (aka Expo), original author or copyright holder identified in the reviewed source; Emil Kowalski, copyright holder of plugins/expo/skills/expo-animation (MIT notice distinct from the root Expo notice)
+- Current maintainer: Expo (github.com/expo), current upstream maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/expo/skills
+- Contributes: Selected Expo agent-skill methods inform knowledge/design/vibecoded-tells.md and knowledge/design/mobile-flow-craft.md. Official Expo skills remain opt-in companion packs for a selected Expo session. Original authors and license notices are retained; no live integration is claimed.
+- How we consume it:
+  - adapted-method: Selected stack-neutral native-slop tells and four-state screen rules are reauthored in knowledge/design/vibecoded-tells.md and knowledge/design/mobile-flow-craft.md. React Native grep patterns and Expo-only APIs stay upstream.
+  - selected-skill-guidance: Official Expo skills are named as opt-in producer packs for a selected Expo session. catalog/stacks/expo-agent-tools.ts owns the reviewed inventory. Installation happens only with founder approval. expo-skill-feedback, hooks, and Expo MCP stay refused.
 
 **last30days agent skill**
 
@@ -141,6 +163,16 @@ B2C App Builder is built on open-source work and adapts published methods. This 
 - Contributes: Selected XcodeBuildMCP methods inform knowledge/engineering/xcodebuildmcp-testing.md, knowledge/process/tool-recipes/device-capture-and-proof.md. Original authors and license notices are retained; no live integration is claimed.
 - How we consume it:
   - adapted-method: Selected published methods and tool procedures are adapted into existing builder guidance. No whole skill, executable, native dependency or asset was installed by this contribution.
+
+**SwiftUI Pro agent skill**
+
+- Original author: Paul Hudson, original author or copyright holder identified in the reviewed source
+- Current maintainer: twostraws (github.com/twostraws), current upstream maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/twostraws/SwiftUI-Agent-Skill
+- Contributes: SwiftUI Pro is named as an opt-in auditor-mode companion pack for SwiftUI apps. No skill text is adapted. Original authors and license notices are retained; no live integration is claimed.
+- How we consume it:
+  - selected-skill-guidance: swiftui-pro is an opt-in auditor-mode pack for SwiftUI apps. The producer and the reviewer are different agents. Not for Expo or Flutter. Brigade's SwiftUI reference adapter and accessibility-readiness remain the contracts.
 
 ## Optional managed services
 

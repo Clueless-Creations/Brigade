@@ -1,0 +1,23 @@
+id: ios-skill-pack-swiftui-auditor
+title: SwiftUI Pro is an auditor-mode pack after founder approval
+prompt: "Review our SwiftUI screens for API and HIG mistakes. The producer already wrote the views."
+expected_route: "Keep Brigade SwiftUI adapters and accessibility-readiness as the contracts. Route swiftui-pro only as an opt-in auditor on a different agent after founder approval. Refuse unverified version claims."
+must_use:
+  - "knowledge/engineering/recommended-agent-skills.md"
+  - "knowledge/engineering/external-skill-packs.md"
+  - "knowledge/engineering/accessibility-readiness.md"
+must_catch:
+  - "auditor"
+  - "founder approval"
+  - "different agent"
+should_say:
+  - "SwiftUI"
+  - "opt-in"
+  - "deployment target"
+forbidden:
+  - "apply iOS 27 as the default"
+  - "Xcode 27.1"
+  - "iPhone Duo"
+  - "install it automatically"
+  - "use swiftui-pro on Flutter"
+  - "same agent is producer and auditor"

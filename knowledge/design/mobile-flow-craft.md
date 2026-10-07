@@ -2,7 +2,7 @@
 
 Use this reference when designing, implementing, or auditing a native mobile flow. It strengthens the Design Room with flow-level research, navigation semantics, native fidelity, mechanical anti-generic checks, motion budgeting, and runtime verification.
 
-This doctrine adapts selected methods from Appllama's MIT-licensed `appllama-app-design-skill` and `appllama-usage` skills into B2C App Builder's cross-platform contracts; the MIT notice travels with the package's third-party notices. It does not copy Appllama's proprietary screen library, require its MCP, or make Expo/React Native the default stack.
+This doctrine adapts selected methods from Appllama's MIT-licensed `appllama-app-design-skill` and `appllama-usage` skills, plus stack-neutral state-cycle and worst-case-data methods from Expo's official skills and Emil Kowalski's skills, into B2C App Builder's cross-platform contracts; the MIT notices travel with the package's third-party notices. It does not copy Appllama's proprietary screen library, require its MCP, or make Expo/React Native the default stack.
 
 ## 1. Research the question, not the gallery
 
@@ -87,7 +87,13 @@ Every primary surface must account for the states required by `design-acceptance
 
 Loading should preserve expected layout when its shape is known. Empty states should explain how the user can reach useful content. Errors should be specific and recoverable when recovery exists. Offline and permission-denied behavior must be explicit or have a product-specific non-applicability reason.
 
+Loading is not empty. Empty means the request resolved with zero items. Never show the empty state while the first load is still resolving, and do not flash "no items" across a hydration or auth gate. Keep showing known content while a refresh runs; put refresh failure next to that content, not in place of it.
+
+Do not dismiss a form or clear a draft before its save succeeds. While a mutation is pending, block repeat submission. On failure, keep the draft, show a recoverable error, and let the user retry.
+
 Optimistic feedback is useful only when rollback and failure are visible and correct. Do not hide network or provider uncertainty behind a success animation.
+
+Stress each primary surface with plausible worst-case data before calling the layout done: long names and one-letter names, unbreakable emails, missing optional fields, huge counts, zero items, non-Latin text, and emoji in user-supplied fields. Use values a real user or the schema could produce. This is a review method. Do not require a demo-data toggle in the shipped product UI.
 
 ## 5. Mechanical anti-generic preflight
 

@@ -286,6 +286,10 @@ The catalog's hardest-bookmarked family per post (rollout wheel scrub eng 3,037;
 
 **Velocity handoff.** On release, feed the gesture's ending velocity into the settle spring's initial velocity — SwiftUI: read `velocity` off the final `DragGesture.Value` (iOS 17+) and start the settle with `.interpolatingSpring(..., initialVelocity:)`, normalized by the remaining travel (a projected end _target_ alone does not carry velocity into the spring); Reanimated `withSpring(target, { velocity })`; Flutter `SpringSimulation` with the drag velocity. A settle that ignores release velocity visibly "resets" and breaks the physical illusion.
 
+**Momentum projection.** Do not snap to the nearest rest point from the release position. Project the resting position from release velocity the way platform scroll deceleration does, then settle to the snap point nearest that projection. A flick should throw the surface past where the finger left it. Apply the same rule on SwiftUI, Reanimated, and Flutter springs.
+
+**Directional hint.** Intermediate frames should telegraph the outcome — grow toward the finger or remaining travel — not only interpolate to a stored target. Humans read a final state from a trajectory.
+
 **Rubber-band overscroll.** Content dragged past its bounds follows with diminishing returns, never a hard stop — iOS's classic resistance constant is ≈0.55, with displacement asymptotically approaching a limit proportional to the container dimension. Match the platform default; never disable overscroll bounce on scrolling content to make it "feel tight."
 
 **Pull-to-refresh elasticity.** Trigger threshold 60–80pt of pull; the indicator's progress maps to pull _distance_, not time, so the user feels it arming; one `impactLight` haptic exactly at the arm point; release settles with `PremiumMotion.standard`; the spinner region collapses over `motion.durationBase` when the refresh completes.
@@ -300,6 +304,8 @@ Accept when:
 
 - [ ] Tracking is 1:1 while the finger is down; nothing eases toward the finger.
 - [ ] Every release settle receives the gesture's ending velocity.
+- [ ] Flick and page-snap targets come from the projected resting position, not the release point alone.
+- [ ] In-between frames hint at the remaining travel.
 - [ ] Overscroll rubber-bands at platform-default resistance; nothing hard-stops at an edge.
 - [ ] Pull-to-refresh arms by distance with a single haptic at the threshold.
 - [ ] Drag-to-dismiss commits on velocity or displacement and springs back without overshoot otherwise.

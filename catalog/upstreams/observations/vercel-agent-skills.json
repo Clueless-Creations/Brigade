@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "upstreamId": "vercel-agent-skills",
+  "checkedAt": "2026-10-07T16:46:53.442Z",
+  "method": "github-api",
+  "latestStable": {
+    "tag": "agent-skills-063bee94c3f4df8453406c830b0a7df0f2860278",
+    "publishedAt": "2026-08-28T13:36:31Z",
+    "assets": [
+      {
+        "name": "deploy-to-vercel.tar.gz",
+        "sha256": "a12419585d8db33556218e74a92497db1c5d5d2804a1f899cee1b523ad1763e8",
+        "bytes": 18069
+      },
+      {
+        "name": "index.json",
+        "sha256": "689c537e15e8149b062736bdde918ac282eb48e8c1fd2e510f8a525da8b50350",
+        "bytes": 6309
+      },
+      {
+        "name": "vercel-cli-with-tokens.md",
+        "sha256": "c06bea99e75eab07fde4fae26069baa002f82f39b53f07981704c2901551dd4c",
+        "bytes": 10476
+      },
+      {
+        "name": "vercel-composition-patterns.tar.gz",
+        "sha256": "0af47b94aa0ff20a60a1629cfb6b29db3ab47dfa781873ef08193a2da57932c7",
+        "bytes": 11269
+      },
+      {
+        "name": "vercel-optimize.tar.gz",
+        "sha256": "622daac872811a4206477e0569a183eaa248f9719454b39422a5690fbe31c126",
+        "bytes": 236593
+      },
+      {
+        "name": "vercel-react-best-practices.tar.gz",
+        "sha256": "551e671112c393bec0b4a8551badb9bf3f63187e57a901a4e1b6b932bdffe995",
+        "bytes": 68867
+      },
+      {
+        "name": "vercel-react-native-skills.tar.gz",
+        "sha256": "95308e57f629679542bc84cb0e8280aa1fd0003360d42341dec927447e0e7e6d",
+        "bytes": 43989
+      },
+      {
+        "name": "vercel-react-view-transitions.tar.gz",
+        "sha256": "c14bbd7b118c35365e6c1db44f5b91ed43db543d73d8845356760fd3cc414345",
+        "bytes": 37195
+      },
+      {
+        "name": "web-design-guidelines.md",
+        "sha256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f",
+        "bytes": 1231
+      },
+      {
+        "name": "writing-guidelines.md",
+        "sha256": "89a5f581193289b80af58b980090aeed535047c8df2b55ccbaae0de40283a99d",
+        "bytes": 1233
+      }
+    ]
+  },
+  "prereleases": [],
+  "branchHead": {
+    "branch": "main",
+    "sha": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "committedAt": "2026-08-28T13:36:07Z"
+  },
+  "releasesSinceBaseline": [],
+  "licenseSha256": null,
+  "licenseChanged": null,
+  "archived": false,
+  "host": null,
+  "unknowns": [
+    "LICENSE text not observed: Source returned HTTP 404.",
+    "neither reviewed baseline revision is a tag in the fetched release list; releases since baseline were not computed",
+    "LICENSE digest unknown; license drift cannot be judged",
+    "host executable not observed: pass --observe-host to probe PATH"
+  ]
+}

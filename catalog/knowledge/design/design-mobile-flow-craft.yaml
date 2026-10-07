@@ -63,6 +63,48 @@ sources:
       evidence: catalog/upstreams/notices/appllama-skills.txt
       evidence_sha256: 14cffee850f5c761273dfc49798cddc96786b4520c23f3ed1da727c334f07476
       notes: Selected research method adapted; provider MCP syntax stays upstream.
+  - id: expo-four-state-screens
+    name: Expo four-state screen rules
+    source_type: upstream_method
+    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-data-fetching/SKILL.md
+    review_cadence_days: 30
+    claim_scope: MIT-licensed loading/empty/error/content rules. B2C App Builder adapts the gaps that empty is not
+      loading and that a form is not dismissed before save succeeds.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: 650 Industries, Inc. (aka Expo)
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    upstream_id: expo-skills
+    selectors: &expo-states
+      - LICENSE
+      - plugins/expo/skills/expo-native-ui/SKILL.md
+      - plugins/expo/skills/expo-data-fetching/SKILL.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/expo-skills.txt
+      evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+  - id: emilkowalski-break-ui
+    name: Emil Kowalski break-ui worst-case data
+    source_type: upstream_method
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/break-ui/SKILL.md
+    review_cadence_days: 30
+    claim_scope: MIT-licensed worst-case data stress method. B2C App Builder adapts the plausible-extremes catalog
+      without requiring a demo toggle in the product UI.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Emil Kowalski
+    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    upstream_id: emilkowalski-skills
+    selectors: &emil-break
+      - LICENSE
+      - skills/break-ui/SKILL.md
+      - skills/break-ui/CATALOG.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/emilkowalski-skills.txt
+      evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
 derivations:
   - source_ids:
       - appllama-app-design-skill
@@ -91,3 +133,28 @@ derivations:
     reviewer: b2c-maintainers
     reviewed_at: 2026-09-07
     notice: catalog/upstreams/notices/appllama-skills.txt
+  - source_ids:
+      - expo-four-state-screens
+    relationship: adapted
+    baseline: d4f484024fec15196bfd3c272e953e3f983972cf
+    selectors: *expo-states
+    rationale: Add the missing state-cycle rules that empty is not first-load and that a form is not dismissed
+      before save succeeds.
+    omissions:
+      - Do not import Expo Router or TanStack Query recipes.
+      - Do not treat Expo as the default stack.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    notice: catalog/upstreams/notices/expo-skills.txt
+  - source_ids:
+      - emilkowalski-break-ui
+    relationship: adapted
+    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    selectors: *emil-break
+    rationale: Add plausible worst-case data stress to state-cycle review without requiring a product-UI demo toggle.
+    omissions:
+      - Do not adopt a Demo data / Worst case toggle in the shipped product.
+      - Do not copy named personal examples as required fixtures.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    notice: catalog/upstreams/notices/emilkowalski-skills.txt

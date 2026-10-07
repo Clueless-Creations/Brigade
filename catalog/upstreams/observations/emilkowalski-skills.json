@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "upstreamId": "emilkowalski-skills",
+  "checkedAt": "2026-10-07T16:46:14.485Z",
+  "method": "github-api",
+  "latestStable": null,
+  "prereleases": [],
+  "branchHead": {
+    "branch": "main",
+    "sha": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+    "committedAt": "2026-10-02T10:43:31Z"
+  },
+  "releasesSinceBaseline": [],
+  "licenseSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+  "licenseChanged": false,
+  "archived": false,
+  "host": null,
+  "unknowns": [
+    "no stable release was read; releases since baseline are unknown",
+    "host executable not observed: pass --observe-host to probe PATH"
+  ]
+}

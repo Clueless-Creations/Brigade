@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "upstreamId": "appllama-skills",
+  "checkedAt": "2026-10-07T16:46:16.834Z",
+  "method": "github-api",
+  "latestStable": null,
+  "prereleases": [],
+  "branchHead": {
+    "branch": "main",
+    "sha": "dd5caaec3d5d50ad7fc0324da238119c6b7c3707",
+    "committedAt": "2026-09-06T09:01:36Z"
+  },
+  "releasesSinceBaseline": [],
+  "licenseSha256": "14cffee850f5c761273dfc49798cddc96786b4520c23f3ed1da727c334f07476",
+  "licenseChanged": false,
+  "archived": false,
+  "host": null,
+  "unknowns": [
+    "no stable release was read; releases since baseline are unknown",
+    "host executable not observed: pass --observe-host to probe PATH"
+  ]
+}

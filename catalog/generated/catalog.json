@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.106",
+  "skillVersion": "0.221.107",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3161,6 +3161,54 @@
             "skills/appllama-usage/SKILL.md"
           ],
           "upstreamId": "appllama-skills"
+        },
+        {
+          "id": "expo-four-state-screens",
+          "name": "Expo four-state screen rules",
+          "sourceType": "upstream_method",
+          "url": "https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-data-fetching/SKILL.md",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed loading/empty/error/content rules. B2C App Builder adapts the gaps that empty is not loading and that a form is not dismissed before save succeeds.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "650 Industries, Inc. (aka Expo)",
+          "revision": "d4f484024fec15196bfd3c272e953e3f983972cf",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/expo-skills.txt",
+            "evidenceSha256": "49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93"
+          },
+          "selectors": [
+            "LICENSE",
+            "plugins/expo/skills/expo-native-ui/SKILL.md",
+            "plugins/expo/skills/expo-data-fetching/SKILL.md"
+          ],
+          "upstreamId": "expo-skills"
+        },
+        {
+          "id": "emilkowalski-break-ui",
+          "name": "Emil Kowalski break-ui worst-case data",
+          "sourceType": "upstream_method",
+          "url": "https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/break-ui/SKILL.md",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed worst-case data stress method. B2C App Builder adapts the plausible-extremes catalog without requiring a demo toggle in the product UI.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Emil Kowalski",
+          "revision": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/emilkowalski-skills.txt",
+            "evidenceSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b"
+          },
+          "selectors": [
+            "LICENSE",
+            "skills/break-ui/SKILL.md",
+            "skills/break-ui/CATALOG.md"
+          ],
+          "upstreamId": "emilkowalski-skills"
         }
       ],
       "derivations": [
@@ -3204,12 +3252,52 @@
           "reviewer": "b2c-maintainers",
           "reviewedAt": "2026-09-07",
           "notice": "catalog/upstreams/notices/appllama-skills.txt"
+        },
+        {
+          "sourceIds": [
+            "expo-four-state-screens"
+          ],
+          "relationship": "adapted",
+          "baseline": "d4f484024fec15196bfd3c272e953e3f983972cf",
+          "selectors": [
+            "LICENSE",
+            "plugins/expo/skills/expo-native-ui/SKILL.md",
+            "plugins/expo/skills/expo-data-fetching/SKILL.md"
+          ],
+          "rationale": "Add the missing state-cycle rules that empty is not first-load and that a form is not dismissed before save succeeds.",
+          "omissions": [
+            "Do not import Expo Router or TanStack Query recipes.",
+            "Do not treat Expo as the default stack."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07",
+          "notice": "catalog/upstreams/notices/expo-skills.txt"
+        },
+        {
+          "sourceIds": [
+            "emilkowalski-break-ui"
+          ],
+          "relationship": "adapted",
+          "baseline": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "selectors": [
+            "LICENSE",
+            "skills/break-ui/SKILL.md",
+            "skills/break-ui/CATALOG.md"
+          ],
+          "rationale": "Add plausible worst-case data stress to state-cycle review without requiring a product-UI demo toggle.",
+          "omissions": [
+            "Do not adopt a Demo data / Worst case toggle in the shipped product.",
+            "Do not copy named personal examples as required fixtures."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07",
+          "notice": "catalog/upstreams/notices/emilkowalski-skills.txt"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/mobile-flow-craft.md",
-        "sha256": "sha256:143cf9865c01a50f2d9090e966118c160c0d42e777910210a99a2eb76ccf80bb",
+        "sha256": "sha256:65db086a1f4ccc4c914a95bed9c2468e58c4a87a79b1683c064ce587f7b96d56",
         "origin": "skill"
       }
     },
@@ -3290,12 +3378,56 @@
           "claimScope": "MIT-licensed React and Canvas reference for semantic AI activity states. B2C App Builder transfers its state mapping, tuned sizes, accessible status, visibility pause, and static reduced-motion frame through recipe R18.",
           "lastReviewDate": "2026-08-20",
           "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "emilkowalski-apple-design",
+          "name": "Emil Kowalski apple-design gesture methods",
+          "sourceType": "upstream_method",
+          "url": "https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/apple-design/SKILL.md",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed momentum-projection and directional-hint methods. B2C App Builder adapts the gaps into Gesture & Scroll Physics in stack-neutral wording.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Emil Kowalski",
+          "revision": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/emilkowalski-skills.txt",
+            "evidenceSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+            "notes": "Momentum projection and directional hint only. Web CSS examples stay upstream."
+          },
+          "selectors": [
+            "LICENSE",
+            "skills/apple-design/SKILL.md"
+          ],
+          "upstreamId": "emilkowalski-skills"
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "emilkowalski-apple-design"
+          ],
+          "relationship": "adapted",
+          "baseline": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "selectors": [
+            "LICENSE",
+            "skills/apple-design/SKILL.md"
+          ],
+          "rationale": "Add momentum projection and directional hint to Gesture & Scroll Physics so SwiftUI, Flutter, and Reanimated sessions share the same method.",
+          "omissions": [
+            "Do not import CSS or web-only construction steps."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07",
+          "notice": "catalog/upstreams/notices/emilkowalski-skills.txt"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/motion-craft-benchmarks.md",
-        "sha256": "sha256:11e1290b5849120b95172a9654a74bc22110f71ab76a8a674efcaa70b94072fa",
+        "sha256": "sha256:d4d48f5b01af2cf4799a27f1d68a59888cc96ff7c676f687267056fc6bdbdfab",
         "origin": "skill"
       }
     },
@@ -3338,6 +3470,84 @@
           "reviewer": "b2c-maintainers"
         },
         {
+          "id": "emilkowalski-review-animations",
+          "name": "Emil Kowalski review-animations standards",
+          "sourceType": "upstream_method",
+          "url": "https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/review-animations/SKILL.md",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed motion-review gaps. B2C App Builder adapts asymmetric enter/exit, origin-aware scale, rapid-trigger interruptibility, and gentler reduced motion onto the existing token scale.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Emil Kowalski",
+          "revision": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/emilkowalski-skills.txt",
+            "evidenceSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+            "notes": "Gap methods only. CSS easings and millisecond literals stay upstream."
+          },
+          "selectors": [
+            "LICENSE",
+            "skills/review-animations/SKILL.md",
+            "skills/review-animations/STANDARDS.md"
+          ],
+          "upstreamId": "emilkowalski-skills"
+        },
+        {
+          "id": "react-native-performance-docs",
+          "name": "React Native Performance Overview",
+          "sourceType": "official_docs",
+          "url": "https://reactnative.dev/docs/performance",
+          "reviewCadenceDays": 30,
+          "claimScope": "Primary React Native performance documentation for list virtualization, image size, and compositor-safe animation. Original Brigade frame-budget text cites this page; no third-party skill prose is copied.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Meta Platforms, Inc."
+        },
+        {
+          "id": "flutter-perf-best-practices",
+          "name": "Flutter performance best practices",
+          "sourceType": "official_docs",
+          "url": "https://docs.flutter.dev/perf/best-practices",
+          "reviewCadenceDays": 30,
+          "claimScope": "Primary Flutter performance documentation for lazy list constructors and rebuild cost. Original Brigade frame-budget text cites this page.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Flutter"
+        },
+        {
+          "id": "apple-swiftui-lazyvstack",
+          "name": "Apple SwiftUI LazyVStack",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/documentation/swiftui/lazyvstack",
+          "reviewCadenceDays": 30,
+          "claimScope": "Primary SwiftUI lazy-stack documentation for virtualizing long lists. Original Brigade frame-budget text cites this page.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Apple"
+        },
+        {
+          "id": "vercel-agent-skills-informed",
+          "name": "Vercel Labs agent skills",
+          "sourceType": "agent_skill_pack",
+          "url": "https://github.com/vercel-labs/agent-skills",
+          "reviewCadenceDays": 30,
+          "claimScope": "Tracking citation only. README and skill frontmatter declare MIT; no LICENSE file exists at the reviewed revision. Brigade adapts nothing from this repository.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Vercel",
+          "revision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+          "rights": {
+            "status": "unverified",
+            "notes": "No license text or copyright notice at 063bee94c3f4df8453406c830b0a7df0f2860278. Informed citation only."
+          },
+          "selectors": [
+            "README.md"
+          ],
+          "upstreamId": "vercel-agent-skills"
+        },
+        {
           "id": "developer-apple-com-swiftui-applying-liquid-glass-to-custom-views",
           "name": "Apple — Applying Liquid Glass to custom views (SwiftUI)",
           "sourceType": "official_docs",
@@ -3348,10 +3558,62 @@
           "reviewer": "b2c-maintainers"
         }
       ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "emilkowalski-review-animations"
+          ],
+          "relationship": "adapted",
+          "baseline": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "selectors": [
+            "LICENSE",
+            "skills/review-animations/SKILL.md",
+            "skills/review-animations/STANDARDS.md"
+          ],
+          "rationale": "Add missing motion-review rules to the Acceptance Checklist and Common Failures using DesignTokens.Motion instead of CSS easings or millisecond literals.",
+          "omissions": [
+            "Do not import CSS cubic-bezier values or millisecond defaults.",
+            "Do not treat Emil's web skills as mobile-binary prescriptions."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07",
+          "notice": "catalog/upstreams/notices/emilkowalski-skills.txt"
+        },
+        {
+          "sourceIds": [
+            "react-native-performance-docs",
+            "flutter-perf-best-practices",
+            "apple-swiftui-lazyvstack"
+          ],
+          "relationship": "informed",
+          "rationale": "Frame-budget list virtualization, row-identity, and display-size image rules are original Brigade text grounded in primary platform documentation.",
+          "omissions": [
+            "Do not paraphrase Vercel skill-file rule text."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07"
+        },
+        {
+          "sourceIds": [
+            "vercel-agent-skills-informed"
+          ],
+          "relationship": "informed",
+          "baseline": "063bee94c3f4df8453406c830b0a7df0f2860278",
+          "selectors": [
+            "README.md"
+          ],
+          "rationale": "Record that the Vercel React Native skill exists as an unadopted companion. Rights remain unverified; no rule text is used.",
+          "omissions": [
+            "Do not adapt, copy, or vendor any Vercel skill file."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07"
+        }
+      ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/premium-mobile-craft.md",
-        "sha256": "sha256:a234fafbbfeded182151abee4f4d7e6925d5f00c7b972971e0595011a71d073b",
+        "sha256": "sha256:e92f52e1d7847f2dc3d3084d21b3601d7ef8f1e2e0dac794275e0ec36a9a1cd7",
         "origin": "skill"
       }
     },
@@ -3694,6 +3956,30 @@
           "reviewer": "b2c-maintainers"
         },
         {
+          "id": "expo-native-slop-tells",
+          "name": "Expo native-slop tells",
+          "sourceType": "upstream_method",
+          "url": "https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-design-system/references/native-slop.md",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed named anti-pattern tells for generated mobile UI. B2C App Builder adapts stack-neutral wording into the Native App Tells table. React Native grep recipes stay upstream.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "650 Industries, Inc. (aka Expo)",
+          "revision": "d4f484024fec15196bfd3c272e953e3f983972cf",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/expo-skills.txt",
+            "evidenceSha256": "49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93",
+            "notes": "Selected tell names and methods adapted; Expo-only APIs and grep recipes omitted."
+          },
+          "selectors": [
+            "LICENSE",
+            "plugins/expo/skills/expo-design-system/references/native-slop.md"
+          ],
+          "upstreamId": "expo-skills"
+        },
+        {
           "id": "dev-to-tailwind-indigo-default-analysis",
           "name": "dev.to",
           "sourceType": "website",
@@ -3704,10 +3990,31 @@
           "reviewer": "b2c-maintainers"
         }
       ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "expo-native-slop-tells"
+          ],
+          "relationship": "adapted",
+          "baseline": "d4f484024fec15196bfd3c272e953e3f983972cf",
+          "selectors": [
+            "LICENSE",
+            "plugins/expo/skills/expo-design-system/references/native-slop.md"
+          ],
+          "rationale": "Reauthor the twenty named mobile slop tells in stack-neutral wording so Flutter, SwiftUI, and Expo sessions can apply the methods without Expo-only APIs.",
+          "omissions": [
+            "Do not import React Native grep recipes.",
+            "Do not treat Expo components as the default implementation."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07",
+          "notice": "catalog/upstreams/notices/expo-skills.txt"
+        }
+      ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/vibecoded-tells.md",
-        "sha256": "sha256:dd734cb5892448dc23836783fcb100973aa3e6f0245c3a69d66135ddb91c0919",
+        "sha256": "sha256:557ce14e63bbb3635b74e1ce3093ab76f3bc01f46c6caddb521d65efb69d0569",
         "origin": "skill"
       }
     },
@@ -4049,14 +4356,24 @@
           "sourceType": "agent_skill_pack",
           "url": "https://github.com/expo/skills",
           "reviewCadenceDays": 7,
-          "claimScope": "Official Expo skill pack named as an optional selected-session install. Intake does not vendor or install it. Rights and exact commit review belong to issue 87.",
-          "lastReviewDate": "2026-09-19",
+          "claimScope": "Official Expo skill pack named as an optional selected-session install. Discover the mapped skill from catalog/stacks/expo-agent-tools.ts. Paid EAS skills stay unselected. expo-skill-feedback, hooks, and Expo MCP stay refused.",
+          "lastReviewDate": "2026-10-07",
           "reviewer": "b2c-maintainers",
-          "publisher": "Expo",
+          "publisher": "650 Industries, Inc. (aka Expo)",
+          "revision": "d4f484024fec15196bfd3c272e953e3f983972cf",
           "rights": {
-            "status": "unknown",
-            "notes": "Named as a citation only. No skill text is copied. Issue 87 completes rights review before any adapt or vendor disposition."
-          }
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/expo-skills.txt",
+            "evidenceSha256": "49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93",
+            "notes": "Routing and inventory only. No skill text is copied."
+          },
+          "selectors": [
+            "README.md",
+            "LICENSE",
+            "skills.sh.json"
+          ],
+          "upstreamId": "expo-skills"
         }
       ],
       "derivations": [
@@ -4069,13 +4386,13 @@
           "relationship": "informed",
           "rationale": "Operation routing treats EAS services, MCP, and official skills as separate optional selections with explicit gaps until child packages land.",
           "reviewer": "b2c-maintainers",
-          "reviewedAt": "2026-09-19"
+          "reviewedAt": "2026-10-07"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/expo-operations-map.md",
-        "sha256": "sha256:d8c14b1b3684cfd5eb9885f90da24e635277c54b42f7567c6707fca8726f5bee",
+        "sha256": "sha256:073805e3471f10c2a163c07674ebef3df6a4581c862af4c30e8ac2a6a2e7ad4e",
         "origin": "skill"
       }
     },
@@ -4243,12 +4560,86 @@
           "reviewer": "b2c-maintainers",
           "revision": "30f6084ddf6adf4173cf882fce266015f8872c17",
           "upstreamId": "amir-brand-system"
+        },
+        {
+          "id": "github-com-expo-skills",
+          "name": "Official Expo skills",
+          "sourceType": "skill_pack",
+          "url": "https://github.com/expo/skills",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed official Expo producer pack for a selected Expo session. Mapped skill names come from catalog/stacks/expo-agent-tools.ts. expo-skill-feedback stays refused.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "650 Industries, Inc. (aka Expo)",
+          "revision": "d4f484024fec15196bfd3c272e953e3f983972cf",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/expo-skills.txt",
+            "evidenceSha256": "49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93"
+          },
+          "upstreamId": "expo-skills"
+        },
+        {
+          "id": "github-emilkowalski-skills",
+          "name": "Emil Kowalski agent skills",
+          "sourceType": "skill_pack",
+          "url": "https://github.com/emilkowalski/skills",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed producer and auditor motion skills. animate-expo is Expo/RN producer. review-animations, improve-animations, and find-animation-opportunities are auditor-mode.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Emil Kowalski",
+          "revision": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/emilkowalski-skills.txt",
+            "evidenceSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b"
+          },
+          "upstreamId": "emilkowalski-skills"
+        },
+        {
+          "id": "github-twostraws-swiftui-agent-skill",
+          "name": "SwiftUI Pro agent skill",
+          "sourceType": "skill_pack",
+          "url": "https://github.com/twostraws/SwiftUI-Agent-Skill",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed SwiftUI auditor pack. Producer and reviewer are different agents. Not for Expo or Flutter.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Paul Hudson",
+          "revision": "f9800713b24580bc444931949aad4519128605e8",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/swiftui-pro-skill.txt",
+            "evidenceSha256": "b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc"
+          },
+          "upstreamId": "swiftui-pro-skill"
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "github-com-expo-skills",
+            "github-emilkowalski-skills",
+            "github-twostraws-swiftui-agent-skill"
+          ],
+          "relationship": "referenced",
+          "rationale": "Add producer and auditor routing rows. Brigade owners win on conflict. No skill text is copied.",
+          "omissions": [
+            "Do not install a pack as a default.",
+            "Do not let the same agent hold producer and auditor modes for one surface."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/external-skill-packs.md",
-        "sha256": "sha256:7e25234185dcd544f7371f66d91b1a1d408ac006a6111ca33bf53167e0aadfc2",
+        "sha256": "sha256:4aee77b8a2744013462cf88a792723fa3b24a915f7afa91d299685ed0e0cf703",
         "origin": "skill"
       }
     },
@@ -4449,7 +4840,7 @@
       "title": "Recommended Agent Skills",
       "loadWhen": "before Expo or SwiftUI implementation when choosing recommended external agent skill packs for craft, motion, store work, optional recency research, or optional design-research provider guidance without vendor lock-in",
       "lifecycle": "active",
-      "applicabilityNotes": "expo/skills and emilkowalski animate-expo/review-animations are optional for a selected Expo session after founder approval; they are not default installs. Appllama's app-design skill is an opt-in stack-specific companion; appllama-usage is loaded only when the user's Appllama MCP is independently connected and authorized. last30days is an opt-in host engine for scored recency briefs; it is not a default and does not replace AppKittie, XPOZ, or Firecrawl. Keep paid/vendor MCPs off the default surface.",
+      "applicabilityNotes": "Stack-specific packs apply only when the selected stack matches. Expo, Emil, Appllama, SwiftUI Pro, and Vercel packs are never Flutter prescriptions. last30days is an opt-in host engine for scored recency briefs; it is not a default and does not replace AppKittie, XPOZ, or Firecrawl. Keep paid/vendor MCPs off the default surface.",
       "sources": [
         {
           "id": "github-appllama-skills",
@@ -4501,12 +4892,140 @@
             "skills/last30days/SKILL.md"
           ],
           "upstreamId": "last30days-skill"
+        },
+        {
+          "id": "github-com-expo-skills",
+          "name": "Official Expo agent skills",
+          "sourceType": "agent_skill_pack",
+          "url": "https://github.com/expo/skills",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed official Expo skills. Skill names and install syntax only. expo-skill-feedback, hooks, and Expo MCP stay refused. Paid EAS skills stay unselected until chosen.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "650 Industries, Inc. (aka Expo)",
+          "revision": "d4f484024fec15196bfd3c272e953e3f983972cf",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/expo-skills.txt",
+            "evidenceSha256": "49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93",
+            "notes": "Routing only. No SKILL.md is copied. expo-animation carries Emil Kowalski's notice."
+          },
+          "selectors": [
+            "README.md",
+            "LICENSE",
+            "skills.sh.json"
+          ],
+          "upstreamId": "expo-skills"
+        },
+        {
+          "id": "github-emilkowalski-skills",
+          "name": "Emil Kowalski agent skills",
+          "sourceType": "agent_skill_pack",
+          "url": "https://github.com/emilkowalski/skills",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed motion and review skills. animate-expo is the Expo/RN producer. Review skills are auditor-mode. write-swift is SwiftUI only. Web skills stay in the landing lane.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Emil Kowalski",
+          "revision": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/emilkowalski-skills.txt",
+            "evidenceSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+            "notes": "Routing only. No SKILL.md is copied."
+          },
+          "selectors": [
+            "README.md",
+            "LICENSE"
+          ],
+          "upstreamId": "emilkowalski-skills"
+        },
+        {
+          "id": "github-vercel-labs-agent-skills",
+          "name": "Vercel Labs agent skills",
+          "sourceType": "agent_skill_pack",
+          "url": "https://github.com/vercel-labs/agent-skills",
+          "reviewCadenceDays": 30,
+          "claimScope": "Tracking-only. README and four SKILL.md frontmatter blocks declare MIT; no LICENSE file exists. Brigade adapts nothing. Deploy, token, and optimize skills stay rejected.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Vercel",
+          "revision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+          "rights": {
+            "status": "unverified",
+            "notes": "No license text or copyright notice at the reviewed revision. Informed citation only."
+          },
+          "selectors": [
+            "README.md"
+          ],
+          "upstreamId": "vercel-agent-skills"
+        },
+        {
+          "id": "github-twostraws-swiftui-agent-skill",
+          "name": "SwiftUI Pro agent skill",
+          "sourceType": "agent_skill_pack",
+          "url": "https://github.com/twostraws/SwiftUI-Agent-Skill",
+          "reviewCadenceDays": 30,
+          "claimScope": "MIT-licensed SwiftUI auditor skill. Opt-in auditor mode for SwiftUI apps only. Unverified Core Instructions version claims stay refused.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "b2c-maintainers",
+          "publisher": "Paul Hudson",
+          "revision": "f9800713b24580bc444931949aad4519128605e8",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/swiftui-pro-skill.txt",
+            "evidenceSha256": "b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc",
+            "notes": "Routing only. No SKILL.md is copied."
+          },
+          "selectors": [
+            "README.md",
+            "LICENSE",
+            "swiftui-pro/SKILL.md"
+          ],
+          "upstreamId": "swiftui-pro-skill"
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "github-com-expo-skills",
+            "github-appllama-skills",
+            "github-emilkowalski-skills",
+            "github-twostraws-swiftui-agent-skill"
+          ],
+          "relationship": "referenced",
+          "rationale": "Name each pack's stack applicability, producer versus auditor mode, and approval gate. No skill text is copied.",
+          "omissions": [
+            "Do not install a pack as a default.",
+            "Do not apply Expo or SwiftUI prescriptions to Flutter."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07"
+        },
+        {
+          "sourceIds": [
+            "github-vercel-labs-agent-skills"
+          ],
+          "relationship": "informed",
+          "baseline": "063bee94c3f4df8453406c830b0a7df0f2860278",
+          "selectors": [
+            "README.md"
+          ],
+          "rationale": "Keep the rights hold. The React Native skill may be installed only after a LICENSE file exists; Brigade still adapts nothing from it.",
+          "omissions": [
+            "Do not adapt or copy Vercel skill text."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-07"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/recommended-agent-skills.md",
-        "sha256": "sha256:220b6479eb24263b30d9a0b9340f2c71c97d56fee0d8da409176afd32382f541",
+        "sha256": "sha256:c8df2367520d55052f5131e9b123b80888eb84a56c5053544fa9dbfb38e42196",
         "origin": "skill"
       }
     },
@@ -19338,14 +19857,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "b965e80d5462fadafdbaaa46f1338714c6e031dee67673525e8461b9ef268e67",
+    "fingerprint": "4a76fa6e8928f3413a6907b7f5b37c40e41c218d05e624bc171b8bf86825ca97",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.106",
-        "revision": "0.221.106",
-        "contentDigest": "6bf71517b8295b89e2e0b55bd06dc4f2305ac4599a521ebefeee71f23027d7b5"
+        "version": "0.221.107",
+        "revision": "0.221.107",
+        "contentDigest": "c813d93b7f47ad487c4908deddaa3d689ea23a4ecf380179a9c51f8f9328a07b"
       }
     ],
     "base": {
