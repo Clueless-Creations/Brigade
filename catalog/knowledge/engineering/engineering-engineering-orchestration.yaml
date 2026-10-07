@@ -12,6 +12,22 @@ bindings:
   context_pack_ids:
     - context.engineering
 sources:
+  - id: user-supplied-app-development-prompt
+    name: App-development prompt attributed to ernestosoftware
+    source_type: user-provided-summary
+    url: unknown
+    publisher: ernestosoftware (attribution reported by requester)
+    revision: unknown
+    review_cadence_days: 365
+    claim_scope: Original section 6 kickoff checklist informed by the requester-supplied summary of competitor
+      flow research, design tokens, consistent assets, bounded implementation, and visual verification.
+    last_review_date: 2026-10-07
+    reviewer: brigade-maintainers (summary review only)
+    rights:
+      status: unverified
+      notes: No license or public source URL supplied. Source screenshot materialization returned HTTP 403;
+        actual pixels were not inspected in this checkout. This record covers the supplied summary only.
+        No screenshot, transcript, source prose, or assets are redistributed.
   - id: arxiv-org-abs-2602-11988
     name: arxiv.org
     source_type: paper
@@ -101,3 +117,21 @@ sources:
     claim_scope: Shared repository instructions can be narrowed by nested project guides while explicit user instructions prevail.
     last_review_date: 2026-10-03
     reviewer: b2c-maintainers
+derivations:
+  - source_ids:
+      - user-supplied-app-development-prompt
+    relationship: informed
+    baseline: Requester-supplied summary; screenshot retrieval and original publication revision unverified.
+    selectors:
+      - knowledge/engineering/engineering-orchestration.md#new-app-kickoff
+    rationale: Reauthor the described ideas as a compact kickoff checklist at the existing engineering-plan
+      owner. Preserve accepted product/design decisions, selected providers, motion rules, reducer state,
+      and evidence distinctions. This is a summary-informed draft, not a visual source-review claim.
+    omissions:
+      - Verbatim prompt and screenshot; no verified redistribution license.
+      - Mandatory paid tools, provider setup, installation, or spend.
+      - Copied competitor prices or a universal hard paywall.
+      - One spring for all interactions; existing press and celebration rules remain authoritative.
+      - TASKS.md as a parallel task/state store; the engineering plan and reducer retain ownership.
+    reviewer: brigade-maintainers (summary review only)
+    reviewed_at: 2026-10-07
