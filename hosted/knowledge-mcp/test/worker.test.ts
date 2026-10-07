@@ -26,6 +26,7 @@ let options: V4WorkerOptions & { log: Log };
 let database: Awaited<ReturnType<typeof attachD1>>;
 const authorization = { Authorization: `Bearer ${key}` };
 const mcpHeaders = { ...authorization, "Content-Type": "application/json", Accept: "application/json, text/event-stream" };
+const anonymousMcpHeaders = { "Content-Type": "application/json", Accept: "application/json, text/event-stream" };
 
 before(async () => {
   options = {
@@ -156,7 +157,7 @@ async function exchange(clientId: string, code: string, changes: Record<string, 
   });
 }
 
-test("health and OAuth discovery are public; content requires authentication on both transports", async () => {
+test("health and OAuth discovery are public; HTTP API stays authenticated; MCP knowledge is anonymous", async () => {
   const health = await fetchPath("/health");
   assert.equal(health.status, 200);
   assert.deepEqual(await health.json(), {
@@ -168,7 +169,10 @@ test("health and OAuth discovery are public; content requires authentication on 
   const metadata = (await (await fetchPath("/.well-known/oauth-protected-resource/mcp")).json()) as { resource: string; scopes_supported: string[] };
   assert.equal(metadata.resource, `${origin}/mcp`);
   assert.deepEqual(metadata.scopes_supported, ["b2c:read"]);
-  for (const path of ["/api/v1", "/api/v1/catalog", "/mcp"]) {
+  const index = (await (await fetchPath("/")).json()) as { access: string; httpApiAccess: string };
+  assert.equal(index.access, "anonymous_knowledge");
+  assert.equal(index.httpApiAccess, "api_key");
+  for (const path of ["/api/v1", "/api/v1/catalog"]) {
     const response = await fetchPath(path);
     assert.equal(response.status, 401, path);
     assert.equal(response.headers.get("cache-control"), "no-store");
@@ -179,11 +183,58 @@ test("health and OAuth discovery are public; content requires authentication on 
     assert.doesNotMatch(unauthorized, /cannot access or run this local business/);
     assert.doesNotMatch(unauthorized, /wrong_surface/);
   }
+  const mcpGet = await fetchPath("/mcp");
+  assert.equal(mcpGet.status, 405);
+  assert.equal(mcpGet.headers.get("allow"), "POST");
   for (const token of ["wrong", deniedKey]) {
     const expected = token === deniedKey ? 403 : 401;
     assert.equal((await fetchPath("/api/v1/catalog", { headers: { Authorization: `Bearer ${token}` } })).status, expected);
     assert.equal((await mcpCall("b2c_catalog", {}, token)).status, expected);
   }
+});
+
+test("anonymous MCP initialize, discovery, and knowledge calls succeed without a key", async () => {
+  const initialize = await fetchPath("/mcp", {
+    method: "POST",
+    headers: anonymousMcpHeaders,
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "initialize",
+      params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "b2c-test", version: "1" } },
+    }),
+  });
+  assert.equal(initialize.status, 200);
+  const handshake = (await initialize.json()) as { result: { serverInfo: { name: string } } };
+  assert.equal(handshake.result.serverInfo.name, "b2c-hosted");
+  const listed = await fetchPath("/mcp", {
+    method: "POST",
+    headers: anonymousMcpHeaders,
+    body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }),
+  });
+  assert.equal(listed.status, 200);
+  const body = (await listed.json()) as {
+    result: {
+      tools: Array<{
+        name: string;
+        annotations: { readOnlyHint: boolean; destructiveHint: boolean };
+        securitySchemes?: Array<{ type: string }>;
+      }>;
+    };
+  };
+  assert.deepEqual(body.result.tools.map((tool) => tool.name).sort(), ["b2c_catalog", "b2c_knowledge_get", "b2c_knowledge_search", "b2c_workflow"]);
+  assert.ok(body.result.tools.every((tool) => tool.annotations.readOnlyHint === true && tool.annotations.destructiveHint === false));
+  assert.ok(body.result.tools.every((tool) => tool.securitySchemes?.some((scheme) => scheme.type === "noauth")));
+  const catalog = await fetchPath("/mcp", {
+    method: "POST",
+    headers: anonymousMcpHeaders,
+    body: JSON.stringify({ jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "b2c_catalog", arguments: { limit: 1 } } }),
+  });
+  assert.equal(catalog.status, 200);
+  const catalogBody = (await catalog.json()) as { result?: { isError?: boolean; structuredContent?: { workflows?: unknown[] } }; error?: unknown };
+  assert.equal(catalogBody.error, undefined);
+  assert.notEqual(catalogBody.result?.isError, true);
+  assert.ok(Array.isArray(catalogBody.result?.structuredContent?.workflows));
 });
 
 test("real MCP initialization and tool discovery expose only the four read-only tools", async () => {
@@ -223,9 +274,12 @@ test("real MCP initialization and tool discovery expose only the four read-only 
     headers: mcpHeaders,
     body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }),
   });
-  const body = (await response.json()) as { result: { tools: Array<{ name: string; annotations: { readOnlyHint: boolean } }> } };
+  const body = (await response.json()) as {
+    result: { tools: Array<{ name: string; annotations: { readOnlyHint: boolean; destructiveHint: boolean }; securitySchemes?: Array<{ type: string }> }> };
+  };
   assert.deepEqual(body.result.tools.map((tool) => tool.name).sort(), ["b2c_catalog", "b2c_knowledge_get", "b2c_knowledge_search", "b2c_workflow"]);
-  assert.ok(body.result.tools.every((tool) => tool.annotations.readOnlyHint));
+  assert.ok(body.result.tools.every((tool) => tool.annotations.readOnlyHint && tool.annotations.destructiveHint === false));
+  assert.ok(body.result.tools.every((tool) => tool.securitySchemes?.some((scheme) => scheme.type === "noauth")));
   const stream = await fetchPath("/mcp", { headers: { ...authorization, Accept: "text/event-stream" } });
   assert.equal(stream.status, 405);
   assert.equal(stream.headers.get("allow"), "POST");

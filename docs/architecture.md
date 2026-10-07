@@ -180,7 +180,9 @@ separate status or workflow rules.
 
 ### Hosted knowledge adapter
 
-`hosted/knowledge-mcp/` packages a read-only knowledge service for an authorized hosted environment. `hosted/builder-console/` is the separate console Worker; neither is a local engine prerequisite. It publishes catalog and reference content. It does not expose local workspace execution or local authority.
+`hosted/knowledge-mcp/` packages a read-only knowledge service. The four knowledge MCP tools are anonymous (`noauth`). The HTTP API and extras that require an account still use an API key or OAuth. `hosted/builder-console/` is the separate console Worker; neither is a local engine prerequisite. It publishes catalog and reference content. It does not expose local workspace execution or local authority.
+
+Repo marketplaces live at `.agents/plugins/marketplace.json` (ChatGPT desktop and Codex) and `.claude-plugin/marketplace.json` (Claude Code). Both point at `entrypoints/plugins/brigade-first-five-minutes`.
 
 Local setup does not deploy this adapter.
 

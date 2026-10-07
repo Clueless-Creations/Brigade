@@ -58,7 +58,8 @@ never straight to Google's account picker.
 
 ## What a plan grants
 
-The MCP Worker admits an API key or an OAuth grant only when the account holds an active
+The four hosted knowledge MCP tools are anonymous. HTTP `/api/v1` and extras that require an
+account still admit an API key or an OAuth grant only when the account holds an active
 entitlement whose `lookup_key` is in `hosted/knowledge-mcp/auth.ts`'s `READ_SCOPE_LOOKUP_KEYS`:
 the read scope's own key, `b2c:read`, or one of the plans this console sells
 (`PLAN_LOOKUP_KEYS`: `b2c_pro_monthly`, `b2c_pro_annual`). `billing/webhook.ts` and

@@ -105,7 +105,7 @@ function copyFor(transition: BillingTransition): NoticeCopy {
         subject: "Your hosted access is on",
         paragraphs: [
           `${plan} is active${transition.periodEnd ? ` and renews${on}` : ""}. Your keys can use hosted access now.`,
-          "Two steps to connect: create a key in the console, then paste the snippet for the agent you use — Claude Code, Codex, Cursor, or plain HTTP. You see each key once; revoke and replace it whenever you like.",
+          "Hosted knowledge tools need no key. Create a key only for the HTTP API or extras that require an account, then copy the snippet for the agent you use — ChatGPT desktop, Claude Code, Codex, Cursor, or plain HTTP. You see each key once; revoke and replace it whenever you like.",
           "Change or cancel the plan any time from Manage billing in the console. Access runs to the end of the period you paid for.",
         ],
         action: { label: "Create a key", href: KEYS_URL },

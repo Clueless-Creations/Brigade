@@ -2271,7 +2271,10 @@ sources:
     owner: maintainer
     locations:
       - hosted/knowledge-mcp/README.md
-    notes: Verified 2026-08-27 for DCR, stable callback, issuer identification, S256, and exact resource binding.
+      - hosted/knowledge-mcp/worker.ts
+      - kernel/knowledge-service/tools.ts
+      - docs/decisions/0021-anonymous-hosted-knowledge.md
+    notes: Verified 2026-10-07 for noauth knowledge tools, optional OAuth extras, DCR, CIMD, S256, and exact resource binding.
   - id: platform-claude-com-docs-en-build-with-claude-token-counting
     name: Claude Platform — Token counting
     source_type: official_docs
@@ -3616,3 +3619,86 @@ sources:
       - knowledge/design/premium-mobile-craft.md
       - catalog/knowledge/design/design-premium-mobile-craft.yaml
     notes: Primary SwiftUI lazy-stack documentation cited for original Brigade frame-budget text.
+  - id: agent-plugins-mcp-schema-1-0-0
+    name: Portable plugin MCP schema 1.0.0
+    source_type: official_docs
+    url: https://agent-plugins.org/schemas/1.0.0/mcp.schema.json
+    refresh_cadence_days: 30
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/mcp.json
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Canonical MCP schema for the repo marketplace package. Format validity does not prove a live connection.
+  - id: agent-plugins-plugin-schema-1-0-0
+    name: Portable plugin manifest schema 1.0.0
+    source_type: official_docs
+    url: https://agent-plugins.org/schemas/1.0.0/plugin.schema.json
+    refresh_cadence_days: 30
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/plugin.json
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Canonical plugin schema for the repo marketplace package. Format validity does not prove platform acceptance.
+  - id: openai-plugins-build-portable
+    name: OpenAI portable plugin packaging
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/build/plugins
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Current layout and repo-marketplace guidance. Installed ChatGPT or Codex behavior remains unqualified.
+  - id: openai-plugins-guidelines
+    name: OpenAI plugin guidelines
+    source_type: official_docs
+    url: https://developers.openai.com/plugins/plugin-guidelines
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - docs/decisions/0021-anonymous-hosted-knowledge.md
+    notes: Directory review rules including no collected API keys. This draft does not submit a listing.
+  - id: claude-plugin-marketplace-reference
+    name: Claude Code plugin marketplace reference
+    source_type: official_docs
+    url: https://code.claude.com/docs/en/plugins/marketplace-reference
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Claude marketplace file location and required fields. Same plugin package as the OpenAI repo marketplace.
+  - id: brigade-first-five-onb10-source
+    name: Brigade first-value method at the plugin baseline
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/agents/skills/b2c-design-onboarding/references/workflow.experience.onboarding-system.onb-10-first-value-activation.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned first-party method used for bounded retrieval and attribution. No live workflow execution is added.
+  - id: brigade-first-five-onb11-source
+    name: Brigade effort and question method at the plugin baseline
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/agents/skills/b2c-design-onboarding/references/workflow.experience.onboarding-system.onb-11-effort-question-audit.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned first-party method used for bounded retrieval and attribution. No empirical conversion claim.
+  - id: brigade-first-five-onboarding-source
+    name: Brigade onboarding knowledge at the plugin baseline
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/knowledge/experience/onboarding-conversion.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned onboarding source. The plugin distinguishes guidance, capture evidence, and measured outcomes.
+  - id: brigade-first-five-paywall-source
+    name: Brigade paywall knowledge at the plugin baseline
+    source_type: repository
+    url: https://github.com/Clueless-Creations/Brigade/blob/12fd1bfd55744463c5d2bf0ac5f6fa9b6799eece/knowledge/money/paywall-pricing-and-experiments.md
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
+    notes: Pinned paywall source for applicable disclosure and recovery sections. Benchmarks do not become local conversion claims.

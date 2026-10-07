@@ -407,31 +407,36 @@ const API_URL = "https://mcp.clueless-creations.com/api/v1";
 
 const CONNECT_SNIPPETS: readonly { readonly name: string; readonly code: string; readonly note: string }[] = [
   {
+    name: "ChatGPT desktop and Codex plugins",
+    code: `codex plugin marketplace add Clueless-Creations/Brigade`,
+    note: "Then install Brigade First Five Minutes from that marketplace. Knowledge tools need no sign-in and no Brigade API key.",
+  },
+  {
     name: "Claude Code",
     code: `claude mcp add --transport http b2c-hosted ${MCP_URL}`,
-    note: "Then run /mcp inside Claude Code and choose the server to authorize. The authorization page asks for your key once and gives Claude Code a separate connection you can revoke.",
+    note: "Knowledge tools need no login. Use /mcp only if you want an account extra. Claude Code can also run claude plugin marketplace add Clueless-Creations/Brigade.",
   },
   {
     name: "Codex",
-    code: `codex mcp add b2c-hosted --url ${MCP_URL} --oauth-client-registration dcr\ncodex mcp login b2c-hosted --scopes b2c:read --oauth-client-registration dcr`,
-    note: "The authorization page asks for your key once and gives Codex a separate, revocable connection. Codex never receives the owner key itself.",
+    code: `codex mcp add b2c-hosted --url ${MCP_URL}`,
+    note: "Knowledge tools need no login and no pasted key. Run codex mcp login only for extras that require an account.",
   },
   {
     name: "Cursor",
     code: `{ "mcpServers": { "b2c-hosted": { "url": "${MCP_URL}" } } }`,
-    note: "Add that to ~/.cursor/mcp.json, or the project’s .cursor/mcp.json, then approve the connection from Cursor’s settings when it asks.",
+    note: "Add that to ~/.cursor/mcp.json, or the project’s .cursor/mcp.json. Knowledge tools need no key.",
   },
   {
     name: "Plain HTTP",
     code: `curl ${API_URL}/catalog \\\n  -H "Authorization: Bearer <your API key>"`,
-    note: `Use the catalog and workflows directly at ${API_URL} with your key. This skips the authorization flow used by agent clients.`,
+    note: `The HTTP API still uses your key at ${API_URL}. Knowledge MCP tools do not.`,
   },
 ];
 
 function connectBlock(): string {
   return `<h2>Connect an agent</h2>
 <p>These snippets register hosted knowledge as <code>b2c-hosted</code>. That connection cannot see or run a local workspace. Use the local builder as <code>b2c-local</code> for planning and execution.</p>
-<p>Pick the client you use and copy its snippet. Agent clients authorize once, then keep their own connection so you can revoke it separately.</p>
+<p>Knowledge tools need no Brigade API key. Pick the client you use and copy its snippet. Create a key only for the HTTP API or extras that require an account.</p>
 ${CONNECT_SNIPPETS.map((snippet) => `<h3 class="eyebrow" style="margin:22px 0 8px">${escapeHtml(snippet.name)}</h3><pre><code>${escapeHtml(snippet.code)}</code></pre><p class="help">${escapeHtml(snippet.note)}</p>`).join("")}`;
 }
 

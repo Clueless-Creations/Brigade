@@ -6,10 +6,12 @@ remote transports:
 - MCP: `https://mcp.clueless-creations.com/mcp`
 - HTTP API: `https://mcp.clueless-creations.com/api/v1`
 
-Access is by API key. D1 owns credentials minted in the account console at
-`https://app.clueless-creations.com/console`. Every credential requires active tenant
+The four knowledge MCP tools are anonymous (`noauth`). They need no sign-in and no
+Brigade API key. HTTP API routes still require `Authorization: Bearer <B2C_APP_BUILDER_API_KEY>`.
+OAuth remains for extras that need an account. D1 owns credentials minted in the account
+console at `https://app.clueless-creations.com/console`. Every credential requires active tenant
 membership and current entitlement, including owner credentials. Missing or unavailable
-D1 fails closed. The service answers on exactly one origin: the Worker refuses any other Host
+D1 fails closed for authenticated routes. The service answers on exactly one origin: the Worker refuses any other Host
 with `421 misdirected_request`, so `B2C_APP_BUILDER_PUBLIC_ORIGIN` is the single source of
 truth for the hostname and `workers_dev` is disabled. These URLs describe the deployment target. Check `/health` and the provider
 deployment record before you report that a new source version is live.
@@ -28,9 +30,10 @@ and plans. Use the CLI for approved workspace changes.
 | `b2c_knowledge_get`    | `/api/v1/knowledge/{referenceId}` | Stable reference ID; optional `offset`, `limit` |
 
 `POST /api/v1/tools/{toolName}` accepts the same JSON arguments as MCP. `GET /api/v1`
-returns tool schemas. All API routes require `Authorization: Bearer <B2C_APP_BUILDER_API_KEY>`.
-Do not put credentials in URLs. MCP accepts an entitled API key for headless use and OAuth tokens
-for interactive clients. HTTP API routes do not accept MCP OAuth tokens.
+returns tool schemas. HTTP API routes require `Authorization: Bearer <B2C_APP_BUILDER_API_KEY>`.
+Do not put credentials in URLs. MCP knowledge tools accept anonymous calls. An entitled API key
+or OAuth token is still accepted on MCP and is required for extras that need an account.
+HTTP API routes do not accept MCP OAuth tokens.
 
 Results include the engine version, bundle hashes, and `scope: knowledge_only`. Document
 results include source provenance. Offsets count Unicode code points, not bytes. The YAML
@@ -58,18 +61,20 @@ Use a native Streamable HTTP connection. No local proxy, Node process, or reposi
 is required to consume the hosted service.
 
 ```bash
-codex mcp add b2c-hosted --url https://mcp.clueless-creations.com/mcp --oauth-client-registration dcr
-codex mcp login b2c-hosted --scopes b2c:read --oauth-client-registration dcr
+codex plugin marketplace add Clueless-Creations/Brigade
+codex mcp add b2c-hosted --url https://mcp.clueless-creations.com/mcp
 ```
 
-The authorization page asks for an entitled API key and explicit read permission. The client
-receives an OAuth token, not an entitled API key. Keep the local `b2c-local` entry if you use local
+Knowledge tools need no login and no pasted Brigade API key. ChatGPT desktop and Codex can
+install the repo marketplace plugin after the first command. The second command registers the
+hosted MCP URL directly. `codex mcp login` remains only for extras that require an account.
+Keep the local `b2c-local` entry if you use local
 execution. When both are configured, this hosted connection is knowledge-only and `b2c-local` is the
 workspace surface. A leftover `b2c-app-builder` client name is not this hosted connection. Duplicate
 names are a collision, not a third surface. A missing local worker CLI is local execution health, not
 this hosted wrong-surface. Surface selection still uses `b2c-local`;
 degraded execution still selects `b2c-local`. Configure other
-clients with the same remote URL and OAuth authorization.
+clients with the same remote URL. Do not ask users to paste a Brigade API key for knowledge tools.
 
 ChatGPT can use dynamic client registration. The default HTTPS callback is its documented
 stable redirect URI. Copy the actual callback from the client setup page before adding a
@@ -98,7 +103,8 @@ validation. Conflicting resources and other duplicate authorization fields are r
 
 ## Credentials
 
-Create and revoke API keys through the account console. Only SHA-256 key digests are
+Create and revoke API keys through the account console when you need the HTTP API or an
+account extra. Knowledge MCP tools do not use these keys. Only SHA-256 key digests are
 stored in D1. Keep raw keys in the operator's secret manager, never in Worker bindings,
 command arguments, logs, or repository files. The Worker requires
 `B2C_APP_BUILDER_AUTH_SECRET` to sign short-lived consent challenges.
@@ -156,8 +162,9 @@ and the packaged Worker without provider credentials.
 
 After deployment, print the pair this checkout would ship (`npm run hosted:version`) and
 compare it to `/health`. Check the Cloudflare deployment version as well.
-Verify unauthenticated requests fail, an entitled API key works on both transports, OAuth S256
-authorization works, and local execution tool names fail. A successful build alone does not
+Verify unauthenticated HTTP API requests fail, unauthenticated MCP knowledge calls succeed,
+an entitled API key still works on both transports, OAuth S256
+authorization works for account extras, and local execution tool names fail. A successful build alone does not
 prove a deployment. Keep raw credentials and OAuth responses out of logs and reports.
 
 ## Security and data handling
@@ -271,17 +278,18 @@ Cloudflare request/error counts and CPU metrics with the `/health` engine versio
 hash printed by `npm run hosted:version`. Run positive and negative MCP/API checks. Inspect
 deployment status in Cloudflare; do not search raw authorization request logs.
 
-Healthy: the expected hash is live, anonymous calls fail, authorized calls return the same
-knowledge on both transports, and OAuth refresh works. Failure: unexpected 5xx errors,
-authorization bypass, a stale hash, or a local tool appears in the remote list. Revoke access
+Healthy: the expected hash is live, anonymous MCP knowledge calls succeed, anonymous HTTP API
+calls fail, authorized calls return the same knowledge on both transports, and OAuth refresh
+works for account extras. Failure: unexpected 5xx errors,
+authorization bypass on HTTP or extras, a stale hash, or a local tool appears in the remote list. Revoke access
 or disable the Worker route for an authorization failure. For a code regression, restore the
 previous verified Worker version and preserve current D1 credential revocations. Recheck secret
 bindings after rollback; an old code version is not authority to restore an old credential.
 
 ## Product Profile boundary\n\nThe hosted knowledge Worker has no per-business Product Profile owner today. It therefore does not pretend that a workspace profile exists and does not infer one from the knowledge bundle. `product-profile-boundary.ts` pins the future read contract and an explicit `profile_source_unavailable` result. Local managed Brigade already owns bounded profile query/status/delta. A future hosted business-profile owner can implement this read contract without giving the knowledge Worker filesystem, execution, reducer-write, or hidden semantic-inference authority.\n\n## Hosted scope
 
-This Worker serves the versioned Brigade knowledge bundle to authorized agents through
-HTTP and MCP. It returns catalog and reference content. It does not expose local workspace
+This Worker serves the versioned Brigade knowledge bundle through
+HTTP and MCP. MCP knowledge tools are anonymous. HTTP stays key-gated. It returns catalog and reference content. It does not expose local workspace
 execution, reducer writes, business records, uploads, payments, or public publishing.
 
 OAuth, API keys, deployments, and client registrations are separate authority scopes. Do not

@@ -1,9 +1,10 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import { ListToolsRequestSchema, type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { KnowledgeServiceError, catalogInputSchema, knowledgeGetInputSchema, knowledgeSearchInputSchema, workflowInputSchema } from "./service.js";
 import type { HostedKnowledgeResult, KnowledgeService } from "./types.js";
 
 const annotations = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } as const;
+const knowledgeSecuritySchemes = [{ type: "noauth" }] as const;
 
 /** Shared schemas are strict objects. HTTP must call the same service as MCP. */
 export const KNOWLEDGE_TOOL_DEFINITIONS = [
@@ -18,6 +19,7 @@ export const KNOWLEDGE_TOOL_DEFINITIONS = [
       'Measured on the shipped catalog: a default page (no query/domainId, limit=20) serializes at 9549 bytes. domainCounts adds 729 bytes to that total. The full domain array under include="domains" is 3077 bytes.',
     inputSchema: catalogInputSchema,
     annotations,
+    securitySchemes: knowledgeSecuritySchemes,
   },
   {
     name: "b2c_workflow",
@@ -32,6 +34,7 @@ export const KNOWLEDGE_TOOL_DEFINITIONS = [
       "continuation lists dependency relationships, not an executable workspace plan or permission to skip review. A workflow pass cannot declare a business complete.",
     inputSchema: workflowInputSchema,
     annotations,
+    securitySchemes: knowledgeSecuritySchemes,
   },
   {
     name: "b2c_knowledge_search",
@@ -43,6 +46,7 @@ export const KNOWLEDGE_TOOL_DEFINITIONS = [
       "Each result carries a bounded excerpt and, when available, section.get with exact revision-pinned retrieval arguments. An excerpt is not the full required guidance.",
     inputSchema: knowledgeSearchInputSchema,
     annotations,
+    securitySchemes: knowledgeSecuritySchemes,
   },
   {
     name: "b2c_knowledge_get",
@@ -53,6 +57,7 @@ export const KNOWLEDGE_TOOL_DEFINITIONS = [
       "view=sections with expectedContentSha256 returns a paginated heading index without a body; use sectionOffset and sectionLimit for that index. Returns hashes and source provenance.",
     inputSchema: knowledgeGetInputSchema,
     annotations,
+    securitySchemes: knowledgeSecuritySchemes,
   },
 ] as const;
 
@@ -107,7 +112,12 @@ export function registerKnowledgeTools(server: McpServer, service: KnowledgeServ
     if (excluded.has(definition.name)) continue;
     server.registerTool(
       definition.name,
-      { title: definition.title, description: definition.description, inputSchema: definition.inputSchema, annotations: definition.annotations },
+      {
+        title: definition.title,
+        description: definition.description,
+        inputSchema: definition.inputSchema,
+        annotations: definition.annotations,
+      },
       async (input: unknown): Promise<CallToolResult> => {
         const result = toCallToolResult(() => callKnowledgeTool(service, definition.name, input));
         const bulk = input !== null && typeof input === "object" && ["summaries", "full"].includes(String((input as { include?: unknown }).include));
@@ -115,4 +125,30 @@ export function registerKnowledgeTools(server: McpServer, service: KnowledgeServ
       },
     );
   }
+  advertiseKnowledgeSecuritySchemes(server);
+}
+
+type ListedTool = { name: string; [key: string]: unknown };
+type ListToolsHandler = (request: unknown, extra: unknown) => Promise<{ tools: ListedTool[] }> | { tools: ListedTool[] };
+
+/**
+ * OpenAI's plugin auth contract puts `securitySchemes` on each tools/list entry
+ * (`noauth` vs `oauth2`). The MCP TypeScript SDK in this repo only serializes
+ * title, description, schemas, annotations, execution, and `_meta`, so the
+ * registerTool config cannot carry the field. Wrap the existing list handler.
+ */
+function advertiseKnowledgeSecuritySchemes(server: McpServer): void {
+  const handlers = (server.server as unknown as { _requestHandlers: Map<string, ListToolsHandler> })._requestHandlers;
+  const existing = handlers.get("tools/list");
+  if (existing === undefined) return;
+  server.server.setRequestHandler(ListToolsRequestSchema, async (request, extra) => {
+    const listed = await existing(request, extra);
+    return {
+      ...listed,
+      tools: listed.tools.map((tool) => {
+        const definition = KNOWLEDGE_TOOL_DEFINITIONS.find((candidate) => candidate.name === tool.name);
+        return definition === undefined ? tool : { ...tool, securitySchemes: [...definition.securitySchemes] };
+      }),
+    };
+  });
 }
