@@ -56,7 +56,7 @@ export interface PinnedKnowledgeReference {
 }
 
 /** Bump only on a deliberate, reviewed change to the dimension list below or a knowingly-accepted knowledge-doc edit. */
-export const DESIGN_TASTE_RUBRIC_VERSION = "1.3.0";
+export const DESIGN_TASTE_RUBRIC_VERSION = "1.3.1";
 
 /**
  * design-worthiness.md rule numbers this rubric maps to at least one dimension below.
@@ -76,7 +76,7 @@ export const PINNED_KNOWLEDGE_REFERENCES: readonly PinnedKnowledgeReference[] = 
   {
     referenceId: "reference.design.vibecoded-tells",
     documentPath: "knowledge/design/vibecoded-tells.md",
-    sourceSha256: "dd734cb5892448dc23836783fcb100973aa3e6f0245c3a69d66135ddb91c0919",
+    sourceSha256: "557ce14e63bbb3635b74e1ce3093ab76f3bc01f46c6caddb521d65efb69d0569",
   },
   {
     referenceId: "reference.design.design-worthiness",
