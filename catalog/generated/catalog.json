@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.104",
+  "skillVersion": "0.221.105",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3798,6 +3798,22 @@
       "lifecycle": "active",
       "sources": [
         {
+          "id": "user-supplied-app-development-prompt",
+          "name": "App-development prompt attributed to ernestosoftware",
+          "sourceType": "user-provided-summary",
+          "url": "unknown",
+          "reviewCadenceDays": 365,
+          "claimScope": "Original section 6 kickoff checklist informed by the requester-supplied summary of competitor flow research, design tokens, consistent assets, bounded implementation, and visual verification.",
+          "lastReviewDate": "2026-10-07",
+          "reviewer": "brigade-maintainers (summary review only)",
+          "publisher": "ernestosoftware (attribution reported by requester)",
+          "revision": "unknown",
+          "rights": {
+            "status": "unverified",
+            "notes": "No license or public source URL supplied. Source screenshot materialization returned HTTP 403; actual pixels were not inspected in this checkout. This record covers the supplied summary only. No screenshot, transcript, source prose, or assets are redistributed."
+          }
+        },
+        {
           "id": "arxiv-org-abs-2602-11988",
           "name": "arxiv.org",
           "sourceType": "paper",
@@ -3898,10 +3914,32 @@
           "reviewer": "b2c-maintainers"
         }
       ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "user-supplied-app-development-prompt"
+          ],
+          "relationship": "informed",
+          "baseline": "Requester-supplied summary; screenshot retrieval and original publication revision unverified.",
+          "selectors": [
+            "knowledge/engineering/engineering-orchestration.md#new-app-kickoff"
+          ],
+          "rationale": "Reauthor the described ideas as a compact kickoff checklist at the existing engineering-plan owner. Preserve accepted product/design decisions, selected providers, motion rules, reducer state, and evidence distinctions. This is a summary-informed draft, not a visual source-review claim.",
+          "omissions": [
+            "Verbatim prompt and screenshot; no verified redistribution license.",
+            "Mandatory paid tools, provider setup, installation, or spend.",
+            "Copied competitor prices or a universal hard paywall.",
+            "One spring for all interactions; existing press and celebration rules remain authoritative.",
+            "TASKS.md as a parallel task/state store; the engineering plan and reducer retain ownership."
+          ],
+          "reviewer": "brigade-maintainers (summary review only)",
+          "reviewedAt": "2026-10-07"
+        }
+      ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:547d66dc88f5aae071feb10490ca381f30ab6aafef33af21011dca45a28863a4",
+        "sha256": "sha256:b926479c74636a0d6524d811bf5daf32a584e3afeeffbff9d4f93636b88e55c0",
         "origin": "skill"
       }
     },
@@ -15063,7 +15101,7 @@
         "make sure implementation actually follows the engineering loop",
         "check we're production-ready before claiming done"
       ],
-      "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. Use affected accepted journeys as implementation slices; reuse authoritative data, enforce role/context scopes, and distinguish implemented behavior from observed proof. Keep proposed role/platform parity outside the accepted release scope. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
+      "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. For new apps, apply the New app kickoff checklist in knowledge/engineering/engineering-orchestration.md section 6 before screen implementation. Use affected accepted journeys as implementation slices; reuse authoritative data, enforce role/context scopes, and distinguish implemented behavior from observed proof. Keep proposed role/platform parity outside the accepted release scope. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
       "reads": [
         "engineering/TECH_SPEC.md",
         "state/LAUNCH_TRACE.md",
@@ -19282,14 +19320,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "5479f6ffea98b499a536606d4dff36579666e688cf6800c4519a2ad1b2f7b7ac",
+    "fingerprint": "b7e8b8934e7d895fa231c91dc6b4c620f6a0fd5abc49e9f68ec0aade33c8b36c",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.104",
-        "revision": "0.221.104",
-        "contentDigest": "ff16af679cb393e0352f12e3ee4c99f903b671e519802a304d13d4df47735a28"
+        "version": "0.221.105",
+        "revision": "0.221.105",
+        "contentDigest": "3bca31d53d861a477dbca2e2f0f517c86be3439faaf2ed0237a2acf6000d9bb3"
       }
     ],
     "base": {

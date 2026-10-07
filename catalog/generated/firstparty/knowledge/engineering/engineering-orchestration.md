@@ -209,6 +209,8 @@ MobAI is serialized: one orchestrator owns the device flow, while other agents m
 
 For work in an existing app repository, before planning, read its root and applicable nested `AGENTS.md` when present, including guides for paths outside the session's starting directory. Follow their scoped routes to accepted source sections: `DESIGN.md` and the affected flow/screen for user-facing changes; architecture/decision owners for service, data, permission, or integration boundaries; feature, journey, and customer acceptance when applicable. A copy fix needs only its relevant rules. Supplied-evidence advice without a repository uses the supplied constraints and reports its limits. Do not read every document or apply this builder's maintainer rules to the app. Resolve missing or conflicting required sources before planning only the affected work.
 
+For new apps, use [kickoff](./engineering-orchestration.md#new-app-kickoff) before coding screens.
+
 Before `ce-work` or a generated builder starts, produce `engineering/ENGINEERING_PLAN.md` through `ce-plan` or an equivalent implementation-plan doc. A narrow fix stays a narrow plan.
 
 **Core plan (always):** require only what the accepted scope needs — requirements/owners/interfaces for the units in scope (trace to launch docs and `state/LAUNCH_TRACE.md` IDs when those IDs exist); implementation units with repo-relative file paths and owners; dependencies, risks, and verification (focused tests for changed behavior plus applicable repository gates); accepted product/experience quality intent for those units (not a formal 11-star exercise for a narrow fix); `state/business-state.json` phase, autonomy mode, active blockers, and failure cards when managed state constrains the work; and a short decision entry for each non-obvious architecture or data-model choice actually made (option chosen, option rejected, reason), kept here or in `engineering/DECISIONS.md`.
@@ -222,6 +224,19 @@ Carry each consequential rule into the existing implementation unit as a source 
 **Specialty concerns (only when implicated):** include each specialty only when the accepted scope or changed surfaces implicate it; open the linked owner for procedure rather than treating every specialty as mandatory startup reading — data/API/state/integration → `engineering/TECH_SPEC.md`; user-visible screens → `product/copy/COPY_DECK.md` plus TECH_SPEC string-externalization and [`premium-mobile-craft.md`](../design/premium-mobile-craft.md); multi-unit/parallel work → `operations/ORCHESTRATION.md`; frontend/backend/database/analytics/revenue/email/store-console → impacts for each implicated surface; new secrets/env vars → class, provider routing, CI/deploy injection, `.env.example` names-only, bundle-safety; feature flags/rollout → controls; schema/data-shape changes → migration/backfill; auth/session/permission/integrity/API/RPC/webhook/state-machine → those impacts; mobile journeys → selected device/simulator proof route; backend persistence claims → real test-data proof; release/production claims → production-readiness gates, blockers, and validators/LaunchBench checks that must pass.
 
 Do not put unsupported product behavior into `engineering/ENGINEERING_PLAN.md`. Send unresolved product questions back to `ce-brainstorm` or make explicit assumptions.
+
+### New app kickoff
+
+Use this checklist for new apps.
+
+1. Inspect relevant competitors' onboarding, paywall, core loop, and pricing. Record sources, access limits, observations, and implications in `strategy/RESEARCH.md`.
+2. Inherit accepted product and offer decisions. Treat competitor prices and hard paywalls as hypotheses until approved.
+3. Define typography, color, spacing, shape, and motion tokens in `DESIGN.md` and its token contracts before coding screens.
+4. Use consistent icon and image styles. Record asset rights and reusable generation instructions; preserve selected providers and existing authority.
+5. Name bounded implementation slices in this plan. Preserve reducer-owned pending work and the existing press/celebration and Reduce Motion rules.
+6. Build and inspect each visible slice. Use §8's selected simulator/device route for mobile slices. Use §1b's browser route for web slices. Capture actual UI, repair observed gaps, and record proof limits.
+
+Original Brigade guidance informed by the supplied prompt summary, attributed to `ernestosoftware`; source access and rights remain unverified.
 
 ## 6b. Per-App Solutions Notes
 
