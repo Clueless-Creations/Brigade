@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.105",
+  "version": "0.221.106",
   "updatedAt": "2026-10-07",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add a spec-pack contract and example template so new apps get founder-approved screens before implementation. Stamp 0.221.106; no deployment or npm publish.",
     "Add a summary-informed new-app kickoff checklist for competitor flow research, design tokens, asset consistency, bounded implementation, and visual verification. Stamp 0.221.105; no deployment or npm publish.",
     "Record unverified prompt attribution and rights, retain existing product/provider/motion/state owners, and route the checklist through the generated implementation skill.",
     "Route instruction and routing maintenance to existing authored owners, preserve current-versus-historical authority, and verify its section anchor. Stamp 0.221.104; no deployment or npm publish.",

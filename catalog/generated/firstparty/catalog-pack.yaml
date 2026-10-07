@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.105
-revision: 0.221.105
+version: 0.221.106
+revision: 0.221.106
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -6150,6 +6150,16 @@ references:
           - No required cinematic technique, scroll distance, typeface or scene order.
           - No source media or prompt expression imported.
         notice: catalog/upstreams/notices/amir-cinematic-scroll.txt
+    replacement_ids: []
+  - id: reference.design.spec-pack
+    title: Spec Pack
+    domain_id: domain.design
+    path: knowledge/design/spec-pack.md
+    load_when: starting a new consumer app before screens are built; writing or reviewing a spec pack; preparing founder approval of screens, web pages, tokens, store listing and event map
+    lifecycle: active
+    applicability_notes: Pre-build approval view. Not a product, design, task, or state store. After Gate 1, sections land in existing owners.
+    source_exemption: This package contains internal operating guidance or has no external factual claims.
+    sources: []
     replacement_ids: []
   - id: reference.design.surfaces-b2c
     title: Surfaces B2C
@@ -12847,6 +12857,7 @@ context_packs:
       - reference.design.mobile-flow-craft
       - reference.design.premium-mobile-craft
       - reference.design.quality-lens
+      - reference.design.spec-pack
       - reference.design.surfaces-b2c
       - reference.design.vibecoded-tells
       - reference.engineering.recommended-agent-skills

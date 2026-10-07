@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spec pack</title>
+<style>
+:root{--ink:#17161a;--muted:#6b6872;--line:#e6e3ea;--bg:#f6f5f8;--card:#fff;--ok:#1f8a4c;--warn:#b26b00;--bad:#c62828;--accent:#4b3df5}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1320px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bar h1{font-size:17px;margin:0}
+.badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:99px}
+.badge.draft{background:#fff3d6;color:var(--warn)}.badge.approved{background:#dcf5e5;color:var(--ok)}
+.badge.err{background:#fde3e3;color:var(--bad)}
+nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-weight:600;font-size:13px}
+nav a:hover{background:var(--bg);color:var(--ink)}
+main{max-width:1320px;margin:0 auto;padding:24px}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:22px}
+section>h2{margin:0 0 4px;font-size:18px}
+.sub{color:var(--muted);margin:0 0 18px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.kv{background:var(--bg);border-radius:10px;padding:10px 12px}.kv b{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.flowrow{display:flex;gap:18px;overflow-x:auto;padding:6px 2px 14px}
+.flowlabel{font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:10px 0 6px}
+.screen{flex:0 0 auto;width:236px}
+.flowrow.wrap{flex-wrap:wrap;gap:26px 22px;overflow:visible}
+.flowtag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);background:#eeecff;border-radius:6px;padding:2px 7px;margin-bottom:8px}
+.screen h3{margin:8px 0 2px;font-size:14px}
+.screen .p{color:var(--muted);font-size:12px;margin:0 0 6px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:2px 9px;font-size:11px;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs .na{font-size:11px;color:#aaa;padding:2px 4px;text-decoration:line-through}
+ul.acc{margin:6px 0 0;padding-left:16px;font-size:12px;color:var(--ink)}
+.phone{width:236px;height:480px;border-radius:34px;background:#111;padding:9px;box-shadow:0 10px 30px rgba(20,10,40,.18)}
+.phone.big{width:300px;height:610px;border-radius:42px;padding:11px}
+.scr{width:100%;height:100%;border-radius:26px;overflow:hidden;position:relative;background:var(--t-bg);color:var(--t-text);font-family:ui-rounded,"SF Pro Rounded",-apple-system,sans-serif;display:flex;flex-direction:column}
+.phone.big .scr{border-radius:32px}
+.notch{height:26px;display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-size:10px;font-weight:700;flex:0 0 auto}
+.island{width:70px;height:18px;background:#000;border-radius:12px}
+.body{flex:1;padding:6px 14px 14px;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.m-nav{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:17px;margin-bottom:2px}
+.m-nav .act{color:var(--t-primary);font-size:20px}.m-nav .bk{color:var(--t-primary);font-size:13px;font-weight:600}
+.m-title{font-size:20px;font-weight:800;line-height:1.15;text-align:center}
+.m-text{font-size:12px;color:var(--t-muted);text-align:center}
+.m-art{flex:0 0 110px;border-radius:var(--t-r-lg);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--t-primary) 14%,transparent) 0 8px,color-mix(in srgb,var(--t-primary) 6%,transparent) 8px 16px);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--t-muted);padding:10px;border:1px dashed color-mix(in srgb,var(--t-primary) 40%,transparent)}
+.m-btn{background:var(--t-primary);color:#fff;border:0;border-radius:var(--t-r-md);padding:11px;font-weight:700;font-size:13px;text-align:center;margin-top:auto}
+.m-btn.secondary{background:transparent;color:var(--t-primary);border:1.5px solid var(--t-primary);margin-top:0}
+.m-btn.dis{opacity:.4}
+.m-btn+.m-btn,.m-btn+.m-link{margin-top:0}
+.m-link{color:var(--t-accent);font-size:11px;text-align:center}
+.m-input{background:var(--t-surface);border-radius:var(--t-r-sm);padding:7px 10px;font-size:12px;border:1px solid color-mix(in srgb,var(--t-text) 10%,transparent)}
+.m-input small{display:block;font-size:9px;color:var(--t-muted)}.m-input.e{border-color:var(--t-danger)}.m-input .em{color:var(--t-danger);font-size:10px}
+.m-chips{display:flex;gap:6px}.m-chips span{background:var(--t-surface);border-radius:99px;padding:4px 8px;font-size:14px}
+.m-cd{background:var(--t-surface);border-radius:var(--t-r-md);padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 0 color-mix(in srgb,var(--t-text) 6%,transparent)}
+.m-cd .e{font-size:20px}.m-cd .t{flex:1;font-weight:700;font-size:13px}.m-cd .d{font-size:20px;font-weight:800;color:var(--t-primary)}.m-cd .d small{font-size:9px;color:var(--t-muted);display:block;text-align:right;font-weight:600}
+.m-big{text-align:center;padding:20px 0}.m-big b{font-size:64px;line-height:1;color:var(--t-primary);display:block}.m-big span{color:var(--t-muted);font-size:12px}
+.m-row{display:flex;justify-content:space-between;background:var(--t-surface);padding:9px 12px;border-radius:var(--t-r-sm);font-size:12px}.m-row .v{color:var(--t-muted)}.m-row.d{color:var(--t-danger)}
+.m-bul{margin:0;padding-left:16px;font-size:12px}.m-bul li{margin:2px 0}
+.m-price{text-align:center;font-weight:800;font-size:18px}.m-price small{display:block;font-size:10px;color:var(--t-muted);font-weight:600}
+.m-close{align-self:flex-end;font-size:16px;color:var(--t-muted)}
+.m-spin{margin:auto;text-align:center;color:var(--t-muted);font-size:12px}.m-spin:before{content:"";display:block;width:26px;height:26px;margin:0 auto 8px;border-radius:50%;border:3px solid color-mix(in srgb,var(--t-primary) 25%,transparent);border-top-color:var(--t-primary)}
+.m-banner{background:color-mix(in srgb,var(--t-danger) 14%,transparent);color:var(--t-danger);border-radius:var(--t-r-sm);padding:8px 10px;font-size:12px;font-weight:600}
+.tap{cursor:pointer;outline:2px dashed transparent;outline-offset:2px}
+.proto .tap{outline-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.proto{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+.crumbs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.crumbs span{background:var(--bg);padding:3px 8px;border-radius:6px;font-size:12px}
+.ctl{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}.ctl button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:600}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.web{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.web .chrome{background:var(--bg);padding:7px 10px;font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.web .chrome i{width:8px;height:8px;border-radius:50%;background:#ddd;display:inline-block}
+.web .pg{padding:14px;background:var(--t-bg);color:var(--t-text);min-height:150px}
+.web .pg h4{margin:0 0 8px;font-size:16px}
+.web .sec{background:var(--t-surface);border-radius:8px;padding:6px 9px;margin:5px 0;font-size:12px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}.sw{width:92px;border-radius:10px;overflow:hidden;border:1px solid var(--line);font-size:11px}.sw div{height:44px}.sw p{margin:0;padding:5px 7px}
+.typescale p{margin:4px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
+.prompt{background:var(--bg);border-left:3px solid var(--accent);padding:10px 12px;border-radius:8px;font-style:italic}
+.check label{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.issues{background:#fde3e3;color:var(--bad);border-radius:10px;padding:10px 14px;margin-bottom:18px}
+.gates{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px}.gates .st{background:var(--bg);border-radius:10px;padding:8px 12px;font-weight:600}.gates .g{background:var(--ink);color:#fff}
+</style>
+</head>
+<body>
+<header><div class="bar"><h1 id="appname"></h1><span id="status" class="badge"></span><span id="vcount" class="badge"></span>
+<nav><a href="#overview">Overview</a><a href="#screens">Screens</a><a href="#prototype">Prototype</a><a href="#web">Web</a><a href="#design">Design</a><a href="#store">Store</a><a href="#events">Events</a><a href="#repo">Repo</a><a href="#approve">Approve</a></nav></div></header>
+<main>
+<div id="issues"></div>
+<section id="overview"><h2>Overview</h2><p class="sub" id="promise"></p><div class="meta" id="metagrid"></div>
+<div class="flowlabel">Pipeline</div><div class="gates" id="gates"></div></section>
+<section id="screens"><h2>App screens</h2><p class="sub">Every screen at phone size. Tap a state to switch. Struck-out states are not applicable, with a reason on hover.</p><div id="flows"></div></section>
+<section id="prototype"><h2>Click-through prototype</h2><p class="sub">Tap dashed targets. This is the flow the build must reproduce.</p>
+<div class="proto"><div class="phone big" id="protophone"></div><div><div class="ctl"><button id="pback">◀ Back</button><button id="preset">Restart</button><button id="ptheme">Toggle dark</button></div><div><b id="ptitle"></b></div><p class="sub" id="ppurpose"></p><div class="flowlabel">Path</div><div class="crumbs" id="crumbs"></div><div class="flowlabel">Acceptance</div><ul class="acc" id="pacc"></ul><div class="flowlabel">Events fired</div><div id="pevents"></div></div></div></section>
+<section id="web"><h2>Web surfaces</h2><p class="sub">Landing and the pages store review and users need.</p><div class="grid2" id="webgrid"></div></section>
+<section id="design"><h2>Design tokens and style</h2><p class="sub">Source for DESIGN.md. No value outside this set after approval.</p><div class="grid2"><div><div class="flowlabel">Color · light</div><div class="swatches" id="swl"></div><div class="flowlabel">Color · dark</div><div class="swatches" id="swd"></div></div><div><div class="flowlabel">Type scale</div><div class="typescale" id="types"></div><div class="flowlabel">Spacing · radius · motion</div><div id="spacing"></div></div></div><div class="flowlabel">Art style prompt (reused for every image)</div><div class="prompt" id="prompt"></div></section>
+<section id="store"><h2>Store listing and offer</h2><p class="sub">App Store copy, screenshots, price and paywall rule.</p><div class="grid2"><div id="storeinfo"></div><div><div class="flowlabel">Screenshot plan</div><div class="flowrow" id="shots"></div></div></div></section>
+<section id="events"><h2>Analytics event map</h2><p class="sub" id="evsub"></p><table id="evtable"></table></section>
+<section id="repo"><h2>Repo starter files and merge gate</h2><div class="grid2"><div><table id="repotable"></table></div><div><div class="flowlabel">Merge gate</div><ul class="acc" id="gate"></ul><div class="flowlabel">Research</div><div id="research"></div></div></div></section>
+<section id="approve"><h2>Gate 1 approval</h2><p class="sub">Approve once. After this, workers build to this spec and do not ask questions. Changes after approval need a new spec version.</p><div class="check" id="checklist"></div></section>
+</main>
+<script id="spec" type="application/json">{"schema_version":1,"meta":{"name":"Soon (example)","slug":"soon-example","spec_version":"0.1.0","status":"draft","approved_by":null,"approved_at":null,"platforms":["ios"],"stack":"swiftui","promise":"Count down to the dates that matter, on your Home and Lock Screen.","audience":"People planning a trip, a wedding, a birthday or a launch.","core_loop":"Add a date -> see days left at a glance -> get nudged before it.","definition_of_good":"D1 retention >= 35%. 7-day paywall view-to-purchase >= 4%. Crash-free sessions >= 99.5%.","kill_criteria":"Fewer than 300 installs in the first 30 days with paid UA under $200."},"research":{"question":"What makes people pay for a countdown app?","comps":[{"name":"Example comp A (category leader)","store_id":"000000000","observed":"One-time widget unlock. Home, Lock Screen and StandBy widgets are premium."},{"name":"Example comp B","store_id":"000000000","observed":"Placeholder: not inspected yet. Research step fills this."}],"patterns_we_copy":["first event in under 30 s","widget is the paid hook","one-time unlock"],"patterns_we_reject":["ads on free tier","account required before value"]},"design":{"style_prompt":"Flat vector illustration, soft grain, warm paper background, one bold accent color, rounded geometric shapes, no gradients, no text in images, centered subject with generous margin.","icons":"SF Symbols only","tokens":{"color":{"light":{"bg":"#FBF7F0","surface":"#FFFFFF","text":"#1D1B18","muted":"#6E675E","primary":"#FF5A36","accent":"#2E6BFF","danger":"#C62828"},"dark":{"bg":"#14120F","surface":"#1F1C18","text":"#F5F1EA","muted":"#A39B90","primary":"#FF7A5C","accent":"#6C95FF","danger":"#EF5350"}},"type":{"family":"SF Pro Rounded","scale":{"caption":12,"body":16,"title3":20,"title1":28,"display":48}},"spacing":[4,8,12,16,24,32],"radius":{"sm":8,"md":14,"lg":22},"motion":{"spring":"response 0.35, damping 0.8","reduce_motion":"crossfade 150ms"}}},"screens":[{"id":"welcome","flow":"onboarding","title":"Welcome","purpose":"Show the promise and start the first countdown in one tap.","states":["default"],"not_applicable":{"loading":"static screen","empty":"static screen","error":"no I/O"},"mock":{"default":[{"type":"art","label":"Hero art: calendar page flying off (style prompt)"},{"type":"title","text":"Count down to what matters"},{"type":"text","text":"Days left, right on your Home Screen."},{"type":"button","text":"Add my first date","to":"add-event"}]},"events":["onboarding_step_completed"],"acceptance":["Primary button visible without scrolling on iPhone SE (3rd gen).","No sign-in before first value."]},{"id":"add-event","flow":"onboarding","title":"Add event","purpose":"Capture title, date and an emoji. First value in under 30 seconds.","states":["default","error"],"not_applicable":{"loading":"local save","empty":"form starts blank by design"},"mock":{"default":[{"type":"nav","text":"New countdown"},{"type":"input","label":"Title","value":"Lisbon trip"},{"type":"input","label":"Date","value":"Mar 14, 2027"},{"type":"chips","items":["✈️","🎂","💍","🚀","🎄"]},{"type":"button","text":"Save","to":"home"}],"error":[{"type":"nav","text":"New countdown"},{"type":"input","label":"Title","value":"","error":"Add a title"},{"type":"input","label":"Date","value":"Mar 14, 2027"},{"type":"button","text":"Save","disabled":true}]},"events":["core_action_completed"],"acceptance":["Save with empty title shows inline error, no alert.","Past dates are allowed and show \"days since\"."]},{"id":"home","flow":"core","title":"Home","purpose":"List countdowns, nearest first.","states":["default","empty"],"not_applicable":{"loading":"local store reads under 50 ms","error":"local only"},"mock":{"default":[{"type":"nav","text":"Soon","action":"+","action_to":"add-event"},{"type":"countdown","title":"Lisbon trip","emoji":"✈️","days":158,"to":"event-detail"},{"type":"countdown","title":"Mia's birthday","emoji":"🎂","days":41},{"type":"countdown","title":"App launch","emoji":"🚀","days":12},{"type":"button","text":"Add a widget","style":"secondary","to":"paywall"},{"type":"link","text":"Settings","to":"settings"}],"empty":[{"type":"nav","text":"Soon","action":"+","action_to":"add-event"},{"type":"art","label":"Empty art: blank calendar page (style prompt)"},{"type":"title","text":"Nothing to count yet"},{"type":"button","text":"Add a date","to":"add-event"}]},"events":["app_opened","$screen"],"acceptance":["Sorted nearest first; past events in a separate \"Since\" section.","Large text (AX5) keeps titles readable with no truncation of day count."]},{"id":"event-detail","flow":"core","title":"Event detail","purpose":"Big number, share, edit, reminder settings.","states":["default"],"not_applicable":{"loading":"local","empty":"always has an event","error":"local"},"mock":{"default":[{"type":"nav","text":"Lisbon trip","back":"home"},{"type":"big","text":"158","caption":"days to go"},{"type":"row","label":"Remind me","value":"1 day before"},{"type":"row","label":"Repeat","value":"Never"},{"type":"button","text":"Share","style":"secondary"}]},"events":["core_action_completed"],"acceptance":["Number updates at local midnight without relaunch."]},{"id":"paywall","flow":"monetization","title":"Paywall","purpose":"Sell the widget unlock after the first event exists.","states":["default","loading","error","success"],"not_applicable":{"empty":"offer always present"},"mock":{"default":[{"type":"close","to":"home"},{"type":"art","label":"Widget preview on Home Screen"},{"type":"title","text":"Put it on your Home Screen"},{"type":"bullets","items":["Home and Lock Screen widgets","StandBy view","Unlimited themes"]},{"type":"price","text":"$4.99 once","caption":"No subscription"},{"type":"button","text":"Unlock","to":"home"},{"type":"link","text":"Restore purchase"}],"loading":[{"type":"close"},{"type":"spinner","text":"Loading price…"}],"error":[{"type":"close","to":"home"},{"type":"banner","text":"Store unavailable. Try again."},{"type":"button","text":"Retry"}],"success":[{"type":"art","label":"Confetti, reduced-motion safe"},{"type":"title","text":"Unlocked"},{"type":"button","text":"Add widget","to":"home"}]},"events":["paywall_viewed","purchase_started","purchase_completed"],"acceptance":["Price comes from RevenueCat offering, never hard-coded.","Restore works on a fresh install with the sandbox account."]},{"id":"settings","flow":"core","title":"Settings","purpose":"Restore, support, privacy, terms, delete data.","states":["default"],"not_applicable":{"loading":"static","empty":"static","error":"static"},"mock":{"default":[{"type":"nav","text":"Settings","back":"home"},{"type":"row","label":"Restore purchase"},{"type":"row","label":"Contact support"},{"type":"row","label":"Privacy"},{"type":"row","label":"Delete all data","danger":true}]},"events":["$screen"],"acceptance":["Every link opens the matching web surface below."]}],"web":[{"id":"landing","path":"/","title":"Landing","sections":["hero with App Store badge","three feature rows","widget gallery","FAQ","footer links"],"acceptance":["Lighthouse performance >= 90 on mobile","App Store link uses the real app ID after Gate 2"]},{"id":"privacy","path":"/privacy","title":"Privacy policy","sections":["data collected","processors: RevenueCat, PostHog, Sentry","retention","contact"],"acceptance":["Matches App Privacy labels exactly"]},{"id":"terms","path":"/terms","title":"Terms of use","sections":["license","purchases and refunds via Apple","liability"],"acceptance":["Linked from paywall and settings"]},{"id":"support","path":"/support","title":"Support","sections":["FAQ","contact email","restore steps"],"acceptance":["Returns 200, not a GitHub link"]},{"id":"delete","path":"/delete-account","title":"Data deletion","sections":["what is deleted","how to delete in app","email fallback"],"acceptance":["Meets App Store 5.1.1(v) when accounts exist"]}],"store":{"name":"Soon: Countdown Widget","subtitle":"Days left on your Home Screen","keywords":["countdown","widget","days until","event","trip","birthday","wedding"],"category":"Utilities","age_rating":"4+","screenshots":[{"screen":"home","caption":"Every date that matters"},{"screen":"paywall","caption":"On your Home and Lock Screen"},{"screen":"event-detail","caption":"Big, clear, shareable"}],"pricing":{"model":"one-time unlock","price":"$4.99","revenuecat":{"entitlement":"pro","offering":"default","product":"soon_pro_lifetime"}},"paywall_offer":"Shown after first event saved and on widget tap. Never on first launch."},"analytics":{"provider":"posthog","common_props":["app_id","platform","app_version","build_number"],"events":[{"name":"app_opened","when":"App foreground","props":[]},{"name":"onboarding_step_completed","when":"Welcome CTA tapped","props":["step_id"]},{"name":"core_action_completed","when":"Event saved or shared","props":["feature_key"]},{"name":"paywall_viewed","when":"Paywall shown","props":["source"]},{"name":"purchase_started","when":"Unlock tapped","props":["product_id"]},{"name":"purchase_completed","when":"Entitlement active","props":["product_id","price"]},{"name":"$screen","when":"Every screen view","props":["screen_id"]}]},"repo":{"files":[{"path":"AGENTS.md","purpose":"Short worker guide: read spec.yaml, build one screen, compare to mock, run gate."},{"path":"spec/spec.yaml","purpose":"This manifest (approved copy)."},{"path":"spec/index.html","purpose":"Rendered spec pack."},{"path":"DESIGN.md","purpose":"Tokens and style prompt, same values as design.tokens."},{"path":"TASKS.md","purpose":"One line per screen and web page with status."},{"path":"scripts/merge-gate.sh","purpose":"Build, unit tests, screenshot-vs-mock check, lint."},{"path":".env.example","purpose":"Names only, no values."},{"path":"web/","purpose":"Landing and policy pages."}],"merge_gate":["Build succeeds for every platform in meta.platforms.","Unit tests pass.","Each changed screen has a simulator screenshot per required state.","Screenshot-vs-mock review recorded with any differences fixed or listed.","No hard-coded colors, sizes or strings outside tokens and copy files."]},"gates":{"gate_1":{"name":"Spec approval","owner":"founder","approves":["screens and states","web surfaces","tokens and style prompt","store listing and price","event map"]},"gate_2":{"name":"Store submission","owner":"founder","approves":["real-device dogfood verdict","final screenshots","price in App Store Connect","review notes"]}},"approval_checklist":["Every screen has every required state, or a reason it does not.","Every tap target leads somewhere in the prototype.","Paywall price and offer match store.pricing.","All five web surfaces exist and are linked from settings.","Event map covers install -> onboard -> core -> paywall -> paid.","Style prompt and tokens are final; no new colors after approval.","Definition of good and kill criteria are set."]}</script>
+<script id="report" type="application/json">{"errors":[],"stateCount":11,"screens":6}</script>
+<script>
+const S=JSON.parse(document.getElementById('spec').textContent);
+const R=JSON.parse(document.getElementById('report').textContent);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let dark=false;
+function themeVars(el,mode){const t=S.design.tokens,c=t.color[mode];for(const[k,v]of Object.entries(c))el.style.setProperty('--t-'+k,v);for(const[k,v]of Object.entries(t.radius))el.style.setProperty('--t-r-'+k,v+'px');}
+const byId=Object.fromEntries(S.screens.map(s=>[s.id,s]));
+function block(b,proto){const tap=b.to&&proto?` class-tap data-to="${esc(b.to)}"`:'';const tc=b.to&&proto?' tap':'';
+switch(b.type){
+case'nav':return`<div class="m-nav">${b.back?`<span class="bk${proto?' tap':''}" data-to="${esc(b.back)}">‹ Back</span>`:''}<span>${esc(b.text)}</span><span class="act${proto&&b.action_to?' tap':''}" data-to="${esc(b.action_to||'')}">${esc(b.action||'')}</span></div>`;
+case'title':return`<div class="m-title">${esc(b.text)}</div>`;
+case'text':return`<div class="m-text">${esc(b.text)}</div>`;
+case'art':return`<div class="m-art">${esc(b.label)}</div>`;
+case'button':return`<div class="m-btn ${esc(b.style||'')}${b.disabled?' dis':''}${tc}" data-to="${esc(b.to||'')}">${esc(b.text)}</div>`;
+case'link':return`<div class="m-link${tc}" data-to="${esc(b.to||'')}">${esc(b.text)}</div>`;
+case'input':return`<div class="m-input${b.error?' e':''}"><small>${esc(b.label)}</small>${esc(b.value)||'&nbsp;'}${b.error?`<div class="em">${esc(b.error)}</div>`:''}</div>`;
+case'chips':return`<div class="m-chips">${b.items.map(i=>`<span>${esc(i)}</span>`).join('')}</div>`;
+case'countdown':return`<div class="m-cd${tc}" data-to="${esc(b.to||'')}"><span class="e">${esc(b.emoji)}</span><span class="t">${esc(b.title)}</span><span class="d">${esc(b.days)}<small>days</small></span></div>`;
+case'big':return`<div class="m-big"><b>${esc(b.text)}</b><span>${esc(b.caption)}</span></div>`;
+case'row':return`<div class="m-row${b.danger?' d':''}"><span>${esc(b.label)}</span><span class="v">${esc(b.value||'›')}</span></div>`;
+case'bullets':return`<ul class="m-bul">${b.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`;
+case'price':return`<div class="m-price">${esc(b.text)}<small>${esc(b.caption||'')}</small></div>`;
+case'close':return`<div class="m-close${tc}" data-to="${esc(b.to||'')}">✕</div>`;
+case'spinner':return`<div class="m-spin">${esc(b.text||'')}</div>`;
+case'banner':return`<div class="m-banner">${esc(b.text)}</div>`;
+default:return`<div class="m-text">[${esc(b.type)}]</div>`;}}
+function phone(screenId,state,proto,mode){const s=byId[screenId];const blocks=(s.mock&&s.mock[state])||[];
+return`<div class="scr" data-mode="${mode}"><div class="notch"><span>9:41</span><span class="island"></span><span>●●● ▮</span></div><div class="body">${blocks.map(b=>block(b,proto)).join('')}</div></div>`;}
+function mount(el,html,mode){el.innerHTML=html;themeVars(el.firstElementChild,mode);}
+// Single-mock mode: index.html?mock=<screen>:<state>[:dark] renders one screen
+// edge to edge at device size, for screenshot-vs-mock comparison.
+const q=new URLSearchParams(location.search).get('mock');
+if(q){const[id,stt,md]=q.split(':');const mode=md==='dark'?'dark':'light';document.body.innerHTML='<div id="solo" style="width:100vw;height:100vh"></div>';document.body.style.background='#000';mount($('solo'),phone(id,stt||'default',false,mode),mode);const sc=$('solo').firstElementChild;sc.style.borderRadius='0';const P=new URLSearchParams(location.search),W=+(P.get('w')||393),H=+(P.get('h')||852),z=W/236;Object.assign(sc.style,{width:'236px',height:(H/z)+'px',transform:'scale('+z+')',transformOrigin:'top left'});document.body.style.margin='0';document.body.style.overflow='hidden';throw new Error('solo mock rendered');}
+// header
+$('appname').textContent=S.meta.name;const st=$('status');st.textContent=S.meta.status+' · v'+S.meta.spec_version;st.className='badge '+(S.meta.status==='approved'?'approved':'draft');
+const vc=$('vcount');if(R.errors.length){vc.textContent=R.errors.length+' spec errors';vc.className='badge err';$('issues').innerHTML=`<div class="issues"><b>Spec check failed.</b><ul>${R.errors.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>`}else{vc.textContent='spec check passed';vc.className='badge approved'}
+$('promise').textContent=S.meta.promise;
+const m=S.meta;$('metagrid').innerHTML=[['Audience',m.audience],['Core loop',m.core_loop],['Platforms · stack',m.platforms.join(', ')+' · '+m.stack],['Definition of good',m.definition_of_good],['Kill criteria',m.kill_criteria],['Counts',`${S.screens.length} screens · ${R.stateCount} states · ${S.web.length} web pages · ${S.analytics.events.length} events`]].map(([k,v])=>`<div class="kv"><b>${k}</b>${esc(v)}</div>`).join('');
+$('gates').innerHTML=['Research','Spec pack',`<span class="st g">Gate 1 · ${esc(S.gates.gate_1.name)}</span>`,'Build to spec',`<span class="st g">Gate 2 · ${esc(S.gates.gate_2.name)}</span>`,'Launch and run'].map(x=>x.startsWith('<')?x:`<span class="st">${x}</span>`).join(' → ');
+// screens by flow
+const ALL=['default','loading','empty','error','offline','permission-denied','success'];
+const flows=[...new Set(S.screens.map(s=>s.flow))];
+$('flows').innerHTML=`<div class="flowrow wrap">${flows.map(f=>S.screens.filter(s=>s.flow===f).map(s=>`<div class="screen" data-id="${s.id}"><div class="flowtag">${esc(f)}</div><div class="phone" id="ph-${s.id}"></div><h3>${esc(s.title)} <code>${esc(s.id)}</code></h3><p class="p">${esc(s.purpose)}</p><div class="tabs">${s.states.map((x,i)=>`<button data-s="${x}" class="${i?'':'on'}">${x}</button>`).join('')}${Object.entries(s.not_applicable||{}).map(([k,v])=>`<span class="na" title="${esc(v)}">${esc(k)}</span>`).join('')}</div><ul class="acc">${(s.acceptance||[]).map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div>`).join('')).join('')}</div>`;
+S.screens.forEach(s=>mount($('ph-'+s.id),phone(s.id,s.states[0],false,'light'),'light'));
+document.querySelectorAll('.screen').forEach(card=>card.querySelectorAll('.tabs button').forEach(btn=>btn.onclick=()=>{card.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const id=card.dataset.id;mount($('ph-'+id),phone(id,btn.dataset.s,false,'light'),'light');}));
+// prototype
+const start=S.screens[0].id;let path=[start];
+function renderProto(){const id=path[path.length-1],s=byId[id],mode=dark?'dark':'light';mount($('protophone'),phone(id,s.states[0],true,mode),mode);
+$('ptitle').textContent=s.title;$('ppurpose').textContent=s.purpose;$('crumbs').innerHTML=path.map(p=>`<span>${esc(p)}</span>`).join('→');$('pacc').innerHTML=(s.acceptance||[]).map(a=>`<li>${esc(a)}</li>`).join('');$('pevents').innerHTML=(s.events||[]).map(e=>`<code>${esc(e)}</code>`).join(' ');
+$('protophone').querySelectorAll('.tap').forEach(t=>{const to=t.dataset.to;if(to&&byId[to])t.onclick=()=>{path.push(to);renderProto();};});}
+$('pback').onclick=()=>{if(path.length>1){path.pop();renderProto();}};$('preset').onclick=()=>{path=[start];renderProto();};$('ptheme').onclick=()=>{dark=!dark;renderProto();};renderProto();
+// web
+$('webgrid').innerHTML=S.web.map(w=>`<div class="web" id="w-${w.id}"><div class="chrome"><i></i><i></i><i></i> ${esc(S.meta.slug)}.app${esc(w.path)}</div><div class="pg"><h4>${esc(w.title)}</h4>${w.sections.map(x=>`<div class="sec">${esc(x)}</div>`).join('')}<ul class="acc">${(w.acceptance||[]).map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div></div>`).join('');
+S.web.forEach(w=>themeVars($('w-'+w.id).querySelector('.pg'),'light'));
+// design
+const sw=mode=>Object.entries(S.design.tokens.color[mode]).map(([k,v])=>`<div class="sw"><div style="background:${esc(v)}"></div><p><b>${esc(k)}</b><br>${esc(v)}</p></div>`).join('');$('swl').innerHTML=sw('light');$('swd').innerHTML=sw('dark');
+const ty=S.design.tokens.type;$('types').innerHTML=`<div class="sub">${esc(ty.family)}</div>`+Object.entries(ty.scale).map(([k,v])=>`<p style="font-size:${v}px;font-weight:${v>18?800:500}">${esc(k)} · ${v}</p>`).join('');
+const tk=S.design.tokens;$('spacing').innerHTML=`<p>Spacing: ${tk.spacing.map(x=>`<code>${x}</code>`).join(' ')}</p><p>Radius: ${Object.entries(tk.radius).map(([k,v])=>`<code>${k} ${v}</code>`).join(' ')}</p><p>Motion: ${Object.entries(tk.motion).map(([k,v])=>`<code>${esc(k)}: ${esc(v)}</code>`).join(' ')}</p><p>Icons: ${esc(S.design.icons)}</p>`;
+$('prompt').textContent=S.design.style_prompt;
+// store
+const so=S.store;$('storeinfo').innerHTML=`<div class="kv"><b>Name</b>${esc(so.name)}</div><br><div class="kv"><b>Subtitle</b>${esc(so.subtitle)}</div><br><div class="kv"><b>Keywords</b>${so.keywords.map(esc).join(', ')}</div><br><div class="meta"><div class="kv"><b>Price</b>${esc(so.pricing.price)} · ${esc(so.pricing.model)}</div><div class="kv"><b>RevenueCat</b>${Object.entries(so.pricing.revenuecat).map(([k,v])=>esc(k+': '+v)).join('<br>')}</div><div class="kv"><b>Category · age</b>${esc(so.category)} · ${esc(so.age_rating)}</div></div><br><div class="kv"><b>Paywall rule</b>${esc(so.paywall_offer)}</div>`;
+$('shots').innerHTML=so.screenshots.map((x,i)=>`<div class="screen" style="width:180px"><div style="background:var(--accent);color:#fff;border-radius:16px;padding:10px;font-weight:800;font-size:13px;text-align:center">${esc(x.caption)}</div><div style="transform:scale(.72);transform-origin:top center;height:350px"><div class="phone" id="sh-${i}"></div></div></div>`).join('');
+so.screenshots.forEach((x,i)=>mount($('sh-'+i),phone(x.screen,byId[x.screen].states[0],false,'light'),'light'));
+// events
+const an=S.analytics;$('evsub').textContent=`Provider: ${an.provider}. Every event carries ${an.common_props.join(', ')}.`;
+const fired={};S.screens.forEach(s=>(s.events||[]).forEach(e=>(fired[e]=fired[e]||[]).push(s.id)));
+$('evtable').innerHTML=`<tr><th>Event</th><th>When</th><th>Props</th><th>Screens</th></tr>`+an.events.map(e=>`<tr><td><code>${esc(e.name)}</code></td><td>${esc(e.when)}</td><td>${(e.props||[]).map(esc).join(', ')||'—'}</td><td>${(fired[e.name]||[]).join(', ')||'—'}</td></tr>`).join('');
+// repo
+$('repotable').innerHTML=`<tr><th>File</th><th>Purpose</th></tr>`+S.repo.files.map(f=>`<tr><td><code>${esc(f.path)}</code></td><td>${esc(f.purpose)}</td></tr>`).join('');
+$('gate').innerHTML=S.repo.merge_gate.map(g=>`<li>${esc(g)}</li>`).join('');
+const rs=S.research;$('research').innerHTML=`<p><b>${esc(rs.question)}</b></p>`+rs.comps.map(c=>`<p><b>${esc(c.name)}</b> <code>${esc(c.store_id)}</code><br><span class="sub">${esc(c.observed)}</span></p>`).join('');
+// approval
+$('checklist').innerHTML=S.approval_checklist.map((c,i)=>`<label><input type="checkbox" id="c${i}"> ${esc(c)}</label>`).join('')+`<p class="sub" style="margin-top:12px">Approval is recorded in spec.yaml (meta.status: approved, approved_by, approved_at) and committed. This page does not store approval.</p>`;
+</script>
+</body>
+</html>
