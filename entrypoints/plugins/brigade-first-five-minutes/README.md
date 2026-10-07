@@ -44,4 +44,7 @@ It sends generic topic terms and public reference IDs to knowledge tools, not ca
 
 The [current packaging guide](https://developers.openai.com/plugins/build/plugins) defines the portable layout and the repo marketplace file at `.agents/plugins/marketplace.json`.
 The [Claude marketplace reference](https://code.claude.com/docs/en/plugins/marketplace-reference) defines `.claude-plugin/marketplace.json`.
+The manifest lists [privacy](https://clueless-creations.com/privacy), [terms](https://clueless-creations.com/terms), and [support](https://clueless-creations.com/support/). The support page is being added in a separate site PR and must be live before a directory submission.
+The measured comparison against plain ChatGPT lives on draft PR #637 (`EVALUATION.md` and `evals/eval.mjs`). This tree does not copy that harness. `prepare` and `summarize` are offline; the 32 ChatGPT runs are not.
+
 This draft does not upload a ZIP, create a release, or submit a directory listing.

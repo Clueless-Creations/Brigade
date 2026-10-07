@@ -34,4 +34,4 @@ Authenticated MCP and HTTP clients keep working. Anonymous MCP is additive. Exis
 
 ## Consequences
 
-Document install and access on the hosted README, console snippets, and agent guides. Preserve rate limits on anonymous MCP (ingress plus per-IP API limiter). Skip activation analytics for anonymous callers. Directory submission still needs a support page, policy URLs in the manifest, a measured eval, a demo recording, and publisher verification.
+Document install and access on the hosted README, console snippets, and agent guides. Preserve rate limits on anonymous MCP (ingress plus per-IP API limiter). Skip activation analytics for anonymous callers. The plugin manifest now lists privacy, terms, and support URLs. The support page must be live before submission. Directory submission still needs a measured eval, a demo recording, publisher verification, and a hosted deploy of anonymous `/mcp`.

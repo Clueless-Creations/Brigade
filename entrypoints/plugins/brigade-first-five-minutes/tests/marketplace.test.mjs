@@ -41,6 +41,9 @@ test("repo marketplaces point at the portable first-five-minutes package", () =>
   assert.equal(plugin.$schema, "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json");
   assert.match(plugin.extensions["com.openai"].interface.longDescription, /without sign-in/);
   assert.doesNotMatch(plugin.extensions["com.openai"].interface.longDescription, /entitled account/);
+  assert.equal(plugin.extensions["com.openai"].interface.supportURL, "https://clueless-creations.com/support/");
+  assert.equal(plugin.extensions["com.openai"].interface.privacyPolicyURL, "https://clueless-creations.com/privacy");
+  assert.equal(plugin.extensions["com.openai"].interface.termsOfServiceURL, "https://clueless-creations.com/terms");
   assert.equal(mcp.mcpServers["brigade-knowledge"].type, "streamable-http");
   assert.equal(mcp.mcpServers["brigade-knowledge"].url, "https://mcp.clueless-creations.com/mcp");
 });

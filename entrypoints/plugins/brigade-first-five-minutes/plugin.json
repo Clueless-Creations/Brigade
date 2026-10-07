@@ -21,7 +21,9 @@
         "category": "Developer Tools",
         "capabilities": ["Audit supplied app captures", "Read onboarding and paywall guidance"],
         "websiteURL": "https://github.com/Clueless-Creations/Brigade",
-        "supportURL": "https://github.com/Clueless-Creations/Brigade/issues",
+        "supportURL": "https://clueless-creations.com/support/",
+        "privacyPolicyURL": "https://clueless-creations.com/privacy",
+        "termsOfServiceURL": "https://clueless-creations.com/terms",
         "defaultPrompt": [
           "Audit my app's first five minutes from these screenshots. Help me reach first value with less friction.",
           "Review my onboarding paywall and suggest a revised flow plus one test, using this recording.",

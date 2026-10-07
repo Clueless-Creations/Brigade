@@ -319,6 +319,8 @@ sources:
     owner: maintainer
     locations:
       - hosted/knowledge-mcp/README.md
+      - entrypoints/plugins/brigade-first-five-minutes/plugin.json
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
     notes: First-party page. Two of its commitments bind this Worker - no query history is stored and observability
       stays disabled. Not reviewed by a lawyer.
   - id: clueless-creations-terms-of-service
@@ -329,8 +331,20 @@ sources:
     owner: maintainer
     locations:
       - hosted/knowledge-mcp/README.md
+      - entrypoints/plugins/brigade-first-five-minutes/plugin.json
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
     notes: First-party page. States the rate limits and the 90-second worst-case revocation bound this Worker must
       hold to. Not reviewed by a lawyer.
+  - id: clueless-creations-support
+    name: Clueless Creations support page
+    source_type: website
+    url: https://clueless-creations.com/support/
+    refresh_cadence_days: 7
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-first-five-minutes/plugin.json
+      - entrypoints/plugins/brigade-first-five-minutes/README.md
+    notes: Manifest supportURL for the First Five Minutes plugin. The page is being added in a separate site PR and returned 404 on 2026-10-07. It must be live before a directory submission.
   - id: code-claude-com-docs-en-costs
     name: code.claude.com
     source_type: official_docs
