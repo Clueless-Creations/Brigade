@@ -5,9 +5,9 @@ It is also the Claude Code marketplace entry in `.claude-plugin/marketplace.json
 Supply ordered captures, the target user, and the intended first value.
 The result contains supported friction, a revised flow, one next test, citations, and uncertainty.
 
-This is the minimum portable package needed for `codex plugin marketplace add Clueless-Creations/Brigade`.
-Draft PR #637 owns the fuller pilot (eval cases, synthetic captures, submission readiness).
-This tree aligns with that manifest and skill. Merge overlap is expected.
+This is the installable package for `codex plugin marketplace add Clueless-Creations/Brigade`.
+It includes the audit skill, review cases, synthetic eval captures, and the offline comparison harness.
+Draft PR #637 still holds older submission-readiness notes and an authenticated-test plan that this tree does not copy.
 
 The package is not published to the OpenAI directory, npm, or a Claude community listing.
 
@@ -45,6 +45,12 @@ It sends generic topic terms and public reference IDs to knowledge tools, not ca
 The [current packaging guide](https://developers.openai.com/plugins/build/plugins) defines the portable layout and the repo marketplace file at `.agents/plugins/marketplace.json`.
 The [Claude marketplace reference](https://code.claude.com/docs/en/plugins/marketplace-reference) defines `.claude-plugin/marketplace.json`.
 The manifest lists [privacy](https://clueless-creations.com/privacy), [terms](https://clueless-creations.com/terms), and [support](https://clueless-creations.com/support/). The support page is being added in a separate site PR and must be live before a directory submission.
-The measured comparison against plain ChatGPT lives on draft PR #637 (`EVALUATION.md` and `evals/eval.mjs`). This tree does not copy that harness. `prepare` and `summarize` are offline; the 32 ChatGPT runs are not.
+The measured comparison against plain ChatGPT is in [EVALUATION.md](EVALUATION.md) and `evals/eval.mjs`. `prepare` and `summarize` are offline; the 32 ChatGPT runs are not. The reviewer recording script is in [WALKTHROUGH.md](WALKTHROUGH.md).
+
+```bash
+node entrypoints/plugins/brigade-first-five-minutes/evals/eval.mjs prepare ../artifacts/evaluation-01
+node --test entrypoints/plugins/brigade-first-five-minutes/tests/marketplace.test.mjs entrypoints/plugins/brigade-first-five-minutes/tests/pilot.test.mjs
+node entrypoints/plugins/brigade-first-five-minutes/scripts/validate.mjs
+```
 
 This draft does not upload a ZIP, create a release, or submit a directory listing.

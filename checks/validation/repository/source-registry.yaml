@@ -175,9 +175,12 @@ sources:
     owner: maintainer
     locations:
       - hosted/knowledge-mcp/README.md
-    notes: First-party authenticated endpoint. Use provider deployment and health readback; an anonymous 401 is
-      expected. URL updated 2026-09-01 for the mcp.clueless-creations.com cutover; the old workers.dev route was
-      removed and 404s.
+      - entrypoints/plugins/brigade-first-five-minutes/mcp.json
+      - entrypoints/plugins/brigade-first-five-minutes/scripts/validate.mjs
+      - entrypoints/plugins/brigade-first-five-minutes/scripts/probe.mjs
+    notes: First-party knowledge endpoint. MCP knowledge tools are anonymous after ADR-0021. HTTP /api/v1 remains
+      key-gated. Use provider deployment and health readback. URL updated 2026-09-01 for the
+      mcp.clueless-creations.com cutover; the old workers.dev route was removed and 404s.
   - id: cc-bruniaux-com-guide-workflows-multi-provider-code-review
     name: cc.bruniaux.com
     source_type: website
