@@ -4,11 +4,12 @@ title: Spec Pack
 domain_id: domain.design
 document_path: knowledge/design/spec-pack.md
 load_when: starting a new consumer app before screens are built; writing or reviewing a spec pack;
-  preparing founder approval of screens, web pages, tokens, store listing and event map
+  preparing founder approval of screens, web pages, tokens, store listing and event map;
+  sending the Gate 1 handoff
 lifecycle: active
 bindings:
   context_pack_ids:
     - context.design
-applicability_notes: Pre-build approval view. Not a product, design, task, or state store. After Gate 1, sections land in existing owners.
+applicability_notes: Pre-build approval view. Not a product, design, task, or state store. After Gate 1, sections land in existing owners. End the spec-pack phase with the Gate 1 handoff.
 sources: []
 source_exemption: This package contains internal operating guidance or has no external factual claims.

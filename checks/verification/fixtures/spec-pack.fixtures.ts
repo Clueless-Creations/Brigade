@@ -65,4 +65,26 @@ export function register(harness: Harness): void {
     assert(result.output.includes('welcome: tap target "ghost-screen" is not a screen'), `missing unknown-tap message\n${result.output}`);
     assert(result.output.includes("orphan: not reachable in the prototype"), `missing unreachable-screen message\n${result.output}`);
   });
+
+  harness.check("spec-pack example includes a Gate 1 handoff template", () => {
+    const text = readFileSync(path.join(exampleDir, "GATE1.md"), "utf8");
+    for (const heading of [
+      "## Angle",
+      "## Name",
+      "## Price",
+      "## Size",
+      "## What you approve",
+      "## Open questions",
+      "## After approval",
+      "## Tracker",
+    ]) {
+      assert(text.includes(heading), `GATE1.md must include ${heading}`);
+    }
+    assert(text.includes("{app_name}"), "GATE1.md must use {app_name} as a placeholder");
+    assert(
+      text.includes("Do not create tracker issues or store listings before approval"),
+      "GATE1.md must forbid tracker and store writes before approval",
+    );
+    assert(!/tiptoe/i.test(text), "GATE1.md must stay generic; do not include the pilot app name");
+  });
 }
