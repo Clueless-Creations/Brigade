@@ -49,7 +49,8 @@ test("the packaged skill does not ask users to paste a Brigade API key", () => {
   const skill = readPlugin("skills/audit-first-five-minutes/SKILL.md");
   const readme = readPlugin("README.md");
   assert.match(skill, /need no API key and no sign-in/);
-  assert.doesNotMatch(skill, /paste a Brigade credential/);
+  assert.match(skill, /Do not ask the user to paste a Brigade credential/);
+  assert.doesNotMatch(skill, /Enter your (owner )?API key|B2C_APP_BUILDER_API_KEY/);
   assert.match(readme, /codex plugin marketplace add Clueless-Creations\/Brigade/);
   assert.match(readme, /need no Brigade API key/);
 });

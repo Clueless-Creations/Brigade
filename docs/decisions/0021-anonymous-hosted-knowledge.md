@@ -26,7 +26,7 @@ The four hosted knowledge tools (`b2c_catalog`, `b2c_workflow`, `b2c_knowledge_s
 
 HTTP `/api/v1` still requires a Bearer API key. A presented MCP bearer is still checked. OAuth consent remains for extras that need an account. Do not ask users to paste a Brigade API key to use knowledge tools.
 
-Repo marketplaces at `.agents/plugins/marketplace.json` and `.claude-plugin/marketplace.json` point at `entrypoints/plugins/brigade-first-five-minutes`. That package is the minimum installable overlay of draft PR #637.
+Repo marketplaces at `.agents/plugins/marketplace.json` and `.claude-plugin/marketplace.json` point at `entrypoints/plugins/brigade-first-five-minutes`. That package is the minimum installable overlay of draft PR #637. Those host catalog directories join the existing `.claude` / `.codex` / `.cursor` root allowlist in `check:repository-boundary` and stay repository-only for version discipline.
 
 ## Compatibility and migration
 

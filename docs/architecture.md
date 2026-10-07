@@ -225,7 +225,7 @@ north-star diagram, in dependency order.
 | Layer       | Path                                                                                             | Responsibility                                                                                      |
 | ----------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
 | Routing     | `SKILL.md`, `agents/`                                                                            | Agent discovery and setup                                                                           |
-| Entrypoints | `entrypoints/cli/`, `entrypoints/mcp/`                                                           | CLI dispatcher, MCP launcher and server                                                             |
+| Entrypoints | `entrypoints/cli/`, `entrypoints/mcp/`, `entrypoints/plugins/`                                    | CLI dispatcher, MCP launcher and server, portable plugin packages                                   |
 | Contracts   | `contracts/public-api/`                                                                          | `b2c/v1` registry, schemas, generated reference, examples                                           |
 | Kernel      | `kernel/`                                                                                        | Engine, reducer, sessions, work orders, operating model, autonomy, knowledge service, schema        |
 | Definitions | `catalog/`                                                                                       | Workflows, domains, gates, roles, world ontology, agent-graph overlay, packs, generated projections |
@@ -244,8 +244,9 @@ anything; nothing imports `checks`.
 
 Root files beside the layers are not layers. The package manifests
 (`package.json`, `package-lock.json`, `tsconfig.json`, `skill-version.json`),
-the tool dotfiles, and the entry documents (`README.md`, `AGENTS.md`,
-`CLAUDE.md`, `CONTRIBUTING.md`, `LICENSE`, and the generated
+the tool and host-marketplace directories (`.agents/`, `.claude/`,
+`.claude-plugin/`, `.codex/`, `.cursor/`), and the entry documents (`README.md`,
+`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `LICENSE`, and the generated
 `ACKNOWLEDGMENTS.md` and `THIRD_PARTY_NOTICES.md`) sit at the root.
 `check:repository-boundary` allowlists exactly these files and the layer
 directories. When `--repo-root` is a git toplevel, that walk uses tracked paths
@@ -456,6 +457,9 @@ docs/                             architecture, decisions, plans, guides
 entrypoints/
   cli/b2c.mjs                     CLI dispatcher
   mcp/                            MCP launcher and server
+  plugins/                        portable ChatGPT, Codex, and Claude plugin packages
+.agents/plugins/                  ChatGPT desktop and Codex repo marketplace
+.claude-plugin/                   Claude Code repo marketplace
 contracts/public-api/             b2c/v1 registry, schemas, reference, examples
 kernel/                           engine, reducer, sessions, work orders, schema
 catalog/                          typed definitions and generated projections
