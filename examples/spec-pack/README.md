@@ -17,7 +17,8 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `build.mjs` | Checks `spec.yaml` and writes `index.html`. |
 | `index.html` | Generated, self-contained review page. Open it in a browser. |
 | `render-mocks.sh` | Writes one PNG per screen and state to `mocks/` at 393x852. |
-| `preview.png`, `preview-full.png` | Screenshots of `index.html`. |
+| `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
+| `GATE1.md` | Founder-facing Gate 1 summary. Replace the placeholders. |
 
 ## Use
 
@@ -55,8 +56,10 @@ The founder decides that at Gate 1.
 2. **Spec pack**: an agent writes the rest of `spec.yaml`, runs the check
    until it passes, and renders `index.html`. Real mocks can replace the
    block mocks later; keep the IDs.
-3. **Gate 1**: the founder reviews `index.html` and the checklist. Approval
-   sets `meta.status: approved`, `approved_by` and `approved_at`, in a commit.
+3. **Gate 1**: send `GATE1.md`, `preview.png`, and the zipped pack. The
+   founder reviews `index.html` and the checklist. Approval sets
+   `meta.status: approved`, `approved_by` and `approved_at`, in a commit. Do
+   not create tracker issues or store listings before approval.
 4. **Build to spec**: one screen at a time. A screen is done when:
    its simulator screenshot for each required state matches
    `mocks/<screen>--<state>.png` in layout, copy, tokens and tap targets; its

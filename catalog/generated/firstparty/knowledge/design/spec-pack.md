@@ -63,6 +63,32 @@ Gate 1 is the human gate.
 The founder reviews `index.html` and the checklist.
 The founder decides quality at Gate 1.
 
+## Gate 1 handoff
+
+End the spec-pack phase with this handoff.
+
+The founder receives three files:
+
+- `GATE1.md`
+- `preview.png`
+- the zipped spec pack
+
+Send the chat in this order:
+
+1. Name the app and the angle in one line. Then give review evidence as counts.
+2. State the price model in one sentence.
+3. Give pack counts: screens and states, light and dark mocks, and the click-through prototype. Also count web pages with real copy, the store listing, and payments setup. Also count analytics events with targets and kill criteria, build tasks, and backend or no backend. Then give the spec-check result and the research spend.
+4. Tell the founder how to approve. Ask them to open `index.html` and reply "approved" or list changes. After approval, workers build one screen per pull request. Each screen matches its mock and passes tests.
+5. List the open decisions only the founder can make. Give each decision a recommendation.
+6. Describe the tracker work. Keep it drafted. Do not create tracker issues or store listings before approval.
+
+Use counts from real sources.
+Do not invent evidence.
+Give each open decision a recommendation.
+Do not create work in the tracker or the stores before approval.
+
+Copy `examples/spec-pack/GATE1.md` and replace the placeholders.
+
 ## Build to spec
 
 After Gate 1, workers build to the spec.
@@ -122,7 +148,8 @@ Unknown block types render as a labeled placeholder.
 2. Replace the placeholder app in `spec.yaml`.
 3. Run `node build.mjs` until the check exits 0.
 4. Open `index.html` for founder review.
-5. Record Gate 1 in `spec.yaml` and commit.
+5. Send the [Gate 1 handoff](#gate-1-handoff).
+6. Record Gate 1 in `spec.yaml` and commit.
 
 The example app is a placeholder countdown app named Soon.
 Replace it.
@@ -137,7 +164,7 @@ See [Design Room](design-room.md).
 
 1. Research fills `research` and `meta`.
 2. An agent writes the rest of `spec.yaml` and renders the page.
-3. The founder approves at Gate 1.
+3. Send the Gate 1 handoff. The founder approves at Gate 1.
 4. Workers build one screen at a time.
 5. The founder approves store submission at Gate 2.
 6. The daily ship loop reads the event map.

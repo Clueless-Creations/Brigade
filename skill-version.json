@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.108",
+  "version": "0.221.109",
   "updatedAt": "2026-10-07",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add the Gate 1 handoff to the spec-pack flow: founder summary, chat order, and no tracker or store writes before approval. Stamp 0.221.109; no deployment or npm publish.",
     "Add ChatGPT/Codex and Claude repo marketplaces for the First Five Minutes plugin. Keep hosted knowledge MCP anonymous while HTTP /api/v1 stays key-gated. Rebase onto main after #647; re-render generated files. Take the #637 eval harness, walkthrough, and test cases. Stamp 0.221.108; no deployment or npm publish.",
     "Adopt five iOS and app agent-skill sources as maintained upstreams; adapt stack-neutral craft methods; route stack-specific packs as opt-in. Rebase onto main after #649; re-render generated files; pin vibecoded-tells for the design-taste rubric. Stamp 0.221.107; no deployment or npm publish.",
     "Add a spec-pack contract and example template so new apps get founder-approved screens before implementation. Stamp 0.221.106; no deployment or npm publish.",
