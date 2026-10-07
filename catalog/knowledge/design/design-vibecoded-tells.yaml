@@ -28,6 +28,27 @@ sources:
       source.
     last_review_date: 2026-08-18
     reviewer: b2c-maintainers
+  - id: expo-native-slop-tells
+    name: Expo native-slop tells
+    source_type: upstream_method
+    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-design-system/references/native-slop.md
+    review_cadence_days: 30
+    claim_scope: MIT-licensed named anti-pattern tells for generated mobile UI. B2C App Builder adapts stack-neutral
+      wording into the Native App Tells table. React Native grep recipes stay upstream.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: 650 Industries, Inc. (aka Expo)
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    upstream_id: expo-skills
+    selectors:
+      - LICENSE
+      - plugins/expo/skills/expo-design-system/references/native-slop.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/expo-skills.txt
+      evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+      notes: Selected tell names and methods adapted; Expo-only APIs and grep recipes omitted.
   - id: dev-to-tailwind-indigo-default-analysis
     name: dev.to
     source_type: website
@@ -37,3 +58,19 @@ sources:
       through training corpora), grounding the harsh-gradient and purple-and-black rows.
     last_review_date: 2026-08-18
     reviewer: b2c-maintainers
+derivations:
+  - source_ids:
+      - expo-native-slop-tells
+    relationship: adapted
+    baseline: d4f484024fec15196bfd3c272e953e3f983972cf
+    selectors:
+      - LICENSE
+      - plugins/expo/skills/expo-design-system/references/native-slop.md
+    rationale: Reauthor the twenty named mobile slop tells in stack-neutral wording so Flutter, SwiftUI, and Expo
+      sessions can apply the methods without Expo-only APIs.
+    omissions:
+      - Do not import React Native grep recipes.
+      - Do not treat Expo components as the default implementation.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    notice: catalog/upstreams/notices/expo-skills.txt

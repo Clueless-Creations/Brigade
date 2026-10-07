@@ -1,0 +1,1170 @@
+api_version: b2c.contribution/v1
+id: ios-agent-skill-packs
+goal: Adopt five iOS/app agent-skill sources as maintained upstreams; adapt stack-neutral craft methods into existing
+  owners; route stack-specific skills as opt-in packs
+scope: contribution
+routing:
+  intended_target: Existing design and engineering knowledge owners plus opt-in skill-pack routing
+  effect: Adapted stack-neutral methods and selected-skill-guidance; no provider execution or host install
+  verdict: contribution
+  reason: targets are knowledge references, extension packages, evaluations, or showcases
+created_at: 2026-10-07T16:28:02.099Z
+synthetic: false
+sources:
+  - id: expo-skills-1
+    kind: repository
+    title: expo/skills
+    canonical_url: https://github.com/expo/skills
+    publisher: 650 Industries, Inc. (aka Expo)
+    published_at: pushed 2026-10-07T12:47:44Z
+    retrieved_at: 2026-10-07T16:27:58.390Z
+    reviewed_at: 2026-10-07
+    revision: main@d4f484024fec15196bfd3c272e953e3f983972cf
+    registry_source_id: github-com-expo-skills
+    upstream_id: expo-skills
+    retrieval:
+      status: complete
+      method: github-api (9 requests)
+      notes: "no published release (releases/latest was not 200); absent: LICENSE.md, SKILL.md"
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: LICENSE
+      evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+      scope: root LICENSE
+      notes: "Copyright line as written: Copyright (c) 2025-present 650 Industries, Inc. (aka Expo) License text read at
+        revision main@d4f484024fec15196bfd3c272e953e3f983972cf."
+    selectors:
+      - README.md
+      - LICENSE
+      - AGENTS.md
+      - CLAUDE.md
+      - skills.sh.json
+      - plugins/expo/hooks/hooks.json
+      - plugins/expo/skills/expo-design-system/references/native-slop.md
+      - plugins/expo/skills/expo-native-ui/SKILL.md
+      - plugins/expo/skills/expo-data-fetching/SKILL.md
+    directives:
+      - text: '| `allowed-tools` | No | Tools Claude can use without permission, for example `"Read, Grep, Bash(node:*)"` |'
+        location: AGENTS.md:93
+        category: grant-permission
+        action: refused
+      - text: npx skills add expo/skills --skill '*' --yes
+        location: README.md
+        category: install
+        action: refused
+      - text: plugins/expo/hooks/hooks.json PostToolUse and UserPromptExpansion run skill-event.cjs
+        location: plugins/expo/hooks/hooks.json
+        category: execute
+        action: refused
+      - text: Expo MCP from plugins/expo/mcp.json and .mcp.json
+        location: plugins/expo/mcp.json
+        category: configure-agent
+        action: refused
+      - text: npx submit-expo-feedback (expo-skill-feedback)
+        location: plugins/expo/skills/expo-skill-feedback/SKILL.md
+        category: execute
+        action: refused
+      - text: Plugin manifests .claude-plugin .codex-plugin .cursor-plugin .grok-plugin agents/openai.yaml
+        location: plugins/expo
+        category: configure-agent
+        action: refused
+    inventory:
+      - path: README.md
+        role: readme
+        bytes: 9047
+        sha256: 408f48949a75cd2ac88502b23398907adde594c617085d23e9f58d6500f123c6
+      - path: LICENSE
+        role: license
+        bytes: 1106
+        sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+      - path: AGENTS.md
+        role: agent-instructions
+        bytes: 10797
+        sha256: 623a8cc76100e7b9a1b1dce3c33efc53ef9db74394e7197d30ce67786bd0df69
+      - path: CLAUDE.md
+        role: agent-instructions
+        bytes: 9
+        sha256: a54ff182c7e8acf56acfd6e4b9c3ff41e2c41a31c9b211b2deb9df75d9a478f9
+    unknowns: []
+  - id: appllama-appllama-skills-2
+    kind: repository
+    title: Appllama/appllama-skills
+    canonical_url: https://github.com/Appllama/appllama-skills
+    publisher: Antmind Ventures Private Limited (appllama.io)
+    published_at: pushed 2026-09-06T09:01:39Z
+    retrieved_at: 2026-10-07T16:27:59.209Z
+    reviewed_at: 2026-10-07
+    revision: main@dd5caaec3d5d50ad7fc0324da238119c6b7c3707
+    registry_source_id: github-appllama-skills
+    upstream_id: appllama-skills
+    retrieval:
+      status: complete
+      method: github-api (9 requests)
+      notes: "no published release (releases/latest was not 200); absent: LICENSE.md, SKILL.md, AGENTS.md, CLAUDE.md"
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: LICENSE
+      evidence_sha256: 14cffee850f5c761273dfc49798cddc96786b4520c23f3ed1da727c334f07476
+      scope: root LICENSE
+      notes: "Copyright line as written: Copyright (c) 2026 Antmind Ventures Private Limited (appllama.io) License text read
+        at revision main@dd5caaec3d5d50ad7fc0324da238119c6b7c3707."
+    selectors:
+      - README.md
+      - LICENSE
+    directives:
+      - text: (`.claude/skills/` per project, `~/.claude/skills/` user-wide, or your
+        location: README.md:86
+        category: configure-agent
+        action: refused
+      - text: git clone https://github.com/appllama/appllama-skills
+        location: README.md:90
+        category: fetch-remote
+        action: refused
+      - text: cp -r appllama-skills/skills/* ~/.claude/skills/
+        location: README.md:91
+        category: configure-agent
+        action: refused
+      - text: Appllama mcp.json
+        location: mcp.json
+        category: configure-agent
+        action: refused
+      - text: npx skills add appllama/appllama-skills
+        location: README.md
+        category: install
+        action: refused
+    inventory:
+      - path: README.md
+        role: readme
+        bytes: 5606
+        sha256: bc7b7baebd1e075ec4ea41e4baf3565ff9cd1e93ff87dcbea5d5c8d6fe7a3068
+      - path: LICENSE
+        role: license
+        bytes: 1103
+        sha256: 14cffee850f5c761273dfc49798cddc96786b4520c23f3ed1da727c334f07476
+    unknowns: []
+  - id: emilkowalski-skills-3
+    kind: repository
+    title: emilkowalski/skills
+    canonical_url: https://github.com/emilkowalski/skills
+    publisher: Emil Kowalski
+    published_at: pushed 2026-10-02T10:43:36Z
+    retrieved_at: 2026-10-07T16:27:59.915Z
+    reviewed_at: 2026-10-07
+    revision: main@e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    registry_source_id: github-emilkowalski-skills
+    upstream_id: emilkowalski-skills
+    retrieval:
+      status: complete
+      method: github-api (9 requests)
+      notes: "no published release (releases/latest was not 200); absent: LICENSE.md, SKILL.md, AGENTS.md, CLAUDE.md"
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: LICENSE
+      evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
+      scope: root LICENSE
+      notes: "Copyright line as written: Copyright (c) 2026 Emil Kowalski License text read at revision
+        main@e8a175de22ae1e49370fc144c1f3bb9aeedf988d."
+    selectors:
+      - README.md
+      - LICENSE
+      - skills/review-animations/SKILL.md
+      - skills/review-animations/STANDARDS.md
+      - skills/apple-design/SKILL.md
+      - skills/break-ui/SKILL.md
+      - skills/break-ui/CATALOG.md
+      - skills/animate-expo/SKILL.md
+      - skills/write-swift/SKILL.md
+    directives:
+      - text: "- **[improve-animations](./skills/improve-animations/SKILL.md)** — Audit all the animations in your codebase and
+          get prioritized, self-contained plans that any agent can execute."
+        location: README.md:48
+        category: execute
+        action: refused
+      - text: npx skills add emilkowalski/skills
+        location: README.md
+        category: install
+        action: refused
+    inventory:
+      - path: README.md
+        role: readme
+        bytes: 4425
+        sha256: 8a121574093d079aa1ba7a40aa24c929a36bbfe4359e2970f9ec61f25aab1857
+      - path: LICENSE
+        role: license
+        bytes: 1070
+        sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
+    unknowns: []
+  - id: vercel-labs-agent-skills-4
+    kind: repository
+    title: vercel-labs/agent-skills
+    canonical_url: https://github.com/vercel-labs/agent-skills
+    publisher: vercel-labs
+    published_at: pushed 2026-08-28T13:36:31Z; latest release agent-skills-063bee94c3f4df8453406c830b0a7df0f2860278
+    retrieved_at: 2026-10-07T16:28:00.813Z
+    reviewed_at: 2026-10-07
+    revision: main@063bee94c3f4df8453406c830b0a7df0f2860278
+    registry_source_id: github-vercel-labs-agent-skills
+    upstream_id: vercel-agent-skills
+    retrieval:
+      status: complete
+      method: github-api (9 requests)
+      notes: "absent: LICENSE, LICENSE.md, SKILL.md"
+    rights:
+      status: unverified
+      spdx: MIT
+      evidence: README.md names MIT without license text
+      notes: A README sentence or badge is a claim, not evidence. Read the license text at the reviewed revision before
+        adapting or copying.
+    selectors:
+      - README.md
+      - AGENTS.md
+      - CLAUDE.md
+    directives:
+      - text: "### vercel-deploy-claimable"
+        location: README.md:160
+        category: publish
+        action: refused
+      - text: Deploy applications and websites to Vercel instantly. Designed for use with claude.ai and Claude Desktop to enable
+          deployments directly from conversations. Deployments are "claimable" - users can transfer ownership to their
+          own Vercel account.
+        location: README.md:162
+        category: publish
+        action: refused
+      - text: '- "Deploy my app"'
+        location: README.md:166
+        category: publish
+        action: refused
+      - text: '- "Deploy this to production"'
+        location: README.md:167
+        category: publish
+        action: refused
+      - text: '- "Push this live"'
+        location: README.md:168
+        category: publish
+        action: refused
+      - text: '- "Deploy and give me the link"'
+        location: README.md:169
+        category: publish
+        action: refused
+      - text: Preview URL for a claimable Vercel deployment
+        location: README.md:190
+        category: publish
+        action: refused
+      - text: npx skills add vercel-labs/agent-skills
+        location: README.md:197
+        category: install
+        action: refused
+      - text: Deploy my app
+        location: README.md:207
+        category: publish
+        action: refused
+      - text: "- **Skill directory**: `kebab-case` (e.g., `vercel-deploy`, `log-monitor`)"
+        location: AGENTS.md:26
+        category: publish
+        action: refused
+      - text: "- **Scripts**: `kebab-case.sh` or `kebab-case.mjs` (e.g., `deploy.sh`, `collect-signals.mjs`)"
+        location: AGENTS.md:28
+        category: publish
+        action: refused
+      - text: 'description: {One sentence describing when to use this skill. Include trigger phrases like "Deploy my app",
+          "Check logs", etc.}'
+        location: AGENTS.md:35
+        category: publish
+        action: refused
+      - text: npx skills add vercel-labs/agent-skills --skill {skill-name}
+        location: AGENTS.md:95
+        category: install
+        action: refused
+      - text: cp -r skills/{skill-name} ~/.claude/skills/
+        location: AGENTS.md:102
+        category: configure-agent
+        action: refused
+      - text: deploy-to-vercel, vercel-cli-with-tokens, and vercel-optimize
+        location: README.md
+        category: publish
+        action: refused
+      - text: scripts/ and packages/ in vercel-labs/agent-skills
+        location: scripts/
+        category: execute
+        action: refused
+    inventory:
+      - path: README.md
+        role: readme
+        bytes: 7838
+        sha256: 7c02f64b08fc6c4eef03c01d64f3e2ed478193ccfcbd14edba379abe23304651
+      - path: AGENTS.md
+        role: agent-instructions
+        bytes: 3367
+        sha256: f462598b16b597dd77cbdd6686765d722b75ccd2087996e50882a0ded15c60e4
+      - path: CLAUDE.md
+        role: agent-instructions
+        bytes: 9
+        sha256: a54ff182c7e8acf56acfd6e4b9c3ff41e2c41a31c9b211b2deb9df75d9a478f9
+    unknowns: []
+  - id: twostraws-swiftui-agent-skill-5
+    kind: repository
+    title: twostraws/SwiftUI-Agent-Skill
+    canonical_url: https://github.com/twostraws/SwiftUI-Agent-Skill
+    publisher: Paul Hudson
+    published_at: pushed 2026-10-07T13:39:28Z; latest release 1.1.0
+    retrieved_at: 2026-10-07T16:28:01.917Z
+    reviewed_at: 2026-10-07
+    revision: main@f9800713b24580bc444931949aad4519128605e8
+    registry_source_id: github-twostraws-swiftui-agent-skill
+    upstream_id: swiftui-pro-skill
+    retrieval:
+      status: complete
+      method: github-api (9 requests)
+      notes: "absent: LICENSE.md, SKILL.md, AGENTS.md, CLAUDE.md"
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: LICENSE
+      evidence_sha256: b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc
+      scope: root LICENSE
+      notes: "Copyright line as written: Copyright (c) 2026 Paul Hudson. License text read at revision
+        main@f9800713b24580bc444931949aad4519128605e8."
+    selectors:
+      - README.md
+      - LICENSE
+      - swiftui-pro/SKILL.md
+    directives:
+      - text: npx skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro
+        location: README.md:33
+        category: install
+        action: refused
+      - text: brew install node
+        location: README.md:39
+        category: install
+        action: refused
+      - text: agents/openai.yaml and the duplicated skills/swiftui-pro/SKILL.md host copy
+        location: agents/openai.yaml
+        category: configure-agent
+        action: refused
+      - text: Core Instructions default to iOS 27, Xcode 27.1, Swift 6.4, and iPhone Duo
+        location: swiftui-pro/SKILL.md
+        category: other
+        action: refused
+    inventory:
+      - path: README.md
+        role: readme
+        bytes: 5483
+        sha256: 0f696ed7b45632608c27c18efbebfa5b98288629464df30259792e880d5bc012
+      - path: LICENSE
+        role: license
+        bytes: 1068
+        sha256: b9b479e6df9f27cbc8e7abe91f771b396f3f0fa114d070c7c0b02c820c6b74dc
+    unknowns: []
+batch_overlap:
+  - topic: how it works
+    source_ids:
+      - expo-skills-1
+      - vercel-labs-agent-skills-4
+  - topic: skill title
+    source_ids:
+      - expo-skills-1
+      - vercel-labs-agent-skills-4
+  - topic: try it
+    source_ids:
+      - appllama-appllama-skills-2
+      - expo-skills-1
+existing_owners:
+  - id: github-appllama-skills
+    path: catalog/upstreams/appllama-skills.yaml
+    match: registry:github-appllama-skills
+  - id: github-com-expo-skills
+    path: catalog/upstreams/expo-skills.yaml
+    match: registry:github-com-expo-skills
+  - id: reference.engineering.expo-operations-map
+    path: catalog/knowledge/engineering/engineering-expo-operations-map.yaml
+    match: knowledge-source:reference.engineering.expo-operations-map
+  - id: reference.engineering.recommended-agent-skills
+    path: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    match: knowledge-source:reference.engineering.recommended-agent-skills
+  - id: reference.engineering.external-skill-packs
+    path: catalog/knowledge/engineering/engineering-external-skill-packs.yaml
+    match: knowledge-source:reference.engineering.external-skill-packs
+  - id: reference.design.mobile-flow-craft
+    path: catalog/knowledge/design/design-mobile-flow-craft.yaml
+    match: knowledge-source:reference.design.mobile-flow-craft
+  - id: reference.design.vibecoded-tells
+    path: catalog/knowledge/design/design-vibecoded-tells.yaml
+    match: knowledge-source:reference.design.vibecoded-tells
+  - id: reference.design.premium-mobile-craft
+    path: catalog/knowledge/design/design-premium-mobile-craft.yaml
+    match: knowledge-source:reference.design.premium-mobile-craft
+  - id: reference.design.motion-craft-benchmarks
+    path: catalog/knowledge/design/design-motion-craft-benchmarks.yaml
+    match: knowledge-source:reference.design.motion-craft-benchmarks
+units:
+  - id: expo-skill-routing
+    kind: knowledge
+    title: Official Expo skill routing
+    upstream:
+      source_id: expo-skills-1
+      selector: README.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: Name official Expo skills as opt-in producer packs for a selected Expo session. Discovery is not install.
+    verification:
+      - b2c contribute check
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    kept:
+      - Skill names from skills.sh.json
+      - Paid EAS skills stay unselected until chosen
+    changed: []
+    omitted:
+      - Blanket pack install
+      - Expo MCP as a default
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - Expo stack only
+  - id: expo-inventory-refresh
+    kind: knowledge
+    title: Expo official-skill inventory refresh
+    upstream: null
+    target:
+      kind: existing-reference
+      id: reference.engineering.expo-operations-map
+      path: knowledge/engineering/expo-operations-map.md
+      owner: catalog/knowledge/engineering/engineering-expo-operations-map.yaml
+    disposition: original
+    status: proposed
+    rationale: Cite the reviewed Expo commit and the explicit inventory decision, including refuse-install for expo-skill-feedback.
+    verification:
+      - npm run test:fixtures -- expo-agent-tools
+    kept: []
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: native-slop-tells
+    kind: knowledge
+    title: Native-slop tells
+    upstream:
+      source_id: expo-skills-1
+      selector: plugins/expo/skills/expo-design-system/references/native-slop.md
+    target:
+      kind: existing-reference
+      id: reference.design.vibecoded-tells
+      path: knowledge/design/vibecoded-tells.md
+      owner: catalog/knowledge/design/design-vibecoded-tells.yaml
+    disposition: adapt
+    status: proposed
+    rationale: Reauthor the twenty named mobile slop tells in stack-neutral wording so Flutter, SwiftUI, and Expo sessions can apply the methods.
+    verification:
+      - b2c contribute check
+      - counterexample evaluation before promotion
+    kept:
+      - Named tell methods
+    changed:
+      - Stack-neutral wording; React Native grep recipes stay upstream
+    omitted:
+      - Expo-only APIs
+      - React Native grep recipes
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: four-state-screens
+    kind: knowledge
+    title: Four-state screen rules
+    upstream:
+      source_id: expo-skills-1
+      selector: plugins/expo/skills/expo-data-fetching/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.design.mobile-flow-craft
+      path: knowledge/design/mobile-flow-craft.md
+      owner: catalog/knowledge/design/design-mobile-flow-craft.yaml
+    disposition: adapt
+    status: proposed
+    rationale: Add the missing state-cycle rules that empty is not first-load and that a form is not dismissed before save succeeds.
+    verification:
+      - b2c contribute check
+      - counterexample evaluation before promotion
+    kept:
+      - Loading, empty, error, and content as distinct states
+    changed:
+      - Reauthored into existing ship-state-cycles section
+    omitted:
+      - Expo Router and TanStack Query recipes
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: eas-paid-skills
+    kind: knowledge
+    title: Paid EAS skills
+    upstream:
+      source_id: expo-skills-1
+      selector: README.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.expo-operations-map
+      path: knowledge/engineering/expo-operations-map.md
+      owner: catalog/knowledge/engineering/engineering-expo-operations-map.yaml
+    disposition: reference
+    status: proposed
+    rationale: Mark paid EAS skills as selected-method. No new default.
+    verification:
+      - b2c contribute check
+    kept:
+      - EAS remains unselected until chosen
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - Paid EAS
+  - id: expo-hooks-mcp-feedback
+    kind: resource
+    title: Expo hooks, MCP, and feedback
+    upstream:
+      source_id: expo-skills-1
+      selector: plugins/expo/hooks/hooks.json
+    target:
+      kind: undecided
+    disposition: reject
+    status: rejected
+    rationale: Hooks run telemetry. Expo MCP stays independently authorized. expo-skill-feedback submits usage.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - hooks.json
+      - mcp.json
+      - expo-skill-feedback
+      - host plugin manifests
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability: []
+  - id: appllama-refresh
+    kind: knowledge
+    title: Appllama review refresh
+    upstream:
+      source_id: appllama-appllama-skills-2
+      selector: README.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: Upstream is unchanged at dd5caae. Keep the existing adapted-method and selected-skill-guidance. No new adaptation.
+    verification:
+      - b2c contribute upstream-check --upstream appllama-skills --fetch --write
+    kept:
+      - appllama-app-design-skill Expo/RN companion
+      - appllama-usage only with authorized MCP
+    changed: []
+    omitted:
+      - Screen corpus
+      - MCP client
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - Expo / React Native for app-design
+  - id: motion-review-standards
+    kind: knowledge
+    title: Motion review gaps
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: skills/review-animations/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.design.premium-mobile-craft
+      path: knowledge/design/premium-mobile-craft.md
+      owner: catalog/knowledge/design/design-premium-mobile-craft.yaml
+    disposition: adapt
+    status: proposed
+    rationale: Adapt only the missing review rules onto DesignTokens.Motion. Frequency and purpose gates already owned locally stay kept.
+    verification:
+      - b2c contribute check
+      - counterexample evaluation before promotion
+    kept:
+      - Frequency and purpose gates in mobile-flow-craft
+      - Springs, press states, and frame budget already in premium-mobile-craft
+    changed:
+      - Asymmetric enter/exit, origin-aware scale, rapid-trigger interruptibility, gentler reduced motion
+    omitted:
+      - CSS easings
+      - Millisecond literals as defaults
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: momentum-projection
+    kind: knowledge
+    title: Momentum projection and directional hint
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: skills/apple-design/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.design.motion-craft-benchmarks
+      path: knowledge/design/motion-craft-benchmarks.md
+      owner: catalog/knowledge/design/design-motion-craft-benchmarks.yaml
+    disposition: adapt
+    status: proposed
+    rationale: Add momentum projection and directional hint to Gesture and Scroll Physics for SwiftUI, Flutter, and Reanimated.
+    verification:
+      - b2c contribute check
+      - counterexample evaluation before promotion
+    kept:
+      - 1 to 1 tracking, velocity handoff, rubber-banding, interruptibility
+    changed:
+      - Projected rest position and trajectory hint
+    omitted:
+      - Web CSS construction
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: worst-case-data
+    kind: knowledge
+    title: Worst-case data stress
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: skills/break-ui/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.design.mobile-flow-craft
+      path: knowledge/design/mobile-flow-craft.md
+      owner: catalog/knowledge/design/design-mobile-flow-craft.yaml
+    disposition: adapt
+    status: proposed
+    rationale: Adapt plausible-extremes review without requiring a demo toggle in the product UI.
+    verification:
+      - b2c contribute check
+      - counterexample evaluation before promotion
+    kept:
+      - Existing state-cycle contract
+    changed:
+      - Worst-case data catalog as a review method
+    omitted:
+      - Demo data toggle in the shipped product
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: emil-producer-auditor-routing
+    kind: knowledge
+    title: Emil producer and auditor routing
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: skills/animate-expo/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: Route animate-expo as the Expo/RN producer. Do not also install Expo expo-animation. Review skills are auditor-mode on a different agent.
+    verification:
+      - b2c contribute check
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    kept:
+      - animate-expo as producer
+      - review-animations, improve-animations, find-animation-opportunities as auditor
+    changed: []
+    omitted:
+      - Installing both animate-expo and expo-animation
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - Expo / React Native for animate-expo
+  - id: write-swift-routing
+    kind: knowledge
+    title: write-swift routing
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: skills/write-swift/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: write-swift applies only to the SwiftUI stack.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - SwiftUI stack only
+  - id: emil-web-skills
+    kind: knowledge
+    title: Emil web and landing skills
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: skills/apple-design/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: apple-design, emil-design-eng, animate, animation-vocabulary, and mobile-native stay in the web landing lane. Never apply them to a mobile binary.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability:
+      - Web landing only
+  - id: emil-rejected-skills
+    kind: resource
+    title: Out-of-scope Emil skills
+    upstream:
+      source_id: emilkowalski-skills-3
+      selector: README.md
+    target:
+      kind: undecided
+    disposition: reject
+    status: rejected
+    rationale: ask-sonner, pick-ui-library, and prototype are web library opinions outside this contribution.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - ask-sonner
+      - pick-ui-library
+      - prototype
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability: []
+  - id: vercel-tracking
+    kind: knowledge
+    title: Vercel tracking-only identity
+    upstream:
+      source_id: vercel-labs-agent-skills-4
+      selector: README.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: defer
+    status: deferred
+    rationale: Rights unverified. Track the catalog. Reconsider when a LICENSE file with a copyright and permission notice appears.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - Any adapted or copied skill text
+    deferred:
+      - Adaptation pending LICENSE file
+    conflicts: []
+    selection: reference-only
+    applicability: []
+  - id: vercel-rn-hold
+    kind: knowledge
+    title: Vercel React Native hold
+    upstream:
+      source_id: vercel-labs-agent-skills-4
+      selector: README.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: The React Native skill remains an opt-in companion after a LICENSE file exists. Brigade adapts nothing from it.
+    verification:
+      - b2c contribute check
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    kept:
+      - Existing hold wording
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability:
+      - Expo / React Native only after LICENSE exists
+  - id: vercel-performance-informed
+    kind: knowledge
+    title: Primary-docs frame budget
+    upstream: null
+    target:
+      kind: existing-reference
+      id: reference.design.premium-mobile-craft
+      path: knowledge/design/premium-mobile-craft.md
+      owner: catalog/knowledge/design/design-premium-mobile-craft.yaml
+    disposition: original
+    status: proposed
+    rationale: Frame-budget methods are original Brigade text grounded in React Native, Flutter, and Apple primary docs. Vercel is informed only.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - Vercel skill-file rule text
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: vercel-rejected-deploy
+    kind: resource
+    title: Vercel deploy and token skills
+    upstream:
+      source_id: vercel-labs-agent-skills-4
+      selector: README.md
+    target:
+      kind: undecided
+    disposition: reject
+    status: rejected
+    rationale: deploy-to-vercel, vercel-cli-with-tokens, and vercel-optimize are deploy, credential, and metric effects outside scope.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - deploy-to-vercel
+      - vercel-cli-with-tokens
+      - vercel-optimize
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability: []
+  - id: vercel-web-skills
+    kind: knowledge
+    title: Vercel web skills
+    upstream:
+      source_id: vercel-labs-agent-skills-4
+      selector: README.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reject
+    status: rejected
+    rationale: writing-guidelines stay with no-slop-writing. web-design-guidelines, react-best-practices, composition-patterns, and react-view-transitions stay out of this adoption.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - writing-guidelines
+      - web-design-guidelines
+      - react-best-practices
+      - composition-patterns
+      - react-view-transitions
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability: []
+  - id: swiftui-pro-routing
+    kind: knowledge
+    title: SwiftUI Pro auditor routing
+    upstream:
+      source_id: twostraws-swiftui-agent-skill-5
+      selector: swiftui-pro/SKILL.md
+    target:
+      kind: existing-reference
+      id: reference.engineering.recommended-agent-skills
+      path: knowledge/engineering/recommended-agent-skills.md
+      owner: catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    disposition: reference
+    status: proposed
+    rationale: Route swiftui-pro as an opt-in auditor-mode pack for SwiftUI apps. The producer and the reviewer are different agents. Not for Expo or Flutter.
+    verification:
+      - b2c contribute check
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-swiftui-auditor.yaml
+    kept:
+      - Per-file findings format stays upstream
+    changed: []
+    omitted:
+      - Host plugin copies
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - SwiftUI stack only
+  - id: swiftui-version-claims
+    kind: resource
+    title: Unverified SwiftUI Pro version claims
+    upstream:
+      source_id: twostraws-swiftui-agent-skill-5
+      selector: swiftui-pro/SKILL.md
+    target:
+      kind: undecided
+    disposition: reject
+    status: rejected
+    rationale: Core Instructions claim iOS 27, Xcode 27.1, Swift 6.4, and iPhone Duo. Those claims stay refused. Platform versions come from current Apple documentation.
+    verification:
+      - b2c contribute check
+    kept: []
+    changed: []
+    omitted:
+      - iOS 27 default
+      - Xcode 27.1
+      - Swift 6.4
+      - iPhone Duo
+    deferred: []
+    conflicts: []
+    selection: reference-only
+    applicability: []
+  - id: ios-skill-pack-boundary-eval
+    kind: evaluation
+    title: Flutter motion and performance boundary
+    upstream: null
+    target:
+      kind: evaluation-case
+      path: checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    disposition: original
+    status: proposed
+    rationale: A Flutter polish request must stay on stack-neutral Brigade owners and must not install or apply the five packs.
+    verification:
+      - b2c contribute evaluate
+    kept: []
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: always
+    applicability: []
+  - id: ios-skill-pack-swiftui-eval
+    kind: evaluation
+    title: SwiftUI Pro auditor boundary
+    upstream: null
+    target:
+      kind: evaluation-case
+      path: checks/validation/repository/evals/agent-behavior/ios-skill-pack-swiftui-auditor.yaml
+    disposition: original
+    status: proposed
+    rationale: A SwiftUI review routes swiftui-pro in auditor mode only with founder approval.
+    verification:
+      - b2c contribute evaluate
+    kept: []
+    changed: []
+    omitted: []
+    deferred: []
+    conflicts: []
+    selection: selected-method
+    applicability:
+      - SwiftUI stack only
+derivations:
+  - target: knowledge/design/vibecoded-tells.md
+    source_ids:
+      - expo-skills-1
+    relationship: adapted
+    baseline: d4f484024fec15196bfd3c272e953e3f983972cf
+    selectors:
+      - LICENSE
+      - plugins/expo/skills/expo-design-system/references/native-slop.md
+    rationale: Reauthor native-slop tells without React Native grep recipes.
+    omissions:
+      - Expo-only APIs
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    evaluation: native-slop-flutter-counterexample
+    notice: notices/expo-skills.txt
+  - target: knowledge/design/mobile-flow-craft.md
+    source_ids:
+      - expo-skills-1
+    relationship: adapted
+    baseline: d4f484024fec15196bfd3c272e953e3f983972cf
+    selectors:
+      - LICENSE
+      - plugins/expo/skills/expo-native-ui/SKILL.md
+      - plugins/expo/skills/expo-data-fetching/SKILL.md
+    rationale: Add missing four-state rules.
+    omissions:
+      - Expo Router recipes
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    evaluation: four-state-counterexample
+    notice: notices/expo-skills.txt
+  - target: knowledge/design/mobile-flow-craft.md
+    source_ids:
+      - emilkowalski-skills-3
+    relationship: adapted
+    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    selectors:
+      - LICENSE
+      - skills/break-ui/SKILL.md
+      - skills/break-ui/CATALOG.md
+    rationale: Add worst-case data stress without a product-UI demo toggle.
+    omissions:
+      - Demo toggle requirement
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    evaluation: worst-case-data-counterexample
+    notice: notices/emilkowalski-skills.txt
+  - target: knowledge/design/premium-mobile-craft.md
+    source_ids:
+      - emilkowalski-skills-3
+    relationship: adapted
+    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    selectors:
+      - LICENSE
+      - skills/review-animations/SKILL.md
+      - skills/review-animations/STANDARDS.md
+    rationale: Add missing motion-review rules on the token scale.
+    omissions:
+      - CSS easings
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    evaluation: motion-review-counterexample
+    notice: notices/emilkowalski-skills.txt
+  - target: knowledge/design/motion-craft-benchmarks.md
+    source_ids:
+      - emilkowalski-skills-3
+    relationship: adapted
+    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    selectors:
+      - LICENSE
+      - skills/apple-design/SKILL.md
+    rationale: Add momentum projection and directional hint.
+    omissions:
+      - Web CSS construction
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    evaluation: momentum-projection-counterexample
+    notice: notices/emilkowalski-skills.txt
+  - target: knowledge/design/premium-mobile-craft.md
+    source_ids:
+      - vercel-labs-agent-skills-4
+    relationship: informed
+    baseline: 063bee94c3f4df8453406c830b0a7df0f2860278
+    selectors:
+      - README.md
+    rationale: Informed citation only. Frame-budget text is original and cites primary platform docs.
+    omissions:
+      - Any Vercel skill-file prose
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+evaluations:
+  - id: native-slop-flutter-counterexample
+    unit_id: native-slop-tells
+    kind: counterexample
+    description: A Flutter polish request must use the stack-neutral Native App Tells table and must not run Expo grep recipes.
+    must_fail:
+      - React Native grep recipes
+    must_pass:
+      - stack-neutral wording
+  - id: four-state-counterexample
+    unit_id: four-state-screens
+    kind: counterexample
+    description: Empty is not first-load, and a form stays until save succeeds.
+    must_fail:
+      - Never show the empty state while the first load is still resolving
+      - Do not dismiss a form
+    must_pass:
+      - Keep showing known content while a refresh runs
+  - id: motion-review-counterexample
+    unit_id: motion-review-standards
+    kind: counterexample
+    description: Motion review uses token-scale gaps, not CSS millisecond defaults.
+    must_fail:
+      - ad-hoc millisecond values
+    must_pass:
+      - origin-aware and never starts from zero
+  - id: momentum-projection-counterexample
+    unit_id: momentum-projection
+    kind: counterexample
+    description: A flick settles from the projected rest position, not the release point alone.
+    must_fail:
+      - snap to the nearest rest point from the release position
+    must_pass:
+      - Project the resting position from release velocity
+  - id: worst-case-data-counterexample
+    unit_id: worst-case-data
+    kind: counterexample
+    description: Worst-case data is a review method, not a shipped demo toggle.
+    must_fail:
+      - demo-data toggle
+    must_pass:
+      - long names and one-letter names
+affected_outputs:
+  - knowledge/engineering/recommended-agent-skills.md
+  - knowledge/engineering/external-skill-packs.md
+  - knowledge/engineering/expo-operations-map.md
+  - knowledge/design/vibecoded-tells.md
+  - knowledge/design/mobile-flow-craft.md
+  - knowledge/design/premium-mobile-craft.md
+  - knowledge/design/motion-craft-benchmarks.md
+  - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+  - checks/validation/repository/evals/agent-behavior/ios-skill-pack-swiftui-auditor.yaml
+required_checks:
+  - b2c contribute check
+  - b2c contribute preview
+  - npm run check:catalog
+  - npm run check:upstreams
+  - npm run check:credits
+uncertainties:
+  - vercel-labs-agent-skills-4 rights unverified; adapt, reuse, wrap, and vendor stay blocked until license text is read
+  - No host install, live skill execution, or device proof was run
+  - SwiftUI Pro Core Instructions version claims stay refused
+missing_core_mechanism:
+  present: true
+  description: The sources expect host skill install, MCP registration, hooks, or setup scripts. The contribution records those directives as refused and adopts methods without that mechanism.
+notices:
+  - source_id: expo-skills-1
+    spdx: MIT
+    copyright: Copyright (c) 2025-present 650 Industries, Inc. (aka Expo)
+    notice_path: notices/expo-skills.txt
+    covers:
+      - native-slop-tells
+      - four-state-screens
+      - reference.design.vibecoded-tells
+      - knowledge/design/vibecoded-tells.md
+      - reference.design.mobile-flow-craft
+      - knowledge/design/mobile-flow-craft.md
+  - source_id: emilkowalski-skills-3
+    spdx: MIT
+    copyright: Copyright (c) 2026 Emil Kowalski
+    notice_path: notices/emilkowalski-skills.txt
+    covers:
+      - motion-review-standards
+      - momentum-projection
+      - worst-case-data
+      - reference.design.premium-mobile-craft
+      - knowledge/design/premium-mobile-craft.md
+      - reference.design.motion-craft-benchmarks
+      - knowledge/design/motion-craft-benchmarks.md
+      - reference.design.mobile-flow-craft
+      - knowledge/design/mobile-flow-craft.md
+  - source_id: twostraws-swiftui-agent-skill-5
+    spdx: MIT
+    copyright: Copyright (c) 2026 Paul Hudson.
+    notice_path: notices/swiftui-pro-skill.txt
+    covers:
+      - swiftui-pro-routing
+      - reference.engineering.recommended-agent-skills
+      - knowledge/engineering/recommended-agent-skills.md

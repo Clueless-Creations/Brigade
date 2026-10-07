@@ -6,9 +6,11 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | amir-brand-system | Amir Mushich Brand System Skill | adapted-method | 30f6084ddf6adf4173cf882fce266015f8872c17@2026-09-07 | 30f6084ddf6adf4173cf882fce266015f8872c17@2026-09-07 | `30f6084ddf6adf4173cf882fce266015f8872c17` untested | unknown (no observation) | none | not observed | current; last 2026-09-07; due 2026-10-07 | 3 | 1 |
 | amir-cinematic-scroll | Amir Mushich Cinematic Scroll Prompt Kit | adapted-method | 39ac222e385061c1eeab7f063b869950ee7cca1b@2026-09-07 | 39ac222e385061c1eeab7f063b869950ee7cca1b@2026-09-07 | `39ac222e385061c1eeab7f063b869950ee7cca1b` untested | unknown (no observation) | none | not observed | current; last 2026-09-07; due 2026-10-07 | 2 | 1 |
-| appllama-skills | Appllama agent skills | adapted-method, selected-skill-guidance | dd5caaec3d5d50ad7fc0324da238119c6b7c3707@2026-09-07 | dd5caaec3d5d50ad7fc0324da238119c6b7c3707@2026-09-07 | `dd5caaec3d5d50ad7fc0324da238119c6b7c3707` untested | unknown (no observation) | none | not observed | current; last 2026-09-07; due 2026-10-07 | 2 | 1 |
+| appllama-skills | Appllama agent skills | adapted-method, selected-skill-guidance | dd5caaec3d5d50ad7fc0324da238119c6b7c3707@2026-09-07 | dd5caaec3d5d50ad7fc0324da238119c6b7c3707@2026-09-07 | `dd5caaec3d5d50ad7fc0324da238119c6b7c3707` untested | unknown (observation records no stable release) | 2026-10-07 | not observed | current; last 2026-09-07; due 2026-10-07 | 2 | 1 |
+| emilkowalski-skills | Emil Kowalski agent skills | adapted-method, selected-skill-guidance | e8a175de22ae1e49370fc144c1f3bb9aeedf988d@2026-10-07 | e8a175de22ae1e49370fc144c1f3bb9aeedf988d@2026-10-07 | `e8a175de22ae1e49370fc144c1f3bb9aeedf988d` untested | unknown (observation records no stable release) | 2026-10-07 | not observed | current; last 2026-10-07; due 2026-11-06 | 5 | 1 |
 | eronred-aso-skills | ASO and App Marketing Skills | adapted-method | 4df730f456c21e42b9a2ea2be89fb32caf787728@2026-09-06 | 4df730f456c21e42b9a2ea2be89fb32caf787728@2026-09-06 | `4df730f456c21e42b9a2ea2be89fb32caf787728` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
 | evanbacon-serve-sim | serve-sim | adapted-method | 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b@2026-09-06 | 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b@2026-09-06 | `0ee6fbde40a6b5840d0c6e0379f544feb9fa246b` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
+| expo-skills | Official Expo agent skills | adapted-method, selected-skill-guidance | d4f484024fec15196bfd3c272e953e3f983972cf@2026-10-07 | d4f484024fec15196bfd3c272e953e3f983972cf@2026-10-07 | `d4f484024fec15196bfd3c272e953e3f983972cf` untested | unknown (observation records no stable release) | 2026-10-07 | not observed | current; last 2026-10-07; due 2026-11-06 | 5 | 2 |
 | last30days-skill | last30days agent skill | adapted-method, selected-skill-guidance | 310f0b405db2d84adb4993bbf140cef9584057d2@2026-09-08 | 310f0b405db2d84adb4993bbf140cef9584057d2@2026-09-08 | `310f0b405db2d84adb4993bbf140cef9584057d2` untested | unknown (no observation) | none | not observed | current; last 2026-09-08; due 2026-10-08 | 2 | 1 |
 | layers-growth-mcp | Layers Growth MCP and CLI | remote-service, adapted-method | unknown | docs and README read 2026-09-05 (no immutable revision published for the docs page; layers/mcp main pushed 2026-09-04T06:39:47Z)@2026-09-05 | `hosted (unversioned)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-10-05 | 8 | 2 |
 | parth-app-store-screenshots | App Store Screenshots | adapted-method | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | `18951ddc4e06c53a3d34207732c16d9568f88d11` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
@@ -20,8 +22,10 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | rork-app-store-connect-cli-skills | App Store Connect CLI skills (asc skill pack) | selected-skill-guidance | unknown | unrecorded@2026-08-18 | `main (unpinned by the builder)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-09-12 | 2 | 1 |
 | sentry-snapshotpreviews | SnapshotPreviews | adapted-method | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | `856a1c1585e31d4113c019050d6d0712cf6ddadc` untested | v0.18.0 (published 2026-07-07) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
 | sentry-xcodebuildmcp | XcodeBuildMCP | adapted-method | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | `e6ef59b49b44012c824f0a0de261c96142e37390` untested | v2.7.0 (published 2026-07-23) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
+| swiftui-pro-skill | SwiftUI Pro agent skill | selected-skill-guidance | f9800713b24580bc444931949aad4519128605e8@2026-10-07 | f9800713b24580bc444931949aad4519128605e8@2026-10-07 | `f9800713b24580bc444931949aad4519128605e8` untested | 1.1.0 (published 2026-04-20) | 2026-10-07 | not observed | current; last 2026-10-07; due 2026-11-06 | 2 | 2 |
 | taskgrind | TaskGrind (managed human-beta recruitment candidate) | remote-service | qualification-hold-2026-09-20@2026-09-20 | docs/upstreams/taskgrind-qualification.md dated 2026-09-20@2026-09-20 | `qualification-hold-2026-09-20` untested | unknown (observation records no stable release) | 2026-09-20 | not observed | deferred; last 2026-09-20; due 2026-10-04 | 4 | 1 |
 | typesafe-ai | TypeSafe AI (Jev / System One) | remote-service, adapted-method | v0.7.0 (2ce5c65f13646cab6e6f782328194c9d85f3300a)@2026-09-19 | docs.typesafe.ai public pages observed 2026-09-19 (llms.txt index; api; primitives; how-to-build-with-system-one; legal; sdk/python; sdk/javascript)@2026-09-19 | `docs.typesafe.ai (observed 2026-09-19)` untested; `typesafe-sdk (PyPI) v0.7.0` untested; `@typesafe-ai/sdk (npm) 0.6.0` untested | v0.7.0 (published 2026-09-18) | 2026-09-19 | not observed | current; last 2026-09-19; due 2026-10-03 | 3 | 1 |
+| vercel-agent-skills | Vercel Labs agent skills | selected-skill-guidance | 063bee94c3f4df8453406c830b0a7df0f2860278@2026-10-07 | unknown | `063bee94c3f4df8453406c830b0a7df0f2860278` untested | agent-skills-063bee94c3f4df8453406c830b0a7df0f2860278 (published 2026-08-28) | 2026-10-07 | not observed | deferred; last 2026-10-07; due 2026-11-06 | 1 | 1 |
 
 ## amir-brand-system
 
@@ -72,9 +76,32 @@ Intentional adaptations:
 - not-the-default-stack: Framework-specific prescriptions apply only when the selected stack matches them. Expo or React Native is not the default by citing this pack. (owner: knowledge/design/mobile-flow-craft.md)
 - not-required: Citing adapted methods does not require installing the upstream skill or connecting Appllama MCP. (owner: knowledge/engineering/recommended-agent-skills.md)
 
-Unknowns:
+Unknowns (observation 2026-10-07, method github-api):
 
-- No observation recorded.
+- no stable release was read; releases since baseline are unknown
+- host executable not observed: pass --observe-host to probe PATH
+
+## emilkowalski-skills
+
+Emil Kowalski agent skills. Canonical URL: https://github.com/emilkowalski/skills
+
+Unsupported operations:
+
+- automatic-install-or-upgrade: Requires explicit target, selected compatible revision, scoped authority and independent verification. No host installation, business repin or publication is automatic.
+- whole-pack-default: The full pack is not a catalog provider. Web skills never apply to a mobile binary. ask-sonner, pick-ui-library, and prototype stay rejected.
+- css-easing-defaults: Do not import CSS cubic-bezier values or millisecond literals as Brigade motion defaults. Express values on the existing token scale.
+
+Intentional adaptations:
+
+- token-scale-not-ms: Express adapted timing and spring rules on DesignTokens.Motion. Do not copy CSS easings or ms literals. (owner: knowledge/design/premium-mobile-craft.md)
+- no-product-demo-toggle: Worst-case data is a review method. Do not require a Demo data toggle in the shipped product UI. (owner: knowledge/design/mobile-flow-craft.md)
+- animate-expo-not-expo-animation: Route animate-expo as the Expo/RN producer. Expo's expo-animation is the same body under this notice. (owner: knowledge/engineering/recommended-agent-skills.md)
+- not-required: Citing adapted methods does not require installing the upstream skill. (owner: knowledge/engineering/recommended-agent-skills.md)
+
+Unknowns (observation 2026-10-07, method github-api):
+
+- no stable release was read; releases since baseline are unknown
+- host executable not observed: pass --observe-host to probe PATH
 
 ## eronred-aso-skills
 
@@ -118,6 +145,29 @@ Unknowns (observation 2026-09-06, method manual):
 - The captured review records the resolved source commit; the default branch name and release ancestry are not retained as a separate branch-head claim.
 - No upstream executable, editor export, native device run, paid API or live business was tested.
 - No stable release appeared in the inspected release page; source commits must also be reviewed.
+
+## expo-skills
+
+Official Expo agent skills. Canonical URL: https://github.com/expo/skills
+
+Unsupported operations:
+
+- automatic-install-or-upgrade: Requires explicit target, selected compatible revision, scoped authority and independent verification. No host installation, business repin or publication is automatic.
+- expo-mcp-default: Expo MCP stays an independently authorized provider. The builder never installs or authorizes it as a default.
+- expo-hooks-or-telemetry: plugins/expo/hooks/hooks.json PostToolUse and UserPromptExpansion run skill-event.cjs. expo-skill-feedback submits usage. Both stay refused.
+- blanket-pack-install: Wildcard or --yes pack install is refused. Discovery is not install. Scoped prepare-on-authorize only.
+
+Intentional adaptations:
+
+- stack-neutral-tells: Reauthor native-slop tells without React Native grep recipes or Expo-only component names so Flutter and SwiftUI sessions can apply the methods. (owner: knowledge/design/vibecoded-tells.md)
+- expo-animation-routes-through-emil: expo-animation is byte-identical to Emil Kowalski's animate-expo and carries Emil's notice. Route animate-expo as the Expo/RN producer. Do not install both. (owner: knowledge/engineering/recommended-agent-skills.md)
+- not-the-default-stack: Expo remains selectable. Citing this pack does not make Expo the default stack or a Flutter prescription. (owner: knowledge/engineering/recommended-agent-skills.md)
+- not-required: Citing adapted methods does not require installing the upstream skill or connecting Expo MCP. (owner: knowledge/engineering/recommended-agent-skills.md)
+
+Unknowns (observation 2026-10-07, method github-api):
+
+- no stable release was read; releases since baseline are unknown
+- host executable not observed: pass --observe-host to probe PATH
 
 ## last30days-skill
 
@@ -359,6 +409,26 @@ Unknowns (observation 2026-09-06, method manual):
 - The captured review records the resolved source commit; the default branch name and release ancestry are not retained as a separate branch-head claim.
 - No upstream executable, editor export, native device run, paid API or live business was tested.
 
+## swiftui-pro-skill
+
+SwiftUI Pro agent skill. Canonical URL: https://github.com/twostraws/SwiftUI-Agent-Skill
+
+Unsupported operations:
+
+- automatic-install-or-upgrade: Requires explicit target, selected compatible revision, scoped authority and independent verification. No host installation, business repin or publication is automatic.
+- unverified-platform-versions: Core Instructions claim iOS 27 as the default target, Xcode 27.1, Swift 6.4, and iPhone Duo. Those claims stay refused. Platform-version guidance must come from current Apple documentation.
+- host-plugin-or-openai-yaml: .claude-plugin, agents/openai.yaml, and the duplicated skills/swiftui-pro/SKILL.md host copy are not adopted.
+
+Intentional adaptations:
+
+- auditor-not-producer: The same agent never holds producer and auditor modes for one SwiftUI surface. (owner: knowledge/engineering/external-skill-packs.md)
+- not-required: Citing the pack does not require installing it. SwiftUI reference adapters remain the contract. (owner: knowledge/engineering/recommended-agent-skills.md)
+
+Unknowns (observation 2026-10-07, method github-api):
+
+- neither reviewed baseline revision is a tag in the fetched release list; releases since baseline were not computed
+- host executable not observed: pass --observe-host to probe PATH
+
 ## taskgrind
 
 TaskGrind (managed human-beta recruitment candidate). Canonical URL: https://www.taskgrind.com/
@@ -412,5 +482,28 @@ Unknowns (observation 2026-09-19, method manual):
 - No host executable, Brigade package install, provider session, or live System One call was performed.
 - Service Master Customer Agreement / DPA / Privacy Policy remain unreviewed for Brigade live authority.
 - Model alias resolution for jev-latest / jev-preview and retention/deletion/idempotency guarantees were not confirmed by live probe.
+
+## vercel-agent-skills
+
+Vercel Labs agent skills. Canonical URL: https://github.com/vercel-labs/agent-skills
+
+Unsupported operations:
+
+- adapt-or-copy: Rights are unverified. Adapt, reuse, wrap, and vendor stay blocked until license text is read.
+- deploy-to-vercel: Deploy, token, and metric-collection skills are outside scope.
+- vercel-cli-with-tokens: Credential and token effects stay founder-gated and outside this contribution.
+- vercel-optimize: Metric collection and deploy optimization stay outside scope.
+- automatic-setup: Installing, authenticating, or changing remote configuration require explicit scoped authority.
+
+Intentional adaptations:
+
+- builder-contracts-win: Keep product, evidence, and execution authority with the existing builder owners. Performance methods in premium-mobile-craft.md are original Brigade text grounded in primary platform documentation. Vercel may appear only as an informed citation. (owner: knowledge/design/premium-mobile-craft.md)
+
+Unknowns (observation 2026-10-07, method github-api):
+
+- LICENSE text not observed: Source returned HTTP 404.
+- neither reviewed baseline revision is a tag in the fetched release list; releases since baseline were not computed
+- LICENSE digest unknown; license drift cannot be judged
+- host executable not observed: pass --observe-host to probe PATH
 
 Generated by tooling/render-credits.ts from catalog/upstreams. Edit the manifests, not this file.

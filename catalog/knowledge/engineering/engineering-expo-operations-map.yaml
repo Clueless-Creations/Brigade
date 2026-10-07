@@ -39,16 +39,24 @@ sources:
     url: https://github.com/expo/skills
     review_cadence_days: 7
     claim_scope: >-
-      Official Expo skill pack named as an optional selected-session install. Intake does not vendor
-      or install it. Rights and exact commit review belong to issue 87.
-    last_review_date: 2026-09-19
+      Official Expo skill pack named as an optional selected-session install. Discover the mapped
+      skill from catalog/stacks/expo-agent-tools.ts. Paid EAS skills stay unselected. expo-skill-feedback,
+      hooks, and Expo MCP stay refused.
+    last_review_date: 2026-10-07
     reviewer: b2c-maintainers
-    publisher: Expo
+    publisher: 650 Industries, Inc. (aka Expo)
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    upstream_id: expo-skills
+    selectors:
+      - README.md
+      - LICENSE
+      - skills.sh.json
     rights:
-      status: unknown
-      notes: >-
-        Named as a citation only. No skill text is copied. Issue 87 completes rights review before any
-        adapt or vendor disposition.
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/expo-skills.txt
+      evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+      notes: Routing and inventory only. No skill text is copied.
 derivations:
   - source_ids:
       - docs-expo-dev-eas
@@ -58,4 +66,4 @@ derivations:
     rationale: Operation routing treats EAS services, MCP, and official skills as separate optional selections
       with explicit gaps until child packages land.
     reviewer: b2c-maintainers
-    reviewed_at: 2026-09-19
+    reviewed_at: 2026-10-07

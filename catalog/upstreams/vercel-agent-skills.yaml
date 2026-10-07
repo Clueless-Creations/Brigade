@@ -1,0 +1,86 @@
+schema_version: 1
+id: vercel-agent-skills
+project: Vercel Labs agent skills
+canonical_url: https://github.com/vercel-labs/agent-skills
+aliases:
+  - vercel-labs/agent-skills
+authors:
+  - name: Vercel
+    role: publishing organization; no copyright line is present in the reviewed revision
+maintainers:
+  - name: vercel-labs (github.com/vercel-labs)
+    role: upstream maintaining organization
+license:
+  spdx: NOASSERTION
+  status: unverified
+  reviewed_revision: 063bee94c3f4df8453406c830b0a7df0f2860278
+  scope: No LICENSE file, copyright line, or permission notice was found at the repository root or in any
+    skill directory. README and four SKILL.md frontmatter blocks declare MIT; that declaration is not
+    license text. No source, skill text, examples, or scripts are copied or adapted.
+  notes: >-
+    Tracking-only candidate. README License heading and frontmatter license MIT in composition-patterns,
+    react-best-practices, react-native-skills, and react-view-transitions are claims, not evidence. GitHub
+    reports no license.
+source_ids:
+  - github-vercel-labs-agent-skills
+relationships:
+  - kind: selected-skill-guidance
+    consumption: Track the skill catalog as an unadopted upstream candidate. Local documentation records the
+      rights hold; no skill content is shipped. The React Native skill remains an opt-in companion the founder
+      may install after a LICENSE file exists; Brigade adapts nothing from it.
+    local_owners:
+      - knowledge/engineering/recommended-agent-skills.md
+    tests:
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    upstream_paths:
+      - README.md
+    pin_authority: Reviewed commit below identifies the README this routing cites; host executables and remotely
+      downloaded skills remain separate.
+baselines:
+  reviewed_source:
+    revision: 063bee94c3f4df8453406c830b0a7df0f2860278
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Read-only README inspection; LICENSE 404 at this revision. No skill text, script, or package was imported.
+support:
+  policy: Discovery and update tracking only. Adoption is deferred pending a LICENSE file with a copyright and
+    permission notice.
+  versions:
+    - range: 063bee94c3f4df8453406c830b0a7df0f2860278
+      status: untested
+      evidence:
+        - Source inspection only; no live execution or skill-text adoption.
+  operations: []
+  unsupported_operations:
+    - id: adapt-or-copy
+      reason: Rights are unverified. Adapt, reuse, wrap, and vendor stay blocked until license text is read.
+    - id: deploy-to-vercel
+      reason: Deploy, token, and metric-collection skills are outside scope.
+    - id: vercel-cli-with-tokens
+      reason: Credential and token effects stay founder-gated and outside this contribution.
+    - id: vercel-optimize
+      reason: Metric collection and deploy optimization stay outside scope.
+    - id: automatic-setup
+      reason: Installing, authenticating, or changing remote configuration require explicit scoped authority.
+  platforms: []
+adaptations:
+  - id: builder-contracts-win
+    description: Keep product, evidence, and execution authority with the existing builder owners. Performance
+      methods in premium-mobile-craft.md are original Brigade text grounded in primary platform documentation.
+      Vercel may appear only as an informed citation.
+    owner: knowledge/design/premium-mobile-craft.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-07"
+  status: deferred
+  deferral:
+    reason: README and four SKILL.md frontmatter blocks declare MIT; no LICENSE file, copyright line, or
+      permission notice exists at the reviewed revision.
+    reconsider_when: a LICENSE file with a copyright and permission notice appears upstream
+    owner: b2c-maintainers
+credits:
+  acknowledge: false
+  use: inspiration
+  summary: Tracked candidate only; not claimed as powering the builder until rights and adoption are reviewed.

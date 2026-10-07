@@ -5,12 +5,12 @@
  * MobileOperationTransport. Host-native device tools stay preferred. Builder AGENTS.md remains
  * authoritative over any upstream skill instruction.
  *
- * Inspected README revision: 170589a7ee8963156f63de8202fa96cf08a9e610 on github.com/expo/skills.
+ * Inspected README revision: d4f484024fec15196bfd3c272e953e3f983972cf on github.com/expo/skills.
  * Discovery ≠ install. Scoped prepare-on-authorize ≠ global pack install. Malicious instructions fail closed.
  */
 import { EXPO_KNOWLEDGE_REFERENCE_IDS, EXPO_SOURCE_URLS, type ExpoOperationId } from "./expo-selection.js";
 
-export const EXPO_SKILLS_INSPECTED_COMMIT = "170589a7ee8963156f63de8202fa96cf08a9e610";
+export const EXPO_SKILLS_INSPECTED_COMMIT = "d4f484024fec15196bfd3c272e953e3f983972cf";
 export const EXPO_SKILLS_LICENSE = "MIT";
 export const EXPO_SKILLS_TELEMETRY_DEFAULT = "off" as const;
 
@@ -25,6 +25,8 @@ export interface ExpoOfficialSkill {
   queuedIssue: 82 | 83 | 84 | 85 | 86 | 87 | 88 | null;
   paidService: boolean;
   experimental: boolean;
+  /** Prepare-on-authorize refuses this id even after founder approval. */
+  refuseInstall?: boolean;
 }
 
 export const EXPO_OFFICIAL_SKILLS: readonly ExpoOfficialSkill[] = [
@@ -93,6 +95,79 @@ export const EXPO_OFFICIAL_SKILLS: readonly ExpoOfficialSkill[] = [
     experimental: false,
   },
   {
+    id: "expo-animation",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 87,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-ui",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 82,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-data-fetching",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 82,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-dom",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 86,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-examples",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-stack-selection"],
+    queuedIssue: 82,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-app-clip",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 84,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-brownfield",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 82,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-web-to-native",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 86,
+    paidService: false,
+    experimental: false,
+  },
+  {
+    id: "expo-skill-feedback",
+    group: "framework",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 87,
+    paidService: false,
+    experimental: false,
+    refuseInstall: true,
+  },
+  {
     id: "eas-hosting",
     group: "services",
     mapsTo: ["reference.engineering.expo-operations-map"],
@@ -110,6 +185,38 @@ export const EXPO_OFFICIAL_SKILLS: readonly ExpoOfficialSkill[] = [
   },
   {
     id: "eas-app-stores",
+    group: "services",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 84,
+    paidService: true,
+    experimental: false,
+  },
+  {
+    id: "eas-workflows",
+    group: "services",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 84,
+    paidService: true,
+    experimental: false,
+  },
+  {
+    id: "eas-observe",
+    group: "services",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 88,
+    paidService: true,
+    experimental: false,
+  },
+  {
+    id: "eas-update-insights",
+    group: "services",
+    mapsTo: ["reference.engineering.expo-operations-map"],
+    queuedIssue: 85,
+    paidService: true,
+    experimental: false,
+  },
+  {
+    id: "eas-simulator",
     group: "services",
     mapsTo: ["reference.engineering.expo-operations-map"],
     queuedIssue: 84,
@@ -234,6 +341,12 @@ export function expoSkillInstallCommand(authorized: boolean, skillId?: string): 
   const skill = skillId ? EXPO_OFFICIAL_SKILLS.find((entry) => entry.id === skillId) : undefined;
   if (skillId && !skill) {
     return { action: "refuse", reason: `Unknown official Expo skill ${skillId}. Do not install a guessed pack.` };
+  }
+  if (skill?.refuseInstall) {
+    return {
+      action: "refuse",
+      reason: `Official Expo skill ${skill.id} is classified refuse-install. Prepare-on-authorize will not prepare expo-skill-feedback, hooks, or telemetry.`,
+    };
   }
   const selector = skill ? `--skill ${skill.id}` : "--skill expo-overview";
   return {

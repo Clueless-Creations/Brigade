@@ -40,6 +40,77 @@ sources:
       premium-mobile-craft.md.
     last_review_date: 2026-08-17
     reviewer: b2c-maintainers
+  - id: emilkowalski-review-animations
+    name: Emil Kowalski review-animations standards
+    source_type: upstream_method
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/review-animations/SKILL.md
+    review_cadence_days: 30
+    claim_scope: MIT-licensed motion-review gaps. B2C App Builder adapts asymmetric enter/exit, origin-aware
+      scale, rapid-trigger interruptibility, and gentler reduced motion onto the existing token scale.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Emil Kowalski
+    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    upstream_id: emilkowalski-skills
+    selectors: &emil-review
+      - LICENSE
+      - skills/review-animations/SKILL.md
+      - skills/review-animations/STANDARDS.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/emilkowalski-skills.txt
+      evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
+      notes: Gap methods only. CSS easings and millisecond literals stay upstream.
+  - id: react-native-performance-docs
+    name: React Native Performance Overview
+    source_type: official_docs
+    url: https://reactnative.dev/docs/performance
+    review_cadence_days: 30
+    claim_scope: Primary React Native performance documentation for list virtualization, image size, and
+      compositor-safe animation. Original Brigade frame-budget text cites this page; no third-party skill
+      prose is copied.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Meta Platforms, Inc.
+  - id: flutter-perf-best-practices
+    name: Flutter performance best practices
+    source_type: official_docs
+    url: https://docs.flutter.dev/perf/best-practices
+    review_cadence_days: 30
+    claim_scope: Primary Flutter performance documentation for lazy list constructors and rebuild cost.
+      Original Brigade frame-budget text cites this page.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Flutter
+  - id: apple-swiftui-lazyvstack
+    name: Apple SwiftUI LazyVStack
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/swiftui/lazyvstack
+    review_cadence_days: 30
+    claim_scope: Primary SwiftUI lazy-stack documentation for virtualizing long lists. Original Brigade
+      frame-budget text cites this page.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Apple
+  - id: vercel-agent-skills-informed
+    name: Vercel Labs agent skills
+    source_type: agent_skill_pack
+    url: https://github.com/vercel-labs/agent-skills
+    review_cadence_days: 30
+    claim_scope: Tracking citation only. README and skill frontmatter declare MIT; no LICENSE file exists
+      at the reviewed revision. Brigade adapts nothing from this repository.
+    last_review_date: 2026-10-07
+    reviewer: b2c-maintainers
+    publisher: Vercel
+    revision: 063bee94c3f4df8453406c830b0a7df0f2860278
+    upstream_id: vercel-agent-skills
+    selectors:
+      - README.md
+    rights:
+      status: unverified
+      notes: No license text or copyright notice at 063bee94c3f4df8453406c830b0a7df0f2860278. Informed
+        citation only.
   - id: developer-apple-com-swiftui-applying-liquid-glass-to-custom-views
     name: Apple — Applying Liquid Glass to custom views (SwiftUI)
     source_type: official_docs
@@ -49,3 +120,40 @@ sources:
       press feedback and chrome material in premium-mobile-craft.md and PremiumCraft.swift.
     last_review_date: 2026-08-17
     reviewer: b2c-maintainers
+derivations:
+  - source_ids:
+      - emilkowalski-review-animations
+    relationship: adapted
+    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    selectors: *emil-review
+    rationale: Add missing motion-review rules to the Acceptance Checklist and Common Failures using
+      DesignTokens.Motion instead of CSS easings or millisecond literals.
+    omissions:
+      - Do not import CSS cubic-bezier values or millisecond defaults.
+      - Do not treat Emil's web skills as mobile-binary prescriptions.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+    notice: catalog/upstreams/notices/emilkowalski-skills.txt
+  - source_ids:
+      - react-native-performance-docs
+      - flutter-perf-best-practices
+      - apple-swiftui-lazyvstack
+    relationship: informed
+    rationale: Frame-budget list virtualization, row-identity, and display-size image rules are original
+      Brigade text grounded in primary platform documentation.
+    omissions:
+      - Do not paraphrase Vercel skill-file rule text.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07
+  - source_ids:
+      - vercel-agent-skills-informed
+    relationship: informed
+    baseline: 063bee94c3f4df8453406c830b0a7df0f2860278
+    selectors:
+      - README.md
+    rationale: Record that the Vercel React Native skill exists as an unadopted companion. Rights remain
+      unverified; no rule text is used.
+    omissions:
+      - Do not adapt, copy, or vendor any Vercel skill file.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-07

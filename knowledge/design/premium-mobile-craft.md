@@ -27,6 +27,9 @@ Authoritative references to refresh before changing API-level guidance (register
 - Apple HIG — Motion: `https://developer.apple.com/design/human-interface-guidelines/motion`
 - Apple HIG — Loading: `https://developer.apple.com/design/human-interface-guidelines/loading`
 - Apple — Applying Liquid Glass to custom views: `https://developer.apple.com/documentation/SwiftUI/Applying-Liquid-Glass-to-custom-views`
+- Apple — LazyVStack: `https://developer.apple.com/documentation/swiftui/lazyvstack`
+- React Native — Performance Overview: `https://reactnative.dev/docs/performance`
+- Flutter — Performance best practices: `https://docs.flutter.dev/perf/best-practices`
 - Motion (web-surface parity for landing/funnel only): `https://motion.dev/docs/react`
 
 ## The Five Details
@@ -98,8 +101,10 @@ Acceptance: navigating between two surfaces that show the same object either kee
 
 The bar is mechanical: 60fps means every frame renders in 16.6ms (8.3ms on 120Hz ProMotion), and one dropped frame inside a 220ms transition is a visible stutter.
 
-- **Animate compositor-safe properties only:** transform (translate/scale/rotate) and opacity. They render without triggering layout.
+- **Animate compositor-safe properties only:** transform (translate/scale/rotate) and opacity. They render without triggering layout. Animate image size with scale, not by changing width and height each frame.
 - **Never animate layout in scrolling contexts** — padding, frame sizes, or anything that moves siblings mid-scroll forces a layout pass per frame and hitches exactly where attention is highest.
+- **Virtualize long lists.** Only visible rows plus a small buffer should be built. SwiftUI: `LazyVStack` / `LazyHStack` / `List`. Flutter: `ListView.builder` and the other lazy constructors, not a `Column` of every row. React Native: a virtualized list (`FlashList` or `FlatList` with `getItemLayout`), not a `ScrollView` of every row.
+- **Keep row work cheap and identity stable.** Rebuild only the row that changed. Do not recreate callbacks or decode a full-resolution image per row. Decode or cache images at display size.
 - **Blur and shadows are the expensive outliers.** Keep blurred regions small and on the moving object only (`motion-craft-benchmarks.md` R7); pre-render heavy shadows.
 - **Profile, don't eyeball:** Instruments' Animation Hitches template (or the hitch-rate metric in Xcode Organizer) on a real device — the oldest one you support, not the newest. React Native: the perf monitor plus Reanimated's UI-thread worklet path. Flutter: DevTools performance overlay and raster timeline.
 - The hitch budget for press feedback and scrolling is zero. A celebration may spend more per frame, but never during scroll.
@@ -112,15 +117,18 @@ None of these alone makes an app premium. Press states without good keyboard han
 
 - [ ] Every tappable control has a press state (scale/dim spring or system Liquid Glass), with Reduce Motion handled.
 - [ ] Animations exist only where they answer a user question; durations are tokenized and in the 150–300ms band.
+- [ ] Deliberate user actions may enter on the slower tokens (`durationSlow` / `durationReveal`); the system's response and exit use the faster tokens (`durationFast` / `durationBase`).
+- [ ] Scale is origin-aware and never starts from zero. Popovers and menus grow from their trigger; a appearing surface starts near identity plus opacity, not from nothing.
+- [ ] Rapid triggers (toasts, toggles, repeated presses) retarget from the current presentation value. A restart-from-zero sequence is a failure for those surfaces.
 - [ ] Haptics confirm decisions/state changes only — not navigation or scrolling.
 - [ ] Keyboard never covers the input or submit; dismissal is intentional; focus/blur is deliberate.
 - [ ] Loading uses size-preserving skeletons/shimmer (or status text), not a bare spinner; Reduce Motion degrades gracefully.
 - [ ] Empty states explain what/why and offer one primary action.
-- [ ] Reduce Motion verified on device for every animated surface.
+- [ ] Reduce Motion verified on device for every animated surface. Reduced motion is gentler, not zero: keep short opacity or color fades that aid comprehension; drop travel, bounce, and parallax.
 - [ ] Motion reads `DesignTokens.Motion`; no ad-hoc millisecond values; no framer-motion in the mobile binary.
 - [ ] Springs come from the two-family canon: press (damping 0.7–0.8) on controls and state changes, celebrate (damping 0.5–0.7) only on celebrations/reveals.
 - [ ] Surfaces showing the same object across screens use a shared-element transition or a deliberate fade, with the Reduce Motion cross-fade fallback.
-- [ ] Animated properties are compositor-safe (transform/opacity); no layout animation in scrolling contexts; animation hitches profiled on the oldest supported device.
+- [ ] Animated properties are compositor-safe (transform/opacity); long lists are virtualized; images are decoded at display size; no layout animation in scrolling contexts; animation hitches profiled on the oldest supported device.
 
 ## Common Failures
 
@@ -135,3 +143,8 @@ None of these alone makes an app premium. Press states without good keyboard han
 - Celebrate-grade bouncy springs on ordinary state changes, or press-grade flat settles on earned moments.
 - Detail views that materialize from nowhere when the tapped object could have traveled.
 - Layout animated mid-scroll; full-screen blur during motion; animation smoothness never profiled off the simulator.
+- Scale from zero; popovers that grow from the screen center instead of their trigger.
+- Symmetric enter/exit timing on a deliberate action, so the system feels slow to respond.
+- A toast or toggle that restarts its motion from zero on every rapid trigger.
+- Reduce Motion implemented as "no motion at all," so state changes become hard cuts.
+- A `VStack` / `Column` / `ScrollView` of every row; full-resolution images decoded inside list cells.

@@ -3039,10 +3039,16 @@ sources:
     owner: b2c-maintainers
     locations:
       - catalog/stacks/expo-selection.ts
+      - catalog/upstreams/expo-skills.yaml
       - catalog/knowledge/engineering/engineering-expo-operations-map.yaml
+      - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+      - catalog/knowledge/engineering/engineering-external-skill-packs.yaml
       - knowledge/engineering/expo-operations-map.md
-    notes: Named citation for optional selected-session Expo skills. No skill text is copied. Issue 87 owns
-      rights review before adapt or vendor.
+      - knowledge/engineering/recommended-agent-skills.md
+      - knowledge/engineering/external-skill-packs.md
+    notes: Reviewed official Expo skills at d4f484024fec15196bfd3c272e953e3f983972cf. Discovery is not
+      install. Selected stack-neutral methods are adapted into design owners. expo-skill-feedback, hooks,
+      and Expo MCP stay refused.
   - id: parth-app-store-screenshots-license
     name: App Store Screenshots reviewed license
     source_type: github
@@ -3421,3 +3427,190 @@ sources:
       - knowledge/design/consumer-craft-benchmarks.md
       - catalog/knowledge/design/design-consumer-craft-benchmarks.yaml
     notes: First-party Android listing used to corroborate product scope and identity; no installed-app or cross-platform parity claim.
+
+  - id: expo-skills-license
+    name: Official Expo skills reviewed license
+    source_type: github
+    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/LICENSE
+    refresh_cadence_days: 365
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/expo-skills.yaml
+    notes: Immutable license evidence reviewed with the selected upstream commit. A new adoption must review and
+      retain its own license; this entry is not live executable verification.
+  - id: expo-native-slop-tells
+    name: Expo native-slop tells
+    source_type: github
+    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-design-system/references/native-slop.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/expo-skills.yaml
+      - knowledge/design/vibecoded-tells.md
+      - catalog/knowledge/design/design-vibecoded-tells.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: expo-native-ui-skill
+    name: Expo native-ui skill
+    source_type: github
+    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-native-ui/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/expo-skills.yaml
+      - knowledge/design/mobile-flow-craft.md
+      - catalog/knowledge/design/design-mobile-flow-craft.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: expo-data-fetching-skill
+    name: Expo data-fetching skill
+    source_type: github
+    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/plugins/expo/skills/expo-data-fetching/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/expo-skills.yaml
+      - knowledge/design/mobile-flow-craft.md
+      - catalog/knowledge/design/design-mobile-flow-craft.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: github-emilkowalski-skills
+    name: Emil Kowalski agent skills
+    source_type: github
+    url: https://github.com/emilkowalski/skills
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/emilkowalski-skills.yaml
+      - knowledge/engineering/recommended-agent-skills.md
+      - knowledge/engineering/external-skill-packs.md
+      - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+      - catalog/knowledge/engineering/engineering-external-skill-packs.yaml
+    notes: Reviewed source and opt-in skill-pack routing. Immutable reviewed source selectors and rights remain in
+      the upstream manifest.
+  - id: emilkowalski-skills-license
+    name: Emil Kowalski skills reviewed license
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/LICENSE
+    refresh_cadence_days: 365
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/emilkowalski-skills.yaml
+    notes: Immutable license evidence reviewed with the selected upstream commit. A new adoption must review and
+      retain its own license; this entry is not live executable verification.
+  - id: emilkowalski-review-animations
+    name: Emil Kowalski review-animations skill
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/review-animations/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/emilkowalski-skills.yaml
+      - knowledge/design/premium-mobile-craft.md
+      - catalog/knowledge/design/design-premium-mobile-craft.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: emilkowalski-apple-design
+    name: Emil Kowalski apple-design skill
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/apple-design/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/emilkowalski-skills.yaml
+      - knowledge/design/motion-craft-benchmarks.md
+      - catalog/knowledge/design/design-motion-craft-benchmarks.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: emilkowalski-break-ui
+    name: Emil Kowalski break-ui skill
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/break-ui/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/emilkowalski-skills.yaml
+      - knowledge/design/mobile-flow-craft.md
+      - catalog/knowledge/design/design-mobile-flow-craft.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: github-vercel-labs-agent-skills
+    name: Vercel Labs agent skills
+    source_type: github
+    url: https://github.com/vercel-labs/agent-skills
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/vercel-agent-skills.yaml
+      - knowledge/engineering/recommended-agent-skills.md
+      - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+      - knowledge/design/premium-mobile-craft.md
+      - catalog/knowledge/design/design-premium-mobile-craft.yaml
+    notes: Tracking-only. README and skill frontmatter declare MIT; no LICENSE file at the reviewed revision.
+      Brigade adapts nothing from this repository.
+  - id: github-twostraws-swiftui-agent-skill
+    name: SwiftUI Pro agent skill
+    source_type: github
+    url: https://github.com/twostraws/SwiftUI-Agent-Skill
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/swiftui-pro-skill.yaml
+      - knowledge/engineering/recommended-agent-skills.md
+      - knowledge/engineering/external-skill-packs.md
+      - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+      - catalog/knowledge/engineering/engineering-external-skill-packs.yaml
+    notes: Reviewed source and opt-in auditor-mode routing. Immutable reviewed source selectors and rights remain in
+      the upstream manifest. Unverified Core Instructions version claims stay refused.
+  - id: swiftui-pro-skill-license
+    name: SwiftUI Pro reviewed license
+    source_type: github
+    url: https://github.com/twostraws/SwiftUI-Agent-Skill/blob/f9800713b24580bc444931949aad4519128605e8/LICENSE
+    refresh_cadence_days: 365
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/swiftui-pro-skill.yaml
+    notes: Immutable license evidence reviewed with the selected upstream commit. A new adoption must review and
+      retain its own license; this entry is not live executable verification.
+  - id: swiftui-pro-skill-file
+    name: SwiftUI Pro SKILL.md
+    source_type: github
+    url: https://github.com/twostraws/SwiftUI-Agent-Skill/blob/f9800713b24580bc444931949aad4519128605e8/swiftui-pro/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/swiftui-pro-skill.yaml
+      - knowledge/engineering/recommended-agent-skills.md
+      - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+    notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
+      remain in the upstream manifest.
+  - id: react-native-performance-docs
+    name: React Native Performance Overview
+    source_type: official_docs
+    url: https://reactnative.dev/docs/performance
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - knowledge/design/premium-mobile-craft.md
+      - catalog/knowledge/design/design-premium-mobile-craft.yaml
+    notes: Primary React Native performance documentation cited for original Brigade frame-budget text.
+  - id: flutter-perf-best-practices
+    name: Flutter performance best practices
+    source_type: official_docs
+    url: https://docs.flutter.dev/perf/best-practices
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - knowledge/design/premium-mobile-craft.md
+      - catalog/knowledge/design/design-premium-mobile-craft.yaml
+    notes: Primary Flutter performance documentation cited for original Brigade frame-budget text.
+  - id: apple-swiftui-lazyvstack
+    name: Apple SwiftUI LazyVStack
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/swiftui/lazyvstack
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - knowledge/design/premium-mobile-craft.md
+      - catalog/knowledge/design/design-premium-mobile-craft.yaml
+    notes: Primary SwiftUI lazy-stack documentation cited for original Brigade frame-budget text.

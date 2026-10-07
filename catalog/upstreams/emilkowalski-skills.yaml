@@ -1,0 +1,134 @@
+schema_version: 1
+id: emilkowalski-skills
+project: Emil Kowalski agent skills
+canonical_url: https://github.com/emilkowalski/skills
+aliases:
+  - emilkowalski/skills
+authors:
+  - name: Emil Kowalski
+    role: original author or copyright holder identified in the reviewed source
+maintainers:
+  - name: emilkowalski (github.com/emilkowalski)
+    role: current upstream maintainer
+copyright: Copyright (c) 2026 Emil Kowalski
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/LICENSE
+  evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
+  reviewed_revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+  notice_file: catalog/upstreams/notices/emilkowalski-skills.txt
+  scope: Root LICENSE. Selected published methods from review-animations, apple-design, and break-ui only.
+    CSS easings, millisecond literals, web library opinions, and install hooks are not imported.
+source_ids:
+  - github-emilkowalski-skills
+  - emilkowalski-skills-license
+  - emilkowalski-review-animations
+  - emilkowalski-apple-design
+  - emilkowalski-break-ui
+relationships:
+  - kind: adapted-method
+    consumption: Selected stack-neutral motion-review, momentum-projection, directional-hint, and worst-case-data
+      methods are reauthored in knowledge/design/premium-mobile-craft.md, knowledge/design/motion-craft-benchmarks.md,
+      and knowledge/design/mobile-flow-craft.md. Frequency and purpose gates already owned locally stay kept.
+    local_owners: &emil-craft
+      - knowledge/design/premium-mobile-craft.md
+      - knowledge/design/motion-craft-benchmarks.md
+      - knowledge/design/mobile-flow-craft.md
+    tests:
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    upstream_paths:
+      - LICENSE
+      - skills/review-animations/SKILL.md
+      - skills/review-animations/STANDARDS.md
+      - skills/apple-design/SKILL.md
+      - skills/break-ui/SKILL.md
+      - skills/break-ui/CATALOG.md
+    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation is selected and
+      authorized separately.
+  - kind: selected-skill-guidance
+    consumption: animate-expo is the Expo/RN producer (do not also install Expo's expo-animation copy).
+      review-animations, improve-animations, and find-animation-opportunities are auditor-mode packs.
+      write-swift is SwiftUI-stack only. Web skills stay in the landing lane.
+    local_owners:
+      - knowledge/engineering/recommended-agent-skills.md
+      - knowledge/engineering/external-skill-packs.md
+    tests:
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    upstream_paths:
+      - README.md
+      - LICENSE
+      - skills/animate-expo/SKILL.md
+      - skills/review-animations/SKILL.md
+      - skills/improve-animations/SKILL.md
+      - skills/find-animation-opportunities/SKILL.md
+      - skills/write-swift/SKILL.md
+    pin_authority: npx skills add carries no pin. Reviewed commit below identifies the README and skill names this routing cites.
+baselines:
+  reviewed_source:
+    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Read-only license, README, and selected SKILL.md inspection; no skill install or live host execution.
+  reviewed_guidance:
+    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Gap methods adapted into existing craft owners; named skills routed as opt-in producer or auditor packs.
+support:
+  policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
+    provider bindings or certification of installed versions.
+  versions:
+    - range: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+      status: untested
+      evidence:
+        - Source inspection and the ios-skill-pack-boundary routing eval only; no live host-skill execution
+          from this repository.
+  operations:
+    - id: emil-motion-craft-guidance
+      title: Selected motion-review, projection, and worst-case-data methods
+      keywords:
+        - motion
+        - animation
+        - worst-case
+      owners: *emil-craft
+  unsupported_operations:
+    - id: automatic-install-or-upgrade
+      reason: Requires explicit target, selected compatible revision, scoped authority and independent
+        verification. No host installation, business repin or publication is automatic.
+    - id: whole-pack-default
+      reason: The full pack is not a catalog provider. Web skills never apply to a mobile binary. ask-sonner,
+        pick-ui-library, and prototype stay rejected.
+    - id: css-easing-defaults
+      reason: Do not import CSS cubic-bezier values or millisecond literals as Brigade motion defaults.
+        Express values on the existing token scale.
+  platforms: []
+adaptations:
+  - id: token-scale-not-ms
+    description: Express adapted timing and spring rules on DesignTokens.Motion. Do not copy CSS easings or ms literals.
+    owner: knowledge/design/premium-mobile-craft.md
+    intentional: true
+  - id: no-product-demo-toggle
+    description: Worst-case data is a review method. Do not require a Demo data toggle in the shipped product UI.
+    owner: knowledge/design/mobile-flow-craft.md
+    intentional: true
+  - id: animate-expo-not-expo-animation
+    description: Route animate-expo as the Expo/RN producer. Expo's expo-animation is the same body under this notice.
+    owner: knowledge/engineering/recommended-agent-skills.md
+    intentional: true
+  - id: not-required
+    description: Citing adapted methods does not require installing the upstream skill.
+    owner: knowledge/engineering/recommended-agent-skills.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-07"
+  status: current
+credits:
+  acknowledge: true
+  use: adapted
+  summary: Selected Emil Kowalski agent-skill methods inform knowledge/design/premium-mobile-craft.md,
+    knowledge/design/motion-craft-benchmarks.md, and knowledge/design/mobile-flow-craft.md. Named skills
+    remain opt-in producer or auditor packs. Original authors and license notices are retained; no live
+    integration is claimed.

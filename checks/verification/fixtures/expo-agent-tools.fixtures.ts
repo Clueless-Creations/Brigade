@@ -53,6 +53,20 @@ export function register(harness: Harness): void {
     assert(prepared.action === "prepare" && prepared.command === "npx skills add expo/skills --skill expo-router", prepared.reason);
     assert(!prepared.command?.includes("--yes"), "no --yes");
 
+    const feedback = expoSkillInstallCommand(true, "expo-skill-feedback");
+    assert(feedback.action === "refuse" && feedback.command === undefined, feedback.reason);
+    assert(feedback.reason.includes("expo-skill-feedback") || feedback.reason.includes("refuse-install"), feedback.reason);
+    assert(
+      EXPO_OFFICIAL_SKILLS.some((skill) => skill.id === "expo-skill-feedback" && skill.refuseInstall === true),
+      "expo-skill-feedback must be inventoried as refuse-install",
+    );
+    assert(
+      ["expo-animation", "expo-ui", "expo-data-fetching", "eas-workflows", "eas-observe", "eas-simulator"].every((id) =>
+        EXPO_OFFICIAL_SKILLS.some((skill) => skill.id === id),
+      ),
+      "reviewed unmapped skills must have an explicit inventory decision",
+    );
+
     const blanket = refuseBlanketExpoSkillInstall("npx skills add expo/skills --skill '*' --yes");
     assert(blanket.refused === true && blanket.reason.includes("blanket"), blanket.reason);
 

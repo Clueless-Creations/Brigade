@@ -1,0 +1,149 @@
+schema_version: 1
+id: expo-skills
+project: Official Expo agent skills
+canonical_url: https://github.com/expo/skills
+aliases:
+  - expo/skills
+authors:
+  - name: 650 Industries, Inc. (aka Expo)
+    role: original author or copyright holder identified in the reviewed source
+  - name: Emil Kowalski
+    role: copyright holder of plugins/expo/skills/expo-animation (MIT notice distinct from the root Expo notice)
+maintainers:
+  - name: Expo (github.com/expo)
+    role: current upstream maintainer
+copyright: Copyright (c) 2025-present 650 Industries, Inc. (aka Expo)
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/LICENSE
+  evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
+  reviewed_revision: d4f484024fec15196bfd3c272e953e3f983972cf
+  notice_file: catalog/upstreams/notices/expo-skills.txt
+  scope: Root LICENSE and plugins/expo/LICENSE (identical Expo MIT text). plugins/expo/skills/expo-animation/LICENSE
+    is Emil Kowalski's MIT notice (sha256 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b)
+    and is not covered by this notice file. No skill pack, hook, MCP client, or plugin is imported.
+  notes: Inventory reviewed at d4f484024fec15196bfd3c272e953e3f983972cf. Discovery is not install. Hooks and
+    expo-skill-feedback stay refused.
+source_ids:
+  - github-com-expo-skills
+  - expo-skills-license
+  - expo-native-slop-tells
+  - expo-native-ui-skill
+  - expo-data-fetching-skill
+relationships:
+  - kind: adapted-method
+    consumption: Selected stack-neutral native-slop tells and four-state screen rules are reauthored in
+      knowledge/design/vibecoded-tells.md and knowledge/design/mobile-flow-craft.md. React Native grep
+      patterns and Expo-only APIs stay upstream.
+    local_owners: &expo-craft
+      - knowledge/design/vibecoded-tells.md
+      - knowledge/design/mobile-flow-craft.md
+    tests:
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    upstream_paths:
+      - LICENSE
+      - plugins/expo/LICENSE
+      - plugins/expo/skills/expo-design-system/references/native-slop.md
+      - plugins/expo/skills/expo-native-ui/SKILL.md
+      - plugins/expo/skills/expo-data-fetching/SKILL.md
+    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation is selected and
+      authorized separately.
+  - kind: selected-skill-guidance
+    consumption: Official Expo skills are named as opt-in producer packs for a selected Expo session.
+      catalog/stacks/expo-agent-tools.ts owns the reviewed inventory. Installation happens only with founder
+      approval. expo-skill-feedback, hooks, and Expo MCP stay refused.
+    local_owners:
+      - knowledge/engineering/recommended-agent-skills.md
+      - knowledge/engineering/expo-operations-map.md
+      - catalog/stacks/expo-agent-tools.ts
+    tests:
+      - checks/verification/fixtures/expo-agent-tools.fixtures.ts
+      - checks/validation/repository/evals/agent-behavior/ios-skill-pack-boundary.yaml
+    upstream_paths:
+      - README.md
+      - LICENSE
+      - skills.sh.json
+      - plugins/expo/hooks/hooks.json
+    pin_authority: npx skills add carries no pin. Reviewed commit below identifies the README and skill names this routing cites.
+baselines:
+  reviewed_source:
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Read-only license, README, skills.sh.json, selected SKILL.md, and hook inspection; 14 commits after
+      170589a7ee8963156f63de8202fa96cf08a9e610 were read. No skill install, hook execution, or Expo MCP call.
+  reviewed_guidance:
+    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    observed_at: "2026-10-07"
+    by: b2c-contributor source review
+    note: Selected methods adapted into existing design owners; skill names routed as opt-in Expo-stack guidance only.
+support:
+  policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
+    provider bindings or certification of installed versions.
+  versions:
+    - range: d4f484024fec15196bfd3c272e953e3f983972cf
+      status: untested
+      evidence:
+        - Source inspection, inventory fixtures, and the ios-skill-pack-boundary routing eval only; no live Expo
+          skill-host execution from this repository.
+  operations:
+    - id: expo-skill-inventory
+      title: Reviewed official Expo skill inventory and selected-session routing
+      keywords:
+        - expo
+        - skills
+        - eas
+      owners:
+        - catalog/stacks/expo-agent-tools.ts
+        - knowledge/engineering/expo-operations-map.md
+    - id: expo-native-craft-guidance
+      title: Selected native-slop and four-state screen methods
+      keywords:
+        - native slop
+        - four-state
+        - loading
+      owners: *expo-craft
+  unsupported_operations:
+    - id: automatic-install-or-upgrade
+      reason: Requires explicit target, selected compatible revision, scoped authority and independent
+        verification. No host installation, business repin or publication is automatic.
+    - id: expo-mcp-default
+      reason: Expo MCP stays an independently authorized provider. The builder never installs or
+        authorizes it as a default.
+    - id: expo-hooks-or-telemetry
+      reason: plugins/expo/hooks/hooks.json PostToolUse and UserPromptExpansion run skill-event.cjs.
+        expo-skill-feedback submits usage. Both stay refused.
+    - id: blanket-pack-install
+      reason: Wildcard or --yes pack install is refused. Discovery is not install. Scoped prepare-on-authorize only.
+  platforms: []
+adaptations:
+  - id: stack-neutral-tells
+    description: Reauthor native-slop tells without React Native grep recipes or Expo-only component names so
+      Flutter and SwiftUI sessions can apply the methods.
+    owner: knowledge/design/vibecoded-tells.md
+    intentional: true
+  - id: expo-animation-routes-through-emil
+    description: expo-animation is byte-identical to Emil Kowalski's animate-expo and carries Emil's notice.
+      Route animate-expo as the Expo/RN producer. Do not install both.
+    owner: knowledge/engineering/recommended-agent-skills.md
+    intentional: true
+  - id: not-the-default-stack
+    description: Expo remains selectable. Citing this pack does not make Expo the default stack or a Flutter prescription.
+    owner: knowledge/engineering/recommended-agent-skills.md
+    intentional: true
+  - id: not-required
+    description: Citing adapted methods does not require installing the upstream skill or connecting Expo MCP.
+    owner: knowledge/engineering/recommended-agent-skills.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-07"
+  status: current
+credits:
+  acknowledge: true
+  use: adapted
+  summary: Selected Expo agent-skill methods inform knowledge/design/vibecoded-tells.md and
+    knowledge/design/mobile-flow-craft.md. Official Expo skills remain opt-in companion packs for a
+    selected Expo session. Original authors and license notices are retained; no live integration is claimed.

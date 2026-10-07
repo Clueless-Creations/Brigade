@@ -70,6 +70,33 @@ Two reel items are writing smells, and [`no-slop-writing.md`](../words/no-slop-w
 - Em-dash overuse: no-slop §5, em-dash budget.
 - "It's not X, it's Y" framing: no-slop §5, binary contrasts and negative listing.
 
+## Native App Tells
+
+These are review prompts for a mobile binary, adapted from Expo's native-slop list into stack-neutral wording. A card, typeface, gradient, or onboarding flow is not a defect by itself. Interaction failures still need fixing. React Native grep recipes stay upstream in expo-skills; do not treat them as Flutter or SwiftUI commands.
+
+| Smell | Why it fails the task | Stack-neutral instead |
+| --- | --- | --- |
+| Web-modal picker | A centered custom dialog ignores the keyboard and platform dismissal | Platform sheet, anchored menu, or system alert for a consequential confirm |
+| Close-only sheet | The sheet has an X and no grab handle or swipe-to-dismiss | Native detents, drag-to-dismiss, and the platform Cancel/Done placement |
+| Emoji as chrome | Emoji standing in for tab, button, or empty-state icons | One platform icon family (SF Symbols, Material, Cupertino) |
+| Decorative hero above the job | A gradient intro pushes the first useful action below the fold | Lead with useful content under a navigation title unless the brief asks for a hero |
+| Floating custom tab bar | A pill or inset bar fights the home indicator | The platform tab bar and its materials |
+| Unexamined downloaded face | An arbitrary webfont replaces system type without weights or scaling | System type by default; keep brand type when requested and verify weights and Dynamic Type |
+| Card around every row | Nested rounded shadowed boxes replace grouping | Grouped lists, inset sections, hairlines, and surface contrast |
+| Heavy shadow as hierarchy | Drop shadows doing the work of type and grouping | Two or three tokened elevation levels; iOS stays a low-shadow platform |
+| Hairline on every box | A 1px gray outline on every container | Spacing and surface contrast; hairlines as separators only |
+| Alert for routine work | Alerts interrupt undoable actions, report success, or replace field validation | Confirm uncommon irreversible actions; undo routine ones; keep field errors inline |
+| Hand-rolled navigation chrome | Hidden system headers plus a custom back control | Configure the platform navigation bar; do not rebuild it |
+| One padding everywhere | The same inset on every axis, so proximity carries no meaning | A spacing scale with distinct row, group, and section steps |
+| Scale-every-row press | The same shrink on every touchable, including full-width rows | Rows highlight; buttons scale or dim; feedback matches the role |
+| Grand entrance on every visit | Staggered list entrances replay on every return | Entrance motion only for rare or first-time moments; routine screens appear |
+| Promotional onboarding carousel | Generic slides delay the first useful screen | Start with useful content; keep onboarding that collects required setup |
+| Cross-platform costume | One platform wearing the other's controls | Each platform's idiom, or a documented platform-neutral treatment |
+| Safe-area collision | Content under the notch, island, or home indicator, or a magic top margin | Platform bars and safe-area insets |
+| Hardcoded light/dark colors | Hex blacks and whites that break when the OS theme flips | Semantic colors with declared light/dark pairs |
+| Empty while the first load runs | A spinner or "no items" flashes before the request resolves | Four states: loading ≠ empty; keep stale content on refresh |
+| Keyboard covers the field | The focused input or submit sits behind the keyboard | Track the keyboard frame; keep the focused field and primary action visible |
+
 ## Scoring A Review
 
 - Any Tier 1 hit fails the surface. Fix the artifact, not the wording.
