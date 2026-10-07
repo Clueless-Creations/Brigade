@@ -3133,6 +3133,7 @@ sources:
       - catalog/upstreams/appllama-skills.yaml
       - knowledge/engineering/recommended-agent-skills.md
       - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
+      - examples/contributions/ios-agent-skill-packs/contribution.yaml
     notes: Reviewed source and opt-in skill-pack routing. Immutable reviewed source selectors and rights remain in
       the upstream manifest.
   - id: appllama-app-design-skill
@@ -3560,6 +3561,7 @@ sources:
       - knowledge/engineering/external-skill-packs.md
       - catalog/knowledge/engineering/engineering-recommended-agent-skills.yaml
       - catalog/knowledge/engineering/engineering-external-skill-packs.yaml
+      - examples/contributions/ios-agent-skill-packs/contribution.yaml
     notes: Reviewed source and opt-in auditor-mode routing. Immutable reviewed source selectors and rights remain in
       the upstream manifest. Unverified Core Instructions version claims stay refused.
   - id: swiftui-pro-skill-license

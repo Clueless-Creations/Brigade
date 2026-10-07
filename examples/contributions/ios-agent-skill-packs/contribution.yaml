@@ -118,7 +118,7 @@ sources:
         location: README.md:86
         category: configure-agent
         action: refused
-      - text: git clone https://github.com/appllama/appllama-skills
+      - text: git clone https://github.com/Appllama/appllama-skills
         location: README.md:90
         category: fetch-remote
         action: refused
@@ -332,7 +332,7 @@ sources:
       - LICENSE
       - swiftui-pro/SKILL.md
     directives:
-      - text: npx skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro
+      - text: npx skills add https://github.com/twostraws/SwiftUI-Agent-Skill --skill swiftui-pro
         location: README.md:33
         category: install
         action: refused
