@@ -666,6 +666,33 @@ export function register(h: Harness): void {
   }
   runFixture("landing funnel in scope with full gate evidence passes", landingInScopePass, "check-landing-funnel.ts", 0);
 
+  const webSiteMissingSitemap = makeEmptyFixture("landing-funnel-web-missing-sitemap");
+  mkdirSync(path.join(webSiteMissingSitemap, "state"), { recursive: true });
+  writeFileSync(
+    path.join(webSiteMissingSitemap, "state/business-state.json"),
+    readFileSync(path.join(skillRoot, "examples", "workspace", "business", "state/business-state.json"), "utf8"),
+    "utf8",
+  );
+  mkdirSync(path.join(webSiteMissingSitemap, "web"), { recursive: true });
+  writeFileSync(path.join(webSiteMissingSitemap, "web", "index.html"), "<h1>Soon</h1>\n", "utf8");
+  runFixture("web site without a sitemap fails geo discovery", webSiteMissingSitemap, "check-landing-funnel.ts", 1, "landing_funnel.geo_seo.sitemap.missing");
+
+  const webSiteWithDiscovery = makeEmptyFixture("landing-funnel-web-discovery-pass");
+  mkdirSync(path.join(webSiteWithDiscovery, "state"), { recursive: true });
+  writeFileSync(
+    path.join(webSiteWithDiscovery, "state/business-state.json"),
+    readFileSync(path.join(skillRoot, "examples", "workspace", "business", "state/business-state.json"), "utf8"),
+    "utf8",
+  );
+  mkdirSync(path.join(webSiteWithDiscovery, "web"), { recursive: true });
+  writeFileSync(path.join(webSiteWithDiscovery, "web", "index.html"), "<h1>Soon</h1>\n", "utf8");
+  for (const staticFile of ["robots.txt", "llms.txt", "sitemap.xml"]) {
+    writeFileSync(path.join(webSiteWithDiscovery, "web", staticFile), "seeded by fixture\n", "utf8");
+  }
+  mkdirSync(path.join(webSiteWithDiscovery, "growth", "landing"), { recursive: true });
+  writeFileSync(path.join(webSiteWithDiscovery, "growth", "landing", "README.md"), landingGateEvidence, "utf8");
+  runFixture("web site with discovery files passes the landing funnel check", webSiteWithDiscovery, "check-landing-funnel.ts", 0);
+
   const landingInScopeFail = makeEmptyFixture("landing-funnel-in-scope-missing-gates");
   mkdirSync(path.join(landingInScopeFail, "state"), { recursive: true });
   writeFileSync(

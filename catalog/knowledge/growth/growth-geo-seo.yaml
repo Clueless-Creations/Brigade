@@ -21,6 +21,31 @@ sources:
     source_type: github
     url: https://github.com/zubair-trabzada/geo-seo-claude
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
+    claim_scope: MIT-licensed GEO skill pack. This reference routes its required artifacts and specialist skill names.
+      No skill text is vendored.
     last_review_date: 2026-08-17
     reviewer: b2c-maintainers
+    publisher: Zubair Trabzada
+    revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+    upstream_id: geo-seo-claude
+    selectors: &geo-seo-claude-selectors
+      - LICENSE
+      - README.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/geo-seo-claude.txt
+      evidence_sha256: 7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc
+      notes: Routing and required-artifact names only. No skill text is vendored.
+derivations:
+  - source_ids:
+      - github-com-zubair-trabzada-geo-seo-claude
+    relationship: adapted
+    baseline: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+    selectors: *geo-seo-claude-selectors
+    rationale: Required launch artifacts and specialist skill names stay in the existing GEO reference.
+    omissions:
+      - No SKILL.md text, installer, or executable is vendored.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-08
+    notice: catalog/upstreams/notices/geo-seo-claude.txt

@@ -45,9 +45,22 @@ sources:
     source_type: github
     url: https://github.com/zubair-trabzada/geo-seo-claude
     review_cadence_days: 30
-    claim_scope: GEO/SEO skill pack. Basis for the installed sub-skill list and the audit-before-first-edit rule.
+    claim_scope: MIT-licensed GEO/SEO skill pack. Basis for the installed sub-skill list and the audit-before-first-edit
+      rule. No skill text is vendored.
     last_review_date: 2026-09-03
     reviewer: b2c-maintainers
+    publisher: Zubair Trabzada
+    revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+    upstream_id: geo-seo-claude
+    selectors: &geo-seo-claude-selectors
+      - LICENSE
+      - README.md
+    rights:
+      status: verified
+      spdx: MIT
+      evidence: catalog/upstreams/notices/geo-seo-claude.txt
+      evidence_sha256: 7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc
+      notes: Skill names only. No skill text is vendored.
   - id: general-legal-template-collection
     name: General Legal template collection
     source_type: attorney_template_repository
@@ -173,3 +186,14 @@ derivations:
       - Do not let the same agent hold producer and auditor modes for one surface.
     reviewer: b2c-maintainers
     reviewed_at: 2026-10-07
+  - source_ids:
+      - github-com-zubair-trabzada-geo-seo-claude
+    relationship: referenced
+    baseline: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+    selectors: *geo-seo-claude-selectors
+    rationale: Name the GEO skill pack as an opt-in producer and auditor. No skill text is copied.
+    omissions:
+      - No SKILL.md text, installer, or executable is vendored.
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-08
+    notice: catalog/upstreams/notices/geo-seo-claude.txt

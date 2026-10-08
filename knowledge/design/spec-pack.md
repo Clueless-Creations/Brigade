@@ -26,6 +26,8 @@ A spec pack holds:
 - every app screen and state at phone size
 - a click-through prototype
 - web pages: landing, privacy, terms, support, and account deletion
+- web head tags and discovery files. See [GEO and SEO](../growth/geo-seo.md#2-required-launch-artifacts) section 2.
+- the web-to-app path in [Web to App Store](../growth/cro-landing.md#web-to-app-store)
 - design tokens and one art style prompt
 - the store listing and paywall offer
 - the analytics event map
@@ -157,6 +159,7 @@ A screen is done when all of these are true:
 
 Match layout, copy, tokens, and tap targets.
 Fix differences or list them in the pull request.
+Web polish loads [Landing Motion Craft](landing-motion-craft.md).
 
 ## Change after approval
 
@@ -235,3 +238,6 @@ Work follows this order:
 - real-device dogfood
 - Gate 2
 - launch and run
+
+Discovery runs in parallel with the first web task.
+It starts in the same wave as that page.

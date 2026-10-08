@@ -1,0 +1,53 @@
+schema_version: 1
+sources:
+  - id: github-com-zubair-trabzada-geo-seo-claude
+    name: github.com
+    source_type: github
+    url: https://github.com/zubair-trabzada/geo-seo-claude
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-external-skill-packs.yaml
+      - catalog/knowledge/growth/growth-geo-seo.yaml
+      - catalog/upstreams/geo-seo-claude.yaml
+      - knowledge/engineering/external-skill-packs.md
+      - knowledge/growth/geo-seo.md
+    notes: MIT-licensed GEO skill pack at the reviewed commit in catalog/upstreams/geo-seo-claude.yaml. No skill text
+      is vendored.
+  - id: github-com-zubair-trabzada-geo-seo-claude-license
+    name: github.com
+    source_type: github
+    url: https://github.com/zubair-trabzada/geo-seo-claude/blob/989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c/LICENSE
+    refresh_cadence_days: 365
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/geo-seo-claude.yaml
+    notes: Immutable license evidence reviewed with the selected upstream commit. A new adoption must review and
+      retain its own license; this entry is not live executable verification.
+  - id: developer-apple-com-documentation-webkit-promoting-apps-with-smart-app-banners
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/webkit/promoting-apps-with-smart-app-banners
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/growth/cro-landing.md
+    notes: Smart App Banner meta tag. The documented content keys are app-id and app-argument.
+  - id: developer-apple-com-help-app-store-connect-analytics-acquisition-campaign-links
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect-analytics/acquisition/campaign-links
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/growth/cro-landing.md
+    notes: App Store campaign links. pt is the provider token, ct is the campaign token, and mt=8 is mobile software.
+  - id: developer-apple-com-documentation-xcode-supporting-associated-domains
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/xcode/supporting-associated-domains
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/growth/cro-landing.md
+    notes: Associated domains and the apple-app-site-association file for universal links.

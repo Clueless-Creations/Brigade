@@ -192,14 +192,103 @@ screens:
       - Every link opens the matching web surface below.
 
 # Web surfaces. Required for store review and trust.
+# Each page carries title, description, and an optional og_image override.
 web:
-  - { id: landing, path: /, title: Landing, sections: [hero with App Store badge, three feature rows, widget gallery, FAQ, footer links], acceptance: ["Lighthouse performance >= 90 on mobile", "App Store link uses the real app ID after Gate 2"] }
-  - { id: privacy, path: /privacy, title: Privacy policy, sections: [data collected, "processors: RevenueCat, PostHog, Sentry", retention, contact], acceptance: [Matches App Privacy labels exactly] }
-  - { id: terms, path: /terms, title: Terms of use, sections: [license, purchases and refunds via Apple, liability], acceptance: [Linked from paywall and settings] }
-  - { id: support, path: /support, title: Support, sections: [FAQ, contact email, restore steps], acceptance: ["Returns 200, not a GitHub link"] }
-  - { id: delete, path: /delete-account, title: Data deletion, sections: [what is deleted, how to delete in app, email fallback], acceptance: [Meets App Store 5.1.1(v) when accounts exist] }
+  - id: landing
+    path: /
+    title: Landing
+    description: Count down to the dates that matter, on your Home and Lock Screen.
+    og_image: web/og/landing.png
+    sections: [hero with App Store badge, three feature rows, widget gallery, FAQ, footer links]
+    acceptance:
+      - Lighthouse performance >= 90 on mobile
+      - App Store link uses the real app ID after Gate 2
+      - Reduced-motion check passes.
+      - Content stays readable without JavaScript.
+      - npx impeccable detect reports zero high findings.
+      - The geo-seo.md section 4 copy scan is recorded in the pull request.
+  - id: privacy
+    path: /privacy
+    title: Privacy policy
+    description: What Soon stores, which processors it uses, and how to ask a question.
+    sections: [data collected, "processors: RevenueCat, PostHog, Sentry", retention, contact]
+    acceptance: [Matches App Privacy labels exactly]
+  - id: terms
+    path: /terms
+    title: Terms of use
+    description: The license, Apple purchases and refunds, and the liability terms.
+    sections: [license, purchases and refunds via Apple, liability]
+    acceptance: [Linked from paywall and settings]
+  - id: support
+    path: /support
+    title: Support
+    description: How to restore a purchase and how to contact support.
+    sections: [FAQ, contact email, restore steps]
+    acceptance: ["Returns 200, not a GitHub link"]
+  - id: delete
+    path: /delete-account
+    title: Data deletion
+    description: What deletion removes, the in-app path, and the email fallback.
+    sections: [what is deleted, how to delete in app, email fallback]
+    acceptance: [Meets App Store 5.1.1(v) when accounts exist]
 
-# Later blocks go here: web_meta, discovery, funnel, deep_links.
+# Social cards for every web page. Per-page og_image overrides web_meta.og_image.
+web_meta:
+  site_name: Soon
+  title_pattern: "{page} · Soon"
+  default_description: Count down to the dates that matter, on your Home and Lock Screen.
+  og_image: web/og/default.png
+  og_image_width: 1200
+  og_image_height: 630
+  theme_color: "#FF5A36"
+  x_card: summary_large_image
+
+# SEO, AEO, and GEO plumbing. canonical_origin is optional.
+# This example leaves it unset, so the check uses meta.web_origin.
+discovery:
+  sitemap_routes: [/, /privacy, /terms, /support, /delete-account]
+  llms_txt:
+    - Soon counts down to a date you choose.
+    - The countdown is on the Home Screen and the Lock Screen.
+    - Privacy, terms, support, and data deletion each have a public page.
+  json_ld_types: [Organization, WebSite, MobileApplication, FAQPage]
+  faq:
+    - question: What does Soon do?
+      answer: Soon shows the days left until a date you choose, on the Home Screen and the Lock Screen.
+    - question: Does Soon require an account?
+      answer: You can save a countdown on the device before you create an account.
+
+# Channels from a web visit to the App Store. The CTA is a static href.
+funnel:
+  smart_app_banner:
+    meta_name: apple-itunes-app
+    app_id: "0000000000"
+    app_argument: "https://<slug>.<account>.workers.dev/"
+  store:
+    app_id: "0000000000"
+    pt: "<provider-token>"
+    mt: 8
+  channels:
+    - id: organic
+      landing_path: /
+      ct: organic
+      fallback: static_href
+    - id: share
+      landing_path: /
+      ct: share
+      fallback: static_href
+
+# Universal links. Each path names a screen and a web page that exists above.
+deep_links:
+  aasa: /.well-known/apple-app-site-association
+  routes:
+    - path: /event/*
+      screen: event-detail
+      web_fallback: /
+    - path: /settings
+      screen: settings
+      web_fallback: /support
+  test_matrix: [installed, not_installed, in_app_browser]
 
 store:
   name: "Soon: Countdown Widget"
@@ -250,7 +339,34 @@ analytics:
 # Optional tasks. Screens become S-<id> (area App) and web pages become W-<id> (area Web).
 # capabilities: Auth, Privacy, Security, Deep links, Discovery (SEO/AEO/GEO), Analytics, Accessibility.
 # milestone: Build, Dogfood, Gate 2, Launch, or Run. Omitted tasks start on Build.
-tasks: []
+# W-DISCOVERY has no dependencies, so it runs beside the first web page.
+# W-POLISH runs after W-landing and loads the polish references in this order.
+tasks:
+  - id: W-DISCOVERY
+    title: SEO, AEO, and GEO plumbing
+    area: Web
+    depends_on: []
+    acceptance:
+      - curl robots.txt, sitemap.xml, and llms.txt on the canonical origin. Each returns HTTP 200.
+      - JSON-LD on the public pages parses.
+    capabilities: []
+  - id: W-POLISH
+    title: Web polish pass
+    area: Web
+    depends_on: [W-landing]
+    acceptance:
+      - Load knowledge/design/landing-motion-craft.md.
+      - Load catalog/upstreams/amir-cinematic-scroll.yaml.
+      - Load review-animations and improve-animations from knowledge/engineering/external-skill-packs.md.
+      - Load knowledge/design/design-visual-system.md.
+      - Load knowledge/design/vibecoded-tells.md.
+      - Load knowledge/design/consumer-craft-benchmarks.md.
+      - Load taste-skill and impeccable. Run npx impeccable detect with zero high findings.
+      - Load knowledge/words/conversion-copy.md.
+      - Load knowledge/words/no-slop-writing.md.
+      - Load knowledge/words/consumer-copy-benchmarks.md.
+      - Record the knowledge/growth/geo-seo.md section 4 copy scan in the pull request.
+    capabilities: []
 
 repo:
   files:
@@ -258,10 +374,10 @@ repo:
     - { path: spec/spec.yaml, purpose: "This manifest (approved copy)." }
     - { path: spec/index.html, purpose: "Rendered spec pack." }
     - { path: DESIGN.md, purpose: "Tokens and style prompt, same values as design.tokens." }
-    - { path: TASKS.md, purpose: "Generated from screens, web pages and tasks:" }
+    - { path: TASKS.md, purpose: "Generated from screens, web pages, and tasks. W-DISCOVERY has no dependencies. W-POLISH runs after W-landing and loads landing-motion-craft.md, then the visual references, then the copy references." }
     - { path: scripts/merge-gate.sh, purpose: "Build, unit tests, screenshot-vs-mock check, lint, and the snapshot record-mode step." }
     - { path: .env.example, purpose: "Names only, no values." }
-    - { path: web/, purpose: "Landing and policy pages." }
+    - { path: web/, purpose: "Landing and policy pages. Each page head carries title, description, canonical, Open Graph, an X card, a favicon, and theme-color. The og:image is a 1200 by 630 PNG or JPG with an absolute URL." }
   merge_gate:
     - Build succeeds for every platform in meta.platforms.
     - Unit tests pass.
