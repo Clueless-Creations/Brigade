@@ -178,7 +178,9 @@ export function register(harness: Harness): void {
       "instructions mode with no bundle must report zero requested references",
     );
     assert(
-      result.route.warnings.some((warning) => warning === "A workflow pass is not a business-completion verdict. This response does not name executable next work."),
+      result.route.warnings.some(
+        (warning) => warning === "A workflow pass is not a business-completion verdict. This response does not name executable next work.",
+      ),
       "completion warning must stay and must not point at a workspace plan",
     );
   });
@@ -815,7 +817,9 @@ export function register(harness: Harness): void {
       "program-open guidance must remain current reading",
     );
     assert(
-      !brief.load.some((entry) => /paid-tool-routing|security-release-hardening|doppler-organization|founder-zero-operator|secrets-management/.test(entry.path)),
+      !brief.load.some((entry) =>
+        /paid-tool-routing|security-release-hardening|doppler-organization|founder-zero-operator|secrets-management/.test(entry.path),
+      ),
       "operator and security procedures must stay deferred until that action is current",
     );
     assert(route.references.length === brief.load.length, "route mode must not dump later-horizon refs as current reading");
@@ -830,7 +834,10 @@ export function register(harness: Harness): void {
     const bundle = buildHostedKnowledgeBundle(skillRoot);
     const service = createKnowledgeService(bundle);
     const accessibility = service.workflow({ workflowId: "workflow.engineering.accessibility-common-task-proof", brief: true }).dispatchBrief!;
-    assert(accessibility.load.length === 1 && accessibility.load[0]!.path.includes("accessibility-readiness"), "accessibility-common-task-proof lost its current load");
+    assert(
+      accessibility.load.length === 1 && accessibility.load[0]!.path.includes("accessibility-readiness"),
+      "accessibility-common-task-proof lost its current load",
+    );
     for (const workflowId of ["workflow.design.design-room", "workflow.design.premium-mobile-craft"] as const) {
       const brief = service.workflow({ workflowId, brief: true }).dispatchBrief!;
       assert(
@@ -851,14 +858,20 @@ export function register(harness: Harness): void {
     for (const { workflowId, keep } of crossDomainCurrent) {
       const brief = service.workflow({ workflowId, brief: true }).dispatchBrief!;
       for (const needle of keep) {
-        assert(brief.load.some((entry) => entry.path.includes(needle)), `dispatchBrief ${workflowId} dropped current ${needle}`);
+        assert(
+          brief.load.some((entry) => entry.path.includes(needle)),
+          `dispatchBrief ${workflowId} dropped current ${needle}`,
+        );
       }
       const node = compiledByWorkflowId.get(workflowId);
       assert(node, `${workflowId} missing from the compiled runtime plan`);
       const composed = composeNodeBrief(node, compiled);
       const rendered = renderNodeBrief(composed);
       for (const needle of keep) {
-        assert(composed.load.some((entry) => entry.path.includes(needle)), `composeNodeBrief ${workflowId} dropped current ${needle}`);
+        assert(
+          composed.load.some((entry) => entry.path.includes(needle)),
+          `composeNodeBrief ${workflowId} dropped current ${needle}`,
+        );
         assert(rendered.includes(needle), `text plan Load: for ${workflowId} omitted current ${needle}`);
       }
     }
@@ -868,14 +881,23 @@ export function register(harness: Harness): void {
       "fastlane-growth-ops omitted its own book identity",
     );
     const remediate = service.workflow({ workflowId: "workflow.store.app-review-remediate", brief: true }).dispatchBrief!;
-    assert(remediate.load.some((entry) => entry.path.includes("app-review-remediate")), "app-review-remediate omitted its own book");
+    assert(
+      remediate.load.some((entry) => entry.path.includes("app-review-remediate")),
+      "app-review-remediate omitted its own book",
+    );
     const program = service.workflow({ workflowId: "workflow.orchestration.full-launch-program", brief: true }).dispatchBrief!;
-    assert(!program.load.some((entry) => /design-evidence-stack|mobile-flow-craft/.test(entry.path)), "program packet must still defer specialist later-horizon books");
+    assert(
+      !program.load.some((entry) => /design-evidence-stack|mobile-flow-craft/.test(entry.path)),
+      "program packet must still defer specialist later-horizon books",
+    );
     assert((program.deferredLoad?.length ?? 0) > 0, "live program dispatchBrief must carry deferred later-horizon binds");
     const programNode = compiledByWorkflowId.get("workflow.orchestration.full-launch-program");
     assert(programNode, "full-launch-program missing from the compiled runtime plan");
     const programText = renderNodeBrief(composeNodeBrief(programNode, compiled));
-    assert(!/design-evidence-stack|mobile-flow-craft/.test(programText.split("\n").find((line) => line.startsWith("Load:")) ?? ""), "program text plan Load: still listed later-horizon craft books");
+    assert(
+      !/design-evidence-stack|mobile-flow-craft/.test(programText.split("\n").find((line) => line.startsWith("Load:")) ?? ""),
+      "program text plan Load: still listed later-horizon craft books",
+    );
   });
 
   harness.check("hosted knowledge: a gated auditor requires independent review outside judgment domains", () => {
@@ -956,6 +978,12 @@ export function register(harness: Harness): void {
     const tampered = fixtureBundle();
     tampered.documents[0]!.summary = "not a real prefix of the markdown below";
     expectError(() => createKnowledgeService(tampered), "Invalid hosted knowledge bundle");
+  });
+
+  harness.check("hosted knowledge: two bundle renders are byte-identical", () => {
+    const first = serializeHostedKnowledgeBundle(buildHostedKnowledgeBundle(skillRoot));
+    const second = serializeHostedKnowledgeBundle(buildHostedKnowledgeBundle(skillRoot));
+    assert(first === second, "hosted bundle render changed between two runs");
   });
 
   harness.check("hosted knowledge: hosted:version prints the generated pair without recomputing the hash", () => {

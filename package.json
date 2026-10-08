@@ -236,6 +236,7 @@
     "probe:eas": "tsx tooling/probe-eas.ts",
     "promote:design-tokens": "tsx tooling/promote-design-tokens.ts",
     "refresh:source-freshness": "tsx checks/validation/repository/check-source-freshness.ts --write-discovered && tsx checks/validation/repository/refresh-source-freshness.ts --knowledge-pin-root .",
+    "release:stamp": "tsx tooling/release-stamp.ts",
     "render:all": "npm run catalog:render-routing && npm run render:task-skills && npm run hosted:bundle && npm run render:public-api && npm run render:credits",
     "render:artifact-pages": "tsx tooling/render-artifact-pages.ts",
     "render:credits": "tsx tooling/render-credits.ts",
@@ -268,7 +269,8 @@
     "test:browser-proof-chrome": "tsx checks/verification/fixtures/browser-proof.chrome-smoke.ts",
     "render:task-skills": "tsx tooling/render-task-skills.ts",
     "skills:export": "tsx tooling/export-task-skill.ts",
-    "check:task-skills": "tsx checks/validation/repository/check-task-skills.ts"
+    "check:task-skills": "tsx checks/validation/repository/check-task-skills.ts",
+    "check:stamped-tree": "tsx tooling/check-stamped-tree.ts"
   },
   "dependencies": {
     "@babel/parser": "8.0.4",

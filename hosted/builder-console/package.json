@@ -14,6 +14,7 @@
     "check": "npm run lint:tenant && npm run typecheck && npm run test:unit && npm run test:integration",
     "lint:tenant": "node --import tsx ../knowledge-mcp/tools/check-tenant-isolation.ts --root . --allow interest/repository.ts --allow test/support/d1.ts",
     "check:wrangler-pin": "node -e \"const want=require('./package.json').devDependencies.wrangler;let got=null;try{got=require('wrangler/package.json').version}catch{}if(got===want)process.exit(0);console.error('\\\\nwrangler '+(got||'not installed')+' resolved, but '+want+' is pinned.\\\\n'+'Run: npm ci --prefix hosted/builder-console\\\\n'+'Do NOT regenerate the types to make this go away. A different wrangler bundles a different '+'workerd, so regenerating REPLACES worker-configuration.d.ts with stale runtime types -- '+'thousands of deletions -- while looking like a routine fix. If you ever do regenerate, '+'read git diff --stat before committing.\\\\n');process.exit(1)\"",
+    "predeploy": "npm --prefix ../.. run check:stamped-tree",
     "deploy": "wrangler deploy"
   },
   "dependencies": {

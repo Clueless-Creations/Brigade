@@ -122,19 +122,22 @@ cost over 20 percent on average and did not improve task success
 
 ## Versioning
 
-A runtime change updates:
+Ordinary pull requests do not edit the version or the generated stamp files.
+`npm run release:stamp` does that on a clean main checkout. It adds one patch
+to the current line, writes release notes from merged subjects, regenerates
+the stamp files, and commits them on `release/stamp-<version>`. Pass `--push`
+to update the branch. The file set lives in
+[Skill versioning](checks/validation/repository/skill-versioning.md).
 
-- `skill-version.json`
-- the root `package.json` version
-- the lockfile root record
-- the generated stamps, via `npm run render:all` and `npm run render:evidence-schema-version`
+A pull request that changes a stamp file fails
+`version_discipline.stamp_file_in_pr`. Branches named `release/stamp-*` are
+the exception, and their version must move forward. A main push that is past
+the last stamp warns. It does not fail. Dependabot may edit dependency ranges
+in `package.json` and the lockfile. Only the `version` field is a stamp field.
 
 Hosted Worker packages version independently. `README.md`, `AGENTS.md`,
-`CLAUDE.md`, `CONTRIBUTING.md`, and `docs/` are repository-only
-paths and need no version bump.
-
-Use a valid semantic version. Set `updatedAt` to the change date. Keep release
-notes short and specific to the current version.
+`CLAUDE.md`, `CONTRIBUTING.md`, and `docs/` are repository-only paths, except
+the generated credit reports named in the stamp file list.
 
 ## Releasing to npm
 

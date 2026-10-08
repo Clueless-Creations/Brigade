@@ -259,6 +259,8 @@ export const auditExcludedScripts: Record<string, string> = {
     "ONB-17's own catalog gate; same rationale as check:onboarding-evidence-onb-03 -- its output packet does not exist until a durable run produces it",
   "check:onboarding-evidence-onb-19":
     "ONB-19's own catalog gate; same rationale as check:onboarding-evidence-onb-03 -- its output packet does not exist until a durable run produces it",
+  "check:stamped-tree":
+    "Strict release guard for deploy, runtime:sync, and publish. Presubmit and main pushes use loose stamp mode on the individual drift checks instead.",
 };
 
 /**
@@ -488,5 +490,24 @@ export function buildAuditPlan(layout: AuditLayout, roots?: { businessRoot?: str
       ...(presubmitScopes ? { presubmitScopes } : {}),
     };
   });
-  return layout === "repo" ? cadenced : cadenced.filter((step) => !step.repoOnly);
+  const planned = layout === "repo" ? cadenced : cadenced.filter((step) => !step.repoOnly);
+  return roots?.businessRoot ? planned : withStampMode(planned);
+}
+
+/** Drift and version steps read this flag. CI sets B2C_STAMP_MODE. Business-workspace gate runs do not. */
+const STAMP_AWARE_STEPS = new Set([
+  "catalog:render-routing",
+  "check:hosted-bundle",
+  "check:evidence-schema-drift",
+  "check:credits",
+  "check:generated-pages",
+  "check:task-skills",
+  "check:public-api",
+  "check:version-discipline",
+]);
+
+function withStampMode(steps: AuditStep[]): AuditStep[] {
+  const mode = process.env.B2C_STAMP_MODE;
+  if (mode !== "pr" && mode !== "main" && mode !== "release") return steps;
+  return steps.map((step) => (STAMP_AWARE_STEPS.has(step.id) ? { ...step, args: [...(step.args ?? []), "--stamp-mode", mode] } : step));
 }

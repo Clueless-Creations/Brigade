@@ -406,7 +406,7 @@ export function register(h: Harness): void {
     "evidence_schema_drift.version_file_missing",
   );
 
-  const freshFingerprint = computeEvidenceSchemaFingerprint(shadowRoot, new Date().toISOString());
+  const freshFingerprint = computeEvidenceSchemaFingerprint(shadowRoot);
   writeFileSync(path.join(shadowRoot, "kernel/schema/evidence-schema-version.json"), `${JSON.stringify(freshFingerprint, null, 2)}\n`, "utf8");
   runFixture(
     "drift gate: a freshly regenerated evidence-schema-version.json passes check-evidence-schema-drift.ts",

@@ -61,7 +61,7 @@ for (const s of spec.screens) if (!reach.has(s.id)) errors.push(`${s.id}: not re
 if (spec.meta.status === 'approved' && (!spec.meta.approved_by || !spec.meta.approved_at)) errors.push('meta: approved status needs approved_by and approved_at');
 
 const report = { errors, stateCount, screens: spec.screens.length };
-const safe = (o) => JSON.stringify(o).replace(/</g, '\\u003c');
+const safe = (o) => JSON.stringify(o, null, 2).replace(/</g, '\\u003c');
 const html = readFileSync(join(here, 'template.html'), 'utf8')
   .replace('/*SPEC_JSON*/', safe(spec))
   .replace('/*REPORT_JSON*/', safe(report));

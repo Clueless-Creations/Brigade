@@ -27,17 +27,15 @@ export const EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH = "kernel/schema/evidence-sch
 export interface EvidenceSchemaFingerprint {
   readonly catalogSha256: string;
   readonly schemaSha256: string;
-  readonly generatedAt: string;
 }
 
 const schemaDir = path.join(resolveSkillRoot(import.meta.url), "kernel", "schema");
 
-export function computeEvidenceSchemaFingerprint(skillRoot: string, generatedAt: string): EvidenceSchemaFingerprint {
+export function computeEvidenceSchemaFingerprint(skillRoot: string): EvidenceSchemaFingerprint {
   const schemas = EVIDENCE_SCHEMA_FILES.map((file) => JSON.parse(readFileSync(path.join(schemaDir, file), "utf8")) as unknown);
   return {
     catalogSha256: digest(stableJson(composeCatalog(skillRoot))),
     schemaSha256: digest(stableJson(schemas)),
-    generatedAt,
   };
 }
 
@@ -57,19 +55,16 @@ export interface EvidenceSchemaFingerprintStatus {
   readonly checkedIn?: EvidenceSchemaFingerprint;
 }
 
-/**
- * `generatedAt` is a timestamp, not a fact about the schemas or catalog — it is deliberately
- * excluded from the drift comparison so a re-render with no real change is not itself drift.
- */
+/** The fingerprint is the catalog and schema hashes. It has no clock time. */
 export function evidenceSchemaFingerprintIsCurrent(skillRoot: string): EvidenceSchemaFingerprintStatus {
   const checkedIn = readCheckedInEvidenceSchemaFingerprint(skillRoot);
-  const live = computeEvidenceSchemaFingerprint(skillRoot, checkedIn?.generatedAt ?? new Date(0).toISOString());
+  const live = computeEvidenceSchemaFingerprint(skillRoot);
   const current = checkedIn !== undefined && checkedIn.catalogSha256 === live.catalogSha256 && checkedIn.schemaSha256 === live.schemaSha256;
   return { current, live, checkedIn };
 }
 
 function writeEvidenceSchemaVersion(skillRoot: string): EvidenceSchemaFingerprint {
-  const fingerprint = computeEvidenceSchemaFingerprint(skillRoot, new Date().toISOString());
+  const fingerprint = computeEvidenceSchemaFingerprint(skillRoot);
   writeFileSync(path.join(skillRoot, EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH), `${JSON.stringify(fingerprint, null, 2)}\n`, "utf8");
   return fingerprint;
 }

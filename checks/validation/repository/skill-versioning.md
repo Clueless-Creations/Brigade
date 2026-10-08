@@ -81,11 +81,64 @@ Repository checks also compare the pin with the canonical source snapshot. Do no
 repository documents into a client directory to repair a missing pin; render and sync the
 owned source file.
 
+## Release stamp
+
+`npm run release:stamp` is the only writer for the version and the generated stamp files.
+It runs on a clean main checkout that contains `origin/main`.
+It adds one patch to the current version line.
+`--version` may set a higher version.
+It writes release notes from `git log --first-parent` subjects since the last stamp.
+It skips subjects that match `Stamp <version>`.
+It keeps at least two concrete notes.
+It then runs `render:all`, `render:evidence-schema-version`, `render:artifact-pages`, and `node examples/spec-pack/build.mjs`.
+It runs the drift checks in release mode.
+It commits on `release/stamp-<version>`.
+`--branch release/stamp-next` is the rolling branch.
+It pushes only with `--push`.
+A second run with no commits since that stamp does nothing.
+
+Patch plus one stays on the version line readers already compare.
+The number only increases along first-parent main.
+
+### Stamp-managed files
+
+This is the file set. Other docs point here.
+
+- `package.json` and `package-lock.json`: the root `version` field only
+- `skill-version.json`
+- `kernel/schema/evidence-schema-version.json`
+- `catalog/generated/**`
+- `knowledge/README.md`
+- `ACKNOWLEDGMENTS.md`
+- `THIRD_PARTY_NOTICES.md`
+- `docs/upstreams/coverage-report.md`
+- `docs/upstreams/support-report.md`
+- `examples/spec-pack/index.html`
+- `contracts/public-api/REFERENCE.md`
+- `contracts/public-api/schemas/**`
+- `contracts/extensions/schemas/extension.schema.json`
+- generated task-skill directories under `agents/skills/`
+- generated blocks in `README.md`, `SKILL.md`, and `agents/skills/README.md`
+
+The same paths are enforced by `tooling/lib/stamp-files.ts`.
+
+### Check modes
+
+- Pull request mode fails with `version_discipline.stamp_file_in_pr` when a stamp file changes.
+- `release/stamp-*` branches are exempt. `version_discipline.version_not_ahead_of_base` still applies.
+- Dependency edits in `package.json` and the lockfile are allowed. Only `version` counts.
+- A main push warns `main is N commits past stamp X`. It does not fail.
+- Drift checks in pull-request and main-push mode render twice and require byte-stable output.
+- They do not require the committed files to match.
+- Release mode requires an exact match. Deploy, `runtime:sync`, and `publish.yml` use it.
+- `runtime:sync` refuses an unstamped tree: `Run npm run release:stamp, or sync from the latest stamp.`
+- `.github/workflows/stamp.yml` is `workflow_dispatch` only.
+
 ## Rules
 
 - `skill-version.json` is the version source of truth for installed-runtime freshness.
 - `check-skill-version.ts` must return a nonzero status when the installed runtime is older than the source copy.
-- `check-version-discipline.ts` must pass before committing skill behavior changes; it enforces that meaningful skill edits and `skill-version.json` move together.
+- Ordinary pull requests do not bump `skill-version.json`. `release:stamp` does.
 - A stale installed runtime is a founder decision gate, not a silent warning.
 - If the source copy or remote manifest is unavailable, report the failure. Continue without verification only after an explicit human decision.
 - Runtime upgrades must preserve user work. `runtime:sync` writes only git-tracked source files and never touches unowned runtime files. It stops on conflicting runtime edits instead of overwriting them.

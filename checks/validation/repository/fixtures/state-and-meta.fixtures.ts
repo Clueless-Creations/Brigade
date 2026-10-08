@@ -1154,6 +1154,106 @@ export function register(h: Harness): void {
     0,
   );
 
+  const stampManifest = (version: string): string =>
+    `${JSON.stringify({ version, updatedAt: "2026-09-06", releaseNotes: ["fixture release note one", "fixture release note two"] }, null, 2)}\n`;
+  const stampSchemeRepo = (name: string, branch: string, mutate: (root: string) => void): string => {
+    const root = makeEmptyFixture(name);
+    writeFileSync(path.join(root, "skill-version.json"), stampManifest("0.1.0"), "utf8");
+    writeFileSync(
+      path.join(root, "package.json"),
+      `${JSON.stringify({ name: "stamp-fixture", version: "0.1.0", scripts: { "release:stamp": "tsx tooling/release-stamp.ts" } }, null, 2)}\n`,
+      "utf8",
+    );
+    mkdirSync(path.join(root, "kernel"), { recursive: true });
+    mkdirSync(path.join(root, "knowledge"), { recursive: true });
+    mkdirSync(path.join(root, "catalog", "knowledge"), { recursive: true });
+    mkdirSync(path.join(root, "catalog", "generated"), { recursive: true });
+    writeFileSync(path.join(root, "kernel", "a.ts"), "export const a = 1;\n", "utf8");
+    writeFileSync(path.join(root, "knowledge", "note.md"), "# note\n", "utf8");
+    writeFileSync(path.join(root, "catalog", "knowledge", "note.yaml"), "id: note\n", "utf8");
+    writeFileSync(path.join(root, "catalog", "generated", "routing.md"), "# routing\n", "utf8");
+    versionGit(root, ["init", "-q", "-b", "main"]);
+    versionGit(root, ["add", "-A"]);
+    versionGit(root, ["commit", "-q", "--no-verify", "-m", "Stamp 0.1.0"]);
+    if (branch !== "main") versionGit(root, ["checkout", "-q", "-b", branch]);
+    mutate(root);
+    versionGit(root, ["add", "-A"]);
+    versionGit(root, ["commit", "-q", "--no-verify", "-m", "follow-up"]);
+    return root;
+  };
+  const knowledgeOnly = stampSchemeRepo("version-discipline-knowledge-only", "feature", (root) => {
+    writeFileSync(path.join(root, "knowledge", "note.md"), "# note\n\nA knowledge edit.\n", "utf8");
+    writeFileSync(path.join(root, "catalog", "knowledge", "note.yaml"), "id: note\nstatus: edited\n", "utf8");
+  });
+  runScriptArgs(
+    "version discipline in pull-request mode allows a knowledge-only change",
+    "check-version-discipline.ts",
+    ["--repo-root", knowledgeOnly, "--skill-root", knowledgeOnly, "--stamp-mode", "pr"],
+    0,
+  );
+  const stampVersionTouch = stampSchemeRepo("version-discipline-stamp-version", "feature", (root) => {
+    writeFileSync(path.join(root, "skill-version.json"), stampManifest("0.1.1"), "utf8");
+  });
+  runScriptArgs(
+    "version discipline in pull-request mode rejects a skill-version.json edit",
+    "check-version-discipline.ts",
+    ["--repo-root", stampVersionTouch, "--skill-root", stampVersionTouch, "--stamp-mode", "pr"],
+    1,
+    "version_discipline.stamp_file_in_pr",
+  );
+  const stampGeneratedTouch = stampSchemeRepo("version-discipline-stamp-generated", "feature", (root) => {
+    writeFileSync(path.join(root, "catalog", "generated", "routing.md"), "# routing\n\nchanged\n", "utf8");
+  });
+  runScriptArgs(
+    "version discipline in pull-request mode rejects a generated stamp file",
+    "check-version-discipline.ts",
+    ["--repo-root", stampGeneratedTouch, "--skill-root", stampGeneratedTouch, "--stamp-mode", "pr"],
+    1,
+    "version_discipline.stamp_file_in_pr",
+  );
+  const dependencyOnly = stampSchemeRepo("version-discipline-dependency-only", "feature", (root) => {
+    const parsed = JSON.parse(readFileSync(path.join(root, "package.json"), "utf8")) as { dependencies?: Record<string, string> };
+    parsed.dependencies = { leftpad: "1.0.0" };
+    writeFileSync(path.join(root, "package.json"), `${JSON.stringify(parsed, null, 2)}\n`, "utf8");
+  });
+  runScriptArgs(
+    "version discipline in pull-request mode allows a dependency edit that leaves version alone",
+    "check-version-discipline.ts",
+    ["--repo-root", dependencyOnly, "--skill-root", dependencyOnly, "--stamp-mode", "pr"],
+    0,
+  );
+  const stampBranchForward = stampSchemeRepo("version-discipline-stamp-forward", "release/stamp-0.1.1", (root) => {
+    writeFileSync(path.join(root, "kernel", "a.ts"), "export const a = 2;\n", "utf8");
+    writeFileSync(path.join(root, "skill-version.json"), stampManifest("0.1.1"), "utf8");
+  });
+  runScriptArgs(
+    "version discipline accepts a stamp branch that moves the version forward",
+    "check-version-discipline.ts",
+    ["--repo-root", stampBranchForward, "--skill-root", stampBranchForward],
+    0,
+  );
+  const stampBranchStuck = stampSchemeRepo("version-discipline-stamp-stuck", "release/stamp-stuck", (root) => {
+    writeFileSync(path.join(root, "kernel", "a.ts"), "export const a = 2;\n", "utf8");
+  });
+  runScriptArgs(
+    "version discipline rejects a stamp branch that does not move the version forward",
+    "check-version-discipline.ts",
+    ["--repo-root", stampBranchStuck, "--skill-root", stampBranchStuck],
+    1,
+    "version_discipline.version_not_ahead_of_base",
+  );
+  const mainPastStamp = stampSchemeRepo("version-discipline-main-past", "main", (root) => {
+    writeFileSync(path.join(root, "kernel", "a.ts"), "export const a = 2;\n", "utf8");
+  });
+  runScriptArgs(
+    "version discipline warns when main is past the last stamp",
+    "check-version-discipline.ts",
+    ["--repo-root", mainPastStamp, "--skill-root", mainPastStamp, "--stamp-mode", "main"],
+    0,
+    "main is 1 commits past stamp 0.1.0",
+  );
+  runScriptArgs("stamp generators are byte-stable across two renders", "stamp-stability.ts", [], 0, "byte-stable");
+
   // --- validate-state (fail branch) ---
   const designStateMissing = makeEmptyFixture("design-state-missing");
   runFixture("design state validation fails when state files are missing", designStateMissing, "validate-state.ts", 1, "design_state.file_missing");
