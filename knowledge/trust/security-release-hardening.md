@@ -123,6 +123,28 @@ Security and privacy docs must agree:
 - Self-reported attribution is persisted with stable keys and does not store raw sensitive data beyond the approved free-text field.
 - Sentry and analytics scrub PII where supported and do not capture raw secrets, receipts, passwords, private messages, or unsupported health/child data.
 
+## Accounts and Sign in with Apple
+
+Apply this when the spec's `accounts.mode` is `optional` or `required`. `none` means the app does not create accounts.
+
+[Guideline 4.8](https://developer.apple.com/app-store/review/guidelines) covers a third-party or social login that sets up or authenticates the user's primary account. The guideline's examples include Facebook Login, Google Sign-In, Log in with X, Sign In with LinkedIn, Login with Amazon, and WeChat Login. The app must also offer another login service with all three of these features:
+
+- The login service limits data collection to the user's name and email address.
+- The login service allows users to keep their email address private as part of setting up their account.
+- The login service does not collect interactions with the app for advertising purposes without consent.
+
+Guideline 4.8 does not name Sign in with Apple. Sign in with Apple meets the three features, so it is the default. The spec check accepts `sign_in_with_apple: true`, a provider id `apple`, or `equivalent_private_login` with all three features set to true. Record the equivalent only when it actually has those features.
+
+The spec treats `facebook`, `google`, `x`, `twitter`, `linkedin`, `amazon`, and `wechat` as third-party logins, plus any provider with `third_party: true`. A list that contains only the company's own account system, such as email or password, does not trigger Guideline 4.8. The guideline states that exemption, and several others, including an education or enterprise account the user already has.
+
+Guideline 5.1.1(v): if the app supports account creation, offer account deletion inside the app. The spec then requires the `delete` web surface and `accounts.in_app_delete_screen`, and that screen id must exist.
+
+When the app uses Sign in with Apple, revoke the user's tokens on account deletion. Apple's revoke endpoint is `https://appleid.apple.com/auth/revoke`. The request needs the client id, a client secret, the token, and a token type hint. See [Revoke tokens](https://developer.apple.com/documentation/signinwithapplerestapi/revoke-tokens) and [TN3194](https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple). TN3194 also covers deletion when the app no longer has a token: delete the account data, and tell the user how to revoke the app in their Apple ID settings.
+
+Store app accounts as `identities(provider, subject)` with a unique `(provider, subject)` pair. Email alone never merges accounts. Provider-asserted email is profile data, not a join key. The same rule is the hosted console identity decision in [ADR 0020](../../docs/decisions/0020-provider-neutral-console-identity.md).
+
+The pre-ship legal check (COPPA, fonts, session replay, CAN-SPAM, California auto-renewal disclosure, and the DMCA agent) is in `privacy-terms.md` §8. It is not legal advice.
+
 ## Public Security Route
 
 If the launch has accounts, payments, user content, sensitive data, or a public web funnel, include a public reporting route:

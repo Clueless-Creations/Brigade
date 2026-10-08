@@ -68,6 +68,10 @@ export function register(harness: Harness): void {
       lines.some((line) => line.startsWith("store-creative:")),
       `expected the store-creative module line\n${result.stdout ?? ""}`,
     );
+    assert(
+      lines.some((line) => line.startsWith("accounts-privacy:")),
+      `expected the accounts-privacy module line\n${result.stdout ?? ""}`,
+    );
   });
 
   harness.check("spec-pack loads an added check module", () => {

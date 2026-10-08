@@ -154,7 +154,7 @@ if (subscriptionInScope && terms) {
       issue(
         "error",
         "privacy.cancellation_not_self_service",
-        `${termsPath} does not document a self-service cancellation path at least as easy as signup (knowledge/trust/privacy-terms.md §7, risk 8 — the FTC click-to-cancel rule).`,
+        `${termsPath} does not document a self-service cancellation path at least as easy as signup (knowledge/trust/privacy-terms.md §7, risk 8 — ROSCA, FTC Act §5, and state auto-renewal law).`,
         termsPath,
       ),
     );
@@ -176,7 +176,7 @@ if (subscriptionInScope && terms) {
       issue(
         "error",
         "privacy.auto_renewal_reminder_missing",
-        `${termsPath} discloses auto-renewal but does not commit to a renewal-reminder notice before the charge (knowledge/trust/privacy-terms.md §7, risk 9 — state auto-renewal law and the FTC negative-option rule).`,
+        `${termsPath} discloses auto-renewal but does not commit to a renewal-reminder notice before the charge (knowledge/trust/privacy-terms.md §7, risk 9 — state auto-renewal law).`,
         termsPath,
       ),
     );

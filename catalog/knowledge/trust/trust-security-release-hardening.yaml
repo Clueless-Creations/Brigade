@@ -38,6 +38,37 @@ sources:
     review_cadence_days: 30
     claim_scope: Basis for the "agreement is not proof" note — the 31-day, seven-target campaign where ten
       independent reviewers unanimously endorsed a non-existent padding-oracle vulnerability, killed only
-      by a proof-of-concept run.
     last_review_date: 2026-09-02
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-app-store-review-guidelines
+    name: Apple App Review Guidelines
+    source_type: official_docs
+    url: https://developer.apple.com/app-store/review/guidelines
+    review_cadence_days: 30
+    claim_scope: Guideline 4.8 equivalent-login features, Guideline 5.1.1(v) in-app account deletion, and Sign in with Apple token revocation on deletion.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-documentation-signinwithapplerestapi-revoke-tokens
+    name: Apple Sign in with Apple token revocation
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/signinwithapplerestapi/revoke-tokens
+    review_cadence_days: 30
+    claim_scope: Revoke a Sign in with Apple refresh token or access token when the user deletes an account.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-documentation-technotes-tn3194
+    name: Apple TN3194 account deletion and token revocation
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple
+    review_cadence_days: 30
+    claim_scope: Account deletion still proceeds when the app no longer has a Sign in with Apple token, and the user can revoke the app in Apple ID settings.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: appleid-apple-com-auth-revoke
+    name: Apple ID token revoke endpoint
+    source_type: api
+    url: https://appleid.apple.com/auth/revoke
+    review_cadence_days: 30
+    claim_scope: POST endpoint that invalidates a Sign in with Apple refresh token or access token.
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
