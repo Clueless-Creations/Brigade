@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.127",
+  "skillVersion": "0.221.128",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3944,7 +3944,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:3a6fa5b827d8ec2b78323c999ab1c8e2113bd4795f39dcffdc6a45e48213cb77",
+        "sha256": "sha256:d865b5ef3dd32b0fa4f81a88bad7f91bc2ea446316a18e1923a0c5390b1406e3",
         "origin": "skill"
       }
     },
@@ -7245,7 +7245,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/operations/post-launch-operations.md",
-        "sha256": "sha256:1027ac3e36dadaa2233b35d045779f494b29957d6b68f706e5199efa2adc349b",
+        "sha256": "sha256:a47ae4628489b2efe37c02177c0b06b2ebaa7cb9d7d450aa3ffbe54d49d0522e",
         "origin": "skill"
       }
     },
@@ -20542,14 +20542,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "ef7b3e4761a547f636c052a684cfdb73267783aeaff76ea7e42d1806205ed538",
+    "fingerprint": "1e0eedf9ef7aac2dd162fa411def81e1cf1bdd79ff570024eb0a74f47c003ad8",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.127",
-        "revision": "0.221.127",
-        "contentDigest": "143b41b051508442917f79c7d04a324a529327b9c7baa14d0ad6bbe60169e986"
+        "version": "0.221.128",
+        "revision": "0.221.128",
+        "contentDigest": "91308bd96319c87a2c60a5ef48f00ebd944fb44dcd6aa31147230fdacbbcb394"
       }
     ],
     "base": {
