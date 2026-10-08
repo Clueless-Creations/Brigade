@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.127",
+  "version": "0.221.128",
   "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add the public learning ledger, Gate 1 record writer, and off-by-default outcome schedule. (#674)",
     "Register ScreensDesign and Masko as held paid providers. (#680)",
     "CLU-105: spec-pack accounts, privacy, security and legal preflight; Sign in with Apple rule (#673)",
     "CLU-99, CLU-100, CLU-103, CLU-104: spec-pack web surfaces: social cards, discovery, web-to-app funnel, polish pass (#676)",
