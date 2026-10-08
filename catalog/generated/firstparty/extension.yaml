@@ -1,7 +1,7 @@
 apiVersion: b2c.extension/v1
 hostApiVersion: b2c/v1
 id: b2c/consumer-business
-version: 0.221.119
+version: 0.221.120
 title: Consumer business
 dependencies: []
 imports: []
@@ -3709,7 +3709,7 @@ implementations:
       instructions: At workflow start, walk the compiled start node plus its dependency closure — full-launch and complete-business walk `workflow.research.research-backed-spec` and its dependencies, including this node and `workflow.operations.live-app-store-portfolio` — and collect Tool Map names and MCP prefixes from instructions, consults, reads, and bound knowledge. Always add App Store Connect CLI and the live portfolio when that graph includes research-backed-spec or live-app-store-portfolio; a focused start lists only tools that graph actually names. Present one AskUserQuestion with multiSelect unset, a prompt body at or under 240 characters, and three options (recommended set, I'll pick next, defer optional) whose descriptions hold the names and jobs. Fold this into an already-pending readiness gate; do not open a second activeFounderGate. ASC and the live apps-list receipt stay required. I'll pick next records unnamed optionals as labeled fallback in the same turn. Deferred AppKittie, XPOZ, Firecrawl, or paid ASO continue as labeled fallback; deferred Higgsfield or MobAI upgrades mean no spend and no labeled-fallback generate. Tools named at intake get no second confirmation. Credit spend still uses a separate amount gate. Run ToolSearch for each tool's `mcp__<TOOLNAME>__` prefix before concluding it is unavailable. Record `Selected route:` in `strategy/TOOL_DECISIONS.md` plus per-tool rows with limitation text. Treat MobAI Free as needing no spend gate. Never present fallback output as equivalent to the paid-tool artifact.
       providerIds:
         - provider.doppler
-      contextFingerprint: sha256:f3af876f5468bb803f33898a7b08e829cc3408b1370bfd1681b38907491581e7
+      contextFingerprint: sha256:a9e96a7cc9c2bf002ff4916086deb109fbf6658d890b59e7b3e25765272a6f9f
   - id: b2c/worker.operations.live-app-store-portfolio
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -3754,7 +3754,7 @@ implementations:
       workflowId: workflow.operations.live-app-store-portfolio
       instructions: "Read the live App Store Connect portfolio with API auth only. Confirm `asc auth status --validate` on the winning binary, then run `asc apps list` and write `run/app-store-portfolio.json` with schema 1.0.0, command `asc apps list`, authFamily `api`, winnerVersion, observedAt, appCount, apps[] of sanitized `{name}` plus optional `{bundleId}`, and `empty: true` only when the live command returned no apps. Failed or missing API auth produces no receipt. A web session never satisfies this hold. Do not invent an empty portfolio. Do not store Apple numeric ids, SKU, raw stdout, session, or env. Compare names and bundle ids against `operations/business-access.json` `forbiddenProviderProjects[]` and refuse research that would target a match. A receipt older than seven days, or older than a later Apple-account checkedAt, is stale — re-run apps list. This node may remain held while reversible local prep continues; it blocks `workflow.research.research-backed-spec`."
       providerIds: []
-      contextFingerprint: sha256:0d3d334ff9249418ba3be592e9a83e0d37dd7c30b7dca7b8f0f5bed544d33078
+      contextFingerprint: sha256:ab8813f481670856bb06ab9984bfcb8a55c80e63f468aa527496d3a615023ef4
   - id: b2c/worker.operations.secrets-baseline-and-routing
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -4106,7 +4106,7 @@ implementations:
       workflowId: workflow.operations.founder-zero-operator-bootstrap
       instructions: When the durable runtime starts, offer one optional step-away setup. Settle autonomy and budget, confirm business identity and founder-owned recovery/2FA, inventory only the accounts required by accepted near-term work, and record exact external authority in operations/business-access.json. If this gate is already pending, fold the start-of-workflow recommended tool set into the same AskUserQuestion rather than opening a second tool gate. This setup may remain held while reversible local prep, product definition drafts, design drafts, local implementation, and local tests continue. It does not authorize dispatch of `workflow.research.research-backed-spec`; that node stays frontier-blocked until `workflow.operations.live-app-store-portfolio` succeeds. Complete the setup before authenticated provider work, standing schedules, spend, public actions, testing-track uploads, or releases. Keep one structured `activeFounderGate`, set it to `null` while work can continue, and combine missing tools or roles into one handoff. Never request secrets in chat. Consume matching standing envelopes without asking twice. Pause only for missing or expired scope, ceiling overruns, protected identity, legal, pricing, or credential changes, destruction, or an unapproved public release.
       providerIds: []
-      contextFingerprint: sha256:7b48e66154bbcb7065a54b1458dbf54d48390315209a06e51456efd4f33d7d0b
+      contextFingerprint: sha256:c4ad2b0666eac47845395da78b4237a97bc9aa8decb8cc4ef85909d7628407d9
   - id: b2c/worker.operations.agent-operations-ledger
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -4170,7 +4170,7 @@ implementations:
         - provider.security-review
         - provider.sentry
         - provider.paid-ad-channels
-      contextFingerprint: sha256:936409bbacc9ebec0d1e9fd50d3e35e3efdc4f1c220683aef79d4dd5570090de
+      contextFingerprint: sha256:fb8e440239d718c3603a0d1b0658cabc513b23cce19db0982c4bc1a8efb9a835
   - id: b2c/worker.trust.security-architecture-and-release-gate
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -4428,7 +4428,7 @@ implementations:
       workflowId: workflow.product.app-archetype-detection-and-starter
       instructions: "Compare the accepted product shape with the four shipped archetypes: habit tracker, photo or AI media, social network, and AI chat companion. When one is the product's center of gravity, copy its starter into the app instead of rebuilding the same wiring. Use an opening mandate that delegates stack and implementation choices. Ask the founder only when the match is ambiguous and that choice was not delegated. The copied starter and its README are the durable selection record. Do not rewrite PRODUCT.md or raw runtime state here. Run check:app-archetype and check:archetype-starter. If the product only contains a similar feature, use the general core-loop and complete-product method instead of forcing a pack."
       providerIds: []
-      contextFingerprint: sha256:8f8045f1c4cf3612d79f52e502d4f05ffd7c5a9833d9873f8ca1a7cf06861fc3
+      contextFingerprint: sha256:a6cab9fecc05a1118ea7cf359143ffb314df7fa6f1159ed769cf9776fc841059
   - id: b2c/worker.research.research-backed-spec
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -7489,7 +7489,7 @@ implementations:
       workflowId: workflow.engineering.source-change-manifest
       instructions: Fingerprint the mobile source roots, dependency locks, build configuration, localization resources, analytics schema, onboarding, paywall, and privacy manifests. Compare them with the last accepted checkpoint. Write engineering/SOURCE_CHANGE_MANIFEST.json with changed paths, before/after digests, and every applicable Change Cascade Map type. A change can carry multiple types. Open the matching change-cascade work before the app slice merges. An empty change list is valid only when the current aggregate digest matches the accepted checkpoint.
       providerIds: []
-      contextFingerprint: sha256:531264ecc1ae0b5b91e9e238f85dcf1bfe16ffc3ee266443a990c8a6d499d77e
+      contextFingerprint: sha256:c97c1504d2b0a950724f52cf188c3dfc7bf274c9483d3ccfc6461310fd888687
   - id: b2c/worker.engineering.engineering-orchestration-ce-production-readiness
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -7715,7 +7715,7 @@ implementations:
       instructions: "First confirm MobAI is explicitly selected or supplies required coverage unavailable from the host-native route: Android, a repeatable .mob suite, multi-device or physical hardware, performance gates, MobAI CI, or recorder-polished demo output. A run-the-app, screen-check, flow-walk, or one-off bug-repro request on a local Mac belongs at rung 0 of the Route Ladder (workflow.engineering.native-ios-proof-route-ladder) — starting MobAI there wastes founder time exactly the way silently downgrading coverage loses proof, so record the rung decision in strategy/TOOL_DECISIONS.md. Run the MobAI session-startup checklist (refresh the live MCP surface, verify device discovery, start the bridge, pin the device ID) before any automation command — most 'device not found' failures come from skipping it. Use MobAI's free tier without a spend gate for one device/current quota; load paid-tool-routing.md and ask the founder before any Plus/Pro spend or before narrowing an intended cross-platform route to Apple-only. For demo videos, follow the recorder's explore -> script -> dry-run -> record -> edit/export sequence exactly — never improvise during final recording — and write the choreography path, raw capture, final export, and privacy/sensitive-screen review to growth/DEMO_VIDEO.md. Pass `npm run check:mobai-proof -- --root .`; pair every action sequence with backend/provider verification (the onboarding answer actually lands in profile state) because a clean UI pass is not proof the mutation landed."
       providerIds:
         - provider.mobai
-      contextFingerprint: sha256:bb27ac0a9dedbe4cc5d6f2d6225b26b331d67bdbf7223238d6daed253097e184
+      contextFingerprint: sha256:6481f1ba5a129feaf2e81bf27f83dbf11b58db328f2e7e35b8bf0181bb478d08
   - id: b2c/worker.engineering.native-ios-proof-route-ladder
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -7784,7 +7784,7 @@ implementations:
         - provider.snapshot-previews
         - provider.serve-sim
         - provider.mobai
-      contextFingerprint: sha256:14cf62c2a994788e6e2ce9d331b6e9b96a0ff9797bcb6866d8b09ee55dc0d99a
+      contextFingerprint: sha256:81d66349914ba9dfd791e384e45ac35173aacce5b8915bf990004d3d8e298321
   - id: b2c/worker.engineering.accessibility-common-task-proof
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -7849,7 +7849,7 @@ implementations:
       providerIds:
         - provider.in-app-ios-simulator
         - provider.mobai
-      contextFingerprint: sha256:eae1c985ad46b6ff6a1fd9777e225c116aa2bad2343a27addae6590083bbcecc
+      contextFingerprint: sha256:db01edda11c875130c234d2c2bb054dc343554c2ae7df433d3852e693afff49c
   - id: b2c/worker.engineering.app-quality-and-vitals
     version: 1.0.0
     provider: b2c/consumer-business-worker

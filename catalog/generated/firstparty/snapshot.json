@@ -2,7 +2,7 @@
   "extension": {
     "apiVersion": "b2c.extension/v1",
     "id": "b2c/consumer-business",
-    "version": "0.221.119",
+    "version": "0.221.120",
     "hostApiVersion": "b2c/v1",
     "title": "Consumer business",
     "dependencies": [],
@@ -5070,7 +5070,7 @@
           "providerIds": [
             "provider.doppler"
           ],
-          "contextFingerprint": "sha256:f3af876f5468bb803f33898a7b08e829cc3408b1370bfd1681b38907491581e7"
+          "contextFingerprint": "sha256:a9e96a7cc9c2bf002ff4916086deb109fbf6658d890b59e7b3e25765272a6f9f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before using or replacing any paid/account-gated tool, or before a free fallback",
@@ -5122,7 +5122,7 @@
           "workflowId": "workflow.operations.live-app-store-portfolio",
           "instructions": "Read the live App Store Connect portfolio with API auth only. Confirm `asc auth status --validate` on the winning binary, then run `asc apps list` and write `run/app-store-portfolio.json` with schema 1.0.0, command `asc apps list`, authFamily `api`, winnerVersion, observedAt, appCount, apps[] of sanitized `{name}` plus optional `{bundleId}`, and `empty: true` only when the live command returned no apps. Failed or missing API auth produces no receipt. A web session never satisfies this hold. Do not invent an empty portfolio. Do not store Apple numeric ids, SKU, raw stdout, session, or env. Compare names and bundle ids against `operations/business-access.json` `forbiddenProviderProjects[]` and refuse research that would target a match. A receipt older than seven days, or older than a later Apple-account checkedAt, is stale — re-run apps list. This node may remain held while reversible local prep continues; it blocks `workflow.research.research-backed-spec`.",
           "providerIds": [],
-          "contextFingerprint": "sha256:0d3d334ff9249418ba3be592e9a83e0d37dd7c30b7dca7b8f0f5bed544d33078"
+          "contextFingerprint": "sha256:ab8813f481670856bb06ab9984bfcb8a55c80e63f468aa527496d3a615023ef4"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before research-backed-spec on a complete-business or full-launch start; whenever Apple team or API auth changes",
@@ -5543,7 +5543,7 @@
           "workflowId": "workflow.operations.founder-zero-operator-bootstrap",
           "instructions": "When the durable runtime starts, offer one optional step-away setup. Settle autonomy and budget, confirm business identity and founder-owned recovery/2FA, inventory only the accounts required by accepted near-term work, and record exact external authority in operations/business-access.json. If this gate is already pending, fold the start-of-workflow recommended tool set into the same AskUserQuestion rather than opening a second tool gate. This setup may remain held while reversible local prep, product definition drafts, design drafts, local implementation, and local tests continue. It does not authorize dispatch of `workflow.research.research-backed-spec`; that node stays frontier-blocked until `workflow.operations.live-app-store-portfolio` succeeds. Complete the setup before authenticated provider work, standing schedules, spend, public actions, testing-track uploads, or releases. Keep one structured `activeFounderGate`, set it to `null` while work can continue, and combine missing tools or roles into one handoff. Never request secrets in chat. Consume matching standing envelopes without asking twice. Pause only for missing or expired scope, ceiling overruns, protected identity, legal, pricing, or credential changes, destruction, or an unapproved public release.",
           "providerIds": [],
-          "contextFingerprint": "sha256:7b48e66154bbcb7065a54b1458dbf54d48390315209a06e51456efd4f33d7d0b"
+          "contextFingerprint": "sha256:c4ad2b0666eac47845395da78b4237a97bc9aa8decb8cc4ef85909d7628407d9"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After an accepted product enters the durable runtime; required before authenticated providers, standing authority, spend, public actions, or releases",
@@ -5615,7 +5615,7 @@
             "provider.sentry",
             "provider.paid-ad-channels"
           ],
-          "contextFingerprint": "sha256:936409bbacc9ebec0d1e9fd50d3e35e3efdc4f1c220683aef79d4dd5570090de"
+          "contextFingerprint": "sha256:fb8e440239d718c3603a0d1b0658cabc513b23cce19db0982c4bc1a8efb9a835"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before any authenticated browser/API/CLI/native action on a provider, social, or store account",
@@ -5899,7 +5899,7 @@
           "workflowId": "workflow.product.app-archetype-detection-and-starter",
           "instructions": "Compare the accepted product shape with the four shipped archetypes: habit tracker, photo or AI media, social network, and AI chat companion. When one is the product's center of gravity, copy its starter into the app instead of rebuilding the same wiring. Use an opening mandate that delegates stack and implementation choices. Ask the founder only when the match is ambiguous and that choice was not delegated. The copied starter and its README are the durable selection record. Do not rewrite PRODUCT.md or raw runtime state here. Run check:app-archetype and check:archetype-starter. If the product only contains a similar feature, use the general core-loop and complete-product method instead of forcing a pack.",
           "providerIds": [],
-          "contextFingerprint": "sha256:8f8045f1c4cf3612d79f52e502d4f05ffd7c5a9833d9873f8ca1a7cf06861fc3"
+          "contextFingerprint": "sha256:a6cab9fecc05a1118ea7cf359143ffb314df7fa6f1159ed769cf9776fc841059"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Request matches a known product shape (social / AI-chat / habit / photo-AI)",
@@ -9454,7 +9454,7 @@
           "workflowId": "workflow.engineering.source-change-manifest",
           "instructions": "Fingerprint the mobile source roots, dependency locks, build configuration, localization resources, analytics schema, onboarding, paywall, and privacy manifests. Compare them with the last accepted checkpoint. Write engineering/SOURCE_CHANGE_MANIFEST.json with changed paths, before/after digests, and every applicable Change Cascade Map type. A change can carry multiple types. Open the matching change-cascade work before the app slice merges. An empty change list is valid only when the current aggregate digest matches the accepted checkpoint.",
           "providerIds": [],
-          "contextFingerprint": "sha256:531264ecc1ae0b5b91e9e238f85dcf1bfe16ffc3ee266443a990c8a6d499d77e"
+          "contextFingerprint": "sha256:c97c1504d2b0a950724f52cf188c3dfc7bf274c9483d3ccfc6461310fd888687"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When design is accepted and after every accepted app-source, build-config, localization, onboarding, feature, paywall, SDK, or visual change",
@@ -9711,7 +9711,7 @@
           "providerIds": [
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:bb27ac0a9dedbe4cc5d6f2d6225b26b331d67bdbf7223238d6daed253097e184"
+          "contextFingerprint": "sha256:6481f1ba5a129feaf2e81bf27f83dbf11b58db328f2e7e35b8bf0181bb478d08"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before MobAI-delta device work — Android coverage, repeatable .mob suites, multi-device or physical-hardware runs, performance gates, MobAI CI, or recorder-skill demo videos/app previews — after the Route Ladder (native-ios-proof-route-ladder) routes past the in-app simulator",
@@ -9789,7 +9789,7 @@
             "provider.serve-sim",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:14cf62c2a994788e6e2ce9d331b6e9b96a0ff9797bcb6866d8b09ee55dc0d99a"
+          "contextFingerprint": "sha256:81d66349914ba9dfd791e384e45ac35173aacce5b8915bf990004d3d8e298321"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "First for any iOS or Android device automation, run-the-app, screen-check, flow-walk, bug-repro, screenshot, or screen-recording request — read the selected platforms, then pick the lightest proof rung that covers them",
@@ -9864,7 +9864,7 @@
             "provider.in-app-ios-simulator",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:eae1c985ad46b6ff6a1fd9777e225c116aa2bad2343a27addae6590083bbcecc"
+          "contextFingerprint": "sha256:db01edda11c875130c234d2c2bb054dc343554c2ae7df433d3852e693afff49c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -15926,8 +15926,8 @@
     ]
   },
   "files": {
-    "extension.yaml": "ea145d3af87f7b4718a00840a3225b5deeb55abf3dbbf445f07cc45a04b00721",
-    "catalog-pack.yaml": "ca1065235c530a7de6121ad3707db759dd72d61907becbf049a2127ac90c6a6d",
+    "extension.yaml": "f59810853b33897316f916805b417d874575efdb00d15f9c12da5129d1b8e551",
+    "catalog-pack.yaml": "b1167e7589453e03ebbc6d320e36b65be44f95d056c2ac0993502cc00a5f68fa",
     "knowledge/data/analytics-attribution.md": "37b2f3a585ea383cd9209576238050b805df2f26973a55e29c029e8d2269f0c9",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
     "knowledge/design/audience-derived-identity.md": "04c90b39c9d41cf00257c70b4e579f3e29684254d444917b9a5690d48be74f5f",
@@ -15962,7 +15962,7 @@
     "knowledge/engineering/mobai-toolbelt.md": "5b510e6ecb4a4eebb34b20040a8300698e24a7c9cf5dfdcd410f8f937cfac7e0",
     "knowledge/engineering/recommended-agent-skills.md": "c8df2367520d55052f5131e9b123b80888eb84a56c5053544fa9dbfb38e42196",
     "knowledge/engineering/technical-documentation-ste100.md": "c245da19e5d73f97962eed2e679374c1c1b695236e383336f956a91b46bcbcea",
-    "knowledge/engineering/xcodebuildmcp-testing.md": "b3d51f1c382dbe50da9429bdc636631b441097dce008faf048e6ba7237df78fa",
+    "knowledge/engineering/xcodebuildmcp-testing.md": "086e6c189572267bb9f086dfa411fdedf0f1746ee7f2dc1152938df89a941e93",
     "knowledge/experience/experience-cards/commitment-card.md": "9dfc36af989482bf403846cbaf50790a7b77593ca544bad71236226231195ba1",
     "knowledge/experience/experience-cards/endowed-progress-card.md": "34215d12af0299ba89577df1f98c9a70e2e0d3d93b8efb6e9ea4261783a2ef4e",
     "knowledge/experience/experience-cards/fresh-start-card.md": "b68e2fd1ddf2d87b1c63bf75ee4bec16890893182ee38bc93643c61d6bd8421a",
@@ -16078,7 +16078,7 @@
     "knowledge/words/conversion-copy.md": "68739b91f0f977f28718f48dd2368bb8c59a03a3f3d44a30efa08d12eb2956ab",
     "knowledge/words/no-slop-writing.md": "4c9e962cafa5da40dba01778e879b9687c940e0acf4ab298c1b2ef07cda4ffa2",
     "checks/validation/repository/audit-skill-links.ts": "781b1715e075b59ce673fbefad9bacab29eceb93e9f96ef60944bfda884eaf5c",
-    "package.json": "3e6bf321a50910c10016910e4e0fcc835a42ae7b2a305203d4b3f29ef6aaadc2",
+    "package.json": "fade882c85b832fca073693b470d1ecb8468d5a9e60bc6741df87d846ea38f44",
     "tooling/catalog-scaffold.ts": "6a54386c9259c97834599249115b0dd82308c16e2c9bb35c02f3058280467077",
     "catalog/render-routing.ts": "6f4ebb7828f7c6edb42464c1583140d23dedcf6ce7277d9411aaac1f27c5ba01",
     "checks/validation/repository/check-agent-entrypoints.ts": "fde2977df566923626a647ccacec7bea6dacb00ffd1ed00ceeb860f8203b0bef",
@@ -16394,5 +16394,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:9d518d64e265a897b480b41a1503e8cb3445de5d12d44677676d55afebc5c105"
+  "digest": "sha256:45f9f25190010e86a0b1f5e90a8c49c3332af5f09367619e34a43e0910321649"
 }

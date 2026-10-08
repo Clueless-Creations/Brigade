@@ -791,7 +791,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       },
       {
         "path": "scripts/merge-gate.sh",
-        "purpose": "Build, unit tests, screenshot-vs-mock check, lint."
+        "purpose": "Build, unit tests, screenshot-vs-mock check, lint, and the snapshot record-mode step."
       },
       {
         "path": ".env.example",
@@ -807,7 +807,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "Unit tests pass.",
       "Each changed screen has a simulator screenshot per required state.",
       "Screenshot-vs-mock review recorded with any differences fixed or listed.",
-      "No hard-coded colors, sizes or strings outside tokens and copy files."
+      "No hard-coded colors, sizes or strings outside tokens and copy files.",
+      "No snapshot test is in record mode."
     ]
   },
   "gates": {
