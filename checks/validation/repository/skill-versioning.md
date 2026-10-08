@@ -93,7 +93,8 @@ It keeps at least two concrete notes.
 It then runs `render:all`, `render:evidence-schema-version`, `render:artifact-pages`, and `node examples/spec-pack/build.mjs`.
 It runs the drift checks in release mode.
 It commits on `release/stamp-<version>`.
-`--branch release/stamp-next` is the rolling branch.
+The default branch is `release/stamp-<version>`.
+`--branch` selects another `release/stamp-*` branch.
 It pushes only with `--push`.
 A second run with no commits since that stamp does nothing.
 
@@ -132,7 +133,27 @@ The same paths are enforced by `tooling/lib/stamp-files.ts`.
 - They do not require the committed files to match.
 - Release mode requires an exact match. Deploy, `runtime:sync`, and `publish.yml` use it.
 - `runtime:sync` refuses an unstamped tree: `Run npm run release:stamp, or sync from the latest stamp.`
-- `.github/workflows/stamp.yml` is `workflow_dispatch` only.
+- The automatic run is described under Automatic stamp.
+
+### Automatic stamp
+
+A push to `main` runs `.github/workflows/stamp.yml`.
+`workflow_dispatch` runs the same job.
+The job skips a subject that starts with `Stamp `.
+The job skips a subject that names a `release/stamp-*` branch.
+A stamp merge does not start another stamp.
+The concurrency group is `stamp-main`.
+Overlapping pushes queue in that group.
+The run opens `release/stamp-<version>` when no stamp pull request is open.
+The run updates an open stamp pull request on its current branch.
+The run enables squash auto-merge on that pull request.
+Auto-merge lands the pull request after required checks pass.
+The repository must allow auto-merge.
+The workflow does not change the ruleset.
+`GITHUB_TOKEN` does not start `pull_request` workflows.
+The stamp job dispatches CI on the stamp branch.
+That dispatch uses `workflow_dispatch` and `verification=presubmit`.
+`workflow_dispatch` creates a run with the default token.
 
 ## Rules
 

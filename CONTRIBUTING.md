@@ -126,7 +126,9 @@ Ordinary pull requests do not edit the version or the generated stamp files.
 `npm run release:stamp` does that on a clean main checkout. It adds one patch
 to the current line, writes release notes from merged subjects, regenerates
 the stamp files, and commits them on `release/stamp-<version>`. Pass `--push`
-to update the branch. The file set lives in
+to update the branch. A push to `main` runs
+[`.github/workflows/stamp.yml`](.github/workflows/stamp.yml), which opens or
+updates one stamp pull request. The procedure lives in
 [Skill versioning](checks/validation/repository/skill-versioning.md).
 
 A pull request that changes a stamp file fails
