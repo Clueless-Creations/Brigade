@@ -22,26 +22,32 @@ sources:
     url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0
     review_cadence_days: 7
     claim_scope: Rork asc 5.5.0 retains the documented optimize keywords rank, discover, and score commands.
-    last_review_date: 2026-09-24
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-  - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0-optimize
+    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    upstream_id: rork-app-store-connect-cli
+  - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
     name: github.com
     source_type: official_docs
     url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/4.9.0
     review_cadence_days: 7
     claim_scope: Rork asc 4.9.0 adds optimize keywords rank, discover, and score from official Apple
       data.
-    last_review_date: 2026-08-24
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-  - id: github-com-rorkai-app-store-connect-cli-optimize-loop
+    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    upstream_id: rork-app-store-connect-cli
+  - id: github-com-rorkai-app-store-connect-cli
     name: github.com
     source_type: github
     url: https://github.com/rorkai/App-Store-Connect-CLI
     review_cadence_days: 7
     claim_scope: Rork asc CLI repository for App Store Connect automation and optimize keyword
       commands.
-    last_review_date: 2026-08-24
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
+    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    upstream_id: rork-app-store-connect-cli
   - id: developer-apple-com-help-app-store-connect-reference-platform-version-information
     name: developer.apple.com
     source_type: official_docs

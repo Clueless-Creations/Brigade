@@ -274,7 +274,10 @@ async function prove(): Promise<void> {
 
     const skills = row(inventory, SKILLS);
     assert(skills.reviewedGuidance === "unrecorded", `skills reviewedGuidance ${skills.reviewedGuidance}`);
-    assert(skills.reviewedSource === "unknown", `skills reviewedSource ${skills.reviewedSource}`);
+    assert(
+      skills.reviewedSource === "f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8",
+      `skills reviewedSource stays the install-skills lock, not an inferred head: ${skills.reviewedSource}`,
+    );
     assert(skills.installed === "not-observed", `skills installed ${JSON.stringify(skills.installed)}`);
     assert(skills.latestStable === "unknown" && skills.branchHead === "unknown", "skills has no observation, so latest and head stay unknown");
     assert(!JSON.stringify(skills).includes(recordedTag), `the skills row must not borrow ${recordedTag} from another upstream`);

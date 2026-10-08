@@ -38,5 +38,7 @@ sources:
     url: https://github.com/rorkai/App-Store-Connect-CLI
     review_cadence_days: 7
     claim_scope: asc review submit with --confirm is the capped resubmission mutation. Publish stays out of this phase.
-    last_review_date: 2026-08-26
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
+    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    upstream_id: rork-app-store-connect-cli

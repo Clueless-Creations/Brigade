@@ -40,5 +40,7 @@ sources:
     review_cadence_days: 7
     claim_scope: Rork asc 4.9.0 adds experimental asc age-rating audit for the September 2026
       social and messaging questionnaire fields.
-    last_review_date: 2026-08-24
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
+    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    upstream_id: rork-app-store-connect-cli

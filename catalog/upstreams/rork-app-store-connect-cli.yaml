@@ -20,12 +20,16 @@ license:
   status: verified
   evidence_url: https://github.com/rorkai/App-Store-Connect-CLI/blob/main/LICENSE
   evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
-  reviewed_revision: main@f68016eb1a8e087650a2ee22690b9deab68f798e (2026-09-28); release 5.7.0 tag shares the same LICENSE text
+  reviewed_revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564 (tag 5.13.0, 2026-10-07); LICENSE text matches the 2026-09-28 digest
   notice_file: catalog/upstreams/notices/rork-app-store-connect-cli.txt
   scope: Root LICENSE of the CLI repository. The builder distributes no copied CLI source; the notice is retained because the executable is a direct upstream relationship and the command procedures are adapted from its documentation.
   notes: GitHub reports license key mit for this repository. The Homebrew formula also records MIT. Neither is legal advice.
 source_ids:
   - github-com-rorkai-app-store-connect-cli
+  - github-com-rorkai-app-store-connect-cli-releases-5-13-0
+  - github-com-rorkai-app-store-connect-cli-releases-5-12-0
+  - github-com-rorkai-app-store-connect-cli-releases-5-10-0
+  - github-com-rorkai-app-store-connect-cli-releases-5-9-0
   - github-com-rorkai-app-store-connect-cli-releases-5-7-0
   - github-com-rorkai-app-store-connect-cli-releases-5-6-0
   - github-com-rorkai-app-store-connect-cli-releases-5-4-0
@@ -67,23 +71,23 @@ relationships:
     pin_authority: knowledge manifest last_review_date and the reviewed baselines below
 baselines:
   reviewed_source:
-    revision: "5.7.0"
-    observed_at: "2026-09-28"
+    revision: "3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564"
+    observed_at: "2026-10-08"
     by: b2c-maintainers
-    note: Local `asc --help` of the PATH-winning 5.7.0 binary and the GitHub 5.7.0 release on 2026-09-27. The exact 5.1.0 JSON samples remain historical.
+    note: Tag 5.13.0 commit. Local Linux amd64 --help on 2026-10-08. Checksum 7e43e453495c0d49ba8a93953fcf4d3a51c0b4593c00af6e8c53b243350a5db9. No App Store Connect API call. The exact 5.1.0 JSON samples remain historical.
   reviewed_guidance:
-    revision: "5.7.0"
-    observed_at: "2026-09-28"
+    revision: "5.13.0"
+    observed_at: "2026-10-08"
     by: b2c-maintainers
-    note: Reviewed 5.4 version defaults and web-account selection, 5.5 all-localizations screenshots, 5.6 metadata push `--if-exists`, and 5.7 global remote read-only mode and flag-value indirection. The exact 5.1.0 JSON samples remain historical. This is not a workspace pin; inspect does not upgrade the host, and `b2c doctor` is a supported equivalent for observing the version.
+    note: "Per-revision guidance through 5.13.0. 5.8.0 adds screenshot framing and web apps create --if-exists; no cookbook command change. 5.8.1 is a status and builds fix. 5.9.0 blocks validate on a missing base-territory price and on missing iPad screenshots when --ipa shows iPad. 5.9.1 and 5.9.2 are auth and web fixes. 5.10.0 adds status --until, StoreKit reads, and IAP or subscription localization import. 5.11.0 is recovery and classification fixes; no new cookbook command. 5.12.0 adds Asset Library reads, creative image upload, header and search placements, iPhone Duo screenshots and previews, and product page optimization v2. 5.12.1 stops polling failed library images. 5.13.0 adds reusable video upload, image and video lifecycle, reuse across custom product pages and In-App Events, and OpenAPI 4.5.1 list filters. This is not a workspace pin; inspect does not upgrade the host, and `b2c doctor` is a supported equivalent for observing the version."
 support:
   policy: Executable guidance is stored per exact reviewed revision. Any other installed version re-verifies each command with `asc <cmd> --help` before first use (Verified Command Cookbook rule). A passing live probe proves the probed tokens on the probed binary only, never a version range. Support is `>= 5.0.0 < 6.0.0`. Major versions below 5 are unsupported. Web-login handoff is refused unless the winning binary is `>= 5.1.0`.
   versions:
     - range: ">=5.0.0 <6.0.0"
       status: supported
       evidence:
-        - knowledge/store/app-store-connect-cli.md Verified Command Cookbook (local --help, 2026-09-28)
-        - GitHub releases 5.0.0 (2026-09-06), 5.1.0 (2026-09-08), 5.4.0 (2026-09-18), 5.5.0 (2026-09-24), 5.6.0 (2026-09-25), and 5.7.0 (2026-09-27)
+        - knowledge/store/app-store-connect-cli.md Verified Command Cookbook (local --help, 2026-10-08)
+        - GitHub releases 5.0.0 through 5.7.0, plus 5.8.0 (2026-09-29), 5.8.1 (2026-09-30), 5.9.0 (2026-10-01), 5.9.1 (2026-10-01), 5.9.2 (2026-10-03), 5.10.0 (2026-10-04), 5.11.0 (2026-10-05), 5.12.0 (2026-10-06), 5.12.1 (2026-10-06), and 5.13.0 (2026-10-07)
     - range: "<5.0.0"
       status: unsupported
       evidence:
@@ -118,8 +122,32 @@ support:
       keywords: [web auth, web review, web-session]
       owners: [adapters/app-review/asc-provider.ts]
     - id: asc.screenshots.validate
-      title: asc screenshots sizes / validate; upload after founder approval
+      title: asc screenshots sizes / validate; deprecated screenshot upload after founder approval
       keywords: [screenshot, screenshots]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.asset-library
+      title: asc asset-library view, list, upload, and lifecycle
+      keywords: [asset-library, asset library]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.placements
+      title: asc localizations placements list and create; custom page and event reuse
+      keywords: [placements, placement]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.product-pages.v2
+      title: asc product-pages experiments create --v2 and treatments create --v2
+      keywords: [product-pages, experiments, treatments]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.status.until
+      title: asc status --until
+      keywords: [status, until]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.storekit.read
+      title: asc storekit transactions history and subscriptions status
+      keywords: [storekit]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.localizations.import
+      title: asc iap and subscriptions versions localizations import --dry-run
+      keywords: [localizations, import]
       owners: [knowledge/store/app-store-connect-cli.md]
     - id: asc.screenshots.list
       title: asc screenshots list (read-only; one locale or every version localization)
@@ -211,7 +239,7 @@ host_probe:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-28"
+  last_review: "2026-10-08"
   status: current
 credits:
   acknowledge: true

@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
   "upstreamId": "rork-app-store-connect-cli",
-  "checkedAt": "2026-09-28T19:30:33.026Z",
+  "checkedAt": "2026-10-08T03:31:36.280Z",
   "method": "github-api",
   "latestStable": {
-    "tag": "5.7.0",
-    "publishedAt": "2026-09-27T17:38:24Z",
+    "tag": "5.13.0",
+    "publishedAt": "2026-10-07T00:02:25Z",
     "assets": [
       {
-        "name": "asc_5.7.0_checksums.txt",
-        "sha256": "fca2dc67803927ed6cb994e16043f6e83191acb5b7b4be13ebed26efa02a662b",
-        "bytes": 446
+        "name": "asc_5.13.0_checksums.txt",
+        "sha256": "f33898544d347ea068d7dfb67bac2d41ba1a44308838cc2e97318787efd7fdf5",
+        "bytes": 451
       },
       {
-        "name": "asc_5.7.0_linux_amd64",
-        "sha256": "53212aa4949c0281d9cb3c6d1bddcc9b98f9f659650f6040904a4c7cd9b706bd",
-        "bytes": 61616290
+        "name": "asc_5.13.0_linux_amd64",
+        "sha256": "7e43e453495c0d49ba8a93953fcf4d3a51c0b4593c00af6e8c53b243350a5db9",
+        "bytes": 63017122
       },
       {
-        "name": "asc_5.7.0_linux_arm64",
-        "sha256": "4f1d9c42328bc303dfafc5098e3703aaa722fa1494e6c41518b1d41260ba2356",
-        "bytes": 55967906
+        "name": "asc_5.13.0_linux_arm64",
+        "sha256": "0a1cca759c1d77d427df5bca5fa315121c8fce14afe52f6545cd18883f019a85",
+        "bytes": 57147554
       },
       {
-        "name": "asc_5.7.0_macOS_amd64",
-        "sha256": "c16f8aaef3f3d51dd6d299e7588f2aa6968ac7595391938e38967850ee0b54ea",
-        "bytes": 63473104
+        "name": "asc_5.13.0_macOS_amd64",
+        "sha256": "94433789f807548ddcd0e854eeb67d9dfd768a9cf52718a20f8b5a39aaefbc18",
+        "bytes": 64886592
       },
       {
-        "name": "asc_5.7.0_macOS_arm64",
-        "sha256": "dc6a75cb1996e29275de3c8671a6d7513b0f995abef6b79c4a8619e828f0a086",
-        "bytes": 57185504
+        "name": "asc_5.13.0_macOS_arm64",
+        "sha256": "9dd0b127563f9a1bf7e4113ea244f11a2813e2ebfd1841182bf2913431053393",
+        "bytes": 58451104
       },
       {
-        "name": "asc_5.7.0_windows_amd64.exe",
-        "sha256": "3171897ede645755c351016f2b2419b4cb52064ec991aabd78aa591a1d14a4aa",
-        "bytes": 62496256
+        "name": "asc_5.13.0_windows_amd64.exe",
+        "sha256": "d1f3051457592910df742a89df59ca29a12a2b01667f699172657258b356b9d8",
+        "bytes": 63920128
       }
     ]
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "f68016eb1a8e087650a2ee22690b9deab68f798e",
-    "committedAt": "2026-09-28T19:11:10Z"
+    "sha": "7d94553cbed81d6af8155071e65e859b23dc5b29",
+    "committedAt": "2026-10-08T03:22:12Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b",

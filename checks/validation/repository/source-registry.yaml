@@ -3833,3 +3833,68 @@ sources:
       - catalog/knowledge/design/design-landing-motion-craft.yaml
       - knowledge/design/landing-motion-craft.md
     notes: Reference only. Claims MIT, but the linked source repository was not public at review and the package is new. Do not install until source and license are verified.
+  # CLU-107: asc 5.13.0 release notes and Apple Asset Library / iPhone Duo sources.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-9-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.9.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.9.0 release notes. Validate blocks a missing base-territory price and missing iPad screenshots when --ipa shows iPad.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-10-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.10.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.10.0 release notes. Adds status --until, StoreKit reads, and localization import.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-12-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.12.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.12.0 release notes. Adds Asset Library reads, creative image upload, placements, iPhone Duo media, and product page optimization v2.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-13-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.13.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.13.0 release notes. Adds video upload, image and video lifecycle, media reuse, and OpenAPI 4.5.1 list filters. Local --help was checked on 2026-10-08. No App Store Connect API call.
+  - id: developer-apple-com-documentation-appstoreconnectapi-uploading-assets-to-app-store-connect
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/appstoreconnectapi/uploading-assets-to-app-store-connect
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Apple deprecates app screenshot, app screenshot set, app preview, app preview set, and in-app event screenshot resources. Manage those assets with the Asset Library and placements.
+  - id: developer-apple-com-news-iphone-duo-kkphp5qo
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=kkphp5qo
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Apple news dated October 5, 2026. Starting April 2027, submitted apps and games need iPhone Duo screenshots.
