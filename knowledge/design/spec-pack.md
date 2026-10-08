@@ -80,7 +80,7 @@ Send the chat in this order:
 3. Give pack counts: screens and states, light and dark mocks, and the click-through prototype. Also count web pages with real copy, the store listing, and payments setup. Also count analytics events with targets and kill criteria, build tasks, and backend or no backend. Then give the spec-check result and the research spend.
 4. Tell the founder how to approve. Ask them to open `index.html` and reply "approved" or list changes. After approval, workers build one screen per pull request. Each screen matches its mock and passes tests.
 5. List the open decisions only the founder can make. Give each decision a recommendation.
-6. Describe the tracker work. Keep it drafted. Do not create tracker issues or store listings before approval.
+6. Describe the tracker work. Point to [Tracker mapping](#tracker-mapping). Keep the draft. Read the issue count from `tracker-draft.json`. Do not create tracker issues or store listings before approval. When the app is announced or launched, update its portfolio card. Use the founder's portfolio site, if any (a workspace setting). Refresh the "how we build" story.
 
 Use counts from real sources.
 Do not invent evidence.
@@ -88,6 +88,61 @@ Give each open decision a recommendation.
 Do not create work in the tracker or the stores before approval.
 
 Copy `examples/spec-pack/GATE1.md` and replace the placeholders.
+
+## Tracker mapping
+
+One project per app.
+
+Milestones are the phases:
+
+- Build
+- Dogfood
+- Gate 2
+- Launch
+- Run
+
+Area labels:
+
+- App
+- Web
+- Store & Marketing
+- Growth
+- Money
+- Ops
+
+Capability labels:
+
+- Auth
+- Privacy
+- Security
+- Deep links
+- Discovery (SEO/AEO/GEO)
+- Analytics
+- Accessibility
+
+`node build.mjs` writes `tracker-draft.json` next to `index.html`.
+Each task becomes one issue.
+The issue uses the task area label.
+It adds capability labels when the task lists them.
+Task dependencies become blockers.
+Acceptance lines become the checklist.
+A screen task id is `S-<id>` and its area is App.
+A web page task id is `W-<id>` and its area is Web.
+Other tasks come from the `tasks:` list.
+Each issue starts on the Build milestone.
+Set `milestone` on a task to move it.
+Allowed values are the five milestones above.
+The draft is not a task store.
+The app task list stays in `TASKS.md`.
+
+Do not create tracker issues before Gate 1 approval.
+That write is a separate approved step.
+Do not put tracker credentials, workspace names, or live ids in this repo.
+
+`meta.web_origin` is the one site origin.
+If it is missing, the build uses `https://<slug>.<account>.workers.dev`.
+`meta.domain` is optional.
+A missing domain does not fail the spec check.
 
 ## Build to spec
 

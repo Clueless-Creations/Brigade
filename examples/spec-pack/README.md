@@ -18,6 +18,7 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `checks/` | One check module per file. `build.mjs` loads `*.mjs` in filename order. |
 | `sections/` | One review-page section per file. `build.mjs` injects `*.js` in filename order. |
 | `index.html` | Generated review page. `release:stamp` writes it. Open it in a browser. |
+| `tracker-draft.json` | Generated issue draft beside `index.html`. Gitignored. Create the issues only after Gate 1 approval. |
 | `render-mocks.sh` | Writes one PNG per screen and state to `mocks/` at 393x852. |
 | `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
 | `GATE1.md` | Founder-facing Gate 1 summary. Replace the placeholders. |
@@ -52,6 +53,12 @@ mode, `&w=<px>&h=<px>` for another device size).
 9. Task ids are unique, every `depends_on` names a task, there is no dependency
    cycle, and `area` is one of App, Web, Store & Marketing, Growth, Money, Ops.
    Each screen is task `S-<id>` and each web page is task `W-<id>`.
+10. `meta.domain` may be omitted. `meta.web_origin` is the site origin. A missing
+    `web_origin` defaults to `https://<slug>.<account>.workers.dev`.
+11. The build writes `tracker-draft.json` beside the HTML output. It has one
+    project, milestones Build, Dogfood, Gate 2, Launch, and Run, and one issue
+    per task. Area and capability labels, blockers, and the acceptance checklist
+    come from that task.
 
 `node build.mjs --list-checks` prints one line per check module (`id: describe`).
 Add a later check as `checks/<NN>-<area>.mjs`. Add a review section as
