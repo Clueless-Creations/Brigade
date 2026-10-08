@@ -9,6 +9,9 @@
  * absent. Once the file exists, its sections must all be present: a registry
  * that lists apps but never allocates, or allocates but never carries
  * learnings forward, is a status page, not a portfolio decision surface.
+ * When strategy/user-options.yaml sets learning_ledger.enabled to true, the
+ * registry also needs Learning Ledger and Comparison. A missing file or
+ * enabled: false does not require those sections.
  *
  * Like every artifact-contract check, this grades structure, not truth — the
  * numbers in the rows come from each app's own RevenueCat/PostHog records and
@@ -19,6 +22,7 @@
  */
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { parse as parseYaml } from "yaml";
 import { issue, parseCliArgs, readText, reportAndExit, type Issue } from "../../../../tooling/lib/launch-state.js";
 
 const args = parseCliArgs(process.argv.slice(2));
@@ -78,9 +82,55 @@ if (existsSync(registryPath)) {
       ),
     );
   }
+
+  const ledgerEnabled = learningLedgerEnabled(args.root);
+  if (ledgerEnabled === "invalid") {
+    issues.push(
+      issue(
+        "error",
+        "portfolio_registry.learning_ledger_options_invalid",
+        "strategy/user-options.yaml must set learning_ledger.enabled to true or false. The default is false.",
+        "strategy/user-options.yaml",
+      ),
+    );
+  } else if (ledgerEnabled) {
+    const ledgerSections = ["Learning Ledger", "Comparison"];
+    for (const section of ledgerSections) {
+      if (registry.includes(section.toLowerCase())) continue;
+      issues.push(
+        issue(
+          "error",
+          `portfolio_registry.section_missing.${section.toLowerCase().replaceAll(/[^a-z]+/g, "_")}`,
+          `${registryRelative} has the learning ledger turned on and is missing the "${section}" section.`,
+          registryRelative,
+        ),
+      );
+    }
+  }
 }
 
 reportAndExit("Portfolio registry check", issues);
+
+/** True when the private portfolio workspace has turned the learning ledger on. Missing means off. */
+function learningLedgerEnabled(root: string): boolean | "invalid" {
+  const relative = "strategy/user-options.yaml";
+  if (!existsSync(path.join(root, relative))) return false;
+  let parsed: unknown;
+  try {
+    parsed = parseYaml(readText(root, relative) ?? "");
+  } catch {
+    return "invalid";
+  }
+  if (parsed == null || parsed === "") return false;
+  if (typeof parsed !== "object" || Array.isArray(parsed)) return "invalid";
+  const ledger = (parsed as { learning_ledger?: unknown }).learning_ledger;
+  if (ledger == null) return false;
+  if (typeof ledger !== "object" || Array.isArray(ledger)) return "invalid";
+  if (!Object.prototype.hasOwnProperty.call(ledger, "enabled")) return false;
+  const enabled = (ledger as { enabled?: unknown }).enabled;
+  if (typeof enabled !== "boolean") return "invalid";
+  return enabled;
+}
 
 /** The block from a `## <heading>` line to the next `## ` heading (or EOF). */
 function markdownSection(markdown: string, heading: string): string {

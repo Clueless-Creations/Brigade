@@ -77,6 +77,7 @@ export function register(harness: Harness): void {
       `expected the accounts-privacy module line\n${result.stdout ?? ""}`,
     );
     assert(lines.some((line) => line.startsWith("onboarding:")), `expected the onboarding module line\n${result.stdout ?? ""}`);
+    assert(lines.some((line) => line.startsWith("ledger:")), `expected the ledger module line\n${result.stdout ?? ""}`);
   });
 
   harness.check("spec-pack loads an added check module", () => {

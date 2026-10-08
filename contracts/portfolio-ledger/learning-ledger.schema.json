@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:b2c:portfolio:learning-ledger-record",
+  "title": "Learning ledger record",
+  "$comment": "Public shape of one app's choices and outcome checkpoints. The file lives in the user's private store. It is not reducer state, not a Brigade dataset, and not a license to call PostHog, RevenueCat, App Store Connect, or AppKittie.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_version", "app", "choices", "hypotheses", "schedule", "outcomes", "compliance", "boundary"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "record_version": { "type": "integer", "minimum": 1 },
+    "app": { "$ref": "#/$defs/app" },
+    "choices": { "$ref": "#/$defs/choices" },
+    "moves_to": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "hypotheses": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/hypothesis" }
+    },
+    "schedule": { "$ref": "#/$defs/schedule" },
+    "outcomes": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/outcome" }
+    },
+    "compliance": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/compliance" }
+    },
+    "boundary": { "$ref": "#/$defs/boundary" }
+  },
+  "$defs": {
+    "app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "name"],
+      "properties": {
+        "slug": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "choices": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audience",
+        "problem_recurrence",
+        "download_motive",
+        "name",
+        "icon",
+        "price_model",
+        "price",
+        "product_type",
+        "onboarding_type",
+        "onboarding_screen_count",
+        "quiz_length",
+        "time_to_value",
+        "paywall_placement",
+        "paywall_type",
+        "purchase_kind",
+        "closing_discount",
+        "mascot",
+        "invite_mechanic",
+        "acquisition_channels",
+        "screenshot_style",
+        "aso_keywords",
+        "providers"
+      ],
+      "properties": {
+        "audience": { "type": "string", "minLength": 1 },
+        "problem_recurrence": { "type": "string", "minLength": 1 },
+        "download_motive": { "enum": ["money", "mate", "escape"] },
+        "name": { "type": "string", "minLength": 1 },
+        "icon": { "type": "string", "minLength": 1 },
+        "price_model": { "type": "string", "minLength": 1 },
+        "price": { "type": "string", "minLength": 1 },
+        "product_type": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "description": "Examples: utility-widget, problem-solving-subscription, creative-tool, learning, other."
+        },
+        "onboarding_type": { "enum": ["utility-quick-start", "result-reveal", "quiz-led-problem"] },
+        "onboarding_screen_count": { "type": "integer", "minimum": 0 },
+        "quiz_length": { "type": "integer", "minimum": 0 },
+        "time_to_value": { "type": "string", "minLength": 1 },
+        "paywall_placement": { "enum": ["end_of_onboarding", "after_first_core_action", "later"] },
+        "paywall_type": { "enum": ["soft", "hard"] },
+        "purchase_kind": { "enum": ["trial", "one-time"] },
+        "closing_discount": { "type": "boolean" },
+        "mascot": { "type": "boolean" },
+        "invite_mechanic": { "type": "string", "minLength": 1 },
+        "acquisition_channels": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "screenshot_style": { "type": "string", "minLength": 1 },
+        "aso_keywords": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "providers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "metric"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 1 },
+        "metric": { "type": "string", "minLength": 1 }
+      }
+    },
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoints", "sources", "live_calls"],
+      "properties": {
+        "checkpoints": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": { "enum": ["gate_2", "day_7", "day_30", "monthly"] }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": { "enum": ["posthog", "revenuecat", "app_store_connect", "appkittie"] }
+        },
+        "live_calls": { "const": false }
+      }
+    },
+    "metric": { "anyOf": [{ "type": "number" }, { "type": "null" }] },
+    "stepRates": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["step_id", "rate"],
+            "properties": {
+              "step_id": { "type": "string", "minLength": 1 },
+              "rate": { "type": "number" }
+            }
+          }
+        }
+      ]
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkpoint", "metrics", "why"],
+      "properties": {
+        "checkpoint": { "enum": ["gate_2", "day_7", "day_30", "monthly"] },
+        "why": { "anyOf": [{ "type": "null" }, { "type": "string", "minLength": 1 }] },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "installs_per_month",
+            "revenue_per_month",
+            "revenue_per_install",
+            "trial_to_paid_rate",
+            "retention_d1",
+            "retention_d7",
+            "retention_d30",
+            "invite_rate",
+            "refunds",
+            "onboarding_step_completion",
+            "onboarding_drop_off_per_step",
+            "onboarding_completed_rate",
+            "time_to_first_core_action",
+            "paywall_view_to_trial_or_purchase",
+            "discount_take_rate",
+            "day_0_cancel_rate"
+          ],
+          "properties": {
+            "installs_per_month": { "$ref": "#/$defs/metric" },
+            "revenue_per_month": { "$ref": "#/$defs/metric" },
+            "revenue_per_install": { "$ref": "#/$defs/metric" },
+            "trial_to_paid_rate": { "$ref": "#/$defs/metric" },
+            "retention_d1": { "$ref": "#/$defs/metric" },
+            "retention_d7": { "$ref": "#/$defs/metric" },
+            "retention_d30": { "$ref": "#/$defs/metric" },
+            "invite_rate": { "$ref": "#/$defs/metric" },
+            "refunds": { "$ref": "#/$defs/metric" },
+            "onboarding_step_completion": { "$ref": "#/$defs/stepRates" },
+            "onboarding_drop_off_per_step": { "$ref": "#/$defs/stepRates" },
+            "onboarding_completed_rate": { "$ref": "#/$defs/metric" },
+            "time_to_first_core_action": { "$ref": "#/$defs/metric" },
+            "paywall_view_to_trial_or_purchase": { "$ref": "#/$defs/metric" },
+            "discount_take_rate": { "$ref": "#/$defs/metric" },
+            "day_0_cancel_rate": { "$ref": "#/$defs/metric" }
+          }
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "variant",
+        "status",
+        "apple_review_prompt",
+        "honest_calculating",
+        "trial_timeline_and_billing",
+        "honest_one_time_discount"
+      ],
+      "properties": {
+        "variant": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["pass", "fail", "unrecorded"] },
+        "apple_review_prompt": { "enum": ["pass", "fail", "unrecorded"] },
+        "honest_calculating": { "enum": ["pass", "fail", "unrecorded"] },
+        "trial_timeline_and_billing": { "enum": ["pass", "fail", "unrecorded"] },
+        "honest_one_time_discount": { "enum": ["pass", "fail", "unrecorded"] }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "store", "returns_to_brigade", "pooled_dataset"],
+      "properties": {
+        "owner": { "const": "user" },
+        "store": { "const": "private" },
+        "returns_to_brigade": { "const": false },
+        "pooled_dataset": { "const": false }
+      }
+    }
+  }
+}

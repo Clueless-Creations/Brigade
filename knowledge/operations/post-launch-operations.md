@@ -180,6 +180,24 @@ An absent registry makes this optional check a no-op. An existing registry recei
 The validator cannot determine the complete business inventory or approve an allocation.
 The human checks completeness and decides where to invest.
 
+### Learning ledger
+
+The learning ledger is a user-level option, off by default. It lives in the private portfolio workspace as `strategy/user-options.yaml`. Copy `examples/workspace/business/strategy/user-options.example.yaml`. Set `learning_ledger.enabled` to true to turn on an app business factory that improves itself to make app businesses that earn. Leave it false, or omit the file, and the ledger record, outcome pulls, and comparison view stay off.
+
+Records and outcomes stay in that private workspace. Nothing returns to Brigade. Nothing is shared across users. A pooled dataset, or a model trained on an open-weight base, needs a separate opt-in. This reference does not do that work.
+
+Gate 1 writes one record from the spec pack when the ledger is on. The public shape is `contracts/portfolio-ledger/learning-ledger.schema.json`. The placeholder record is `examples/workspace/business/strategy/ledger.example.yaml`. The spec pack states three or four things that must be true, each with the metric that proves it. Use the conditional discovery hypotheses in `distribution-offer-signal.md`. Bump `record_version` when a choice changes.
+
+The record covers audience, how often the problem comes back, download motive (`money`, `mate`, or `escape`), name, icon, price model, price, product type, onboarding type, screen count, quiz length, time to value, paywall placement, paywall type, trial or one-time, closing discount, mascot, invite mechanic, acquisition channels, screenshot style, ASO keywords, and providers. Read name, icon, price, keywords, and providers from the spec blocks that already hold them. Keep onboarding, mascot, and channels on `ledger` until those blocks exist, and mark each one `moves_to`.
+
+Outcome pulls are scheduled reads from the user's own PostHog, RevenueCat, App Store Connect, and AppKittie. The checkpoints are Gate 2, day 7, day 30, and monthly. This reference does not call those services. Each checkpoint records installs per month, revenue per month, revenue per install, trial-to-paid rate, D1, D7, and D30 retention, invite rate, refunds, onboarding step completion, drop-off per step, `onboarding_completed` rate, time to the first core action, paywall view-to-trial or view-to-purchase, discount take rate, and Day-0 cancel rate. Each checkpoint has a `why` note. Use the onboarding event names in `analytics-attribution.md`: `onboarding_started`, `onboarding_step_viewed`, `onboarding_answer_selected`, and `onboarding_completed`.
+
+The weekly review puts that user's apps side by side. Group the comparison by product type and onboarding type. Show a cell only when it has at least two apps. Show the sample size. Do not call a winner on a small sample. Each variant carries a compliance tag: Apple's own review prompt only, honest calculating and personalized steps, a clear trial timeline and billing terms, and an honest one-time discount. The native review-prompt rule is the one in `onboarding-conversion.md` and `ethics-guardrail.md`. A variant that fails the tag is never recorded as a winner.
+
+What worked and what did not can change that user's defaults for the next spec pack: price, onboarding, paywall, and channels. Those defaults stay in the user's private store.
+
+When the registry exists and `learning_ledger.enabled` is true, `strategy/PORTFOLIO_REGISTRY.md` must include `## Learning Ledger` and `## Comparison`. `check:portfolio-registry` stays a no-op when the registry is absent. It does not require those sections when the setting is absent or false.
+
 ## 10. Launch Retro Loop
 
 The retro is how each real launch improves the skill. Fill `operations/LAUNCH_RETRO.md` three times: shortly after launch (first 1–2 weeks live), at day 30, and at day 90 — due dates count from `lanes.post_launch_ops.live_since` with one week of grace, and `check:post-launch` flags a day-30/day-90 checkpoint still uncompleted past its due date. A checkpoint that never runs is not a neutral state; it is the kill-or-scale question being dodged. Each pass records:
@@ -195,6 +213,7 @@ If the portfolio registry exists, refresh it at each business's day-30 and day-9
 Add dated learning from that business's `operations/LAUNCH_RETRO.md` to the cross-business learning table.
 Update the next-launch pipeline and link each proposed launch to the evidence that supports it.
 Refresh per-business evidence and verdicts before the human reviews the allocation.
+When the learning ledger is on, the day-30 pass is one of its outcome checkpoints, together with Gate 2, day 7, and the monthly pull.
 
 ## 11. Artifact Contract
 

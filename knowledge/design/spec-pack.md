@@ -129,6 +129,8 @@ Do not create work in the tracker or the stores before approval.
 
 Copy `examples/spec-pack/GATE1.md` and replace the placeholders.
 
+When the learning ledger is on, approval writes the ledger record (`contracts/portfolio-ledger/learning-ledger.schema.json`) into the user's own private store.
+
 ## Tracker mapping
 
 One project per app.
