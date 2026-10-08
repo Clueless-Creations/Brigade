@@ -65,6 +65,7 @@ Outputs:
 Rules:
 
 - Start with one channel or document the exception.
+- Load [`apple-search-ads-launch.md`](../../growth/apple-search-ads-launch.md) before an exact-match Apple Search Ads test against a same-niche app: Search Match off, new users, iPhone, territory tiers, a cautious bid ramp, and a daily cap.
 - Do not launch campaigns, connect accounts, install privacy-affecting ad SDKs, or change budgets without founder approval.
 - Do not call installs success unless paywall reach, purchase, entitlement, revenue, and retention quality are visible.
 

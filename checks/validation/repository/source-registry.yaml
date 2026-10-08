@@ -2896,6 +2896,50 @@ sources:
     notes: Reviewed through the official documentation on 2026-09-06. Motivates the provider-neutral onboarding
       contract; selected SDK and provider semantics must still be verified in ONB-07. This entry is not a
       fabricated automated freshness receipt.
+  - id: apple-ads-policies
+    name: Apple Advertising Policies
+    source_type: documentation
+    url: https://ads.apple.com/policies
+    refresh_cadence_days: 30
+    owner: growth
+    locations:
+      - knowledge/growth/apple-search-ads-launch.md
+      - catalog/knowledge/growth/growth-apple-search-ads-launch.yaml
+    notes: Read 2026-10-08. Page date February 26, 2025. Policy 1.4 limits unlicensed third-party IP in ad
+      content. Re-read the live page before delivery.
+  - id: apple-ads-structure-campaigns
+    name: Apple Ads — Structure campaigns
+    source_type: documentation
+    url: https://ads.apple.com/app-store/help/campaigns/0056-structure-campaigns
+    refresh_cadence_days: 30
+    owner: growth
+    locations:
+      - knowledge/growth/apple-search-ads-launch.md
+      - catalog/knowledge/growth/growth-apple-search-ads-launch.yaml
+    notes: Read 2026-10-08. Exact-match category and competitor campaigns. Search Match belongs on the
+      discovery campaign.
+  - id: apple-ads-campaign-structure-best-practices
+    name: Apple Ads — Campaign structure best practices
+    source_type: documentation
+    url: https://ads.apple.com/app-store/best-practices/campaign-structure
+    refresh_cadence_days: 30
+    owner: growth
+    locations:
+      - knowledge/growth/apple-search-ads-launch.md
+      - catalog/knowledge/growth/growth-apple-search-ads-launch.yaml
+    notes: Read 2026-10-08. Search Match off and exact match for category and competitor campaigns.
+      Separate storefronts when budgets differ.
+  - id: apple-ads-audience-settings
+    name: Apple Ads — Modify audience settings
+    source_type: documentation
+    url: https://ads.apple.com/app-store/help/ad-groups/0021-modify-audience-settings
+    refresh_cadence_days: 30
+    owner: growth
+    locations:
+      - knowledge/growth/apple-search-ads-launch.md
+      - catalog/knowledge/growth/growth-apple-search-ads-launch.yaml
+    notes: Read 2026-10-08. New users customer type. iPhone targeting can also serve iPod touch. Narrowed
+      audience settings exclude Personalized Ads off.
   - id: apple-user-privacy-data-use
     name: Apple user privacy and tracking guidance
     source_type: documentation

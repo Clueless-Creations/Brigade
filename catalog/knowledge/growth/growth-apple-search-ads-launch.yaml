@@ -1,0 +1,55 @@
+schema_version: 1.0.0
+id: reference.growth.apple-search-ads-launch
+title: Apple Search Ads Launch
+domain_id: domain.growth
+document_path: knowledge/growth/apple-search-ads-launch.md
+load_when: before an Apple Search Ads test that bids exact-match competitor and category keywords, with
+  Search Match off, new users, iPhone, and territory tiers
+lifecycle: active
+bindings:
+  workflow_ids:
+    - workflow.growth.paid-user-acquisition-system
+    - workflow.store.aso-and-store-ops
+  context_pack_ids:
+    - context.growth
+applicability_notes: Reauthored from one self-reported indie setup. Figures from that account are one
+  anecdote and are not targets. Apple's current ad policies outrank the anecdote. Spend needs founder
+  approval and a daily cap. Competitor names may be keywords. Ad copy and custom product pages stay
+  modelled on the category, using this app's own claims and screenshots.
+sources:
+  - id: apple-ads-policies
+    name: Apple Advertising Policies
+    source_type: website
+    url: https://ads.apple.com/policies
+    review_cadence_days: 30
+    claim_scope: "Advertiser duties for ad content, including intellectual-property limits on logos, graphics,
+      and artwork, and the requirement to re-read the live policy before delivery."
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: apple-ads-structure-campaigns
+    name: Apple Ads — Structure campaigns
+    source_type: website
+    url: https://ads.apple.com/app-store/help/campaigns/0056-structure-campaigns
+    review_cadence_days: 30
+    claim_scope: "Exact-match category and competitor campaigns, and Search Match as a discovery control
+      rather than the default on those campaigns."
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: apple-ads-campaign-structure-best-practices
+    name: Apple Ads — Campaign structure best practices
+    source_type: website
+    url: https://ads.apple.com/app-store/best-practices/campaign-structure
+    review_cadence_days: 30
+    claim_scope: "Search Match off and exact match for brand, category, and competitor campaigns, plus
+      separating storefronts when budgets differ."
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: apple-ads-audience-settings
+    name: Apple Ads — Modify audience settings
+    source_type: website
+    url: https://ads.apple.com/app-store/help/ad-groups/0021-modify-audience-settings
+    review_cadence_days: 30
+    claim_scope: "New users customer type, iPhone device choice including possible iPod touch delivery,
+      and the reach limit when audience settings exclude Personalized Ads off."
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers

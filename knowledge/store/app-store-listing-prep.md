@@ -8,6 +8,8 @@ This is the bridge between marketing and engineering. The listing packet must be
 
 Load [`eleven-star-experience.md`](../experience/eleven-star-experience.md) before screenshot, app-preview, ad, custom product page, or In-App Event concepts are locked. Store marketing should show the complete product experience truthfully instead of inventing a different promise for the listing.
 
+Load [`apple-search-ads-launch.md`](../growth/apple-search-ads-launch.md) before an exact-match competitor and category Apple Search Ads test. Ad copy and custom product pages stay modelled on the category. Competitor names may be keywords. Competitor trademarks, creative, and screenshots stay out of the listing.
+
 ## Contents
 
 - Current Sources To Refresh

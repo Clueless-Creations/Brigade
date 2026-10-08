@@ -86,7 +86,7 @@ A market's tier cascades to every surface via `change-cascade.md`, so localizati
 - **Paywall / RevenueCat:** localized offers, plan anchoring, and layout per Tier 1 market — localize the paywall, not only the listing.
 - **Landing / web funnel:** localized pages, `hreflang`, localized `llms.txt`/schema (route through `geo-seo.md`).
 - **Lifecycle email (Resend):** localized templates for Tier 1 markets.
-- **Paid UA / Apple Search Ads:** campaign storefronts chosen from the matrix (route through `paid-user-acquisition.md`).
+- **Paid UA / Apple Search Ads:** campaign storefronts chosen from the matrix (route through `paid-user-acquisition.md`). Exact-match competitor and category tests also load `apple-search-ads-launch.md`, which scales bids by these tiers.
 
 ## 6. Phase Placement And Traceability
 
