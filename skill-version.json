@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.118",
+  "version": "0.221.119",
   "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "build(deps): bump mdast-util-from-markdown from 2.0.3 to 2.1.0 (#661)",
     "build(deps): bump yaml from 2.9.0 to 2.9.1 (#663)",
     "Refresh asc CLI guidance and pins from 5.7.0 to 5.13.0. (#654)",
     "Split spec-pack checks, review sections, and source-registry rows into per-lane files. (#656)",

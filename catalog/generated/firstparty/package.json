@@ -1,6 +1,6 @@
 {
   "name": "@cluelesscreations/brigade",
-  "version": "0.221.118",
+  "version": "0.221.119",
   "description": "Brigade gives AI agents consumer-business primitives: capabilities, providers, recipes, and evidence through a CLI, MCP, and skill.",
   "keywords": [
     "mcp",
@@ -278,7 +278,7 @@
     "@mdx-js/mdx": "3.1.1",
     "@modelcontextprotocol/sdk": "^1.32.0",
     "ajv": "^8.20.0",
-    "mdast-util-from-markdown": "2.0.3",
+    "mdast-util-from-markdown": "2.1.0",
     "yaml": "^2.6.1",
     "zod": "^4.6.5"
   },
