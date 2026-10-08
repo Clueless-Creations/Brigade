@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.114",
+  "version": "0.221.115",
   "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add an Apple Search Ads launch recipe for exact-match tests (#657)",
     "Bump the MCP SDK and zod together in the root and hosted workers. (#653)",
     "Run the release stamp after each merge to main. (#658)",
     "Stamp the version at release instead of in every pull request. Ordinary pull requests leave the version and generated stamp files alone. Stamp 0.221.112; no deployment or npm publish.",

@@ -10,6 +10,7 @@ import { workflows } from "../../../catalog/workflows/index.js";
 import { contextPacks } from "../../../catalog/context-packs.js";
 import { loadPinnedKnowledgeFreshnessNow } from "../../../tooling/lib/knowledge-freshness-pin.js";
 import { resolveSkillRoot } from "../../../tooling/lib/skill-root.js";
+import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 import { validateDefinitionOverlays } from "../../../catalog/overlays.js";
 
 /**
@@ -30,24 +31,28 @@ const defaultSkillRoot = resolveSkillRoot(import.meta.url);
 const { skillRoot, sourceSnapshot } = parseArgs(process.argv.slice(2));
 const catalog = composeCatalog(skillRoot);
 const knowledgeNow = loadPinnedKnowledgeFreshnessNow(skillRoot, sourceSnapshot);
+const packages = loadKnowledgePackages(skillRoot);
 const issues = [
   ...validateCatalog(catalog, skillRoot),
-  ...validateKnowledgePackages(
-    loadKnowledgePackages(skillRoot),
-    skillRoot,
-    domains,
-    workflows,
-    contextPacks,
-    [...catalog.roles, ...operators],
-    knowledgeNow,
-  ).map((item) => ({
+  ...validateKnowledgePackages(packages, skillRoot, domains, workflows, contextPacks, [...catalog.roles, ...operators], knowledgeNow).map((item) => ({
     severity: "error" as const,
     code: item.code,
     message: item.message,
     path: undefined,
   })),
   ...validateDefinitionOverlays(catalog, skillRoot),
-];
+].filter((item) => !pendingStampReference(item));
+
+/**
+ * Pull requests and main pushes leave `catalog/generated/` for `release:stamp`.
+ * A knowledge file that already has a manifest is not an orphan. Release mode
+ * still requires the stamped CatalogReference.
+ */
+function pendingStampReference(item: { code: string; path?: string }): boolean {
+  if (!driftIsLoose(resolveDriftMode(process.argv))) return false;
+  if (item.code !== "catalog_graph.reference.file_unregistered" || !item.path) return false;
+  return packages.some((entry) => entry.path === item.path);
+}
 
 const errors = issues.filter((issue) => issue.severity === "error");
 const warnings = issues.filter((issue) => issue.severity === "warning");

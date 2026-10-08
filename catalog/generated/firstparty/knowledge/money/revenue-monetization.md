@@ -12,7 +12,7 @@ Load [`paid-tool-routing.md`](../operations/paid-tool-routing.md) before replaci
 
 Load `viral-growth-loops.md` before using referral unlocks, share rewards, creator codes, closing offers, or viral paywall timing as part of monetization. A growth spike is only useful if the paywall, entitlement, analytics, refund/restore, and abuse controls are ready to catch it.
 
-Load `paid-user-acquisition.md` before using paid ads, Apple Search Ads, web-to-app campaigns, paid creative tests, or custom product pages to drive purchases. A paid campaign is only launch-ready when CPA can be evaluated against RevenueCat LTV/cohorts, trial conversion, payback window, and entitlement proof.
+Load `paid-user-acquisition.md` before using paid ads, Apple Search Ads, web-to-app campaigns, paid creative tests, or custom product pages to drive purchases. Load [`apple-search-ads-launch.md`](../growth/apple-search-ads-launch.md) before an exact-match competitor and category Apple Search Ads test. A paid campaign is only launch-ready when CPA can be evaluated against RevenueCat LTV/cohorts, trial conversion, payback window, and entitlement proof.
 
 ## Contents
 

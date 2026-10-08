@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.114
-revision: 0.221.114
+version: 0.221.115
+revision: 0.221.115
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -2888,6 +2888,7 @@ workflows:
     consults: []
     reference_ids:
       - reference.engineering.recommended-agent-skills
+      - reference.growth.apple-search-ads-launch
       - reference.growth.paid-user-acquisition
       - reference.process.tool-recipes.growth-and-store-routing
       - reference.research.localization-market-research
@@ -4053,6 +4054,7 @@ workflows:
       - state/business-state.json
     consults: []
     reference_ids:
+      - reference.growth.apple-search-ads-launch
       - reference.growth.appsflyer-mmp
       - reference.growth.hdyhau-blended-roas
       - reference.growth.ios-consumer-playbook-intake
@@ -7917,6 +7919,47 @@ references:
     lifecycle: active
     source_exemption: This package contains internal operating guidance or has no external factual claims.
     sources: []
+    replacement_ids: []
+  - id: reference.growth.apple-search-ads-launch
+    title: Apple Search Ads Launch
+    domain_id: domain.growth
+    path: knowledge/growth/apple-search-ads-launch.md
+    load_when: before an Apple Search Ads test that bids exact-match competitor and category keywords, with Search Match off, new users, iPhone, and territory tiers
+    lifecycle: active
+    applicability_notes: Reauthored from one self-reported indie setup. Figures from that account are one anecdote and are not targets. Apple's current ad policies outrank the anecdote. Spend needs founder approval and a daily cap. Competitor names may be keywords. Ad copy and custom product pages stay modelled on the category, using this app's own claims and screenshots.
+    sources:
+      - id: apple-ads-policies
+        name: Apple Advertising Policies
+        source_type: website
+        url: https://ads.apple.com/policies
+        review_cadence_days: 30
+        claim_scope: Advertiser duties for ad content, including intellectual-property limits on logos, graphics, and artwork, and the requirement to re-read the live policy before delivery.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: apple-ads-structure-campaigns
+        name: Apple Ads — Structure campaigns
+        source_type: website
+        url: https://ads.apple.com/app-store/help/campaigns/0056-structure-campaigns
+        review_cadence_days: 30
+        claim_scope: Exact-match category and competitor campaigns, and Search Match as a discovery control rather than the default on those campaigns.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: apple-ads-campaign-structure-best-practices
+        name: Apple Ads — Campaign structure best practices
+        source_type: website
+        url: https://ads.apple.com/app-store/best-practices/campaign-structure
+        review_cadence_days: 30
+        claim_scope: Search Match off and exact match for brand, category, and competitor campaigns, plus separating storefronts when budgets differ.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: apple-ads-audience-settings
+        name: Apple Ads — Modify audience settings
+        source_type: website
+        url: https://ads.apple.com/app-store/help/ad-groups/0021-modify-audience-settings
+        review_cadence_days: 30
+        claim_scope: New users customer type, iPhone device choice including possible iPod touch delivery, and the reach limit when audience settings exclude Personalized Ads off.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
     replacement_ids: []
   - id: reference.growth.appsflyer-mmp
     title: AppsFlyer MMP
@@ -13395,6 +13438,7 @@ context_packs:
     title: Growth
     reference_ids:
       - reference.design.brand-system-skill-onboard
+      - reference.growth.apple-search-ads-launch
       - reference.growth.appsflyer-mmp
       - reference.growth.cro-landing
       - reference.growth.geo-seo

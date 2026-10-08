@@ -935,7 +935,7 @@ _Before App Store/Play metadata, keyword research, ASA, or post-launch ASO loops
 - **Consults:** —
 - **Produces:** `STORE_OPS.md`
 - **Gates:** `check:aso-evidence`
-- **Knowledge:** [Recommended Agent Skills](../../knowledge/engineering/recommended-agent-skills.md), [Paid User Acquisition](../../knowledge/growth/paid-user-acquisition.md), [Growth And Store Routing](../../knowledge/process/tool-recipes/growth-and-store-routing.md), [Localization Market Research](../../knowledge/research/localization-market-research.md), [ASO Apple Keyword Evidence](../../knowledge/store/aso-apple-keyword-evidence.md), [ASO Store Ops](../../knowledge/store/aso-store-ops.md), [Consumer Copy Benchmarks](../../knowledge/words/consumer-copy-benchmarks.md), [Conversion Copy](../../knowledge/words/conversion-copy.md), [No-Slop Writing](../../knowledge/words/no-slop-writing.md)
+- **Knowledge:** [Recommended Agent Skills](../../knowledge/engineering/recommended-agent-skills.md), [Apple Search Ads Launch](../../knowledge/growth/apple-search-ads-launch.md), [Paid User Acquisition](../../knowledge/growth/paid-user-acquisition.md), [Growth And Store Routing](../../knowledge/process/tool-recipes/growth-and-store-routing.md), [Localization Market Research](../../knowledge/research/localization-market-research.md), [ASO Apple Keyword Evidence](../../knowledge/store/aso-apple-keyword-evidence.md), [ASO Store Ops](../../knowledge/store/aso-store-ops.md), [Consumer Copy Benchmarks](../../knowledge/words/consumer-copy-benchmarks.md), [Conversion Copy](../../knowledge/words/conversion-copy.md), [No-Slop Writing](../../knowledge/words/no-slop-writing.md)
 
 ### App Store listing prep packet
 
@@ -1199,7 +1199,7 @@ _Before paid ads, ASA, Meta/TikTok/Google campaigns, or spend-readiness claims_
 - **Consults:** —
 - **Produces:** `growth/PAID_UA.md`
 - **Gates:** `check:paid-ua`
-- **Knowledge:** [AppsFlyer MMP](../../knowledge/growth/appsflyer-mmp.md), [HDYHAU Survey And Blended ROAS](../../knowledge/growth/hdyhau-blended-roas.md), [iOS Consumer Playbook Intake](../../knowledge/growth/ios-consumer-playbook-intake.md), [Non-Competitor Angle Discovery](../../knowledge/growth/non-competitor-angle-discovery.md), [Paid User Acquisition](../../knowledge/growth/paid-user-acquisition.md), [Revenue Monetization](../../knowledge/money/revenue-monetization.md), [Paid Tool Routing](../../knowledge/operations/paid-tool-routing.md), [Localization Market Research](../../knowledge/research/localization-market-research.md)
+- **Knowledge:** [Apple Search Ads Launch](../../knowledge/growth/apple-search-ads-launch.md), [AppsFlyer MMP](../../knowledge/growth/appsflyer-mmp.md), [HDYHAU Survey And Blended ROAS](../../knowledge/growth/hdyhau-blended-roas.md), [iOS Consumer Playbook Intake](../../knowledge/growth/ios-consumer-playbook-intake.md), [Non-Competitor Angle Discovery](../../knowledge/growth/non-competitor-angle-discovery.md), [Paid User Acquisition](../../knowledge/growth/paid-user-acquisition.md), [Revenue Monetization](../../knowledge/money/revenue-monetization.md), [Paid Tool Routing](../../knowledge/operations/paid-tool-routing.md), [Localization Market Research](../../knowledge/research/localization-market-research.md)
 
 ### Viral growth loop
 

@@ -22,7 +22,7 @@ This is an orchestration reference and the store domain's hub. Prefer specialist
 
 For App Store listing preparation, load `app-store-listing-prep.md` too. ASO decides what to say; App Store listing prep connects that message to Apple pre-ASC requirements, App Privacy, subscriptions/pricing, RevenueCat/Stripe/web funnels, custom product pages, In-App Events, localization, screenshots, and App Store Connect policy constraints. For founder-facing App Store Connect or Google Play Console work, load `store-console-workflow.md` too; the store-console workflow decides exactly where the user clicks, what they paste, which privacy answers are selected, and which screenshots/assets satisfy each upload well.
 
-Load `paid-user-acquisition.md` before Apple Search Ads, paid campaign custom product page routing, paid creative tests, MMP/ad-network SDK decisions, or spend-readiness claims.
+Load `paid-user-acquisition.md` before Apple Search Ads, paid campaign custom product page routing, paid creative tests, MMP/ad-network SDK decisions, or spend-readiness claims. Load [`apple-search-ads-launch.md`](../growth/apple-search-ads-launch.md) before an exact-match competitor and category Apple Search Ads test.
 
 Load `localization-market-research.md` before any localization work. Localization is a market-selection decision made from search-demand evidence, not a translation task: research keyword popularity, difficulty, and demand per storefront, rank markets into priority tiers, and produce `LOCALIZATION_MARKET_RESEARCH.md` before localizing metadata, keywords, screenshots, paywalls, landing, or email. Localize based on search demand, not language.
 

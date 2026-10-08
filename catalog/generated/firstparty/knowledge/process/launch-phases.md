@@ -445,7 +445,7 @@ Goal: produce the operational plan for App Store launch and first acquisition te
 Do:
 
 - Load `analytics-attribution.md` before defining App Store CTAs, Apple Search Ads, Google Play listing experiments, creator/referral codes, post-launch metrics, or attribution dashboards.
-- Load `paid-user-acquisition.md` before Apple Search Ads, paid ad library, custom product page campaign routing, MMP/ad-network SDK decisions, or paid-growth readiness claims.
+- Load `paid-user-acquisition.md` before Apple Search Ads, paid ad library, custom product page campaign routing, MMP/ad-network SDK decisions, or paid-growth readiness claims. Load `apple-search-ads-launch.md` before an exact-match competitor and category Apple Search Ads test.
 - Load `aso-store-ops.md` and create or refresh `app-marketing-context.md` before writing listing copy.
 - Load `app-store-listing-prep.md` before Apple listing packets, App Privacy questionnaires, pricing/subscription mapping, custom product pages, In-App Events, localization, or App Store marketing assets.
 - Load `apple-signing-release.md` before Apple Developer account triage, Team ID, bundle ID/App ID, App Store Connect app record, Xcode signing, certificates/profiles, archive/export/upload, TestFlight, physical-device signing, or distribution-readiness claims.
@@ -456,7 +456,7 @@ Do:
 - Prepare Apple pre-ASC requirements: `store/APPLE_APP_STORE_REQUIREMENTS.md` with `PrivacyInfo.xcprivacy`, required reason API declarations, third-party SDK manifests/signatures, Xcode privacy report, App Privacy labels, protected-resource purpose strings, ATT, account deletion, review notes, archive/upload warnings, and founder approval before upload/submission.
 - Define screenshots by frame: hero copy, device screen content, supporting line, source asset, raw MobAI/native iOS/device capture, production-text overlay notes, final upload dimensions, and upload well.
 - Build an ad-copy library by angle clusters; tie angles to research, not vibes.
-- Create Apple Search Ads or paid-channel campaign groups only inside `PAID_UA.md` or a linked campaign packet: exact/phrase/broad, defensive keywords, category keywords, competitor keywords, daily budget, success metrics, and founder approval.
+- Create Apple Search Ads or paid-channel campaign groups only inside `PAID_UA.md` or a linked campaign packet: exact/phrase/broad, defensive keywords, category keywords, competitor keywords, daily budget, success metrics, and founder approval. The exact-match competitor and category test follows `apple-search-ads-launch.md`.
 - Verify store-console readiness with a copy-paste packet: categories, age rating, pricing/IAP/subscriptions, review notes, demo credentials, export compliance, privacy labels, privacy manifests/required-reason APIs, account deletion, screenshot slot requirements, App Icon/App Preview routes, and build/review status.
 - Verify Apple distribution readiness separately from simulator builds: Developer Program membership, role, agreements, Team ID, `DEVELOPMENT_TEAM`, bundle ID/App ID, app record, capabilities/entitlements, Apple Development versus Apple Distribution signing path, archive/export/upload, and TestFlight processing.
 - Add Google Play branch when Android is in scope: Data safety, privacy policy, account deletion web link, feature graphic, screenshots, short/long description, content rating, testing track, and store listing experiments.
