@@ -19,6 +19,7 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `render-mocks.sh` | Writes one PNG per screen and state to `mocks/` at 393x852. |
 | `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
 | `GATE1.md` | Founder-facing Gate 1 summary. Replace the placeholders. |
+| `MERGE.md` | When a reviewer agent can merge a build pull request without the founder. |
 
 ## Use
 
@@ -64,7 +65,7 @@ The founder decides that at Gate 1.
    its simulator screenshot for each required state matches
    `mocks/<screen>--<state>.png` in layout, copy, tokens and tap targets; its
    tests pass; and the merge gate is green. Differences are fixed or listed in
-   the PR.
+   the PR. A reviewer merges only under `MERGE.md`.
 5. **Gate 2**: the founder approves store submission after a real-device
    dogfood verdict.
 6. **Launch and run**: the daily ship loop reads the event map to judge
