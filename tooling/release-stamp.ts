@@ -114,7 +114,7 @@ function runGenerators(root: string): boolean {
   const steps: Array<[string, string[]]> = [
     ["npm", ["run", "render:all"]],
     ["npm", ["run", "render:evidence-schema-version"]],
-    ["npm", ["run", "render:artifact-pages"]],
+    ["npm", ["run", "render:artifact-pages", "--", "--root", "examples/workspace/business"]],
     [process.execPath, ["examples/spec-pack/build.mjs"]],
   ];
   for (const [command, args] of steps) {
