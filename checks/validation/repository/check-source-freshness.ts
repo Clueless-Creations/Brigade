@@ -78,6 +78,12 @@ function normalizeUrl(raw: string): string | undefined {
   if (trimmed.includes("${")) {
     return undefined;
   }
+  // A backslash is not part of an http(s) URL. JSON embedded in a script tag escapes
+  // "<" as \u003c so the tag stays intact. The URL parser treats that backslash as "/"
+  // and invents a host from the escape. Drop the candidate. A real source has no backslash.
+  if (trimmed.includes("\\")) {
+    return undefined;
+  }
   try {
     const parsed = new URL(trimmed);
     parsed.hash = "";

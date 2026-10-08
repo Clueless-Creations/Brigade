@@ -20,7 +20,7 @@ const CAPABILITY_LABELS = [
   "Accessibility",
 ];
 const FREE_WEB_ORIGIN = "https://<slug>.<account>.workers.dev";
-const EXAMPLE_WEB_ORIGIN = "https://soon-example.example.workers.dev";
+const EXAMPLE_WEB_ORIGIN = "https://soon-example.example";
 
 type SpecDoc = {
   meta: { web_origin?: unknown; domain?: unknown; slug?: string };
@@ -63,7 +63,7 @@ export function register(harness: Harness): void {
   harness.check("spec-pack example with no domain writes tracker-draft.json", () => {
     const spec = YAML.parse(readFileSync(path.join(exampleDir, "spec.yaml"), "utf8")) as SpecDoc;
     assert(!Object.prototype.hasOwnProperty.call(spec.meta, "domain"), "example spec must omit meta.domain");
-    assert(spec.meta.web_origin === EXAMPLE_WEB_ORIGIN, "example spec must use the example workers.dev origin");
+    assert(spec.meta.web_origin === EXAMPLE_WEB_ORIGIN, "example spec must use the reserved example origin");
     const outDir = harness.makeTempDir("spec-pack-launch-example");
     const result = runBuild(path.join(exampleDir, "spec.yaml"), path.join(outDir, "index.html"));
     assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.output}`);

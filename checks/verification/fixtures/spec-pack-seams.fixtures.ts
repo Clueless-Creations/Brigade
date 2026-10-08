@@ -166,4 +166,29 @@ export function register(harness: Harness): void {
     assert(result.status === 1, `expected exit 1, got ${result.status}\n${result.output}`);
     assert(result.output.includes("source_freshness.sources.duplicate_url"), `missing duplicate-url error\n${result.output}`);
   });
+
+  harness.check("source freshness ignores a JSON escape of a placeholder URL", () => {
+    const root = harness.makeTempDir("source-freshness-json-escape");
+    writeRegistry(root, [sourceRow("doppler-cli", "https://docs.doppler.com/docs/cli")], []);
+    writeFileSync(path.join(root, "page.html"), '{\n  "web_origin": "https://\\u003cslug>.\\u003caccount>.workers.dev"\n}\n', "utf8");
+    const result = runFreshness(root);
+    assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.output}`);
+    assert(!result.output.includes("u003cslug"), `escape was treated as a source\n${result.output}`);
+  });
+
+  harness.check("source freshness still flags a real unregistered URL", () => {
+    const root = harness.makeTempDir("source-freshness-real-url");
+    writeRegistry(root, [sourceRow("doppler-cli", "https://docs.doppler.com/docs/cli")], []);
+    writeFileSync(
+      path.join(root, "README.md"),
+      "See https://docs.doppler.com/docs/cli and https://registry.example-unregistered.tools/guide\n",
+      "utf8",
+    );
+    const result = runFreshness(root);
+    assert(result.status === 1, `expected exit 1, got ${result.status}\n${result.output}`);
+    assert(
+      result.output.includes("https://registry.example-unregistered.tools/guide"),
+      `real URL was not reported\n${result.output}`,
+    );
+  });
 }
