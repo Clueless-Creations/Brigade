@@ -239,7 +239,7 @@ repo:
     - { path: spec/index.html, purpose: "Rendered spec pack." }
     - { path: DESIGN.md, purpose: "Tokens and style prompt, same values as design.tokens." }
     - { path: TASKS.md, purpose: "Generated from screens, web pages and tasks:" }
-    - { path: scripts/merge-gate.sh, purpose: "Build, unit tests, screenshot-vs-mock check, lint." }
+    - { path: scripts/merge-gate.sh, purpose: "Build, unit tests, screenshot-vs-mock check, lint, and the snapshot record-mode step." }
     - { path: .env.example, purpose: "Names only, no values." }
     - { path: web/, purpose: "Landing and policy pages." }
   merge_gate:
@@ -248,6 +248,7 @@ repo:
     - Each changed screen has a simulator screenshot per required state.
     - Screenshot-vs-mock review recorded with any differences fixed or listed.
     - No hard-coded colors, sizes or strings outside tokens and copy files.
+    - No snapshot test is in record mode.
 
 gates:
   gate_1:

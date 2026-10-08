@@ -10,7 +10,7 @@ radius**. If either is in doubt, stop and ask the founder.
 - CI is green on the pull request head. No test, snapshot, or suite was
   deleted, skipped, or disabled.
 - No snapshot record mode is committed (for example `record: true` or a
-  record environment variable).
+  record environment variable). The check is [`scripts/check-snapshot-record-mode.sh`](scripts/check-snapshot-record-mode.sh).
 - For UI changes, the reviewer opened **every** compare image and checked it
   against `mocks/<screen>--<state>.png`. No text is clipped or truncated, no
   view overflows its container, nothing overlaps, and sizes match the mock.

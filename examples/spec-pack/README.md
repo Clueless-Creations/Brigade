@@ -32,6 +32,8 @@ node build.mjs --list-checks
 ./render-mocks.sh      # mocks/<screen>--<state>.png for comparison
 ```
 
+Copy [`scripts/check-snapshot-record-mode.sh`](scripts/check-snapshot-record-mode.sh) into `scripts/merge-gate.sh`. It fails when a tracked snapshot test is in record mode.
+
 One mock alone: open `index.html?mock=<screen>:<state>` (add `:dark` for dark
 mode, `&w=<px>&h=<px>` for another device size).
 

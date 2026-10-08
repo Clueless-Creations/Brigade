@@ -349,6 +349,8 @@ Record in `engineering/PRODUCTION_READINESS.md`:
 
 SnapshotPreviews is especially useful before screenshot composition because it catches broken SwiftUI preview states and can generate reusable UI evidence for component states. It is not a substitute for raw real-app captures for App Store screenshots unless the asset is explicitly a preview/component proof and the limitation is recorded.
 
+Record snapshot references in a separate commit, never together with the gate.
+
 ## serve-sim CLI Proof
 
 The reviewed package README requires macOS, Xcode command-line tools and an
