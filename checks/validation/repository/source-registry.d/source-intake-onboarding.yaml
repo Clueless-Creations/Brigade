@@ -1,0 +1,101 @@
+schema_version: 1
+sources:
+  - id: github-screensdesign-agent-skill
+    name: ScreensDesign agent skill
+    source_type: github
+    url: https://github.com/screensdesign-com/screensdesign-agent-skill
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/screensdesign-agent-skill.yaml
+    notes: Public skill repository. Paid hosted service stays disconnected. Status is paid, needs founder yes.
+  - id: screensdesign-agent-skill-license
+    name: ScreensDesign agent skill reviewed license
+    source_type: github
+    url: https://github.com/screensdesign-com/screensdesign-agent-skill/blob/0e3d5908768fcb2540568ef8baf817c8adf1c49f/LICENSE
+    refresh_cadence_days: 365
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/screensdesign-agent-skill.yaml
+      - catalog/upstreams/notices/screensdesign-agent-skill.txt
+    notes: MIT notice at the reviewed commit. It licenses the public repository, not the paid service.
+  - id: screensdesign-mcp-docs
+    name: ScreensDesign MCP docs
+    source_type: official_docs
+    url: https://screensdesign.com/mcp/
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/screensdesign-agent-skill.yaml
+      - knowledge/design/design-evidence-stack.md
+      - knowledge/operations/paid-tool-routing.md
+    notes: Public setup page. Not fetched as a live connection. Status is paid, needs founder yes.
+  - id: screensdesign-mcp-endpoint
+    name: ScreensDesign MCP endpoint
+    source_type: service_endpoint
+    url: https://api.screensdesign.com/v1/mcp
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/screensdesign-agent-skill.yaml
+    notes: Recorded from public server.json. No request was sent. Status is paid, needs founder yes.
+  - id: github-masko-plugins
+    name: Masko workflow skills
+    source_type: github
+    url: https://github.com/masko-ai/masko-plugins
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/masko.yaml
+    notes: Public plugin repository. Generation stays disconnected. Status is paid, needs founder yes.
+  - id: masko-plugins-license
+    name: Masko workflow skills reviewed license
+    source_type: github
+    url: https://github.com/masko-ai/masko-plugins/blob/9feb999e8e3bf609728261ab17bdcf63f0e811ff/LICENSE
+    refresh_cadence_days: 365
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/masko.yaml
+      - catalog/upstreams/notices/masko.txt
+    notes: MIT notice at the reviewed commit. It licenses the public repository, not paid generation.
+  - id: masko-canvas-build-docs
+    name: Masko canvas build docs
+    source_type: official_docs
+    url: https://masko.ai/docs/canvas/build
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/masko.yaml
+      - knowledge/design/remotion-content-assets.md
+    notes: Public docs. A canvas is a state machine of poses and transitions. No account was created.
+  - id: masko-canvas-generate-all-docs
+    name: Masko canvas generate-all docs
+    source_type: official_docs
+    url: https://masko.ai/docs/canvas/generate-all
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/masko.yaml
+      - knowledge/operations/paid-tool-routing.md
+      - knowledge/design/remotion-content-assets.md
+    notes: Public docs. Generate-all dry-run returns an estimated cost before spend. The quote was not run.
+  - id: masko-canvas-export-docs
+    name: Masko canvas export docs
+    source_type: official_docs
+    url: https://masko.ai/docs/canvas/export
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/masko.yaml
+      - knowledge/design/remotion-content-assets.md
+    notes: Public docs. Export is a MaskoAnimationConfig JSON plus a player. No export was requested.
+  - id: masko-credits-docs
+    name: Masko generation credits docs
+    source_type: official_docs
+    url: https://masko.ai/docs/credits
+    refresh_cadence_days: 30
+    owner: b2c-maintainers
+    locations:
+      - catalog/upstreams/masko.yaml
+      - knowledge/operations/paid-tool-routing.md
+    notes: Public docs. Generation spends credits. Status is paid, needs founder yes.

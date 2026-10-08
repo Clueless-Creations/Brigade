@@ -1,0 +1,111 @@
+schema_version: 1
+id: screensdesign-agent-skill
+project: ScreensDesign agent skill
+canonical_url: https://github.com/screensdesign-com/screensdesign-agent-skill
+homepage: https://screensdesign.com/mcp/
+aliases:
+  - screensdesign-com/screensdesign-agent-skill
+authors:
+  - name: ScreensDesign
+    role: copyright holder named in the reviewed LICENSE
+maintainers:
+  - name: screensdesign-com (github.com/screensdesign-com)
+    role: current upstream maintainer
+copyright: Copyright (c) 2026 ScreensDesign
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/screensdesign-com/screensdesign-agent-skill/blob/0e3d5908768fcb2540568ef8baf817c8adf1c49f/LICENSE
+  evidence_sha256: 685ef2ec3b41ea3efd3ffaa09d1d868383e945c1257d20e7670667acd587b3c5
+  reviewed_revision: 0e3d5908768fcb2540568ef8baf817c8adf1c49f
+  notice_file: catalog/upstreams/notices/screensdesign-agent-skill.txt
+  scope: Root LICENSE of the public skill repository. No skill text, screen corpus, or hosted service is imported.
+  notes: The repository license does not license the paid hosted service. Status is paid, needs founder yes.
+service_terms:
+  url: https://screensdesign.com/mcp/
+  status: unreviewed
+  notes: Paid hosted MCP at https://api.screensdesign.com/v1/mcp. Status is paid, needs founder yes. Do not connect, start a trial, or spend.
+source_ids:
+  - github-screensdesign-agent-skill
+  - screensdesign-agent-skill-license
+  - screensdesign-mcp-docs
+  - screensdesign-mcp-endpoint
+relationships:
+  - kind: selected-skill-guidance
+    consumption: The public skill repository is reference-only. It is not installed. Provider-specific MCP
+      commands stay upstream. Recorded-flow research is one optional reference lane next to other design
+      evidence providers.
+    local_owners:
+      - knowledge/design/design-evidence-stack.md
+      - knowledge/operations/paid-tool-routing.md
+      - adapters/provisioning/requirements.ts
+    tests:
+      - checks/verification/fixtures/spec-pack-onboarding.fixtures.ts
+    upstream_paths:
+      - README.md
+      - LICENSE
+      - server.json
+    pin_authority: Reviewed commit 0e3d5908768fcb2540568ef8baf817c8adf1c49f pins the public repository. It does not authorize the paid service.
+  - kind: remote-service
+    consumption: The hosted research service stays disconnected. Status is paid, needs founder yes.
+      Revenue and install figures from it are benchmarks only after that yes, and a rank is not proof a
+      screen caused an outcome.
+    local_owners:
+      - knowledge/design/design-evidence-stack.md
+      - adapters/provisioning/requirements.ts
+    tests:
+      - checks/verification/fixtures/spec-pack-onboarding.fixtures.ts
+    upstream_paths:
+      - server.json
+      - README.md
+    pin_authority: Public endpoint recorded from server.json at the reviewed commit. No live call was made.
+baselines:
+  reviewed_source:
+    revision: 0e3d5908768fcb2540568ef8baf817c8adf1c49f
+    observed_at: "2026-10-08"
+    by: b2c-contributor source review
+    note: Read-only GitHub license, README, and server.json inspection. No MCP call, sign-up, trial, or spend.
+  reviewed_guidance:
+    revision: 0e3d5908768fcb2540568ef8baf817c8adf1c49f
+    observed_at: "2026-10-08"
+    by: b2c-contributor source review
+    note: Routed as a held research provider. Skill text was not copied into this repository.
+support:
+  policy: Source-reviewed registration only. Status is paid, needs founder yes. No connection or spend is supported.
+  versions:
+    - range: 0e3d5908768fcb2540568ef8baf817c8adf1c49f
+      status: untested
+      evidence:
+        - Source inspection only. No live ScreensDesign MCP or account.
+  operations: []
+  unsupported_operations:
+    - id: connect-trial-or-spend
+      reason: Paid, needs founder yes. Connecting, signing up, starting a trial, or spending is not authorized.
+    - id: automatic-install-or-upgrade
+      reason: Requires explicit target, selected revision, scoped authority, and independent verification.
+    - id: proprietary-screen-corpus
+      reason: The hosted screen corpus is not imported.
+  platforms: []
+adaptations:
+  - id: held-paid-service
+    description: Register the provider and keep it disconnected. Status is paid, needs founder yes.
+    owner: knowledge/operations/paid-tool-routing.md
+    intentional: true
+  - id: no-mcp-fork
+    description: Provider-specific MCP commands stay upstream. This repository routes the lane only.
+    owner: knowledge/design/design-evidence-stack.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-08"
+  status: deferred
+  deferral:
+    reason: Paid service. Needs founder yes before any connection, trial, or spend.
+    reconsider_when: The founder approves connecting ScreensDesign.
+    owner: b2c-maintainers
+credits:
+  acknowledge: true
+  use: inspiration
+  summary: The public ScreensDesign skill repository is cited as a held research provider. The MIT notice is
+    retained. The paid service is not connected, and no live integration is claimed.

@@ -365,6 +365,8 @@ export const workflows = [
       "provider.security-review",
       "provider.sentry",
       "provider.paid-ad-channels",
+      "provider.screensdesign",
+      "provider.masko",
     ],
     actionClass: "mutate",
     idempotent: true,

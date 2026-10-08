@@ -76,6 +76,14 @@ mode, `&w=<px>&h=<px>` for another device size).
     `security` names entitlements, the secrets location, and deep-link checks.
 17. `legal_preflight` lists all six checks. `n/a` needs a reason. The DMCA and
     email-provider items need human steps unless they are `n/a`.
+18. `onboarding` has an archetype and a reason. `utility-quick-start` has at
+    most 5 onboarding screens and no quiz. `quiz-led-problem` has a cited
+    baseline when a comparison is shown, a plan-loader computation, and a
+    timeline reminder. A closing offer has `standard_price`, `renewal_price`,
+    and `eligibility: once`. Any custom rating screen fails. The required
+    catalog events are present for the archetype. `mascot.use` is yes or no,
+    with a reason. The first screen's default mock shows core value and has
+    no sign-up block.
 
 `node build.mjs --list-checks` prints one line per check module (`id: describe`).
 Add a later check as `checks/<NN>-<area>.mjs`. Add a review section as

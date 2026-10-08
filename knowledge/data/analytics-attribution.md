@@ -197,6 +197,8 @@ Minimum B2C launch events:
 - Support/privacy: `support_contact_clicked`, `data_deletion_requested`, `privacy_choice_updated`
 - Post-launch social: `viral_format_signal_detected`, `fastlane_content_generated`, `fastlane_content_approved`, `fastlane_content_scheduled`, `social_campaign_click_received`
 
+The spec pack uses the catalog onboarding names: `onboarding_started`, `onboarding_step_viewed`, `onboarding_answer_selected`, and `onboarding_completed`. `utility-quick-start` and `result-reveal` require started, step viewed, and completed. `quiz-led-problem` also requires `onboarding_answer_selected`. A closing offer also requires `closing_offer_viewed` and `closing_offer_selected`. Discount take rate is `closing_offer_selected / closing_offer_viewed`. Guardrails are refund rate, Day-0 trial cancellation, and "charged/scam" 1–2 star reviews.
+
 Core properties:
 
 - `platform`, `device_type`, `app_version`, `build_number`, `environment`, `locale`, `country`, `storefront`

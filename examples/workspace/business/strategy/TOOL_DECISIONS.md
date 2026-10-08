@@ -17,6 +17,8 @@ Workflow intake is not recorded yet. Record the start-of-workflow recommended se
 | Codex Desktop native iOS / XcodeBuildMCP | iOS proof | use when exposed or configured | not required for exposed local tools; required when replacing MobAI | session_show_defaults, build_run_sim/test/screenshot/log tools or CLI | Apple-only proof; not Android, provider, or distribution readiness |
 | SnapshotPreviews | iOS preview proof | not checked | not required unless introducing new dependency | SnapshotTest or PreviewLayoutTest with TEST_RUNNER_SNAPSHOTS_EXPORT_DIR | preview-only PNG/JSON proof; not runtime E2E |
 | serve-sim | iOS simulator stream | not checked | not required unless introducing new dependency or public tunnel | npx serve-sim / localhost preview | simulator stream; not provider or App Store signing proof |
+| ScreensDesign | research | paid, needs founder yes | required before any connection or spend | held | public pages only; no connection |
+| Masko | character animation | paid, needs founder yes | required before generation spend | held | dry-run quote is not spend approval |
 
 ## Mobile Proof Route Decision
 

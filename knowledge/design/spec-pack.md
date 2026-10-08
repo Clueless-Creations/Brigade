@@ -54,9 +54,47 @@ Treat `loading`, `empty`, and `error` as a state, or list each one in `not_appli
 Add `offline`, `permission-denied`, and `success` when they apply to that screen.
 A listed state must have a mock.
 
+## Choose the onboarding archetype
+
+Pick one archetype and record why. The example app Soon is `utility-quick-start`.
+
+| Archetype | Use it when | Shape |
+| --- | --- | --- |
+| `utility-quick-start` | A utility or widget. First value is under 30 seconds. | At most 5 onboarding screens. No quiz. |
+| `result-reveal` | A result-led creative app. | Show the result. Do not use symptom screens. |
+| `quiz-led-problem` | A problem/solution subscription app, such as health, habits, learning, or money. | The 9-step pattern, amended below. |
+
+The 9-step pattern is a low-confidence practitioner heuristic. It names no dataset and no outcome data. ScreensDesign is how to check how common each step is, once the founder says yes. It is paid, needs founder yes. Do not connect it before that yes. A rank is not proof a screen caused an outcome.
+
+`quiz-led-problem` keeps these amendments:
+
+- Results comparisons need a cited baseline.
+- At most 2 symptom screens, in the user's own words, neutral color, no medical claims, and Skip always visible. Banned for appearance or body, kids and teens, grief, and money distress.
+- Native review prompt only, after the plan reveal. Any custom rating screen fails the check.
+- Real testimonials only.
+- One feature screen, tied to an answer.
+- Plan loader backed by real computation.
+- The paywall shows a trial timeline whose reminder is really scheduled.
+- One closing offer, with the standard price and the renewal price, eligibility once.
+- Keep the attribution question.
+
+The approval checklist also carries these five checks:
+
+- Value in 3 seconds. The first screen's default mock shows the core value and does not ask for sign-up. The machine check enforces this.
+- The name and icon decide the invite.
+- Marketing and product are one thing. The ad, the store page, onboarding, and the invite use the same audience and the same promise.
+- Product-market fit is binary. If it is unclear, it is not working, so cut or pivot at Gate 2.
+- Live support chat is in the app in the early days.
+
+The spec pack uses the catalog event names: `onboarding_started`, `onboarding_step_viewed`, `onboarding_answer_selected`, and `onboarding_completed`. `utility-quick-start` and `result-reveal` require started, step viewed, and completed. `quiz-led-problem` also requires `onboarding_answer_selected`. A closing offer also requires `closing_offer_viewed` and `closing_offer_selected`.
+
+Record the step-completion funnel, quiz drop-off per question, and time to first value. Record paywall view to trial, or view to purchase for a one-time price, and trial to paid. Discount take rate is `closing_offer_selected / closing_offer_viewed`. Guardrails are refund rate, Day-0 trial cancellation, and "charged/scam" 1–2 star reviews.
+
+`mascot` is `yes` or `no`, with a reason. When the answer is yes and Masko is the route, the mascot is a state machine: poses are nodes, generated videos are transitions, and app inputs trigger them. The export is a `MaskoAnimationConfig` JSON plus a player. Generation is paid, needs founder yes. A dry-run quote is not spend approval.
+
 ## Acceptance
 
-The machine check lives in `build.mjs`.
+The machine check lives in `examples/spec-pack/checks/`. `build.mjs` loads those modules.
 The check list lives in `examples/spec-pack/README.md`.
 The check proves the spec is complete.
 The check does not prove the design is good.
