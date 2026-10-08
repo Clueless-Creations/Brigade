@@ -45,8 +45,9 @@ Angle, name, price, screens, web copy, event map, definition of good, kill crite
 
 <!-- Only founder decisions. Each item ends with a recommendation. -->
 
-1. {decision}? I suggest {recommendation}.
+1. Buy a custom domain now? Not blocking; site goes live on the free URL. I suggest shipping on the free URL first.
 2. {decision}? I suggest {recommendation}.
+3. {decision}? I suggest {recommendation}.
 
 ## After approval
 
@@ -58,4 +59,8 @@ Workers build one screen per pull request, in `TASKS.md` order. Each pull reques
 
 <!-- Draft the work. Do not create tracker issues or store listings before approval. -->
 
-Drafted, not created: {tracker_draft_count} issues. Create them only after approval.
+Drafted, not created: {tracker_draft_count} issues. Read {tracker_draft_count} from the `issues` count in `tracker-draft.json`. Create them only after approval.
+
+## Checklist
+
+- When the app is announced or launched, update its card on the founder's portfolio site, if any (a workspace setting). Refresh the "how we build" story.

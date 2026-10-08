@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import YAML from "yaml";
@@ -57,8 +57,13 @@ export function register(harness: Harness): void {
     });
     assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.stderr ?? ""}`);
     const lines = (result.stdout ?? "").trim().split("\n").filter(Boolean);
-    assert(lines.length === 1, `expected one check line, got ${lines.length}\n${result.stdout ?? ""}`);
-    assert(lines[0]?.startsWith("core:"), `expected the core module line, got ${lines[0] ?? ""}`);
+    const modules = readdirSync(path.join(exampleDir, "checks")).filter((name) => name.endsWith(".mjs"));
+    assert(lines.length === modules.length, `expected one line per check module, got ${lines.length}\n${result.stdout ?? ""}`);
+    assert(lines.some((line) => line.startsWith("core:")), `expected the core module line\n${result.stdout ?? ""}`);
+    assert(
+      lines.some((line) => line.startsWith("launch-tracker:")),
+      `expected the launch-tracker module line\n${result.stdout ?? ""}`,
+    );
   });
 
   harness.check("spec-pack loads an added check module", () => {
@@ -70,8 +75,10 @@ export function register(harness: Harness): void {
     );
     const listed = runBuild(pack, ["--list-checks"]);
     const lines = listed.output.trim().split("\n").filter(Boolean);
+    const modules = readdirSync(path.join(pack, "checks")).filter((name) => name.endsWith(".mjs"));
     assert(listed.status === 0, `expected list exit 0, got ${listed.status}\n${listed.output}`);
-    assert(lines.length === 2, `expected two check lines, got ${lines.length}\n${listed.output}`);
+    assert(lines.length === modules.length, `expected one line per check module, got ${lines.length}\n${listed.output}`);
+    assert(lines.some((line) => line.startsWith("x:")), `expected the added module line\n${listed.output}`);
     const built = runBuild(pack, ["spec.yaml", "index.html"]);
     assert(built.status === 1, `expected exit 1, got ${built.status}\n${built.output}`);
     assert(built.output.includes("fixture-check: extra seam failed"), `missing extra check error\n${built.output}`);

@@ -9,6 +9,8 @@ schema_version: 1
 meta:
   name: Soon (example)
   slug: soon-example
+  web_origin: "https://<slug>.<account>.workers.dev" # host free URL; the site reads this one value
+  # domain is optional. Omit it until a binary needs the host. It does not block the site.
   spec_version: 0.1.0
   status: draft            # draft | approved | superseded
   approved_by: null        # filled at Gate 1
@@ -230,6 +232,8 @@ analytics:
     - { name: $screen, when: Every screen view, props: [screen_id] }
 
 # Optional tasks. Screens become S-<id> (area App) and web pages become W-<id> (area Web).
+# capabilities: Auth, Privacy, Security, Deep links, Discovery (SEO/AEO/GEO), Analytics, Accessibility.
+# milestone: Build, Dogfood, Gate 2, Launch, or Run. Omitted tasks start on Build.
 tasks: []
 
 repo:
