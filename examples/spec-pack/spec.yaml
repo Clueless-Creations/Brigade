@@ -9,7 +9,7 @@ schema_version: 1
 meta:
   name: Soon (example)
   slug: soon-example
-  web_origin: "https://<slug>.<account>.workers.dev" # host free URL; the site reads this one value
+  web_origin: "https://soon-example.example.workers.dev" # example host; the site reads this one value
   # domain is optional. Omit it until a binary needs the host. It does not block the site.
   spec_version: 0.1.0
   status: draft            # draft | approved | superseded
@@ -289,10 +289,10 @@ funnel:
   smart_app_banner:
     meta_name: apple-itunes-app
     app_id: "0000000000"
-    app_argument: "https://<slug>.<account>.workers.dev/"
+    app_argument: "https://soon-example.example.workers.dev/"
   store:
     app_id: "0000000000"
-    pt: "<provider-token>"
+    pt: "example-provider-token"
     mt: 8
   channels:
     - id: organic
