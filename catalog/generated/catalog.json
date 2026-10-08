@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.119",
+  "skillVersion": "0.221.120",
   "areas": [
     {
       "id": "area.operating-system",
@@ -5513,7 +5513,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/xcodebuildmcp-testing.md",
-        "sha256": "sha256:b3d51f1c382dbe50da9429bdc636631b441097dce008faf048e6ba7237df78fa",
+        "sha256": "sha256:086e6c189572267bb9f086dfa411fdedf0f1746ee7f2dc1152938df89a941e93",
         "origin": "skill"
       }
     },
@@ -20126,14 +20126,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "98c669dc4bb20be77a717ec2f1af130bb948f2cecfc0d961eb58b5dac110ea32",
+    "fingerprint": "20250c8e6ba8610fcfa0581987657f05115b1160293172fb20b6229bee22ca40",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.119",
-        "revision": "0.221.119",
-        "contentDigest": "d5a8190d6860b92c6a3574aa1756db261a1bb9a10e29fd439dd3f4898e05041c"
+        "version": "0.221.120",
+        "revision": "0.221.120",
+        "contentDigest": "8848eecb0babafb2e0d7254f4776670942c80d9b0c652f1ce3d981cdfe69b1ec"
       }
     ],
     "base": {
