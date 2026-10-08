@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.122",
+  "version": "0.221.123",
   "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "build(deps): bump posthog-node in /hosted/builder-console (#665)",
     "CLU-102, CLU-106, CLU-110: launch on the free URL and draft the Gate 1 tracker. (#669)",
     "build(deps): bump jose from 6.2.10 to 6.2.12 in /hosted/builder-console (#664)",
     "Add a merge-gate step that fails snapshot record mode. (#671)",
