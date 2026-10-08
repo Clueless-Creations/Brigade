@@ -1,0 +1,184 @@
+schema_version: 1
+sources:
+  - id: appleid-apple-com-auth-revoke
+    name: Apple ID token revoke endpoint
+    source_type: api
+    url: https://appleid.apple.com/auth/revoke
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/security-release-hardening.md
+      - catalog/knowledge/trust/trust-security-release-hardening.yaml
+    notes: CLU-105. POST endpoint that invalidates a Sign in with Apple refresh token or access token on account deletion.
+  - id: copyright-gov-about-fees
+    name: US Copyright Office fees
+    source_type: official_docs
+    url: https://www.copyright.gov/about/fees.html
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Fee schedule lists $6 for a DMCA designated-agent designation, amendment, or resubmission. Checked 2026-10-08.
+  - id: copyright-gov-dmca-directory
+    name: US Copyright Office DMCA designated agent directory
+    source_type: official_docs
+    url: https://www.copyright.gov/dmca-directory/
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Registration path for a designated agent under 17 U.S.C. 512(c)(2). Human step.
+  - id: copyright-gov-dmca-directory-faq
+    name: US Copyright Office DMCA directory FAQ
+    source_type: official_docs
+    url: https://www.copyright.gov/dmca-directory/faq.html
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. States the $6 fee and the three-year renewal period.
+  - id: developer-apple-com-documentation-signinwithapplerestapi-revoke-tokens
+    name: Apple Sign in with Apple token revocation
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/signinwithapplerestapi/revoke-tokens
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/security-release-hardening.md
+      - catalog/knowledge/trust/trust-security-release-hardening.yaml
+    notes: CLU-105. Revoke tokens when a Sign in with Apple account is deleted.
+  - id: developer-apple-com-documentation-technotes-tn3194
+    name: Apple TN3194 account deletion and token revocation
+    source_type: official_docs
+    url: https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/security-release-hardening.md
+      - catalog/knowledge/trust/trust-security-release-hardening.yaml
+    notes: CLU-105. Account deletion and token revocation, including the case where the app no longer has a token.
+  - id: eur-lex-gdpr-2016-679
+    name: GDPR
+    source_type: official_docs
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Article 6 lawful basis for a third-party font host that receives the visitor IP address.
+  - id: federalregister-gov-2026-02866-negative-option-restoration
+    name: Federal Register restoration of the 1973 Negative Option Rule
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - knowledge/experience/ethics-guardrail.md
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Effective February 12, 2026. Restores the 1973 rule after the Eighth Circuit vacated the 2024 Click-to-Cancel amendments on July 8, 2025.
+  - id: federalregister-gov-2026-04952-negative-option-anprm
+    name: Federal Register negative-option ANPRM
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/experience/ethics-guardrail.md
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. March 13, 2026 advance notice of proposed rulemaking. Not a final rule.
+  - id: federalregister-gov-2026-05529-copyright-office-fees
+    name: Copyright Office fee notice
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/03/20/2026-05529/copyright-office-fees
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. March 20, 2026 proposal to change the designated-agent fee. The fee page controls on the day of payment.
+  - id: ftc-gov-can-spam-compliance-guide
+    name: FTC CAN-SPAM compliance guide
+    source_type: official_docs
+    url: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Unsubscribe mechanism and valid physical postal address for marketing email.
+  - id: ftc-gov-coppa-rule
+    name: FTC COPPA Rule
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Verifiable parental consent before collection from a child under 13.
+  - id: ftc-gov-ftc-act
+    name: Federal Trade Commission Act
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - knowledge/experience/ethics-guardrail.md
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Section 5, cited instead of the vacated 2024 Click-to-Cancel amendments.
+  - id: ftc-gov-negative-option-anprm-2026-03
+    name: FTC negative-option ANPRM announcement
+    source_type: official_docs
+    url: https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/experience/ethics-guardrail.md
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. FTC announcement of the March 2026 negative-option ANPRM.
+  - id: ftc-gov-rosca
+    name: Restore Online Shoppers Confidence Act
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - knowledge/experience/ethics-guardrail.md
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Disclosure, express informed consent, and a simple mechanism to stop recurring charges.
+  - id: leginfo-ca-bpc-17602
+    name: California Business and Professions Code section 17602
+    source_type: official_docs
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - knowledge/experience/ethics-guardrail.md
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Automatic-renewal terms next to consent, affirmative consent, and how to cancel.
+  - id: leginfo-ca-pen-631
+    name: California Penal Code section 631
+    source_type: official_docs
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=631
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - knowledge/trust/privacy-terms.md
+      - catalog/knowledge/trust/trust-privacy-terms.yaml
+    notes: CLU-105. Wiretap statute cited for the session-replay consent risk. Not a product-specific holding.

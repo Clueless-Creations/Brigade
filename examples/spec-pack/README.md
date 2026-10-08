@@ -68,6 +68,14 @@ mode, `&w=<px>&h=<px>` for another device size).
     `meta.web_origin`.
 14. `funnel` is present. Each channel has a `ct` token and a static href
     fallback. Each deep link names a screen and a web path that exist.
+15. `accounts.mode` is `none`, `optional`, or `required`. A listed third-party
+    login needs Sign in with Apple or an equivalent private login that states
+    the Guideline 4.8 privacy features. Any other mode needs the `delete` web
+    surface and `in_app_delete_screen`.
+16. `privacy` names the data inventory, processors, and required-reason APIs.
+    `security` names entitlements, the secrets location, and deep-link checks.
+17. `legal_preflight` lists all six checks. `n/a` needs a reason. The DMCA and
+    email-provider items need human steps unless they are `n/a`.
 
 `node build.mjs --list-checks` prints one line per check module (`id: describe`).
 Add a later check as `checks/<NN>-<area>.mjs`. Add a review section as

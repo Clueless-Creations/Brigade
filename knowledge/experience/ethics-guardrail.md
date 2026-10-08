@@ -129,9 +129,22 @@ Agents must not cross these lines. Attribute-uncertain items are flagged.
 - FTC "Bringing Dark Patterns to Light" (September 2022): enforcement staff report naming
   subscription traps, difficult cancellation, hidden fees, misleading urgency, and misleading
   social proof as enforcement targets.
-- FTC "Click-to-Cancel" Rule (final rule, October 2024, 16 CFR Part 425): subscription
-  cancellation must be as easy as sign-up; negative-option marketing requires clear, informed
-  consent before charging.
+- Do not cite the FTC's 2024 "Click-to-Cancel" amendments to 16 CFR Part 425 as
+  current law. The Eighth Circuit vacated those amendments on July 8, 2025. Effective
+  February 12, 2026, the FTC restored the 1973 Negative Option Rule, which covers
+  prenotification plans. The FTC published an ANPRM on negative-option marketing on
+  March 13, 2026. That ANPRM is a request for comment, not a rule.
+- For cancellation and negative-option claims, cite the Restore Online Shoppers'
+  Confidence Act (ROSCA, 15 U.S.C. §§ 8401–8405), FTC Act §5 (15 U.S.C. § 45), and
+  state automatic-renewal statutes. California Business and Professions Code
+  §§ 17600–17606 is the state statute this file uses. ROSCA requires a clear
+  disclosure, express informed consent before the charge, and a simple way to stop
+  recurring charges. Primary pages: [restoration of the 1973 rule](https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to),
+  [March 13, 2026 ANPRM](https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans),
+  [FTC announcement](https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option),
+  [ROSCA](https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act),
+  [FTC Act](https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act),
+  and [California § 17602](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602).
 - FTC Children's Online Privacy Protection Act (COPPA, 15 U.S.C. §§ 6501-6506) and
   implementing Rule (16 CFR Part 312): verifiable parental consent before collecting
   personal data from children under 13; no behavioral advertising to under-13 users.
@@ -158,21 +171,29 @@ Agents must not cross these lines. Attribute-uncertain items are flagged.
 
 ### Apple App Store
 
-- App Review Guidelines §2.3 (Accurate Metadata): screenshots, copy, and previews must
-  not mislead users. Fake social proof, inflated download counts, and fabricated review
-  excerpts are grounds for rejection.
-- App Review Guidelines §3.2.2(b): apps must not manipulate users into purchasing
-  subscriptions or in-app purchases through confusing or deceptive pricing presentation.
-- App Review Guidelines §4.0 (Design): apps that create false urgency, exploit emotions
-  (including grief, fear, or loneliness), use addictive or compulsive mechanics to extract
-  money, or employ other manipulative patterns will be rejected.
-- App Review Guidelines §5.1.1 (Data Collection and Storage): permission requests must
-  clearly state the purpose; apps must not access permissions beyond stated purpose.
-- App Review Guidelines §5.1.2 and §3.2.1: rating/review prompts must use the native
-  StoreKit API only; must not solicit only positive reviews; must not interrupt users mid-
-  task. Maximum three prompts per 365-day period.
-- Apple Human Interface Guidelines on Ratings and Reviews (attribution-uncertain: exact
-  HIG version; stable guideline): prompt only after demonstrated value.
+- App Review Guidelines §2.3 (Accurate Metadata): privacy information, the description,
+  screenshots, and previews must accurately reflect the app's core experience and stay
+  current. §2.3.1(a) rejects hidden features and a promoted false price.
+- App Review Guidelines §3.1.2(a): an app that tries to trick users into purchasing a
+  subscription under false pretenses, or that uses bait-and-switch or scam practices,
+  will be removed. There is no current §3.2.2(b).
+- App Review Guidelines §3.1.2(c): before asking a customer to subscribe, describe what
+  the user gets for the price.
+- App Review Guidelines §5.1.1(ii): purpose strings must clearly describe the use of the
+  data. Apps must not manipulate, trick, or force people into unnecessary data access
+  (§5.1.1(iv)).
+- App Review Guidelines §5.6: apps should never prey on users, trick them into unwanted
+  purchases, force them to share unnecessary data, raise prices in a tricky manner,
+  charge for features or content that are not delivered, or use other manipulative
+  practices. Repeated manipulative or misleading behavior can remove the developer from
+  the Apple Developer Program. The June 8, 2026 guidelines do not contain a §4.0 line
+  about exploiting grief, fear, or loneliness. Use §5.6 for that conduct.
+- App Review Guidelines §5.6.1: use the provided API to prompt for an App Store rating
+  and review. Apple disallows custom review prompts. Do not cite §5.1.2 or §3.2.1 for
+  review prompts. §3.2.2(x) separately says an app must not force a rating in order to
+  access functionality, content, or use of the app.
+- App Review Guidelines §5.6.3: manipulating charts, search, reviews, or referrals is
+  not permitted. Text checked against the [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines).
 
 ### Google Play
 
@@ -216,7 +237,7 @@ Required attestation fields are listed — these are enforced by the validator.
 | Rating Prompt                                                                               | MEDIUM     | Platform policy violation; coercive placement          | Native API only; post-value; not mid-task; max 3/year               | `bright_line`, `dark_line`, `guardrail`, `platform_api_used`                                                                                                                                |
 | Goal Gradient                                                                               | LOW        | False urgency on manufactured milestones               | Milestones reflect real user goals                                  | `bright_line`, `dark_line`, `guardrail`                                                                                                                                                     |
 
-Basis for risk tiers: FTC 2022 dark-patterns report; DSA Art. 25; Apple §4.0 and §3.2.2(b);
+Basis for risk tiers: FTC 2022 dark-patterns report; DSA Art. 25; Apple §5.6 and §3.1.2(a);
 Kahneman and Tversky, prospect theory / loss aversion (_Econometrica_, 1979); Thaler,
 endowment effect (attribution-uncertain: primary cite; well-established); Hull, goal-gradient
 (attribution-uncertain: primary cite); Kivetz, Urminsky, and Zheng, endowed progress effect,
@@ -255,8 +276,8 @@ Apply additional scrutiny when the app may be used by, or marketed toward, child
 - Do not use the dopamine anticipation window (Wolfram Schultz, 1997) to time spend prompts
   immediately after a streak-progress display. This combination is the highest-risk pattern
   in subscription fitness and habit apps.
-- Apple §4.0 names "exploit emotions (including grief, fear, or loneliness)" as a rejection
-  criterion.
+- App Review Guidelines §5.6 covers manipulative practices, including preying on users.
+  The June 8, 2026 guidelines do not contain a §4.0 line about grief, fear, or loneliness.
 
 ---
 
@@ -369,7 +390,7 @@ status: "open"
 evidence:
   - "product/ONBOARDING.md or PRODUCT.md — section containing the claim"
 impact: >
-  Fake scarcity claims violate FTC Click-to-Cancel/deceptive-design enforcement,
+  Fake scarcity claims violate FTC Act §5 and the 2022 dark-patterns report,
   EU Omnibus Directive unfair commercial practices, and Apple §2.3 Accurate Metadata.
   App Store rejection and FTC investigation risk.
 next_action: >
@@ -388,7 +409,7 @@ evidence:
   - "product/ONBOARDING.md — opt-out copy"
 impact: >
   Confirmshaming is a named dark pattern under EU DSA Art. 25 and FTC deceptive-design
-  enforcement. Apple §4.0 (manipulative patterns) is grounds for rejection.
+  enforcement. Apple §5.6 (manipulative practices) is grounds for rejection.
 next_action: >
   Replace opt-out label with a neutral, non-self-deprecating alternative.
   Run `npm run check:emotional-design -- --root .` after fix.
@@ -404,7 +425,7 @@ evidence:
   - "product/ONBOARDING.md or PRODUCT.md — streak-break screen spec"
 impact: >
   Combining loss-aversion grief with a spend prompt is the highest-risk dark pattern in
-  habit/fitness apps. Violates Apple §4.0 (exploit emotions). FTC enforcement target.
+  habit/fitness apps. Violates Apple §5.6 (manipulative practices). FTC enforcement target.
 next_action: >
   Move any IAP/paywall prompt to a separate screen, minimum one user interaction after
   the streak-break notification resolves. Add `ethics_attestation` to the Variable Reward

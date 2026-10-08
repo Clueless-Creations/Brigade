@@ -48,3 +48,115 @@ sources:
     claim_scope: Optional CC0 drafting benchmark for privacy policies, terms, cookie notices, and data-processing addenda. It is not legal authority.
     last_review_date: 2026-08-20
     reviewer: b2c-maintainers
+  - id: ftc-gov-coppa-rule
+    name: FTC COPPA Rule
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    review_cadence_days: 30
+    claim_scope: Verifiable parental consent before collection of personal information from a child under 13.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: eur-lex-gdpr-2016-679
+    name: GDPR
+    source_type: official_docs
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679
+    review_cadence_days: 90
+    claim_scope: Article 6 lawful basis for sending a visitor IP address to a third-party font host.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: leginfo-ca-pen-631
+    name: California Penal Code section 631
+    source_type: official_docs
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=631
+    review_cadence_days: 90
+    claim_scope: Wiretap statute cited for session-replay consent risk. Not a holding that any one product is unlawful.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-can-spam-compliance-guide
+    name: FTC CAN-SPAM compliance guide
+    source_type: official_docs
+    url: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
+    review_cadence_days: 30
+    claim_scope: Marketing email needs an unsubscribe mechanism and a valid physical postal address.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: leginfo-ca-bpc-17602
+    name: California Business and Professions Code section 17602
+    source_type: official_docs
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602
+    review_cadence_days: 30
+    claim_scope: Automatic-renewal terms in visual proximity to consent, affirmative consent before the charge, and cancellation information.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-rosca
+    name: Restore Online Shoppers Confidence Act
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act
+    review_cadence_days: 90
+    claim_scope: Clear disclosure, express informed consent before a negative-option charge, and a simple mechanism to stop recurring charges.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-ftc-act
+    name: Federal Trade Commission Act
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act
+    review_cadence_days: 90
+    claim_scope: Section 5 unfair or deceptive acts, used instead of the vacated 2024 Click-to-Cancel amendments.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: federalregister-gov-2026-02866-negative-option-restoration
+    name: Federal Register restoration of the 1973 Negative Option Rule
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to
+    review_cadence_days: 90
+    claim_scope: Effective February 12, 2026, the FTC restored the pre-2024 Negative Option Rule after the Eighth Circuit vacatur.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: federalregister-gov-2026-04952-negative-option-anprm
+    name: Federal Register negative-option ANPRM
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans
+    review_cadence_days: 30
+    claim_scope: March 13, 2026 advance notice of proposed rulemaking. It is not a final rule.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-negative-option-anprm-2026-03
+    name: FTC negative-option ANPRM announcement
+    source_type: official_docs
+    url: https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option
+    review_cadence_days: 30
+    claim_scope: FTC announcement of the March 2026 negative-option ANPRM.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: copyright-gov-dmca-directory
+    name: US Copyright Office DMCA designated agent directory
+    source_type: official_docs
+    url: https://www.copyright.gov/dmca-directory/
+    review_cadence_days: 30
+    claim_scope: Where a service provider registers a designated agent under 17 U.S.C. 512(c)(2).
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: copyright-gov-dmca-directory-faq
+    name: US Copyright Office DMCA directory FAQ
+    source_type: official_docs
+    url: https://www.copyright.gov/dmca-directory/faq.html
+    review_cadence_days: 30
+    claim_scope: Current designation fee and the three-year renewal period.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: copyright-gov-about-fees
+    name: US Copyright Office fees
+    source_type: official_docs
+    url: https://www.copyright.gov/about/fees.html
+    review_cadence_days: 30
+    claim_scope: Fee schedule lists $6 for a DMCA designated-agent designation, amendment, or resubmission.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: federalregister-gov-2026-05529-copyright-office-fees
+    name: Copyright Office fee notice
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/03/20/2026-05529/copyright-office-fees
+    review_cadence_days: 30
+    claim_scope: March 20, 2026 proposal to change the designated-agent fee. The fee page controls on the day of payment.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers

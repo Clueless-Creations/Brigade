@@ -16,5 +16,60 @@ bindings:
     - workflow.words.copy-review-audit
   context_pack_ids:
     - context.experience
-sources: []
-source_exemption: This package contains internal operating guidance or has no external factual claims.
+sources:
+  - id: developer-apple-com-app-store-review-guidelines
+    name: Apple App Review Guidelines
+    source_type: official_docs
+    url: https://developer.apple.com/app-store/review/guidelines
+    review_cadence_days: 30
+    claim_scope: Current text of Guidelines 2.3, 3.1.2(a), 3.1.2(c), 3.2.2(x), 5.1.1, 5.6, 5.6.1, and 5.6.3. The June 8, 2026 guidelines do not contain the old section 4.0 emotion sentence or section 3.2.2(b).
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: federalregister-gov-2026-02866-negative-option-restoration
+    name: Federal Register restoration of the 1973 Negative Option Rule
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to
+    review_cadence_days: 90
+    claim_scope: The 2024 Click-to-Cancel amendments were vacated and the 1973 rule was restored effective February 12, 2026.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: federalregister-gov-2026-04952-negative-option-anprm
+    name: Federal Register negative-option ANPRM
+    source_type: official_docs
+    url: https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans
+    review_cadence_days: 30
+    claim_scope: March 13, 2026 advance notice. It does not restore the vacated 2024 rule.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-negative-option-anprm-2026-03
+    name: FTC negative-option ANPRM announcement
+    source_type: official_docs
+    url: https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option
+    review_cadence_days: 30
+    claim_scope: FTC announcement that the negative-option ANPRM asks for comment and is not itself a conduct rule.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-rosca
+    name: Restore Online Shoppers Confidence Act
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act
+    review_cadence_days: 90
+    claim_scope: Federal negative-option disclosure, consent, and cancellation duties after the Click-to-Cancel vacatur.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: ftc-gov-ftc-act
+    name: Federal Trade Commission Act
+    source_type: official_docs
+    url: https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act
+    review_cadence_days: 90
+    claim_scope: Section 5 unfair or deceptive acts, cited instead of the vacated 2024 Click-to-Cancel amendments.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
+  - id: leginfo-ca-bpc-17602
+    name: California Business and Professions Code section 17602
+    source_type: official_docs
+    url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602
+    review_cadence_days: 30
+    claim_scope: State automatic-renewal disclosure and affirmative-consent duties.
+    last_review_date: 2026-10-08
+    reviewer: b2c-maintainers
