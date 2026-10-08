@@ -14,6 +14,7 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | geo-seo-claude | GEO-first SEO skill | adapted-method, selected-skill-guidance | 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c@2026-10-08 | 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c@2026-10-08 | `989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c` untested | unknown (no observation) | none | not observed | current; last 2026-10-08; due 2026-11-07 | 2 | 1 |
 | last30days-skill | last30days agent skill | adapted-method, selected-skill-guidance | 310f0b405db2d84adb4993bbf140cef9584057d2@2026-09-08 | 310f0b405db2d84adb4993bbf140cef9584057d2@2026-09-08 | `310f0b405db2d84adb4993bbf140cef9584057d2` untested | unknown (no observation) | none | not observed | current; last 2026-09-08; due 2026-10-08 | 2 | 1 |
 | layers-growth-mcp | Layers Growth MCP and CLI | remote-service, adapted-method | unknown | docs and README read 2026-09-05 (no immutable revision published for the docs page; layers/mcp main pushed 2026-09-04T06:39:47Z)@2026-09-05 | `hosted (unversioned)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-10-05 | 8 | 2 |
+| masko | Masko workflow skills | selected-skill-guidance, remote-service | 9feb999e8e3bf609728261ab17bdcf63f0e811ff@2026-10-08 | 9feb999e8e3bf609728261ab17bdcf63f0e811ff@2026-10-08 | `9feb999e8e3bf609728261ab17bdcf63f0e811ff` untested | unknown (no observation) | none | not observed | deferred; last 2026-10-08; due 2026-11-07 | 3 | 1 |
 | parth-app-store-screenshots | App Store Screenshots | adapted-method | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | `18951ddc4e06c53a3d34207732c16d9568f88d11` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
 | posthog-context-mill | PostHog context mill | selected-skill-guidance | bbc88864bf8ba2efac43bb4c2782e4406bc0dfa6@2026-09-06 | unknown | `bbc88864bf8ba2efac43bb4c2782e4406bc0dfa6` untested | v1.51.0 (published 2026-09-03) | 2026-09-06 | not observed | deferred; last 2026-09-06; due 2026-09-13 | 1 | 1 |
 | posthog-wizard | PostHog wizard | adapted-method | 41c12328636f46a517777b17359dd8f5b3d14d96@2026-09-06 | 41c12328636f46a517777b17359dd8f5b3d14d96@2026-09-06 | `41c12328636f46a517777b17359dd8f5b3d14d96` untested | v2.73.0 (published 2026-09-04) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 1 | 1 |
@@ -21,6 +22,7 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | revenuecat-cli | RevenueCat CLI | adapted-method, external-executable | 448a9998bd2107c274b9eb1cf55ad5d5d81f6377@2026-09-08 | 1a3d2820b3166dd6d4cc4775902e43eeeab5f004@2026-09-06 | `0.1.1` untested; `1a3d2820b3166dd6d4cc4775902e43eeeab5f004` untested | v0.1.1 (published 2026-08-27) | 2026-09-06 | not observed | current; last 2026-09-09; due 2026-09-16 | 11 | 4 |
 | rork-app-store-connect-cli | App Store Connect CLI (asc) | external-executable, adapted-method | 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564@2026-10-08 | 5.13.0@2026-10-08 | `>=5.0.0 <6.0.0` supported; `<5.0.0` unsupported | 5.13.0 (published 2026-10-07) | 2026-10-08 | /usr/local/bin/asc 5.7.0 | current; last 2026-10-08; due 2026-10-15 | 10 | 4 |
 | rork-app-store-connect-cli-skills | App Store Connect CLI skills (asc skill pack) | selected-skill-guidance | f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8@2026-10-08 | unrecorded@2026-10-08 | `f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8` untested | unknown (no observation) | none | not observed | current; last 2026-10-08; due 2026-10-15 | 2 | 1 |
+| screensdesign-agent-skill | ScreensDesign agent skill | selected-skill-guidance, remote-service | 0e3d5908768fcb2540568ef8baf817c8adf1c49f@2026-10-08 | 0e3d5908768fcb2540568ef8baf817c8adf1c49f@2026-10-08 | `0e3d5908768fcb2540568ef8baf817c8adf1c49f` untested | unknown (no observation) | none | not observed | deferred; last 2026-10-08; due 2026-11-07 | 3 | 1 |
 | sentry-snapshotpreviews | SnapshotPreviews | adapted-method | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | 856a1c1585e31d4113c019050d6d0712cf6ddadc@2026-09-06 | `856a1c1585e31d4113c019050d6d0712cf6ddadc` untested | v0.18.0 (published 2026-07-07) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
 | sentry-xcodebuildmcp | XcodeBuildMCP | adapted-method | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | e6ef59b49b44012c824f0a0de261c96142e37390@2026-09-06 | `e6ef59b49b44012c824f0a0de261c96142e37390` untested | v2.7.0 (published 2026-07-23) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
 | swiftui-pro-skill | SwiftUI Pro agent skill | selected-skill-guidance | f9800713b24580bc444931949aad4519128605e8@2026-10-07 | f9800713b24580bc444931949aad4519128605e8@2026-10-07 | `f9800713b24580bc444931949aad4519128605e8` untested | 1.1.0 (published 2026-04-20) | 2026-10-07 | not observed | current; last 2026-10-07; due 2026-11-06 | 2 | 2 |
@@ -233,6 +235,25 @@ Unknowns:
 
 - No observation recorded.
 
+## masko
+
+Masko workflow skills. Canonical URL: https://github.com/masko-ai/masko-plugins
+
+Unsupported operations:
+
+- generate-or-spend: Paid, needs founder yes. A dry-run quote is not approval to generate or buy credits.
+- automatic-install-or-upgrade: Requires explicit target, selected revision, scoped authority, and independent verification.
+- older-claude-marketplace: masko-claude-plugin is a separate older repository and is not this pin.
+
+Intentional adaptations:
+
+- held-paid-generation: Register the provider behind the spend gate. Generate-all dry-run quote first. Status is paid, needs founder yes. (owner: knowledge/operations/paid-tool-routing.md)
+- no-skill-fork: Workflow commands stay upstream. This repository names the job and the hold only. (owner: knowledge/design/remotion-content-assets.md)
+
+Unknowns:
+
+- No observation recorded.
+
 ## parth-app-store-screenshots
 
 App Store Screenshots. Canonical URL: https://github.com/ParthJadhav/app-store-screenshots
@@ -383,6 +404,25 @@ Intentional adaptations:
 
 - routed-by-name-only: The builder names skills to load; it does not copy their instructions into the knowledge corpus. (owner: knowledge/store/app-store-connect-cli.md)
 - builder-reference-wins: Where a skill's guidance conflicts with knowledge/store/app-store-connect-cli.md, the builder reference wins. (owner: knowledge/engineering/external-skill-packs.md)
+
+Unknowns:
+
+- No observation recorded.
+
+## screensdesign-agent-skill
+
+ScreensDesign agent skill. Canonical URL: https://github.com/screensdesign-com/screensdesign-agent-skill
+
+Unsupported operations:
+
+- connect-trial-or-spend: Paid, needs founder yes. Connecting, signing up, starting a trial, or spending is not authorized.
+- automatic-install-or-upgrade: Requires explicit target, selected revision, scoped authority, and independent verification.
+- proprietary-screen-corpus: The hosted screen corpus is not imported.
+
+Intentional adaptations:
+
+- held-paid-service: Register the provider and keep it disconnected. Status is paid, needs founder yes. (owner: knowledge/operations/paid-tool-routing.md)
+- no-mcp-fork: Provider-specific MCP commands stay upstream. This repository routes the lane only. (owner: knowledge/design/design-evidence-stack.md)
 
 Unknowns:
 

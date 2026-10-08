@@ -108,6 +108,17 @@ B2C App Builder is built on open-source work and adapts published methods. This 
   - adapted-method: Selected recency-window, engagement ranking, entity resolution, and honest source-coverage methods are reauthored in knowledge/process/tool-recipes/research-intelligence.md. No whole skill, executable, native dependency, or asset was installed by this contribution.
   - selected-skill-guidance: The last30days skill is named as an opt-in companion pack. Installation happens only with founder approval. No SKILL.md is auto-installed as a top-level builder skill, and the engine is never a default provider.
 
+**Masko workflow skills**
+
+- Original author: Masko, copyright holder named in the reviewed LICENSE
+- Current maintainer: masko-ai (github.com/masko-ai), current upstream maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/masko-ai/masko-plugins
+- Contributes: The public Masko plugin repository is cited as a held character-animation provider. The MIT notice is retained. No generation is claimed.
+- How we consume it:
+  - selected-skill-guidance: The public workflow skills are reference-only and are not installed. Character animation is a state machine. Poses are states, generated videos are transitions, and app inputs trigger them. The export is a MaskoAnimationConfig JSON plus a player. Higgsfield remains the stills route and Remotion remains the UI-motion route.
+  - remote-service: Generation stays disconnected. Generate-all does a dry-run quote first. Status is paid, needs founder yes. The quote is not spend approval.
+
 **App Store Screenshots**
 
 - Original author: Parth Jadhav, original author or copyright holder identified in the reviewed source
@@ -154,6 +165,17 @@ B2C App Builder is built on open-source work and adapts published methods. This 
 - Contributes: Community skill pack for the asc CLI. The builder routes selected skills by name as subordinate guidance and installs the pack only with founder approval.
 - How we consume it:
   - selected-skill-guidance: Selected skill names (asc-cli-usage, asc-metadata-sync, asc-shots-pipeline, asc-screenshot-resize, asc-release-flow, asc-submission-health, asc-revenuecat-catalog-sync, asc-analytics-reports, asc-ad-hoc-distribution, and the rest of the routed list) are loaded as subordinate reference material when a store workflow selects them. Installation happens only with founder approval through `asc install-skills` (pinned by the CLI to a reviewed commit) or `npx skills add`. No SKILL.md is auto-installed as a top-level builder skill.
+
+**ScreensDesign agent skill**
+
+- Original author: ScreensDesign, copyright holder named in the reviewed LICENSE
+- Current maintainer: screensdesign-com (github.com/screensdesign-com), current upstream maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/screensdesign-com/screensdesign-agent-skill
+- Contributes: The public ScreensDesign skill repository is cited as a held research provider. The MIT notice is retained. The paid service is not connected, and no live integration is claimed.
+- How we consume it:
+  - selected-skill-guidance: The public skill repository is reference-only. It is not installed. Provider-specific MCP commands stay upstream. Recorded-flow research is one optional reference lane next to other design evidence providers.
+  - remote-service: The hosted research service stays disconnected. Status is paid, needs founder yes. Revenue and install figures from it are benchmarks only after that yes, and a rank is not proof a screen caused an outcome.
 
 **SnapshotPreviews**
 

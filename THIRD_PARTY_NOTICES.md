@@ -887,6 +887,39 @@ SOFTWARE.
 
 Notice sha256: e28f13799cef9009be05997fde3e310141dcb0720ef65256ed781d3ee72bf297
 
+## Masko workflow skills
+
+- Upstream: https://github.com/masko-ai/masko-plugins
+- License: MIT
+- Copyright: Copyright (c) 2026 Masko
+- Scope: Root LICENSE of the public plugin repository. No skill text, player, or generated media is imported.
+
+```text
+MIT License
+
+Copyright (c) 2026 Masko
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Notice sha256: 1f51dd23802e97cd2714365efd914b2012cc0ca7b6ba1b0a11604dd0cf7bc340
+
 ## App Store Screenshots
 
 - Upstream: https://github.com/ParthJadhav/app-store-screenshots
@@ -1084,6 +1117,40 @@ SOFTWARE.
 ```
 
 Notice sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+
+## ScreensDesign agent skill
+
+- Upstream: https://github.com/screensdesign-com/screensdesign-agent-skill
+- License: MIT
+- Copyright: Copyright (c) 2026 ScreensDesign
+- Scope: Root LICENSE of the public skill repository. No skill text, screen corpus, or hosted service is imported.
+
+```text
+MIT License
+
+Copyright (c) 2026 ScreensDesign
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+
+Notice sha256: 685ef2ec3b41ea3efd3ffaa09d1d868383e945c1257d20e7670667acd587b3c5
 
 ## SnapshotPreviews
 
