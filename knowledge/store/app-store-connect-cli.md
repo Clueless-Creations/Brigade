@@ -37,7 +37,7 @@ Refresh the applicable sources before storing new commands or making a readiness
 - Official Apple App Store Connect docs referenced in `store-console-workflow.md`
 - Official Apple signing/account docs referenced in `apple-signing-release.md`
 
-The reviewed upstream baseline is Rork `asc` 5.7.0. Local 5.7.0 capability, privacy, review, and validation help was checked on October 3, 2026.
+The reviewed upstream baseline is Rork `asc` 5.13.0, tag commit `3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564`. Local 5.13.0 `--help` was checked on October 8, 2026. The Linux amd64 release asset matched the published checksum `7e43e453495c0d49ba8a93953fcf4d3a51c0b4593c00af6e8c53b243350a5db9`. No App Store Connect API call was made.
 The CLI provides JSON-first commands for App Store Connect workflows. These include TestFlight, builds, submissions, signing, analytics, screenshots, and subscriptions.
 Use `asc apps view --id` for app details. Never use `asc apps view --app`.
 The Rork skills pack is community-maintained and is not affiliated with Apple.
@@ -101,7 +101,7 @@ Reuse current accepted packets and refresh affected fields rather than recreatin
 
 Treat `asc-app-create-ui` as the expected app-record creation route when the API route is missing or the upstream skill pack says browser automation is required. That still counts as ASC CLI skill-pack routing; it is not a reason to declare the task impossible.
 
-Install only with founder approval if it is not already available. `asc install-skills` installs the CLI's reviewed, commit-pinned core pack. To install the current full pack for Cursor, Claude Code, and Codex, use the explicit global agent selection:
+Install only with founder approval if it is not already available. `asc install-skills` on 5.13.0 checks out commit `f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8`. That commit is the reviewed install lock. Skills repository `main` was `9c7e769f09a18237c9bd9c70f70aef65f0cd0391` on October 5, 2026. Skill directory names were unchanged. Do not adopt the unpinned `main` head. To install the current full pack for Cursor, Claude Code, and Codex, use the explicit global agent selection:
 
 ```bash
 asc install-skills
@@ -149,7 +149,12 @@ asc screenshots list --app "123456789" --version "1.2.3" --locale "en-US" --outp
 # For each approved SCREENSHOTS.md row, validate the exact final dir, locale, and current ASC device_type.
 asc screenshots validate --path "./screenshots/final/en-US/<device-well>" --device-type "<ASC_DEVICE_TYPE>" --output table
 # Upload only after founder approval, version-localization IDs are resolved, and every iPhone/iPad row is validated.
+# Deprecated Apple resources: app screenshot, app screenshot set, app preview, app preview set, and in-app event screenshot.
+# Prefer Asset Library and placements. asc 5.13.0 still accepts this command. It still needs founder approval.
 asc screenshots upload --version-localization "LOC_ID" --path "./screenshots/final/en-US/<device-well>" --device-type "<ASC_DEVICE_TYPE>" --output json
+# Read the library and placements before any upload or assignment.
+asc asset-library view --app "123456789" --output json
+asc localizations placements list --localization-id "LOC_ID" --placement-type APP_SCREENSHOT --output json
 asc testflight feedback list --app "123456789" --paginate
 asc testflight crashes list --app "123456789" --sort -createdDate --limit 10
 asc workflow validate
@@ -211,10 +216,20 @@ These notes exist because agents repeatedly burned live-store cycles guessing fl
 - **`--confirm` is a CLI-required gate, not just a founder gate.** Destructive/mutating commands (`asc review cancel`, `asc review submit`, `asc subscriptions review submit`, release actions) error and do nothing unless `--confirm` is passed. So they need _both_ the CLI `--confirm` flag _and_ explicit founder approval before you run them. Omitting `--confirm` does not "safely no-op into a dry run" — it just errors; check `--help` for the required flags before the first live call.
 - **Remote read-only mode.** Since `asc` 5.7.0, root `--read-only` or `ASC_READ_ONLY=1` refuses remote POST, PATCH, PUT, and DELETE requests before sending them. Use this as an extra API boundary for read-only probes. It does not make local file changes read-only, replace founder gates, or turn a mutating command into an approved operation.
 - **Flag value indirection.** Since `asc` 5.7.0, string flag values accept `@env:NAME` and `@file:PATH`; a literal leading `@` is written `@@`. Use secure profiles or the existing secret-management route for credentials; do not put credential contents in command history, reports, or evidence.
-- **`validate` form.** In `asc` 5.7.0, validation accepts either `--version <VERSION_STRING>` or `--version-id <VERSION_ID>` with `--app`; there is no `asc validate app-store-version` subcommand. Always confirm current local help before use.
+- **`validate` form.** In `asc` 5.13.0, validation accepts either `--version <VERSION_STRING>` or `--version-id <VERSION_ID>` with `--app`. There is no `asc validate app-store-version` subcommand. Since 5.9.0, a missing base-territory price blocks submission. Free counts as a price. Since 5.9.0, pass `--ipa` when an iOS build may run on iPad. `screenshots.required.ipad` blocks submission when `UIDeviceFamily` includes iPad and the primary locale has no `APP_IPAD_PRO_3GEN_129` set. Without `--ipa`, the same gap is the non-blocking check `screenshots.required.ipad_unverified`. Flags: `--app`, `--apple-id`, `--check-urls`, `--deep`, `--ipa`, `--output`, `--platform`, `--pretty`, `--strict`, `--version`, `--version-id`.
 - **Default version selection.** Since 5.4.0, `validate`, `localizations list`, and `metadata pull` select the newest editable version by default. They next select a removed version, then the live version. Pass an exact version or ID when the target must stay fixed.
 - **Web account selection.** Since 5.4.0, web commands accept `--apple-id`. They next use `ASC_WEB_APPLE_ID`, then the last or only cached session. Set an explicit account when several sessions exist. Never store its email or a session value in evidence.
 - **Screenshot listing.** Since 5.5.0, `screenshots list` can list every version localization when `--locale` is omitted. JSON then returns a `localizations` array and empty top-level `versionLocalizationId` and `sets` keys. Pass `--locale` to limit the response to one localization.
+- **Deprecated upload resources.** [Apple's upload doc](https://developer.apple.com/documentation/appstoreconnectapi/uploading-assets-to-app-store-connect) deprecates the app screenshot, app screenshot set, app preview, app preview set, and in-app event screenshot resources. Manage screenshots, previews, and in-app event media with the Asset Library and placements. The `asc screenshots upload` line above remains valid CLI syntax in 5.13.0. It is the deprecated resource path. It still needs founder approval.
+- **Asset Library reads (5.13.0).** `asc asset-library view` flags: `--app`, `--output`, `--pretty`. `asc asset-library specs` flags: `--output`, `--pretty`. `asc asset-library images list` and `asc asset-library videos list` flags: `--category`, `--id`, `--library-id`, `--limit`, `--next`, `--output`, `--paginate`, `--pretty`, `--reference-name`, `--sort`, `--spec-id`, `--state`. Filter and sort flags cannot combine with `--next`. List filters follow App Store Connect OpenAPI 4.5.1, as the 5.13.0 help states.
+- **Asset Library uploads (5.13.0).** These commands upload media. They do not assign a placement or submit review. They need founder approval. `asc asset-library images upload` flags: `--category`, `--file`, `--library-id`, `--output`, `--pretty`. Default `--category` is `CREATIVE_ASSETS`. The other value is `APP_SCREENSHOTS_AND_PREVIEWS`. `asc asset-library videos upload` uses the same flags. Video files are `.mp4`, `.m4v`, or `.mov`. Video upload requires `ffprobe`. A failure after reservation prints a receipt with the asset ID. The command does not delete that asset.
+- **Asset Library lifecycle (5.13.0).** `images` and `videos` both accept `archive`, `unarchive`, and `delete`. `videos` also accepts `set-poster-frame`. Archive and delete flags: `--confirm` (required), `--id`, `--output`, `--pretty`. Unarchive flags: `--id`, `--output`, `--pretty`. Poster-frame flags: `--id`, `--output`, `--pretty`, `--time-code`. `--time-code` is required. Use `HH:MM:SS:FF` or `HH:MM:SS.mmm`. Only approved assets can be archived. Delete the placement when the library copy must stay. These writes need founder approval. They do not submit App Review.
+- **Placements (5.13.0).** `asc localizations placements list` flags: `--include`, `--limit`, `--localization-id`, `--next`, `--output`, `--paginate`, `--placement-group`, `--placement-type`, `--pretty`, `--sort`. `--placement-type` values: `PRODUCT_PAGE_HEADER_ASSET`, `APP_STORE_SEARCH_RESULTS_ASSET`, `APP_SCREENSHOT`, `APP_PREVIEW`, `IMESSAGE_APP_SCREENSHOT`. `asc localizations placements create` flags: `--image-id`, `--localization-id`, `--output`, `--placement-group`, `--placement-type`, `--pretty`, `--video-id`. Pass exactly one of `--image-id` or `--video-id`. Screenshots need an image and a device group such as `IPHONE_DUO_PROFILE`. Previews need a video and a device group. Header and search creative assets use `DEFAULT_PROFILE`. Create does not remove an existing placement and does not submit review. The same create flags apply to `asc product-pages custom-pages localizations placements create` and `asc app-events localizations placements create`. Custom-page types are `PRODUCT_PAGE_HEADER_ASSET`, `APP_STORE_SEARCH_RESULTS_ASSET`, `APP_SCREENSHOT`, and `APP_PREVIEW`. Event types are `EVENT_CARD_ASSET` and `EVENT_DETAILS_PAGE_ASSET`. Placement writes need founder approval. Reuse one library asset by creating a placement on each surface. Do not upload a second copy for that reuse.
+- **iPhone Duo screenshots.** [Apple's October 5, 2026 news](https://developer.apple.com/news/?id=kkphp5qo) says submission can include iPhone Duo screenshots now. Starting April 2027, submitted apps and games need iPhone Duo screenshots. 5.13.0 `asc screenshots sizes --all` lists `APP_IPHONE_DUO` at 1398×2034, 2034×1398, 2007×2853, and 2853×2007. The upload device type is `IPHONE_DUO`. The placement group is `IPHONE_DUO_PROFILE`. Listing composition stays in `app-store-listing-prep.md`.
+- **Product page optimization v2 (5.12.0, confirmed on 5.13.0).** `asc product-pages experiments create` flags: `--app`, `--name`, `--output`, `--platform`, `--pretty`, `--traffic-proportion`, `--v2`, `--version-id`. v2 uses `--v2 --app --platform` and omits `--version-id`. `asc product-pages experiments treatments create` flags: `--app-icon-name`, `--experiment-id`, `--name`, `--output`, `--pretty`, `--v2`. Pass `--v2` when the experiment was created with `--v2`. Creation needs founder approval.
+- **Release wait (5.10.0, confirmed on 5.13.0).** `asc status --until` polls and then exits. It is a read. It is not a submit or a release. Flags: `--app`, `--include`, `--max-polls`, `--output`, `--platform`, `--poll-interval`, `--pretty`, `--timeout`, `--until`, `--watch`. `--until` values: `review-done`, `ready-for-sale`, `processed`, `testflight-ready`, `change`.
+- **StoreKit reads (5.10.0, confirmed on 5.13.0).** These reads use an In-App Purchase API key, not the App Store Connect API key. `asc storekit transactions history` flags: `--bundle-id`, `--decode`, `--end`, `--environment`, `--output`, `--paginate`, `--pretty`, `--product-id`, `--product-type`, `--revision`, `--revoked`, `--sort`, `--start`, `--storekit-profile`, `--transaction-id`. `asc storekit subscriptions status` flags: `--bundle-id`, `--decode`, `--environment`, `--output`, `--pretty`, `--status`, `--storekit-profile`, `--transaction-id`. `--decode` adds decoded JWS fields without signature verification. Do not treat decoded fields as verified. Do not store customer transaction payloads in ordinary evidence. Creating the StoreKit credential needs founder approval.
+- **Localization import (5.10.0, confirmed on 5.13.0).** `asc iap versions localizations import` and `asc subscriptions versions localizations import` share these flags: `--confirm`, `--dry-run`, `--file`, `--output`, `--pretty`, `--version-id`. `--confirm` is required unless `--dry-run` is set. The JSON file maps a locale to `name` and `description`. Import does not clear a field or delete a locale. Run `--dry-run` first. Apply needs founder approval.
 - **Repeat-safe creates.** `versions create`, `localizations create`, and (since 5.6.0) `metadata push` accept `--if-exists fail|skip|update`. The default is `fail`. `skip` reads an existing record without changing it. `update` writes supplied fields. These are still mutations and need an approved plan.
 - **Pricing schedule dates.** Since 5.7.0, `pricing schedule create` defaults an omitted `--start-date` to today's date in US Pacific time and prints the chosen date. Pass an exact date when an approved plan is date-bound. Its base territory accepts alpha-2, alpha-3, or an exact English country name.
 - **5.x identifier flags.** App details use `asc apps view --id`. Build-scoped reads use `--build-id`, not `--build`. Credential removal is `asc auth logout --confirm` (or `--name` / `--all` with `--confirm`).
@@ -292,6 +307,9 @@ Record all findings in `store/APPLE_SIGNING.md` and mirror app-record blockers i
 Safe without new approval when credentials are already configured and the user asked for ASC work:
 
 - read app/build/version/review status
+- read Asset Library records, specs, and placements
+- run `asc status --until` as a release-status read
+- read StoreKit history or subscription status when that credential already exists
 - resolve IDs
 - run validators and doctors
 - export metadata or screenshots for review
@@ -311,8 +329,11 @@ Founder approval required:
 - app creation
 - bundle ID/capability/certificate/profile creation or rotation
 - metadata apply/push
-- screenshot upload/replace
-- IAP/subscription creation, pricing, localization, or attachment
+- screenshot upload/replace, including the deprecated `asc screenshots upload` path
+- Asset Library image or video upload, archive, unarchive, delete, or poster-frame change
+- placement create, reorder, swap, or delete on a version, custom product page, or In-App Event
+- product-page experiment or treatment creation
+- IAP/subscription creation, pricing, localization import, or attachment
 - custom product page creation, keyword assignment, deep link submission, disable/delete, or review submission
 - In-App Event creation, schedule/media/deep link changes, purchase-required flag changes, or review submission
 - App Privacy publish/update actions

@@ -320,16 +320,20 @@ sources:
     url: https://github.com/rorkai/App-Store-Connect-CLI
     review_cadence_days: 7
     claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
+    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli-skills
     name: github.com
     source_type: github
     url: https://github.com/rorkai/app-store-connect-cli-skills
     review_cadence_days: 7
     claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    last_review_date: 2026-10-08
     reviewer: b2c-maintainers
+    revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
+    upstream_id: rork-app-store-connect-cli-skills
   - id: support-google-com-googleplay-android-developer-answer-10144311
     name: support.google.com
     source_type: support_docs

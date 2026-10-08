@@ -18,7 +18,7 @@ license:
   status: verified
   evidence_url: https://github.com/rorkai/app-store-connect-cli-skills/blob/main/LICENSE
   evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
-  reviewed_revision: main@f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8 (2026-09-05)
+  reviewed_revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8 (2026-10-08); 5.13.0 install-skills lock; LICENSE digest unchanged
   notice_file: catalog/upstreams/notices/rork-app-store-connect-cli-skills.txt
   scope: Root LICENSE of the skills repository. The builder copies no SKILL.md text; it routes selected skill names as subordinate guidance.
 source_ids:
@@ -34,20 +34,25 @@ relationships:
     upstream_paths:
       - README.md
       - "*/SKILL.md"
-    pin_authority: "`asc install-skills` lock (reviewed commit e30039abddbe388179324d0f9cdccb66c3843115 per the CLI README on 2026-09-05); `npx skills add` carries no pin"
+    pin_authority: "`asc install-skills` on asc 5.13.0 locks commit f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8; `npx skills add` carries no pin"
 baselines:
+  reviewed_source:
+    revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
+    observed_at: "2026-10-08"
+    by: b2c-maintainers
+    note: asc 5.13.0 README locks install-skills to this commit. Skill directory names match the 2026-09-05 list. No SKILL.md text was copied.
   reviewed_guidance:
     revision: unrecorded
-    observed_at: "2026-08-18"
+    observed_at: "2026-10-08"
     by: b2c-maintainers
-    note: The routed skill list was reviewed on 2026-08-18 without recording the repository commit. The commit is unknown; it is not inferred from the current main head.
+    note: asc 5.13.0 install-skills locks f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8. That commit is the reviewed source above. Guidance revision stays unrecorded. Repository main 9c7e769f09a18237c9bd9c70f70aef65f0cd0391 on 2026-10-05 is not adopted.
 support:
   policy: Skill guidance is advice. It never marks a lane done, never overrides the builder's own reference on conflict, and loads only for the store workflows that name it. Guidance changes upstream are reviewed by mapped semantic comparison, not text merge.
   versions:
-    - range: main (unpinned by the builder)
+    - range: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
       status: untested
       evidence:
-        - The builder records no commit for its reviewed routing; the CLI's own install lock pins the pack it installs.
+        - asc 5.13.0 README install-skills lock. Skill names only. No live skill execution.
   operations:
     - id: asc-cli-usage
       title: canonical commands, flags, output, pagination, auth
@@ -92,7 +97,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-05"
+  last_review: "2026-10-08"
   status: current
 credits:
   acknowledge: true
