@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.114",
+  "skillVersion": "0.221.115",
   "areas": [
     {
       "id": "area.operating-system",
@@ -1869,6 +1869,7 @@
       "title": "Growth",
       "referenceIds": [
         "reference.design.brand-system-skill-onboard",
+        "reference.growth.apple-search-ads-launch",
         "reference.growth.appsflyer-mmp",
         "reference.growth.cro-landing",
         "reference.growth.geo-seo",
@@ -2138,7 +2139,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/data/analytics-attribution.md",
-        "sha256": "sha256:0bba4685b2188b9e80b7fcc14fdac9472c6c4aeac5bc59703188eaa5e26f234a",
+        "sha256": "sha256:37b2f3a585ea383cd9209576238050b805df2f26973a55e29c029e8d2269f0c9",
         "origin": "skill"
       }
     },
@@ -6032,6 +6033,63 @@
       }
     },
     {
+      "id": "reference.growth.apple-search-ads-launch",
+      "path": "knowledge/growth/apple-search-ads-launch.md",
+      "domainId": "domain.growth",
+      "title": "Apple Search Ads Launch",
+      "loadWhen": "before an Apple Search Ads test that bids exact-match competitor and category keywords, with Search Match off, new users, iPhone, and territory tiers",
+      "lifecycle": "active",
+      "applicabilityNotes": "Reauthored from one self-reported indie setup. Figures from that account are one anecdote and are not targets. Apple's current ad policies outrank the anecdote. Spend needs founder approval and a daily cap. Competitor names may be keywords. Ad copy and custom product pages stay modelled on the category, using this app's own claims and screenshots.",
+      "sources": [
+        {
+          "id": "apple-ads-policies",
+          "name": "Apple Advertising Policies",
+          "sourceType": "website",
+          "url": "https://ads.apple.com/policies",
+          "reviewCadenceDays": 30,
+          "claimScope": "Advertiser duties for ad content, including intellectual-property limits on logos, graphics, and artwork, and the requirement to re-read the live policy before delivery.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "apple-ads-structure-campaigns",
+          "name": "Apple Ads — Structure campaigns",
+          "sourceType": "website",
+          "url": "https://ads.apple.com/app-store/help/campaigns/0056-structure-campaigns",
+          "reviewCadenceDays": 30,
+          "claimScope": "Exact-match category and competitor campaigns, and Search Match as a discovery control rather than the default on those campaigns.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "apple-ads-campaign-structure-best-practices",
+          "name": "Apple Ads — Campaign structure best practices",
+          "sourceType": "website",
+          "url": "https://ads.apple.com/app-store/best-practices/campaign-structure",
+          "reviewCadenceDays": 30,
+          "claimScope": "Search Match off and exact match for brand, category, and competitor campaigns, plus separating storefronts when budgets differ.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "apple-ads-audience-settings",
+          "name": "Apple Ads — Modify audience settings",
+          "sourceType": "website",
+          "url": "https://ads.apple.com/app-store/help/ad-groups/0021-modify-audience-settings",
+          "reviewCadenceDays": 30,
+          "claimScope": "New users customer type, iPhone device choice including possible iPod touch delivery, and the reach limit when audience settings exclude Personalized Ads off.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        }
+      ],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/growth/apple-search-ads-launch.md",
+        "sha256": "sha256:f0b24576caf8380275b6959e160dc037515c8fb8b49e9968accc691a81bdc5e4",
+        "origin": "skill"
+      }
+    },
+    {
       "id": "reference.growth.appsflyer-mmp",
       "path": "knowledge/growth/appsflyer-mmp.md",
       "domainId": "domain.growth",
@@ -6351,7 +6409,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/paid-user-acquisition.md",
-        "sha256": "sha256:aaacea114c69c8af0746344160c0578da04e8573cb8580080fa3738f4f13cfe9",
+        "sha256": "sha256:eedd0c034916250ef2c063a32cd90e4e6489f1b2294914cdaa5b74845b0590a1",
         "origin": "skill"
       }
     },
@@ -6648,7 +6706,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/money/revenue-monetization.md",
-        "sha256": "sha256:91cacab4e540d573046776ed06783e0df6f9efac594c1ec4099e1f4eade896e1",
+        "sha256": "sha256:f8fdc1629ce89658b9e1025034c5d759c9f5625c79fc52db8a1a26ae1cfc135c",
         "origin": "skill"
       }
     },
@@ -7948,7 +8006,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/flow-traceability.md",
-        "sha256": "sha256:d4aeaf135919ff5c3151659fc9d41a843b4b1764f99cf109972a9900bb2d9997",
+        "sha256": "sha256:7f0f669d18a833fd4fab1b7f0b3e4e70b23d9022f93564a60c170a60c8ebfd3a",
         "origin": "skill"
       }
     },
@@ -7964,7 +8022,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/launch-coverage.md",
-        "sha256": "sha256:b8c14d68bbda4c821dc13f727655086dbf7c285ebe9498714fc9ef716cded509",
+        "sha256": "sha256:1db635932e1642508d9f33057dbc4fede8fbae72b8e0ecb430a1628b7d6dc3be",
         "origin": "skill"
       }
     },
@@ -7990,7 +8048,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/launch-phases.md",
-        "sha256": "sha256:e3331e3c35f4d71bb154a4ba9e7bc6bc9bf13c37777e03b18d22c9b7c8acefa3",
+        "sha256": "sha256:cd1e9d737e87818dae3731c9c50eef0677a9488112bf74baa602e3bdea37247d",
         "origin": "skill"
       }
     },
@@ -8380,7 +8438,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/tool-recipes/growth-and-store-routing.md",
-        "sha256": "sha256:0611d8401b9629297b17eae1a0aa5f674986fbabcdc2eca2f4c7ea6d5a335099",
+        "sha256": "sha256:72ff0dbb4496374a7a3b3ae33e3f6d5c80baa5d692f6def2820c4c1b9102f4dc",
         "origin": "skill"
       }
     },
@@ -8747,7 +8805,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/research/localization-market-research.md",
-        "sha256": "sha256:e94db18fd461187a25cdecdc2e275ebe61a770d33fb78e3ea5d4ef4308553ec8",
+        "sha256": "sha256:31cf9241a85d22a4aafdda47f0fa38507b39d2f80be2b310516bcef10b024c85",
         "origin": "skill"
       }
     },
@@ -9617,7 +9675,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:894097a4f1394b28e143d4cd8f7cb3d4dc002f48b7edf708088e9a85a2e2d950",
+        "sha256": "sha256:96822c96bdc00204556ffe5a38ed62a5d50cdc55129b8a885773ee03c38fbf98",
         "origin": "skill"
       }
     },
@@ -9977,7 +10035,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/aso-store-ops.md",
-        "sha256": "sha256:6bb6c27b95dbd990ed3c305d0ad6be92382612656f7fb9d7ffabc4d75d882685",
+        "sha256": "sha256:7247b7729c449948a23157a772b3010cbe865e8bfc6009dc7f2d06e48c8ec61a",
         "origin": "skill"
       }
     },
@@ -14684,6 +14742,7 @@
       "consults": [],
       "referenceIds": [
         "reference.engineering.recommended-agent-skills",
+        "reference.growth.apple-search-ads-launch",
         "reference.growth.paid-user-acquisition",
         "reference.process.tool-recipes.growth-and-store-routing",
         "reference.research.localization-market-research",
@@ -16202,6 +16261,7 @@
       ],
       "consults": [],
       "referenceIds": [
+        "reference.growth.apple-search-ads-launch",
         "reference.growth.appsflyer-mmp",
         "reference.growth.hdyhau-blended-roas",
         "reference.growth.ios-consumer-playbook-intake",
@@ -19935,14 +19995,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "807a6878d4be0810e3ee851d92e73df8872d8ad6bbe4b9f3b23643c2173d3210",
+    "fingerprint": "342601cd445647da098037407024e4ac2101aa96dad2ea03103ff8292412053a",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.114",
-        "revision": "0.221.114",
-        "contentDigest": "5f1192ead9fc8e98e38a16202a15b9688e3ef6deccf62e68e0724e2a3bb51f48"
+        "version": "0.221.115",
+        "revision": "0.221.115",
+        "contentDigest": "e4444a9951f0a3a55b2ddcaf3ce0acc3cdee1f0f34c8fffac476cb492b38507b"
       }
     ],
     "base": {
@@ -19954,7 +20014,7 @@
       "business-pack.consumer-business": {
         "domains": 15,
         "workflows": 115,
-        "references": 148
+        "references": 149
       }
     }
   }

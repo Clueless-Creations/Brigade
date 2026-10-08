@@ -9,7 +9,7 @@ Before marking this lane done, load [`provider-proof.md`](../process/provider-pr
 
 The goal is to give the founder a visible measurement plan before launch work hardens. Do not bolt analytics on after the landing page, onboarding, paywall, or store CTAs are already built.
 
-Load `paid-user-acquisition.md` before paid ads, Apple Search Ads, Meta/TikTok/Google campaigns, paid creative tests, ad-network SDK choices, MMP decisions, or paid spend-readiness claims.
+Load `paid-user-acquisition.md` before paid ads, Apple Search Ads, Meta/TikTok/Google campaigns, paid creative tests, ad-network SDK choices, MMP decisions, or paid spend-readiness claims. Load [`apple-search-ads-launch.md`](../growth/apple-search-ads-launch.md) before an exact-match competitor and category Apple Search Ads test.
 
 Load [`paid-tool-routing.md`](../operations/paid-tool-routing.md) before replacing PostHog paid/account features, GA4/ad-network tooling, MMP tooling, RevenueCat experiments, ad-network account data, or Fastlane campaign analytics with a free/manual plan. Local event logs are not proof that analytics is live.
 

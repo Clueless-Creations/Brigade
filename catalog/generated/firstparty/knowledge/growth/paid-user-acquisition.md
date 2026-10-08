@@ -54,7 +54,7 @@ Default channel choice:
 - **Meta Ads**: default first channel for many subscription apps when the ICP is broad enough and the product can produce varied visual/pain-point creatives.
 - **TikTok**: consider when the buyer is younger, the product has strong native video hooks, and the launch can refresh creatives faster.
 - **Google web-to-app**: consider when search/demand capture or web funnels matter and the app can preserve campaign context into checkout or install.
-- **Apple Ads**: consider when search intent is clear, keyword economics are plausible, and App Store listing/custom product pages are ready.
+- **Apple Ads**: consider when search intent is clear, keyword economics are plausible, and App Store listing/custom product pages are ready. Load [`apple-search-ads-launch.md`](apple-search-ads-launch.md) before an exact-match competitor and category test (Search Match off, new users, iPhone, territory tiers, cautious bid ramp).
 
 Sequencing against creator sponsorships: hand-negotiated creator deals (`influencer-sponsorship-engine.md`) are typically the higher-multiple channel at small budgets, while ad platforms return lower multiples but scale without per-deal effort. When sponsorships have proven the demo moment and payback economics, their winning creative and creators become the seed for the first paid channel — including paying one proven creator to make ads directly rather than posting to their own page.
 

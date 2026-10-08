@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { composeAuthoredCatalog } from "../catalog/authoring.js";
 import { composeCatalog } from "../catalog/index.js";
 import { loadKnowledgePackages } from "../catalog/knowledge-packages.js";
 import type { Catalog, CatalogKnowledgePackage } from "../catalog/types.js";
@@ -173,8 +174,11 @@ function main(argv: string[]): number {
     else throw new Error("Usage: render-hosted-bundle.ts [--check] [--json] [--skill-root <directory>] [--stamp-mode pr|main|release]");
   }
   if (check && driftIsLoose(resolveDriftMode(argv))) {
+    // The committed bundle lags until release:stamp. Render from the authored
+    // catalog so a new active package matches its manifest, then require two
+    // identical renders. Do not compare those bytes to the committed file.
     const unstable = unstableRenderMessage("hosted bundle", () => ({
-      [HOSTED_BUNDLE_RELATIVE_PATH]: serializeHostedKnowledgeBundle(buildHostedKnowledgeBundle(skillRoot)),
+      [HOSTED_BUNDLE_RELATIVE_PATH]: serializeHostedKnowledgeBundle(buildHostedKnowledgeBundle(skillRoot, composeAuthoredCatalog(skillRoot))),
     }));
     if (unstable) {
       console.error(`ERROR hosted_bundle.unstable: ${unstable}`);

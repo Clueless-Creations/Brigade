@@ -226,6 +226,7 @@ Generated from catalog/knowledge/**/*.yaml.
 
 | Load when | Reference |
 | --- | --- |
+| before an Apple Search Ads test that bids exact-match competitor and category keywords, with Search Match off, new users, iPhone, and territory tiers | [`knowledge/growth/apple-search-ads-launch.md`](../../knowledge/growth/apple-search-ads-launch.md) |
 | before the first paid dollar; when paid UA needs the AppsFlyer SDK, RevenueCat $appsflyerId bridge, and spend-ready MMP proof | [`knowledge/growth/appsflyer-mmp.md`](../../knowledge/growth/appsflyer-mmp.md) |
 | before building or auditing a public conversion surface: landing/waitlist, web-to-app, or launch page | [`knowledge/growth/cro-landing.md`](../../knowledge/growth/cro-landing.md) |
 | after launch approval or public beta; on any usefastlane.ai request — workspace setup, social connections, Blitz campaigns, generated organic content, scheduling, canceling posts, short-form analytics | [`knowledge/growth/fastlane-growth-ops.md`](../../knowledge/growth/fastlane-growth-ops.md) |
