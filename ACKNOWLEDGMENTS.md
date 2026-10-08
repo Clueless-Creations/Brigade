@@ -86,6 +86,17 @@ B2C App Builder is built on open-source work and adapts published methods. This 
   - adapted-method: Selected stack-neutral native-slop tells and four-state screen rules are reauthored in knowledge/design/vibecoded-tells.md and knowledge/design/mobile-flow-craft.md. React Native grep patterns and Expo-only APIs stay upstream.
   - selected-skill-guidance: Official Expo skills are named as opt-in producer packs for a selected Expo session. catalog/stacks/expo-agent-tools.ts owns the reviewed inventory. Installation happens only with founder approval. expo-skill-feedback, hooks, and Expo MCP stay refused.
 
+**GEO-first SEO skill**
+
+- Original author: Zubair Trabzada, original author or copyright holder identified in the reviewed source
+- Current maintainer: zubair-trabzada (github.com/zubair-trabzada), current upstream maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/zubair-trabzada/geo-seo-claude
+- Contributes: GEO artifact and skill-name routing informs knowledge/growth/geo-seo.md and knowledge/engineering/external-skill-packs.md. The original license notice is retained. No skill is installed.
+- How we consume it:
+  - adapted-method: Required launch artifacts and the GEO content rules are already reauthored in knowledge/growth/geo-seo.md. This record pins that routing. No skill file is copied.
+  - selected-skill-guidance: geo, geo-audit, geo-technical, geo-crawlers, geo-llmstxt, geo-schema, geo-citability, geo-content, geo-brand-mentions, geo-platform-optimizer, geo-compare, and geo-report stay opt-in auditor or producer packs. No SKILL.md is installed by this record.
+
 **last30days agent skill**
 
 - Original author: Matt Van Horn, original author or copyright holder identified in the reviewed source

@@ -788,6 +788,39 @@ SOFTWARE.
 
 Notice sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
 
+## GEO-first SEO skill
+
+- Upstream: https://github.com/zubair-trabzada/geo-seo-claude
+- License: MIT
+- Copyright: Copyright (c) 2026 Zubair Trabzada
+- Scope: Root LICENSE and the skill names already routed by knowledge/growth/geo-seo.md. No skill text, installer, or executable is vendored.
+
+```text
+MIT License
+
+Copyright (c) 2026 Zubair Trabzada
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Notice sha256: 7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc
+
 ## last30days agent skill
 
 - Upstream: https://github.com/mvanhorn/last30days-skill

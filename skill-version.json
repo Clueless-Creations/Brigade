@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.124",
+  "version": "0.221.125",
   "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-99, CLU-100, CLU-103, CLU-104: spec-pack web surfaces: social cards, discovery, web-to-app funnel, polish pass (#676)",
     "CLU-108: Oct 5 creative assets in the spec pack, store provider map, host-neutral Higgsfield (#670)",
     "build(deps): bump posthog-node in /hosted/builder-console (#665)",
     "CLU-102, CLU-106, CLU-110: launch on the free URL and draft the Gate 1 tracker. (#669)",

@@ -60,7 +60,10 @@ const hasLandingArtifacts =
   existsSync(path.join(args.root, "growth", "landing", "pages")) ||
   existsSync(path.join(args.root, "public")) ||
   existsSync(path.join(args.root, "wrangler.toml")) ||
-  existsSync(path.join(args.root, "growth", "landing", "wrangler.toml"));
+  existsSync(path.join(args.root, "growth", "landing", "wrangler.toml")) ||
+  existsSync(path.join(args.root, "web", "index.html")) ||
+  existsSync(path.join(args.root, "wrangler.jsonc")) ||
+  existsSync(path.join(args.root, "wrangler.json"));
 const explicitlyOut = landingStatus === "not_needed" || landingStatus === "deferred";
 const landingLaneActive = Boolean(landingStatus) && !["pending", "not_needed", "deferred"].includes(landingStatus ?? "");
 const inScope = designAccepted || (!explicitlyOut && (landingLaneActive || hasLandingArtifacts));
@@ -336,7 +339,7 @@ if (landingStatus === "succeeded" && /\b(TODO|TBD|unknown|placeholder|pending)\b
 }
 
 // ── GEO/SEO: robots.txt, llms.txt, sitemap ───────────────────────────────────
-const publicRoots = ["public", "static", "dist", "out", "."];
+const publicRoots = ["public", "static", "dist", "out", ".", "web"];
 function findStaticFile(filename: string): boolean {
   return publicRoots.some((root) => existsSync(path.join(args.root, root, filename)));
 }
