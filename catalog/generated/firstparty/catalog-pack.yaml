@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.116
-revision: 0.221.116
+version: 0.221.117
+revision: 0.221.117
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -8513,24 +8513,30 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0
         review_cadence_days: 7
         claim_scope: Rork asc 5.5.0 retains asc subscriptions pricing derive; its new schedule defaults do not change this dry-run guidance.
-        last_review_date: 2026-09-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: github-com-rorkai-app-store-connect-cli-releases-5-7-0
         name: github.com
         source_type: official_docs
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.7.0
         review_cadence_days: 7
         claim_scope: Rork asc 5.7.0 schedule-create date defaults and current subscription price derivation help.
-        last_review_date: 2026-09-28
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
-      - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0-pricing-derive
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
+      - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
         name: github.com
         source_type: official_docs
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/4.9.0
         review_cadence_days: 7
         claim_scope: Rork asc 4.9.0 adds experimental asc subscriptions pricing derive with --dry-run.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: developer-apple-com-documentation-appstoreconnectapi-configuring-subscription-prices
         name: developer.apple.com
         source_type: official_docs
@@ -9883,8 +9889,10 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/4.9.0
         review_cadence_days: 7
         claim_scope: Rork asc 4.9.0 adds experimental asc age-rating audit for the September 2026 social and messaging questionnaire fields.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
     replacement_ids: []
   - id: reference.store.app-review-observe
     title: App Review Observe
@@ -9900,16 +9908,20 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.4.0
         review_cadence_days: 7
         claim_scope: Rork asc 5.4.0 changes cached Apple web-session account selection and version defaults.
-        last_review_date: 2026-09-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: github-com-rorkai-app-store-connect-cli-releases-5-7-0
         name: github.com
         source_type: official_docs
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.7.0
         review_cadence_days: 7
         claim_scope: Current Rork asc review command flags.
-        last_review_date: 2026-09-28
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: developer-apple-com-documentation-appstoreconnectapi-webhook-events
         name: developer.apple.com
         source_type: official_docs
@@ -9948,16 +9960,20 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/4.9.0
         review_cadence_days: 7
         claim_scope: Rork asc 4.9.0 adds metadata validate, metadata push dry-run, and web agreements status.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: github-com-rorkai-app-store-connect-cli
         name: github.com
         source_type: github
         url: https://github.com/rorkai/App-Store-Connect-CLI
         review_cadence_days: 7
         claim_scope: asc web review show returns threads, messages, structured reasons, and attachments.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: docs-asccli-sh-commands-web
         name: docs.asccli.sh
         source_type: official_docs
@@ -10013,8 +10029,10 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI
         review_cadence_days: 7
         claim_scope: Metadata validate and metadata push dry-run stay preflight. Review submit is out of this phase.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
     replacement_ids: []
   - id: reference.store.app-review-resubmit
     title: App Review Resubmit
@@ -10046,8 +10064,10 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI
         review_cadence_days: 7
         claim_scope: asc review submit with --confirm is the capped resubmission mutation. Publish stays out of this phase.
-        last_review_date: 2026-08-26
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
     replacement_ids: []
   - id: reference.store.app-store-connect-cli
     title: App Store Connect CLI
@@ -10069,12 +10089,12 @@ references:
         source_type: github
         url: https://github.com/rorkai/App-Store-Connect-CLI
         review_cadence_days: 7
-        claim_scope: Command families and confirmed local 5.7.0 help for privacy catalog/pull/plan/apply/publish, deep validation, capabilities and redacted review details. Authentication routes and authority remain separate.
-        last_review_date: 2026-10-03
+        claim_scope: Command families and confirmed local 5.13.0 help for Asset Library, placements, privacy, validation, and review. Authentication routes and authority remain separate.
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
         publisher: Rudrank Riyam (author); Rork (maintainer)
-        revision: 5.7.0 reviewed command baseline; local command help checked 2026-10-03
-        retrieved_at: 2026-10-03
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
         rights:
           status: verified
           spdx: MIT
@@ -10095,8 +10115,8 @@ references:
         last_review_date: 2026-09-28
         reviewer: b2c-maintainers
         publisher: Rork (maintainer)
-        revision: 5.7.0
-        retrieved_at: 2026-09-28
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
         rights:
           status: verified
           spdx: MIT
@@ -10115,8 +10135,8 @@ references:
         last_review_date: 2026-09-28
         reviewer: b2c-maintainers
         publisher: Rork (maintainer)
-        revision: 5.6.0
-        retrieved_at: 2026-09-28
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
         rights:
           status: verified
           spdx: MIT
@@ -10135,8 +10155,8 @@ references:
         last_review_date: 2026-09-24
         reviewer: b2c-maintainers
         publisher: Rork (maintainer)
-        revision: 5.5.0
-        retrieved_at: 2026-09-24
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
         rights:
           status: verified
           spdx: MIT
@@ -10155,8 +10175,8 @@ references:
         last_review_date: 2026-09-24
         reviewer: b2c-maintainers
         publisher: Rork (maintainer)
-        revision: 5.4.0
-        retrieved_at: 2026-09-24
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
         rights:
           status: verified
           spdx: MIT
@@ -10172,11 +10192,11 @@ references:
         url: https://github.com/rorkai/app-store-connect-cli-skills
         review_cadence_days: 7
         claim_scope: The routed skill names and their purposes; no SKILL.md text is copied.
-        last_review_date: 2026-09-08
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
         publisher: Rudrank Riyam (author); Rork (maintainer)
-        revision: main@f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8 observed 2026-09-05; reviewed routing 2026-08-18 without a recorded commit
-        retrieved_at: 2026-09-05
+        revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
+        retrieved_at: 2026-10-08
         rights:
           status: verified
           spdx: MIT
@@ -10187,10 +10207,95 @@ references:
           - README.md
           - "*/SKILL.md names only"
         upstream_id: rork-app-store-connect-cli-skills
+      - id: github-com-rorkai-app-store-connect-cli-releases-5-9-0
+        name: github.com
+        source_type: official_docs
+        url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.9.0
+        review_cadence_days: 7
+        claim_scope: Rork asc 5.9.0 validate blocks a missing base-territory price and missing iPad screenshots when --ipa shows iPad.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+        publisher: Rork (maintainer)
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
+        rights:
+          status: verified
+          spdx: MIT
+          evidence: catalog/upstreams/notices/rork-app-store-connect-cli.txt
+          evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+          notes: Release notes are linked for review; no upstream source text is copied.
+        selectors:
+          - release notes
+        upstream_id: rork-app-store-connect-cli
+      - id: github-com-rorkai-app-store-connect-cli-releases-5-10-0
+        name: github.com
+        source_type: official_docs
+        url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.10.0
+        review_cadence_days: 7
+        claim_scope: Rork asc 5.10.0 status --until, StoreKit reads, and IAP or subscription localization import.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+        publisher: Rork (maintainer)
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
+        rights:
+          status: verified
+          spdx: MIT
+          evidence: catalog/upstreams/notices/rork-app-store-connect-cli.txt
+          evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+          notes: Release notes are linked for review; no upstream source text is copied.
+        selectors:
+          - release notes
+        upstream_id: rork-app-store-connect-cli
+      - id: github-com-rorkai-app-store-connect-cli-releases-5-12-0
+        name: github.com
+        source_type: official_docs
+        url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.12.0
+        review_cadence_days: 7
+        claim_scope: Rork asc 5.12.0 Asset Library reads, creative image upload, placements, iPhone Duo media, and product page optimization v2.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+        publisher: Rork (maintainer)
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
+        rights:
+          status: verified
+          spdx: MIT
+          evidence: catalog/upstreams/notices/rork-app-store-connect-cli.txt
+          evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+          notes: Release notes are linked for review; no upstream source text is copied.
+        selectors:
+          - release notes
+        upstream_id: rork-app-store-connect-cli
+      - id: github-com-rorkai-app-store-connect-cli-releases-5-13-0
+        name: github.com
+        source_type: official_docs
+        url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.13.0
+        review_cadence_days: 7
+        claim_scope: Rork asc 5.13.0 video upload, image and video lifecycle, media reuse, and OpenAPI 4.5.1 list filters.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+        publisher: Rork (maintainer)
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        retrieved_at: 2026-10-08
+        rights:
+          status: verified
+          spdx: MIT
+          evidence: catalog/upstreams/notices/rork-app-store-connect-cli.txt
+          evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
+          notes: Release notes are linked for review; no upstream source text is copied. Local --help was checked on 2026-10-08.
+        selectors:
+          - release notes
+          - asc --help
+        upstream_id: rork-app-store-connect-cli
     derivations:
       - source_ids:
           - github-com-rorkai-app-store-connect-cli
           - github-com-rorkai-app-store-connect-cli-skills
+          - github-com-rorkai-app-store-connect-cli-releases-5-13-0
+          - github-com-rorkai-app-store-connect-cli-releases-5-12-0
+          - github-com-rorkai-app-store-connect-cli-releases-5-10-0
+          - github-com-rorkai-app-store-connect-cli-releases-5-9-0
           - github-com-rorkai-app-store-connect-cli-releases-5-7-0
           - github-com-rorkai-app-store-connect-cli-releases-5-6-0
           - github-com-rorkai-app-store-connect-cli-releases-5-4-0
@@ -10198,8 +10303,8 @@ references:
         relationship: adapted
         rationale: Command procedures and boundaries are reauthored in the builder's vocabulary with founder gates, refusals, and evidence rules the upstream does not define.
         reviewer: b2c-maintainers
-        reviewed_at: 2026-09-28
-        baseline: 5.7.0 help and release notes (2026-09-28)
+        reviewed_at: 2026-10-08
+        baseline: 5.13.0 help and release notes (2026-10-08)
         selectors:
           - README.md
           - asc --help
@@ -10752,24 +10857,30 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.5.0
         review_cadence_days: 7
         claim_scope: Rork asc 5.5.0 retains the documented optimize keywords rank, discover, and score commands.
-        last_review_date: 2026-09-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
-      - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0-optimize
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
+      - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
         name: github.com
         source_type: official_docs
         url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/4.9.0
         review_cadence_days: 7
         claim_scope: Rork asc 4.9.0 adds optimize keywords rank, discover, and score from official Apple data.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
-      - id: github-com-rorkai-app-store-connect-cli-optimize-loop
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
+      - id: github-com-rorkai-app-store-connect-cli
         name: github.com
         source_type: github
         url: https://github.com/rorkai/App-Store-Connect-CLI
         review_cadence_days: 7
         claim_scope: Rork asc CLI repository for App Store Connect automation and optimize keyword commands.
-        last_review_date: 2026-08-24
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: developer-apple-com-help-app-store-connect-reference-platform-version-information
         name: developer.apple.com
         source_type: official_docs
@@ -11232,16 +11343,20 @@ references:
         url: https://github.com/rorkai/App-Store-Connect-CLI
         review_cadence_days: 7
         claim_scope: Auto-discovered from recently added repository content.
-        last_review_date: 2026-08-17
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+        upstream_id: rork-app-store-connect-cli
       - id: github-com-rorkai-app-store-connect-cli-skills
         name: github.com
         source_type: github
         url: https://github.com/rorkai/app-store-connect-cli-skills
         review_cadence_days: 7
         claim_scope: Auto-discovered from recently added repository content.
-        last_review_date: 2026-08-17
+        last_review_date: 2026-10-08
         reviewer: b2c-maintainers
+        revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
+        upstream_id: rork-app-store-connect-cli-skills
       - id: support-google-com-googleplay-android-developer-answer-10144311
         name: support.google.com
         source_type: support_docs
