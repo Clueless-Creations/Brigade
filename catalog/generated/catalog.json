@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.123",
+  "skillVersion": "0.221.124",
   "areas": [
     {
       "id": "area.operating-system",
@@ -750,6 +750,7 @@
         "provider.stripe",
         "provider.resend",
         "provider.app-store-screenshots",
+        "provider.appllama",
         "provider.higgsfield",
         "provider.mobai",
         "provider.in-app-ios-simulator",
@@ -1013,7 +1014,8 @@
       "capabilityIds": [
         "provider.refero",
         "provider.higgsfield",
-        "provider.app-store-screenshots"
+        "provider.app-store-screenshots",
+        "provider.appllama"
       ],
       "outputPathPrefixes": [
         "DESIGN.md",
@@ -1290,6 +1292,7 @@
         "provider.app-store-connect",
         "provider.google-play",
         "provider.app-store-screenshots",
+        "provider.appllama",
         "provider.higgsfield",
         "provider.posthog",
         "provider.revenuecat",
@@ -6204,7 +6207,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/fastlane-growth-ops.md",
-        "sha256": "sha256:ddc400e5707700fd3f9a83b45a190149c0d8e21b2ccdefd9959f6a1aba6be508",
+        "sha256": "sha256:45ff01da4ae70f046fa21a5143abb92de16902a28021f3b446d391463268eebc",
         "origin": "skill"
       }
     },
@@ -6425,7 +6428,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/ugc-creator-engine.md",
-        "sha256": "sha256:d0ead25abc522c83fb37acdcb78474ec0cc37ea330b4c26571238c6561796d61",
+        "sha256": "sha256:d17c4dd90f477fd9d702bed455b53f976023cb3814f123e8d5839cc3629a529f",
         "origin": "skill"
       }
     },
@@ -6480,7 +6483,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/viral-growth-loops.md",
-        "sha256": "sha256:6a07294b4e29ce7f5e447f440fd3d614c1e8f1cfcf8b91e0ae84b3783bb58bbc",
+        "sha256": "sha256:11dfeb7144b8fa0d10e61ad700f0a18aa9467d3e4cc00ff8e8838b0cc79a1902",
         "origin": "skill"
       }
     },
@@ -7086,7 +7089,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/operations/paid-tool-routing.md",
-        "sha256": "sha256:0cfd7a3bf0ea814348c7fd5e8a0e012b6680dbbf95e915ef5903247084937d45",
+        "sha256": "sha256:52b3433a767ce8ef139ca14ff8f8a1cafb1dff92eccbff93129f6c771d1c5bd3",
         "origin": "skill"
       }
     },
@@ -7944,7 +7947,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/change-cascade.md",
-        "sha256": "sha256:a719f30d195276681320f16685775aa55fe684dd665be710fcdc3b889d1c2b0b",
+        "sha256": "sha256:a2711aa4a4faf957dc9513fa483ae38f3464dc519cef93a213619a0871e1f267",
         "origin": "skill"
       }
     },
@@ -8573,7 +8576,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/tool-recipes/visual-and-motion-production.md",
-        "sha256": "sha256:8edb9a73f46d1c197b1218262a6fb6e8c8c03bf4ea0c8311883fe7cddf4255d1",
+        "sha256": "sha256:04e7994513321ce7fa7877ab04b50885a693c90af19d1e23921311943c1de15f",
         "origin": "skill"
       }
     },
@@ -9722,6 +9725,96 @@
             "skills/app-store-screenshots/SKILL.md"
           ],
           "upstreamId": "parth-app-store-screenshots"
+        },
+        {
+          "id": "developer-apple-com-app-store-whats-new",
+          "name": "App Store What's New",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/app-store/whats-new",
+          "reviewCadenceDays": 7,
+          "claimScope": "Oct 5 2026 creative assets on product-page headers and search results, plus Asset Library and the preview tool.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-news-ljpl7kyn",
+          "name": "Showcase your apps with new assets",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/news/?id=ljpl7kyn",
+          "reviewCadenceDays": 7,
+          "claimScope": "October 5 2026 announcement of creative assets, the preview tool, and Asset Library pre-approval.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-app-store-asset-best-practices",
+          "name": "App Store asset best practices",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/app-store/asset-best-practices",
+          "reviewCadenceDays": 7,
+          "claimScope": "Placement guidance for product-page headers, search results, and In-App Event creative assets.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-help-creative-assets-specifications",
+          "name": "Creative assets specifications",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications",
+          "reviewCadenceDays": 7,
+          "claimScope": "Image and video specifications for the product-page header, search results, and In-App Event cards.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-help-manage-your-app-store-assets",
+          "name": "Manage your App Store assets",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/help/app-store-connect/manage-app-information/manage-your-app-store-assets",
+          "reviewCadenceDays": 7,
+          "claimScope": "Asset Library upload, standalone review, reuse of approved assets, and the preview control.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "higgsfield-ai-what-is-higgsfield-mcp",
+          "name": "What is Higgsfield MCP",
+          "sourceType": "website",
+          "url": "https://higgsfield.ai/creator-hub/help-center/integrations/what-is-higgsfield-mcp",
+          "reviewCadenceDays": 30,
+          "claimScope": "MCP generations deduct credits. OAuth connection, no API key.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "higgsfield-ai-connect-higgsfield-to-ai-agent",
+          "name": "Connect Higgsfield to an MCP agent",
+          "sourceType": "website",
+          "url": "https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent",
+          "reviewCadenceDays": 30,
+          "claimScope": "Public operations table. Personal Clipper is named as a capability. The page does not publish a tool id for it.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "mcp-higgsfield-ai-mcp",
+          "name": "Higgsfield MCP connector",
+          "sourceType": "website",
+          "url": "https://mcp.higgsfield.ai/mcp",
+          "reviewCadenceDays": 30,
+          "claimScope": "Public connector URL. OAuth, no API key.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "mcp-appllama-io-mcp",
+          "name": "Appllama MCP",
+          "sourceType": "website",
+          "url": "https://mcp.appllama.io/mcp",
+          "reviewCadenceDays": 30,
+          "claimScope": "Opt-in research connector for top-app screens, onboarding, and paywalls. Per-call credits.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
         }
       ],
       "derivations": [
@@ -9796,7 +9889,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:96822c96bdc00204556ffe5a38ed62a5d50cdc55129b8a885773ee03c38fbf98",
+        "sha256": "sha256:40f3f75d789a17b53c96de19511a154f2ab5b3ee987df3c3149ca538c8f50e0b",
         "origin": "skill"
       }
     },
@@ -12547,6 +12640,7 @@
         "provider.stripe",
         "provider.resend",
         "provider.app-store-screenshots",
+        "provider.appllama",
         "provider.higgsfield",
         "provider.mobai",
         "provider.in-app-ios-simulator",
@@ -20126,14 +20220,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "14ceb8d50ae8f7a778f3268765cbc18c5cabcee8ec2c2a45647e551f238bbbfa",
+    "fingerprint": "5d59d24848db0d7065c68a5443a0b94a5ecd592431640ab957e09ac388348461",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.123",
-        "revision": "0.221.123",
-        "contentDigest": "93e21103b6c7b4f1d946644b2abf3ba014b19532a5759bb0e7d4541bb071bc26"
+        "version": "0.221.124",
+        "revision": "0.221.124",
+        "contentDigest": "a988251e91218dc6ea180bf979d4cc8b8d7058fe113a53dd5fa36d0809b2837e"
       }
     ],
     "base": {
