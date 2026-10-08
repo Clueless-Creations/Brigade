@@ -353,6 +353,7 @@ export const workflows = [
       "provider.stripe",
       "provider.resend",
       "provider.app-store-screenshots",
+      "provider.appllama",
       "provider.higgsfield",
       "provider.mobai",
       "provider.in-app-ios-simulator",

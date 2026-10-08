@@ -1688,6 +1688,30 @@ export function register(harness: Harness): void {
     ]);
     assert(badDomain.code !== 0 && badDomain.output.includes("Unknown domain"), `an unknown domain must be refused by name, got exit ${badDomain.code}`);
   });
+
+  harness.check("knowledge: no host-specific Higgsfield MCP prefix remains, and the spend gate stays intact", () => {
+    const root = path.join(skillRoot, "knowledge");
+    const hits: string[] = [];
+    const walk = (dir: string) => {
+      for (const name of readdirSync(dir)) {
+        const full = path.join(dir, name);
+        if (statSync(full).isDirectory()) {
+          walk(full);
+          continue;
+        }
+        if (!name.endsWith(".md")) continue;
+        const text = readFileSync(full, "utf8");
+        if (text.includes("mcp__claude_ai_Higgsfield")) hits.push(path.relative(skillRoot, full));
+      }
+    };
+    walk(root);
+    assert(hits.length === 0, `host-specific Higgsfield prefix remains in ${hits.join(", ")}`);
+    const routing = readFileSync(path.join(root, "operations", "paid-tool-routing.md"), "utf8");
+    for (const phrase of ["full-quality exact batch", "cheap-first draft batch", "defer generation", "No selection means no credits are used."]) {
+      assert(routing.includes(phrase), `Higgsfield spend gate is missing "${phrase}"`);
+    }
+    assert(routing.includes("`balance` on the Higgsfield MCP"), "the spend gate must call balance on the Higgsfield MCP");
+  });
 }
 
 function foodDomain(): CatalogDomain {
@@ -1740,7 +1764,7 @@ const PAID_TOOL_INTAKE_NEEDLES = [
   { id: "AppKittie", needles: ["AppKittie", "mcp__appkittie__"] },
   { id: "XPOZ", needles: ["XPOZ", "mcp__claude_ai_XPOZ__"] },
   { id: "Firecrawl", needles: ["Firecrawl"] },
-  { id: "Higgsfield", needles: ["Higgsfield", "mcp__claude_ai_Higgsfield__"] },
+  { id: "Higgsfield", needles: ["Higgsfield", "Higgsfield MCP"] },
   { id: "MobAI", needles: ["MobAI", "mcp__mobai__"] },
   { id: "Refero", needles: ["Refero", "refero_search"] },
 ] as const;

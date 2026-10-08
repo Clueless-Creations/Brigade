@@ -51,6 +51,7 @@ const HUMAN_NAMES: Record<string, string> = {
   "provider.mobai": "MobAI (device automation & demo capture)",
   "provider.security-review": "Security review scanner",
   "provider.app-store-screenshots": "App Store screenshot composer",
+  "provider.appllama": "Appllama (top-app screen research)",
   "provider.aso-skills": "ASO specialist skill pack",
   "provider.in-app-ios-simulator": "iOS Simulator (local Mac)",
 };

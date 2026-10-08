@@ -438,6 +438,28 @@ export const PROVISIONING_MANIFEST: readonly ProvisioningProvider[] = [
     ],
   },
   {
+    providerId: "provider.appllama",
+    capability: "top-app-screen-research",
+    // Opt-in research. The screenshot composer stays provider.app-store-screenshots.
+    accessRoutes: ["mcp"],
+    unlocks:
+      "Lets the agent study real screens, onboarding, and paywalls from top-grossing apps when that research is opted in. It informs the screenshot story. It does not compose store screenshots.",
+    requirements: [
+      {
+        kind: "external",
+        name: "Founder opted in to the Appllama MCP",
+        why: "Appllama is opt-in research. A missing connection is not a default dependency, and each call spends credits.",
+        verifiable: false,
+      },
+      {
+        kind: "external",
+        name: "Appllama MCP connected with OAuth (no API key in this repo)",
+        why: "Screen research rides the connected Appllama MCP. This manifest stores no secret for it.",
+        verifiable: false,
+      },
+    ],
+  },
+  {
     providerId: "provider.aso-skills",
     capability: "aso-specialist-guidance",
     accessRoutes: ["skill_pack"],
