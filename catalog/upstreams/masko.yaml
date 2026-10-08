@@ -1,0 +1,113 @@
+schema_version: 1
+id: masko
+project: Masko workflow skills
+canonical_url: https://github.com/masko-ai/masko-plugins
+homepage: https://masko.ai/docs/canvas/build
+aliases:
+  - masko-ai/masko-plugins
+authors:
+  - name: Masko
+    role: copyright holder named in the reviewed LICENSE
+maintainers:
+  - name: masko-ai (github.com/masko-ai)
+    role: current upstream maintainer
+copyright: Copyright (c) 2026 Masko
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/masko-ai/masko-plugins/blob/9feb999e8e3bf609728261ab17bdcf63f0e811ff/LICENSE
+  evidence_sha256: 1f51dd23802e97cd2714365efd914b2012cc0ca7b6ba1b0a11604dd0cf7bc340
+  reviewed_revision: 9feb999e8e3bf609728261ab17bdcf63f0e811ff
+  notice_file: catalog/upstreams/notices/masko.txt
+  scope: Root LICENSE of the public plugin repository. No skill text, player, or generated media is imported.
+  notes: The repository license does not license paid generation. Status is paid, needs founder yes.
+service_terms:
+  url: https://masko.ai/docs/credits
+  status: unreviewed
+  notes: Generation spends credits. Generate-all dry-run at https://masko.ai/docs/canvas/generate-all returns an estimated cost first. Export docs are https://masko.ai/docs/canvas/export. The quote is not spend approval.
+source_ids:
+  - github-masko-plugins
+  - masko-plugins-license
+  - masko-canvas-build-docs
+  - masko-canvas-generate-all-docs
+  - masko-canvas-export-docs
+  - masko-credits-docs
+relationships:
+  - kind: selected-skill-guidance
+    consumption: The public workflow skills are reference-only and are not installed. Character animation is a
+      state machine. Poses are states, generated videos are transitions, and app inputs trigger them. The
+      export is a MaskoAnimationConfig JSON plus a player. Higgsfield remains the stills route and Remotion
+      remains the UI-motion route.
+    local_owners:
+      - knowledge/design/remotion-content-assets.md
+      - knowledge/operations/paid-tool-routing.md
+      - adapters/provisioning/requirements.ts
+    tests:
+      - checks/verification/fixtures/spec-pack-onboarding.fixtures.ts
+    upstream_paths:
+      - README.md
+      - LICENSE
+      - skills/build-interactive-mascot/SKILL.md
+    pin_authority: Reviewed commit 9feb999e8e3bf609728261ab17bdcf63f0e811ff pins the public repository. It does not authorize generation.
+  - kind: remote-service
+    consumption: Generation stays disconnected. Generate-all does a dry-run quote first. Status is paid, needs
+      founder yes. The quote is not spend approval.
+    local_owners:
+      - knowledge/operations/paid-tool-routing.md
+      - adapters/provisioning/requirements.ts
+    tests:
+      - checks/verification/fixtures/spec-pack-onboarding.fixtures.ts
+    upstream_paths:
+      - README.md
+      - skills/build-interactive-mascot/SKILL.md
+    pin_authority: Public docs and the reviewed plugin commit. No account, dry run, or generation was executed.
+baselines:
+  reviewed_source:
+    revision: 9feb999e8e3bf609728261ab17bdcf63f0e811ff
+    observed_at: "2026-10-08"
+    by: b2c-contributor source review
+    note: Read-only GitHub license and README inspection, plus public canvas docs. No account, MCP call, or generation.
+  reviewed_guidance:
+    revision: 9feb999e8e3bf609728261ab17bdcf63f0e811ff
+    observed_at: "2026-10-08"
+    by: b2c-contributor source review
+    note: Routed as a held character-animation provider. Skill text was not copied into this repository.
+support:
+  policy: Source-reviewed registration only. Status is paid, needs founder yes. No account, generation, or credit spend is supported.
+  versions:
+    - range: 9feb999e8e3bf609728261ab17bdcf63f0e811ff
+      status: untested
+      evidence:
+        - Source inspection only. No live Masko account, dry run, or generation.
+  operations: []
+  unsupported_operations:
+    - id: generate-or-spend
+      reason: Paid, needs founder yes. A dry-run quote is not approval to generate or buy credits.
+    - id: automatic-install-or-upgrade
+      reason: Requires explicit target, selected revision, scoped authority, and independent verification.
+    - id: older-claude-marketplace
+      reason: masko-claude-plugin is a separate older repository and is not this pin.
+  platforms: []
+adaptations:
+  - id: held-paid-generation
+    description: Register the provider behind the spend gate. Generate-all dry-run quote first. Status is paid, needs founder yes.
+    owner: knowledge/operations/paid-tool-routing.md
+    intentional: true
+  - id: no-skill-fork
+    description: Workflow commands stay upstream. This repository names the job and the hold only.
+    owner: knowledge/design/remotion-content-assets.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-08"
+  status: deferred
+  deferral:
+    reason: Generation spends credits. Needs founder yes before any account, dry run, or generation.
+    reconsider_when: The founder approves Masko spend for a named batch after a dry-run quote.
+    owner: b2c-maintainers
+credits:
+  acknowledge: true
+  use: inspiration
+  summary: The public Masko plugin repository is cited as a held character-animation provider. The MIT notice
+    is retained. No generation is claimed.

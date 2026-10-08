@@ -54,7 +54,33 @@ design:
     radius: { sm: 8, md: 14, lg: 22 }
     motion: { spring: "response 0.35, damping 0.8", reduce_motion: crossfade 150ms }
 
-# Later blocks go here: onboarding, mascot.
+onboarding:
+  archetype: utility-quick-start
+  reason: A countdown should show the first date in under 30 seconds. A quiz would delay that.
+  first_value_target_s: 30
+  steps:
+    - { id: welcome, screen: welcome, kind: value }
+    - { id: add-event, screen: add-event, kind: value }
+  paywall:
+    type: one-time
+    placement: after-first-value
+    closing_offer: "no"
+  review_prompt:
+    type: none
+    reason: The first run does not ask for a rating.
+  steps_not_used:
+    - { id: quiz, reason: A quiz delays the first date on a utility. }
+    - { id: symptom-screens, reason: This archetype does not ask the user to list problems. }
+    - { id: feature-tour, reason: A multi-screen feature tour is a listed failure mode. }
+    - { id: custom-rating, reason: A custom rating ask breaks Guideline 5.6.1. }
+    - { id: plan-loader, reason: There is no generated plan to compute. }
+    - { id: closing-offer, reason: The example sells a one-time unlock and has no discount offer. }
+
+mascot:
+  use: "no"
+  reason: The countdown is the product. A character is a separate paid animation choice.
+
+
 
 # Every app screen. Each screen lists the states it must render. Allowed
 # states: default, loading, empty, error, offline, permission-denied, success.
@@ -74,7 +100,7 @@ screens:
         - { type: title, text: "Count down to what matters" }
         - { type: text, text: "Days left, right on your Home Screen." }
         - { type: button, text: "Add my first date", to: add-event }
-    events: [onboarding_step_completed]
+    events: [onboarding_started, onboarding_step_viewed]
     acceptance:
       - Primary button visible without scrolling on iPhone SE (3rd gen).
       - No sign-in before first value.
@@ -97,7 +123,7 @@ screens:
         - { type: input, label: "Title", value: "" , error: "Add a title" }
         - { type: input, label: "Date", value: "Mar 14, 2027" }
         - { type: button, text: "Save", disabled: true }
-    events: [core_action_completed]
+    events: [onboarding_step_viewed, onboarding_completed, core_action_completed]
     acceptance:
       - Save with empty title shows inline error, no alert.
       - Past dates are allowed and show "days since".
@@ -398,7 +424,9 @@ analytics:
   common_props: [app_id, platform, app_version, build_number]
   events:
     - { name: app_opened, when: App foreground, props: [] }
-    - { name: onboarding_step_completed, when: Welcome CTA tapped, props: [step_id] }
+    - { name: onboarding_started, when: First onboarding screen shown, props: [step_id] }
+    - { name: onboarding_step_viewed, when: An onboarding step is shown, props: [step_id] }
+    - { name: onboarding_completed, when: First countdown is saved, props: [step_id] }
     - { name: core_action_completed, when: Event saved or shared, props: [feature_key] }
     - { name: paywall_viewed, when: Paywall shown, props: [source] }
     - { name: purchase_started, when: Unlock tapped, props: [product_id] }
@@ -475,3 +503,8 @@ approval_checklist:
   - Event map covers install -> onboard -> core -> paywall -> paid.
   - Style prompt and tokens are final; no new colors after approval.
   - Definition of good and kill criteria are set.
+  - Value in 3 seconds. The first screen's default mock shows the core value, and it does not ask for sign-up.
+  - The name and icon decide the invite.
+  - Marketing and product are one thing. The ad, the store page, onboarding, and the invite use the same audience and the same promise.
+  - Product-market fit is binary. If it is unclear, it is not working, so cut or pivot at Gate 2.
+  - Live support chat is in the app in the early days.

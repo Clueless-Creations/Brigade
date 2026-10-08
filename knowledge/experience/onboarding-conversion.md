@@ -397,6 +397,8 @@ Include dimensions: step_id, answer_key, attribution_source, source_key, source_
 
 **Event naming rule — cross-check before proposing:** Any onboarding event name not in the approved catalog above must be verified against `analytics/ANALYTICS.md` before being proposed or implemented. Do not invent new event names (e.g. first-use coach events, tutorial events) without first checking whether `analytics/ANALYTICS.md` already defines an equivalent. If no equivalent exists, add the candidate name to `analytics/ANALYTICS.md` explicitly before referencing it in implementation docs or code. Invented event names that bypass this step create permanent dashboard schema drift.
 
+The spec pack uses these catalog names. It does not use `onboarding_step_completed`. `utility-quick-start` and `result-reveal` require `onboarding_started`, `onboarding_step_viewed`, and `onboarding_completed`. `quiz-led-problem` also requires `onboarding_answer_selected`. A closing offer also requires `closing_offer_viewed` and `closing_offer_selected`. Discount take rate is `closing_offer_selected / closing_offer_viewed`. Guardrails are refund rate, Day-0 trial cancellation, and "charged/scam" 1–2 star reviews.
+
 ## Gates Before Build Handoff
 
 - `product/ONBOARDING.md` exists and maps every question to a real use.

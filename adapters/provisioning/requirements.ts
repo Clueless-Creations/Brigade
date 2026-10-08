@@ -494,6 +494,36 @@ export const PROVISIONING_MANIFEST: readonly ProvisioningProvider[] = [
       },
     ],
   },
+  {
+    providerId: "provider.screensdesign",
+    capability: "recorded-flow-and-paywall-research",
+    accessRoutes: ["mcp"],
+    unlocks:
+      "Recorded flows, paywalls, store creatives, reviews, and revenue and install estimates. One benchmark source for revenue per install. Paid, needs founder yes. Do not connect.",
+    requirements: [
+      {
+        kind: "external",
+        name: "Founder yes before any connection, trial, or spend. Status is paid, needs founder yes",
+        why: "The hosted research service is paid. A public skill repository and a recorded endpoint are not approval to connect or spend.",
+        verifiable: false,
+      },
+    ],
+  },
+  {
+    providerId: "provider.masko",
+    capability: "character-animation",
+    accessRoutes: ["mcp"],
+    unlocks:
+      "Character animation as a state machine. Poses are nodes, generated videos are transitions, and app inputs trigger them. Export is a MaskoAnimationConfig JSON plus a player. Generate-all does a dry-run quote first. The quote is not spend approval. Paid, needs founder yes.",
+    requirements: [
+      {
+        kind: "external",
+        name: "Founder yes before any account, generation, or credit spend. Status is paid, needs founder yes",
+        why: "Generation spends credits. A generate-all dry-run quote is an estimate, not approval to spend.",
+        verifiable: false,
+      },
+    ],
+  },
 ];
 
 const manifestById = new Map<string, ProvisioningProvider>(PROVISIONING_MANIFEST.map((provider) => [provider.providerId, provider]));

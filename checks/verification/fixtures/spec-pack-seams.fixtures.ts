@@ -8,6 +8,10 @@ import { assert, skillRoot, type Harness } from "./_harness.js";
 const exampleDir = path.join(skillRoot, "examples/spec-pack");
 const freshnessScript = path.join(skillRoot, "checks/validation/repository/check-source-freshness.ts");
 
+function checkModuleCount(dir: string): number {
+  return readdirSync(path.join(dir, "checks")).filter((name) => name.endsWith(".mjs")).length;
+}
+
 function copyPack(dir: string): string {
   const pack = path.join(dir, "pack");
   mkdirSync(pack, { recursive: true });
@@ -57,8 +61,8 @@ export function register(harness: Harness): void {
     });
     assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.stderr ?? ""}`);
     const lines = (result.stdout ?? "").trim().split("\n").filter(Boolean);
-    const modules = readdirSync(path.join(exampleDir, "checks")).filter((name) => name.endsWith(".mjs"));
-    assert(lines.length === modules.length, `expected one line per check module, got ${lines.length}\n${result.stdout ?? ""}`);
+    const expected = checkModuleCount(exampleDir);
+    assert(lines.length === expected, `expected ${expected} check lines, got ${lines.length}\n${result.stdout ?? ""}`);
     assert(lines.some((line) => line.startsWith("core:")), `expected the core module line\n${result.stdout ?? ""}`);
     assert(
       lines.some((line) => line.startsWith("launch-tracker:")),
@@ -72,10 +76,12 @@ export function register(harness: Harness): void {
       lines.some((line) => line.startsWith("accounts-privacy:")),
       `expected the accounts-privacy module line\n${result.stdout ?? ""}`,
     );
+    assert(lines.some((line) => line.startsWith("onboarding:")), `expected the onboarding module line\n${result.stdout ?? ""}`);
   });
 
   harness.check("spec-pack loads an added check module", () => {
     const pack = copyPack(harness.makeTempDir("spec-pack-check-seam"));
+    const before = checkModuleCount(pack);
     writeFileSync(
       path.join(pack, "checks/90-x.mjs"),
       'export const id = "x";\nexport const describe = "fixture check";\nexport function check() { return ["fixture-check: extra seam failed"]; }\n',
@@ -85,6 +91,7 @@ export function register(harness: Harness): void {
     const lines = listed.output.trim().split("\n").filter(Boolean);
     const modules = readdirSync(path.join(pack, "checks")).filter((name) => name.endsWith(".mjs"));
     assert(listed.status === 0, `expected list exit 0, got ${listed.status}\n${listed.output}`);
+    assert(lines.length === before + 1, `expected ${before + 1} check lines, got ${lines.length}\n${listed.output}`);
     assert(lines.length === modules.length, `expected one line per check module, got ${lines.length}\n${listed.output}`);
     assert(lines.some((line) => line.startsWith("x:")), `expected the added module line\n${listed.output}`);
     const built = runBuild(pack, ["spec.yaml", "index.html"]);

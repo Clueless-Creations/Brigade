@@ -54,6 +54,8 @@ const HUMAN_NAMES: Record<string, string> = {
   "provider.appllama": "Appllama (top-app screen research)",
   "provider.aso-skills": "ASO specialist skill pack",
   "provider.in-app-ios-simulator": "iOS Simulator (local Mac)",
+  "provider.screensdesign": "ScreensDesign (recorded flow research; paid, needs founder yes)",
+  "provider.masko": "Masko (character animation; paid, needs founder yes)",
 };
 
 function humanName(providerId: string): string {
