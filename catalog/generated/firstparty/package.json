@@ -1,6 +1,6 @@
 {
   "name": "@cluelesscreations/brigade",
-  "version": "0.221.128",
+  "version": "0.221.129",
   "description": "Brigade gives AI agents consumer-business primitives: capabilities, providers, recipes, and evidence through a CLI, MCP, and skill.",
   "keywords": [
     "mcp",
@@ -283,7 +283,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "0.124.0",
+    "@anthropic-ai/sdk": "0.131.0",
     "@types/node": "^26.4.1",
     "prettier": "^3.9.6",
     "tsx": "^4.23.13",
