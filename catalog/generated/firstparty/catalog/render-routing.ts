@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { driftIsLoose, resolveDriftMode } from "../tooling/lib/stamp-mode.js";
+import { unstableRenderMessage } from "../tooling/lib/stamp-drift.js";
 import path from "node:path";
 import { DELIBERATELY_UNDECLARED_PROVIDER_IDS, findProvisioningProvider, PROVISIONING_MANIFEST } from "../adapters/provisioning/requirements.js";
 import { accessRouteValues } from "../kernel/schema/types.js";
@@ -353,6 +355,15 @@ if (isMainModule(import.meta.url)) {
     console.error(`ERROR ${error instanceof Error ? error.message : String(error)}`);
     process.exit(1);
   }
+  if (args.check && driftIsLoose(resolveDriftMode(process.argv))) {
+    const unstable = unstableRenderMessage("catalog render", () => collectRoutingOutputs(skillRoot, args.sourceSnapshot));
+    if (unstable) {
+      console.error(`ERROR catalog_render.unstable: ${unstable}`);
+      process.exit(1);
+    }
+    console.log("catalog/render-routing.ts: loose stamp mode, render is byte-stable.");
+    process.exit(0);
+  }
   const packageFiles = renderFirstpartyPackage(skillRoot);
   for (const [relative, bytes] of Object.entries(packageFiles)) {
     const target = path.join(skillRoot, relative);
@@ -392,6 +403,20 @@ if (isMainModule(import.meta.url)) {
   else console.log(`catalog/render-routing.ts: ${Object.keys(files).length} projection(s) ${args.check ? "current" : "written"}.`);
 }
 
+function collectRoutingOutputs(skillRoot: string, sourceSnapshot?: string): Record<string, string | Buffer> {
+  const freshnessPin = serializeKnowledgeFreshnessPin(
+    sourceSnapshot ? knowledgeFreshnessPinFromSnapshot(sourceSnapshot) : loadKnowledgeFreshnessPin(skillRoot),
+  );
+  const catalog = composeCatalog(skillRoot);
+  const files: Record<string, string | Buffer> = {
+    ...renderFirstpartyPackage(skillRoot),
+    ...renderGeneratedFiles(catalog),
+  };
+  files["catalog/generated/packs.json"] = renderShippedPackInventory(skillRoot);
+  files[knowledgeFreshnessPinPath] = freshnessPin;
+  return files;
+}
+
 function parseArgs(argv: string[]): { skillRoot?: string; sourceSnapshot?: string; check: boolean } {
   let skillRoot: string | undefined;
   let sourceSnapshot: string | undefined;
@@ -404,6 +429,8 @@ function parseArgs(argv: string[]): { skillRoot?: string; sourceSnapshot?: strin
       const value = argv[++index];
       if (!value || value.startsWith("--")) throw new Error("--source-snapshot requires a path.");
       sourceSnapshot = path.resolve(value);
+    } else if (argv[index] === "--stamp-mode" && argv[index + 1]) {
+      index += 1;
     } else if (argv[index] === "--check") check = true;
   }
   return { skillRoot, sourceSnapshot, check };

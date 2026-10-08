@@ -1402,7 +1402,7 @@ _Maintaining the skill, adding external URLs, refreshing third-party docs/comman
 - **Gates:** `check:source-freshness`, `check:provider-contracts`, `check:capability-delta`
 - **Knowledge:** [Provider Contracts](../../knowledge/process/provider-contracts.md)
 
-### Skill runtime sync & version discipline (maintainer)
+### Skill runtime sync and version stamp (maintainer)
 
 _After any skill change — bump version, sync the installed runtime, run the readiness gate_
 

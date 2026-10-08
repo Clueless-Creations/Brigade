@@ -5,6 +5,9 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { flagString, issue, isRecord, parseFlags, reportAndExit, type Issue } from "../../../tooling/lib/launch-state.js";
 import { findGitRoot } from "../../../tooling/lib/git-root.js";
+import { stampChangeReason } from "../../../tooling/lib/stamp-files.js";
+import { resolveVersionRule } from "../../../tooling/lib/stamp-mode.js";
+import { compareSemver } from "../../../tooling/lib/stamp-version.js";
 
 interface Args {
   repoRoot: string;
@@ -104,6 +107,124 @@ function isNullSha(value: string | undefined): boolean {
   return !value || /^0+$/.test(value);
 }
 
+function gitOutput(gitRoot: string, argv: string[], relativeManifest: string): string {
+  const result = git(argv, gitRoot);
+  if (result.status !== 0) {
+    issues.push(issue("error", "version_discipline.git_failed", `git ${argv.slice(0, 2).join(" ")} failed: ${result.stderr.trim()}`, relativeManifest));
+    return "";
+  }
+  return result.stdout.trim();
+}
+
+function legacyBumpCheck(gitRoot: string, relativeManifest: string, version: string | undefined, skillSpecs: string[]): void {
+  const changed = new Set(
+    [
+      ...gitOutput(gitRoot, ["diff", "--name-only", "--", ...skillSpecs], relativeManifest).split(/\r?\n/),
+      ...gitOutput(gitRoot, ["diff", "--cached", "--name-only", "--", ...skillSpecs], relativeManifest).split(/\r?\n/),
+    ].filter(Boolean),
+  );
+  const pendingManifestChanged = changed.has(relativeManifest);
+  const latestSkillCommit = gitOutput(gitRoot, ["log", "-1", "--format=%H", "--", ...skillSpecs], relativeManifest);
+  const latestManifestCommit = gitOutput(gitRoot, ["log", "-1", "--format=%H", "--", relativeManifest], relativeManifest);
+
+  if (latestSkillCommit && latestManifestCommit && latestSkillCommit !== latestManifestCommit && !pendingManifestChanged) {
+    issues.push(
+      issue(
+        "error",
+        "version_discipline.manifest_not_latest",
+        "The latest commit touching the skill did not also touch skill-version.json. Bump the version/release notes in the same commit as skill behavior changes.",
+        relativeManifest,
+      ),
+    );
+  }
+
+  monotonicityCheck(gitRoot, relativeManifest, version, changed.size > 0, skillSpecs);
+
+  const meaningfulChanges = Array.from(changed).filter((file) => !file.endsWith("skill-version.json") && !file.includes("/node_modules/"));
+  if (meaningfulChanges.length > 0 && !changed.has(relativeManifest)) {
+    issues.push(
+      issue(
+        "error",
+        "version_discipline.pending_manifest_update_missing",
+        `Pending skill changes require a matching skill-version.json update. Changed examples: ${meaningfulChanges.slice(0, 5).join(", ")}`,
+        relativeManifest,
+      ),
+    );
+  }
+}
+
+function releaseForwardCheck(gitRoot: string, relativeManifest: string, version: string | undefined, skillSpecs: string[]): void {
+  const changed = new Set(
+    [
+      ...gitOutput(gitRoot, ["diff", "--name-only", "--", ...skillSpecs], relativeManifest).split(/\r?\n/),
+      ...gitOutput(gitRoot, ["diff", "--cached", "--name-only", "--", ...skillSpecs], relativeManifest).split(/\r?\n/),
+    ].filter(Boolean),
+  );
+  monotonicityCheck(gitRoot, relativeManifest, version, changed.size > 0, skillSpecs);
+}
+
+function stampFileCheck(gitRoot: string, relativeManifest: string): void {
+  const base = resolveComparisonBase(gitRoot);
+  if (!base) {
+    issues.push(
+      issue(
+        "error",
+        "version_discipline.history_insufficient",
+        "Git history is too shallow to see which stamp files this pull request changes.",
+        relativeManifest,
+      ),
+    );
+    return;
+  }
+  const names = new Set<string>();
+  for (const args of [
+    ["diff", "--name-only", `${base}...HEAD`],
+    ["diff", "--name-only"],
+    ["diff", "--cached", "--name-only"],
+  ]) {
+    for (const line of gitOutput(gitRoot, args, relativeManifest).split(/\r?\n/)) {
+      if (line) names.add(line);
+    }
+  }
+  const reasons: string[] = [];
+  for (const relative of names) {
+    const reason = stampChangeReason(relative, fileAt(gitRoot, base, relative), fileAt(gitRoot, "HEAD", relative, true));
+    if (reason) reasons.push(reason);
+  }
+  if (reasons.length === 0) return;
+  issues.push(
+    issue(
+      "error",
+      "version_discipline.stamp_file_in_pr",
+      `Pull requests must not change stamp files (${reasons.slice(0, 8).join(", ")}). Run npm run release:stamp on main.`,
+      relativeManifest,
+    ),
+  );
+}
+
+function mainStampWarning(gitRoot: string, relativeManifest: string, version: string | undefined): void {
+  const stamp = gitOutput(gitRoot, ["log", "-1", "--format=%H", "--", "skill-version.json"], relativeManifest);
+  if (!stamp || !version) return;
+  const count = Number(gitOutput(gitRoot, ["rev-list", "--first-parent", "--count", `${stamp}..HEAD`], relativeManifest));
+  if (!Number.isFinite(count) || count === 0) return;
+  issues.push(issue("warning", "version_discipline.main_unstamped", `main is ${count} commits past stamp ${version}`, relativeManifest));
+}
+
+function fileAt(gitRoot: string, rev: string, relative: string, preferWorktree = false): string | undefined {
+  if (preferWorktree) {
+    const absolute = path.join(gitRoot, relative);
+    if (existsSync(absolute)) {
+      try {
+        return readFileSync(absolute, "utf8");
+      } catch {
+        return undefined;
+      }
+    }
+  }
+  const shown = git(["show", `${rev}:${relative}`], gitRoot);
+  return shown.status === 0 ? shown.stdout : undefined;
+}
+
 const gitRoot = findGitRoot(args.repoRoot);
 if (gitRoot) {
   const skillSpecs = skillPathspecs(gitRoot, args.skillRoot);
@@ -118,47 +239,24 @@ if (gitRoot) {
       ),
     );
   } else {
-    const gitOutput = (argv: string[]): string => {
-      const result = git(argv, gitRoot);
-      if (result.status !== 0) {
-        issues.push(issue("error", "version_discipline.git_failed", `git ${argv.slice(0, 2).join(" ")} failed: ${result.stderr.trim()}`, relativeManifest));
-        return "";
+    const rule = resolveVersionRule(gitRoot, process.argv, resolveComparisonBase(gitRoot));
+    switch (rule) {
+      case "legacy":
+        legacyBumpCheck(gitRoot, relativeManifest, manifest?.version, skillSpecs);
+        break;
+      case "pr":
+        stampFileCheck(gitRoot, relativeManifest);
+        break;
+      case "main":
+        mainStampWarning(gitRoot, relativeManifest, manifest?.version);
+        break;
+      case "release":
+        releaseForwardCheck(gitRoot, relativeManifest, manifest?.version, skillSpecs);
+        break;
+      default: {
+        const exhaustive: never = rule;
+        throw new Error(`Unhandled version rule ${String(exhaustive)}`);
       }
-      return result.stdout.trim();
-    };
-    const changed = new Set(
-      [
-        ...gitOutput(["diff", "--name-only", "--", ...skillSpecs]).split(/\r?\n/),
-        ...gitOutput(["diff", "--cached", "--name-only", "--", ...skillSpecs]).split(/\r?\n/),
-      ].filter(Boolean),
-    );
-    const pendingManifestChanged = changed.has(relativeManifest);
-    const latestSkillCommit = gitOutput(["log", "-1", "--format=%H", "--", ...skillSpecs]);
-    const latestManifestCommit = gitOutput(["log", "-1", "--format=%H", "--", relativeManifest]);
-
-    if (latestSkillCommit && latestManifestCommit && latestSkillCommit !== latestManifestCommit && !pendingManifestChanged) {
-      issues.push(
-        issue(
-          "error",
-          "version_discipline.manifest_not_latest",
-          "The latest commit touching the skill did not also touch skill-version.json. Bump the version/release notes in the same commit as skill behavior changes.",
-          relativeManifest,
-        ),
-      );
-    }
-
-    monotonicityCheck(gitRoot, relativeManifest, manifest?.version, changed.size > 0, skillSpecs);
-
-    const meaningfulChanges = Array.from(changed).filter((file) => !file.endsWith("skill-version.json") && !file.includes("/node_modules/"));
-    if (meaningfulChanges.length > 0 && !changed.has(relativeManifest)) {
-      issues.push(
-        issue(
-          "error",
-          "version_discipline.pending_manifest_update_missing",
-          `Pending skill changes require a matching skill-version.json update. Changed examples: ${meaningfulChanges.slice(0, 5).join(", ")}`,
-          relativeManifest,
-        ),
-      );
     }
   }
 }
@@ -297,20 +395,4 @@ function resolveComparisonBase(gitRoot: string): string | undefined {
     if (mergeBase.status === 0 && mergeBase.stdout.trim()) return mergeBase.stdout.trim();
   }
   return undefined;
-}
-
-/** Numeric major.minor.patch ordering; a prerelease suffix does not make a version "ahead". */
-function compareSemver(left: string, right: string): number {
-  const parse = (value: string): number[] => {
-    const core = value.split(/[-+]/u)[0] ?? "";
-    const parts = core.split(".").map((piece) => Number(piece));
-    return [parts[0] ?? 0, parts[1] ?? 0, parts[2] ?? 0];
-  };
-  const a = parse(left);
-  const b = parse(right);
-  for (let index = 0; index < 3; index += 1) {
-    const diff = (a[index] ?? 0) - (b[index] ?? 0);
-    if (diff !== 0) return diff > 0 ? 1 : -1;
-  }
-  return 0;
 }

@@ -4,12 +4,13 @@ import path from "node:path";
 import { renderTaskSkills } from "../../../tooling/render-task-skills.js";
 import { flagString, issue, parseFlags, reportAndExit, type Issue } from "../../../tooling/lib/launch-state.js";
 import { resolveSkillRoot } from "../../../tooling/lib/skill-root.js";
+import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 
 const issues: Issue[] = [];
 try {
   const flags = parseFlags(process.argv.slice(2), [{ flags: ["--root", "--skill-root", "--repo-root"], key: "root" }]);
   const root = path.resolve(flagString(flags, "root") ?? resolveSkillRoot(import.meta.url));
-  for (const error of renderTaskSkills(root, true)) {
+  for (const error of renderTaskSkills(root, true, driftIsLoose(resolveDriftMode(process.argv)))) {
     issues.push(issue("error", "task_skills.projection_drift", error));
   }
   if (!issues.length) {

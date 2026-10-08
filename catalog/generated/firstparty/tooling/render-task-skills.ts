@@ -4,6 +4,8 @@ import { composeCatalog } from "../catalog/index.js";
 import { renderBusinessAreaTable, renderTaskSkillFiles, renderTaskTable, taskSkillMarker, taskSkills } from "../catalog/task-skills.js";
 import { isMainModule } from "./lib/cli-entrypoint.js";
 import { resolveSkillRoot } from "./lib/skill-root.js";
+import { driftIsLoose, resolveDriftMode } from "./lib/stamp-mode.js";
+import { unstableRenderMessage } from "./lib/stamp-drift.js";
 
 export function replaceGeneratedBlock(text: string, name: string, content: string): string {
   const start = `<!-- catalog-generated:start ${name} -->`;
@@ -29,9 +31,13 @@ export function taskSkillProjections(root: string): Record<string, string> {
   return files;
 }
 
-export function renderTaskSkills(root: string, check: boolean): string[] {
+export function renderTaskSkills(root: string, check: boolean, loose = false): string[] {
   const files = taskSkillProjections(root);
   const errors: string[] = [];
+  if (check && loose) {
+    const unstable = unstableRenderMessage("task skills", () => taskSkillProjections(root));
+    if (unstable) errors.push(unstable);
+  }
   const directory = path.join(root, "agents/skills");
   if (existsSync(directory)) {
     for (const item of readdirSync(directory, { withFileTypes: true })) {
@@ -44,6 +50,7 @@ export function renderTaskSkills(root: string, check: boolean): string[] {
   }
   for (const [relative, content] of Object.entries(files)) {
     const target = path.join(root, relative);
+    if (check && loose) continue;
     if (check) {
       if (!existsSync(target) || readFileSync(target, "utf8") !== content) errors.push(`Task skill projection drift: ${relative}`);
     } else {
@@ -58,10 +65,19 @@ if (isMainModule(import.meta.url)) {
   const args = process.argv.slice(2);
   const rootAt = args.indexOf("--root");
   const root = rootAt < 0 ? resolveSkillRoot(import.meta.url) : path.resolve(args[rootAt + 1] ?? "");
-  if (args.some((arg, index) => arg !== "--check" && arg !== "--root" && (rootAt < 0 || index !== rootAt + 1)) || (rootAt >= 0 && !args[rootAt + 1])) {
-    throw new Error("Usage: render-task-skills.ts [--root PATH] [--check]");
+  const modeAt = args.indexOf("--stamp-mode");
+  if (
+    args.some(
+      (arg, index) =>
+        arg !== "--check" && arg !== "--root" && arg !== "--stamp-mode" && (rootAt < 0 || index !== rootAt + 1) && (modeAt < 0 || index !== modeAt + 1),
+    ) ||
+    (rootAt >= 0 && !args[rootAt + 1]) ||
+    (modeAt >= 0 && !args[modeAt + 1])
+  ) {
+    throw new Error("Usage: render-task-skills.ts [--root PATH] [--check] [--stamp-mode pr|main|release]");
   }
-  const errors = renderTaskSkills(root, args.includes("--check"));
+  const loose = args.includes("--check") && driftIsLoose(resolveDriftMode(args));
+  const errors = renderTaskSkills(root, args.includes("--check"), loose);
   if (errors.length) {
     console.error(errors.join("\n"));
     process.exitCode = 1;
