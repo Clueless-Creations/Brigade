@@ -2,7 +2,7 @@
   "extension": {
     "apiVersion": "b2c.extension/v1",
     "id": "b2c/consumer-business",
-    "version": "0.221.110",
+    "version": "0.221.111",
     "hostApiVersion": "b2c/v1",
     "title": "Consumer business",
     "dependencies": [],
@@ -7697,7 +7697,7 @@
           "providerIds": [
             "provider.refero"
           ],
-          "contextFingerprint": "sha256:468b321f42e288232d661259ff84dc794ee7983c012963d9e9e022694c72531c"
+          "contextFingerprint": "sha256:a7a522c67000dd20fdbf37c2d82406d60e233154fd966a129ebae10686e56f59"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before DESIGN.md mutation, generated visuals, native animation, or landing motion for a high-impact surface: onboarding, core loop, landing story, paywall, store first frames, trust and consent",
@@ -7756,7 +7756,7 @@
           "workflowId": "workflow.design.design-room",
           "instructions": "Read PRODUCT.md first. DESIGN.md is the design authority; studio/seed/business.json is its structured screen and flow map. Load only the bound evidence and craft references needed for the affected surface. For substantive work, inspect the relevant references and rough direction, make a tangible draft of the important journey, critique concrete hierarchy/UX/identity/interaction/accessibility/recovery defects, revise the candidate substantively, and compare the revised candidate with the selected target before implementation. Develop at least three distinct concepts before selecting one. Preserve them in DESIGN.md frontmatter under exploration with unique concept IDs, reference-to-principle mappings, native/mobile-web/desktop-web treatments, a distinguishing mechanic, one selected decision, rejected decisions, and the rationale for each. The generated Design Room must expose this evidence beside the selected system. For new substantive design work, author the versioned foundation in DESIGN.md: communication priorities, material decision rationale, identity invariants, reference influence, and typography resources. Distinguish researched facts from creative hypotheses and platform or legibility constraints. Explore mechanisms that differ in communication and composition, not just names, palettes, or prose. For bounded maintenance of an accepted legacy design, the same Design Room owner follows quality-lens Focused review using direct compatible checks and fresh independent review; that procedure does not execute or accept this full workflow. Within this full workflow, repairs preserve accepted exploration and the required foundation while correcting the affected contract and dependencies. A physical metaphor, expressive motion, or layered composition is selected only when it improves the user job. Recompose each form factor with representative content and protect hierarchy. Keep durable decisions in DESIGN.md. Add screen or flow files only when the structured route is not enough. Use platform-neutral component contracts and the selected stack adapter. Update one coherent scope, validate it, and render the read-only Design Room. Git records revisions. When the opening mandate delegates design direction, choose and record the strongest direction. Otherwise, recommend it for founder approval.",
           "providerIds": [],
-          "contextFingerprint": "sha256:743013722db37c2a6e1eea177d5ad734ef03d2f3c40954c9dcc64ca3eed1a2bd"
+          "contextFingerprint": "sha256:c860f3634fa3001f6847afae72e08130d6493feebc9bc1c255598d169527c4b9"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "New or substantively revised design systems, concepts, or cross-surface direction. Founder phrasing: design how every screen looks and feels. A bounded correction to an accepted legacy contract uses the direct focused-maintenance procedure in quality-lens, not full Design Room execution.",
@@ -10290,7 +10290,7 @@
           "workflowId": "workflow.growth.pre-launch-funnel-landing-waitlist",
           "instructions": "Build a runnable local landing site in growth/landing/ after the landing-specific Design Room refresh. Use the approved promise, one conversion goal, current copy keys, a mobile CTA, truthful proof, responsive behavior, and a local build check. For static-document and conventional conversion surfaces, keep the quality bar on semantic content, legibility, accessibility, responsive behavior, and truthful claims even when motion is not applicable. Add onboarding, localization, pricing, or screenshot material only when the accepted product makes it applicable. Write growth/landing/surface-contract.json with canonical input digests, applicability decisions, and local proof. Apply scrollytelling only when studio/seed/business.json records interaction scroll-linked or that surface's own landing source already implements scroll-linked hooks; static-document surfaces, and conversion surfaces that did not select or implement scroll-linked interaction, must not invent a scroll choreography because another recipe uses one. When that selected or implemented scroll-linked surface is in scope, follow editorial-scrollytelling.md for that surface only: move from situation to mechanism to outcome to proof; record stable scene states, copy hashes, accessible descriptions, save-data and reduced-motion behavior, forward/reverse behavior, and desktop/mobile browser QA. A conversion job does not waive scroll-linked proof. Do not follow editorial-scrollytelling.md on static-document pages or on conversion pages that did not select or implement scroll-linked interaction. Use live motion exemplars only for a selected or implemented rich-motion surface, and express them through this product's design system. Author growth/landing/browser-proof.json for the accepted landing surface IDs with the current candidate SHA-256, exact implementation source roots, exact built entrypoint and resource-to-URL mapping, served origin and URL, and Chrome channel. Start the local server, then run `b2c browser-proof --workspace . --session-id <authorization.executionIdentity>` inside this exact engine attempt. The command must open a new browser context and materialize growth/landing/proof/browser-proof.json plus its immutable build, response, launch, navigation, and runtime receipt files. Never author, copy, relabel, or repair those proof files by hand. Run check:design-md, check:design-room, check:design-worthiness, check:vibecoded-tells, check:scrollytelling, and check:browser-runtime-proof. Do not deploy from this node.",
           "providerIds": [],
-          "contextFingerprint": "sha256:d6843aabde496d1952bb67106d95c57add064c93edcbe7e156f3288688ccd778"
+          "contextFingerprint": "sha256:e5cb9708b2ced7442eb3ee25fcec3e111aa04943efcb6793d883266b77ef3c1f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Immediately after DESIGN.md is accepted — build the local landing site while app implementation runs",
@@ -10344,7 +10344,7 @@
           "workflowId": "workflow.growth.landing-funnel-audit",
           "instructions": "Audit every modeled public page in growth/landing/ in a fresh context that never saw the producer's transcript: landing, waitlist, web-to-app worksheet, support, privacy, terms, deletion, and any referral or purchase page. Resolve each page from studio/seed/business.json `job` (conversion purpose) and `interaction` (technique), implemented scroll-linked hooks attributed to that page, and growth/landing/surface-contract.json when that file exists; do not infer a technique from purpose prose. Score conversion structure with the CRO discipline in reference.growth.cro-landing only when that page has a conversion job (promise, proof, first useful action before email; no invented social proof, no fake processing). Score the story map against reference.design.editorial-scrollytelling only when scroll-linked is selected or implemented on that page: situation to mechanism to outcome to proof, one measured controller, stable scene IDs, no-JS reading sequence, reduced-motion and Save-Data behavior, mobile recomposition. A static legal or support page is scored for semantic content, legibility, accessibility, and working links — not invented scroll choreography or conversion experiments. Selected or implemented scrollytelling still needs the full interaction, interruption, reduced-motion, and performance evidence. Apply the vibecoded tells and the twelve craft-bar conditions to the techniques that page actually uses. Run no-ai-slop in detect mode on every visible string and the Impeccable detector when installed; record the detector JSON path. Re-run the GEO/SEO audit against the local preview and compare it with the dated baseline in GEO_SEO.md. Write findings only, with severity per page and the rubric version, into growth/CRO_AUDIT.md. Do not restyle or edit copy. An unresolved high-severity finding blocks publication.",
           "providerIds": [],
-          "contextFingerprint": "sha256:40ad51bac81c69f011c8ea623f601294bcfe1aced49a46c2906eabceef02c08c"
+          "contextFingerprint": "sha256:2e156186fbbba58d66f8c3a8a4b0d92076394eea5e9c27f2858ad23772aa2878"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After the local landing and funnel pages build, before publication and before any public page is called done; again after any accepted landing change",
@@ -15896,8 +15896,8 @@
     ]
   },
   "files": {
-    "extension.yaml": "cf5ab8b9882ebf6b3300a1db3c45e8c7068937a56dd687d233505aa32e2003bc",
-    "catalog-pack.yaml": "a75f68d05c44d2df9d27e9d1d41f89df62426eea32ee5ea780a5fcd534fbe63b",
+    "extension.yaml": "2e7203afe59716827a0cc6df68b4e5ce4034bd0f2908ff9a0ed58541a7332655",
+    "catalog-pack.yaml": "5ae6cc759d5bbcdb5b5006fc266404f9abd8082989c5ffcd73a40091ea555fbd",
     "knowledge/data/analytics-attribution.md": "0bba4685b2188b9e80b7fcc14fdac9472c6c4aeac5bc59703188eaa5e26f234a",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
     "knowledge/design/audience-derived-identity.md": "04c90b39c9d41cf00257c70b4e579f3e29684254d444917b9a5690d48be74f5f",
@@ -15909,7 +15909,7 @@
     "knowledge/design/design-visual-system.md": "1a66f24a3394045e56a20b072dadffb115487a1e6a5df78edb0879b55432cf56",
     "knowledge/design/design-worthiness.md": "1a772c7f3e0ffaac71e1954fb6128e39396a0d67a4af5059c56536519986d39f",
     "knowledge/design/editorial-scrollytelling.md": "5b8655b3d41c1354ea9cb8ed57bd10702f96edcc86fa65fcf57bbadc908724c2",
-    "knowledge/design/landing-motion-craft.md": "e1211b33119f4b8e465771f07890be6b20f71a069dab71da1dd17b324bee10e6",
+    "knowledge/design/landing-motion-craft.md": "fc1bd9bd07e2d13b27272dea30085f0435f556c7beebab37d574bf2271e71212",
     "knowledge/design/mobile-flow-craft.md": "65db086a1f4ccc4c914a95bed9c2468e58c4a87a79b1683c064ce587f7b96d56",
     "knowledge/design/motion-craft-benchmarks.md": "d4d48f5b01af2cf4799a27f1d68a59888cc96ff7c676f687267056fc6bdbdfab",
     "knowledge/design/premium-mobile-craft.md": "e92f52e1d7847f2dc3d3084d21b3601d7ef8f1e2e0dac794275e0ec36a9a1cd7",
@@ -16047,7 +16047,7 @@
     "knowledge/words/conversion-copy.md": "68739b91f0f977f28718f48dd2368bb8c59a03a3f3d44a30efa08d12eb2956ab",
     "knowledge/words/no-slop-writing.md": "4c9e962cafa5da40dba01778e879b9687c940e0acf4ab298c1b2ef07cda4ffa2",
     "checks/validation/repository/audit-skill-links.ts": "781b1715e075b59ce673fbefad9bacab29eceb93e9f96ef60944bfda884eaf5c",
-    "package.json": "e32df63bd999083af73a2fe74ec50549cff59af9ceb5ba24fd58eadb10e34d87",
+    "package.json": "ef568b4bd541240094f3b460ca20aaeb5f11d0f08b641602fce753046ada0ba9",
     "tooling/catalog-scaffold.ts": "6a54386c9259c97834599249115b0dd82308c16e2c9bb35c02f3058280467077",
     "catalog/render-routing.ts": "938e29aaed5cf37c03afe8a2cf755af35b8921ad5ca86fd54968095291c2898c",
     "checks/validation/repository/check-agent-entrypoints.ts": "fde2977df566923626a647ccacec7bea6dacb00ffd1ed00ceeb860f8203b0bef",
@@ -16362,5 +16362,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:51cb0d711586ba89c79070a57e1d2286ba66a19352afdb1c115f2c9f2abf909d"
+  "digest": "sha256:11a3b903b0de3328cc6e1617507c31f37613c2d68557447c6f1d2e6e975bb757"
 }
