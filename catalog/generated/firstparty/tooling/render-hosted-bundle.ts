@@ -16,6 +16,8 @@ import {
   type HostedKnowledgeBundle,
   type HostedKnowledgeDocument,
 } from "../kernel/knowledge-service/types.js";
+import { driftIsLoose, resolveDriftMode } from "./lib/stamp-mode.js";
+import { unstableRenderMessage } from "./lib/stamp-drift.js";
 import { resolveSkillRoot } from "./lib/skill-root.js";
 
 export const HOSTED_BUNDLE_RELATIVE_PATH = "catalog/generated/hosted-knowledge.json";
@@ -166,8 +168,20 @@ function main(argv: string[]): number {
     // D1 (#32): the third reportAndExit outlier — this validator throws on any unrecognized
     // flag, so --json must be named here explicitly rather than falling through for free.
     else if (argv[index] === "--json") json = true;
+    else if (argv[index] === "--stamp-mode" && argv[index + 1] && !argv[index + 1]!.startsWith("--")) index += 1;
     else if (argv[index] === "--skill-root" && argv[index + 1] && !argv[index + 1]!.startsWith("--")) skillRoot = path.resolve(argv[++index]!);
-    else throw new Error("Usage: render-hosted-bundle.ts [--check] [--json] [--skill-root <directory>]");
+    else throw new Error("Usage: render-hosted-bundle.ts [--check] [--json] [--skill-root <directory>] [--stamp-mode pr|main|release]");
+  }
+  if (check && driftIsLoose(resolveDriftMode(argv))) {
+    const unstable = unstableRenderMessage("hosted bundle", () => ({
+      [HOSTED_BUNDLE_RELATIVE_PATH]: serializeHostedKnowledgeBundle(buildHostedKnowledgeBundle(skillRoot)),
+    }));
+    if (unstable) {
+      console.error(`ERROR hosted_bundle.unstable: ${unstable}`);
+      return 1;
+    }
+    console.log("Hosted knowledge bundle render is byte-stable.");
+    return 0;
   }
   const bundle = buildHostedKnowledgeBundle(skillRoot);
   if (check) {

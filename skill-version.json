@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.111",
-  "updatedAt": "2026-10-07",
+  "version": "0.221.112",
+  "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "Stamp the version at release instead of in every pull request. Ordinary pull requests leave the version and generated stamp files alone. Stamp 0.221.112; no deployment or npm publish.",
     "Add optional web UI libraries to landing motion craft: SmoothUI, Vengeance UI, and the free Shaders package for landing, support, and marketing pages and web prototypes only, with license, weight, WebGPU fallback, and reduced-motion rules. DevClub UI stays reference only. Stamp 0.221.111; no deployment or npm publish.",
     "Add merge criteria for build-to-spec pull requests: reviewer agents merge only with high confidence and low blast radius, open every compare image for clipping and overflow, and escalate payments, store, auth, user data, production migrations, privacy text and spec changes. Stamp 0.221.110; no deployment or npm publish.",
     "Add the Gate 1 handoff to the spec-pack flow: founder summary, chat order, and no tracker or store writes before approval. Stamp 0.221.109; no deployment or npm publish.",

@@ -12,7 +12,7 @@ export function register(h: Harness): void {
     const remaining = inventory.filter((entry) => entry.remainingTsx);
     assert(
       compiled.join(",") ===
-        "check:agent-entrypoints,check:architecture,check:autopilot,check:capability-delta,check:catalog,check:credits,check:gates-layout,check:graph-foundations,check:hosted-bundle,check:hub-spoke,check:learning-grounding,check:operating-graph,check:pack-composition,check:package-parity,check:provider-contracts,check:public-api,check:upstreams,check:validator-docs",
+        "check:agent-entrypoints,check:architecture,check:autopilot,check:capability-delta,check:catalog,check:credits,check:gates-layout,check:graph-foundations,check:hosted-bundle,check:hub-spoke,check:learning-grounding,check:operating-graph,check:pack-composition,check:package-parity,check:provider-contracts,check:public-api,check:stamped-tree,check:upstreams,check:validator-docs",
       `compiled-eligible check scripts drifted: ${compiled.join(",")}`,
     );
     assert(remaining.length > 0, "remaining-tsx inventory must still name the uncompiled checks graph");

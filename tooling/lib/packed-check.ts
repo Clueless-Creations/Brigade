@@ -24,6 +24,7 @@ export const PACKED_CHECK_COMPILED_SOURCES = [
   "checks/validation/repository/check-provider-contracts.ts",
   "checks/validation/repository/check-upstreams.ts",
   "checks/validation/repository/check-validator-docs.ts",
+  "tooling/check-stamped-tree.ts",
   "tooling/render-credits.ts",
   "tooling/render-hosted-bundle.ts",
   "tooling/render-public-api.ts",

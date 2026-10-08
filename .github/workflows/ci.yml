@@ -68,6 +68,7 @@ jobs:
     env:
       B2C_REQUIRE_GIT_HISTORY: "1"
       B2C_AUDIT_SCOPES: ${{ needs.scope.outputs.scopes }}
+      B2C_STAMP_MODE: ${{ github.head_ref != '' && startsWith(github.head_ref, 'release/stamp-') && 'release' || github.event_name == 'pull_request' && 'pr' || github.event_name == 'push' && 'main' || 'release' }}
       GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
     steps:
       - uses: actions/checkout@v4
@@ -106,6 +107,7 @@ jobs:
     timeout-minutes: 20
     env:
       B2C_REQUIRE_GIT_HISTORY: "1"
+      B2C_STAMP_MODE: ${{ github.head_ref != '' && startsWith(github.head_ref, 'release/stamp-') && 'release' || github.event_name == 'pull_request' && 'pr' || github.event_name == 'push' && 'main' || 'release' }}
       GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
     steps:
       - uses: actions/checkout@v4

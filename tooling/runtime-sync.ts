@@ -157,6 +157,24 @@ function readManifest(installedRoot: string): SyncManifest | undefined {
   return parsed;
 }
 
+function assertStampedSource(sourceRoot: string): void {
+  const packagePath = path.join(sourceRoot, "package.json");
+  if (!existsSync(packagePath)) return;
+  let releaseStamp: unknown;
+  try {
+    const parsed = JSON.parse(readFileSync(packagePath, "utf8")) as { scripts?: { ["release:stamp"]?: unknown } };
+    releaseStamp = parsed.scripts?.["release:stamp"];
+  } catch {
+    return;
+  }
+  if (typeof releaseStamp !== "string") return;
+  const checker = path.join(scriptDir, "check-stamped-tree.ts");
+  const result = spawnSync(process.execPath, ["--import", "tsx", checker, "--repo-root", sourceRoot], { encoding: "utf8" });
+  if (result.status === 0) return;
+  const detail = `${result.stdout ?? ""}\n${result.stderr ?? ""}`.trim();
+  throw new Error(detail || "This checkout is not a stamped tree. Run npm run release:stamp, or sync from the latest stamp.");
+}
+
 function sourceVersion(sourceRoot: string): string {
   try {
     const parsed = JSON.parse(readFileSync(path.join(sourceRoot, "skill-version.json"), "utf8")) as { version?: string };
@@ -351,6 +369,7 @@ function main(): void {
     return;
   }
 
+  assertStampedSource(options.sourceRoot);
   const targets = syncTargetRoots(options);
   for (const target of targets) {
     console.log(`\nSyncing ${target}`);

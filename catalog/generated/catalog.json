@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.111",
+  "skillVersion": "0.221.112",
   "areas": [
     {
       "id": "area.operating-system",
@@ -16926,18 +16926,18 @@
     },
     {
       "id": "workflow.machine.skill-runtime-sync-and-version-discipline-maintainer",
-      "title": "Skill runtime sync & version discipline (maintainer)",
+      "title": "Skill runtime sync and version stamp (maintainer)",
       "domainId": "domain.machine",
       "areaIds": [
         "area.skill-maintenance"
       ],
       "trigger": "After any skill change — bump version, sync the installed runtime, run the readiness gate",
       "founderPhrasings": [
-        "bump the skill version after a real behavior change",
-        "make sure the version number matches what actually changed",
+        "stamp the skill version after merged changes",
+        "make sure the version number matches the last release stamp",
         "sync the installed runtime after a skill edit"
       ],
-      "instructions": "After any meaningful skill-behavior edit, bump skill-version.json and write matching release notes in the same change — check:version-discipline fails a change that edits behavior without moving the version alongside it. On a founder-approved sync, run `npm run runtime:sync -- --all-clients` from the source checkout (never raw rsync): the tool computes an ownership-tracked plan from git-tracked source files against the installed runtime's manifest, refuses to clobber runtime files edited since the last sync (surface those as conflicts and commit them to source instead), preserves unowned files, deletes only files a previous sync wrote, then writes each present unique client root, runs npm install (when dependencies changed) and npm run audit inside the runtime, reports the ~/.claude and ~/.agents alias symlinks, and fails if any present client pin still trails. Use `npm run runtime:check` to inspect drift without writing. check:skill-version --all-runtimes must report installed == source afterward, and no present Claude/Cursor/Codex/Agents client may trail the pin.",
+      "instructions": "Do not bump skill-version.json in an ordinary change. npm run release:stamp on main moves the version, writes release notes from merged subjects, and regenerates the stamp files listed in checks/validation/repository/skill-versioning.md. A pull request that edits those files fails version_discipline.stamp_file_in_pr. A release/stamp-* branch must move the version forward. runtime:sync refuses a tree that is not stamped and tells you to run npm run release:stamp, or sync from the latest stamp. On a founder-approved sync, run `npm run runtime:sync -- --all-clients` from the source checkout (never raw rsync): the tool computes an ownership-tracked plan from git-tracked source files against the installed runtime's manifest, refuses to clobber runtime files edited since the last sync (surface those as conflicts and commit them to source instead), preserves unowned files, deletes only files a previous sync wrote, then writes each present unique client root, runs npm install (when dependencies changed) and npm run audit inside the runtime, reports the ~/.claude and ~/.agents alias symlinks, and fails if any present client pin still trails. Use `npm run runtime:check` to inspect drift without writing. check:skill-version --all-runtimes must report installed == source afterward, and no present Claude/Cursor/Codex/Agents client may trail the pin.",
       "reads": [
         "skill-version.json"
       ],
@@ -19600,6 +19600,14 @@
       "audit": "required"
     },
     {
+      "id": "gate.check-stamped-tree",
+      "command": "check:stamped-tree",
+      "scriptPath": "tooling/check-stamped-tree.ts",
+      "commandManifestPath": "package.json",
+      "ownerDomainId": "domain.process",
+      "audit": "excluded"
+    },
+    {
       "id": "gate.check-store-console",
       "command": "check:store-console",
       "scriptPath": "checks/validation/business/store/check-store-console-packet.ts",
@@ -19927,14 +19935,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "432442ea345de97285a620aee55e07ae2fe6f951d762a1d69799a10943972ab9",
+    "fingerprint": "a3bbbe294661896abec963508749f68e6301dc0e7fe209994d365a1966dde4b3",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.111",
-        "revision": "0.221.111",
-        "contentDigest": "bfa03ccbfddb180c3b1b4df705e177a9b87fcc8005fb1a4a508621353b8d8870"
+        "version": "0.221.112",
+        "revision": "0.221.112",
+        "contentDigest": "830af40c370375d35b62ecaf5277e80ba56d43f3267ef128ea9498b3d56c3018"
       }
     ],
     "base": {

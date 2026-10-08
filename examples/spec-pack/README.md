@@ -15,7 +15,7 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `spec.yaml` | The manifest. You edit this file only. |
 | `template.html` | Page layout and mock renderer. Do not edit per app. |
 | `build.mjs` | Checks `spec.yaml` and writes `index.html`. |
-| `index.html` | Generated, self-contained review page. Open it in a browser. |
+| `index.html` | Generated review page. `release:stamp` writes it. Open it in a browser. |
 | `render-mocks.sh` | Writes one PNG per screen and state to `mocks/` at 393x852. |
 | `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
 | `GATE1.md` | Founder-facing Gate 1 summary. Replace the placeholders. |

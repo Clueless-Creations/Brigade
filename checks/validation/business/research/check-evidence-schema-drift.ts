@@ -13,8 +13,14 @@
  */
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH, evidenceSchemaFingerprintIsCurrent } from "../../../../kernel/schema/evidence-schema-version.js";
+import {
+  EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH,
+  computeEvidenceSchemaFingerprint,
+  evidenceSchemaFingerprintIsCurrent,
+} from "../../../../kernel/schema/evidence-schema-version.js";
 import { flagString, issue, parseFlags, reportAndExit, type Issue } from "../../../../tooling/lib/launch-state.js";
+import { unstableRenderMessage } from "../../../../tooling/lib/stamp-drift.js";
+import { driftIsLoose, resolveDriftMode } from "../../../../tooling/lib/stamp-mode.js";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const defaultSkillRoot = path.resolve(scriptDir, "../../../..");
@@ -22,29 +28,39 @@ const flags = parseFlags(process.argv.slice(2), [{ flags: ["--skill-root", "--ro
 const skillRoot = flagString(flags, "skillRoot") ?? defaultSkillRoot;
 
 const issues: Issue[] = [];
-const status = evidenceSchemaFingerprintIsCurrent(skillRoot);
+if (driftIsLoose(resolveDriftMode(process.argv))) {
+  const unstable = unstableRenderMessage("evidence schema", () => ({
+    [EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH]: `${JSON.stringify(computeEvidenceSchemaFingerprint(skillRoot), null, 2)}\n`,
+  }));
+  if (unstable) {
+    issues.push(issue("error", "evidence_schema_drift.unstable", unstable, EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH));
+  }
+  reportAndExit("Evidence schema drift check", issues);
+} else {
+  const status = evidenceSchemaFingerprintIsCurrent(skillRoot);
 
-if (!status.checkedIn) {
-  issues.push(
-    issue(
-      "error",
-      "evidence_schema_drift.version_file_missing",
-      `${EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH} is missing or unparseable. Run npm run render:evidence-schema-version and commit the result.`,
-      EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH,
-    ),
-  );
-} else if (!status.current) {
-  issues.push(
-    issue(
-      "error",
-      "evidence_schema_drift.stale",
-      `${EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH} no longer matches the live catalog and evidence-dialect schemas ` +
-        `(checked-in schema ${status.checkedIn.schemaSha256} / catalog ${status.checkedIn.catalogSha256}; ` +
-        `live schema ${status.live.schemaSha256} / catalog ${status.live.catalogSha256}). ` +
-        "Run npm run render:evidence-schema-version and commit the result.",
-      EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH,
-    ),
-  );
+  if (!status.checkedIn) {
+    issues.push(
+      issue(
+        "error",
+        "evidence_schema_drift.version_file_missing",
+        `${EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH} is missing or unparseable. Run npm run render:evidence-schema-version and commit the result.`,
+        EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH,
+      ),
+    );
+  } else if (!status.current) {
+    issues.push(
+      issue(
+        "error",
+        "evidence_schema_drift.stale",
+        `${EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH} no longer matches the live catalog and evidence-dialect schemas ` +
+          `(checked-in schema ${status.checkedIn.schemaSha256} / catalog ${status.checkedIn.catalogSha256}; ` +
+          `live schema ${status.live.schemaSha256} / catalog ${status.live.catalogSha256}). ` +
+          "Run npm run render:evidence-schema-version and commit the result.",
+        EVIDENCE_SCHEMA_VERSION_RELATIVE_PATH,
+      ),
+    );
+  }
+
+  reportAndExit("Evidence schema drift check", issues);
 }
-
-reportAndExit("Evidence schema drift check", issues);

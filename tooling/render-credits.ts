@@ -28,6 +28,8 @@ import { upstreamCoverage, renderUpstreamCoverage } from "../kernel/contribution
 import type { UpstreamManifest, UpstreamObservation, UpstreamRelationshipKind } from "../contracts/contribution/contract.js";
 import { loadUpstreams, UPSTREAMS_DIRECTORY, type LoadedUpstream } from "../kernel/contribution/upstreams-load.js";
 import { flagBoolean, flagString, issue, parseFlags, reportAndExit, type Issue } from "./lib/launch-state.js";
+import { driftIsLoose, resolveDriftMode } from "./lib/stamp-mode.js";
+import { unstableRenderMessage } from "./lib/stamp-drift.js";
 
 const ACKNOWLEDGMENTS_PATH = "ACKNOWLEDGMENTS.md";
 const THIRD_PARTY_NOTICES_PATH = "THIRD_PARTY_NOTICES.md";
@@ -224,6 +226,33 @@ function renderSupportReport(upstreams: readonly LoadedUpstream[]): string {
   ].join("\n");
 }
 
+function creditFiles(skillRoot: string): Record<string, string> {
+  const loaded = loadUpstreams(skillRoot);
+  if (loaded.issues.length > 0) {
+    throw new Error(loaded.issues.map((item) => item.message).join("\n"));
+  }
+  const upstreams = [...loaded.upstreams].sort((left, right) => left.manifest.id.localeCompare(right.manifest.id));
+  let ownRepository: string | undefined;
+  try {
+    const pkg = JSON.parse(readFileSync(path.join(skillRoot, "package.json"), "utf8")) as { repository?: string | { url?: string } };
+    ownRepository = typeof pkg.repository === "string" ? pkg.repository : pkg.repository?.url;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
+  return {
+    [ACKNOWLEDGMENTS_PATH]: renderAcknowledgments(upstreams),
+    [THIRD_PARTY_NOTICES_PATH]: renderThirdPartyNotices(upstreams),
+    [SUPPORT_REPORT_PATH]: renderSupportReport(upstreams),
+    "docs/upstreams/coverage-report.md": renderUpstreamCoverage(
+      upstreamCoverage(
+        loadKnowledgePackages(skillRoot),
+        upstreams.map((entry) => entry.manifest),
+        ownRepository,
+      ),
+    ),
+  };
+}
+
 function main(): void {
   const flags = parseFlags(process.argv.slice(2), [
     { flags: ["--skill-root", "--root"], key: "skillRoot" },
@@ -242,6 +271,13 @@ function main(): void {
     return;
   }
   const upstreams = [...loaded.upstreams].sort((left, right) => left.manifest.id.localeCompare(right.manifest.id));
+
+  if (check && driftIsLoose(resolveDriftMode(process.argv))) {
+    const unstable = unstableRenderMessage("credits", () => creditFiles(skillRoot));
+    if (unstable) issues.push(issue("error", "credits.unstable", unstable));
+    reportAndExit("Credits projections", issues);
+    return;
+  }
 
   const rendered: string[] = [];
   const unchanged: string[] = [];

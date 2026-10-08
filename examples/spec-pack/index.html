@@ -103,8 +103,750 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
 <section id="repo"><h2>Repo starter files and merge gate</h2><div class="grid2"><div><table id="repotable"></table></div><div><div class="flowlabel">Merge gate</div><ul class="acc" id="gate"></ul><div class="flowlabel">Research</div><div id="research"></div></div></div></section>
 <section id="approve"><h2>Gate 1 approval</h2><p class="sub">Approve once. After this, workers build to this spec and do not ask questions. Changes after approval need a new spec version.</p><div class="check" id="checklist"></div></section>
 </main>
-<script id="spec" type="application/json">{"schema_version":1,"meta":{"name":"Soon (example)","slug":"soon-example","spec_version":"0.1.0","status":"draft","approved_by":null,"approved_at":null,"platforms":["ios"],"stack":"swiftui","promise":"Count down to the dates that matter, on your Home and Lock Screen.","audience":"People planning a trip, a wedding, a birthday or a launch.","core_loop":"Add a date -> see days left at a glance -> get nudged before it.","definition_of_good":"D1 retention >= 35%. 7-day paywall view-to-purchase >= 4%. Crash-free sessions >= 99.5%.","kill_criteria":"Fewer than 300 installs in the first 30 days with paid UA under $200."},"research":{"question":"What makes people pay for a countdown app?","comps":[{"name":"Example comp A (category leader)","store_id":"000000000","observed":"One-time widget unlock. Home, Lock Screen and StandBy widgets are premium."},{"name":"Example comp B","store_id":"000000000","observed":"Placeholder: not inspected yet. Research step fills this."}],"patterns_we_copy":["first event in under 30 s","widget is the paid hook","one-time unlock"],"patterns_we_reject":["ads on free tier","account required before value"]},"design":{"style_prompt":"Flat vector illustration, soft grain, warm paper background, one bold accent color, rounded geometric shapes, no gradients, no text in images, centered subject with generous margin.","icons":"SF Symbols only","tokens":{"color":{"light":{"bg":"#FBF7F0","surface":"#FFFFFF","text":"#1D1B18","muted":"#6E675E","primary":"#FF5A36","accent":"#2E6BFF","danger":"#C62828"},"dark":{"bg":"#14120F","surface":"#1F1C18","text":"#F5F1EA","muted":"#A39B90","primary":"#FF7A5C","accent":"#6C95FF","danger":"#EF5350"}},"type":{"family":"SF Pro Rounded","scale":{"caption":12,"body":16,"title3":20,"title1":28,"display":48}},"spacing":[4,8,12,16,24,32],"radius":{"sm":8,"md":14,"lg":22},"motion":{"spring":"response 0.35, damping 0.8","reduce_motion":"crossfade 150ms"}}},"screens":[{"id":"welcome","flow":"onboarding","title":"Welcome","purpose":"Show the promise and start the first countdown in one tap.","states":["default"],"not_applicable":{"loading":"static screen","empty":"static screen","error":"no I/O"},"mock":{"default":[{"type":"art","label":"Hero art: calendar page flying off (style prompt)"},{"type":"title","text":"Count down to what matters"},{"type":"text","text":"Days left, right on your Home Screen."},{"type":"button","text":"Add my first date","to":"add-event"}]},"events":["onboarding_step_completed"],"acceptance":["Primary button visible without scrolling on iPhone SE (3rd gen).","No sign-in before first value."]},{"id":"add-event","flow":"onboarding","title":"Add event","purpose":"Capture title, date and an emoji. First value in under 30 seconds.","states":["default","error"],"not_applicable":{"loading":"local save","empty":"form starts blank by design"},"mock":{"default":[{"type":"nav","text":"New countdown"},{"type":"input","label":"Title","value":"Lisbon trip"},{"type":"input","label":"Date","value":"Mar 14, 2027"},{"type":"chips","items":["✈️","🎂","💍","🚀","🎄"]},{"type":"button","text":"Save","to":"home"}],"error":[{"type":"nav","text":"New countdown"},{"type":"input","label":"Title","value":"","error":"Add a title"},{"type":"input","label":"Date","value":"Mar 14, 2027"},{"type":"button","text":"Save","disabled":true}]},"events":["core_action_completed"],"acceptance":["Save with empty title shows inline error, no alert.","Past dates are allowed and show \"days since\"."]},{"id":"home","flow":"core","title":"Home","purpose":"List countdowns, nearest first.","states":["default","empty"],"not_applicable":{"loading":"local store reads under 50 ms","error":"local only"},"mock":{"default":[{"type":"nav","text":"Soon","action":"+","action_to":"add-event"},{"type":"countdown","title":"Lisbon trip","emoji":"✈️","days":158,"to":"event-detail"},{"type":"countdown","title":"Mia's birthday","emoji":"🎂","days":41},{"type":"countdown","title":"App launch","emoji":"🚀","days":12},{"type":"button","text":"Add a widget","style":"secondary","to":"paywall"},{"type":"link","text":"Settings","to":"settings"}],"empty":[{"type":"nav","text":"Soon","action":"+","action_to":"add-event"},{"type":"art","label":"Empty art: blank calendar page (style prompt)"},{"type":"title","text":"Nothing to count yet"},{"type":"button","text":"Add a date","to":"add-event"}]},"events":["app_opened","$screen"],"acceptance":["Sorted nearest first; past events in a separate \"Since\" section.","Large text (AX5) keeps titles readable with no truncation of day count."]},{"id":"event-detail","flow":"core","title":"Event detail","purpose":"Big number, share, edit, reminder settings.","states":["default"],"not_applicable":{"loading":"local","empty":"always has an event","error":"local"},"mock":{"default":[{"type":"nav","text":"Lisbon trip","back":"home"},{"type":"big","text":"158","caption":"days to go"},{"type":"row","label":"Remind me","value":"1 day before"},{"type":"row","label":"Repeat","value":"Never"},{"type":"button","text":"Share","style":"secondary"}]},"events":["core_action_completed"],"acceptance":["Number updates at local midnight without relaunch."]},{"id":"paywall","flow":"monetization","title":"Paywall","purpose":"Sell the widget unlock after the first event exists.","states":["default","loading","error","success"],"not_applicable":{"empty":"offer always present"},"mock":{"default":[{"type":"close","to":"home"},{"type":"art","label":"Widget preview on Home Screen"},{"type":"title","text":"Put it on your Home Screen"},{"type":"bullets","items":["Home and Lock Screen widgets","StandBy view","Unlimited themes"]},{"type":"price","text":"$4.99 once","caption":"No subscription"},{"type":"button","text":"Unlock","to":"home"},{"type":"link","text":"Restore purchase"}],"loading":[{"type":"close"},{"type":"spinner","text":"Loading price…"}],"error":[{"type":"close","to":"home"},{"type":"banner","text":"Store unavailable. Try again."},{"type":"button","text":"Retry"}],"success":[{"type":"art","label":"Confetti, reduced-motion safe"},{"type":"title","text":"Unlocked"},{"type":"button","text":"Add widget","to":"home"}]},"events":["paywall_viewed","purchase_started","purchase_completed"],"acceptance":["Price comes from RevenueCat offering, never hard-coded.","Restore works on a fresh install with the sandbox account."]},{"id":"settings","flow":"core","title":"Settings","purpose":"Restore, support, privacy, terms, delete data.","states":["default"],"not_applicable":{"loading":"static","empty":"static","error":"static"},"mock":{"default":[{"type":"nav","text":"Settings","back":"home"},{"type":"row","label":"Restore purchase"},{"type":"row","label":"Contact support"},{"type":"row","label":"Privacy"},{"type":"row","label":"Delete all data","danger":true}]},"events":["$screen"],"acceptance":["Every link opens the matching web surface below."]}],"web":[{"id":"landing","path":"/","title":"Landing","sections":["hero with App Store badge","three feature rows","widget gallery","FAQ","footer links"],"acceptance":["Lighthouse performance >= 90 on mobile","App Store link uses the real app ID after Gate 2"]},{"id":"privacy","path":"/privacy","title":"Privacy policy","sections":["data collected","processors: RevenueCat, PostHog, Sentry","retention","contact"],"acceptance":["Matches App Privacy labels exactly"]},{"id":"terms","path":"/terms","title":"Terms of use","sections":["license","purchases and refunds via Apple","liability"],"acceptance":["Linked from paywall and settings"]},{"id":"support","path":"/support","title":"Support","sections":["FAQ","contact email","restore steps"],"acceptance":["Returns 200, not a GitHub link"]},{"id":"delete","path":"/delete-account","title":"Data deletion","sections":["what is deleted","how to delete in app","email fallback"],"acceptance":["Meets App Store 5.1.1(v) when accounts exist"]}],"store":{"name":"Soon: Countdown Widget","subtitle":"Days left on your Home Screen","keywords":["countdown","widget","days until","event","trip","birthday","wedding"],"category":"Utilities","age_rating":"4+","screenshots":[{"screen":"home","caption":"Every date that matters"},{"screen":"paywall","caption":"On your Home and Lock Screen"},{"screen":"event-detail","caption":"Big, clear, shareable"}],"pricing":{"model":"one-time unlock","price":"$4.99","revenuecat":{"entitlement":"pro","offering":"default","product":"soon_pro_lifetime"}},"paywall_offer":"Shown after first event saved and on widget tap. Never on first launch."},"analytics":{"provider":"posthog","common_props":["app_id","platform","app_version","build_number"],"events":[{"name":"app_opened","when":"App foreground","props":[]},{"name":"onboarding_step_completed","when":"Welcome CTA tapped","props":["step_id"]},{"name":"core_action_completed","when":"Event saved or shared","props":["feature_key"]},{"name":"paywall_viewed","when":"Paywall shown","props":["source"]},{"name":"purchase_started","when":"Unlock tapped","props":["product_id"]},{"name":"purchase_completed","when":"Entitlement active","props":["product_id","price"]},{"name":"$screen","when":"Every screen view","props":["screen_id"]}]},"repo":{"files":[{"path":"AGENTS.md","purpose":"Short worker guide: read spec.yaml, build one screen, compare to mock, run gate."},{"path":"spec/spec.yaml","purpose":"This manifest (approved copy)."},{"path":"spec/index.html","purpose":"Rendered spec pack."},{"path":"DESIGN.md","purpose":"Tokens and style prompt, same values as design.tokens."},{"path":"TASKS.md","purpose":"One line per screen and web page with status."},{"path":"scripts/merge-gate.sh","purpose":"Build, unit tests, screenshot-vs-mock check, lint."},{"path":".env.example","purpose":"Names only, no values."},{"path":"web/","purpose":"Landing and policy pages."}],"merge_gate":["Build succeeds for every platform in meta.platforms.","Unit tests pass.","Each changed screen has a simulator screenshot per required state.","Screenshot-vs-mock review recorded with any differences fixed or listed.","No hard-coded colors, sizes or strings outside tokens and copy files."]},"gates":{"gate_1":{"name":"Spec approval","owner":"founder","approves":["screens and states","web surfaces","tokens and style prompt","store listing and price","event map"]},"gate_2":{"name":"Store submission","owner":"founder","approves":["real-device dogfood verdict","final screenshots","price in App Store Connect","review notes"]}},"approval_checklist":["Every screen has every required state, or a reason it does not.","Every tap target leads somewhere in the prototype.","Paywall price and offer match store.pricing.","All five web surfaces exist and are linked from settings.","Event map covers install -> onboard -> core -> paywall -> paid.","Style prompt and tokens are final; no new colors after approval.","Definition of good and kill criteria are set."]}</script>
-<script id="report" type="application/json">{"errors":[],"stateCount":11,"screens":6}</script>
+<script id="spec" type="application/json">{
+  "schema_version": 1,
+  "meta": {
+    "name": "Soon (example)",
+    "slug": "soon-example",
+    "spec_version": "0.1.0",
+    "status": "draft",
+    "approved_by": null,
+    "approved_at": null,
+    "platforms": [
+      "ios"
+    ],
+    "stack": "swiftui",
+    "promise": "Count down to the dates that matter, on your Home and Lock Screen.",
+    "audience": "People planning a trip, a wedding, a birthday or a launch.",
+    "core_loop": "Add a date -> see days left at a glance -> get nudged before it.",
+    "definition_of_good": "D1 retention >= 35%. 7-day paywall view-to-purchase >= 4%. Crash-free sessions >= 99.5%.",
+    "kill_criteria": "Fewer than 300 installs in the first 30 days with paid UA under $200."
+  },
+  "research": {
+    "question": "What makes people pay for a countdown app?",
+    "comps": [
+      {
+        "name": "Example comp A (category leader)",
+        "store_id": "000000000",
+        "observed": "One-time widget unlock. Home, Lock Screen and StandBy widgets are premium."
+      },
+      {
+        "name": "Example comp B",
+        "store_id": "000000000",
+        "observed": "Placeholder: not inspected yet. Research step fills this."
+      }
+    ],
+    "patterns_we_copy": [
+      "first event in under 30 s",
+      "widget is the paid hook",
+      "one-time unlock"
+    ],
+    "patterns_we_reject": [
+      "ads on free tier",
+      "account required before value"
+    ]
+  },
+  "design": {
+    "style_prompt": "Flat vector illustration, soft grain, warm paper background, one bold accent color, rounded geometric shapes, no gradients, no text in images, centered subject with generous margin.",
+    "icons": "SF Symbols only",
+    "tokens": {
+      "color": {
+        "light": {
+          "bg": "#FBF7F0",
+          "surface": "#FFFFFF",
+          "text": "#1D1B18",
+          "muted": "#6E675E",
+          "primary": "#FF5A36",
+          "accent": "#2E6BFF",
+          "danger": "#C62828"
+        },
+        "dark": {
+          "bg": "#14120F",
+          "surface": "#1F1C18",
+          "text": "#F5F1EA",
+          "muted": "#A39B90",
+          "primary": "#FF7A5C",
+          "accent": "#6C95FF",
+          "danger": "#EF5350"
+        }
+      },
+      "type": {
+        "family": "SF Pro Rounded",
+        "scale": {
+          "caption": 12,
+          "body": 16,
+          "title3": 20,
+          "title1": 28,
+          "display": 48
+        }
+      },
+      "spacing": [
+        4,
+        8,
+        12,
+        16,
+        24,
+        32
+      ],
+      "radius": {
+        "sm": 8,
+        "md": 14,
+        "lg": 22
+      },
+      "motion": {
+        "spring": "response 0.35, damping 0.8",
+        "reduce_motion": "crossfade 150ms"
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "welcome",
+      "flow": "onboarding",
+      "title": "Welcome",
+      "purpose": "Show the promise and start the first countdown in one tap.",
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "loading": "static screen",
+        "empty": "static screen",
+        "error": "no I/O"
+      },
+      "mock": {
+        "default": [
+          {
+            "type": "art",
+            "label": "Hero art: calendar page flying off (style prompt)"
+          },
+          {
+            "type": "title",
+            "text": "Count down to what matters"
+          },
+          {
+            "type": "text",
+            "text": "Days left, right on your Home Screen."
+          },
+          {
+            "type": "button",
+            "text": "Add my first date",
+            "to": "add-event"
+          }
+        ]
+      },
+      "events": [
+        "onboarding_step_completed"
+      ],
+      "acceptance": [
+        "Primary button visible without scrolling on iPhone SE (3rd gen).",
+        "No sign-in before first value."
+      ]
+    },
+    {
+      "id": "add-event",
+      "flow": "onboarding",
+      "title": "Add event",
+      "purpose": "Capture title, date and an emoji. First value in under 30 seconds.",
+      "states": [
+        "default",
+        "error"
+      ],
+      "not_applicable": {
+        "loading": "local save",
+        "empty": "form starts blank by design"
+      },
+      "mock": {
+        "default": [
+          {
+            "type": "nav",
+            "text": "New countdown"
+          },
+          {
+            "type": "input",
+            "label": "Title",
+            "value": "Lisbon trip"
+          },
+          {
+            "type": "input",
+            "label": "Date",
+            "value": "Mar 14, 2027"
+          },
+          {
+            "type": "chips",
+            "items": [
+              "✈️",
+              "🎂",
+              "💍",
+              "🚀",
+              "🎄"
+            ]
+          },
+          {
+            "type": "button",
+            "text": "Save",
+            "to": "home"
+          }
+        ],
+        "error": [
+          {
+            "type": "nav",
+            "text": "New countdown"
+          },
+          {
+            "type": "input",
+            "label": "Title",
+            "value": "",
+            "error": "Add a title"
+          },
+          {
+            "type": "input",
+            "label": "Date",
+            "value": "Mar 14, 2027"
+          },
+          {
+            "type": "button",
+            "text": "Save",
+            "disabled": true
+          }
+        ]
+      },
+      "events": [
+        "core_action_completed"
+      ],
+      "acceptance": [
+        "Save with empty title shows inline error, no alert.",
+        "Past dates are allowed and show \"days since\"."
+      ]
+    },
+    {
+      "id": "home",
+      "flow": "core",
+      "title": "Home",
+      "purpose": "List countdowns, nearest first.",
+      "states": [
+        "default",
+        "empty"
+      ],
+      "not_applicable": {
+        "loading": "local store reads under 50 ms",
+        "error": "local only"
+      },
+      "mock": {
+        "default": [
+          {
+            "type": "nav",
+            "text": "Soon",
+            "action": "+",
+            "action_to": "add-event"
+          },
+          {
+            "type": "countdown",
+            "title": "Lisbon trip",
+            "emoji": "✈️",
+            "days": 158,
+            "to": "event-detail"
+          },
+          {
+            "type": "countdown",
+            "title": "Mia's birthday",
+            "emoji": "🎂",
+            "days": 41
+          },
+          {
+            "type": "countdown",
+            "title": "App launch",
+            "emoji": "🚀",
+            "days": 12
+          },
+          {
+            "type": "button",
+            "text": "Add a widget",
+            "style": "secondary",
+            "to": "paywall"
+          },
+          {
+            "type": "link",
+            "text": "Settings",
+            "to": "settings"
+          }
+        ],
+        "empty": [
+          {
+            "type": "nav",
+            "text": "Soon",
+            "action": "+",
+            "action_to": "add-event"
+          },
+          {
+            "type": "art",
+            "label": "Empty art: blank calendar page (style prompt)"
+          },
+          {
+            "type": "title",
+            "text": "Nothing to count yet"
+          },
+          {
+            "type": "button",
+            "text": "Add a date",
+            "to": "add-event"
+          }
+        ]
+      },
+      "events": [
+        "app_opened",
+        "$screen"
+      ],
+      "acceptance": [
+        "Sorted nearest first; past events in a separate \"Since\" section.",
+        "Large text (AX5) keeps titles readable with no truncation of day count."
+      ]
+    },
+    {
+      "id": "event-detail",
+      "flow": "core",
+      "title": "Event detail",
+      "purpose": "Big number, share, edit, reminder settings.",
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "loading": "local",
+        "empty": "always has an event",
+        "error": "local"
+      },
+      "mock": {
+        "default": [
+          {
+            "type": "nav",
+            "text": "Lisbon trip",
+            "back": "home"
+          },
+          {
+            "type": "big",
+            "text": "158",
+            "caption": "days to go"
+          },
+          {
+            "type": "row",
+            "label": "Remind me",
+            "value": "1 day before"
+          },
+          {
+            "type": "row",
+            "label": "Repeat",
+            "value": "Never"
+          },
+          {
+            "type": "button",
+            "text": "Share",
+            "style": "secondary"
+          }
+        ]
+      },
+      "events": [
+        "core_action_completed"
+      ],
+      "acceptance": [
+        "Number updates at local midnight without relaunch."
+      ]
+    },
+    {
+      "id": "paywall",
+      "flow": "monetization",
+      "title": "Paywall",
+      "purpose": "Sell the widget unlock after the first event exists.",
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "success"
+      ],
+      "not_applicable": {
+        "empty": "offer always present"
+      },
+      "mock": {
+        "default": [
+          {
+            "type": "close",
+            "to": "home"
+          },
+          {
+            "type": "art",
+            "label": "Widget preview on Home Screen"
+          },
+          {
+            "type": "title",
+            "text": "Put it on your Home Screen"
+          },
+          {
+            "type": "bullets",
+            "items": [
+              "Home and Lock Screen widgets",
+              "StandBy view",
+              "Unlimited themes"
+            ]
+          },
+          {
+            "type": "price",
+            "text": "$4.99 once",
+            "caption": "No subscription"
+          },
+          {
+            "type": "button",
+            "text": "Unlock",
+            "to": "home"
+          },
+          {
+            "type": "link",
+            "text": "Restore purchase"
+          }
+        ],
+        "loading": [
+          {
+            "type": "close"
+          },
+          {
+            "type": "spinner",
+            "text": "Loading price…"
+          }
+        ],
+        "error": [
+          {
+            "type": "close",
+            "to": "home"
+          },
+          {
+            "type": "banner",
+            "text": "Store unavailable. Try again."
+          },
+          {
+            "type": "button",
+            "text": "Retry"
+          }
+        ],
+        "success": [
+          {
+            "type": "art",
+            "label": "Confetti, reduced-motion safe"
+          },
+          {
+            "type": "title",
+            "text": "Unlocked"
+          },
+          {
+            "type": "button",
+            "text": "Add widget",
+            "to": "home"
+          }
+        ]
+      },
+      "events": [
+        "paywall_viewed",
+        "purchase_started",
+        "purchase_completed"
+      ],
+      "acceptance": [
+        "Price comes from RevenueCat offering, never hard-coded.",
+        "Restore works on a fresh install with the sandbox account."
+      ]
+    },
+    {
+      "id": "settings",
+      "flow": "core",
+      "title": "Settings",
+      "purpose": "Restore, support, privacy, terms, delete data.",
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "loading": "static",
+        "empty": "static",
+        "error": "static"
+      },
+      "mock": {
+        "default": [
+          {
+            "type": "nav",
+            "text": "Settings",
+            "back": "home"
+          },
+          {
+            "type": "row",
+            "label": "Restore purchase"
+          },
+          {
+            "type": "row",
+            "label": "Contact support"
+          },
+          {
+            "type": "row",
+            "label": "Privacy"
+          },
+          {
+            "type": "row",
+            "label": "Delete all data",
+            "danger": true
+          }
+        ]
+      },
+      "events": [
+        "$screen"
+      ],
+      "acceptance": [
+        "Every link opens the matching web surface below."
+      ]
+    }
+  ],
+  "web": [
+    {
+      "id": "landing",
+      "path": "/",
+      "title": "Landing",
+      "sections": [
+        "hero with App Store badge",
+        "three feature rows",
+        "widget gallery",
+        "FAQ",
+        "footer links"
+      ],
+      "acceptance": [
+        "Lighthouse performance >= 90 on mobile",
+        "App Store link uses the real app ID after Gate 2"
+      ]
+    },
+    {
+      "id": "privacy",
+      "path": "/privacy",
+      "title": "Privacy policy",
+      "sections": [
+        "data collected",
+        "processors: RevenueCat, PostHog, Sentry",
+        "retention",
+        "contact"
+      ],
+      "acceptance": [
+        "Matches App Privacy labels exactly"
+      ]
+    },
+    {
+      "id": "terms",
+      "path": "/terms",
+      "title": "Terms of use",
+      "sections": [
+        "license",
+        "purchases and refunds via Apple",
+        "liability"
+      ],
+      "acceptance": [
+        "Linked from paywall and settings"
+      ]
+    },
+    {
+      "id": "support",
+      "path": "/support",
+      "title": "Support",
+      "sections": [
+        "FAQ",
+        "contact email",
+        "restore steps"
+      ],
+      "acceptance": [
+        "Returns 200, not a GitHub link"
+      ]
+    },
+    {
+      "id": "delete",
+      "path": "/delete-account",
+      "title": "Data deletion",
+      "sections": [
+        "what is deleted",
+        "how to delete in app",
+        "email fallback"
+      ],
+      "acceptance": [
+        "Meets App Store 5.1.1(v) when accounts exist"
+      ]
+    }
+  ],
+  "store": {
+    "name": "Soon: Countdown Widget",
+    "subtitle": "Days left on your Home Screen",
+    "keywords": [
+      "countdown",
+      "widget",
+      "days until",
+      "event",
+      "trip",
+      "birthday",
+      "wedding"
+    ],
+    "category": "Utilities",
+    "age_rating": "4+",
+    "screenshots": [
+      {
+        "screen": "home",
+        "caption": "Every date that matters"
+      },
+      {
+        "screen": "paywall",
+        "caption": "On your Home and Lock Screen"
+      },
+      {
+        "screen": "event-detail",
+        "caption": "Big, clear, shareable"
+      }
+    ],
+    "pricing": {
+      "model": "one-time unlock",
+      "price": "$4.99",
+      "revenuecat": {
+        "entitlement": "pro",
+        "offering": "default",
+        "product": "soon_pro_lifetime"
+      }
+    },
+    "paywall_offer": "Shown after first event saved and on widget tap. Never on first launch."
+  },
+  "analytics": {
+    "provider": "posthog",
+    "common_props": [
+      "app_id",
+      "platform",
+      "app_version",
+      "build_number"
+    ],
+    "events": [
+      {
+        "name": "app_opened",
+        "when": "App foreground",
+        "props": []
+      },
+      {
+        "name": "onboarding_step_completed",
+        "when": "Welcome CTA tapped",
+        "props": [
+          "step_id"
+        ]
+      },
+      {
+        "name": "core_action_completed",
+        "when": "Event saved or shared",
+        "props": [
+          "feature_key"
+        ]
+      },
+      {
+        "name": "paywall_viewed",
+        "when": "Paywall shown",
+        "props": [
+          "source"
+        ]
+      },
+      {
+        "name": "purchase_started",
+        "when": "Unlock tapped",
+        "props": [
+          "product_id"
+        ]
+      },
+      {
+        "name": "purchase_completed",
+        "when": "Entitlement active",
+        "props": [
+          "product_id",
+          "price"
+        ]
+      },
+      {
+        "name": "$screen",
+        "when": "Every screen view",
+        "props": [
+          "screen_id"
+        ]
+      }
+    ]
+  },
+  "repo": {
+    "files": [
+      {
+        "path": "AGENTS.md",
+        "purpose": "Short worker guide: read spec.yaml, build one screen, compare to mock, run gate."
+      },
+      {
+        "path": "spec/spec.yaml",
+        "purpose": "This manifest (approved copy)."
+      },
+      {
+        "path": "spec/index.html",
+        "purpose": "Rendered spec pack."
+      },
+      {
+        "path": "DESIGN.md",
+        "purpose": "Tokens and style prompt, same values as design.tokens."
+      },
+      {
+        "path": "TASKS.md",
+        "purpose": "One line per screen and web page with status."
+      },
+      {
+        "path": "scripts/merge-gate.sh",
+        "purpose": "Build, unit tests, screenshot-vs-mock check, lint."
+      },
+      {
+        "path": ".env.example",
+        "purpose": "Names only, no values."
+      },
+      {
+        "path": "web/",
+        "purpose": "Landing and policy pages."
+      }
+    ],
+    "merge_gate": [
+      "Build succeeds for every platform in meta.platforms.",
+      "Unit tests pass.",
+      "Each changed screen has a simulator screenshot per required state.",
+      "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+      "No hard-coded colors, sizes or strings outside tokens and copy files."
+    ]
+  },
+  "gates": {
+    "gate_1": {
+      "name": "Spec approval",
+      "owner": "founder",
+      "approves": [
+        "screens and states",
+        "web surfaces",
+        "tokens and style prompt",
+        "store listing and price",
+        "event map"
+      ]
+    },
+    "gate_2": {
+      "name": "Store submission",
+      "owner": "founder",
+      "approves": [
+        "real-device dogfood verdict",
+        "final screenshots",
+        "price in App Store Connect",
+        "review notes"
+      ]
+    }
+  },
+  "approval_checklist": [
+    "Every screen has every required state, or a reason it does not.",
+    "Every tap target leads somewhere in the prototype.",
+    "Paywall price and offer match store.pricing.",
+    "All five web surfaces exist and are linked from settings.",
+    "Event map covers install -> onboard -> core -> paywall -> paid.",
+    "Style prompt and tokens are final; no new colors after approval.",
+    "Definition of good and kill criteria are set."
+  ]
+}</script>
+<script id="report" type="application/json">{
+  "errors": [],
+  "stateCount": 11,
+  "screens": 6
+}</script>
 <script>
 const S=JSON.parse(document.getElementById('spec').textContent);
 const R=JSON.parse(document.getElementById('report').textContent);

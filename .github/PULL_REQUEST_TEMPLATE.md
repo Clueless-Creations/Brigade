@@ -16,8 +16,7 @@
 
 - [ ] I edited repository source, not an installed skill copy.
 - [ ] I used the `b2c-app-builder` skill name and `b2c` CLI name correctly.
-- [ ] I updated version metadata if the package changed.
-- [ ] I updated generated projections when their source changed.
+- [ ] I did not edit version or generated files; release:stamp does that.
 - [ ] I registered any new external source URL.
 - [ ] I included no secrets, personal data, or app workspace output.
 - [ ] I updated every active instruction surface that mirrors this contract.

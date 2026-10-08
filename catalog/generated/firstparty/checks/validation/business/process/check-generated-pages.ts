@@ -36,6 +36,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { artifactPageEntries, artifactPages, listRootPages, renderAuthoredPage } from "../../../../tooling/lib/artifact-pages.js";
+import { driftIsLoose, resolveDriftMode } from "../../../../tooling/lib/stamp-mode.js";
 import { flagString, issue, parseFlags, reportAndExit, type Issue } from "../../../../tooling/lib/launch-state.js";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
@@ -137,6 +138,12 @@ if (!existsSync(businessRoot)) {
       continue;
     }
 
+    const again = renderAuthoredPage(businessRoot, entry);
+    if (again !== rendered) {
+      issues.push(issue("error", "generated_pages.unstable", `${entry.markdown} did not render the same bytes twice.`, entry.markdown));
+      continue;
+    }
+    if (driftIsLoose(resolveDriftMode(process.argv))) continue;
     if (readFileSync(outputPath, "utf8") !== rendered) {
       issues.push(
         issue(

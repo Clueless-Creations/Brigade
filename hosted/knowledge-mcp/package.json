@@ -13,7 +13,7 @@
     "test:unit": "node --import tsx --test test/auth.test.ts test/http.test.ts test/oauth.test.ts test/geo.test.ts test/bundle-inputs.test.ts test/check-tenant-isolation.test.ts",
     "test:integration": "node --import tsx --test test/worker.test.ts test/worker-d1.test.ts",
     "check": "npm run lint:tenant && npm run typecheck && npm run test:unit && npm run test:tenant && npm run build && npm run test:integration",
-    "predeploy": "npm --prefix ../.. run check:hosted-bundle",
+    "predeploy": "npm --prefix ../.. run check:hosted-bundle -- --stamp-mode release",
     "deploy": "wrangler deploy",
     "lint:tenant": "node --import tsx tools/check-tenant-isolation.ts",
     "test:tenant": "node --import tsx --test test/tenant.test.ts",

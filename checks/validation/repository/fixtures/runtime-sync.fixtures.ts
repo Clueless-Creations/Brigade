@@ -283,4 +283,17 @@ export function register(harness: Harness): void {
       }
     }
   }
+
+  {
+    const root = harness.makeEmptyFixture("runtime-sync-unstamped");
+    const source = writeSourceTree(root);
+    writeFileSync(
+      path.join(source, "package.json"),
+      `${JSON.stringify({ name: "unstamped", version: "0.0.1", scripts: { "release:stamp": "tsx tooling/release-stamp.ts" } }, null, 2)}\n`,
+    );
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "add stamp script"]);
+    const runtime = path.join(root, "runtime");
+    run("runtime-sync refuses an unstamped tree", syncArgs(source, runtime), 1, "Run npm run release:stamp, or sync from the latest stamp");
+  }
 }

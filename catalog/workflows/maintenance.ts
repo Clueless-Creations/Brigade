@@ -46,16 +46,16 @@ export const workflows = [
   workflow({
     id: "workflow.machine.skill-runtime-sync-and-version-discipline-maintainer",
     founderPhrasings: [
-      "bump the skill version after a real behavior change",
-      "make sure the version number matches what actually changed",
+      "stamp the skill version after merged changes",
+      "make sure the version number matches the last release stamp",
       "sync the installed runtime after a skill edit",
     ],
-    title: "Skill runtime sync & version discipline (maintainer)",
+    title: "Skill runtime sync and version stamp (maintainer)",
     domainId: "domain.machine",
     areaIds: ["area.skill-maintenance"],
     trigger: "After any skill change — bump version, sync the installed runtime, run the readiness gate",
     instructions:
-      "After any meaningful skill-behavior edit, bump skill-version.json and write matching release notes in the same change — check:version-discipline fails a change that edits behavior without moving the version alongside it. On a founder-approved sync, run `npm run runtime:sync -- --all-clients` from the source checkout (never raw rsync): the tool computes an ownership-tracked plan from git-tracked source files against the installed runtime's manifest, refuses to clobber runtime files edited since the last sync (surface those as conflicts and commit them to source instead), preserves unowned files, deletes only files a previous sync wrote, then writes each present unique client root, runs npm install (when dependencies changed) and npm run audit inside the runtime, reports the ~/.claude and ~/.agents alias symlinks, and fails if any present client pin still trails. Use `npm run runtime:check` to inspect drift without writing. check:skill-version --all-runtimes must report installed == source afterward, and no present Claude/Cursor/Codex/Agents client may trail the pin.",
+      "Do not bump skill-version.json in an ordinary change. npm run release:stamp on main moves the version, writes release notes from merged subjects, and regenerates the stamp files listed in checks/validation/repository/skill-versioning.md. A pull request that edits those files fails version_discipline.stamp_file_in_pr. A release/stamp-* branch must move the version forward. runtime:sync refuses a tree that is not stamped and tells you to run npm run release:stamp, or sync from the latest stamp. On a founder-approved sync, run `npm run runtime:sync -- --all-clients` from the source checkout (never raw rsync): the tool computes an ownership-tracked plan from git-tracked source files against the installed runtime's manifest, refuses to clobber runtime files edited since the last sync (surface those as conflicts and commit them to source instead), preserves unowned files, deletes only files a previous sync wrote, then writes each present unique client root, runs npm install (when dependencies changed) and npm run audit inside the runtime, reports the ~/.claude and ~/.agents alias symlinks, and fails if any present client pin still trails. Use `npm run runtime:check` to inspect drift without writing. check:skill-version --all-runtimes must report installed == source afterward, and no present Claude/Cursor/Codex/Agents client may trail the pin.",
     reads: ["skill-version.json"],
     roleId: "role.engineering-leader",
     dependencies: ["workflow.machine.source-freshness-maintenance-maintainer"],

@@ -370,7 +370,10 @@ export function register(harness: Harness): void {
     const implementationSkill = readFileSync(path.join(skillRoot, "agents/skills/b2c-plan-implementation/SKILL.md"), "utf8");
     assert(implementationSkill.includes("Continuous experience principle"), "portable implementation skill must carry the standing experience principle");
     assert(implementationSkill.includes("narrow fix stays narrow"), "the standing principle must preserve focused-work exceptions");
-    assert(implementationSkill.includes("does not require an 11-star exercise or a numeric taste score"), "the standing principle must not turn taste into a numeric gate");
+    assert(
+      implementationSkill.includes("does not require an 11-star exercise or a numeric taste score"),
+      "the standing principle must not turn taste into a numeric gate",
+    );
   });
 
   harness.check("catalog: scheduled autonomy is conditional and remains founder-gated", () => {
@@ -1046,8 +1049,7 @@ export function register(harness: Harness): void {
       "Apple media is the App Store Connect reader, not a dual-store node",
     );
     assert(
-      appleMedia!.reads.includes("store/app-store-listing/SCREENSHOTS.md") &&
-        appleMedia!.outputPaths.includes("store/proof/apple-store-media-apply.json"),
+      appleMedia!.reads.includes("store/app-store-listing/SCREENSHOTS.md") && appleMedia!.outputPaths.includes("store/proof/apple-store-media-apply.json"),
       "Apple media must read SCREENSHOTS.md and write the media apply proof",
     );
     assert(appleMedia!.actionClass === "mutate" && appleMedia!.protectedCategory === "credentials_access", "Apple media stays a credentialed mutate");
@@ -1098,14 +1100,15 @@ export function register(harness: Harness): void {
       "Apple TestFlight is the App Store Connect reader, not a dual-store node",
     );
     assert(
-      appleTestflight!.reads.includes("store/APPLE_SIGNING.md") &&
-        appleTestflight!.outputPaths.includes("store/proof/apple-testflight-apply.json"),
+      appleTestflight!.reads.includes("store/APPLE_SIGNING.md") && appleTestflight!.outputPaths.includes("store/proof/apple-testflight-apply.json"),
       "Apple TestFlight must read APPLE_SIGNING.md and write the TestFlight apply proof",
     );
-    assert(appleTestflight!.actionClass === "release" && appleTestflight!.protectedCategory === "release", "Apple TestFlight stays a release-class tester distribution");
     assert(
-      playTestingTrack!.outputPaths.includes("store/proof/google-play-testing-track-apply.json") &&
-        playTestingTrack!.actionClass === "release",
+      appleTestflight!.actionClass === "release" && appleTestflight!.protectedCategory === "release",
+      "Apple TestFlight stays a release-class tester distribution",
+    );
+    assert(
+      playTestingTrack!.outputPaths.includes("store/proof/google-play-testing-track-apply.json") && playTestingTrack!.actionClass === "release",
       "Play testing-track remains the Google Play tester-distribution sibling",
     );
     assert(
@@ -1114,8 +1117,7 @@ export function register(harness: Harness): void {
       "Play metadata remains the Google Play reader of APP_STORE_LISTING.md",
     );
     assert(
-      playMedia!.reads.includes("store/app-store-listing/SCREENSHOTS.md") &&
-        playMedia!.dependencies.includes("workflow.store.store-screenshots-production"),
+      playMedia!.reads.includes("store/app-store-listing/SCREENSHOTS.md") && playMedia!.dependencies.includes("workflow.store.store-screenshots-production"),
       "Play media remains the Google Play reader of SCREENSHOTS.md",
     );
     assert(
@@ -1446,9 +1448,16 @@ export function register(harness: Harness): void {
     harness.runScript(
       "render-routing --check (mutated, scratch root)",
       "catalog/render-routing.ts",
-      ["--skill-root", tempSkillRoot, "--check"],
+      ["--skill-root", tempSkillRoot, "--check", "--stamp-mode", "release"],
       1,
       "catalog_render.generated_drift",
+    );
+    harness.runScript(
+      "render-routing --check (mutated, loose stamp mode does not require the committed file)",
+      "catalog/render-routing.ts",
+      ["--skill-root", tempSkillRoot, "--check", "--stamp-mode", "pr"],
+      0,
+      "byte-stable",
     );
   });
 

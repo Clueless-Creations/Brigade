@@ -39,6 +39,11 @@ jobs:
 
       - run: npm ci
 
+      - name: Require a stamped tree
+        run: npm run check:stamped-tree
+        env:
+          B2C_STAMP_MODE: release
+
       - name: Require one version across package.json, skill-version.json, and the release tag
         env:
           TAG: ${{ github.event.release.tag_name }}
