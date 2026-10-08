@@ -162,7 +162,7 @@ Before sending to Rork, Claude, Codex, or another builder:
 - `state/business-state.json` exists and matches current artifacts
 - The session update states the current result, blockers, and next action
 - `state/LAUNCH_TRACE.md` exists or equivalent trace section exists in `strategy/RESEARCH.md`
-- `PAID_UA.md` exists when growth depends on paid ads, Apple Search Ads, Meta/TikTok/Google campaigns, custom product pages, paid creative tests, MMP/ad-network SDK decisions, or paid-growth readiness claims
+- `PAID_UA.md` exists when growth depends on paid ads, Apple Search Ads, Meta/TikTok/Google campaigns, custom product pages, paid creative tests, MMP/ad-network SDK decisions, or paid-growth readiness claims. An exact-match competitor and category Apple Search Ads test also loads `apple-search-ads-launch.md`.
 - `VIRAL_GROWTH.md` exists when growth depends on referral/share loops, creator CTAs, TikTok/Reels/Shorts mechanics, or viral paywall/onboarding behavior
 - `11_STAR_EXPERIENCE.md` and `11-star-experience.html` exist unless the experience lane is explicitly deferred/not needed with a reason
 - `strategy/TOOL_DECISIONS.md` exists when paid/account-gated tools or fallbacks shaped evidence, screenshots, testing, store ops, or growth

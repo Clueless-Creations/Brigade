@@ -131,6 +131,8 @@ The same paths are enforced by `tooling/lib/stamp-files.ts`.
 - A main push warns `main is N commits past stamp X`. It does not fail.
 - Drift checks in pull-request and main-push mode render twice and require byte-stable output.
 - They do not require the committed files to match.
+- In those modes `check:catalog` allows a knowledge file that already has a `catalog/knowledge` manifest. The CatalogReference is written at the next release stamp. Release mode still requires that reference.
+- In those modes the hosted bundle check renders from the authored catalog, so a new active package can match its manifest. It does not compare that render to the committed bundle.
 - Release mode requires an exact match. Deploy, `runtime:sync`, and `publish.yml` use it.
 - `runtime:sync` refuses an unstamped tree: `Run npm run release:stamp, or sync from the latest stamp.`
 - The automatic run is described under Automatic stamp.

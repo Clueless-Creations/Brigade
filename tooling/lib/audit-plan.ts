@@ -497,6 +497,7 @@ export function buildAuditPlan(layout: AuditLayout, roots?: { businessRoot?: str
 /** Drift and version steps read this flag. CI sets B2C_STAMP_MODE. Business-workspace gate runs do not. */
 const STAMP_AWARE_STEPS = new Set([
   "catalog:render-routing",
+  "check:catalog",
   "check:hosted-bundle",
   "check:evidence-schema-drift",
   "check:credits",
