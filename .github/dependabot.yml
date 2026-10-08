@@ -1,13 +1,26 @@
 version: 2
 
 updates:
-  # Root toolchain: tsx, typescript, prettier, ajv, vite, the Anthropic SDK.
+  # Root, hosted knowledge MCP, and builder console share one npm update
+  # entry so @modelcontextprotocol/sdk and zod move together. The knowledge
+  # worker imports kernel modules that resolve the root install; separate
+  # bumps fail the hosted typecheck.
   - package-ecosystem: npm
-    directory: /
+    directories:
+      - /
+      - /hosted/knowledge-mcp
+      - /hosted/builder-console
     schedule:
       interval: weekly
       day: monday
     open-pull-requests-limit: 5
     groups:
+      # patterns (not group-by: dependency-name) keeps both packages in one
+      # pull request. group-by: dependency-name would open one pull request
+      # per package name across these directories.
+      mcp-sdk-and-zod:
+        patterns:
+          - "@modelcontextprotocol/sdk"
+          - "zod"
       dev-dependencies:
         dependency-type: development
