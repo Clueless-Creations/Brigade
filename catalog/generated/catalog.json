@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.125",
+  "skillVersion": "0.221.126",
   "areas": [
     {
       "id": "area.operating-system",
@@ -5896,12 +5896,82 @@
       "title": "Ethics Guardrail",
       "loadWhen": "a HIGH-risk Experience Card (variable reward, streak, scarcity, urgency, social proof) is in play, or before any regulatory/platform-compliance claim about an engagement mechanic — Bright-Line/Dark-Line test, FTC/EU DSA/Apple/Google Play/COPPA landscape, the guardrail attestation-block contract consumed by check:emotional-design",
       "lifecycle": "active",
-      "sourceExemption": "This package contains internal operating guidance or has no external factual claims.",
-      "sources": [],
+      "sources": [
+        {
+          "id": "developer-apple-com-app-store-review-guidelines",
+          "name": "Apple App Review Guidelines",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/app-store/review/guidelines",
+          "reviewCadenceDays": 30,
+          "claimScope": "Current text of Guidelines 2.3, 3.1.2(a), 3.1.2(c), 3.2.2(x), 5.1.1, 5.6, 5.6.1, and 5.6.3. The June 8, 2026 guidelines do not contain the old section 4.0 emotion sentence or section 3.2.2(b).",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "federalregister-gov-2026-02866-negative-option-restoration",
+          "name": "Federal Register restoration of the 1973 Negative Option Rule",
+          "sourceType": "official_docs",
+          "url": "https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to",
+          "reviewCadenceDays": 90,
+          "claimScope": "The 2024 Click-to-Cancel amendments were vacated and the 1973 rule was restored effective February 12, 2026.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "federalregister-gov-2026-04952-negative-option-anprm",
+          "name": "Federal Register negative-option ANPRM",
+          "sourceType": "official_docs",
+          "url": "https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans",
+          "reviewCadenceDays": 30,
+          "claimScope": "March 13, 2026 advance notice. It does not restore the vacated 2024 rule.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-negative-option-anprm-2026-03",
+          "name": "FTC negative-option ANPRM announcement",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option",
+          "reviewCadenceDays": 30,
+          "claimScope": "FTC announcement that the negative-option ANPRM asks for comment and is not itself a conduct rule.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-rosca",
+          "name": "Restore Online Shoppers Confidence Act",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act",
+          "reviewCadenceDays": 90,
+          "claimScope": "Federal negative-option disclosure, consent, and cancellation duties after the Click-to-Cancel vacatur.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-ftc-act",
+          "name": "Federal Trade Commission Act",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act",
+          "reviewCadenceDays": 90,
+          "claimScope": "Section 5 unfair or deceptive acts, cited instead of the vacated 2024 Click-to-Cancel amendments.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "leginfo-ca-bpc-17602",
+          "name": "California Business and Professions Code section 17602",
+          "sourceType": "official_docs",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602",
+          "reviewCadenceDays": 30,
+          "claimScope": "State automatic-renewal disclosure and affirmative-consent duties.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        }
+      ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/experience/ethics-guardrail.md",
-        "sha256": "sha256:9c8edb71bb47da6efdd4e1b87eb91c23c508d18f5e180705af2fb1a332ab54e8",
+        "sha256": "sha256:56b09081022c0346553fcf67cddd858475a21fa3e7ee05579d85387bf5620e85",
         "origin": "skill"
       }
     },
@@ -11199,12 +11269,152 @@
           "claimScope": "Optional CC0 drafting benchmark for privacy policies, terms, cookie notices, and data-processing addenda. It is not legal authority.",
           "lastReviewDate": "2026-08-20",
           "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-coppa-rule",
+          "name": "FTC COPPA Rule",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa",
+          "reviewCadenceDays": 30,
+          "claimScope": "Verifiable parental consent before collection of personal information from a child under 13.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "eur-lex-gdpr-2016-679",
+          "name": "GDPR",
+          "sourceType": "official_docs",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679",
+          "reviewCadenceDays": 90,
+          "claimScope": "Article 6 lawful basis for sending a visitor IP address to a third-party font host.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "leginfo-ca-pen-631",
+          "name": "California Penal Code section 631",
+          "sourceType": "official_docs",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=631",
+          "reviewCadenceDays": 90,
+          "claimScope": "Wiretap statute cited for session-replay consent risk. Not a holding that any one product is unlawful.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-can-spam-compliance-guide",
+          "name": "FTC CAN-SPAM compliance guide",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business",
+          "reviewCadenceDays": 30,
+          "claimScope": "Marketing email needs an unsubscribe mechanism and a valid physical postal address.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "leginfo-ca-bpc-17602",
+          "name": "California Business and Professions Code section 17602",
+          "sourceType": "official_docs",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602",
+          "reviewCadenceDays": 30,
+          "claimScope": "Automatic-renewal terms in visual proximity to consent, affirmative consent before the charge, and cancellation information.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-rosca",
+          "name": "Restore Online Shoppers Confidence Act",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act",
+          "reviewCadenceDays": 90,
+          "claimScope": "Clear disclosure, express informed consent before a negative-option charge, and a simple mechanism to stop recurring charges.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-ftc-act",
+          "name": "Federal Trade Commission Act",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act",
+          "reviewCadenceDays": 90,
+          "claimScope": "Section 5 unfair or deceptive acts, used instead of the vacated 2024 Click-to-Cancel amendments.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "federalregister-gov-2026-02866-negative-option-restoration",
+          "name": "Federal Register restoration of the 1973 Negative Option Rule",
+          "sourceType": "official_docs",
+          "url": "https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to",
+          "reviewCadenceDays": 90,
+          "claimScope": "Effective February 12, 2026, the FTC restored the pre-2024 Negative Option Rule after the Eighth Circuit vacatur.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "federalregister-gov-2026-04952-negative-option-anprm",
+          "name": "Federal Register negative-option ANPRM",
+          "sourceType": "official_docs",
+          "url": "https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans",
+          "reviewCadenceDays": 30,
+          "claimScope": "March 13, 2026 advance notice of proposed rulemaking. It is not a final rule.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "ftc-gov-negative-option-anprm-2026-03",
+          "name": "FTC negative-option ANPRM announcement",
+          "sourceType": "official_docs",
+          "url": "https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option",
+          "reviewCadenceDays": 30,
+          "claimScope": "FTC announcement of the March 2026 negative-option ANPRM.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "copyright-gov-dmca-directory",
+          "name": "US Copyright Office DMCA designated agent directory",
+          "sourceType": "official_docs",
+          "url": "https://www.copyright.gov/dmca-directory/",
+          "reviewCadenceDays": 30,
+          "claimScope": "Where a service provider registers a designated agent under 17 U.S.C. 512(c)(2).",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "copyright-gov-dmca-directory-faq",
+          "name": "US Copyright Office DMCA directory FAQ",
+          "sourceType": "official_docs",
+          "url": "https://www.copyright.gov/dmca-directory/faq.html",
+          "reviewCadenceDays": 30,
+          "claimScope": "Current designation fee and the three-year renewal period.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "copyright-gov-about-fees",
+          "name": "US Copyright Office fees",
+          "sourceType": "official_docs",
+          "url": "https://www.copyright.gov/about/fees.html",
+          "reviewCadenceDays": 30,
+          "claimScope": "Fee schedule lists $6 for a DMCA designated-agent designation, amendment, or resubmission.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "federalregister-gov-2026-05529-copyright-office-fees",
+          "name": "Copyright Office fee notice",
+          "sourceType": "official_docs",
+          "url": "https://www.federalregister.gov/documents/2026/03/20/2026-05529/copyright-office-fees",
+          "reviewCadenceDays": 30,
+          "claimScope": "March 20, 2026 proposal to change the designated-agent fee. The fee page controls on the day of payment.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/privacy-terms.md",
-        "sha256": "sha256:52400dbfd46fee5ab5692c2e71bf48051bcf2637891a7302e1b21adce0c92205",
+        "sha256": "sha256:024c5de469fa9395f90d4f3b4852c5d62c7cf36c875241022075473fabe58a89",
         "origin": "skill"
       }
     },
@@ -11242,15 +11452,55 @@
           "sourceType": "paper",
           "url": "https://arxiv.org/abs/2604.19049",
           "reviewCadenceDays": 30,
-          "claimScope": "Basis for the \"agreement is not proof\" note — the 31-day, seven-target campaign where ten independent reviewers unanimously endorsed a non-existent padding-oracle vulnerability, killed only by a proof-of-concept run.",
+          "claimScope": "Basis for the \"agreement is not proof\" note — the 31-day, seven-target campaign where ten independent reviewers unanimously endorsed a non-existent padding-oracle vulnerability, killed only",
           "lastReviewDate": "2026-09-02",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-app-store-review-guidelines",
+          "name": "Apple App Review Guidelines",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/app-store/review/guidelines",
+          "reviewCadenceDays": 30,
+          "claimScope": "Guideline 4.8 equivalent-login features, Guideline 5.1.1(v) in-app account deletion, and Sign in with Apple token revocation on deletion.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-documentation-signinwithapplerestapi-revoke-tokens",
+          "name": "Apple Sign in with Apple token revocation",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/documentation/signinwithapplerestapi/revoke-tokens",
+          "reviewCadenceDays": 30,
+          "claimScope": "Revoke a Sign in with Apple refresh token or access token when the user deletes an account.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "developer-apple-com-documentation-technotes-tn3194",
+          "name": "Apple TN3194 account deletion and token revocation",
+          "sourceType": "official_docs",
+          "url": "https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple",
+          "reviewCadenceDays": 30,
+          "claimScope": "Account deletion still proceeds when the app no longer has a Sign in with Apple token, and the user can revoke the app in Apple ID settings.",
+          "lastReviewDate": "2026-10-08",
+          "reviewer": "b2c-maintainers"
+        },
+        {
+          "id": "appleid-apple-com-auth-revoke",
+          "name": "Apple ID token revoke endpoint",
+          "sourceType": "api",
+          "url": "https://appleid.apple.com/auth/revoke",
+          "reviewCadenceDays": 30,
+          "claimScope": "POST endpoint that invalidates a Sign in with Apple refresh token or access token.",
+          "lastReviewDate": "2026-10-08",
           "reviewer": "b2c-maintainers"
         }
       ],
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/trust/security-release-hardening.md",
-        "sha256": "sha256:356090eab4fcb4b08d28c3bf01d4fa5d04693d0beb0d73b91f4baa91da860fa4",
+        "sha256": "sha256:52d3303fff9bf413326dcd70e31e452b787f876c6ac027f4b3a6cf36d7d20ec8",
         "origin": "skill"
       }
     },
@@ -20286,14 +20536,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "f40eca584493046221a731a3cdacae93b0ccf05154216a0bdcb4ca79612c5e72",
+    "fingerprint": "28245e3721ef653d6e478da91d3e9c33e79ee1c0dbc7cfaa81b989d76cd2014c",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.125",
-        "revision": "0.221.125",
-        "contentDigest": "15751527bb76791a45a1c288d6adcda14a9f4044bfc1c92544b09c404fc1938d"
+        "version": "0.221.126",
+        "revision": "0.221.126",
+        "contentDigest": "80e0c28f74f77b3094908358b802e7a3dff925c6f8fa1610e996fd2fd7fd9cea"
       }
     ],
     "base": {

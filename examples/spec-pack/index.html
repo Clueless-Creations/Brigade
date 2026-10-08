@@ -827,6 +827,91 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
     },
     "paywall_offer": "Shown after first event saved and on widget tap. Never on first launch."
   },
+  "accounts": {
+    "mode": "none"
+  },
+  "privacy": {
+    "tracking": false,
+    "inventory": [
+      {
+        "data": "Product interaction",
+        "purpose": "Which screens people open",
+        "app_privacy_label": "Product Interaction",
+        "linked_to_identity": false,
+        "used_for_tracking": false,
+        "processor": "PostHog",
+        "retention": "12 months"
+      },
+      {
+        "data": "Purchase history",
+        "purpose": "Remember the paid widget unlock",
+        "app_privacy_label": "Purchases",
+        "linked_to_identity": false,
+        "used_for_tracking": false,
+        "processor": "RevenueCat",
+        "retention": "Kept while the purchase record exists"
+      },
+      {
+        "data": "Crash data",
+        "purpose": "Find and fix crashes",
+        "app_privacy_label": "Crash Data",
+        "linked_to_identity": false,
+        "used_for_tracking": false,
+        "processor": "Sentry",
+        "retention": "90 days"
+      }
+    ],
+    "required_reason_apis": [
+      {
+        "api": "UserDefaults",
+        "reason": "CA92.1"
+      }
+    ]
+  },
+  "security": {
+    "entitlements": [],
+    "secrets": ".env.example lists names only. Values stay in the host secret store.",
+    "deep_links": "Reject every URL whose host or path is outside the app allow-list."
+  },
+  "legal_preflight": [
+    {
+      "id": "coppa",
+      "status": "founder_fact_needed",
+      "where": "store.age_rating",
+      "human_steps": "Confirm whether the app is directed to children under 13. A 4+ age rating is not that decision. If it is, block signup without verifiable parental consent."
+    },
+    {
+      "id": "fonts",
+      "status": "pass",
+      "where": "web/",
+      "reason": "Web pages use font files shipped with the site. No third-party font CDN."
+    },
+    {
+      "id": "session_replay",
+      "status": "pass",
+      "where": "analytics",
+      "reason": "PostHog session replay stays off. If it is turned on later, ask for consent and mask inputs."
+    },
+    {
+      "id": "can_spam",
+      "status": "founder_fact_needed",
+      "where": "email provider settings",
+      "human_steps": "Every marketing email needs an unsubscribe link and the founder's postal address. Do not invent the address."
+    },
+    {
+      "id": "auto_renew",
+      "status": "n/a",
+      "where": "store.pricing",
+      "reason": "The price is a one-time unlock, not an automatic renewal."
+    },
+    {
+      "id": "dmca",
+      "status": "n/a",
+      "where": "No upload surface",
+      "reason": "The app does not accept user uploads, so no DMCA designated agent is required.",
+      "human_steps": "An app that accepts uploads registers a designated agent with the US Copyright Office. Read the current fee before paying. The registration is a human step."
+    }
+  ],
   "analytics": {
     "provider": "posthog",
     "common_props": [
@@ -1250,6 +1335,38 @@ window.SPEC_SECTIONS.push({
       `<table><tr><th>Path</th><th>Screen</th><th>Web fallback</th></tr>${routeRows}</table>`,
       matrix ? `<p class="sub">Test matrix: ${matrix}.</p>` : "",
     ].join("");
+  },
+});
+
+window.SPEC_SECTIONS.push({
+  id: "legal-preflight",
+  title: "Legal preflight",
+  render(spec) {
+    const cell = (value) => esc(value ?? "");
+    const inventory = Array.isArray(spec.privacy?.inventory) ? spec.privacy.inventory : [];
+    const labelRows = inventory
+      .map(
+        (row) =>
+          `<tr><td>${cell(row.data)}</td><td>${cell(row.app_privacy_label)}</td><td>${cell(row.processor)}</td><td>${cell(row.retention)}</td><td>${row.used_for_tracking ? "Yes" : "No"}</td></tr>`,
+      )
+      .join("");
+    const labelMap = `<div class="flowlabel">Privacy label map</div><table><tr><th>Data</th><th>App Privacy label</th><th>Processor</th><th>Retention</th><th>Tracking</th></tr>${labelRows}</table>`;
+    const privacyPage = document.getElementById("w-privacy");
+    const privacyBody = privacyPage ? privacyPage.querySelector(".pg") : null;
+    if (privacyBody) {
+      const host = document.createElement("div");
+      host.innerHTML = labelMap;
+      privacyBody.appendChild(host);
+    }
+    const items = Array.isArray(spec.legal_preflight) ? spec.legal_preflight : [];
+    const rows = items
+      .map(
+        (item) =>
+          `<tr><td><code>${cell(item.id)}</code></td><td>${cell(item.status)}</td><td>${cell(item.where)}</td><td>${cell(item.reason) || "—"}</td><td>${cell(item.human_steps) || "—"}</td></tr>`,
+      )
+      .join("");
+    const mapNote = privacyBody ? "" : labelMap;
+    return `<p class="sub">Read-only status for the six pre-ship checks. This table is not legal advice.</p>${mapNote}<table><tr><th>Check</th><th>Status</th><th>Where</th><th>Reason</th><th>Human steps</th></tr>${rows}</table>`;
   },
 });
 

@@ -15,6 +15,7 @@ When store submission is in scope, also load `store-console-workflow.md`. For Ap
 - 5. Public Pages And App Links
 - 6. Review Packet
 - 7. Legal & Privacy Risk Checklist
+- 8. Pre-Ship Legal Check (US/EU, Not Legal Advice)
 
 ## 1. Refresh Official Sources
 
@@ -152,7 +153,7 @@ Subscription-specific:
 
 - Paywall, App Store/Play listing, terms, and in-app subscription management copy must agree on price, trial length, renewal cadence, cancellation, and what happens after cancellation.
 - Do not bury trial-to-paid conversion or cancellation mechanics only in terms.
-- Cancellation must be self-service and at least as easy as signing up — in-app or through the same platform (App Store, Google Play, or the account settings a subscriber already has access to) and never gated behind contacting support, a phone call, or a retention flow. This is the FTC "click to cancel" rule; several states mirror it.
+- Cancellation must be self-service and at least as easy as signing up — in-app or through the same platform (App Store, Google Play, or the account settings a subscriber already has access to) and never gated behind contacting support, a phone call, or a retention flow. ROSCA, FTC Act §5, and state automatic-renewal laws require a real cancellation path. The FTC's 2024 Click-to-Cancel amendments were vacated. Do not cite them as current law. See §8.
 - Auto-renewal disclosure states the renewal cadence and price and commits to sending a renewal-reminder notice before the charge for any trial or renewal term state auto-renewal law covers (commonly annual-or-longer terms; California and several other states require advance notice). Do not disclose auto-renewal only in terms and skip the reminder commitment.
 - Web checkout/funnel pages must disclose the billing provider, renewal price, cancellation path, refund/support contact, and whether access is redeemed in app through RevenueCat or another entitlement system.
 
@@ -219,3 +220,35 @@ npm run check:privacy -- --root /path/to/app
 ```
 
 `check:privacy` checks for the presence of each disclosure, not its legal correctness — pair a passing run with the founder/counsel review in `LEGAL_REVIEW.md` §6. A green gate is not legal sign-off.
+
+## 8. Pre-Ship Legal Check (US/EU, Not Legal Advice)
+
+Run this check before any app ships. It is a read of public US and EU rules. It is not legal advice and it is not a substitute for counsel. The spec pack records the same six items in `legal_preflight`. Each item has `status` (`pass`, `fix`, `n/a`, or `founder_fact_needed`), `where` (a file or dashboard), `reason` (required for `n/a`), and `human_steps` (required for the DMCA item and for email-provider settings, unless the item is `n/a`).
+
+Run the six checks read-only first. Note the file or dashboard. Then make the fixes in one pass. Show this list before changing anything. Give the founder the steps for a human-only item. Ask for a fact only the founder knows, such as a mailing address or a price. Do not invent it. Record that item as `founder_fact_needed`.
+
+Account sign-in, deletion, and Sign in with Apple live in `security-release-hardening.md`. This section does not restate them.
+
+1. **Under 13 / COPPA.** If the app has signup, check age there. Under 13 needs verifiable parental consent. Without that consent, block signup. The answer must match the App Store age rating and any Made for Kids setting. A 4+ rating is not, by itself, a decision that the app is directed to children. Source: the FTC Children's Online Privacy Protection Rule, 16 CFR Part 312.
+2. **Self-hosted fonts.** Web surfaces do not load Google Fonts or any other third-party font CDN. Ship the font files with the site. A font request to another host sends the visitor's IP address to that host. GDPR Article 6 requires a lawful basis for that processing. Source: Regulation (EU) 2016/679.
+3. **Session replay.** Keep session replay off, or put it behind consent and mask inputs. This includes PostHog session replay on the web and in the app. Recording a communication without consent can be pleaded under the California wiretap statute. Source: California Penal Code § 631.
+4. **CAN-SPAM.** Every marketing email, including Resend and other lifecycle sends, includes an unsubscribe link and a valid physical postal address. The address is a founder fact. The provider setting is a human step. Source: the FTC CAN-SPAM compliance guide.
+5. **Auto-renewal disclosure (California).** Next to the subscribe button, show how often the plan renews, how much it costs, and how to cancel, and get affirmative consent. App Store purchase sheets cover part of an in-app purchase. The in-app paywall copy must still say it. Web checkout must say it too. A one-time unlock is `n/a` with that reason. Source: California Business and Professions Code § 17602. ROSCA and FTC Act §5 remain the federal hooks after the 2024 Click-to-Cancel amendments were vacated (Eighth Circuit, July 8, 2025). The 1973 Negative Option Rule was restored effective February 12, 2026, and covers prenotification plans, not every subscription. The FTC opened an ANPRM on March 13, 2026. That notice is not a new rule.
+6. **DMCA agent.** An app that accepts user uploads registers a designated agent with the US Copyright Office under 17 U.S.C. § 512(c)(2). This is a human step. The Office's public fee schedule and DMCA directory FAQ list $6 for a designation, amendment, or resubmission. A designation expires after three years unless it is renewed. A March 20, 2026 notice proposed a higher fee. Read the fee page on the day of payment and use that figure. An app with no user uploads records `n/a` and the reason.
+
+Checked 2026-10-08:
+
+- [COPPA Rule](https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa)
+- [GDPR, Regulation (EU) 2016/679](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679)
+- [California Penal Code § 631](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=631)
+- [CAN-SPAM compliance guide](https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business)
+- [California Business and Professions Code § 17602](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=17602)
+- [ROSCA](https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act)
+- [FTC Act](https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act)
+- [Federal Register, February 12, 2026, restoration of the 1973 Negative Option Rule](https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to)
+- [Federal Register, March 13, 2026, negative-option ANPRM](https://www.federalregister.gov/documents/2026/03/13/2026-04952/rule-concerning-the-use-of-prenotification-negative-option-plans)
+- [FTC ANPRM announcement, March 11, 2026](https://www.ftc.gov/news-events/news/press-releases/2026/03/ftc-seeks-public-comment-response-advance-notice-proposed-rulemaking-regarding-negative-option)
+- [DMCA designated agent directory](https://www.copyright.gov/dmca-directory/)
+- [DMCA directory FAQ](https://www.copyright.gov/dmca-directory/faq.html)
+- [Copyright Office fees](https://www.copyright.gov/about/fees.html)
+- [Copyright Office fee notice, March 20, 2026](https://www.federalregister.gov/documents/2026/03/20/2026-05529/copyright-office-fees)
