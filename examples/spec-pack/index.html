@@ -603,6 +603,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "id": "landing",
       "path": "/",
       "title": "Landing",
+      "description": "Count down to the dates that matter, on your Home and Lock Screen.",
+      "og_image": "web/og/landing.png",
       "sections": [
         "hero with App Store badge",
         "three feature rows",
@@ -612,13 +614,18 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       ],
       "acceptance": [
         "Lighthouse performance >= 90 on mobile",
-        "App Store link uses the real app ID after Gate 2"
+        "App Store link uses the real app ID after Gate 2",
+        "Reduced-motion check passes.",
+        "Content stays readable without JavaScript.",
+        "npx impeccable detect reports zero high findings.",
+        "The geo-seo.md section 4 copy scan is recorded in the pull request."
       ]
     },
     {
       "id": "privacy",
       "path": "/privacy",
       "title": "Privacy policy",
+      "description": "What Soon stores, which processors it uses, and how to ask a question.",
       "sections": [
         "data collected",
         "processors: RevenueCat, PostHog, Sentry",
@@ -633,6 +640,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "id": "terms",
       "path": "/terms",
       "title": "Terms of use",
+      "description": "The license, Apple purchases and refunds, and the liability terms.",
       "sections": [
         "license",
         "purchases and refunds via Apple",
@@ -646,6 +654,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "id": "support",
       "path": "/support",
       "title": "Support",
+      "description": "How to restore a purchase and how to contact support.",
       "sections": [
         "FAQ",
         "contact email",
@@ -659,6 +668,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "id": "delete",
       "path": "/delete-account",
       "title": "Data deletion",
+      "description": "What deletion removes, the in-app path, and the email fallback.",
       "sections": [
         "what is deleted",
         "how to delete in app",
@@ -669,6 +679,92 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       ]
     }
   ],
+  "web_meta": {
+    "site_name": "Soon",
+    "title_pattern": "{page} · Soon",
+    "default_description": "Count down to the dates that matter, on your Home and Lock Screen.",
+    "og_image": "web/og/default.png",
+    "og_image_width": 1200,
+    "og_image_height": 630,
+    "theme_color": "#FF5A36",
+    "x_card": "summary_large_image"
+  },
+  "discovery": {
+    "sitemap_routes": [
+      "/",
+      "/privacy",
+      "/terms",
+      "/support",
+      "/delete-account"
+    ],
+    "llms_txt": [
+      "Soon counts down to a date you choose.",
+      "The countdown is on the Home Screen and the Lock Screen.",
+      "Privacy, terms, support, and data deletion each have a public page."
+    ],
+    "json_ld_types": [
+      "Organization",
+      "WebSite",
+      "MobileApplication",
+      "FAQPage"
+    ],
+    "faq": [
+      {
+        "question": "What does Soon do?",
+        "answer": "Soon shows the days left until a date you choose, on the Home Screen and the Lock Screen."
+      },
+      {
+        "question": "Does Soon require an account?",
+        "answer": "You can save a countdown on the device before you create an account."
+      }
+    ]
+  },
+  "funnel": {
+    "smart_app_banner": {
+      "meta_name": "apple-itunes-app",
+      "app_id": "0000000000",
+      "app_argument": "https://\u003cslug>.\u003caccount>.workers.dev/"
+    },
+    "store": {
+      "app_id": "0000000000",
+      "pt": "\u003cprovider-token>",
+      "mt": 8
+    },
+    "channels": [
+      {
+        "id": "organic",
+        "landing_path": "/",
+        "ct": "organic",
+        "fallback": "static_href"
+      },
+      {
+        "id": "share",
+        "landing_path": "/",
+        "ct": "share",
+        "fallback": "static_href"
+      }
+    ]
+  },
+  "deep_links": {
+    "aasa": "/.well-known/apple-app-site-association",
+    "routes": [
+      {
+        "path": "/event/*",
+        "screen": "event-detail",
+        "web_fallback": "/"
+      },
+      {
+        "path": "/settings",
+        "screen": "settings",
+        "web_fallback": "/support"
+      }
+    ],
+    "test_matrix": [
+      "installed",
+      "not_installed",
+      "in_app_browser"
+    ]
+  },
   "store": {
     "name": "Soon: Countdown Widget",
     "subtitle": "Days left on your Home Screen",
@@ -790,7 +886,41 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       }
     ]
   },
-  "tasks": [],
+  "tasks": [
+    {
+      "id": "W-DISCOVERY",
+      "title": "SEO, AEO, and GEO plumbing",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "curl robots.txt, sitemap.xml, and llms.txt on the canonical origin. Each returns HTTP 200.",
+        "JSON-LD on the public pages parses."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-POLISH",
+      "title": "Web polish pass",
+      "area": "Web",
+      "depends_on": [
+        "W-landing"
+      ],
+      "acceptance": [
+        "Load knowledge/design/landing-motion-craft.md.",
+        "Load catalog/upstreams/amir-cinematic-scroll.yaml.",
+        "Load review-animations and improve-animations from knowledge/engineering/external-skill-packs.md.",
+        "Load knowledge/design/design-visual-system.md.",
+        "Load knowledge/design/vibecoded-tells.md.",
+        "Load knowledge/design/consumer-craft-benchmarks.md.",
+        "Load taste-skill and impeccable. Run npx impeccable detect with zero high findings.",
+        "Load knowledge/words/conversion-copy.md.",
+        "Load knowledge/words/no-slop-writing.md.",
+        "Load knowledge/words/consumer-copy-benchmarks.md.",
+        "Record the knowledge/growth/geo-seo.md section 4 copy scan in the pull request."
+      ],
+      "capabilities": []
+    }
+  ],
   "repo": {
     "files": [
       {
@@ -811,7 +941,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       },
       {
         "path": "TASKS.md",
-        "purpose": "Generated from screens, web pages and tasks:"
+        "purpose": "Generated from screens, web pages, and tasks. W-DISCOVERY has no dependencies. W-POLISH runs after W-landing and loads landing-motion-craft.md, then the visual references, then the copy references."
       },
       {
         "path": "scripts/merge-gate.sh",
@@ -823,7 +953,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       },
       {
         "path": "web/",
-        "purpose": "Landing and policy pages."
+        "purpose": "Landing and policy pages. Each page head carries title, description, canonical, Open Graph, an X card, a favicon, and theme-color. The og:image is a 1200 by 630 PNG or JPG with an absolute URL."
       }
     ],
     "merge_gate": [
@@ -944,7 +1074,11 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "Lighthouse performance >= 90 on mobile",
-        "App Store link uses the real app ID after Gate 2"
+        "App Store link uses the real app ID after Gate 2",
+        "Reduced-motion check passes.",
+        "Content stays readable without JavaScript.",
+        "npx impeccable detect reports zero high findings.",
+        "The geo-seo.md section 4 copy scan is recorded in the pull request."
       ],
       "capabilities": []
     },
@@ -985,6 +1119,39 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "Meets App Store 5.1.1(v) when accounts exist"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-DISCOVERY",
+      "title": "SEO, AEO, and GEO plumbing",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "curl robots.txt, sitemap.xml, and llms.txt on the canonical origin. Each returns HTTP 200.",
+        "JSON-LD on the public pages parses."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-POLISH",
+      "title": "Web polish pass",
+      "area": "Web",
+      "depends_on": [
+        "W-landing"
+      ],
+      "acceptance": [
+        "Load knowledge/design/landing-motion-craft.md.",
+        "Load catalog/upstreams/amir-cinematic-scroll.yaml.",
+        "Load review-animations and improve-animations from knowledge/engineering/external-skill-packs.md.",
+        "Load knowledge/design/design-visual-system.md.",
+        "Load knowledge/design/vibecoded-tells.md.",
+        "Load knowledge/design/consumer-craft-benchmarks.md.",
+        "Load taste-skill and impeccable. Run npx impeccable detect with zero high findings.",
+        "Load knowledge/words/conversion-copy.md.",
+        "Load knowledge/words/no-slop-writing.md.",
+        "Load knowledge/words/consumer-copy-benchmarks.md.",
+        "Record the knowledge/growth/geo-seo.md section 4 copy scan in the pull request."
       ],
       "capabilities": []
     }
@@ -1036,6 +1203,53 @@ window.SPEC_SECTIONS.push({
       ? `<div class="flowlabel">By capability</div><table><tr><th>Label</th><th>Issues</th></tr>${rows(Object.entries(byCapability))}</table>`
       : "";
     return `<p class="sub">${tasks.length} drafted issues. Create them only after approval.</p><div class="grid2"><div><div class="flowlabel">By milestone</div><table><tr><th>Milestone</th><th>Issues</th></tr>${rows(milestones.map((name) => [name, byMilestone[name]]))}</table></div><div><div class="flowlabel">By label</div><table><tr><th>Label</th><th>Issues</th></tr>${rows(Object.entries(byArea))}</table>${capabilityTable}</div></div>`;
+  },
+});
+
+window.SPEC_SECTIONS.push({
+  id: "web-surface",
+  title: "Web surface",
+  render(spec) {
+    const meta = spec.web_meta ?? {};
+    const landing = (spec.web ?? []).find((page) => page.id === "landing") ?? (spec.web ?? [])[0];
+    const image = (landing && String(landing.og_image || "").trim()) || String(meta.og_image || "").trim();
+    const named = spec.discovery && String(spec.discovery.canonical_origin || "").trim();
+    const fromMeta = spec.meta && String(spec.meta.web_origin || "").trim();
+    const origin = named || fromMeta || "";
+    const originSource = named ? "discovery.canonical_origin" : fromMeta ? "meta.web_origin" : "";
+    const card = landing
+      ? `<div class="web" id="social-landing"><div class="chrome"><i></i><i></i><i></i> Social card · landing</div><div class="pg"><div class="sec" style="min-height:120px;display:flex;align-items:flex-end;background:${esc(meta.theme_color || "#ddd")}"><div><b>${esc(landing.title)}</b><div>${esc(landing.description)}</div><div>${esc(image)} · ${esc(meta.og_image_width)}×${esc(meta.og_image_height)} · ${esc(meta.x_card)}</div></div></div></div></div>`
+      : `<p class="sub">No landing page to preview.</p>`;
+    const channels = Array.isArray(spec.funnel?.channels) ? spec.funnel.channels : [];
+    const channelRows = channels
+      .map(
+        (channel) =>
+          `<tr><td><code>${esc(channel.id)}</code></td><td><code>${esc(channel.landing_path)}</code></td><td><code>${esc(channel.ct)}</code></td><td>${esc(channel.fallback)}</td></tr>`,
+      )
+      .join("");
+    const banner = spec.funnel?.smart_app_banner;
+    const bannerLine = banner
+      ? `<p class="sub">Smart App Banner <code>${esc(banner.meta_name)}</code> app-argument <code>${esc(banner.app_argument)}</code></p>`
+      : "";
+    const routes = Array.isArray(spec.deep_links?.routes) ? spec.deep_links.routes : [];
+    const routeRows = routes
+      .map(
+        (route) =>
+          `<tr><td><code>${esc(route.path)}</code></td><td><code>${esc(route.screen)}</code></td><td><code>${esc(route.web_fallback)}</code></td></tr>`,
+      )
+      .join("");
+    const matrix = Array.isArray(spec.deep_links?.test_matrix) ? spec.deep_links.test_matrix.map((item) => esc(item)).join(", ") : "";
+    return [
+      `<p class="sub">Canonical origin <code>${esc(origin || "unset")}</code>${originSource ? ` from <code>${esc(originSource)}</code>` : ""}.</p>`,
+      `<div class="flowlabel">Landing social card</div>`,
+      card,
+      `<div class="flowlabel">Funnel channels</div>`,
+      bannerLine,
+      `<table><tr><th>Channel</th><th>Landing path</th><th>ct</th><th>Fallback</th></tr>${channelRows}</table>`,
+      `<div class="flowlabel">Deep links</div>`,
+      `<table><tr><th>Path</th><th>Screen</th><th>Web fallback</th></tr>${routeRows}</table>`,
+      matrix ? `<p class="sub">Test matrix: ${matrix}.</p>` : "",
+    ].join("");
   },
 });
 

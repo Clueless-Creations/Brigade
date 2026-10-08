@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.124
-revision: 0.221.124
+version: 0.221.125
+revision: 0.221.125
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -6868,9 +6868,21 @@ references:
         source_type: github
         url: https://github.com/zubair-trabzada/geo-seo-claude
         review_cadence_days: 30
-        claim_scope: GEO/SEO skill pack. Basis for the installed sub-skill list and the audit-before-first-edit rule.
+        claim_scope: MIT-licensed GEO/SEO skill pack. Basis for the installed sub-skill list and the audit-before-first-edit rule. No skill text is vendored.
         last_review_date: 2026-09-03
         reviewer: b2c-maintainers
+        publisher: Zubair Trabzada
+        revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+        rights:
+          status: verified
+          spdx: MIT
+          evidence: catalog/upstreams/notices/geo-seo-claude.txt
+          evidence_sha256: 7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc
+          notes: Skill names only. No skill text is vendored.
+        selectors:
+          - LICENSE
+          - README.md
+        upstream_id: geo-seo-claude
       - id: general-legal-template-collection
         name: General Legal template collection
         source_type: attorney_template_repository
@@ -6989,6 +7001,19 @@ references:
         omissions:
           - Do not install a pack as a default.
           - Do not let the same agent hold producer and auditor modes for one surface.
+      - source_ids:
+          - github-com-zubair-trabzada-geo-seo-claude
+        relationship: referenced
+        rationale: Name the GEO skill pack as an opt-in producer and auditor. No skill text is copied.
+        reviewer: b2c-maintainers
+        reviewed_at: 2026-10-08
+        baseline: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+        selectors:
+          - LICENSE
+          - README.md
+        omissions:
+          - No SKILL.md text, installer, or executable is vendored.
+        notice: catalog/upstreams/notices/geo-seo-claude.txt
     replacement_ids: []
   - id: reference.engineering.human-beta-recruitment
     title: Human Beta Recruitment (optional)
@@ -8055,9 +8080,35 @@ references:
         source_type: github
         url: https://github.com/zubair-trabzada/geo-seo-claude
         review_cadence_days: 7
-        claim_scope: Auto-discovered from recently added repository content.
+        claim_scope: MIT-licensed GEO skill pack. This reference routes its required artifacts and specialist skill names. No skill text is vendored.
         last_review_date: 2026-08-17
         reviewer: b2c-maintainers
+        publisher: Zubair Trabzada
+        revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+        rights:
+          status: verified
+          spdx: MIT
+          evidence: catalog/upstreams/notices/geo-seo-claude.txt
+          evidence_sha256: 7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc
+          notes: Routing and required-artifact names only. No skill text is vendored.
+        selectors:
+          - LICENSE
+          - README.md
+        upstream_id: geo-seo-claude
+    derivations:
+      - source_ids:
+          - github-com-zubair-trabzada-geo-seo-claude
+        relationship: adapted
+        rationale: Required launch artifacts and specialist skill names stay in the existing GEO reference.
+        reviewer: b2c-maintainers
+        reviewed_at: 2026-10-08
+        baseline: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+        selectors:
+          - LICENSE
+          - README.md
+        omissions:
+          - No SKILL.md text, installer, or executable is vendored.
+        notice: catalog/upstreams/notices/geo-seo-claude.txt
     replacement_ids: []
   - id: reference.growth.hdyhau-blended-roas
     title: HDYHAU Survey And Blended ROAS

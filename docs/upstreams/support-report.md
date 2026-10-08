@@ -11,6 +11,7 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | eronred-aso-skills | ASO and App Marketing Skills | adapted-method | 4df730f456c21e42b9a2ea2be89fb32caf787728@2026-09-06 | 4df730f456c21e42b9a2ea2be89fb32caf787728@2026-09-06 | `4df730f456c21e42b9a2ea2be89fb32caf787728` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
 | evanbacon-serve-sim | serve-sim | adapted-method | 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b@2026-09-06 | 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b@2026-09-06 | `0ee6fbde40a6b5840d0c6e0379f544feb9fa246b` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
 | expo-skills | Official Expo agent skills | adapted-method, selected-skill-guidance | d4f484024fec15196bfd3c272e953e3f983972cf@2026-10-07 | d4f484024fec15196bfd3c272e953e3f983972cf@2026-10-07 | `d4f484024fec15196bfd3c272e953e3f983972cf` untested | unknown (observation records no stable release) | 2026-10-07 | not observed | current; last 2026-10-07; due 2026-11-06 | 5 | 2 |
+| geo-seo-claude | GEO-first SEO skill | adapted-method, selected-skill-guidance | 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c@2026-10-08 | 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c@2026-10-08 | `989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c` untested | unknown (no observation) | none | not observed | current; last 2026-10-08; due 2026-11-07 | 2 | 1 |
 | last30days-skill | last30days agent skill | adapted-method, selected-skill-guidance | 310f0b405db2d84adb4993bbf140cef9584057d2@2026-09-08 | 310f0b405db2d84adb4993bbf140cef9584057d2@2026-09-08 | `310f0b405db2d84adb4993bbf140cef9584057d2` untested | unknown (no observation) | none | not observed | current; last 2026-09-08; due 2026-10-08 | 2 | 1 |
 | layers-growth-mcp | Layers Growth MCP and CLI | remote-service, adapted-method | unknown | docs and README read 2026-09-05 (no immutable revision published for the docs page; layers/mcp main pushed 2026-09-04T06:39:47Z)@2026-09-05 | `hosted (unversioned)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-10-05 | 8 | 2 |
 | parth-app-store-screenshots | App Store Screenshots | adapted-method | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | `18951ddc4e06c53a3d34207732c16d9568f88d11` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
@@ -168,6 +169,24 @@ Unknowns (observation 2026-10-07, method github-api):
 
 - no stable release was read; releases since baseline are unknown
 - host executable not observed: pass --observe-host to probe PATH
+
+## geo-seo-claude
+
+GEO-first SEO skill. Canonical URL: https://github.com/zubair-trabzada/geo-seo-claude
+
+Unsupported operations:
+
+- automatic-install-or-upgrade: Requires explicit target, selected compatible revision, scoped authority and independent verification. No host installation, business repin or publication is automatic.
+- unreviewed-upstream-features: A new release or source commit creates a review candidate, never additional execution authority or acceptance.
+
+Intentional adaptations:
+
+- no-skill-vendor: Skill names stay a routing list. No SKILL.md text, installer, or Python probe is copied into this repository. (owner: knowledge/growth/geo-seo.md)
+- spec-pack-requires-artifacts: The spec pack requires social cards, a discovery block with FAQ entries, and a W-DISCOVERY task in the same wave as the first web page. (owner: knowledge/design/spec-pack.md)
+
+Unknowns:
+
+- No observation recorded.
 
 ## last30days-skill
 

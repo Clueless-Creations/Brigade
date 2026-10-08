@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.124",
+  "skillVersion": "0.221.125",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3940,7 +3940,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:d4d5346cfafa683c4ed26c4fe82d71f055a9e95a0125b7e92ed32704ece529d1",
+        "sha256": "sha256:6997c68bdc613a9717f61a42f45243ffd2e8e134ca7b103ccb80ae4f553c2f65",
         "origin": "skill"
       }
     },
@@ -4559,9 +4559,23 @@
           "sourceType": "github",
           "url": "https://github.com/zubair-trabzada/geo-seo-claude",
           "reviewCadenceDays": 30,
-          "claimScope": "GEO/SEO skill pack. Basis for the installed sub-skill list and the audit-before-first-edit rule.",
+          "claimScope": "MIT-licensed GEO/SEO skill pack. Basis for the installed sub-skill list and the audit-before-first-edit rule. No skill text is vendored.",
           "lastReviewDate": "2026-09-03",
-          "reviewer": "b2c-maintainers"
+          "reviewer": "b2c-maintainers",
+          "publisher": "Zubair Trabzada",
+          "revision": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/geo-seo-claude.txt",
+            "evidenceSha256": "7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc",
+            "notes": "Skill names only. No skill text is vendored."
+          },
+          "selectors": [
+            "LICENSE",
+            "README.md"
+          ],
+          "upstreamId": "geo-seo-claude"
         },
         {
           "id": "general-legal-template-collection",
@@ -4708,6 +4722,24 @@
           ],
           "reviewer": "b2c-maintainers",
           "reviewedAt": "2026-10-07"
+        },
+        {
+          "sourceIds": [
+            "github-com-zubair-trabzada-geo-seo-claude"
+          ],
+          "relationship": "referenced",
+          "baseline": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+          "selectors": [
+            "LICENSE",
+            "README.md"
+          ],
+          "rationale": "Name the GEO skill pack as an opt-in producer and auditor. No skill text is copied.",
+          "omissions": [
+            "No SKILL.md text, installer, or executable is vendored."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-08",
+          "notice": "catalog/upstreams/notices/geo-seo-claude.txt"
         }
       ],
       "replacementIds": [],
@@ -6161,7 +6193,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/growth/cro-landing.md",
-        "sha256": "sha256:1840bbea8e38965853243a70768939d02a00ea3fca50b91f7ede9e38d271babb",
+        "sha256": "sha256:459085fced3ce038492341309d208dc652e6f7b481af5e1dc11fc946794d9a8c",
         "origin": "skill"
       }
     },
@@ -6225,9 +6257,43 @@
           "sourceType": "github",
           "url": "https://github.com/zubair-trabzada/geo-seo-claude",
           "reviewCadenceDays": 7,
-          "claimScope": "Auto-discovered from recently added repository content.",
+          "claimScope": "MIT-licensed GEO skill pack. This reference routes its required artifacts and specialist skill names. No skill text is vendored.",
           "lastReviewDate": "2026-08-17",
-          "reviewer": "b2c-maintainers"
+          "reviewer": "b2c-maintainers",
+          "publisher": "Zubair Trabzada",
+          "revision": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+          "rights": {
+            "status": "verified",
+            "spdx": "MIT",
+            "evidence": "catalog/upstreams/notices/geo-seo-claude.txt",
+            "evidenceSha256": "7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc",
+            "notes": "Routing and required-artifact names only. No skill text is vendored."
+          },
+          "selectors": [
+            "LICENSE",
+            "README.md"
+          ],
+          "upstreamId": "geo-seo-claude"
+        }
+      ],
+      "derivations": [
+        {
+          "sourceIds": [
+            "github-com-zubair-trabzada-geo-seo-claude"
+          ],
+          "relationship": "adapted",
+          "baseline": "989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c",
+          "selectors": [
+            "LICENSE",
+            "README.md"
+          ],
+          "rationale": "Required launch artifacts and specialist skill names stay in the existing GEO reference.",
+          "omissions": [
+            "No SKILL.md text, installer, or executable is vendored."
+          ],
+          "reviewer": "b2c-maintainers",
+          "reviewedAt": "2026-10-08",
+          "notice": "catalog/upstreams/notices/geo-seo-claude.txt"
         }
       ],
       "replacementIds": [],
@@ -20220,14 +20286,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "5d59d24848db0d7065c68a5443a0b94a5ecd592431640ab957e09ac388348461",
+    "fingerprint": "f40eca584493046221a731a3cdacae93b0ccf05154216a0bdcb4ca79612c5e72",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.124",
-        "revision": "0.221.124",
-        "contentDigest": "a988251e91218dc6ea180bf979d4cc8b8d7058fe113a53dd5fa36d0809b2837e"
+        "version": "0.221.125",
+        "revision": "0.221.125",
+        "contentDigest": "15751527bb76791a45a1c288d6adcda14a9f4044bfc1c92544b09c404fc1938d"
       }
     ],
     "base": {
