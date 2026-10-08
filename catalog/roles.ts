@@ -96,6 +96,7 @@ export const roles: CatalogRole[] = [
       "provider.stripe",
       "provider.resend",
       "provider.app-store-screenshots",
+      "provider.appllama",
       "provider.higgsfield",
       "provider.mobai",
       "provider.in-app-ios-simulator",
@@ -202,7 +203,7 @@ export const roles: CatalogRole[] = [
         "bespoke-motion or scroll-linked is selected on a studio surface and 60fps MCP access is recorded as ready; an unlabeled fallback is not equivalent",
       ),
     ],
-    ["provider.refero", "provider.higgsfield", "provider.app-store-screenshots"],
+    ["provider.refero", "provider.higgsfield", "provider.app-store-screenshots", "provider.appllama"],
     // strategy/BRAND.md joined this scope with the brand-definition node (2026-08-19): the brand
     // voice contract is Design Room material even though it lives under strategy/.
     [
@@ -299,6 +300,7 @@ export const roles: CatalogRole[] = [
       "provider.app-store-connect",
       "provider.google-play",
       "provider.app-store-screenshots",
+      "provider.appllama",
       "provider.higgsfield",
       "provider.posthog",
       "provider.revenuecat",

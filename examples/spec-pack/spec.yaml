@@ -211,6 +211,22 @@ store:
     - { screen: home, caption: "Every date that matters" }
     - { screen: paywall, caption: "On your Home and Lock Screen" }
     - { screen: event-detail, caption: "Big, clear, shareable" }
+  creative_assets:
+    - id: product-page-header
+      placement: product-page header
+      media: image or video
+      source_provider: provider.higgsfield
+      spec: https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications
+    - id: search-result
+      placement: search results
+      media: image or video
+      source_provider: provider.higgsfield
+      spec: https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications
+    - id: seasonal-set
+      placement: seasonal set
+      media: image or video
+      source_provider: provider.higgsfield
+      spec: https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications
   pricing:
     model: one-time unlock
     price: $4.99

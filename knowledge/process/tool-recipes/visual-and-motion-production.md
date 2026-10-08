@@ -34,9 +34,13 @@ Model intent:
 - Marketing Studio: UGC ads, presenter videos, product demos, unboxing/review formats, hooks/settings/avatars/products.
 - Virality Predictor: score finished demo/ad/onboarding videos for hook, attention, retention, and distraction risk.
 
-Media preflight: `media_upload` + `media_confirm` are REQUIRED before Soul training (`--image`), Virality scoring (`--video`), ad-reference creation, and custom avatar creation. Run both steps and confirm the upload ID before proceeding.
+Callable Higgsfield MCP tools, checked on 2026-10-07 against the public help pages: `generate_image`, `generate_video`, `generate_image_batch`, `generate_video_batch`, `reframe`, `outpaint_image`, `upscale_image`, `upscale_video`, `remove_background`, `motion_control`, `marketing_studio_v2_create`, `ads_studio_generate`, `media_upload`, `job_status`, `balance`. Connect at `https://mcp.higgsfield.ai/mcp` with OAuth. No API key is required. Generations deduct credits. Sources: [What is Higgsfield MCP](https://higgsfield.ai/creator-hub/help-center/integrations/what-is-higgsfield-mcp) and [Connect Higgsfield to an MCP agent](https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent).
 
-Session discovery (read-only, free): before generating, use `show_characters`, `show_medias`, `show_generations`, `show_reference_elements`, `presets_show`, and `models_explore` to reuse existing Soul characters, uploaded media, prior outputs, brand/style references, and presets instead of re-uploading or re-generating. For a multi-app account, call `select_workspace` first so Soul identities, avatars, and product entities do not bleed across brands. For category-specific modes not listed above (e.g. `virtual_try_on` / `ugc_virtual_try_on` for apparel, `closeup_product_with_person` for beauty, `conceptual_product`, `wild_card`), consult the `higgsfield-generate` and `higgsfield-product-photoshoot` skill mode/model catalogs.
+The public operations table also names Soul characters, audio, and Personal Clipper. Those pages do not publish tool ids for them. Confirm the live id in Higgsfield MCP tool help before calling one.
+
+Media preflight: call `media_upload` on the Higgsfield MCP, then `job_status`, and record the upload id before Soul training, virality scoring, ad-reference creation, or a custom avatar.
+
+Before generating, reuse an existing Soul, upload, or prior output when Higgsfield MCP tool help exposes it. For a multi-app account, select the workspace the live tools expose so identities do not cross brands. For category-specific modes (for example apparel try-on or a beauty close-up), consult the `higgsfield-generate` and `higgsfield-product-photoshoot` skill catalogs and confirm the live tool name before calling it.
 
 Format caution — Veo 3.1: hard format limits are 16:9 or 9:16 only, and durations 4/6/8s only. Do not use Veo 3.1 for non-standard App Preview ratios or durations outside those values.
 
@@ -190,7 +194,7 @@ Rules that hold across a batch:
 - Give every video in a batch a different person, room, light source, and beat set. Repetition is the #1 tell.
 - Generate at 720p first. Upscale only the take that survives review. A 720p clip costs a few dollars on current platforms. Prices and model access change fast. Verify live pricing at the `paid-tool-routing.md` spend confirmation.
 
-**Converted-reference shortcut.** Use this when a UGC video already converted for a comparable product. Run the video through video analysis (`mcp__claude_ai_Higgsfield__video_analysis_create`, or Gemini as fallback). Ask for a 1:1 timestamped breakdown of everything on screen. The breakdown becomes the video-prompt skeleton. The judge-approved script goes in as the dialogue. The shortcut replaces the prompt text only. Seedance still needs a first-frame reference image, so the first-frame step still runs.
+**Converted-reference shortcut.** Use this when a UGC video already converted for a comparable product. Ask for a 1:1 timestamped breakdown of everything on screen. Higgsfield's published MCP operations table does not name a video-analysis tool. Use Gemini when no current Higgsfield MCP tool does that job. The breakdown becomes the video-prompt skeleton. The judge-approved script goes in as the dialogue. The shortcut replaces the prompt text only. Seedance still needs a first-frame reference image, so the first-frame step still runs.
 
 **Edit pass.** The generation is raw footage; treat it as footage. Cut the dead space at the start. Tighten every pause. Add captions. Put a sound under it. Edit it the same way a real creator's selfie video gets edited. Remotion (below) renders caption and cutdown variants reproducibly. A manual editor pass is acceptable at low volume.
 
@@ -205,7 +209,7 @@ These are the canonical recipe bodies. Other files route to a recipe by name and
 | [1: Soul-Once Founder-Face Ads](#recipe-1-soul-once-founder-face-ads)                                          | the founder's own face should front ads or editorial content                                 |
 | [2: App Store URL → UGC Ad Batch](#recipe-2-app-store-url--ugc-ad-batch-click-to-ad)                           | a live store listing exists and the ask is a batch of UGC-style ads from it                  |
 | [3: Virality Closed Loop](#recipe-3-virality-closed-loop)                                                      | published clips need scoring and the next batch should learn from the winners                |
-| [4: Master → All Platforms](#recipe-4-master--all-platforms-reframe--personal_clipper)                         | one master asset must fan out to every aspect ratio and platform cut                         |
+| [4: Master → All Platforms](#recipe-4-master--all-platforms)                                             | one master asset must fan out to every aspect ratio and platform cut                         |
 | [5: Seasonal Restyle Refresh](#recipe-5-seasonal-restyle-refresh)                                              | existing creative needs a holiday or seasonal reskin without a new concept                   |
 | [6: Cheap-First Direction](#recipe-6-cheap-first-direction-z_image--production-model)                          | direction is unproven — explore cheaply before spending on a production model                |
 | [7: Script-First Believable-Person UGC](#recipe-7-script-first-believable-person-ugc-first-frame--seedance-25) | the clip must pass as a real person filming themselves; script and believability gates apply |
@@ -214,9 +218,9 @@ These are the canonical recipe bodies. Other files route to a recipe by name and
 
 Purpose: create a reusable founder/presenter Soul identity once, then produce weekly Marketing Studio video ads from it.
 
-1. **Check for existing Soul.** Call `mcp__claude_ai_Higgsfield__show_characters` and check `identity/training-manifest.json` `soul_reference_id`. If a trained Soul exists, jump to step 6.
-2. **Media preflight.** For each founder photo, call `mcp__claude_ai_Higgsfield__media_upload` then `mcp__claude_ai_Higgsfield__media_confirm`. Record each `upload_id`.
-3. **Spend confirm.** Surface current balance via `mcp__claude_ai_Higgsfield__balance`. Confirm Soul training spend with the founder per `paid-tool-routing.md`.
+1. **Check for existing Soul.** Read `identity/training-manifest.json` `soul_reference_id`. Soul character use is a published Higgsfield MCP operation. The help pages do not name the list tool. Confirm the live id in Higgsfield MCP tool help before calling one. If a trained Soul exists, jump to step 6.
+2. **Media preflight.** For each founder photo, call `media_upload` then `job_status` on the Higgsfield MCP. Record each upload id.
+3. **Spend confirm.** Surface the current balance with `balance` on the Higgsfield MCP. Confirm Soul training spend with the founder per `paid-tool-routing.md`.
 4. **Train Soul.** Use `--soul-2` for still/image-driven campaigns; use `--soul-cinematic` when the launch needs talking-head or presenter VIDEO:
    ```bash
    higgsfield soul-id create --name "founder" --soul-2 \
@@ -233,7 +237,7 @@ Purpose: create a reusable founder/presenter Soul identity once, then produce we
    higgsfield marketing-studio webproducts fetch \
      --url <app-store-url> --wait
    ```
-7. **Spend confirm for ad batch.** Surface current balance via `mcp__claude_ai_Higgsfield__balance`. Confirm weekly generation spend with the founder per `paid-tool-routing.md`.
+7. **Spend confirm for ad batch.** Surface the current balance with `balance` on the Higgsfield MCP. Confirm weekly generation spend with the founder per `paid-tool-routing.md`.
 8. **Generate ads (weekly).** Inject DESIGN.md tokens into every `--prompt`. Structure the `ugc` mode shown here per **UGC Realism Prompt Structure** above. Use **Product Ad Structure And Prompt Craft** only when this recipe runs a `tv_spot`. The script must first survive the judge panel per `ugc-creator-engine.md`:
    ```bash
    higgsfield generate create marketing_studio_video \
@@ -249,7 +253,7 @@ Purpose: create a reusable founder/presenter Soul identity once, then produce we
    higgsfield generate create brain_activity --video ./ads/ugc/<output>.mp4 --wait
    ```
    Record `virality_score` (overall, peak hook second, sustain %, Default Mode risk) in `CONTENT_ASSETS.md` and `PAID_UA.md`.
-10. **Reframe winner.** Use `mcp__claude_ai_Higgsfield__reframe` for 9:16 / 1:1 / 16:9 variants. Confirm the exact invocation via the `higgsfield-generate` skill or MCP tool help before running.
+10. **Reframe winner.** Use `reframe` on the Higgsfield MCP for 9:16 / 1:1 / 16:9 variants. Confirm the live arguments in Higgsfield MCP tool help before running.
 11. **CONTENT_ASSETS.md.** Record prompt_brief, soul_reference_id, avatar_id, source_job_id, virality_score, output paths, QA, and approval state. For UGC-family modes also record script_id, judge_verdict, and believability; `check:content-assets` enforces them.
 12. **Founder gate.** Founder approves before public posting, store upload, or paid campaign launch.
 13. **Distribute.** On approval, hand off to Fastlane per `fastlane-growth-ops.md`.
@@ -266,7 +270,7 @@ Purpose: turn the live App Store listing into a multi-format UGC ad batch withou
      --url <app-store-url> --wait
    ```
 2. **Pick avatar.** Use a preset avatar or a custom Soul avatar. For custom Soul, confirm `avatar_id` exists in `state/business-state.json`; if not, run Recipe 1 steps 2–5 first.
-3. **Spend confirm.** Surface balance via `mcp__claude_ai_Higgsfield__balance`. Confirm spend for the planned mode batch with the founder per `paid-tool-routing.md`.
+3. **Spend confirm.** Surface the balance with `balance` on the Higgsfield MCP. Confirm spend for the planned mode batch with the founder per `paid-tool-routing.md`.
 4. **Generate parallel mode batch.** Inject DESIGN.md tokens into every `--prompt`. Structure the three UGC-family calls (`ugc`, `ugc_unboxing`, `product_review`) per **UGC Realism Prompt Structure** above, each with a judge-panel-surviving script. Structure the `tv_spot` call per **Product Ad Structure And Prompt Craft**. Vary person, room, light, and beat set across the UGC calls. A batch that repeats one avatar in one room is the #1 tell. The `--url` shortcut reuses the backend entity but does NOT inject brief — always add `--prompt` explicitly:
    ```bash
    higgsfield generate create marketing_studio_video \
@@ -308,7 +312,7 @@ Purpose: turn the live App Store listing into a multi-format UGC ad batch withou
 Purpose: score every creative before distribution; never pay for a campaign without a recorded virality score.
 
 1. **Generate or capture creative.** Use any generation recipe or real app footage.
-2. **Media preflight.** Call `mcp__claude_ai_Higgsfield__media_upload` then `mcp__claude_ai_Higgsfield__media_confirm` for the video file. Record the upload ID.
+2. **Media preflight.** Call `media_upload` then `job_status` on the Higgsfield MCP for the video file. Record the upload id.
 3. **Score:**
    ```bash
    higgsfield generate create brain_activity --video ./ad.mp4 --wait
@@ -324,14 +328,14 @@ Purpose: score every creative before distribution; never pay for a campaign with
 
 ---
 
-### Recipe 4: Master → All Platforms (reframe + personal_clipper)
+### Recipe 4: Master → All Platforms
 
 Purpose: produce one high-quality master video then derive all platform ratios and short clips without re-generating.
 
-1. **Source master.** For App Preview: MUST be real app footage — an in-app simulator recording (rung 0), MobAI, or XcodeBuildMCP capture per `xcodebuildmcp-testing.md` / `mobai-toolbelt.md`; verify the capture's native resolution against the target well before compositing. For ads/social: generated or captured footage is acceptable.
-2. **Long-recording trim (optional).** For recordings longer than 60 seconds, use `mcp__claude_ai_Higgsfield__personal_clipper_create` to extract short clips, then poll `mcp__claude_ai_Higgsfield__personal_clipper_status` until complete. Confirm the exact invocation via the `higgsfield-generate` skill or MCP tool help before running.
-3. **Spend confirm.** Surface balance via `mcp__claude_ai_Higgsfield__balance`. Confirm reframe spend with the founder per `paid-tool-routing.md`.
-4. **Reframe to all platform ratios.** Use `mcp__claude_ai_Higgsfield__reframe` with the master video to produce 9:16, 1:1, and 16:9 variants. Confirm the exact invocation via the `higgsfield-generate` skill or MCP tool help before running. Veo 3.1 format limits (16:9 or 9:16 only; 4/6/8s only) do NOT apply to `reframe` — reframe operates on existing footage.
+1. **Source master.** For App Preview: the source must be real app footage — an in-app simulator recording (rung 0), MobAI, or XcodeBuildMCP capture per `xcodebuildmcp-testing.md` / `mobai-toolbelt.md`. Verify the capture's native resolution against the target well before compositing. For ads and social, generated or captured footage is acceptable.
+2. **Long-recording trim (optional).** For a recording longer than 60 seconds, Higgsfield's public operations table names Personal Clipper for short clips from a long video. The help page does not publish a tool id. Confirm the live id in Higgsfield MCP tool help before calling it. Skip this step when the master is already the right length.
+3. **Spend confirm.** Surface the balance with `balance` on the Higgsfield MCP. Confirm `reframe` spend with the founder per `paid-tool-routing.md`.
+4. **Reframe to all platform ratios.** Use `reframe` on the Higgsfield MCP with the master video to produce 9:16, 1:1, and 16:9 variants. Confirm the live arguments in Higgsfield MCP tool help before running. Veo 3.1 format limits (16:9 or 9:16 only; 4/6/8 seconds only) do not apply to `reframe`. `reframe` operates on existing footage.
 5. **Score each variant.** Media preflight each variant, then run `brain_activity` per Recipe 3.
 6. **CONTENT_ASSETS.md.** Record all output URLs, source_job_id (link derivative to master), virality_score per variant, intended platform, QA, and approval state.
 7. **Founder gate.** Founder approves before upload, scheduling, or store submission.
@@ -345,7 +349,7 @@ Purpose: refresh CPP backgrounds, event art, and supporting screenshot art for s
 
 1. **Check seasonal window.** Confirm with `aso-store-ops.md` / `seasonal-aso` skill that the seasonal window is active or approaching.
 2. **Load locked supporting asset.** Identify the specific CPP background, event art, or empty-state asset to restyle. This must be the SUPPORTING ART layer — do NOT restyle or replace the real-UI screenshot layer.
-3. **Spend confirm.** Surface balance via `mcp__claude_ai_Higgsfield__balance`. Confirm spend with the founder per `paid-tool-routing.md`.
+3. **Spend confirm.** Surface the balance with `balance` on the Higgsfield MCP. Confirm spend with the founder per `paid-tool-routing.md`.
 4. **Restyle with seasonal context:**
    ```bash
    higgsfield product-photoshoot create \
@@ -401,7 +405,7 @@ Purpose: produce a UGC clip that passes as a real person, from a judged script, 
 
 1. **Script gate.** The script must first survive the judge-panel loop in `ugc-creator-engine.md` (Script Bank And Judge Panel). No panel verdict, no generation. Judge 10+ scripts per batch; generate only the survivors. Record `script_id` (`ugc/script-bank.md#<format-id>`, resolving to a recorded row) and `judge_verdict` (`passed — <detail>` or `survived — <detail>`) for the manifest — `check:content-assets` requires both on every UGC-family asset and rejects a failing verdict at any status.
 2. **Converted-reference check.** If a converting UGC video exists for a comparable product, run the **Converted-reference shortcut** above. The breakdown becomes the video-prompt skeleton for step 5. Step 3 still runs; Seedance needs the first-frame reference image.
-3. **Spend confirm.** Surface balance via `mcp__claude_ai_Higgsfield__balance`. Confirm the batch spend with the founder per `paid-tool-routing.md` before any generation call. The approved ceiling covers both the first-frame image credits and the video credits. Verify live per-clip pricing there; do not trust remembered numbers.
+3. **Spend confirm.** Surface the balance with `balance` on the Higgsfield MCP. Confirm the batch spend with the founder per `paid-tool-routing.md` before any generation call. The approved ceiling covers both the first-frame image credits and the video credits. Verify live per-clip pricing there. Do not trust remembered numbers.
 4. **First frame.** Generate with `gpt_image_2` (or `nano_banana_2` for a stylized person) using the **First-Frame Prompt** template above. One specific person in one specific place; commit to the specifics. Label the output `status:draft`.
 5. **Generate video.** Seedance 2.5 — confirm the exact model id via the `higgsfield-generate` skill. Image-to-video with the first frame as reference; prompt per the **Video Prompt** template above. 9:16, 720p first. Match `--duration` to the prompt's timestamps; a mismatch desyncs the delivery. Record a `prompt_brief` that carries the `DESIGN.md` tokens for any app UI shown in frame; the realism register governs the person and the scene.
 6. **Edit pass.** Treat the output as raw footage per the **Edit pass** rules above: cut dead space, tighten pauses, captions, sound. Use the Remotion route for reproducible caption and cutdown variants.

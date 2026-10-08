@@ -1,0 +1,100 @@
+# CLU-108: Oct 5 2026 App Store creative assets, Asset Library, preview tool, and host-neutral MCP docs.
+schema_version: 1
+sources:
+  - id: developer-apple-com-app-store-whats-new
+    name: App Store What's New
+    source_type: official_docs
+    url: https://developer.apple.com/app-store/whats-new
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Oct 5 2026 creative assets on product-page headers and search results, Asset Library pre-approval, the
+      preview tool, custom product pages, product page optimization, and Apple Ads.
+  - id: developer-apple-com-news-ljpl7kyn
+    name: Showcase your apps with new assets
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=ljpl7kyn
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Apple news post dated October 5, 2026. Creative assets, the preview tool (Dark Mode and devices), and
+      Asset Library approval ahead of a seasonal campaign.
+  - id: developer-apple-com-app-store-asset-best-practices
+    name: App Store asset best practices
+    source_type: official_docs
+    url: https://developer.apple.com/app-store/asset-best-practices
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Placement guidance for product-page headers, search results, In-App Events, and the preview tool.
+  - id: developer-apple-com-help-creative-assets-specifications
+    name: Creative assets specifications
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - examples/spec-pack/spec.yaml
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Official image and video specifications for the product-page header, search results, and In-App Event cards.
+  - id: developer-apple-com-help-manage-your-app-store-assets
+    name: Manage your App Store assets
+    source_type: official_docs
+    url: https://developer.apple.com/help/app-store-connect/manage-app-information/manage-your-app-store-assets
+    refresh_cadence_days: 7
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Asset Library upload, standalone review, reuse of approved assets, and the product-page preview control.
+  - id: mcp-higgsfield-ai-mcp
+    name: Higgsfield MCP connector
+    source_type: website
+    url: https://mcp.higgsfield.ai/mcp
+    refresh_cadence_days: 30
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - knowledge/process/tool-recipes/visual-and-motion-production.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Public connector URL. OAuth, no API key. Generations deduct credits.
+  - id: higgsfield-ai-what-is-higgsfield-mcp
+    name: What is Higgsfield MCP
+    source_type: website
+    url: https://higgsfield.ai/creator-hub/help-center/integrations/what-is-higgsfield-mcp
+    refresh_cadence_days: 30
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - knowledge/process/tool-recipes/visual-and-motion-production.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Public MCP help. Generations through the MCP deduct credits. OAuth, no API key. Connector URL only.
+  - id: higgsfield-ai-connect-higgsfield-to-ai-agent
+    name: Connect Higgsfield to an MCP agent
+    source_type: website
+    url: https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent
+    refresh_cadence_days: 30
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - knowledge/process/tool-recipes/visual-and-motion-production.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Public operations table. Names Personal Clipper as a capability and does not publish a tool id for it.
+  - id: mcp-appllama-io-mcp
+    name: Appllama MCP
+    source_type: website
+    url: https://mcp.appllama.io/mcp
+    refresh_cadence_days: 30
+    owner: store
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+    notes: Opt-in research connector for top-app screens, onboarding, and paywalls. Per-call credits. No secret in
+      this repo.
