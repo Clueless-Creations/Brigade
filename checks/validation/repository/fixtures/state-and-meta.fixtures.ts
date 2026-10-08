@@ -675,13 +675,7 @@ export function register(h: Harness): void {
   );
   mkdirSync(path.join(webSiteMissingSitemap, "web"), { recursive: true });
   writeFileSync(path.join(webSiteMissingSitemap, "web", "index.html"), "<h1>Soon</h1>\n", "utf8");
-  runFixture(
-    "web site without a sitemap fails geo discovery",
-    webSiteMissingSitemap,
-    "check-landing-funnel.ts",
-    1,
-    "landing_funnel.geo_seo.sitemap.missing",
-  );
+  runFixture("web site without a sitemap fails geo discovery", webSiteMissingSitemap, "check-landing-funnel.ts", 1, "landing_funnel.geo_seo.sitemap.missing");
 
   const webSiteWithDiscovery = makeEmptyFixture("landing-funnel-web-discovery-pass");
   mkdirSync(path.join(webSiteWithDiscovery, "state"), { recursive: true });
