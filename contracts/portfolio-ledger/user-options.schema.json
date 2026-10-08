@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:b2c:portfolio:user-options",
+  "title": "Portfolio user options",
+  "$comment": "User-level options for the private portfolio workspace. learning_ledger.enabled defaults to false. Absent means off. Records stay in that workspace and nothing returns to Brigade.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "learning_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Turn on an app business factory that improves itself to make app businesses that earn."
+        }
+      }
+    }
+  }
+}

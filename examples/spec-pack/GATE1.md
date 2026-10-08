@@ -55,6 +55,8 @@ Angle, name, price, screens, web copy, event map, definition of good, kill crite
 
 Workers build one screen per pull request, in `TASKS.md` order. Each pull request must pass tests and a screenshot-vs-mock check. You dogfood on your phone. Gate 2 decides on submission.
 
+Approval writes the ledger record to the user's own private store when the ledger is on.
+
 ## Tracker
 
 <!-- Draft the work. Do not create tracker issues or store listings before approval. -->

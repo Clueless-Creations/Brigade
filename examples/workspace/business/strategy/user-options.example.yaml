@@ -1,0 +1,6 @@
+# User-level options for the private portfolio workspace.
+# Copy to strategy/user-options.yaml. The default is off.
+# Records stay in that workspace. Nothing returns to Brigade.
+learning_ledger:
+  # Turn on an app business factory that improves itself to make app businesses that earn.
+  enabled: false

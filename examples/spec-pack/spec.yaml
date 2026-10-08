@@ -493,7 +493,30 @@ gates:
     owner: founder
     approves: [real-device dogfood verdict, final screenshots, price in App Store Connect, review notes]
 
-# Later blocks go here: hypotheses, ledger.
+# Three or four things that must be true, each with the metric that proves it.
+# Same sequence as the conditional discovery hypotheses in
+# knowledge/research/distribution-offer-signal.md.
+hypotheses:
+  - statement: A person can save one date and see the days left before any account or payment.
+    metric: time to the first core_action_completed
+  - statement: The widget is the reason they pay.
+    metric: paywall view-to-purchase from the widget path
+  - statement: They open the app again to check the date.
+    metric: D7 retention
+  - statement: A one-time unlock is enough for this utility.
+    metric: refund rate
+
+# Choices that are not already in meta, design, store, analytics, onboarding, mascot, or funnel.
+# onboarding.paywall.type is the purchase model (one-time or trial), not soft or hard.
+ledger:
+  problem_recurrence: each dated event, then the next one
+  download_motive: mate
+  product_type: utility-widget
+  time_to_value: first date saved in one session, before sign-in
+  invite_mechanic: none
+  screenshot_style: one captioned feature per shot
+  paywall_type: soft
+  providers_extra: [sentry]
 
 approval_checklist:
   - Every screen has every required state, or a reason it does not.
@@ -508,3 +531,4 @@ approval_checklist:
   - Marketing and product are one thing. The ad, the store page, onboarding, and the invite use the same audience and the same promise.
   - Product-market fit is binary. If it is unclear, it is not working, so cut or pivot at Gate 2.
   - Live support chat is in the app in the early days.
+  - Hypotheses are 3 or 4 must-be-true statements, each with a metric.

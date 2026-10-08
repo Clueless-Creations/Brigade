@@ -1,0 +1,154 @@
+# Public learning-ledger record for the placeholder app Soon.
+# Outcome cells stay empty. Real numbers stay in the user's private store.
+# Shape: contracts/portfolio-ledger/learning-ledger.schema.json
+
+schema_version: 1
+record_version: 1
+app:
+  slug: soon-example
+  name: Soon (example)
+choices:
+  audience: People planning a trip, a wedding, a birthday or a launch.
+  problem_recurrence: each dated event, then the next one
+  download_motive: mate
+  name: Soon (example)
+  icon: SF Symbols only
+  price_model: one-time unlock
+  price: $4.99
+  product_type: utility-widget
+  onboarding_type: utility-quick-start
+  onboarding_screen_count: 2
+  quiz_length: 0
+  time_to_value: first date saved in one session, before sign-in
+  paywall_placement: after_first_core_action
+  paywall_type: soft
+  purchase_kind: one-time
+  closing_discount: false
+  mascot: false
+  invite_mechanic: none
+  acquisition_channels:
+    - organic
+    - share
+  screenshot_style: one captioned feature per shot
+  aso_keywords:
+    - countdown
+    - widget
+    - days until
+    - event
+    - trip
+    - birthday
+    - wedding
+  providers:
+    - posthog
+    - revenuecat
+    - sentry
+hypotheses:
+  - statement: A person can save one date and see the days left before any account or payment.
+    metric: time to the first core_action_completed
+  - statement: The widget is the reason they pay.
+    metric: paywall view-to-purchase from the widget path
+  - statement: They open the app again to check the date.
+    metric: D7 retention
+  - statement: A one-time unlock is enough for this utility.
+    metric: refund rate
+schedule:
+  checkpoints:
+    - gate_2
+    - day_7
+    - day_30
+    - monthly
+  sources:
+    - posthog
+    - revenuecat
+    - app_store_connect
+    - appkittie
+  live_calls: false
+outcomes:
+  - checkpoint: gate_2
+    metrics:
+      installs_per_month: null
+      revenue_per_month: null
+      revenue_per_install: null
+      trial_to_paid_rate: null
+      retention_d1: null
+      retention_d7: null
+      retention_d30: null
+      invite_rate: null
+      refunds: null
+      onboarding_completed_rate: null
+      time_to_first_core_action: null
+      paywall_view_to_trial_or_purchase: null
+      discount_take_rate: null
+      day_0_cancel_rate: null
+      onboarding_step_completion: null
+      onboarding_drop_off_per_step: null
+    why: null
+  - checkpoint: day_7
+    metrics:
+      installs_per_month: null
+      revenue_per_month: null
+      revenue_per_install: null
+      trial_to_paid_rate: null
+      retention_d1: null
+      retention_d7: null
+      retention_d30: null
+      invite_rate: null
+      refunds: null
+      onboarding_completed_rate: null
+      time_to_first_core_action: null
+      paywall_view_to_trial_or_purchase: null
+      discount_take_rate: null
+      day_0_cancel_rate: null
+      onboarding_step_completion: null
+      onboarding_drop_off_per_step: null
+    why: null
+  - checkpoint: day_30
+    metrics:
+      installs_per_month: null
+      revenue_per_month: null
+      revenue_per_install: null
+      trial_to_paid_rate: null
+      retention_d1: null
+      retention_d7: null
+      retention_d30: null
+      invite_rate: null
+      refunds: null
+      onboarding_completed_rate: null
+      time_to_first_core_action: null
+      paywall_view_to_trial_or_purchase: null
+      discount_take_rate: null
+      day_0_cancel_rate: null
+      onboarding_step_completion: null
+      onboarding_drop_off_per_step: null
+    why: null
+  - checkpoint: monthly
+    metrics:
+      installs_per_month: null
+      revenue_per_month: null
+      revenue_per_install: null
+      trial_to_paid_rate: null
+      retention_d1: null
+      retention_d7: null
+      retention_d30: null
+      invite_rate: null
+      refunds: null
+      onboarding_completed_rate: null
+      time_to_first_core_action: null
+      paywall_view_to_trial_or_purchase: null
+      discount_take_rate: null
+      day_0_cancel_rate: null
+      onboarding_step_completion: null
+      onboarding_drop_off_per_step: null
+    why: null
+compliance:
+  - variant: default
+    status: unrecorded
+    apple_review_prompt: unrecorded
+    honest_calculating: unrecorded
+    trial_timeline_and_billing: unrecorded
+    honest_one_time_discount: unrecorded
+boundary:
+  owner: user
+  store: private
+  returns_to_brigade: false
+  pooled_dataset: false
