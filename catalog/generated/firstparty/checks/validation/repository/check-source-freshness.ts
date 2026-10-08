@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { collectAllFiles, flagBoolean, flagNumber, flagString, isRecord, issue, parseFlags, reportAndExit } from "../../../tooling/lib/launch-state.js";
 import { trustedSourceCheckTime } from "../../../tooling/lib/source-freshness-state.js";
+import { isSourceRegistryPath, loadSourceRegistryFragmentRows } from "../../../tooling/lib/source-registry.js";
 
 type MutableRecord = Record<string, unknown>;
 
@@ -135,7 +136,7 @@ function collectPublicBoundaryResidue(text: string): { homeUsers: Set<string>; s
 
 function shouldScan(filePath: string, root: string, registryPath: string, scanGeneratedCopies = false): boolean {
   const relative = path.relative(root, filePath);
-  if (path.resolve(filePath) === path.resolve(registryPath)) {
+  if (isSourceRegistryPath(filePath, registryPath)) {
     return false;
   }
   if (relative.startsWith("docs/source-freshness/source-snapshots")) {
@@ -371,14 +372,10 @@ function sourceIdFor(url: string, usedIds: Set<string>): string {
   return candidate;
 }
 
-function appendDiscoveredSources(registry: MutableRecord, missing: DiscoveredUrl[]): void {
+function appendDiscoveredSources(registry: MutableRecord, missing: DiscoveredUrl[], reservedIds: Iterable<string> = []): void {
   const sources = Array.isArray(registry.sources) ? registry.sources : [];
   registry.sources = sources;
-  const usedIds = new Set(
-    sourceRecords(registry)
-      .map((source) => String(source.id ?? ""))
-      .filter(Boolean),
-  );
+  const usedIds = new Set([...sourceRecords(registry).map((source) => String(source.id ?? "")), ...reservedIds].filter(Boolean));
   for (const item of missing.sort((a, b) => a.url.localeCompare(b.url))) {
     sources.push({
       id: sourceIdFor(item.url, usedIds),
@@ -397,6 +394,15 @@ function appendDiscoveredSources(registry: MutableRecord, missing: DiscoveredUrl
 const args = parseArgs(process.argv.slice(2));
 const issues = [];
 const registry = loadRegistry(args.registryPath);
+let fragmentRows: MutableRecord[] = [];
+try {
+  fragmentRows = loadSourceRegistryFragmentRows(args.registryPath);
+} catch (error) {
+  issues.push(
+    issue("error", "source_freshness.fragment_invalid", error instanceof Error ? error.message : String(error), path.relative(args.root, args.registryPath)),
+  );
+}
+const mergedSources = (): MutableRecord[] => [...sourceRecords(registry), ...fragmentRows];
 const discovered = discoverCurrentUrls(args);
 const recentlyAdded = recentAddedUrls(args);
 
@@ -408,7 +414,7 @@ for (const url of recentlyAdded) {
 }
 
 const registeredUrls = new Set(
-  sourceRecords(registry)
+  mergedSources()
     .flatMap((source) => [source.url, source.fetch_url])
     .map((url) => normalizeUrl(String(url ?? "")))
     .filter((url): url is string => Boolean(url)),
@@ -418,7 +424,11 @@ for (const url of knowledgePackageUrls(args.root)) registeredUrls.add(url);
 const missing = Array.from(discovered.values()).filter((entry) => !registeredUrls.has(entry.url));
 
 if (missing.length > 0 && args.writeDiscovered) {
-  appendDiscoveredSources(registry, missing);
+  appendDiscoveredSources(
+    registry,
+    missing,
+    fragmentRows.map((source) => (typeof source.id === "string" ? source.id.trim() : "")),
+  );
   writeFileSync(args.registryPath, stringifyYaml(registry, { lineWidth: 120 }), "utf8");
 } else {
   for (const entry of missing) {
@@ -469,7 +479,7 @@ if (existsSync(snapshotPath)) {
 
 const seenIds = new Map<string, number>();
 const seenUrls = new Map<string, number>();
-for (const [index, source] of sourceRecords(registry).entries()) {
+for (const [index, source] of mergedSources().entries()) {
   const id = typeof source.id === "string" ? source.id.trim() : "";
   if (id) {
     const first = seenIds.get(id);
@@ -505,7 +515,7 @@ for (const [index, source] of sourceRecords(registry).entries()) {
 }
 
 const registeredIds = new Set(
-  sourceRecords(registry)
+  mergedSources()
     .map((source) => (typeof source.id === "string" ? source.id.trim() : ""))
     .filter(Boolean),
 );
@@ -545,7 +555,7 @@ for (const file of scannedFiles(args.root)) {
   }
 }
 
-const registryHasSibling = sourceRecords(registry).some((source) => isNonpublicSiblingSource(String(source.url ?? "")));
+const registryHasSibling = mergedSources().some((source) => isNonpublicSiblingSource(String(source.url ?? "")));
 for (const file of scannedFiles(args.root)) {
   if (!shouldScan(file, args.root, args.registryPath, true)) continue;
   const relative = path.relative(args.root, file);
@@ -566,7 +576,7 @@ for (const file of scannedFiles(args.root)) {
   }
 }
 
-for (const [index, source] of sourceRecords(registry).entries()) {
+for (const [index, source] of mergedSources().entries()) {
   const prefix = `sources.${index}`;
   if (isNonpublicSiblingSource(String(source.url ?? ""))) {
     issues.push(

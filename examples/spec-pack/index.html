@@ -766,6 +766,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       }
     ]
   },
+  "tasks": [],
   "repo": {
     "files": [
       {
@@ -786,7 +787,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       },
       {
         "path": "TASKS.md",
-        "purpose": "One line per screen and web page with status."
+        "purpose": "Generated from screens, web pages and tasks:"
       },
       {
         "path": "scripts/merge-gate.sh",
@@ -845,13 +846,149 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
 <script id="report" type="application/json">{
   "errors": [],
   "stateCount": 11,
-  "screens": 6
+  "screens": 6,
+  "tasks": [
+    {
+      "id": "S-welcome",
+      "title": "Welcome",
+      "area": "App",
+      "depends_on": [],
+      "acceptance": [
+        "Primary button visible without scrolling on iPhone SE (3rd gen).",
+        "No sign-in before first value."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "S-add-event",
+      "title": "Add event",
+      "area": "App",
+      "depends_on": [],
+      "acceptance": [
+        "Save with empty title shows inline error, no alert.",
+        "Past dates are allowed and show \"days since\"."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "S-home",
+      "title": "Home",
+      "area": "App",
+      "depends_on": [],
+      "acceptance": [
+        "Sorted nearest first; past events in a separate \"Since\" section.",
+        "Large text (AX5) keeps titles readable with no truncation of day count."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "S-event-detail",
+      "title": "Event detail",
+      "area": "App",
+      "depends_on": [],
+      "acceptance": [
+        "Number updates at local midnight without relaunch."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "S-paywall",
+      "title": "Paywall",
+      "area": "App",
+      "depends_on": [],
+      "acceptance": [
+        "Price comes from RevenueCat offering, never hard-coded.",
+        "Restore works on a fresh install with the sandbox account."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "S-settings",
+      "title": "Settings",
+      "area": "App",
+      "depends_on": [],
+      "acceptance": [
+        "Every link opens the matching web surface below."
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-landing",
+      "title": "Landing",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "Lighthouse performance >= 90 on mobile",
+        "App Store link uses the real app ID after Gate 2"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-privacy",
+      "title": "Privacy policy",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "Matches App Privacy labels exactly"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-terms",
+      "title": "Terms of use",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "Linked from paywall and settings"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-support",
+      "title": "Support",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "Returns 200, not a GitHub link"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "W-delete",
+      "title": "Data deletion",
+      "area": "Web",
+      "depends_on": [],
+      "acceptance": [
+        "Meets App Store 5.1.1(v) when accounts exist"
+      ],
+      "capabilities": []
+    }
+  ]
 }</script>
 <script>
 const S=JSON.parse(document.getElementById('spec').textContent);
 const R=JSON.parse(document.getElementById('report').textContent);
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+window.SPEC_SECTIONS=[];
+window.SPEC_SECTIONS.push({
+  id: "tasks",
+  title: "Tasks",
+  render(_spec, report) {
+    const tasks = report.tasks ?? [];
+    if (!tasks.length) return null;
+    const cell = (value) => esc(value ?? "");
+    const list = (items) => (Array.isArray(items) && items.length ? items.map(cell).join(", ") : "—");
+    const rows = tasks
+      .map(
+        (task) =>
+          `<tr><td><code>${cell(task.id)}</code></td><td>${cell(task.title)}</td><td>${cell(task.area)}</td><td>${list(task.depends_on)}</td><td>${list(task.acceptance)}</td></tr>`,
+      )
+      .join("");
+    return `<p class="sub">Generated from screens, web pages, and the tasks list.</p><table><tr><th>Id</th><th>Title</th><th>Area</th><th>Depends on</th><th>Acceptance</th></tr>${rows}</table>`;
+  },
+});
+
 let dark=false;
 function themeVars(el,mode){const t=S.design.tokens,c=t.color[mode];for(const[k,v]of Object.entries(c))el.style.setProperty('--t-'+k,v);for(const[k,v]of Object.entries(t.radius))el.style.setProperty('--t-r-'+k,v+'px');}
 const byId=Object.fromEntries(S.screens.map(s=>[s.id,s]));
@@ -921,6 +1058,18 @@ $('gate').innerHTML=S.repo.merge_gate.map(g=>`<li>${esc(g)}</li>`).join('');
 const rs=S.research;$('research').innerHTML=`<p><b>${esc(rs.question)}</b></p>`+rs.comps.map(c=>`<p><b>${esc(c.name)}</b> <code>${esc(c.store_id)}</code><br><span class="sub">${esc(c.observed)}</span></p>`).join('');
 // approval
 $('checklist').innerHTML=S.approval_checklist.map((c,i)=>`<label><input type="checkbox" id="c${i}"> ${esc(c)}</label>`).join('')+`<p class="sub" style="margin-top:12px">Approval is recorded in spec.yaml (meta.status: approved, approved_by, approved_at) and committed. This page does not store approval.</p>`;
+for (const section of window.SPEC_SECTIONS) {
+  const html = section.render(S, R);
+  if (html == null) continue;
+  const el = document.createElement('section');
+  el.id = section.id;
+  el.innerHTML = `<h2>${esc(section.title)}</h2>${html}`;
+  document.querySelector('main').appendChild(el);
+  const link = document.createElement('a');
+  link.href = `#${section.id}`;
+  link.textContent = section.title;
+  document.querySelector('header nav').appendChild(link);
+}
 </script>
 </body>
 </html>
