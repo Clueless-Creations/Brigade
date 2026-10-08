@@ -141,7 +141,7 @@ Guideline 5.1.1(v): if the app supports account creation, offer account deletion
 
 When the app uses Sign in with Apple, revoke the user's tokens on account deletion. Apple's revoke endpoint is `https://appleid.apple.com/auth/revoke`. The request needs the client id, a client secret, the token, and a token type hint. See [Revoke tokens](https://developer.apple.com/documentation/signinwithapplerestapi/revoke-tokens) and [TN3194](https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple). TN3194 also covers deletion when the app no longer has a token: delete the account data, and tell the user how to revoke the app in their Apple ID settings.
 
-Store app accounts as `identities(provider, subject)` with a unique `(provider, subject)` pair. Email alone never merges accounts. Provider-asserted email is profile data, not a join key. The same rule is the hosted console identity decision in [ADR 0020](../../docs/decisions/0020-provider-neutral-console-identity.md).
+Store app accounts as `identities(provider, subject)` with a unique `(provider, subject)` pair. Email alone never merges accounts. Provider-asserted email is profile data, not a join key. The same rule is the hosted console identity decision, ADR 0020 (`docs/decisions/0020-provider-neutral-console-identity.md`).
 
 The pre-ship legal check (COPPA, fonts, session replay, CAN-SPAM, California auto-renewal disclosure, and the DMCA agent) is in `privacy-terms.md` §8. It is not legal advice.
 
