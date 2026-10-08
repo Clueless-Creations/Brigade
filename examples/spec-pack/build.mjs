@@ -141,6 +141,10 @@ for (const mod of checks) {
 
 const stateCount = stateCountOf(spec);
 const report = { errors, stateCount, screens: spec.screens.length, tasks: ctx.tasks };
+// "<" would close the surrounding script tag. JSON.stringify leaves it raw.
+// \u003c keeps the tag intact and JSON.parse restores "<". An angle-bracket
+// placeholder then sits in the generated file as that escape, so example
+// URLs in spec.yaml use a plain host.
 const safe = (value) => JSON.stringify(value, null, 2).replace(/</g, "\\u003c");
 const html = inject(
   inject(inject(readFileSync(join(here, "template.html"), "utf8"), "/*SPEC_JSON*/", safe(spec)), "/*REPORT_JSON*/", safe(report)),

@@ -20,6 +20,7 @@ const CAPABILITY_LABELS = [
   "Accessibility",
 ];
 const FREE_WEB_ORIGIN = "https://<slug>.<account>.workers.dev";
+const EXAMPLE_WEB_ORIGIN = "https://soon-example.example";
 
 type SpecDoc = {
   meta: { web_origin?: unknown; domain?: unknown; slug?: string };
@@ -62,7 +63,7 @@ export function register(harness: Harness): void {
   harness.check("spec-pack example with no domain writes tracker-draft.json", () => {
     const spec = YAML.parse(readFileSync(path.join(exampleDir, "spec.yaml"), "utf8")) as SpecDoc;
     assert(!Object.prototype.hasOwnProperty.call(spec.meta, "domain"), "example spec must omit meta.domain");
-    assert(spec.meta.web_origin === FREE_WEB_ORIGIN, "example spec must use the free-URL placeholder");
+    assert(spec.meta.web_origin === EXAMPLE_WEB_ORIGIN, "example spec must use the reserved example origin");
     const outDir = harness.makeTempDir("spec-pack-launch-example");
     const result = runBuild(path.join(exampleDir, "spec.yaml"), path.join(outDir, "index.html"));
     assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.output}`);
@@ -71,7 +72,7 @@ export function register(harness: Harness): void {
     assert(draft.projects.length === 1, `expected one project, got ${draft.projects.length}`);
     assert(draft.projects[0]?.key === spec.meta.slug, "project key must be meta.slug");
     assert(draft.projects[0]?.domain === null, "omitted domain must stay null in the draft");
-    assert(draft.projects[0]?.web_origin === FREE_WEB_ORIGIN, "draft must keep the spec web_origin");
+    assert(draft.projects[0]?.web_origin === EXAMPLE_WEB_ORIGIN, "draft must keep the spec web_origin");
     assert(JSON.stringify(draft.milestones) === JSON.stringify(MILESTONES), `milestones ${JSON.stringify(draft.milestones)}`);
     assert(JSON.stringify(draft.labels.area) === JSON.stringify(AREA_LABELS), `area labels ${JSON.stringify(draft.labels.area)}`);
     assert(
@@ -90,6 +91,8 @@ export function register(harness: Harness): void {
     );
     assert(landing?.area === "Web", "W-landing must use the Web label");
     const html = readFileSync(path.join(outDir, "index.html"), "utf8");
+    assert(!html.includes("\\u003c"), "generated review page must not emit a \\u003c escape");
+    assert(html.includes(EXAMPLE_WEB_ORIGIN), "example origin must be a plain URL in the review page");
     assert(html.includes('id: "tracker"'), "tracker preview section was not injected");
     assert(html.includes("By milestone"), "tracker preview must count milestones");
     assert(html.includes("By label"), "tracker preview must count labels");

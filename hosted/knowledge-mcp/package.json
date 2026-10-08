@@ -25,10 +25,10 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.6.4",
     "miniflare": "5.20260826.0-alpha",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "7.0.2",
-    "wrangler": "4.127.0"
+    "wrangler": "4.147.0"
   }
 }
