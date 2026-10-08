@@ -52,6 +52,8 @@ design:
     radius: { sm: 8, md: 14, lg: 22 }
     motion: { spring: "response 0.35, damping 0.8", reduce_motion: crossfade 150ms }
 
+# Later blocks go here: onboarding, mascot.
+
 # Every app screen. Each screen lists the states it must render. Allowed
 # states: default, loading, empty, error, offline, permission-denied, success.
 # A state left out must be listed in not_applicable with a reason.
@@ -195,6 +197,8 @@ web:
   - { id: support, path: /support, title: Support, sections: [FAQ, contact email, restore steps], acceptance: ["Returns 200, not a GitHub link"] }
   - { id: delete, path: /delete-account, title: Data deletion, sections: [what is deleted, how to delete in app, email fallback], acceptance: [Meets App Store 5.1.1(v) when accounts exist] }
 
+# Later blocks go here: web_meta, discovery, funnel, deep_links.
+
 store:
   name: "Soon: Countdown Widget"
   subtitle: Days left on your Home Screen
@@ -211,6 +215,8 @@ store:
     revenuecat: { entitlement: pro, offering: default, product: soon_pro_lifetime }
   paywall_offer: Shown after first event saved and on widget tap. Never on first launch.
 
+# Later blocks go here: accounts, privacy, security, legal_preflight.
+
 analytics:
   provider: posthog
   common_props: [app_id, platform, app_version, build_number]
@@ -223,13 +229,16 @@ analytics:
     - { name: purchase_completed, when: Entitlement active, props: [product_id, price] }
     - { name: $screen, when: Every screen view, props: [screen_id] }
 
+# Optional tasks. Screens become S-<id> (area App) and web pages become W-<id> (area Web).
+tasks: []
+
 repo:
   files:
     - { path: AGENTS.md, purpose: "Short worker guide: read spec.yaml, build one screen, compare to mock, run gate." }
     - { path: spec/spec.yaml, purpose: "This manifest (approved copy)." }
     - { path: spec/index.html, purpose: "Rendered spec pack." }
     - { path: DESIGN.md, purpose: "Tokens and style prompt, same values as design.tokens." }
-    - { path: TASKS.md, purpose: "One line per screen and web page with status." }
+    - { path: TASKS.md, purpose: "Generated from screens, web pages and tasks:" }
     - { path: scripts/merge-gate.sh, purpose: "Build, unit tests, screenshot-vs-mock check, lint." }
     - { path: .env.example, purpose: "Names only, no values." }
     - { path: web/, purpose: "Landing and policy pages." }
@@ -249,6 +258,8 @@ gates:
     name: Store submission
     owner: founder
     approves: [real-device dogfood verdict, final screenshots, price in App Store Connect, review notes]
+
+# Later blocks go here: hypotheses, ledger.
 
 approval_checklist:
   - Every screen has every required state, or a reason it does not.

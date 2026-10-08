@@ -1,3 +1,5 @@
+// Core spec-pack checks. Lane cases live in spec-pack-<area>.fixtures.ts.
+// checks/verification/fixtures/run.ts loads every *.fixtures.ts in this directory.
 import { copyFileSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";

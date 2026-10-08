@@ -14,7 +14,9 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | --- | --- |
 | `spec.yaml` | The manifest. You edit this file only. |
 | `template.html` | Page layout and mock renderer. Do not edit per app. |
-| `build.mjs` | Checks `spec.yaml` and writes `index.html`. |
+| `build.mjs` | Loads `checks/` and `sections/`, checks `spec.yaml`, and writes `index.html`. |
+| `checks/` | One check module per file. `build.mjs` loads `*.mjs` in filename order. |
+| `sections/` | One review-page section per file. `build.mjs` injects `*.js` in filename order. |
 | `index.html` | Generated review page. `release:stamp` writes it. Open it in a browser. |
 | `render-mocks.sh` | Writes one PNG per screen and state to `mocks/` at 393x852. |
 | `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
@@ -26,6 +28,7 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 ```sh
 npm install            # one dependency: yaml
 node build.mjs         # check spec.yaml, write index.html; exit 1 on errors
+node build.mjs --list-checks
 ./render-mocks.sh      # mocks/<screen>--<state>.png for comparison
 ```
 
@@ -46,6 +49,15 @@ mode, `&w=<px>&h=<px>` for another device size).
 6. The five web surfaces exist: landing, privacy, terms, support, delete.
 7. Store screenshots use real screen IDs.
 8. `status: approved` needs `approved_by` and `approved_at`.
+9. Task ids are unique, every `depends_on` names a task, there is no dependency
+   cycle, and `area` is one of App, Web, Store & Marketing, Growth, Money, Ops.
+   Each screen is task `S-<id>` and each web page is task `W-<id>`.
+
+`node build.mjs --list-checks` prints one line per check module (`id: describe`).
+Add a later check as `checks/<NN>-<area>.mjs`. Add a review section as
+`sections/<NN>-<area>.js`. Add build tasks in the `tasks:` list. Put that lane's
+fixtures in `checks/verification/fixtures/spec-pack-<area>.fixtures.ts`. The
+fixture runner loads every `*.fixtures.ts` in that directory.
 
 The check proves the spec is complete. It does not prove the design is good.
 The founder decides that at Gate 1.

@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import { trustedSourceHash } from "../../tooling/lib/source-freshness-state.js";
+import { loadSourceRegistryFragmentRows } from "../../tooling/lib/source-registry.js";
 import {
   CAPABILITY_DELTA_SCHEMA_VERSION,
   isCapabilityClassification,
@@ -285,9 +286,14 @@ export function loadRegistrySourceIds(registryPath: string): { ids: Set<string>;
       const id = text(item.id);
       if (id) ids.add(id);
     }
+    for (const item of loadSourceRegistryFragmentRows(registryPath)) {
+      const id = text(item.id);
+      if (id) ids.add(id);
+    }
     return { ids };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
+    if (message.startsWith("Source registry fragment")) return { ids, issue: message };
     return { ids, issue: `Source registry failed to parse: ${message}` };
   }
 }

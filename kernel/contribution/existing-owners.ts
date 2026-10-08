@@ -4,6 +4,7 @@ import YAML from "yaml";
 import { loadKnowledgePackages } from "../../catalog/knowledge-packages.js";
 import type { CatalogKnowledgePackage } from "../../catalog/types.js";
 import type { ContributionManifest } from "../../contracts/contribution/contract.js";
+import { loadSourceRegistryFragmentRows } from "../../tooling/lib/source-registry.js";
 import { bigrams, tokenize, truncate } from "./manifest-io.js";
 import type { SourceIntake } from "./intake.js";
 
@@ -24,13 +25,9 @@ export interface RegistryRow {
   readonly locations: string[];
 }
 
-export function loadSourceRegistry(skillRoot: string): RegistryRow[] {
-  const file = path.join(skillRoot, SOURCE_REGISTRY_FILE);
-  if (!existsSync(file)) return [];
-  const parsed = YAML.parse(readFileSync(file, "utf8")) as { sources?: unknown } | null;
-  if (!parsed || !Array.isArray(parsed.sources)) return [];
+function registryRows(entries: unknown[]): RegistryRow[] {
   const rows: RegistryRow[] = [];
-  for (const entry of parsed.sources as unknown[]) {
+  for (const entry of entries) {
     if (!entry || typeof entry !== "object") continue;
     const row = entry as Record<string, unknown>;
     if (typeof row.id !== "string" || typeof row.url !== "string") continue;
@@ -40,6 +37,17 @@ export function loadSourceRegistry(skillRoot: string): RegistryRow[] {
       locations: Array.isArray(row.locations) ? row.locations.filter((item): item is string => typeof item === "string") : [],
     });
   }
+  return rows;
+}
+
+export function loadSourceRegistry(skillRoot: string): RegistryRow[] {
+  const file = path.join(skillRoot, SOURCE_REGISTRY_FILE);
+  const rows: RegistryRow[] = [];
+  if (existsSync(file)) {
+    const parsed = YAML.parse(readFileSync(file, "utf8")) as { sources?: unknown } | null;
+    if (parsed && Array.isArray(parsed.sources)) rows.push(...registryRows(parsed.sources));
+  }
+  rows.push(...registryRows(loadSourceRegistryFragmentRows(file)));
   return rows;
 }
 

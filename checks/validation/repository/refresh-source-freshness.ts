@@ -9,6 +9,7 @@ import { readSourceText, SourceHttpError, sourceHttpFailure, sourceReportUrl, ty
 import { trustedSourceCheckTime, trustedSourceHash } from "../../../tooling/lib/source-freshness-state.js";
 import { isMainModule } from "../../../tooling/lib/cli-entrypoint.js";
 import { writeKnowledgeFreshnessPin } from "../../../tooling/lib/knowledge-freshness-pin.js";
+import { loadSourceRegistryFragmentRows } from "../../../tooling/lib/source-registry.js";
 
 interface SourceRecord {
   id: string;
@@ -83,10 +84,11 @@ function readSources(registryPath: string): SourceRecord[] {
   if (!isRecord(parsed) || !Array.isArray(parsed.sources)) {
     throw new Error(`${registryPath} must include a sources array.`);
   }
-  if (parsed.sources.filter(isRecord).some((source) => source.fetch_url !== undefined && typeof source.fetch_url !== "string")) {
+  const rows = [...parsed.sources, ...loadSourceRegistryFragmentRows(registryPath)];
+  if (rows.filter(isRecord).some((source) => source.fetch_url !== undefined && typeof source.fetch_url !== "string")) {
     throw new Error("Source fetch_url must be a string when set.");
   }
-  return parsed.sources.filter(isRecord).map((source) => ({
+  return rows.filter(isRecord).map((source) => ({
     id: String(source.id ?? ""),
     name: String(source.name ?? ""),
     source_type: String(source.source_type ?? ""),
