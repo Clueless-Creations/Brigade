@@ -20,7 +20,7 @@
   "dependencies": {
     "jose": "6.2.10",
     "posthog-node": "^5.51.6",
-    "zod": "^4.4.3"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260901.1",
