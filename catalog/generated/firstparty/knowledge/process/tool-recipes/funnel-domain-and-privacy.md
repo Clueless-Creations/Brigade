@@ -80,28 +80,29 @@ Local:
 
 Deploy:
 
-- deploy preview
-- deploy production
-- bind custom domain
-- confirm cert/DNS status
-- HTTP check preview and canonical domain
-- verify security headers on `GET`
-- verify `robots.txt`, `sitemap.xml`, `llms.txt`, schema, OG image
-- verify the OG image shows current app stats, not stale hardcoded numbers
-- generate the OG image at build time from live content counts when the stack supports it
-- check for a stray static file at the OG-image path in the public folder
-- a static file there can silently shadow a dynamic OG-image route
-- submit a test signup against production or staging
-- verify analytics events arrive
-- remove or mark test data before public launch
+- Deploy first to the host free URL, such as `*.workers.dev` or `*.vercel.app`.
+- Record that URL as `web_origin`.
+- Verify every page on `web_origin` before any custom domain work.
+- Verify security headers on `GET` of `web_origin`.
+- Verify `robots.txt`, `sitemap.xml`, `llms.txt`, schema, and the OG image on `web_origin`.
+- Verify the OG image shows current app stats, not stale numbers.
+- Generate the OG image at build time from live counts when the stack supports it.
+- Check the public folder for a stray static file at the OG image path.
+- A static file there can shadow a dynamic OG image route.
+- Submit a test signup on `web_origin`.
+- Verify that analytics events arrive.
+- Remove or mark test data before public launch.
+- Bind the custom domain later, as its own step.
+- Confirm certificate and DNS status after that bind.
+- HTTP-check the custom domain only after the bind.
 
-Useful checks:
+Run these checks against `web_origin`.
 
 ```bash
-curl -I https://example.com
-curl -s https://example.com/robots.txt
-curl -s https://example.com/llms.txt
-curl -s https://example.com/sitemap.xml
+curl -I "$WEB_ORIGIN"
+curl -s "$WEB_ORIGIN/robots.txt"
+curl -s "$WEB_ORIGIN/llms.txt"
+curl -s "$WEB_ORIGIN/sitemap.xml"
 ```
 
 ## Cloudflare/Supabase Waitlist Pattern
