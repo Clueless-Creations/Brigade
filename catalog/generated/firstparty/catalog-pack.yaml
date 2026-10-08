@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.110
-revision: 0.221.110
+version: 0.221.111
+revision: 0.221.111
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -5791,6 +5791,62 @@ references:
         review_cadence_days: 7
         claim_scope: Motion (framer-motion's successor, import from motion/react) React animation docs. Web-surface library used by the Design Room render app and launch web surfaces (landing, funnel); never used in the shipped mobile binary. Refresh before changing motion API/setup guidance.
         last_review_date: 2026-08-17
+        reviewer: b2c-maintainers
+      - id: smoothui-site
+        name: SmoothUI
+        source_type: component_reference
+        url: https://smoothui.dev
+        review_cadence_days: 30
+        claim_scope: MIT-licensed animated React components on Tailwind, shadcn/ui, and Motion. Optional web-surface library; install via the shadcn CLI. No paid tier at review.
+        last_review_date: 2026-10-07
+        reviewer: b2c-maintainers
+      - id: smoothui-repo
+        name: SmoothUI repository
+        source_type: github
+        url: https://github.com/educlopez/smoothui
+        review_cadence_days: 30
+        claim_scope: Source and MIT license for SmoothUI. About 1,000 stars and active commits at review.
+        last_review_date: 2026-10-07
+        reviewer: b2c-maintainers
+      - id: vengeanceui-site
+        name: Vengeance UI
+        source_type: component_reference
+        url: https://www.vengeanceui.com
+        review_cadence_days: 30
+        claim_scope: MIT-licensed animated landing-page sections. Optional web-surface library; some components add GSAP, three.js, React Three Fiber, or Lenis.
+        last_review_date: 2026-10-07
+        reviewer: b2c-maintainers
+      - id: vengeanceui-repo
+        name: Vengeance UI repository
+        source_type: github
+        url: https://github.com/Ashutoshx7/VengeanceUI
+        review_cadence_days: 30
+        claim_scope: Source and MIT license for Vengeance UI. About 1,200 stars and active commits at review.
+        last_review_date: 2026-10-07
+        reviewer: b2c-maintainers
+      - id: shaders-com
+        name: Shaders
+        source_type: component_reference
+        url: https://shaders.com
+        review_cadence_days: 30
+        claim_scope: WebGPU shader components for React, Vue, Svelte, Solid, and plain JS. The shaders npm package is MIT; Shaders Pro presets, editor export, and MCP server are paid and go through the paid-tool license gate.
+        last_review_date: 2026-10-07
+        reviewer: b2c-maintainers
+      - id: shaders-repo
+        name: Shaders repository
+        source_type: github
+        url: https://github.com/shader-effects-inc/shaders
+        review_cadence_days: 30
+        claim_scope: Source and MIT license for the shaders npm package. About 2,500 stars and active commits at review.
+        last_review_date: 2026-10-07
+        reviewer: b2c-maintainers
+      - id: devclub-ui-site
+        name: DevClub UI
+        source_type: component_reference
+        url: https://ui.devclubxnst.online
+        review_cadence_days: 30
+        claim_scope: Reference only. Claims MIT, but the linked source repository was not public at review and the package is new. Do not install until source and license are verified.
+        last_review_date: 2026-10-07
         reviewer: b2c-maintainers
     replacement_ids: []
   - id: reference.design.mobile-flow-craft

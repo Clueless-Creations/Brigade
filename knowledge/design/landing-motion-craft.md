@@ -56,6 +56,25 @@ The in-app micro-motion band (120–360ms) is deliberately too short for cinemat
 
 These live in `DESIGN.md` → promoted into `design/system/tokens.css`, `tokens.json`, and `DesignTokens.swift` (`check:token-promotion` gates the hash). Remotion compositions read the same values so baked and live motion share one feel.
 
+## Web UI libraries (optional)
+
+These libraries are for web surfaces only: landing, support, and marketing pages, and web prototypes. Never import them into a mobile binary or a native app. Each one is optional. The section library, the progressive-enhancement contract, and the `--motion-*` tokens above still apply to anything you copy.
+
+| Library | Use it for | License and status (reviewed 2026-10-07) | Install |
+| ------- | ---------- | ---------------------------------------- | ------- |
+| SmoothUI (`https://smoothui.dev`, `https://github.com/educlopez/smoothui`) | Animated React components and blocks built on Tailwind, shadcn/ui, and Motion | MIT, no paid tier, actively maintained | `npx shadcn@latest add @smoothui/<component>` |
+| Vengeance UI (`https://www.vengeanceui.com`, `https://github.com/Ashutoshx7/VengeanceUI`) | Animated landing-page sections: heroes, reveals, text effects | MIT, actively maintained | `npx shadcn@latest add @vengeanceui/<component>` |
+| Shaders (`https://shaders.com`, `https://github.com/shader-effects-inc/shaders`) | WebGPU hero backgrounds and overlays for React, Vue, Svelte, Solid, or plain JS | MIT for the `shaders` npm package. Shaders Pro (presets, editor export, MCP server) is a paid subscription and needs the license gate in [`paid-tool-routing.md`](../operations/paid-tool-routing.md) | `npm install shaders`, then import from `shaders/react` |
+
+Rules for these libraries:
+
+- Copy one component at a time. Read the dependencies it adds before you commit it. Some Vengeance UI components bring GSAP, three.js, React Three Fiber, or Lenis. Lenis also needs the smooth-scroll rule in the production floor below.
+- Keep static sites light. A support or legal page gets no shader and no heavy animation. Use at most one shader or WebGL surface per page, and keep it out of the LCP element.
+- Shaders renders with WebGPU. Ship a static poster or CSS gradient when `navigator.gpu` is missing, when the user prefers reduced motion, and when Save-Data is on.
+- Respect `prefers-reduced-motion` in every copied component, even when the source does not. Retime copied durations and easings to the `--motion-*` tokens.
+- Do not copy a library's demo copy, palette, or fonts. Express the mechanism through the current design contract.
+- DevClub UI (`https://ui.devclubxnst.online`) is a reference only. It claims MIT, but its linked source repository was not public at review and the package is new. Do not install it until the source and license can be verified.
+
 ## Production floor (beyond the proof)
 
 - **Type:** self-host the real display webfont (subset, `font-display: swap`, preload). The token fallback stack is for dependency-free proofs only.

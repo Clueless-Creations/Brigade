@@ -3719,3 +3719,73 @@ sources:
     locations:
       - entrypoints/plugins/brigade-first-five-minutes/skills/audit-first-five-minutes/references/knowledge.md
     notes: Pinned paywall source for applicable disclosure and recovery sections. Benchmarks do not become local conversion claims.
+  - id: smoothui-site
+    name: SmoothUI
+    source_type: component_reference
+    url: https://smoothui.dev
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: MIT-licensed animated React components on Tailwind, shadcn/ui, and Motion. Optional web-surface library; install via the shadcn CLI. No paid tier at review.
+  - id: smoothui-repo
+    name: SmoothUI repository
+    source_type: github
+    url: https://github.com/educlopez/smoothui
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: Source and MIT license for SmoothUI. About 1,000 stars and active commits at review.
+  - id: vengeanceui-site
+    name: Vengeance UI
+    source_type: component_reference
+    url: https://www.vengeanceui.com
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: MIT-licensed animated landing-page sections. Optional web-surface library; some components add GSAP, three.js, React Three Fiber, or Lenis.
+  - id: vengeanceui-repo
+    name: Vengeance UI repository
+    source_type: github
+    url: https://github.com/Ashutoshx7/VengeanceUI
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: Source and MIT license for Vengeance UI. About 1,200 stars and active commits at review.
+  - id: shaders-com
+    name: Shaders
+    source_type: component_reference
+    url: https://shaders.com
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: WebGPU shader components for React, Vue, Svelte, Solid, and plain JS. The shaders npm package is MIT; Shaders Pro presets, editor export, and MCP server are paid and go through the paid-tool license gate.
+  - id: shaders-repo
+    name: Shaders repository
+    source_type: github
+    url: https://github.com/shader-effects-inc/shaders
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: Source and MIT license for the shaders npm package. About 2,500 stars and active commits at review.
+  - id: devclub-ui-site
+    name: DevClub UI
+    source_type: component_reference
+    url: https://ui.devclubxnst.online
+    refresh_cadence_days: 30
+    owner: design
+    locations:
+      - catalog/knowledge/design/design-landing-motion-craft.yaml
+      - knowledge/design/landing-motion-craft.md
+    notes: Reference only. Claims MIT, but the linked source repository was not public at review and the package is new. Do not install until source and license are verified.
