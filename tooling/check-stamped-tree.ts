@@ -21,9 +21,7 @@ function main(): number {
     readLockVersion(path.join(root, "package-lock.json")),
   ];
   if (versions.some((version) => !version) || new Set(versions).size !== 1) {
-    console.error(REFUSAL);
-    console.error("package.json, package-lock.json, and skill-version.json versions disagree.");
-    return 1;
+    return finish(1, "package.json, package-lock.json, and skill-version.json versions disagree.");
   }
   const env = { ...process.env, B2C_STAMP_MODE: "release" };
   const checks: Array<[string, string[]]> = [
@@ -39,25 +37,34 @@ function main(): number {
   for (const [script, args] of checks) {
     const target = path.join(root, script);
     if (!existsSync(target)) {
-      console.error(REFUSAL);
-      console.error(`Missing ${script}.`);
-      return 1;
+      return finish(1, `Missing ${script}.`);
     }
     const result = spawnSync(tsx, ["--import", "tsx", target, ...args], { cwd: root, encoding: "utf8", env });
     if (result.status !== 0) {
-      console.error(REFUSAL);
       const detail = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();
-      if (detail) console.error(detail.split("\n").slice(0, 20).join("\n"));
-      return 1;
+      return finish(1, detail ? detail.split("\n").slice(0, 20).join("\n") : REFUSAL);
     }
   }
   if (!specPackMatches(root)) {
-    console.error(REFUSAL);
-    console.error("examples/spec-pack/index.html does not match a fresh build.");
-    return 1;
+    return finish(1, "examples/spec-pack/index.html does not match a fresh build.");
   }
-  console.log(`Stamped tree ${versions[0]}.`);
-  return 0;
+  return finish(0, `Stamped tree ${versions[0]}.`);
+}
+
+/** `--json` is the check-script contract: one `{pass, failures}` object on stdout. */
+function finish(code: number, prose: string): number {
+  if (process.argv.includes("--json")) {
+    const failures = code === 0 ? [] : [{ severity: "error", rule: "stamped_tree.unstamped", message: prose.trim() || REFUSAL }];
+    process.stdout.write(`${JSON.stringify({ pass: code === 0, failures })}\n`);
+    return code;
+  }
+  if (code === 0) {
+    console.log(prose);
+    return 0;
+  }
+  console.error(REFUSAL);
+  if (prose.trim() && prose.trim() !== REFUSAL) console.error(prose.trim());
+  return code;
 }
 
 function specPackMatches(root: string): boolean {
