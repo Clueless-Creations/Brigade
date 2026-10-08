@@ -266,7 +266,7 @@ _Before any authenticated browser/API/CLI/native action on a provider, social, o
 
 - **Role:** Operator readiness
 - **Phases:** Cross-phase (always-on)
-- **Providers:** `provider.doppler` (cli, browser), `provider.app-store-connect` (cli, api, browser), `provider.google-play` (api, browser), `provider.posthog` (api, browser), `provider.revenuecat` (api, cli, browser), `provider.stripe` (api, cli, browser), `provider.resend` (api, browser), `provider.app-store-screenshots` (skill_pack), `provider.appllama` (mcp), `provider.higgsfield` (mcp), `provider.mobai` (mcp, cli), `provider.in-app-ios-simulator` (native_device), `provider.codex-native-ios` (local tooling — deliberately undeclared, see adapters/provisioning/requirements.ts), `provider.snapshot-previews` (local tooling — deliberately undeclared, see adapters/provisioning/requirements.ts), `provider.serve-sim` (local tooling — deliberately undeclared, see adapters/provisioning/requirements.ts), `provider.aso-skills` (skill_pack), `provider.refero` (api), `provider.security-review` (cli, manual), `provider.sentry` (api, cli, browser), `provider.paid-ad-channels` (manual)
+- **Providers:** `provider.doppler` (cli, browser), `provider.app-store-connect` (cli, api, browser), `provider.google-play` (api, browser), `provider.posthog` (api, browser), `provider.revenuecat` (api, cli, browser), `provider.stripe` (api, cli, browser), `provider.resend` (api, browser), `provider.app-store-screenshots` (skill_pack), `provider.appllama` (mcp), `provider.higgsfield` (mcp), `provider.mobai` (mcp, cli), `provider.in-app-ios-simulator` (native_device), `provider.codex-native-ios` (local tooling — deliberately undeclared, see adapters/provisioning/requirements.ts), `provider.snapshot-previews` (local tooling — deliberately undeclared, see adapters/provisioning/requirements.ts), `provider.serve-sim` (local tooling — deliberately undeclared, see adapters/provisioning/requirements.ts), `provider.aso-skills` (skill_pack), `provider.refero` (api), `provider.security-review` (cli, manual), `provider.sentry` (api, cli, browser), `provider.paid-ad-channels` (manual), `provider.screensdesign` (mcp), `provider.masko` (mcp)
 - **Reads:** `state/business-state.json`
 - **Consults:** `operations/AGENT_OPERATIONS.md`, `operations/agent-operations.json`, `operations/PROVIDER_PROOF.md`
 - **Produces:** `operations/AGENT_OPERATIONS.md`, `operations/agent-operations.json`
@@ -1558,6 +1558,8 @@ Generated from adapters/provisioning/requirements.ts. Edit the manifest, not thi
 | `provider.appllama` | top-app-screen-research | ✓ |  |  |  |  |  |  |
 | `provider.aso-skills` | aso-specialist-guidance |  |  |  |  |  | ✓ |  |
 | `provider.in-app-ios-simulator` | local-device-proof |  |  |  |  | ✓ |  |  |
+| `provider.screensdesign` | recorded-flow-and-paywall-research | ✓ |  |  |  |  |  |  |
+| `provider.masko` | character-animation | ✓ |  |  |  |  |  |  |
 
 Not listed: `provider.codex-native-ios`, `provider.snapshot-previews`, `provider.serve-sim` — deliberately
 undeclared local tooling sharing `provider.in-app-ios-simulator`'s no-secret shape (see

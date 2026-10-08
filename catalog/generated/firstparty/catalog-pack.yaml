@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.126
-revision: 0.221.126
+version: 0.221.127
+revision: 0.221.127
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -1101,6 +1101,8 @@ workflows:
       - provider.security-review
       - provider.sentry
       - provider.paid-ad-channels
+      - provider.screensdesign
+      - provider.masko
     founder_only_actions: []
     action_class: mutate
     idempotent: true
@@ -12252,6 +12254,8 @@ roles:
       - provider.security-review
       - provider.sentry
       - provider.paid-ad-channels
+      - provider.screensdesign
+      - provider.masko
     output_path_prefixes:
       - operations/
       - strategy/TOOL_DECISIONS.md
@@ -12406,6 +12410,8 @@ roles:
       - provider.higgsfield
       - provider.app-store-screenshots
       - provider.appllama
+      - provider.screensdesign
+      - provider.masko
     output_path_prefixes:
       - DESIGN.md
       - design/

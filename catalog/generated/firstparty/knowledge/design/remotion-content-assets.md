@@ -28,6 +28,8 @@ Select generation when:
 - an explicitly selected provider covers the required operation and its access and spending authority are available
 - generated supporting imagery serves the communication problem
 
+Higgsfield stays the stills route. Remotion stays the UI-motion route. Masko is the character-animation route when the spec pack records `mascot.use: yes`. A Masko mascot is a state machine: poses are nodes, generated videos are transitions, and app inputs trigger them. The export is a `MaskoAnimationConfig` JSON plus a player. Generate-all does a dry-run quote first. The quote is not spend approval. Masko is paid, needs founder yes. Do not create an account or generate. See https://masko.ai/docs/canvas/build, https://masko.ai/docs/canvas/generate-all, and https://masko.ai/docs/canvas/export.
+
 Select composition when:
 
 - the asset should be reproducible from product truth, screenshots, recordings, copy, tokens, or data
@@ -38,6 +40,7 @@ Select composition when:
 Do not create the asset yet when:
 
 - Higgsfield was the intended paid route and the founder has not approved a fallback
+- Masko was the intended character-animation route and the founder has not approved spend after a dry-run quote
 - Remotion commercial-license eligibility is unclear for the business and the output is for commercial use
 - the source app UI, screenshots, recordings, or asset rights are missing
 - the asset would imply unsupported functionality, pricing, endorsements, outcomes, urgency, scarcity, or store claims
@@ -54,7 +57,7 @@ Load [`paid-tool-routing.md`](../operations/paid-tool-routing.md) before replaci
 
 Record the decision in `strategy/TOOL_DECISIONS.md`, `CONTENT_ASSETS.md`, or the relevant ops doc:
 
-- intended route: Higgsfield, Remotion, founder-owned media, raw screenshots, or blocked
+- intended route: Higgsfield, Masko, Remotion, founder-owned media, raw screenshots, or blocked
 - why Remotion is appropriate for this asset
 - founder approval for fallback if Higgsfield was intended
 - Remotion license status or reason the render is evaluation-only

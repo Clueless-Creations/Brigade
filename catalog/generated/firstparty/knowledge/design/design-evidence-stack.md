@@ -49,6 +49,7 @@ This method is adapted in part from Appllama's MIT-licensed research skill. It i
 | Source                       | Use it for                                                                                                             | Evidence to capture                                                                                                 | Boundary                                                                                                                                                 |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Appllama`                   | Native mobile screen, complete-flow, and component research when the customer has authorized access                    | Question, selected apps/flows, stable source IDs, inspected screens/interactions, convergence, divergence, local decision | Optional provider. Use its upstream `appllama-usage` skill when connected. Do not copy its proprietary corpus, bulk extract it, or treat revenue rank as causal proof. |
+| `ScreensDesign`              | Recorded flows, paywalls, store creatives, reviews, and revenue and install estimates, including a revenue-per-install benchmark | Question, selected flows, stable source IDs, inspected screens, and the local decision | Paid, needs founder yes. Do not connect, start a trial, or spend. Public pages are not ScreensDesign evidence. A missing connection is a hold. Rank is not proof a screen caused an outcome. Docs: https://screensdesign.com/mcp/ |
 | `60fps.design`               | Motion, transitions, gestures, loading, success, and the magical moment                                                | Two to four relevant examples; the trigger, timing, state change, interruption, and reduced-motion result           | Transfer mechanics only. Do not copy brand, assets, copy, exact layout, or generated code without adapting it to the product and token system.           |
 | `catalogue.projectsbyif.com` | AI decisions, automation, trust, consent, sign-in, permissions, sensitive data, user control, and takeover or recovery | The pattern, its advantages, its limitations, and the reason for adoption or rejection                              | Prefer agency and clear limits. Keep attribution when an adapted artifact requires it.                                                                   |
 | `abtest.design`              | Conversion, onboarding, paywall, checkout, engagement, retention, monetization awareness, and referral hypotheses      | The tested change, audience and context, metric, cited source, counter-metric, and a local validation plan          | Treat a result as a hypothesis seed. It is not transferable causal proof. Do not repeat a number or claim if its primary or cited source is unavailable. |
@@ -67,7 +68,7 @@ When the 60fps MCP is connected, use `60fps_search_shots`, `60fps_get_shot`, `60
 | Native mobile flow grammar or category convention           | Appllama when authorized; otherwise an approved mobile reference source plus official platform guidance |
 | Motion or gesture                                           | 60fps.design; add UI Playbook when a standard component owns the interaction                    |
 | AI, consent, authentication, permissions, or sensitive data | IF Design Patterns Catalogue; add UI Playbook for the component contract                        |
-| Onboarding, paywall, checkout, retention, or referral       | Appllama when authorized for complete-flow structure, plus abtest.design/UXSnaps for hypotheses; add 60fps.design only when motion affects comprehension or feedback |
+| Onboarding, paywall, checkout, retention, or referral       | Appllama when authorized for complete-flow structure, plus abtest.design/UXSnaps for hypotheses; ScreensDesign only after founder yes for recorded flows, paywalls, and store creatives; add 60fps.design only when motion affects comprehension or feedback |
 | Core journey or information hierarchy                       | Appllama when authorized or UXSnaps; add UI Playbook for each standard component that needs a full state contract |
 | Brand delight, success, empty state, or a magical moment    | Design Spells plus 60fps.design when the idea moves                                             |
 | Standard control, overlay, input, or notification           | UI Playbook; add IF when the control changes trust, consent, or user agency                     |
@@ -115,7 +116,10 @@ that capture; conversely, an expired catalog response is not a successful observ
 
 Select alternatives in the order declared for the task's evidence requirement. For a static
 onboarding-layout question, an authorized Appllama or Refero source can be followed by an authorized AppKittie
-screen source when it supplies the required scope. A motion requirement needs an observed
+screen source when it supplies the required scope. ScreensDesign is another reference provider for recorded
+flows, paywalls, store creatives, reviews, and revenue and install estimates. It is paid, needs founder yes.
+Do not connect it. A missing connection is a hold, not inspected evidence. Public store pages are not a
+ScreensDesign observation. A motion requirement needs an observed
 interaction or recording, such as a suitable authorized 60fps shot. An internal procedure can
 explain how to search, but cannot stand in for either of those observations.
 

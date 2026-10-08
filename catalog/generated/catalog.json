@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.126",
+  "skillVersion": "0.221.127",
   "areas": [
     {
       "id": "area.operating-system",
@@ -761,7 +761,9 @@
         "provider.refero",
         "provider.security-review",
         "provider.sentry",
-        "provider.paid-ad-channels"
+        "provider.paid-ad-channels",
+        "provider.screensdesign",
+        "provider.masko"
       ],
       "outputPathPrefixes": [
         "operations/",
@@ -1015,7 +1017,9 @@
         "provider.refero",
         "provider.higgsfield",
         "provider.app-store-screenshots",
-        "provider.appllama"
+        "provider.appllama",
+        "provider.screensdesign",
+        "provider.masko"
       ],
       "outputPathPrefixes": [
         "DESIGN.md",
@@ -2142,7 +2146,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/data/analytics-attribution.md",
-        "sha256": "sha256:37b2f3a585ea383cd9209576238050b805df2f26973a55e29c029e8d2269f0c9",
+        "sha256": "sha256:7ce25e85fae4f32bef85df3efd264172561e7a1be2b6d3d7e709d8c330f134ce",
         "origin": "skill"
       }
     },
@@ -2694,7 +2698,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/design-evidence-stack.md",
-        "sha256": "sha256:64c5185a250bedb81d2b0b5a3ca081e0e0a5eec43705853cf6954a9ffc52d99f",
+        "sha256": "sha256:6679b5898a84e654ed3cab062904ffeb8c8652dbdbf8373f6c53a96fc741c637",
         "origin": "skill"
       }
     },
@@ -3923,7 +3927,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/remotion-content-assets.md",
-        "sha256": "sha256:7b6e2e37e2c587f9546233e09587a767366033f99f38888afade0fc1fd4b10eb",
+        "sha256": "sha256:e52b383451fad2a5ecbaa69f03c79d1080fb752f0c3df00d2071ce49d3251866",
         "origin": "skill"
       }
     },
@@ -3940,7 +3944,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:6997c68bdc613a9717f61a42f45243ffd2e8e134ca7b103ccb80ae4f553c2f65",
+        "sha256": "sha256:3a6fa5b827d8ec2b78323c999ab1c8e2113bd4795f39dcffdc6a45e48213cb77",
         "origin": "skill"
       }
     },
@@ -6038,7 +6042,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/experience/onboarding-conversion.md",
-        "sha256": "sha256:62cd863fbb0daa8146bb380f0d8e86b26b3ba7091ebb0c50c9c6309dad713d6f",
+        "sha256": "sha256:3cfe1a29a5be81916d22706a734d8221cca415c82be395389bc2ee90296c6d0d",
         "origin": "skill"
       }
     },
@@ -7225,7 +7229,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/operations/paid-tool-routing.md",
-        "sha256": "sha256:52b3433a767ce8ef139ca14ff8f8a1cafb1dff92eccbff93129f6c771d1c5bd3",
+        "sha256": "sha256:f5f343debbf4831cab3bbe1d0d12a39bea4d6192f8b3e133beab56fea264093d",
         "origin": "skill"
       }
     },
@@ -12967,7 +12971,9 @@
         "provider.refero",
         "provider.security-review",
         "provider.sentry",
-        "provider.paid-ad-channels"
+        "provider.paid-ad-channels",
+        "provider.screensdesign",
+        "provider.masko"
       ],
       "founderOnlyActions": [],
       "actionClass": "mutate",
@@ -20536,14 +20542,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "28245e3721ef653d6e478da91d3e9c33e79ee1c0dbc7cfaa81b989d76cd2014c",
+    "fingerprint": "ef7b3e4761a547f636c052a684cfdb73267783aeaff76ea7e42d1806205ed538",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.126",
-        "revision": "0.221.126",
-        "contentDigest": "80e0c28f74f77b3094908358b802e7a3dff925c6f8fa1610e996fd2fd7fd9cea"
+        "version": "0.221.127",
+        "revision": "0.221.127",
+        "contentDigest": "143b41b051508442917f79c7d04a324a529327b9c7baa14d0ad6bbe60169e986"
       }
     ],
     "base": {
