@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.121",
+  "version": "0.221.122",
   "updatedAt": "2026-10-08",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-102, CLU-106, CLU-110: launch on the free URL and draft the Gate 1 tracker. (#669)",
     "build(deps): bump jose from 6.2.10 to 6.2.12 in /hosted/builder-console (#664)",
     "Add a merge-gate step that fails snapshot record mode. (#671)",
     "build(deps): bump mdast-util-from-markdown from 2.0.3 to 2.1.0 (#661)",

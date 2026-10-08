@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.121",
+  "skillVersion": "0.221.122",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3937,7 +3937,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:8244370eb2dcb5d74e4ac57059e6db340f7ab3126297778972314d2b3d7f8127",
+        "sha256": "sha256:d4d5346cfafa683c4ed26c4fe82d71f055a9e95a0125b7e92ed32704ece529d1",
         "origin": "skill"
       }
     },
@@ -8054,7 +8054,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/launch-phases.md",
-        "sha256": "sha256:cd1e9d737e87818dae3731c9c50eef0677a9488112bf74baa602e3bdea37247d",
+        "sha256": "sha256:623cff0408e18b06d0d5145e7d07dbaf417ab60ce9178410d6ae96dcb0b1df3d",
         "origin": "skill"
       }
     },
@@ -8376,7 +8376,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/tool-recipes/funnel-domain-and-privacy.md",
-        "sha256": "sha256:833e01fea59039e9432b1176aef69bf0422dcc166232c5945af735287126dc64",
+        "sha256": "sha256:a44db20e460a3aaa38f11c779fc1878c23107ed0443be086eb57b374b08d664b",
         "origin": "skill"
       }
     },
@@ -20126,14 +20126,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "c1bb51050bac66e22ad90710a426d59dc76206b9f3490254110d4cef6cf75c9c",
+    "fingerprint": "642807b8681f9c9ad8dffd4ecaa75e4ff2c72a11efee05d74bec7d78106f7146",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.121",
-        "revision": "0.221.121",
-        "contentDigest": "b8484a879e783c7e2e494e44b396dea2af4418977cf46fe8966976a765e2b7cb"
+        "version": "0.221.122",
+        "revision": "0.221.122",
+        "contentDigest": "d587670cbf5d30b06b8eeb468200b6d0c8e37b433e3e5c3869e7b74ca2dbece3"
       }
     ],
     "base": {

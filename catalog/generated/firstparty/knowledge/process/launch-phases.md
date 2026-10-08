@@ -465,6 +465,7 @@ Do:
 - Define post-launch ASO loop: weekly keyword/ranking/review/competitor deltas, screenshot experiments, ASA search-term mining, rating prompt health, subscription lifecycle, and localization opportunities.
 - Draft privacy/terms requirements from the real data inventory and current official platform/regulatory sources; see `privacy-terms.md`.
 - List founder-only decisions: launch date, final pricing, domain purchase, ad spend, endorsement send, screenshot approval, legal/privacy terms, subscription terms approval, and final store submission/resubmission.
+- Domain purchase stays a founder decision. It blocks only binary values: Universal Links, the share-link host, and the support address. It never blocks the site, policies, or store URLs during build.
 
 Outputs:
 
@@ -573,7 +574,9 @@ Do:
   3. `wrangler whoami` — confirm the token has Pages:Edit or Workers:Edit as required; a scope-insufficient token fails in ways that look like network or config errors.
   4. Rebuild (`npm run build` or equivalent) so the artifact is current before invoking wrangler.
   5. After deploy, confirm the deployment is active (dashboard or CLI) before verification.
-- Deploy and verify both preview and custom domain.
+- Deploy first to the host free URL, such as `*.workers.dev` or `*.vercel.app`. Verify every page on `web_origin`.
+- Bind the custom domain in a later step. Do not wait on that domain to ship the site, policies, or store URLs.
+- When the app is announced or launched, update its portfolio card. Use the founder's portfolio site, if any (a workspace setting). Refresh the "how we build" story.
 - Smoke test signup, referral redirect, leaderboard/share state, analytics events, and mobile layout. **For any page containing an email capture or form, the smoke test must be browser-rendered, not curl or API-only.** Open the live URL in a real browser (or use MobAI/Playwright if available), fill in the form fields, click submit, and assert the success state is visible on screen. An API-level curl that returns 200 does not prove the browser form works; Alpine rendering bugs, CSP violations, and JS event-binding errors are invisible to curl. Do not declare the funnel ready until a browser-rendered form submission has succeeded end to end.
 
 Outputs:
@@ -591,7 +594,7 @@ Outputs:
 
 Acceptance:
 
-- Live URL returns HTTP 200 and renders brand-critical copy.
+- `web_origin` returns HTTP 200 and renders the brand-critical copy.
 - At least one test signup is completed **in a real browser** (not curl) end to end, reaching the visible success state, or a clear blocked reason exists.
 - PostHog receives pageview and core funnel events.
 - Mobile and desktop visual checks are done.
@@ -601,7 +604,8 @@ Acceptance:
 - Support/privacy email routes are active, DNS-configured, and tested from an external sender.
 - Resend sender domain, test send, webhook, unsubscribe/preference, and automation/broadcast paths are verified when email is in scope.
 - Privacy/terms links return HTTP 200 and match the current data inventory.
-- Robots, sitemap, `llms.txt`, schema, metadata, canonical URL, and AI-crawler access have been verified on the live domain.
+- Robots, sitemap, `llms.txt`, schema, metadata, and the canonical URL are verified on `web_origin`.
+- The portfolio card is updated when the app is announced or launched and a portfolio site is set.
 - Any active web checkout has a tested success/cancel path, attribution preservation, and support recovery path.
 
 ## Phase 5: Builder/Rork/Agent Handoff
@@ -810,6 +814,7 @@ Goal: run the live business on a fixed weekly rhythm — crash health, reviews, 
 Do:
 
 - Load `post-launch-operations.md`; create `operations/POST_LAUNCH_OPS.md` from the template and set `lanes.post_launch_ops` honestly.
+- When the app is announced or launched, update its portfolio card. Use the founder's portfolio site, if any (a workspace setting). Refresh the "how we build" story.
 - Stand up the crash route (Sentry or store crash reports) with alert routing and a crash-free release gate.
 - Start the review-response loop with a stated SLA; mine reviews for failure cards, ASO language, and feature demand.
 - Fix the release train (weekly/biweekly), staged rollout posture, hotfix criteria, and rollback path.
@@ -829,6 +834,7 @@ Outputs:
 Acceptance:
 
 - The weekly rhythm has run at least once on the live app with evidence in the weekly log.
+- The portfolio card is updated when the app is announced or launched and a portfolio site is set.
 - Crash, review, retention, and support routes are proven, not planned.
 - The retro exists and its misses are filed as failure cards or LaunchBench candidates, not oral lore.
 - Each retro checkpoint that has completed (day-30, then day-90) carries a founder-decided Kill, Hold, Or Scale verdict (`post-launch-operations.md` §9); before day 30 the section's presence in `operations/LAUNCH_RETRO.md` is enough.
