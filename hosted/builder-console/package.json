@@ -18,7 +18,7 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "jose": "6.2.10",
+    "jose": "6.2.12",
     "posthog-node": "^5.51.6",
     "zod": "^4.6.5"
   },
