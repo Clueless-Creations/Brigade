@@ -18,6 +18,7 @@ Load [`apple-search-ads-launch.md`](../growth/apple-search-ads-launch.md) before
 - Interactive App Privacy Worksheet
 - Pricing, RevenueCat, And Web Funnel Alignment
 - ASO, In-App Events, Custom Product Pages, And Localization
+- Store Creative Assets And Provider Map
 - Visual And Asset Rules
 - Automation Boundaries
 - Done Definition
@@ -47,6 +48,11 @@ Refresh official docs before final packets or commands:
 - App Store localizations: `https://developer.apple.com/help/app-store-connect/reference/app-information/app-store-localizations/`
 - Product page guidance: `https://developer.apple.com/app-store/product-page`
 - App Review Guidelines: `https://developer.apple.com/app-store/review/guidelines/`
+- App Store What's New: `https://developer.apple.com/app-store/whats-new`
+- Oct 5 2026 creative assets announcement: `https://developer.apple.com/news/?id=ljpl7kyn`
+- Asset best practices: `https://developer.apple.com/app-store/asset-best-practices`
+- Creative assets specifications: `https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications`
+- Manage App Store assets (Asset Library): `https://developer.apple.com/help/app-store-connect/manage-app-information/manage-your-app-store-assets`
 - ParthJadhav App Store screenshots skill: `https://github.com/ParthJadhav/app-store-screenshots`
 
 Also inspect the ASO skill set when available:
@@ -225,6 +231,38 @@ For localization:
 
 **Anti-pattern 7 (from the monetization-and-growth digest in [`revenue-monetization.md`](../money/revenue-monetization.md) §3) — ship English-only and treat localization as optional translation busywork.** "English is universal" leaves money on the table where the app is already trending. Per the **RevenueCat State of Subscription Apps 2026** report, localization is among the highest-leverage conversion levers, and it is _paywall/offer adaptation_, not just word-for-word translation: a Japan-adapted paywall (long-scroll, social proof, clear Free-vs-Pro) beat a ported US layout by **over 20%**, and anchoring the yearly plan to its monthly equivalent in parts of Latin America lifted trial starts **~30%** with a **~10%** yearly take-rate gain. Day-35 conversion also varies widely by region (~2.6% North America, ~2% Western Europe, ~1.4% IN/SEA), so one English paywall under-serves whole markets. Do not stop at translating metadata: adapt paywall layout, plan anchoring, and offers per priority market, and localize the paywall — not only the store listing — for the markets where the product is gaining traction.
 
+## Store Creative Assets And Provider Map
+
+Apple added creative assets on 5 October 2026. They are images or video for the product-page header and for search results. The same assets can appear on custom product pages, in product page optimization tests, on In-App Events, and in Apple Ads. Screenshots and app previews stay separate. Refresh these pages before export:
+
+- [What's New](https://developer.apple.com/app-store/whats-new)
+- [Showcase your apps with new assets](https://developer.apple.com/news/?id=ljpl7kyn) (5 October 2026)
+- [Asset best practices](https://developer.apple.com/app-store/asset-best-practices)
+- [Creative assets specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications)
+
+Images cannot include an alpha channel. A product-page header image is 21:9 at 3840×1646 pixels (JPEG or PNG) or a universal 16:9 PNG at 5244×2950. Header video is 21:9 at 3840×1646, 30 or 60 fps, 5 to 30 seconds, in MOV, M4V, or MP4. A search-result image is 3:2 from 1920×1280 to 3840×2560 (JPEG or PNG), or that same universal PNG. Search video uses the 3:2 range, the same frame rates and length, and stays muted. Header video starts muted and the viewer can unmute it. Both videos loop. A seasonal set is a header, search, or event asset prepared for a later campaign. Record each asset in `examples/spec-pack/spec.yaml` `store.creative_assets` with its source provider and the Apple spec URL, and copy the same rows into the business spec.
+
+### Which provider does the job
+
+| Job | Default | Use the alternative when |
+| --- | --- | --- |
+| Compose store screenshots | ParthJadhav/app-store-screenshots (`catalog/upstreams/parth-app-store-screenshots.yaml`, [`screenshot-toolchain.md`](./screenshot-toolchain.md), `check:store-screenshots`) | Higgsfield MCP for backgrounds or scene art inside a frame. Remotion for animated frames ([`remotion-content-assets.md`](../design/remotion-content-assets.md)). |
+| Research what top apps show (screens, onboarding, paywalls) | Appllama MCP plus `appllama-usage` (opt-in, `catalog/upstreams/appllama-skills.yaml`; methods in [`mobile-flow-craft.md`](../design/mobile-flow-craft.md)) | AppKittie for store-page, ad, and keyword data. |
+| Creative assets, custom product page and event media, ad visuals, App Preview reframes | Higgsfield MCP (this section and [`ugc-creator-engine.md`](../growth/ugc-creator-engine.md)) | Remotion when the motion must stay UI-accurate. Real captures when the frame shows the app UI. |
+| Keywords and ASO | `eronred-aso-skills` and [`aso-apple-keyword-evidence.md`](./aso-apple-keyword-evidence.md) | App Store Connect analytics, through [`app-store-connect-cli.md`](./app-store-connect-cli.md), once the app is live. |
+
+Appllama informs the screenshot story. `provider.app-store-screenshots` remains the composer. `provider.appllama` is opt-in research over the Appllama MCP at `https://mcp.appllama.io/mcp`. Each call spends credits. Install the companion skills only after approval: `npx skills add appllama/appllama-skills`.
+
+Higgsfield MCP is `https://mcp.higgsfield.ai/mcp`. Connect with OAuth. No API key is required. Generations through the MCP deduct credits. Run it only for an approved asset. Callable tool names checked on 2026-10-07: `generate_image`, `generate_video`, `generate_image_batch`, `generate_video_batch`, `reframe`, `outpaint_image`, `upscale_image`, `upscale_video`, `remove_background`, `motion_control`, `marketing_studio_v2_create`, `ads_studio_generate`, `media_upload`, `job_status`, `balance`. Higgsfield's public operations table also names Personal Clipper for short clips from a long video. That page does not publish a tool id. Confirm the live id in Higgsfield MCP tool help before calling it. Sources: [What is Higgsfield MCP](https://higgsfield.ai/creator-hub/help-center/integrations/what-is-higgsfield-mcp) and [Connect Higgsfield to an MCP agent](https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent).
+
+### Asset Library pre-approval
+
+Asset Library in App Store Connect holds creative assets, screenshots, and app previews. Upload and submit creative assets on their own, without an app version and without naming the placement. Standalone assets are reviewed against the latest app version. After approval, open the live version, choose Header and Search Results, use Browse Assets, and Publish. That updates the live product page without a new version. The role is Account Holder, Admin, App Manager, or Marketing. The click path is [Manage your App Store assets](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-your-app-store-assets). Upload and submission commands stay in [`app-store-connect-cli.md`](./app-store-connect-cli.md).
+
+### Preview tool before submission
+
+Open Preview on the Header and Search Results tab before submission. Check the product page and the search result on iPhone and iPad, in both orientations, in Dark Mode, and in each localization you ship. Record that check in `APP_STORE_LISTING.md` or `SCREENSHOTS.md`. A file that meets the pixel spec can still clip after the store crop.
+
 ## Visual And Asset Rules
 
 **The app preview video is the most underused growth lever on the App Store — treat it as a first-class, required iOS asset, not an afterthought.** (This is anti-pattern 12 in the monetization-and-growth digest in [`revenue-monetization.md`](../money/revenue-monetization.md) §3: skipping the preview because recording, captioning, and exporting "feels like a real project." The autoplay-muted hook before the screenshots is a free 5-second pitch handed to you by Apple and a meaningful install-rate lift; skipping it because it takes effort is exactly the trap.) Verified Apple behavior (refresh against `source-registry.yaml` before upload): you can upload **up to 3 app previews** per device size and language, **app previews always precede screenshots** at the top of the product page, and on the product page **app previews autoplay with muted audio** ("make sure the first few seconds of your video are visually compelling"). So the first preview is a silent ~3–5 second hook the user watches whether they meant to or not, with a **poster frame** that must sell on its own when autoplay is blocked. The hook must show the defining product moment first (no logo/splash), communicate value with on-screen text (no audio dependency), land the Emotional North Star feeling, and be truthful (real app footage, no bait-and-switch). Both screenshots and the preview are produced through the screenshot ASO skill and the `app-preview-video` skill, and every asset is engineered from the **Asset Knowledge Brief** in `SCREENSHOTS.md` (`strategy/RESEARCH.md` user/problem, `11_STAR_EXPERIENCE.md` magical moment, `EMOTIONAL_DESIGN.md` + `experience-cards.md` emotion/card, `DESIGN.md`/`strategy/BRAND.md` tokens/voice) — never generic. This is auditable: `check-store-screenshots` and the `SCREENSHOTS.md` packet flag a missing or generic, knowledge-free hook for both new and existing apps.
@@ -244,7 +282,7 @@ Screenshots and previews should start from real app UI. When marketing compositi
 - create or update a screenshot composition/export board such as `screenshots/index.html` when composing final stills locally
 - route App Icon production through `app-icon-optimization` or equivalent, testing the 1024x1024 icon at App Store search thumbnail size with no alpha and no rounded corners
 - route App Preview or Play promo video through `app-preview-video`, MobAI/native iOS recording proof, and Remotion/Higgsfield/owned-media production rules when video is in scope
-  - **App Preview / Play promo video resolutions:** use the `mcp__claude_ai_Higgsfield__reframe` MCP tool (see the **Master → All Platforms (reframe + personal_clipper)** recipe in `tool-recipes/visual-and-motion-production.md`) to produce all required Apple and Play resolution variants (9:16, 1:1, 16:9) from a single master. Source footage MUST be real app screen recordings — reframe is for aspect-ratio reformatting only, never for generating substitute UI. Confirm exact invocation via the `higgsfield-generate` skill or MCP tool help before running. Spend-confirm before invoking reframe; record all output URLs and source job IDs in `CONTENT_ASSETS.md`.
+  - **App Preview / Play promo video resolutions:** use `reframe` on the Higgsfield MCP (see the **Master → All Platforms** recipe in `tool-recipes/visual-and-motion-production.md`) to produce the required Apple and Play resolution variants (9:16, 1:1, 16:9) from a single master. Source footage must be real app screen recordings. `reframe` changes aspect ratio. It does not generate substitute UI. Confirm the live arguments in Higgsfield MCP tool help before running. Spend-confirm before invoking `reframe`. Record output URLs and source job IDs in `CONTENT_ASSETS.md`.
   - **Preview-video B-roll:** supporting motion around real app footage may use the newest Seedance (2.5 at last check — confirm the exact model id via the `higgsfield-generate` skill), or Cinema Studio Video 3.0 — confirm its model id the same way; B-roll must never replace or obscure the real UI layer. See `tool-recipes/visual-and-motion-production.md` for syntax; confirm model availability via `higgsfield-generate` skill before use.
 - **Google Play feature graphic:** route via `higgsfield product-photoshoot --mode hero_banner` (DESIGN.md brief required; real app UI or product imagery as input) for the 1024×500 Play Console feature graphic slot. Record in `CONTENT_ASSETS.md`; founder approval before upload.
 - **CPP background art / seasonal refresh:** for Custom Product Page supporting background art, use the `higgsfield product-photoshoot --mode restyle` path. See the **Seasonal restyle Refresh** recipe in `tool-recipes/visual-and-motion-production.md` for the full flow (load locked CPP background, spend confirm, restyle with seasonal context + DESIGN.md palette, 2–3 variants status:draft, CONTENT_ASSETS.md, founder approval before CPP upload). The real-UI screenshot layer is never passed to restyle.
@@ -287,6 +325,9 @@ Do not call the App Store listing ready unless:
 - App Privacy answers are derived from real data inventory and third-party partners
 - pricing, products, entitlements, and legal copy agree across the surfaces used by the accepted payment model
 - screenshots/previews have real app UI, final dimensions, locale/device targets, and upload status
+- creative assets name a product-page header (image or video), a search-result asset, and any seasonal set, each with a source provider and the Apple spec, or the packet records why that placement is unused
+- an Asset Library asset that will be reused was submitted and approved before the campaign date
+- the preview tool was checked for the product page and search results, including Dark Mode, device, orientation, and localization, before submission
 - `SCREENSHOTS.md` proves raw captures, composed production assets, iPhone/iPad device wells, App Icon/App Preview route, visual QA, and `check-store-screenshots` status
 - custom product pages, In-App Events, and ASA/marketing routing are either planned with proof or explicitly not needed
 - localization strategy is documented with target markets and proof status

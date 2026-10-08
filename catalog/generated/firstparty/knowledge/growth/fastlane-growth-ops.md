@@ -243,11 +243,11 @@ Once a master video exists (real app footage from MobAI, Codex Desktop native iO
 
 Key points for this surface:
 
-- `mcp__claude_ai_Higgsfield__reframe` is MCP-only — there is no `higgsfield reframe ...` CLI command. Confirm exact invocation via the `higgsfield-generate` skill or MCP tool help before running.
-- `mcp__claude_ai_Higgsfield__personal_clipper_create` / `_jobs` / `_status` extracts shorts from long recordings before reframing. Same MCP-only constraint applies.
+- `reframe` on the Higgsfield MCP has no `higgsfield reframe ...` CLI command. Confirm the live arguments in Higgsfield MCP tool help before running.
+- Personal Clipper, named in Higgsfield's public MCP operations table, extracts shorts from long recordings before reframing. The help page does not publish a tool id. Confirm the live id in Higgsfield MCP tool help before calling it.
 - Targets: 9:16 (TikTok / Reels), 1:1 (feed), 16:9 (YouTube / LinkedIn).
 - **App Preview guardrail:** any reframe intended as an App Preview must be sourced from REAL app footage (an in-app iOS Simulator recording, MobAI, XcodeBuildMCP, or serve-sim capture) captured at a resolution that meets the target well. Generated video and preview-only snapshots are never valid App Preview sources.
-- **Spend-confirmation gate:** reframe and personal_clipper consume paid credits. Confirm spend with the founder per `paid-tool-routing.md` and surface the current balance (`mcp__claude_ai_Higgsfield__balance`) before running.
+- **Spend-confirmation gate:** `reframe` on the Higgsfield MCP deducts credits. Personal Clipper does too when you call it. Confirm spend with the founder per `paid-tool-routing.md` and surface the current balance with `balance` on the Higgsfield MCP before running.
 - **CONTENT_ASSETS.md traceability:** record all output URLs, source job IDs (`source_job_id`), and aspect-ratio variants in `CONTENT_ASSETS.md` / `growth/content-assets/manifest.json`. Run `brain_activity` virality scoring on each variant and log the score before scheduling any paid distribution.
 - Do not schedule reframed variants until the founder approves each output.
 
@@ -330,4 +330,4 @@ from Brand Skill alone.
 - Tracking social metrics but not mapping them back to installs, trials, or revenue.
 - Generating three separate Higgsfield videos for 9:16 / 1:1 / 16:9 instead of using reframe on one master.
 - Using generated video as the source for an App Preview reframe instead of real app footage.
-- Running reframe or personal_clipper without confirming spend with the founder and recording outputs in CONTENT_ASSETS.md.
+- Running `reframe` on the Higgsfield MCP, or Personal Clipper, without confirming spend with the founder and recording outputs in CONTENT_ASSETS.md.

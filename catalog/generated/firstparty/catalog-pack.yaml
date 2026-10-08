@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.123
-revision: 0.221.123
+version: 0.221.124
+revision: 0.221.124
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -1089,6 +1089,7 @@ workflows:
       - provider.stripe
       - provider.resend
       - provider.app-store-screenshots
+      - provider.appllama
       - provider.higgsfield
       - provider.mobai
       - provider.in-app-ios-simulator
@@ -10565,6 +10566,78 @@ references:
           - README.md
           - skills/app-store-screenshots/SKILL.md
         upstream_id: parth-app-store-screenshots
+      - id: developer-apple-com-app-store-whats-new
+        name: App Store What's New
+        source_type: official_docs
+        url: https://developer.apple.com/app-store/whats-new
+        review_cadence_days: 7
+        claim_scope: Oct 5 2026 creative assets on product-page headers and search results, plus Asset Library and the preview tool.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: developer-apple-com-news-ljpl7kyn
+        name: Showcase your apps with new assets
+        source_type: official_docs
+        url: https://developer.apple.com/news/?id=ljpl7kyn
+        review_cadence_days: 7
+        claim_scope: October 5 2026 announcement of creative assets, the preview tool, and Asset Library pre-approval.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: developer-apple-com-app-store-asset-best-practices
+        name: App Store asset best practices
+        source_type: official_docs
+        url: https://developer.apple.com/app-store/asset-best-practices
+        review_cadence_days: 7
+        claim_scope: Placement guidance for product-page headers, search results, and In-App Event creative assets.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: developer-apple-com-help-creative-assets-specifications
+        name: Creative assets specifications
+        source_type: official_docs
+        url: https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications
+        review_cadence_days: 7
+        claim_scope: Image and video specifications for the product-page header, search results, and In-App Event cards.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: developer-apple-com-help-manage-your-app-store-assets
+        name: Manage your App Store assets
+        source_type: official_docs
+        url: https://developer.apple.com/help/app-store-connect/manage-app-information/manage-your-app-store-assets
+        review_cadence_days: 7
+        claim_scope: Asset Library upload, standalone review, reuse of approved assets, and the preview control.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: higgsfield-ai-what-is-higgsfield-mcp
+        name: What is Higgsfield MCP
+        source_type: website
+        url: https://higgsfield.ai/creator-hub/help-center/integrations/what-is-higgsfield-mcp
+        review_cadence_days: 30
+        claim_scope: MCP generations deduct credits. OAuth connection, no API key.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: higgsfield-ai-connect-higgsfield-to-ai-agent
+        name: Connect Higgsfield to an MCP agent
+        source_type: website
+        url: https://higgsfield.ai/creator-hub/help-center/integrations/how-do-i-connect-higgsfield-to-ai-agent
+        review_cadence_days: 30
+        claim_scope: Public operations table. Personal Clipper is named as a capability. The page does not publish a tool id for it.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: mcp-higgsfield-ai-mcp
+        name: Higgsfield MCP connector
+        source_type: website
+        url: https://mcp.higgsfield.ai/mcp
+        review_cadence_days: 30
+        claim_scope: Public connector URL. OAuth, no API key.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
+      - id: mcp-appllama-io-mcp
+        name: Appllama MCP
+        source_type: website
+        url: https://mcp.appllama.io/mcp
+        review_cadence_days: 30
+        claim_scope: Opt-in research connector for top-app screens, onboarding, and paywalls. Per-call credits.
+        last_review_date: 2026-10-08
+        reviewer: b2c-maintainers
     derivations:
       - source_ids:
           - github-com-eronred-aso-skills
@@ -11917,6 +11990,7 @@ roles:
       - provider.stripe
       - provider.resend
       - provider.app-store-screenshots
+      - provider.appllama
       - provider.higgsfield
       - provider.mobai
       - provider.in-app-ios-simulator
@@ -12081,6 +12155,7 @@ roles:
       - provider.refero
       - provider.higgsfield
       - provider.app-store-screenshots
+      - provider.appllama
     output_path_prefixes:
       - DESIGN.md
       - design/
@@ -12247,6 +12322,7 @@ roles:
       - provider.app-store-connect
       - provider.google-play
       - provider.app-store-screenshots
+      - provider.appllama
       - provider.higgsfield
       - provider.posthog
       - provider.revenuecat
