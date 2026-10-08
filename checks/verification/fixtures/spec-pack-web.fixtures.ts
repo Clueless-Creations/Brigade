@@ -1,5 +1,5 @@
 // Web-surface spec-pack checks: social cards, discovery, funnel, and deep links.
-import { copyFileSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import vm from "node:vm";
