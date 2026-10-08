@@ -7,6 +7,7 @@ This is repo governance for the skill, not a launch artifact for a single app. T
 ## Required Outputs
 
 - `checks/validation/repository/source-registry.yaml`: canonical list of external docs, GitHub repos, APIs, skills, websites, and provider resources referenced by the skill.
+- `checks/validation/repository/source-registry.d/*.yaml`: optional fragments with the same `sources:` list. Readers load them with the main file, in filename order. A duplicate `id` or `url` across files is an error. `--write-discovered` still appends to the main file.
 - `catalog/providers/capability-delta.yaml`: classification ledger for contracted-source hash changes. `to_hash` must match the snapshot, or `unsnapped` when no snapshot row exists.
 - `docs/source-freshness/SOURCE_REFRESH_REPORT.md`: generated weekly report.
 - `docs/source-freshness/source-refresh.html`: rendered report for review.

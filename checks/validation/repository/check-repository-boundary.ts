@@ -16,6 +16,7 @@ import { parse } from "@babel/parser";
 import { parse as parseYaml } from "yaml";
 import { findGitRoot } from "../../../tooling/lib/git-root.js";
 import { flagString, issue, parseFlags, reportAndExit, type Issue } from "../../../tooling/lib/launch-state.js";
+import { loadSourceRegistryFragmentRows } from "../../../tooling/lib/source-registry.js";
 
 interface SourceEntry {
   id?: unknown;
@@ -180,9 +181,12 @@ for (const layer of ["adapters", "catalog", "checks", "contracts", "entrypoints"
 }
 
 const registryPath = path.join(repoRoot, "checks/validation/repository/source-registry.yaml");
-if (existsSync(registryPath)) {
-  const parsed = parseYaml(readFileSync(registryPath, "utf8")) as { sources?: unknown } | null;
-  const sources = Array.isArray(parsed?.sources) ? (parsed.sources as SourceEntry[]) : [];
+if (existsSync(registryPath) || existsSync(path.join(path.dirname(registryPath), "source-registry.d"))) {
+  const parsed = existsSync(registryPath) ? (parseYaml(readFileSync(registryPath, "utf8")) as { sources?: unknown } | null) : null;
+  const sources = [
+    ...(Array.isArray(parsed?.sources) ? (parsed.sources as SourceEntry[]) : []),
+    ...(loadSourceRegistryFragmentRows(registryPath) as SourceEntry[]),
+  ];
   const productTypes = new Set(["human_facing_web", "marketing_site", "product_source", "product_ui"]);
   for (const source of sources) {
     if (!source || typeof source !== "object") continue;

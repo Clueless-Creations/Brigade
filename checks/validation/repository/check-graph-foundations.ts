@@ -21,6 +21,7 @@ import { isPinnedCommit, isPublicTermAllowed, loadPrinciples, loadVocabulary, pr
 import { PRINCIPLE_SOURCE_IDS } from "../../../catalog/principles/types.js";
 import { flagString, isRecord, issue, parseFlags, reportAndExit, type Issue } from "../../../tooling/lib/launch-state.js";
 import { resolveSkillRoot } from "../../../tooling/lib/skill-root.js";
+import { loadSourceRegistryFragmentRows } from "../../../tooling/lib/source-registry.js";
 
 const defaultSkillRoot = resolveSkillRoot(import.meta.url);
 
@@ -120,9 +121,12 @@ try {
     addError("graph_foundations.public_term_unapproved", `public term "${declarePublicTerm}" is not in the approved vocabulary record`, vocabularyFile);
   }
 
-  if (existsSync(registryPath)) {
-    const parsed: unknown = parseYaml(readFileSync(registryPath, "utf8"));
-    const sources = isRecord(parsed) && Array.isArray(parsed.sources) ? parsed.sources.filter(isRecord) : [];
+  if (existsSync(registryPath) || existsSync(path.join(path.dirname(registryPath), "source-registry.d"))) {
+    const parsed: unknown = existsSync(registryPath) ? parseYaml(readFileSync(registryPath, "utf8")) : undefined;
+    const sources = [
+      ...(isRecord(parsed) && Array.isArray(parsed.sources) ? parsed.sources.filter(isRecord) : []),
+      ...loadSourceRegistryFragmentRows(registryPath),
+    ];
     const registryCommits = new Map<string, string>();
     for (const source of sources) {
       const url = typeof source.url === "string" ? source.url : "";

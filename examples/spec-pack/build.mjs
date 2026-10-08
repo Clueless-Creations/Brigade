@@ -1,71 +1,153 @@
 #!/usr/bin/env node
 // Render spec.yaml into index.html and check the spec.
 // Usage: node build.mjs [spec.yaml] [out.html]
+//        node build.mjs --list-checks
 // Exit code 1 when the spec check finds errors (index.html is still written
 // so the errors are visible on the page).
-import { readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import YAML from 'yaml';
+//
+// Checks live in checks/*.mjs, loaded in filename order. Review-page sections
+// live in sections/*.js. ctx carries screenIds, eventNames, webIds, reach, and tasks.
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import YAML from "yaml";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const specPath = process.argv[2] ?? join(here, 'spec.yaml');
-const outPath = process.argv[3] ?? join(here, 'index.html');
-const spec = YAML.parse(readFileSync(specPath, 'utf8'));
 
-const REQUIRED_DECISION = ['loading', 'empty', 'error'];
-const ALLOWED = new Set(['default', 'loading', 'empty', 'error', 'offline', 'permission-denied', 'success']);
+function deriveTasks(spec) {
+  const tasks = [];
+  for (const screen of spec.screens ?? []) {
+    tasks.push({
+      id: `S-${screen.id}`,
+      title: screen.title ?? screen.id,
+      area: "App",
+      depends_on: [],
+      acceptance: screen.acceptance ?? [],
+      capabilities: [],
+    });
+  }
+  for (const page of spec.web ?? []) {
+    tasks.push({
+      id: `W-${page.id}`,
+      title: page.title ?? page.id,
+      area: "Web",
+      depends_on: [],
+      acceptance: page.acceptance ?? [],
+      capabilities: [],
+    });
+  }
+  if (Array.isArray(spec.tasks)) {
+    for (const task of spec.tasks) tasks.push(task);
+  }
+  return tasks;
+}
+
+function reachability(spec, screenIds) {
+  const reach = new Set([spec.screens[0].id]);
+  let grew = true;
+  while (grew) {
+    grew = false;
+    for (const screen of spec.screens) {
+      if (!reach.has(screen.id)) continue;
+      for (const blocks of Object.values(screen.mock ?? {})) {
+        for (const block of blocks) {
+          for (const target of [block.to, block.back, block.action_to]) {
+            if (target && screenIds.has(target) && !reach.has(target)) {
+              reach.add(target);
+              grew = true;
+            }
+          }
+        }
+      }
+    }
+  }
+  return reach;
+}
+
+function buildContext(spec) {
+  const screenIds = new Set(spec.screens.map((screen) => screen.id));
+  const eventNames = new Set(spec.analytics.events.map((event) => event.name));
+  const webIds = new Set(spec.web.map((page) => page.id));
+  return { screenIds, eventNames, webIds, reach: reachability(spec, screenIds), tasks: deriveTasks(spec) };
+}
+
+async function loadChecks() {
+  const dir = join(here, "checks");
+  const files = readdirSync(dir)
+    .filter((name) => name.endsWith(".mjs"))
+    .sort();
+  const modules = [];
+  for (const file of files) {
+    const loaded = await import(pathToFileURL(join(dir, file)).href);
+    modules.push({ file, ...loaded });
+  }
+  return modules;
+}
+
+function sectionScript() {
+  const dir = join(here, "sections");
+  if (!existsSync(dir)) return "";
+  return readdirSync(dir)
+    .filter((name) => name.endsWith(".js"))
+    .sort()
+    .map((name) => readFileSync(join(dir, name), "utf8"))
+    .join("\n");
+}
+
+function inject(html, marker, value) {
+  const parts = html.split(marker);
+  if (parts.length !== 2) throw new Error(`template is missing ${marker}`);
+  return parts[0] + value + parts[1];
+}
+
+function stateCountOf(spec) {
+  let stateCount = 0;
+  for (const screen of spec.screens) stateCount += (screen.states ?? []).length;
+  return stateCount;
+}
+
+const checks = await loadChecks();
+const listChecks = process.argv.includes("--list-checks");
+if (listChecks) {
+  for (const mod of checks) console.log(`${mod.id}: ${mod.describe}`);
+  process.exit(0);
+}
+
+const args = process.argv.slice(2).filter((arg) => arg !== "--list-checks");
+const specPath = args[0] ?? join(here, "spec.yaml");
+const outPath = args[1] ?? join(here, "index.html");
+const spec = YAML.parse(readFileSync(specPath, "utf8"));
+const ctx = buildContext(spec);
 const errors = [];
-const ids = new Set(spec.screens.map((s) => s.id));
-const eventNames = new Set(spec.analytics.events.map((e) => e.name));
-let stateCount = 0;
-
-for (const s of spec.screens) {
-  if (!s.states?.includes('default')) errors.push(`${s.id}: states must include default`);
-  for (const st of s.states ?? []) {
-    stateCount++;
-    if (!ALLOWED.has(st)) errors.push(`${s.id}: unknown state "${st}"`);
-    if (!s.mock?.[st]?.length) errors.push(`${s.id}: state "${st}" has no mock`);
+for (const mod of checks) {
+  if (typeof mod.check !== "function") {
+    errors.push(`check module ${mod.file}: missing check()`);
+    continue;
   }
-  for (const st of REQUIRED_DECISION) {
-    if (!s.states?.includes(st) && !s.not_applicable?.[st]) errors.push(`${s.id}: "${st}" is neither a state nor not_applicable with a reason`);
-  }
-  if (!s.acceptance?.length) errors.push(`${s.id}: no acceptance rules`);
-  for (const e of s.events ?? []) if (!eventNames.has(e)) errors.push(`${s.id}: event "${e}" not in analytics.events`);
-  for (const blocks of Object.values(s.mock ?? {})) {
-    for (const b of blocks) {
-      for (const target of [b.to, b.back, b.action_to]) if (target && !ids.has(target)) errors.push(`${s.id}: tap target "${target}" is not a screen`);
+  errors.push(...mod.check(spec, ctx));
+}
+const outDir = dirname(outPath);
+for (const mod of checks) {
+  if (typeof mod.emit !== "function") continue;
+  const files = mod.emit(spec, ctx) ?? {};
+  for (const [filename, contents] of Object.entries(files)) {
+    if (!filename || filename !== basename(filename)) {
+      errors.push(`check module ${mod.file}: emit filename "${filename}" must be a single file name`);
+      continue;
     }
+    writeFileSync(join(outDir, filename), contents);
   }
 }
-for (const sh of spec.store.screenshots) if (!ids.has(sh.screen)) errors.push(`store screenshot uses unknown screen "${sh.screen}"`);
-for (const need of ['landing', 'privacy', 'terms', 'support', 'delete']) {
-  if (!spec.web.some((w) => w.id === need)) errors.push(`web surface "${need}" is missing`);
-}
-for (const need of ['app_opened', 'core_action_completed', 'paywall_viewed', 'purchase_completed']) {
-  if (!eventNames.has(need)) errors.push(`analytics event "${need}" is missing`);
-}
-// Every non-start screen must be reachable in the click-through.
-const reach = new Set([spec.screens[0].id]);
-let grew = true;
-while (grew) {
-  grew = false;
-  for (const s of spec.screens) {
-    if (!reach.has(s.id)) continue;
-    for (const blocks of Object.values(s.mock ?? {})) for (const b of blocks) {
-      for (const t of [b.to, b.back, b.action_to]) if (t && ids.has(t) && !reach.has(t)) { reach.add(t); grew = true; }
-    }
-  }
-}
-for (const s of spec.screens) if (!reach.has(s.id)) errors.push(`${s.id}: not reachable in the prototype`);
-if (spec.meta.status === 'approved' && (!spec.meta.approved_by || !spec.meta.approved_at)) errors.push('meta: approved status needs approved_by and approved_at');
 
-const report = { errors, stateCount, screens: spec.screens.length };
-const safe = (o) => JSON.stringify(o, null, 2).replace(/</g, '\\u003c');
-const html = readFileSync(join(here, 'template.html'), 'utf8')
-  .replace('/*SPEC_JSON*/', safe(spec))
-  .replace('/*REPORT_JSON*/', safe(report));
+const stateCount = stateCountOf(spec);
+const report = { errors, stateCount, screens: spec.screens.length, tasks: ctx.tasks };
+const safe = (value) => JSON.stringify(value, null, 2).replace(/</g, "\\u003c");
+const html = inject(
+  inject(inject(readFileSync(join(here, "template.html"), "utf8"), "/*SPEC_JSON*/", safe(spec)), "/*REPORT_JSON*/", safe(report)),
+  "/*SECTIONS_JS*/",
+  sectionScript(),
+);
 writeFileSync(outPath, html);
 console.log(`${outPath}: ${report.screens} screens, ${stateCount} states, ${errors.length} errors`);
-for (const e of errors) console.log(`  - ${e}`);
+for (const error of errors) console.log(`  - ${error}`);
 process.exit(errors.length ? 1 : 0);
