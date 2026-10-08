@@ -15,6 +15,7 @@ Load [`conversion-copy.md`](../words/conversion-copy.md) for the words on the pa
 - Mobile Viewport Rules
 - Friction Audit
 - Analytics Events
+- Web to App Store
 - Gates Before Handoff
 
 ## Sources To Refresh
@@ -74,6 +75,30 @@ Declare in `analytics/ANALYTICS.md` first; implement the approved catalog:
 - `landing_cta_clicked` (variant_id, cta_position)
 - `waitlist_submitted` / `app_store_redirect` / `purchase_started` (the page's primary conversion)
   Tie every CRO test to the experiment discipline in [`analytics-attribution.md`](../data/analytics-attribution.md): a CRO change is an experiment with a hypothesis, a minimum sample, and a stop rule.
+
+## Web to App Store
+
+The store button is a normal link.
+The page keeps that link when JavaScript is off.
+
+Use a Smart App Banner on each public page.
+The meta tag name is `apple-itunes-app`.
+The content uses `app-id` and `app-argument`.
+Apple documents that tag in [Promoting Apps with Smart App Banners](https://developer.apple.com/documentation/webkit/promoting-apps-with-smart-app-banners).
+
+A campaign link adds three query parameters.
+`pt` is the provider token.
+`ct` is the campaign token.
+`mt=8` means mobile software.
+Give each channel its own `ct` value.
+Apple documents the parameters in [Campaign links](https://developer.apple.com/help/app-store-connect-analytics/acquisition/campaign-links).
+That page also says to add the provider token and the campaign token on the banner.
+
+Keep one web fallback for each universal-link path.
+The association file is `apple-app-site-association`.
+Apple documents that file in [Supporting associated domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains).
+Universal links must validate their input.
+See [Security Release Hardening](../trust/security-release-hardening.md).
 
 ## Gates Before Handoff
 

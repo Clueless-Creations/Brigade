@@ -61,6 +61,13 @@ mode, `&w=<px>&h=<px>` for another device size).
     project, milestones Build, Dogfood, Gate 2, Launch, and Run, and one issue
     per task. Area and capability labels, blockers, and the acceptance checklist
     come from that task.
+12. `web_meta` is present. Every page has a title and a description. Each
+    `og_image` is a `.png` or `.jpg`, and the default image is 1200×630.
+13. `discovery` is present and has at least one FAQ entry.
+    `discovery.canonical_origin` may be empty. The check then uses
+    `meta.web_origin`.
+14. `funnel` is present. Each channel has a `ct` token and a static href
+    fallback. Each deep link names a screen and a web path that exist.
 
 `node build.mjs --list-checks` prints one line per check module (`id: describe`).
 Add a later check as `checks/<NN>-<area>.mjs`. Add a review section as

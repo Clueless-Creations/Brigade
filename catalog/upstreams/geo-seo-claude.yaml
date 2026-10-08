@@ -1,0 +1,108 @@
+schema_version: 1
+id: geo-seo-claude
+project: GEO-first SEO skill
+canonical_url: https://github.com/zubair-trabzada/geo-seo-claude
+aliases:
+  - zubair-trabzada/geo-seo-claude
+authors:
+  - name: Zubair Trabzada
+    role: original author or copyright holder identified in the reviewed source
+maintainers:
+  - name: zubair-trabzada (github.com/zubair-trabzada)
+    role: current upstream maintainer
+copyright: Copyright (c) 2026 Zubair Trabzada
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/zubair-trabzada/geo-seo-claude/blob/989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c/LICENSE
+  evidence_sha256: 7bb0e4a490394cd2e1beab4d5886fd9cab237527144cc931170e4f29cf1872cc
+  reviewed_revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+  notice_file: catalog/upstreams/notices/geo-seo-claude.txt
+  scope: Root LICENSE and the skill names already routed by knowledge/growth/geo-seo.md. No skill text, installer,
+    or executable is vendored.
+source_ids:
+  - github-com-zubair-trabzada-geo-seo-claude
+relationships:
+  - kind: adapted-method
+    consumption: Required launch artifacts and the GEO content rules are already reauthored in
+      knowledge/growth/geo-seo.md. This record pins that routing. No skill file is copied.
+    local_owners: &geo
+      - knowledge/growth/geo-seo.md
+    tests:
+      - checks/verification/fixtures/spec-pack-web.fixtures.ts
+    upstream_paths:
+      - LICENSE
+      - README.md
+    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation is selected and
+      authorized separately.
+  - kind: selected-skill-guidance
+    consumption: geo, geo-audit, geo-technical, geo-crawlers, geo-llmstxt, geo-schema, geo-citability, geo-content,
+      geo-brand-mentions, geo-platform-optimizer, geo-compare, and geo-report stay opt-in auditor or producer packs.
+      No SKILL.md is installed by this record.
+    local_owners:
+      - knowledge/engineering/external-skill-packs.md
+      - knowledge/growth/geo-seo.md
+    tests:
+      - checks/verification/fixtures/spec-pack-web.fixtures.ts
+    upstream_paths:
+      - README.md
+      - LICENSE
+    pin_authority: npx skills add carries no pin. The reviewed commit identifies the skill names this routing cites.
+baselines:
+  reviewed_source:
+    revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+    observed_at: "2026-10-08"
+    by: b2c-contributor source review
+    note: Read-only LICENSE and README inspection at the reviewed commit. No skill install and no live site audit.
+  reviewed_guidance:
+    revision: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+    observed_at: "2026-10-08"
+    by: b2c-contributor source review
+    note: Existing geo-seo.md routing stays the local owner. The spec pack now requires the same artifacts.
+support:
+  policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
+    bindings or certification of installed versions.
+  versions:
+    - range: 989cae01e8ebbc42a9ec798eb9e7cb423f5ec89c
+      status: untested
+      evidence:
+        - Source inspection and spec-pack web-surface fixtures only. No upstream skill execution.
+  operations:
+    - id: geo-seo-claude-guidance
+      title: GEO and SEO artifact routing
+      keywords:
+        - robots.txt
+        - sitemap
+        - llms.txt
+        - json-ld
+        - open-graph
+      owners: *geo
+  unsupported_operations:
+    - id: automatic-install-or-upgrade
+      reason: Requires explicit target, selected compatible revision, scoped authority and independent verification.
+        No host installation, business repin or publication is automatic.
+    - id: unreviewed-upstream-features
+      reason: A new release or source commit creates a review candidate, never additional execution authority or
+        acceptance.
+  platforms: []
+adaptations:
+  - id: no-skill-vendor
+    description: Skill names stay a routing list. No SKILL.md text, installer, or Python probe is copied into this
+      repository.
+    owner: knowledge/growth/geo-seo.md
+    intentional: true
+  - id: spec-pack-requires-artifacts
+    description: The spec pack requires social cards, a discovery block with FAQ entries, and a W-DISCOVERY task in
+      the same wave as the first web page.
+    owner: knowledge/design/spec-pack.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 30
+  last_review: "2026-10-08"
+  status: current
+credits:
+  acknowledge: true
+  use: adapted
+  summary: GEO artifact and skill-name routing informs knowledge/growth/geo-seo.md and
+    knowledge/engineering/external-skill-packs.md. The original license notice is retained. No skill is installed.
