@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.130",
+  "version": "0.221.131",
   "updatedAt": "2026-10-09",
   "sourcePath": ".",
   "releaseNotes": [
+    "Verify release candidates before merging stamps (#695)",
     "Preserve specification obligations through assignment and verification (#689)",
     "Repair contribution output and catalog verification (#692)",
     "Honor commit hooks when creating release stamps (#693)",
