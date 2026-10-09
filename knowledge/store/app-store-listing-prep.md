@@ -246,8 +246,8 @@ Images cannot include an alpha channel. A product-page header image is 21:9 at 3
 
 | Job | Default | Use the alternative when |
 | --- | --- | --- |
-| Compose store screenshots | ParthJadhav/app-store-screenshots (`catalog/upstreams/parth-app-store-screenshots.yaml`, [`screenshot-toolchain.md`](./screenshot-toolchain.md), `check:store-screenshots`) | Higgsfield MCP for backgrounds or scene art inside a frame. Remotion for animated frames ([`remotion-content-assets.md`](../design/remotion-content-assets.md)). |
-| Research what top apps show (screens, onboarding, paywalls) | Appllama MCP plus `appllama-usage` (opt-in, `catalog/upstreams/appllama-skills.yaml`; methods in [`mobile-flow-craft.md`](../design/mobile-flow-craft.md)) | AppKittie for store-page, ad, and keyword data. |
+| Compose store screenshots | ParthJadhav/app-store-screenshots ([`screenshot-toolchain.md`](./screenshot-toolchain.md), `check:store-screenshots`) | Higgsfield MCP for backgrounds or scene art inside a frame. Remotion for animated frames ([`remotion-content-assets.md`](../design/remotion-content-assets.md)). |
+| Research what top apps show (screens, onboarding, paywalls) | Appllama MCP plus `appllama-usage` (opt-in; methods in [`mobile-flow-craft.md`](../design/mobile-flow-craft.md)) | AppKittie for store-page, ad, and keyword data. |
 | Creative assets, custom product page and event media, ad visuals, App Preview reframes | Higgsfield MCP (this section and [`ugc-creator-engine.md`](../growth/ugc-creator-engine.md)) | Remotion when the motion must stay UI-accurate. Real captures when the frame shows the app UI. |
 | Keywords and ASO | `eronred-aso-skills` and [`aso-apple-keyword-evidence.md`](./aso-apple-keyword-evidence.md) | App Store Connect analytics, through [`app-store-connect-cli.md`](./app-store-connect-cli.md), once the app is live. |
 

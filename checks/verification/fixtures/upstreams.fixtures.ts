@@ -921,6 +921,7 @@ export function register(harness: Harness): void {
   } else {
     harness.check(cliLabel, () => {
       assert(cli.status === 0, `exit ${cli.status}\n${cliOutput.trim().slice(-2000)}`);
+      assert(Buffer.byteLength(cli.stdout, "utf8") > 64 * 1024, "the piped inventory must exercise output larger than a 64 KiB write buffer");
       const start = cli.stdout.indexOf("{");
       assert(start >= 0, `no JSON on stdout\n${cliOutput.trim().slice(-1000)}`);
       const envelope = JSON.parse(cli.stdout.slice(start)) as { ok: boolean; data?: UpstreamInventoryData };
