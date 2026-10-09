@@ -1204,9 +1204,44 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "Primary button visible without scrolling on iPhone SE (3rd gen).",
-        "No sign-in before first value."
+        "No sign-in before first value.",
+        "Render and verify welcome in required state \"default\" against its approved mock.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/screens/0/acceptance/0",
+        "/screens/0/acceptance/1",
+        "/screens/0/states/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/screens/0"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "S-add-event",
@@ -1215,9 +1250,46 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "Save with empty title shows inline error, no alert.",
-        "Past dates are allowed and show \"days since\"."
+        "Past dates are allowed and show \"days since\".",
+        "Render and verify add-event in required state \"default\" against its approved mock.",
+        "Render and verify add-event in required state \"error\" against its approved mock.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/screens/1/acceptance/0",
+        "/screens/1/acceptance/1",
+        "/screens/1/states/0",
+        "/screens/1/states/1",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/screens/1"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "S-home",
@@ -1226,9 +1298,46 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "Sorted nearest first; past events in a separate \"Since\" section.",
-        "Large text (AX5) keeps titles readable with no truncation of day count."
+        "Large text (AX5) keeps titles readable with no truncation of day count.",
+        "Render and verify home in required state \"default\" against its approved mock.",
+        "Render and verify home in required state \"empty\" against its approved mock.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/screens/2/acceptance/0",
+        "/screens/2/acceptance/1",
+        "/screens/2/states/0",
+        "/screens/2/states/1",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/screens/2"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "S-event-detail",
@@ -1236,9 +1345,43 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "area": "App",
       "depends_on": [],
       "acceptance": [
-        "Number updates at local midnight without relaunch."
+        "Number updates at local midnight without relaunch.",
+        "Render and verify event-detail in required state \"default\" against its approved mock.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/screens/3/acceptance/0",
+        "/screens/3/states/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/screens/3"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "S-paywall",
@@ -1247,9 +1390,50 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "Price comes from RevenueCat offering, never hard-coded.",
-        "Restore works on a fresh install with the sandbox account."
+        "Restore works on a fresh install with the sandbox account.",
+        "Render and verify paywall in required state \"default\" against its approved mock.",
+        "Render and verify paywall in required state \"loading\" against its approved mock.",
+        "Render and verify paywall in required state \"error\" against its approved mock.",
+        "Render and verify paywall in required state \"success\" against its approved mock.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/screens/4/acceptance/0",
+        "/screens/4/acceptance/1",
+        "/screens/4/states/0",
+        "/screens/4/states/1",
+        "/screens/4/states/2",
+        "/screens/4/states/3",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/screens/4"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "S-settings",
@@ -1257,9 +1441,43 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "area": "App",
       "depends_on": [],
       "acceptance": [
-        "Every link opens the matching web surface below."
+        "Every link opens the matching web surface below.",
+        "Render and verify settings in required state \"default\" against its approved mock.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/screens/5/acceptance/0",
+        "/screens/5/states/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/screens/5"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-landing",
@@ -1272,9 +1490,46 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "Reduced-motion check passes.",
         "Content stays readable without JavaScript.",
         "npx impeccable detect reports zero high findings.",
-        "The geo-seo.md section 4 copy scan is recorded in the pull request."
+        "The geo-seo.md section 4 copy scan is recorded in the pull request.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/web/0/acceptance/0",
+        "/web/0/acceptance/1",
+        "/web/0/acceptance/2",
+        "/web/0/acceptance/3",
+        "/web/0/acceptance/4",
+        "/web/0/acceptance/5",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/web/0"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-privacy",
@@ -1282,9 +1537,41 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "area": "Web",
       "depends_on": [],
       "acceptance": [
-        "Matches App Privacy labels exactly"
+        "Matches App Privacy labels exactly",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/web/1/acceptance/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/web/1"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-terms",
@@ -1292,9 +1579,41 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "area": "Web",
       "depends_on": [],
       "acceptance": [
-        "Linked from paywall and settings"
+        "Linked from paywall and settings",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/web/2/acceptance/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/web/2"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-support",
@@ -1302,9 +1621,41 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "area": "Web",
       "depends_on": [],
       "acceptance": [
-        "Returns 200, not a GitHub link"
+        "Returns 200, not a GitHub link",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/web/3/acceptance/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/web/3"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-delete",
@@ -1312,9 +1663,41 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "area": "Web",
       "depends_on": [],
       "acceptance": [
-        "Meets App Store 5.1.1(v) when accounts exist"
+        "Meets App Store 5.1.1(v) when accounts exist",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/web/4/acceptance/0",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/web/4"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-DISCOVERY",
@@ -1323,9 +1706,42 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "depends_on": [],
       "acceptance": [
         "curl robots.txt, sitemap.xml, and llms.txt on the canonical origin. Each returns HTTP 200.",
-        "JSON-LD on the public pages parses."
+        "JSON-LD on the public pages parses.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/tasks/0/acceptance/0",
+        "/tasks/0/acceptance/1",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/tasks/0"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
     },
     {
       "id": "W-POLISH",
@@ -1345,11 +1761,182 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "Load knowledge/words/conversion-copy.md.",
         "Load knowledge/words/no-slop-writing.md.",
         "Load knowledge/words/consumer-copy-benchmarks.md.",
-        "Record the knowledge/growth/geo-seo.md section 4 copy scan in the pull request."
+        "Record the knowledge/growth/geo-seo.md section 4 copy scan in the pull request.",
+        "For repository changes, satisfy repo.merge_gate: Build succeeds for every platform in meta.platforms.",
+        "For repository changes, satisfy repo.merge_gate: Unit tests pass.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
+        "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
+        "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
       ],
-      "capabilities": []
+      "capabilities": [],
+      "checklist_sources": [
+        "/tasks/1/acceptance/0",
+        "/tasks/1/acceptance/1",
+        "/tasks/1/acceptance/2",
+        "/tasks/1/acceptance/3",
+        "/tasks/1/acceptance/4",
+        "/tasks/1/acceptance/5",
+        "/tasks/1/acceptance/6",
+        "/tasks/1/acceptance/7",
+        "/tasks/1/acceptance/8",
+        "/tasks/1/acceptance/9",
+        "/tasks/1/acceptance/10",
+        "/repo/merge_gate/0",
+        "/repo/merge_gate/1",
+        "/repo/merge_gate/2",
+        "/repo/merge_gate/3",
+        "/repo/merge_gate/4",
+        "/repo/merge_gate/5"
+      ],
+      "source_refs": [
+        "/tasks/1"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-product-page-header",
+      "title": "Prepare product-page-header",
+      "area": "Store & Marketing",
+      "depends_on": [],
+      "acceptance": [
+        "Prepare the declared product-page-header and verify it against /store/creative_assets/0; preserve its specified placement, media, source and specifications."
+      ],
+      "capabilities": [],
+      "checklist_sources": [
+        "/store/creative_assets/0"
+      ],
+      "source_refs": [
+        "/store/creative_assets/0"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        },
+        {
+          "source_ref": "/store/creative_assets/0",
+          "when": "Declared creative deliverable; preparation does not authorize provider actions or establish acceptance.",
+          "value": {
+            "id": "product-page-header",
+            "placement": "product-page header",
+            "media": "image or video",
+            "source_provider": "provider.higgsfield",
+            "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C-search-result",
+      "title": "Prepare search-result",
+      "area": "Store & Marketing",
+      "depends_on": [],
+      "acceptance": [
+        "Prepare the declared search-result and verify it against /store/creative_assets/1; preserve its specified placement, media, source and specifications."
+      ],
+      "capabilities": [],
+      "checklist_sources": [
+        "/store/creative_assets/1"
+      ],
+      "source_refs": [
+        "/store/creative_assets/1"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        },
+        {
+          "source_ref": "/store/creative_assets/1",
+          "when": "Declared creative deliverable; preparation does not authorize provider actions or establish acceptance.",
+          "value": {
+            "id": "search-result",
+            "placement": "search results",
+            "media": "image or video",
+            "source_provider": "provider.higgsfield",
+            "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications"
+          }
+        }
+      ]
+    },
+    {
+      "id": "C-seasonal-set",
+      "title": "Prepare seasonal-set",
+      "area": "Store & Marketing",
+      "depends_on": [],
+      "acceptance": [
+        "Prepare the declared seasonal-set and verify it against /store/creative_assets/2; preserve its specified placement, media, source and specifications."
+      ],
+      "capabilities": [],
+      "checklist_sources": [
+        "/store/creative_assets/2"
+      ],
+      "source_refs": [
+        "/store/creative_assets/2"
+      ],
+      "context": [
+        {
+          "source_ref": "/repo/merge_gate",
+          "when": "When this task changes repository files; apply each clause to the changed scope and record any inapplicable clause with its reason.",
+          "value": [
+            "Build succeeds for every platform in meta.platforms.",
+            "Unit tests pass.",
+            "Each changed screen has a simulator screenshot per required state.",
+            "Screenshot-vs-mock review recorded with any differences fixed or listed.",
+            "No hard-coded colors, sizes or strings outside tokens and copy files.",
+            "No snapshot test is in record mode."
+          ]
+        },
+        {
+          "source_ref": "/store/creative_assets/2",
+          "when": "Declared creative deliverable; preparation does not authorize provider actions or establish acceptance.",
+          "value": {
+            "id": "seasonal-set",
+            "placement": "seasonal set",
+            "media": "image or video",
+            "source_provider": "provider.higgsfield",
+            "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications"
+          }
+        }
+      ]
     }
-  ]
+  ],
+  "source": {
+    "file": "spec.yaml",
+    "sha256": "24638c868c69bcb81595c7d998e069698b5cde93df2eb25b6e3c935907a42468",
+    "spec_version": "0.1.0",
+    "status": "draft"
+  }
 }</script>
 <script>
 const S=JSON.parse(document.getElementById('spec').textContent);
@@ -1365,13 +1952,17 @@ window.SPEC_SECTIONS.push({
     if (!tasks.length) return null;
     const cell = (value) => esc(value ?? "");
     const list = (items) => (Array.isArray(items) && items.length ? items.map(cell).join(", ") : "—");
+    const context = (task) =>
+      `<details><summary>Sources and conditional context</summary><p>${list(task.source_refs)}</p>${(task.context ?? [])
+        .map((entry) => `<p><code>${cell(entry.source_ref)}</code>: ${cell(entry.when)}</p><pre>${cell(JSON.stringify(entry.value, null, 2))}</pre>`)
+        .join("")}</details>`;
     const rows = tasks
       .map(
         (task) =>
-          `<tr><td><code>${cell(task.id)}</code></td><td>${cell(task.title)}</td><td>${cell(task.area)}</td><td>${list(task.depends_on)}</td><td>${list(task.acceptance)}</td></tr>`,
+          `<tr><td><code>${cell(task.id)}</code></td><td>${cell(task.title)}</td><td>${cell(task.area)}</td><td>${list(task.depends_on)}</td><td>${list(task.acceptance)}${context(task)}</td></tr>`,
       )
       .join("");
-    return `<p class="sub">Generated from screens, web pages, and the tasks list.</p><table><tr><th>Id</th><th>Title</th><th>Area</th><th>Depends on</th><th>Acceptance</th></tr>${rows}</table>`;
+    return `<p class="sub">Generated from screens, web pages, declared creative assets, and the tasks list. Source: ${cell(report.source?.file)}, version ${cell(report.source?.spec_version)}, SHA-256 ${cell(report.source?.sha256)}. Drafts do not grant execution authority or prove completion.</p><table><tr><th>Id</th><th>Title</th><th>Area</th><th>Depends on</th><th>Acceptance</th></tr>${rows}</table>`;
   },
 });
 
