@@ -10,6 +10,8 @@ export { requiresIndependentReview } from "./verification-policy.js";
  */
 
 export const VERIFICATION_REQUIRED_BLOCKER = "Verification required";
+/** Versioned evidence emitted only after the strict revenue acceptance invocation passes. */
+export const REVENUE_ACCEPTANCE_EVIDENCE = "gate:check:revenue:require-done:v1=passed";
 /**
  * Set when an independent verifier judged the produced work and did not accept it. Deliberately
  * NOT part of the pending pool: a rejection is a durable judgment for a person (or a fresh
@@ -31,7 +33,7 @@ export function verificationOutputFingerprint(plan: CompiledPlan, run: RunStateD
     .digest("hex");
 }
 
-export function hasCurrentDeterministicVerification(plan: CompiledPlan, run: RunStateDocument, nodeId: RunNodeId): boolean {
+function hasMatchingDeterministicVerification(plan: CompiledPlan, run: RunStateDocument, nodeId: RunNodeId): boolean {
   const node = plan.nodes.find((candidate) => candidate.id === nodeId);
   if (!node) return false;
   if (node.verification.gateIds.length === 0) return true;
@@ -48,6 +50,38 @@ export function hasCurrentDeterministicVerification(plan: CompiledPlan, run: Run
     receipt.authorityContextFingerprint === authorityContextFingerprint &&
     receipt.evidence.some((entry) => entry.trim().length > 0),
   );
+}
+
+export function hasCurrentDeterministicVerification(plan: CompiledPlan, run: RunStateDocument, nodeId: RunNodeId): boolean {
+  if (!hasMatchingDeterministicVerification(plan, run, nodeId)) return false;
+  const node = plan.nodes.find((candidate) => candidate.id === nodeId)!;
+  const state = run.nodes[nodeId];
+  // Preserve completed history; a still-pending acceptance must prove the current contract.
+  return (
+    !node.verification.gateIds.includes("check:revenue") ||
+    state?.status === "succeeded" ||
+    Boolean(state?.attempts.at(-1)?.deterministicVerification?.evidence.includes(REVENUE_ACCEPTANCE_EVIDENCE))
+  );
+}
+
+/** A pending legacy receipt needs either strict revalidation or normal repair of stale work. */
+export function requiresRevenueVerificationRefresh(plan: CompiledPlan, run: RunStateDocument, nodeId: RunNodeId): boolean {
+  const node = plan.nodes.find((candidate) => candidate.id === nodeId);
+  const state = run.nodes[nodeId];
+  const attempt = state?.attempts.at(-1);
+  return Boolean(
+    node?.verification.gateIds.includes("check:revenue") &&
+    state?.status === "blocked" &&
+    state.blocker === VERIFICATION_REQUIRED_BLOCKER &&
+    attempt?.status === "blocked" &&
+    attempt.deterministicVerification?.passed &&
+    !attempt.deterministicVerification?.evidence.includes(REVENUE_ACCEPTANCE_EVIDENCE),
+  );
+}
+
+/** The legacy receipt must still bind the exact attempt, context, outputs, and gate policy. */
+export function canRefreshRevenueVerification(plan: CompiledPlan, run: RunStateDocument, nodeId: RunNodeId): boolean {
+  return requiresRevenueVerificationRefresh(plan, run, nodeId) && hasMatchingDeterministicVerification(plan, run, nodeId);
 }
 
 /** The session records the actual gate runner result, including failure, before requesting review. */
@@ -77,12 +111,13 @@ export function recordDeterministicVerification(
     inputFingerprint: attempt.inputFingerprint,
     outputFingerprint,
     gateIds: [...node.verification.gateIds],
-    passed: result.allPassed && result.evidence.some((entry) => entry.trim().length > 0),
+    passed:
+      result.allPassed &&
+      result.evidence.some((entry) => entry.trim().length > 0) &&
+      (!node.verification.gateIds.includes("check:revenue") || result.evidence.includes(REVENUE_ACCEPTANCE_EVIDENCE)),
     evidence: [...result.evidence],
     checkedAt: now,
-    ...(attempt.designAuthorityEvaluation
-      ? { authorityContextFingerprint: attempt.designAuthorityEvaluation.authorityContextFingerprint }
-      : {}),
+    ...(attempt.designAuthorityEvaluation ? { authorityContextFingerprint: attempt.designAuthorityEvaluation.authorityContextFingerprint } : {}),
   };
   for (const entry of result.evidence) if (!attempt.evidence.includes(entry)) attempt.evidence.push(entry);
   run.updatedAt = now;

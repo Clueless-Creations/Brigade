@@ -70,7 +70,7 @@ export function issuesFromRevenueCatCliCatalogArtifact(content: string, relPath:
 export function validateRevenueCatRevenue(
   args: ReturnType<typeof parseCliArgs>,
   loaded: ReturnType<typeof loadProjectState>,
-  options: { skillRoot: string; capabilityDelta?: string },
+  options: { skillRoot: string; capabilityDelta?: string; requireDone?: boolean },
 ): Issue[] {
   const issues: Issue[] = [];
   const breaking = unmigratedBreakingSummaries(options.skillRoot, "revenuecat", options.capabilityDelta);
@@ -107,8 +107,8 @@ export function validateRevenueCatRevenue(
   const productionReadinessText = readText(args.root, productionReadinessPath);
 
   const revenueStatus = state ? asString(getPath(state, "lanes.revenue.status"))?.toLowerCase() : undefined;
-  const revenueDone = revenueStatus === "succeeded";
-  const revenueSkipped = revenueStatus === "not_needed" || revenueStatus === "deferred";
+  const revenueDone = options.requireDone === true || revenueStatus === "succeeded";
+  const revenueSkipped = !options.requireDone && (revenueStatus === "not_needed" || revenueStatus === "deferred");
 
   // ---------------------------------------------------------------------------
   // Helpers

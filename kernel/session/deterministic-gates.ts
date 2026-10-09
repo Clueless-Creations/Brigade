@@ -6,6 +6,16 @@ import path from "node:path";
 
 import { buildAuditPlan, GATE_TIMEOUT_MS, stripAuditOnlyFlags } from "../../tooling/lib/audit-plan.js";
 import { skillRoot } from "./reducer-cli.js";
+import type { CompiledPlan, RunNodeId } from "../engine/compile.js";
+import type { RunStateDocument } from "../schema/types.js";
+import {
+  REVENUE_ACCEPTANCE_EVIDENCE,
+  canRefreshRevenueVerification,
+  recordDeterministicVerification,
+  requiresRevenueVerificationRefresh,
+} from "../engine/verification.js";
+import { reconcileEnvironmentalArtifacts, requestVerificationRepair } from "../engine/runstate.js";
+import { workspaceArtifactFingerprint } from "../engine/review-evidence.js";
 
 export interface GateOutcome {
   readonly allPassed: boolean;
@@ -49,7 +59,9 @@ export function runDeterministicGates(gateIds: readonly string[], workspaceDir: 
   const evidence: string[] = [];
   const issueCodes: string[] = [];
   for (const gate of gateIds) {
-    const gateArgs = [...(planArgs.get(gate) ?? []), ...(context.gateArguments?.[gate] ?? [])];
+    // Acceptance runs before the reducer-owned lane can claim success. Revenue's
+    // ordinary inspection mode permits unfinished setup; it cannot accept a node.
+    const gateArgs = [...(planArgs.get(gate) ?? []), ...(gate === "check:revenue" ? ["--require-done"] : []), ...(context.gateArguments?.[gate] ?? [])];
     const result = spawnSync("npm", ["run", "--prefix", skillRoot(), gate, ...(gateArgs && gateArgs.length > 0 ? ["--", ...gateArgs] : [])], {
       cwd: workspaceDir,
       encoding: "utf8",
@@ -60,6 +72,7 @@ export function runDeterministicGates(gateIds: readonly string[], workspaceDir: 
     const timedOut = !passed && (result.error as NodeJS.ErrnoException | undefined)?.code === "ETIMEDOUT";
     const outcome = passed ? "passed" : timedOut ? `timed out after ${GATE_TIMEOUT_MS / 1000}s` : `exit ${result.status ?? "spawn-error"}`;
     evidence.push(`gate:${gate}=${outcome}`);
+    if (passed && gate === "check:revenue") evidence.push(REVENUE_ACCEPTANCE_EVIDENCE);
     if (!passed && typeof result.stdout === "string") {
       for (const match of result.stdout.matchAll(/^- ERROR ([a-z][a-z0-9_.-]+)/gim)) {
         const code = match[1];
@@ -73,4 +86,54 @@ export function runDeterministicGates(gateIds: readonly string[], workspaceDir: 
     }
   }
   return { allPassed: true, evidence, issueCodes, unclassifiedFailure: false };
+}
+
+/** Recheck pending legacy proof once through the existing gate/repair owners. Never replay an external action. */
+export function refreshPendingRevenueVerification(
+  plan: CompiledPlan,
+  run: RunStateDocument,
+  nodeId: RunNodeId,
+  workspaceDir: string,
+  now: string,
+): "unchanged" | "refreshed" | "repair" {
+  if (!requiresRevenueVerificationRefresh(plan, run, nodeId)) return "unchanged";
+  const node = plan.nodes.find((candidate) => candidate.id === nodeId)!;
+  const attempt = run.nodes[nodeId]!.attempts.at(-1)!;
+  const stale = (): "repair" => {
+    requestVerificationRepair(
+      plan,
+      run,
+      nodeId,
+      ["Revenue acceptance evidence changed. Preserve existing work, reconcile its current inputs and outputs, and rerun the required checks."],
+      now,
+    );
+    return "repair";
+  };
+  if (!canRefreshRevenueVerification(plan, run, nodeId)) return stale();
+  if (attempt.proofSource !== "synthetic") {
+    try {
+      // Environmental inputs retain their original fingerprint format. Reuse
+      // their owner on a copy; output fingerprints cannot replace those hashes.
+      const observed = structuredClone(run);
+      reconcileEnvironmentalArtifacts(plan, observed, workspaceDir, now);
+      for (const id of [...node.inputs, ...node.outputs]) {
+        const binding = run.artifactBindings.find((candidate) => candidate.artifactId === id);
+        if (!binding?.fingerprint) return stale();
+        const outputFingerprint = workspaceArtifactFingerprint(workspaceDir, binding.path);
+        const fingerprint =
+          binding.producedBy === undefined ? observed.artifactBindings.find((candidate) => candidate.artifactId === id)?.fingerprint : outputFingerprint;
+        if (fingerprint !== binding.fingerprint) return stale();
+      }
+    } catch {
+      return stale();
+    }
+  }
+  const outcome = runDeterministicGates(node.verification.gateIds, workspaceDir, {
+    gateArguments: node.verification.gateArguments,
+    selectedOperation: node.selectedOperation,
+  });
+  recordDeterministicVerification(plan, run, nodeId, outcome, now);
+  if (outcome.allPassed) return "refreshed";
+  requestVerificationRepair(plan, run, nodeId, outcome.evidence, now);
+  return "repair";
 }

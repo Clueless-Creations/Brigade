@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { stringify } from "yaml";
@@ -70,6 +70,40 @@ function setup(harness: Harness) {
   return { root, proof };
 }
 export function register(harness: Harness): void {
+  harness.check("monetization: alternate provider acceptance requires existing proof before lane success", () => {
+    const { root } = setup(harness);
+    const statePath = path.join(root, "state/business-state.json");
+    const state = JSON.parse(readFileSync(statePath, "utf8"));
+    state.lanes.revenue.status = "running";
+    const stateBytes = JSON.stringify(state);
+    writeFileSync(statePath, stateBytes);
+    const check = (strict: boolean) =>
+      spawnSync(
+        process.execPath,
+        [
+          "--import",
+          "tsx",
+          path.join(skillRoot, "checks/validation/business/money/check-revenue.ts"),
+          "--root",
+          root,
+          "--skill-root",
+          root,
+          "--provider-contract",
+          "custompay",
+          ...(strict ? ["--require-done"] : []),
+        ],
+        { cwd: skillRoot, encoding: "utf8" },
+      );
+    const complete = check(true);
+    assert(complete.status === 0, complete.stdout + complete.stderr);
+    rmSync(path.join(root, "revenue/monetization-proof.json"));
+    const passive = check(false);
+    assert(passive.status === 0, passive.stdout + passive.stderr);
+    const missing = check(true);
+    assert(missing.status === 1 && missing.stdout.includes("revenue.selected_provider.proof_invalid"), "alternate provider accepted missing proof");
+    assert(!missing.stdout.toLowerCase().includes("revenuecat"), "strict mode selected an unrelated provider");
+    assert(readFileSync(statePath, "utf8") === stateBytes, "strict mode changed the authoritative lane state");
+  });
   harness.check("monetization: explicit alternate provider validates its capability proof without RevenueCat artifacts or engines", () => {
     const { root } = setup(harness);
     const result = spawnSync(
