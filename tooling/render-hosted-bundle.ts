@@ -180,6 +180,11 @@ function main(argv: string[]): number {
     const unstable = unstableRenderMessage("hosted bundle", () => ({
       [HOSTED_BUNDLE_RELATIVE_PATH]: serializeHostedKnowledgeBundle(buildHostedKnowledgeBundle(skillRoot, composeAuthoredCatalog(skillRoot))),
     }));
+    if (json) {
+      const failures = unstable ? [{ severity: "error" as const, rule: "hosted_bundle.unstable", message: unstable }] : [];
+      process.stdout.write(`${JSON.stringify({ pass: !unstable, failures })}\n`);
+      return unstable ? 1 : 0;
+    }
     if (unstable) {
       console.error(`ERROR hosted_bundle.unstable: ${unstable}`);
       return 1;

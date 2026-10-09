@@ -100,6 +100,15 @@ export function register(h: Harness): void {
   // writing — its flag shape does not fit runFixtureJson's runFixture-style calling convention,
   // so it is spawned directly here, the same way the other outlier hand-writes its own branch.
   runRawJson(h, "hosted-bundle (outlier): the shipped bundle is current under --json", "render-hosted-bundle.ts", ["--check", "--skill-root", skillRoot], 0);
+  for (const mode of ["pr", "main"]) {
+    runRawJson(
+      h,
+      `hosted-bundle (outlier): ${mode} mode reports stable authored renders under --json`,
+      "render-hosted-bundle.ts",
+      ["--check", "--skill-root", skillRoot, "--stamp-mode", mode],
+      0,
+    );
+  }
 
   // ── Full-registry smoke test: every check:* name emits valid --json, pass or fail ───────────
 
