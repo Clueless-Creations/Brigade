@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.129
-revision: 0.221.129
+version: 0.221.130
+revision: 0.221.130
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -9302,7 +9302,7 @@ references:
         source_type: github
         url: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md
         review_cadence_days: 30
-        claim_scope: Basis for the five-agent coordination-overhead caution on the B2C Launch Dispatch Map, and for the Mid-Run Supervision drift signals (script edited but never run past roughly 12 minutes, a self-restarting loop, repeated directory rediscovery, a literal unsubstituted shell variable).
+        claim_scope: Basis for the five-agent coordination-overhead caution on the B2C Launch Dispatch Map.
         last_review_date: 2026-09-02
         reviewer: b2c-maintainers
       - id: github-com-florianbruniaux-claude-code-ultimate-guide-plan-pipeline

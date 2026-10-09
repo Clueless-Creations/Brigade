@@ -1,9 +1,14 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.129",
-  "updatedAt": "2026-10-08",
+  "version": "0.221.130",
+  "updatedAt": "2026-10-09",
   "sourcePath": ".",
   "releaseNotes": [
+    "Honor commit hooks when creating release stamps",
+    "Repair contribution output and catalog verification",
+    "Preserve JSON check results across stamp modes",
+    "Require completion evidence before accepting revenue work",
+    "Preserve specification obligations through assignment and verification",
     "Refresh worker types for the dev-dependency bump (#687)",
     "Add the public learning ledger, Gate 1 record writer, and off-by-default outcome schedule. (#674)",
     "Register ScreensDesign and Masko as held paid providers. (#680)",
