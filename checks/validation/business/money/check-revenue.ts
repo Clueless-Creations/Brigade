@@ -23,14 +23,16 @@ import { unmigratedBreakingSummaries } from "../../../../adapters/providers/eval
 const args = parseCliArgs(process.argv.slice(2));
 const loaded = loadProjectState(args);
 const issues: Issue[] = [...loaded.issues];
-const revenueActive = ["running", "succeeded"].includes(asString(getPath(loaded.state, "lanes.revenue.status")) ?? "");
-issues.push(...validateProductPriceEvidence(args.root, revenueActive, asString(getPath(loaded.state, "project.owner")) ?? ""));
 const flags = parseFlags(process.argv.slice(2), [
+  { flags: ["--require-done"], key: "requireDone", kind: "boolean" },
   { flags: ["--skill-root"], key: "skillRoot" },
   { flags: ["--capability-delta"], key: "capabilityDelta" },
   { flags: ["--provider-contract-version"], key: "providerContractVersion", kind: "string", strict: true },
   { flags: ["--provider-contract"], key: "providerContract", kind: "string", strict: true },
 ]);
+const requireDone = flags.requireDone === true;
+const revenueActive = requireDone || ["running", "succeeded"].includes(asString(getPath(loaded.state, "lanes.revenue.status")) ?? "");
+issues.push(...validateProductPriceEvidence(args.root, revenueActive, asString(getPath(loaded.state, "project.owner")) ?? ""));
 const skillRoot = flagString(flags, "skillRoot") ?? path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../..");
 const selected = flagString(flags, "providerContract") ?? defaultMonetizationProviderContract();
 const expectedVersion = flagString(flags, "providerContractVersion");
@@ -42,7 +44,7 @@ if (
   reportAndExit("Revenue lane check", issues);
 }
 if (selected === "revenuecat") {
-  issues.push(...validateRevenueCatRevenue(args, loaded, { skillRoot, capabilityDelta: flagString(flags, "capabilityDelta") }));
+  issues.push(...validateRevenueCatRevenue(args, loaded, { skillRoot, capabilityDelta: flagString(flags, "capabilityDelta"), requireDone }));
 } else {
   const contracts = loadProviderContracts(skillRoot);
   const contract = contracts.contracts.find((entry) => entry.id === selected);
@@ -62,7 +64,7 @@ if (selected === "revenuecat") {
     for (const entry of breaking.summaries)
       issues.push(issue("error", "revenue.provider_contract.breaking_unmigrated", entry, "catalog/providers/capability-delta.yaml"));
     const status = asString(getPath(loaded.state, "lanes.revenue.status"));
-    if (status === "succeeded") {
+    if (requireDone || status === "succeeded") {
       if (!readText(args.root, "revenue/REVENUE_OPS.md"))
         issues.push(issue("error", "revenue.ops_doc.missing", "Revenue operations and pricing decisions must be documented.", "revenue/REVENUE_OPS.md"));
       issues.push(...validateMonetizationOutcomes(args.root, contract));
