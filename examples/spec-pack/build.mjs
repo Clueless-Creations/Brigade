@@ -11,36 +11,10 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import YAML from "yaml";
+import { createHash } from "node:crypto";
+import { deriveTasks } from "./assignments.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
-
-function deriveTasks(spec) {
-  const tasks = [];
-  for (const screen of spec.screens ?? []) {
-    tasks.push({
-      id: `S-${screen.id}`,
-      title: screen.title ?? screen.id,
-      area: "App",
-      depends_on: [],
-      acceptance: screen.acceptance ?? [],
-      capabilities: [],
-    });
-  }
-  for (const page of spec.web ?? []) {
-    tasks.push({
-      id: `W-${page.id}`,
-      title: page.title ?? page.id,
-      area: "Web",
-      depends_on: [],
-      acceptance: page.acceptance ?? [],
-      capabilities: [],
-    });
-  }
-  if (Array.isArray(spec.tasks)) {
-    for (const task of spec.tasks) tasks.push(task);
-  }
-  return tasks;
-}
 
 function reachability(spec, screenIds) {
   const reach = new Set([spec.screens[0].id]);
@@ -116,8 +90,15 @@ if (listChecks) {
 const args = process.argv.slice(2).filter((arg) => arg !== "--list-checks");
 const specPath = args[0] ?? join(here, "spec.yaml");
 const outPath = args[1] ?? join(here, "index.html");
-const spec = YAML.parse(readFileSync(specPath, "utf8"));
+const specBytes = readFileSync(specPath);
+const spec = YAML.parse(specBytes.toString("utf8"));
 const ctx = buildContext(spec);
+ctx.source = {
+  file: basename(specPath),
+  sha256: createHash("sha256").update(specBytes).digest("hex"),
+  spec_version: spec.meta?.spec_version,
+  status: spec.meta?.status,
+};
 const errors = [];
 for (const mod of checks) {
   if (typeof mod.check !== "function") {
@@ -140,7 +121,7 @@ for (const mod of checks) {
 }
 
 const stateCount = stateCountOf(spec);
-const report = { errors, stateCount, screens: spec.screens.length, tasks: ctx.tasks };
+const report = { errors, stateCount, screens: spec.screens.length, tasks: ctx.tasks, source: ctx.source };
 // "<" would close the surrounding script tag. JSON.stringify leaves it raw.
 // \u003c keeps the tag intact and JSON.parse restores "<". An angle-bracket
 // placeholder then sits in the generated file as that escape, so example

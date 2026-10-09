@@ -65,6 +65,7 @@
     "!surfaces/studio/README.md",
     "examples/workspace",
     "examples/extensions",
+    "examples/spec-pack",
     "agents/skills/brigade/references",
     "agents/skills/b2c-research-opportunity",
     "agents/skills/b2c-design-onboarding",

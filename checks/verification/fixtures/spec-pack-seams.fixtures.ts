@@ -15,7 +15,7 @@ function checkModuleCount(dir: string): number {
 function copyPack(dir: string): string {
   const pack = path.join(dir, "pack");
   mkdirSync(pack, { recursive: true });
-  for (const name of ["build.mjs", "template.html", "spec.yaml"]) {
+  for (const name of ["build.mjs", "assignments.mjs", "template.html", "spec.yaml"]) {
     cpSync(path.join(exampleDir, name), path.join(pack, name));
   }
   cpSync(path.join(exampleDir, "checks"), path.join(pack, "checks"), { recursive: true });
@@ -63,7 +63,10 @@ export function register(harness: Harness): void {
     const lines = (result.stdout ?? "").trim().split("\n").filter(Boolean);
     const expected = checkModuleCount(exampleDir);
     assert(lines.length === expected, `expected ${expected} check lines, got ${lines.length}\n${result.stdout ?? ""}`);
-    assert(lines.some((line) => line.startsWith("core:")), `expected the core module line\n${result.stdout ?? ""}`);
+    assert(
+      lines.some((line) => line.startsWith("core:")),
+      `expected the core module line\n${result.stdout ?? ""}`,
+    );
     assert(
       lines.some((line) => line.startsWith("launch-tracker:")),
       `expected the launch-tracker module line\n${result.stdout ?? ""}`,
@@ -76,8 +79,14 @@ export function register(harness: Harness): void {
       lines.some((line) => line.startsWith("accounts-privacy:")),
       `expected the accounts-privacy module line\n${result.stdout ?? ""}`,
     );
-    assert(lines.some((line) => line.startsWith("onboarding:")), `expected the onboarding module line\n${result.stdout ?? ""}`);
-    assert(lines.some((line) => line.startsWith("ledger:")), `expected the ledger module line\n${result.stdout ?? ""}`);
+    assert(
+      lines.some((line) => line.startsWith("onboarding:")),
+      `expected the onboarding module line\n${result.stdout ?? ""}`,
+    );
+    assert(
+      lines.some((line) => line.startsWith("ledger:")),
+      `expected the ledger module line\n${result.stdout ?? ""}`,
+    );
   });
 
   harness.check("spec-pack loads an added check module", () => {
@@ -94,7 +103,10 @@ export function register(harness: Harness): void {
     assert(listed.status === 0, `expected list exit 0, got ${listed.status}\n${listed.output}`);
     assert(lines.length === before + 1, `expected ${before + 1} check lines, got ${lines.length}\n${listed.output}`);
     assert(lines.length === modules.length, `expected one line per check module, got ${lines.length}\n${listed.output}`);
-    assert(lines.some((line) => line.startsWith("x:")), `expected the added module line\n${listed.output}`);
+    assert(
+      lines.some((line) => line.startsWith("x:")),
+      `expected the added module line\n${listed.output}`,
+    );
     const built = runBuild(pack, ["spec.yaml", "index.html"]);
     assert(built.status === 1, `expected exit 1, got ${built.status}\n${built.output}`);
     assert(built.output.includes("fixture-check: extra seam failed"), `missing extra check error\n${built.output}`);
@@ -180,16 +192,9 @@ export function register(harness: Harness): void {
   harness.check("source freshness still flags a real unregistered URL", () => {
     const root = harness.makeTempDir("source-freshness-real-url");
     writeRegistry(root, [sourceRow("doppler-cli", "https://docs.doppler.com/docs/cli")], []);
-    writeFileSync(
-      path.join(root, "README.md"),
-      "See https://docs.doppler.com/docs/cli and https://registry.example-unregistered.tools/guide\n",
-      "utf8",
-    );
+    writeFileSync(path.join(root, "README.md"), "See https://docs.doppler.com/docs/cli and https://registry.example-unregistered.tools/guide\n", "utf8");
     const result = runFreshness(root);
     assert(result.status === 1, `expected exit 1, got ${result.status}\n${result.output}`);
-    assert(
-      result.output.includes("https://registry.example-unregistered.tools/guide"),
-      `real URL was not reported\n${result.output}`,
-    );
+    assert(result.output.includes("https://registry.example-unregistered.tools/guide"), `real URL was not reported\n${result.output}`);
   });
 }

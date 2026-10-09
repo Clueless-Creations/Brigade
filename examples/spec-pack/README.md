@@ -15,6 +15,7 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `spec.yaml` | The manifest. You edit this file only. |
 | `template.html` | Page layout and mock renderer. Do not edit per app. |
 | `build.mjs` | Loads `checks/` and `sections/`, checks `spec.yaml`, and writes `index.html`. |
+| `assignments.mjs` | Projects the manifest's tasks, required states, merge obligations and declared creative assets into assignments. |
 | `checks/` | One check module per file. `build.mjs` loads `*.mjs` in filename order. |
 | `sections/` | One review-page section per file. `build.mjs` injects `*.js` in filename order. |
 | `index.html` | Generated review page. `release:stamp` writes it. Open it in a browser. |
@@ -54,13 +55,17 @@ mode, `&w=<px>&h=<px>` for another device size).
 8. `status: approved` needs `approved_by` and `approved_at`.
 9. Task ids are unique, every `depends_on` names a task, there is no dependency
    cycle, and `area` is one of App, Web, Store & Marketing, Growth, Money, Ops.
-   Each screen is task `S-<id>` and each web page is task `W-<id>`.
+   Each screen is task `S-<id>` and each web page is task `W-<id>`. A declared
+   creative asset without an explicit task owner becomes `C-<id>` (or
+   `C-store-creative-<position>` when the asset has no ID).
 10. `meta.domain` may be omitted. `meta.web_origin` is the site origin. A missing
     `web_origin` defaults to `https://<slug>.<account>.workers.dev`.
 11. The build writes `tracker-draft.json` beside the HTML output. It has one
     project, milestones Build, Dogfood, Gate 2, Launch, and Run, and one issue
-    per task. Area and capability labels, blockers, and the acceptance checklist
-    come from that task.
+    per task. Area and capability labels and blockers retain their declared
+    meanings. Screen checklists include every required state. App and Web
+    checklists carry `repo.merge_gate` clauses conditionally for repository
+    changes; all other tasks retain those clauses as conditional context.
 12. `web_meta` is present. Every page has a title and a description. Each
     `og_image` is a `.png` or `.jpg`, and the default image is 1200×630.
 13. `discovery` is present and has at least one FAQ entry.
@@ -93,6 +98,30 @@ fixture runner loads every `*.fixtures.ts` in that directory.
 
 The check proves the spec is complete. It does not prove the design is good.
 The founder decides that at Gate 1.
+
+## Assignment sources and scope
+
+Each draft issue carries the manifest's filename, exact-byte SHA-256, version
+and status. `source_refs` are JSON pointers into that manifest.
+`checklist_sources` maps each checklist entry to its source; `context` carries
+the declaration and its applicability. Keep these fields with the checklist
+when creating a tracker issue. Rebuild and reconcile affected assignments when
+the approved source changes. A generated draft is not approval or completion.
+
+The generator prepares tasks only for creative assets already declared in
+`store.creative_assets`. Their original fields remain source context; they do
+not activate a provider, authorize spending or publishing, or prove production.
+If an existing explicit task owns an asset, add its exact pointer to that task's
+optional `source_refs`, for example `[/store/creative_assets/0]`. That task keeps
+its ID, acceptance and dependencies; no competing creative task is generated.
+Two explicit owners of the same asset, or an unresolved pointer, fail the spec
+check. Other source references supply context without claiming a generated
+screen or web task.
+
+Repository obligations are conditional on the work performed. An Ops task may
+change repository files and must then apply the retained merge clauses. A
+support review that changes no files does not need a build. Record a concrete
+scope reason when a clause does not apply; an area label alone is not that reason.
 
 ## Lifecycle
 
