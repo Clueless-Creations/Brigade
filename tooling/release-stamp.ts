@@ -76,7 +76,7 @@ function main(): number {
     console.error("Stamp changed no files.");
     return 1;
   }
-  const committed = git(root, ["commit", "-q", "--no-verify", "-m", `Stamp ${next}`]);
+  const committed = git(root, ["commit", "-q", "-m", `Stamp ${next}`]);
   if (committed.status !== 0) {
     console.error(committed.stderr.trim() || "git commit failed.");
     return 1;

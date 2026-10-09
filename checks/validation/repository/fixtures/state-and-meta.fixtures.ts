@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import {
   type Harness,
@@ -21,6 +21,95 @@ import {
   writeSourceRegistryFixture,
   writeState,
 } from "./_harness.js";
+
+/** Exercise the stamp CLI's real Git boundary with bounded synthetic generators. */
+export function registerReleaseStampHookFixtures(h: Harness): void {
+  for (const refuse of [false, true]) {
+    const root = h.makeEmptyFixture(`release-stamp-hook-${refuse ? "refused" : "accepted"}`);
+    const env = {
+      ...process.env,
+      GIT_AUTHOR_NAME: "fixture",
+      GIT_AUTHOR_EMAIL: "fixture@example.com",
+      GIT_COMMITTER_NAME: "fixture",
+      GIT_COMMITTER_EMAIL: "fixture@example.com",
+    };
+    const git = (args: string[]): string => {
+      const result = spawnSync("git", args, { cwd: root, env, encoding: "utf8" });
+      if (result.status !== 0) throw new Error(`stamp fixture git failed: ${result.stderr}`);
+      return result.stdout.trim();
+    };
+    mkdirSync(path.join(root, "tooling"), { recursive: true });
+    mkdirSync(path.join(root, "examples/spec-pack"), { recursive: true });
+    const scripts = Object.fromEntries(
+      [
+        "render:all",
+        "render:evidence-schema-version",
+        "render:artifact-pages",
+        "catalog:render-routing",
+        "check:hosted-bundle",
+        "check:evidence-schema-drift",
+        "check:credits",
+        "check:generated-pages",
+        "check:public-api",
+      ].map((name) => [name, "node tooling/noop.mjs"]),
+    );
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ name: "stamp-hook-fixture", type: "module", version: "0.1.0", scripts }, null, 2));
+    writeFileSync(path.join(root, "package-lock.json"), JSON.stringify({ version: "0.1.0", packages: { "": { version: "0.1.0" } } }, null, 2));
+    writeFileSync(
+      path.join(root, "skill-version.json"),
+      JSON.stringify({ version: "0.1.0", releaseNotes: ["First synthetic release note", "Second synthetic release note"] }, null, 2),
+    );
+    writeFileSync(path.join(root, "tooling/noop.mjs"), "");
+    writeFileSync(path.join(root, "tooling/render-task-skills.ts"), "process.exitCode = 0;\n");
+    writeFileSync(
+      path.join(root, "examples/spec-pack/build.mjs"),
+      'import { writeFileSync } from "node:fs";\nwriteFileSync(process.argv[3] ?? "examples/spec-pack/index.html", "synthetic specification\\n");\n',
+    );
+    writeFileSync(path.join(root, "examples/spec-pack/index.html"), "synthetic specification\n");
+    writeFileSync(path.join(root, ".gitignore"), "node_modules/\n");
+    symlinkSync(path.join(skillRoot, "node_modules"), path.join(root, "node_modules"), "dir");
+    git(["init", "-q", "-b", "main"]);
+    git(["config", "commit.gpgsign", "false"]);
+    git(["config", "core.hooksPath", ".git/hooks"]);
+    git(["add", "-A"]);
+    git(["commit", "-q", "-m", "Stamp 0.1.0"]);
+    git(["update-ref", "refs/remotes/origin/main", "HEAD"]);
+    writeFileSync(path.join(root, "repair.txt"), "Synthetic product repair retained.\n");
+    git(["add", "repair.txt"]);
+    git(["commit", "-q", "-m", "Add a synthetic product repair"]);
+    const previousHead = git(["rev-parse", "HEAD"]);
+    const hook = path.join(root, ".git/hooks/pre-commit");
+    writeFileSync(hook, `#!/bin/sh\nprintf 'invoked\\n' >> .git/stamp-hook.log\n${refuse ? "echo 'synthetic stamp hook refusal' >&2\nexit 1" : "exit 0"}\n`);
+    chmodSync(hook, 0o755);
+    const result = spawnSync(process.execPath, ["--import", "tsx", path.join(skillRoot, "tooling/release-stamp.ts"), "--repo-root", root], {
+      cwd: skillRoot,
+      env,
+      encoding: "utf8",
+      timeout: 60_000,
+    });
+    const hookLog = path.join(root, ".git/stamp-hook.log");
+    const hookRan = existsSync(hookLog) && readFileSync(hookLog, "utf8") === "invoked\n";
+    const expectedCode = refuse ? 1 : 0;
+    const commitOutcome = refuse
+      ? git(["rev-parse", "HEAD"]) === previousHead && git(["diff", "--cached", "--name-only"]).includes("package.json")
+      : git(["rev-parse", "HEAD"]) !== previousHead && git(["log", "-1", "--format=%s"]) === "Stamp 0.1.1";
+    const refusalReported = !refuse || (result.stderr.includes("synthetic stamp hook refusal") && !result.stdout.includes("Committed Stamp"));
+    h.results.push({
+      label: refuse
+        ? "release stamp honors hook refusal and preserves the uncommitted candidate"
+        : "release stamp runs commit hooks before recording the candidate",
+      ok:
+        result.status === expectedCode &&
+        hookRan &&
+        commitOutcome &&
+        refusalReported &&
+        readFileSync(path.join(root, "repair.txt"), "utf8") === "Synthetic product repair retained.\n",
+      expectedCode,
+      actualCode: result.status,
+      output: `${result.stdout}\n${result.stderr}\nhookRan=${hookRan} commitOutcome=${commitOutcome} refusalReported=${refusalReported}`,
+    });
+  }
+}
 
 export function register(h: Harness): void {
   const { makeFixture, makeEmptyFixture, runFixture, runScriptArgs } = h;
@@ -1280,6 +1369,7 @@ export function register(h: Harness): void {
     "main is 1 commits past stamp 0.1.0",
   );
   runScriptArgs("stamp generators are byte-stable across two renders", "stamp-stability.ts", [], 0, "byte-stable");
+  registerReleaseStampHookFixtures(h);
 
   // --- validate-state (fail branch) ---
   const designStateMissing = makeEmptyFixture("design-state-missing");
