@@ -224,14 +224,19 @@ A subagent inherits the parent session's permission mode by default. The Forbidd
 
 ### Mid-Run Supervision
 
-Do not interrupt a subagent that shows visible progress. Watch it through a per-agent status file, not a chat channel. Interrupt only on a visible drift signal. Four signals count:
+Use the host's task status and the worker's changed files, evidence, and reported blocker to assess progress. Uncommitted work counts: workers leave commits to the orchestrator. A long-running check or a quiet chat alone does not establish a stall.
 
-- a script edited but never run for roughly 12 minutes
-- a loop that kills and restarts itself
-- the same directory rediscovered repeatedly
-- a literal unsubstituted shell variable, such as `$now`
+Bound retries on one failing step. Before retrying, identify the failure and the changed condition that makes another attempt useful. Repeating an unchanged attempt, editing outside the assignment, or exhausting the assigned budget requires intervention on that unit.
 
-Cap a subagent at a fixed attempt count, such as eight, on one failing step. Require a two-line reflection before each retry: what exactly failed, and what one change would fix it. Kill and reassign a subagent stuck on the same blocker for three or more attempts. Also kill and reassign one that spends most of its token budget with no committed output.
+Before assigning a replacement:
+
+1. Request the current worker to stop. Confirm that its execution and any child processes that can affect the assignment have stopped.
+2. Preserve its changes, evidence, pending actions, and blocker. Do not reset its worktree or discard uncommitted output.
+3. Reconcile any uncertain external effect through its existing owner before retrying that effect. An interrupted command does not prove cancellation.
+4. Read current accepted state and inspect the preserved changes. Recheck the remaining scope, dependencies, authority, and shared resource ownership.
+5. Dispatch only the remaining work. Give the replacement the preserved evidence and current assignment, including any action it must not repeat.
+
+If termination or an external effect remains uncertain, hold the conflicting work. Continue independent authorized tasks. Reuse valid scoped authority; ask the founder only for a decision or permission the remaining work actually requires.
 
 ## B2C Launch Dispatch Map
 

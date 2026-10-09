@@ -1,5 +1,6 @@
 // Optional domain, default free-URL origin, and the Gate 1 tracker draft.
 // build.mjs calls check() and emit(). Creating tracker issues stays a later approved step.
+import { assignmentErrors } from "../assignments.mjs";
 export const id = "launch-tracker";
 export const describe = "Optional domain, default web_origin, and tracker-draft.json.";
 
@@ -7,15 +8,7 @@ export const FREE_WEB_ORIGIN = "https://<slug>.<account>.workers.dev";
 
 export const MILESTONES = ["Build", "Dogfood", "Gate 2", "Launch", "Run"];
 export const AREA_LABELS = ["App", "Web", "Store & Marketing", "Growth", "Money", "Ops"];
-export const CAPABILITY_LABELS = [
-  "Auth",
-  "Privacy",
-  "Security",
-  "Deep links",
-  "Discovery (SEO/AEO/GEO)",
-  "Analytics",
-  "Accessibility",
-];
+export const CAPABILITY_LABELS = ["Auth", "Privacy", "Security", "Deep links", "Discovery (SEO/AEO/GEO)", "Analytics", "Accessibility"];
 
 const MILESTONE_SET = new Set(MILESTONES);
 const CAPABILITY_SET = new Set(CAPABILITY_LABELS);
@@ -48,7 +41,7 @@ function stringsOf(value) {
 }
 
 export function check(spec, ctx) {
-  const errors = [];
+  const errors = assignmentErrors(spec);
   const meta = spec?.meta ?? {};
   if (meta.domain != null && typeof meta.domain !== "string") errors.push("meta.domain: must be a string when set");
   if (meta.web_origin != null && typeof meta.web_origin !== "string") errors.push("meta.web_origin: must be a string when set");
@@ -94,9 +87,14 @@ export function trackerDraft(spec, ctx) {
       capabilities: [...new Set(stringsOf(task.capabilities).filter((cap) => CAPABILITY_SET.has(cap)))],
       blockers: stringsOf(task.depends_on),
       checklist: stringsOf(task.acceptance),
+      checklist_sources: stringsOf(task.checklist_sources),
+      source: ctx.source,
+      source_refs: stringsOf(task.source_refs),
+      context: task.context ?? [],
     };
   });
   return {
+    source: ctx.source,
     projects: [{ key: project, name, web_origin: webOriginOf(meta), domain: domainOf(meta) }],
     milestones: [...MILESTONES],
     labels: { area: [...AREA_LABELS], capability: [...CAPABILITY_LABELS] },

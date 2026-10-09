@@ -1,6 +1,6 @@
 // Record-mode merge-gate step. Patterns are built in temp git repos so this file
 // does not contain a committed record-mode literal.
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { assert, skillRoot, type Harness } from "./_harness.js";
@@ -118,6 +118,43 @@ export function register(harness: Harness): void {
       hit: "Tests/Bad.kt:2",
     },
     {
+      slug: "record-multiline",
+      label: "record-mode step follows a multiline boolean setting and reports its label line",
+      file: "Tests/Bad.swift",
+      body: sourceFile(
+        ["assertSnapshot(", "    of: view,", "    record:", "      /* record references only during authoring */", "      true", "  )"].join("\n"),
+      ),
+      hit: "Tests/Bad.swift:4",
+    },
+    {
+      slug: "is-recording-multiline",
+      label: "record-mode step follows a multiline global setting through comments",
+      file: "Tests/Bad.swift",
+      body: sourceFile(["isRecording", "    /* a nested /* explanation */ remains a comment */", "    =", "    true"].join("\n")),
+      hit: "Tests/Bad.swift:2",
+    },
+    {
+      slug: "record-reordered",
+      label: "record-mode step finds a later argument after a nested call",
+      file: "Tests/Bad.swift",
+      body: sourceFile(["withSnapshotTesting(", `    diffTool: selectTool(\"${recordTrue}\"),`, "    record:", "      .missing", "  ) {}"].join("\n")),
+      hit: "Tests/Bad.swift:4",
+    },
+    {
+      slug: "record-failed",
+      label: "record-mode step rejects scoped failure recording",
+      file: "Tests/Bad.swift",
+      body: sourceFile("withSnapshotTesting(record: .failed) {}"),
+      hit: "Tests/Bad.swift:2",
+    },
+    {
+      slug: "record-qualified",
+      label: "record-mode step recognizes a qualified scoped recording value",
+      file: "Tests/Bad.swift",
+      body: sourceFile("withSnapshotTesting(diffTool: nil, record: SnapshotTestingConfiguration.Record.all) {}"),
+      hit: "Tests/Bad.swift:2",
+    },
+    {
       slug: "scheme",
       label: "record-mode step fails when a scheme sets the record env to all",
       file: "App.xcscheme",
@@ -173,6 +210,76 @@ export function register(harness: Harness): void {
       "ci.env": `${envName}=never\n`,
     });
     assertPass(repo);
+  });
+
+  harness.check("record-mode step ignores comments and string contents without hiding the following code", () => {
+    const repo = harness.makeTempDir("source-literals");
+    const swift = [
+      `// ${recordTrue}`,
+      `/* ${isRecordingTrue}\n /* ${recordAll}) {} */\n */`,
+      `let escaped = "quoted \\\"${recordTrue}\\\" text"`,
+      `let multiline = """\n${recordAll}) {}\n${isRecordingTrue}\n"""`,
+      `let raw = #"quoted "${recordTrue}" text"#`,
+      `let rawMultiline = ##"""\n""" ${recordAll}) {}\n"""##`,
+      "withSnapshotTesting(diffTool: nil, record: .never) {}",
+      "unrelatedConfiguration(record: .all)",
+      "let recording = true",
+      "let recordEnabled = true",
+      "let saved = isRecording == true",
+      "",
+    ].join("\n");
+    commitRepo(repo, {
+      "Tests/Clean.swift": swift,
+      "Tests/Clean.ts": [`const text = '${recordTrue}';`, `const template = \`\n${isRecordingTrue}\n\`;`, ""].join("\n"),
+      "Tests/clean.py": [`# ${recordTrue}`, `text = '''\n${isRecordingTrue}\n'''`, ""].join("\n"),
+    });
+    assertPass(repo);
+    writeRepoFile(repo, "Tests/Clean.swift", swift + sourceFile(recordTrue));
+    assertHit(repo, `Tests/Clean.swift:${swift.split("\n").length + 1}`);
+  });
+
+  const regexCases = [
+    { name: "double-quote", file: "Tests/Literal.ts", source: 'const matcher = /"/;' },
+    { name: "single-quote", file: "Tests/Literal.js", source: "const matcher = /'/;" },
+    { name: "character-class", file: "Tests/Literal.tsx", source: "const matcher = /[\"'/]/;" },
+    { name: "escaped-slash", file: "Tests/Literal.jsx", source: "const matcher = /\\/[\"']/g;" },
+    { name: "arrow-expression", file: "Tests/Literal.ts", source: 'const matcher = (() => /"/)();' },
+    { name: "control-statement", file: "Tests/Literal.js", source: 'if (ready) /"/.test(value);' },
+    { name: "swift-bare", file: "Tests/Literal.swift", source: 'let matcher = /"/;' },
+    { name: "swift-extended", file: "Tests/Literal.swift", source: 'let matcher = #/"/#;' },
+    { name: "swift-multiline", file: "Tests/Literal.swift", source: 'let matcher = ##/\n  "literal"\n/##;' },
+  ];
+  for (const regex of regexCases) {
+    harness.check(`record-mode step preserves code after a ${regex.name} regex literal`, () => {
+      const repo = harness.makeTempDir(`regex-${regex.name}`);
+      const swift = regex.file.endsWith(".swift");
+      const assertion = (setting: string): string => (swift ? `assertSnapshot(${setting})` : `assertSnapshot({ ${setting} })`);
+      commitRepo(repo, { [regex.file]: `${regex.source} ${assertion("record: false")}\n` });
+      assertPass(repo);
+      writeRepoFile(repo, regex.file, `${regex.source} ${assertion(recordTrue)}\n`);
+      assertHit(repo, `${regex.file}:${regex.source.split("\n").length}`);
+      writeRepoFile(repo, regex.file, `${regex.source}\n${assertion(recordTrue)}\n`);
+      assertHit(repo, `${regex.file}:${regex.source.split("\n").length + 1}`);
+    });
+  }
+
+  harness.check("record-mode step does not mistake division expressions for regex literals", () => {
+    const repo = harness.makeTempDir("division-expressions");
+    for (const operand of ["left", "left++", "({})", "{}"]) {
+      writeRepoFile(repo, "Tests/Division.ts", `const ratio = ${operand} / assertSnapshot({ ${recordTrue} }) / right;\n`);
+      if (operand === "left") commitRepo(repo, {});
+      assertHit(repo, "Tests/Division.ts:1");
+    }
+  });
+
+  harness.check("record-mode step remains standalone when copied into an app merge gate", () => {
+    const repo = harness.makeTempDir("standalone");
+    commitRepo(repo, { "Tests/Bad.swift": sourceFile("withSnapshotTesting(\n  diffTool: nil,\n  record: .all\n) {}") });
+    const copied = path.join(repo, "merge-gate.sh");
+    copyFileSync(script, copied);
+    const result = spawnSync("sh", [copied], { cwd: repo, encoding: "utf8" });
+    assert(result.status === 1, `copied merge gate must fail: ${result.stderr}`);
+    assert(result.stdout.trim() === "Tests/Bad.swift:4", `copied merge gate diagnostic: ${result.stdout}`);
   });
 
   harness.check("record-mode step ignores an untracked file", () => {

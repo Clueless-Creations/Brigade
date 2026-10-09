@@ -10,15 +10,7 @@ const buildScript = path.join(exampleDir, "build.mjs");
 
 const MILESTONES = ["Build", "Dogfood", "Gate 2", "Launch", "Run"];
 const AREA_LABELS = ["App", "Web", "Store & Marketing", "Growth", "Money", "Ops"];
-const CAPABILITY_LABELS = [
-  "Auth",
-  "Privacy",
-  "Security",
-  "Deep links",
-  "Discovery (SEO/AEO/GEO)",
-  "Analytics",
-  "Accessibility",
-];
+const CAPABILITY_LABELS = ["Auth", "Privacy", "Security", "Deep links", "Discovery (SEO/AEO/GEO)", "Analytics", "Accessibility"];
 const FREE_WEB_ORIGIN = "https://<slug>.<account>.workers.dev";
 const EXAMPLE_WEB_ORIGIN = "https://soon-example.example";
 
@@ -26,6 +18,7 @@ type SpecDoc = {
   meta: { web_origin?: unknown; domain?: unknown; slug?: string };
   screens: Array<{ id: string; acceptance?: string[] }>;
   web: Array<{ id: string }>;
+  store: { creative_assets: unknown[] };
   tasks?: unknown;
 };
 
@@ -68,27 +61,21 @@ export function register(harness: Harness): void {
     const result = runBuild(path.join(exampleDir, "spec.yaml"), path.join(outDir, "index.html"));
     assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.output}`);
     const draft = readDraft(outDir);
-    const expectedCount = spec.screens.length + spec.web.length + (Array.isArray(spec.tasks) ? spec.tasks.length : 0);
+    const expectedCount = spec.screens.length + spec.web.length + spec.store.creative_assets.length + (Array.isArray(spec.tasks) ? spec.tasks.length : 0);
     assert(draft.projects.length === 1, `expected one project, got ${draft.projects.length}`);
     assert(draft.projects[0]?.key === spec.meta.slug, "project key must be meta.slug");
     assert(draft.projects[0]?.domain === null, "omitted domain must stay null in the draft");
     assert(draft.projects[0]?.web_origin === EXAMPLE_WEB_ORIGIN, "draft must keep the spec web_origin");
     assert(JSON.stringify(draft.milestones) === JSON.stringify(MILESTONES), `milestones ${JSON.stringify(draft.milestones)}`);
     assert(JSON.stringify(draft.labels.area) === JSON.stringify(AREA_LABELS), `area labels ${JSON.stringify(draft.labels.area)}`);
-    assert(
-      JSON.stringify(draft.labels.capability) === JSON.stringify(CAPABILITY_LABELS),
-      `capability labels ${JSON.stringify(draft.labels.capability)}`,
-    );
+    assert(JSON.stringify(draft.labels.capability) === JSON.stringify(CAPABILITY_LABELS), `capability labels ${JSON.stringify(draft.labels.capability)}`);
     assert(draft.issues.length === expectedCount, `expected ${expectedCount} issues, got ${draft.issues.length}`);
     const welcome = draft.issues.find((issue) => issue.key === "S-welcome");
     const landing = draft.issues.find((issue) => issue.key === "W-landing");
     assert(welcome?.area === "App", "S-welcome must use the App label");
     assert(welcome?.milestone === "Build", "screen issues start on Build");
     assert(welcome?.blockers.length === 0, "derived screen tasks have no blockers");
-    assert(
-      welcome?.checklist.includes("No sign-in before first value."),
-      "screen acceptance must become the checklist",
-    );
+    assert(welcome?.checklist.includes("No sign-in before first value."), "screen acceptance must become the checklist");
     assert(landing?.area === "Web", "W-landing must use the Web label");
     const html = readFileSync(path.join(outDir, "index.html"), "utf8");
     assert(!html.includes("\\u003c"), "generated review page must not emit a \\u003c escape");
@@ -141,11 +128,11 @@ export function register(harness: Harness): void {
     assert(issue?.milestone === "Launch", "issue must keep a declared milestone");
     assert(JSON.stringify(issue?.capabilities) === JSON.stringify(["Privacy", "Deep links"]), "issue must keep capability labels");
     assert(JSON.stringify(issue?.blockers) === JSON.stringify(["S-settings"]), "dependencies must become blockers");
+    assert(issue?.checklist[0] === "The support address is in the binary only after the domain exists.", "acceptance must become the checklist");
     assert(
-      issue?.checklist[0] === "The support address is in the binary only after the domain exists.",
-      "acceptance must become the checklist",
+      draft.issues.length === spec.screens.length + spec.web.length + spec.store.creative_assets.length + 1,
+      "one issue per screen, web page, creative asset, and task",
     );
-    assert(draft.issues.length === spec.screens.length + spec.web.length + 1, "one issue per screen, web page, and task");
   });
 
   harness.check("spec-pack rejects a non-string domain and an unknown capability", () => {
@@ -171,10 +158,7 @@ export function register(harness: Harness): void {
     assert(result.status === 1, `expected exit 1, got ${result.status}\n${result.output}`);
     assert(result.output.includes("meta.domain: must be a string when set"), `missing domain error\n${result.output}`);
     assert(result.output.includes("meta.web_origin: must be a string when set"), `missing web_origin error\n${result.output}`);
-    assert(
-      result.output.includes('tasks: "bad-cap" capability "Not a label" is not a tracker label'),
-      `missing capability error\n${result.output}`,
-    );
+    assert(result.output.includes('tasks: "bad-cap" capability "Not a label" is not a tracker label'), `missing capability error\n${result.output}`);
   });
 
   harness.check("launch docs keep the free URL, domain limit, tracker mapping, and portfolio step", () => {
