@@ -934,7 +934,8 @@ export function register(harness: Harness): void {
     assert(issues.length === 0, `expected the real catalog to be clean, got: ${issues.map((i) => `${i.code}: ${i.message}`).join("; ")}`);
     const composition = catalog.composition;
     assert(Boolean(composition), "composeCatalog must pin a composition fingerprint");
-    const version = readFirstpartyPackage(skillRoot).snapshot.extension.version;
+    const firstpartyPackage = readFirstpartyPackage(skillRoot);
+    const version = firstpartyPackage.snapshot.extension.version;
     assert(
       composition!.packs.length === 1 &&
         composition!.packs[0]!.id === "business-pack.consumer-business" &&
@@ -949,7 +950,8 @@ export function register(harness: Harness): void {
     const firstparty = composition!.deltas["business-pack.consumer-business"]!;
     assert(firstparty.domains === 15, `expected 15 firstparty domains, got ${firstparty.domains}`);
     assert(firstparty.workflows === 115, `expected 115 firstparty workflows, got ${firstparty.workflows}`);
-    assert(firstparty.references === 147, `expected 147 firstparty references, got ${firstparty.references}`);
+    const declaredReferences = firstpartyPackage.snapshot.extension.resources.filter((resource) => resource.kind === "knowledge").length;
+    assert(firstparty.references === declaredReferences, `expected ${declaredReferences} declared firstparty references, got ${firstparty.references}`);
     const deltaWorkflows = Object.values(composition!.deltas).reduce((sum, delta) => sum + delta.workflows, 0);
     const deltaDomains = Object.values(composition!.deltas).reduce((sum, delta) => sum + delta.domains, 0);
     const deltaReferences = Object.values(composition!.deltas).reduce((sum, delta) => sum + delta.references, 0);
