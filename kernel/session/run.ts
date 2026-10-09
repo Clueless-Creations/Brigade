@@ -69,6 +69,7 @@ import {
   listPendingFreshContext,
   hasCurrentDeterministicVerification,
   recordDeterministicVerification,
+  requiresRevenueVerificationRefresh,
   refuseFreshContextAcceptance,
   requiresIndependentReview,
   verificationOutputFingerprint,
@@ -113,7 +114,7 @@ import {
 import { b2cAppBuilderHome, loadRegistry } from "../../adapters/registry.js";
 import { acquireSharedClaim, assertSharedClaim, releaseSharedClaim, renewSharedClaim, type SharedClaim } from "../reducer/shared-claims.js";
 import type { VerifierOutputRef } from "./worker-prompt.js";
-import { runDeterministicGates, type GateOutcome } from "./deterministic-gates.js";
+import { refreshPendingRevenueVerification, runDeterministicGates, type GateOutcome } from "./deterministic-gates.js";
 import {
   formatAge,
   pushDigest,
@@ -1264,8 +1265,10 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
     // by ordinary sweeps, but a yield before any batch must not opportunistically judge it.
     const cooperativeYieldCandidateAttempts = new Map<RunNodeId, string>();
     const runVerificationSweep = async (allowCooperativeYield = false, candidateAttempts?: ReadonlyMap<RunNodeId, string>): Promise<number> => {
-      if (!verifier) return 0;
-      const allPending = listPendingSessionReviews(plan, run);
+      const allPending = [
+        ...(verifier ? listPendingSessionReviews(plan, run) : []),
+        ...plan.nodes.filter((node) => requiresRevenueVerificationRefresh(plan, run, node.id)).map((node) => node.id),
+      ];
       const allPendingSet = new Set(allPending);
       // Retire an exact candidate only when that attempt is no longer the pending attempt. A
       // still-pending, unvisited candidate survives a boundary interruption for the final sweep.
@@ -1302,6 +1305,20 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
         const node = plan.nodes.find((candidate) => candidate.id === nodeId)!;
         const state = run.nodes[nodeId]!;
         const attempt = state.attempts.at(-1);
+        const refreshed = refreshPendingRevenueVerification(plan, run, nodeId, workspace, sessionNow());
+        if (refreshed !== "unchanged") writeRunState(paths.runState, run);
+        if (refreshed === "repair") {
+          progressCount += 1;
+          continue;
+        }
+        if (refreshed === "refreshed" && !requiresIndependentReview(node)) {
+          acceptVerification(plan, run, nodeId, attempt!.deterministicVerification!.evidence, sessionNow(), sessionId);
+          writeRunState(paths.runState, run);
+          advanced.push({ nodeId, title: node.title, unit: domainBusinessUnit(node.domainId, catalog.authority) });
+          progressCount += 1;
+          continue;
+        }
+        if (!verifier) continue;
         const rejectionOnly = hasCurrentFailedAuditGates(plan, run, nodeId);
         const refusal = refuseFreshContextAcceptance(plan, run, nodeId, verifierSessionId);
         if (refusal && !(rejectionOnly && refusal.code === "gates_required")) {

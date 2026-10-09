@@ -27,6 +27,7 @@ import { listPendingFreshContext, refuseFreshContextAcceptance } from "../engine
 import type { RunStateDocument } from "../schema/types.js";
 import { loadWorkspaceCatalog, renderCatalogRefusal } from "./catalog-contract.js";
 import { resolveCliWorkspace } from "./status.js";
+import { refreshPendingRevenueVerification } from "./deterministic-gates.js";
 
 function main(): number {
   const args = parseArgs(process.argv.slice(2));
@@ -87,7 +88,13 @@ function main(): number {
   // The acceptance rules (pending-only, required independent review, producer≠verifier across every
   // attempt) live in kernel/engine/verification.ts, shared with the session runner's own verifier
   // pass; this CLI keeps its original per-code wording for its operators.
-  const refusal = refuseFreshContextAcceptance(plan, run, nodeId, sessionId);
+  let refusal = refuseFreshContextAcceptance(plan, run, nodeId, sessionId);
+  // Only an otherwise-eligible explicit acceptance can refresh legacy proof; --list stays read-only.
+  if (refusal?.code === "gates_required") {
+    const refreshed = refreshPendingRevenueVerification(plan, run, nodeId, workspace, new Date().toISOString());
+    if (refreshed !== "unchanged") writeRunState(runStatePath, run);
+    refusal = refuseFreshContextAcceptance(plan, run, nodeId, sessionId);
+  }
   if (refusal) {
     const planned = plan.nodes.find((node) => node.id === nodeId);
     const message =
