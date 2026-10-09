@@ -147,7 +147,8 @@ let exitCode = result.ok ? 0 : 1;
 if (result.ok && (operation.id === "contribution.check" || operation.id === "contribution.evaluate")) {
   exitCode = (result.data as CheckData | EvaluateData).pass ? 0 : 1;
 }
-process.exit(exitCode);
+// Let pending stdout/stderr writes drain before the process exits (including piped JSON).
+process.exitCode = exitCode;
 
 function renderText(id: string, data: unknown): string {
   switch (id) {
