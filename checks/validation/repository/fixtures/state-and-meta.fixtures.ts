@@ -111,6 +111,143 @@ export function registerReleaseStampHookFixtures(h: Harness): void {
   }
 }
 
+/** A stamp merged after a later source change must not hide stale projections. */
+export function registerReleaseStampRecoveryFixtures(h: Harness): void {
+  for (const mode of ["current", "stale", "generator-failure", "check-failure"] as const) {
+    const root = h.makeEmptyFixture(`release-stamp-recovery-${mode}`);
+    const env = {
+      ...process.env,
+      B2C_STAMP_MODE: "pr",
+      GIT_AUTHOR_NAME: "fixture",
+      GIT_AUTHOR_EMAIL: "fixture@example.com",
+      GIT_COMMITTER_NAME: "fixture",
+      GIT_COMMITTER_EMAIL: "fixture@example.com",
+    };
+    const git = (args: string[]): string => {
+      const result = spawnSync("git", args, { cwd: root, env, encoding: "utf8" });
+      if (result.status !== 0) throw new Error(`stamp fixture git failed: ${result.stderr}`);
+      return result.stdout.trim();
+    };
+    mkdirSync(path.join(root, "tooling"), { recursive: true });
+    mkdirSync(path.join(root, "examples/spec-pack"), { recursive: true });
+    const scripts = {
+      ...Object.fromEntries(
+        [
+          "render:evidence-schema-version",
+          "render:artifact-pages",
+          "check:hosted-bundle",
+          "check:evidence-schema-drift",
+          "check:credits",
+          "check:generated-pages",
+          "check:public-api",
+        ].map((name) => [name, "node tooling/noop.mjs"]),
+      ),
+      "render:all": "node tooling/projection.mjs render",
+      "catalog:render-routing": "node tooling/projection.mjs check",
+    };
+    const writeVersions = (version: string): void => {
+      writeFileSync(path.join(root, "package.json"), JSON.stringify({ name: "stamp-recovery-fixture", type: "module", version, scripts }, null, 2));
+      writeFileSync(path.join(root, "package-lock.json"), JSON.stringify({ version, packages: { "": { version } } }, null, 2));
+      writeFileSync(
+        path.join(root, "skill-version.json"),
+        JSON.stringify({ version, releaseNotes: ["First synthetic release note", "Second synthetic release note"] }, null, 2),
+      );
+    };
+    writeVersions("0.1.0");
+    writeFileSync(path.join(root, "tooling/noop.mjs"), "");
+    writeFileSync(path.join(root, "tooling/render-task-skills.ts"), "process.exitCode = 0;\n");
+    writeFileSync(
+      path.join(root, "tooling/projection.mjs"),
+      `import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
+const mode = ${JSON.stringify(mode)};
+const command = process.argv[2];
+appendFileSync(".git/projection.log", command + ":" + process.env.B2C_STAMP_MODE + "\\n");
+if (command === "render") {
+  if (mode === "generator-failure") process.exitCode = 1;
+  else if (mode !== "check-failure") writeFileSync("projection.txt", readFileSync("source.txt"));
+} else if (process.env.B2C_STAMP_MODE !== "release" || !readFileSync("projection.txt").equals(readFileSync("source.txt"))) {
+  console.error("synthetic projection is stale");
+  process.exitCode = 1;
+}
+`,
+    );
+    writeFileSync(
+      path.join(root, "examples/spec-pack/build.mjs"),
+      'import { writeFileSync } from "node:fs";\nwriteFileSync(process.argv[3] ?? "examples/spec-pack/index.html", "synthetic specification\\n");\n',
+    );
+    writeFileSync(path.join(root, "examples/spec-pack/index.html"), "synthetic specification\n");
+    writeFileSync(path.join(root, "source.txt"), "Original source.\n");
+    writeFileSync(path.join(root, "projection.txt"), "Original source.\n");
+    writeFileSync(path.join(root, ".gitignore"), "node_modules/\n");
+    symlinkSync(path.join(skillRoot, "node_modules"), path.join(root, "node_modules"), "dir");
+    git(["init", "-q", "-b", "main"]);
+    git(["config", "commit.gpgsign", "false"]);
+    git(["config", "core.hooksPath", ".git/hooks"]);
+    git(["add", "-A"]);
+    git(["commit", "-q", "-m", "Stamp 0.1.0"]);
+    writeFileSync(path.join(root, "source.txt"), "Later source change.\n");
+    git(["add", "source.txt"]);
+    git(["commit", "-q", "-m", "Add a later source change"]);
+    writeVersions("0.1.1");
+    if (mode === "current") writeFileSync(path.join(root, "projection.txt"), "Later source change.\n");
+    git(["add", "-A"]);
+    git(["commit", "-q", "-m", "Stamp 0.1.1"]);
+    git(["update-ref", "refs/remotes/origin/main", "HEAD"]);
+    const previousHead = git(["rev-parse", "HEAD"]);
+    const runStamp = () =>
+      spawnSync(process.execPath, ["--import", "tsx", path.join(skillRoot, "tooling/release-stamp.ts"), "--repo-root", root], {
+        cwd: skillRoot,
+        env,
+        encoding: "utf8",
+        timeout: 60_000,
+      });
+    const result = runStamp();
+    const logPath = path.join(root, ".git/projection.log");
+    const log = existsSync(logPath) ? readFileSync(logPath, "utf8") : "";
+    const manifest = JSON.parse(readFileSync(path.join(root, "skill-version.json"), "utf8")) as { version: string; releaseNotes: string[] };
+    const failedRepair = mode === "generator-failure" || mode === "check-failure";
+    const expectedCode = failedRepair ? 1 : 0;
+    let outcome: boolean;
+    if (mode === "current") {
+      outcome =
+        git(["rev-parse", "HEAD"]) === previousHead && manifest.version === "0.1.1" && git(["status", "--porcelain"]) === "" && log === "check:release\n";
+    } else if (mode === "stale") {
+      const repairedHead = git(["rev-parse", "HEAD"]);
+      const repeated = runStamp();
+      outcome =
+        repairedHead !== previousHead &&
+        manifest.version === "0.1.2" &&
+        git(["log", "-1", "--format=%s"]) === "Stamp 0.1.2" &&
+        readFileSync(path.join(root, "projection.txt"), "utf8") === "Later source change.\n" &&
+        manifest.releaseNotes.includes("Regenerate stale release projections from current source.") &&
+        log === "check:release\nrender:pr\ncheck:release\n" &&
+        repeated.status === 0 &&
+        repeated.stdout.includes("Nothing changed since stamp 0.1.2.") &&
+        git(["rev-parse", "HEAD"]) === repairedHead &&
+        git(["status", "--porcelain"]) === "";
+    } else {
+      outcome =
+        git(["rev-parse", "HEAD"]) === previousHead &&
+        !result.stdout.includes("Committed Stamp") &&
+        readFileSync(path.join(root, "source.txt"), "utf8") === "Later source change.\n" &&
+        readFileSync(path.join(root, "projection.txt"), "utf8") === "Original source.\n" &&
+        log === (mode === "generator-failure" ? "check:release\nrender:pr\n" : "check:release\nrender:pr\ncheck:release\n");
+    }
+    h.results.push({
+      label:
+        mode === "current"
+          ? "release stamp validates a current stamp before leaving it unchanged"
+          : mode === "stale"
+            ? "release stamp repairs stale projections at a stamp head and the next run is a no-op"
+            : `release stamp does not commit a stale no-op recovery after ${mode}`,
+      ok: result.status === expectedCode && outcome,
+      expectedCode,
+      actualCode: result.status,
+      output: `${result.stdout}\n${result.stderr}\nprojectionLog=${JSON.stringify(log)} outcome=${outcome}`,
+    });
+  }
+}
+
 export function register(h: Harness): void {
   const { makeFixture, makeEmptyFixture, runFixture, runScriptArgs } = h;
 
@@ -1370,6 +1507,7 @@ export function register(h: Harness): void {
   );
   runScriptArgs("stamp generators are byte-stable across two renders", "stamp-stability.ts", [], 0, "byte-stable");
   registerReleaseStampHookFixtures(h);
+  registerReleaseStampRecoveryFixtures(h);
 
   // --- validate-state (fail branch) ---
   const designStateMissing = makeEmptyFixture("design-state-missing");

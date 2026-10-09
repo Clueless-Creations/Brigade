@@ -96,7 +96,10 @@ It commits on `release/stamp-<version>`.
 The default branch is `release/stamp-<version>`.
 `--branch` selects another `release/stamp-*` branch.
 It pushes only with `--push`.
-A second run with no commits since that stamp does nothing.
+A second run with no commits since that stamp validates the generated files.
+If they match, it does nothing. If they are stale, it creates a new patch stamp
+with a recovery note through the same generation, validation, and commit path.
+Failed generation or validation never creates a stamp commit.
 
 Patch plus one stays on the version line readers already compare.
 The number only increases along first-parent main.
@@ -148,10 +151,16 @@ The concurrency group is `stamp-main`.
 Overlapping pushes queue in that group.
 The run opens `release/stamp-<version>` when no stamp pull request is open.
 The run updates an open stamp pull request on its current branch.
-The run enables squash auto-merge on that pull request.
-Auto-merge lands the pull request after required checks pass.
-The repository must allow auto-merge.
-The workflow does not change the ruleset.
+Before updating an existing candidate, the run disables any inherited auto-merge.
+It waits for the newly dispatched CI run on the exact candidate SHA and requires
+completed success, including the CI aggregate. Missing, cancelled, and failed
+runs cannot authorize a merge.
+It fetches main again. If main advanced beyond the candidate, it queues a new
+stamp run to refresh the open pull request. Otherwise it squash-merges the
+verified head and checks the generated files on merged main. A stale merged
+tree queues recovery and fails the run. Deploy, publish, and runtime sync still
+enforce their own stamp guard; the fetch and merge are not atomic.
+The workflow does not change repository rules or require auto-merge to be enabled.
 `GITHUB_TOKEN` does not start `pull_request` workflows.
 The stamp job dispatches CI on the stamp branch.
 That dispatch uses `workflow_dispatch` and `verification=presubmit`.

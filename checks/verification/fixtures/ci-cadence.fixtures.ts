@@ -191,6 +191,83 @@ export function register(harness: Harness): void {
     assert(ciYml.includes("npm run audit:ci -- --lane fast"), "full verification must still run the fast pool");
     assert(ciYml.includes("--lane heavy --shard"), "full verification must still run heavy shards");
   });
+
+  for (const scenario of [
+    "success",
+    "missing",
+    "failed",
+    "cancelled",
+    "timed_out",
+    "wrong_head",
+    "missing_aggregate",
+    "replaced",
+    "armed",
+    "advanced",
+    "stale_merge",
+    "missing_merge",
+  ]) {
+    harness.check(`stamp merge waits for its candidate and handles ${scenario}`, () => {
+      const script = pathToFileUrl(path.join(skillRoot, "tooling/merge-stamp.mjs"));
+      const result = spawnSync(
+        process.execPath,
+        [
+          "--input-type=module",
+          "-e",
+          `
+        import { mergeStamp } from ${JSON.stringify(script)};
+        const scenario = ${JSON.stringify(scenario)};
+        const calls = [];
+        let lists = 0, reads = 0, merged = false, error = false, answer;
+        const run = (bin, args) => {
+          const command = [bin, ...args].join(" "); calls.push(command);
+          const ok = (value = "") => ({ status: 0, stdout: typeof value === "string" ? value : JSON.stringify(value), stderr: "" });
+          if (command === "git rev-parse HEAD") return ok("candidate");
+          if (command.startsWith("gh pr view")) {
+            reads++;
+            return ok({state: merged ? "MERGED" : "OPEN", headRefOid: scenario === "replaced" && reads > 1 ? "replacement" : "candidate", autoMergeRequest: scenario === "armed" ? {} : null, mergeCommit: merged ? {oid:"merged"} : null});
+          }
+          if (command.startsWith("gh run list")) {
+            lists++;
+            const prior = [{databaseId:1,headSha:"candidate"}, {databaseId:2,headSha:"unrelated"}];
+            return ok(lists < 3 || scenario === "missing" ? prior : [...prior,{databaseId:3,headSha:"candidate"}]);
+          }
+          if (command.startsWith("gh run watch")) return scenario === "failed" ? {status:1,stdout:"",stderr:"CI failed"} : ok();
+          if (command.startsWith("gh run view")) return ok({status:"completed", conclusion:["cancelled","timed_out"].includes(scenario) ? scenario : "success", headSha:scenario === "wrong_head" ? "other" : "candidate", jobs:scenario === "missing_aggregate" ? [] : [{name:"CI complete",conclusion:"success"}]});
+          if (command.startsWith("git merge-base")) return {status:scenario === "advanced" || (scenario === "missing_merge" && args[2] === "merged") ? 1 : 0,stdout:"",stderr:""};
+          if (command.startsWith("gh pr merge")) { merged = true; return ok(); }
+          if (command === "npm run check:stamped-tree") return {status:scenario === "stale_merge" ? 1 : 0,stdout:"",stderr:""};
+          if (command.startsWith("gh workflow run") || command.startsWith("git fetch") || command.startsWith("git checkout")) return ok();
+          throw new Error("Unexpected command: " + command);
+        };
+        try { answer = await mergeStamp("12", "release/stamp-1.2.3", {run,sleep:async()=>{}}); } catch { error = true; }
+        const shouldMerge = ["success","stale_merge","missing_merge"].includes(scenario);
+        if (merged !== shouldMerge) throw new Error("Unexpected merge: " + JSON.stringify(calls));
+        if (error !== !["success","advanced"].includes(scenario)) throw new Error("Unexpected result");
+        const refreshed = calls.includes("gh workflow run stamp.yml --ref main");
+        if (refreshed !== ["advanced","stale_merge"].includes(scenario)) throw new Error("Missing or unnecessary recovery");
+        if (scenario === "success") {
+          if (answer.ci !== 3 || !answer.merged) throw new Error("Wrong dispatched run");
+          const wait = calls.indexOf("gh run watch 3 --exit-status --interval 10");
+          const merge = calls.indexOf("gh pr merge 12 --squash --match-head-commit candidate");
+          if (wait < 0 || merge < wait || !calls.includes("npm run check:stamped-tree")) throw new Error("Merge order or post-merge guard");
+        }
+        console.log("ok");
+      `,
+        ],
+        { cwd: repoRoot, encoding: "utf8" },
+      );
+      assert(result.status === 0, `stamp scenario failed:\n${result.stdout}\n${result.stderr}`);
+    });
+  }
+
+  harness.check("stamp workflow disarms inherited auto-merge before updating a candidate", () => {
+    const stamp = readFileSync(path.join(skillRoot, ".github/workflows/stamp.yml"), "utf8");
+    const disarm = stamp.indexOf('gh pr merge "$number" --disable-auto');
+    const update = stamp.indexOf('npm run release:stamp -- --push --branch "$branch"');
+    assert(disarm >= 0 && update > disarm, "disarm before updating the branch");
+    assert(stamp.includes('node tooling/merge-stamp.mjs "$number" "$head"'), "workflow must invoke the tested merge path");
+    assert(!stamp.includes("--auto --squash"), "do not arm immediate auto-merge");
+  });
 }
 
 function pathToFileUrl(filePath: string): string {

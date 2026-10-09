@@ -12,8 +12,8 @@ name: Stamp
 # workflow_dispatch does start a run with that token. This job dispatches CI on
 # the stamp branch with verification=presubmit.
 #
-# Squash auto-merge needs the repository setting Allow auto-merge. This file
-# does not change the ruleset.
+# Wait for the exact candidate's CI before merging. Auto-merge can merge
+# immediately when repository rules do not require the dispatched checks.
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
   stamp:
     name: Stamp
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     # Squash stamps start with "Stamp ". Dispatch has no head commit.
     if: github.event_name != 'push' || !startsWith(github.event.head_commit.message, 'Stamp ')
     steps:
@@ -93,6 +93,9 @@ jobs:
           if [ -n "$existing" ]; then
             branch="$(jq -r '.headRefName' <<<"$existing")"
             number="$(jq -r '.number' <<<"$existing")"
+            if [ "$(gh pr view "$number" --json autoMergeRequest --jq '.autoMergeRequest != null')" = "true" ]; then
+              gh pr merge "$number" --disable-auto
+            fi
             git fetch --no-tags origin "refs/heads/${branch}:refs/remotes/origin/${branch}"
             npm run release:stamp -- --push --branch "$branch"
           else
@@ -115,7 +118,7 @@ jobs:
 
           This pull request bumps the patch, writes release notes from merged subjects, and regenerates the stamp files.
 
-          CI is dispatched on this branch. A pull request opened with the default token does not start pull_request workflows. workflow_dispatch does.
+          CI is dispatched on this branch and must pass for its exact head before merge. Merged main is checked again before the stamp is considered ready.
           EOF
 
           title="Stamp ${version}"
@@ -126,18 +129,4 @@ jobs:
             gh pr edit "$number" --title "$title" --body-file "$body_file"
           fi
 
-          gh workflow run ci.yml --ref "$head" -f verification=presubmit
-
-          merge_err="$(mktemp)"
-          if gh pr merge "$number" --auto --squash 2>"$merge_err"; then
-            echo "Auto-merge enabled for #${number}."
-          else
-            cat "$merge_err" >&2
-            enabled="$(gh pr view "$number" --json autoMergeRequest --jq '.autoMergeRequest.mergeMethod // empty')"
-            if [ -n "$enabled" ]; then
-              echo "Auto-merge already enabled for #${number}."
-            else
-              echo "Auto-merge was not enabled. Turn on Allow auto-merge in the repository settings."
-              exit 1
-            fi
-          fi
+          node tooling/merge-stamp.mjs "$number" "$head"

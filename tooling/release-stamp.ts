@@ -4,7 +4,7 @@
  *
  * Refuses a dirty tree, a branch other than main, or a main that does not
  * contain origin/main. Patch + 1 is the version. `--version` may set a higher
- * number. The second run on the same stamp is a no-op.
+ * number. A run with no new subjects is a no-op only when strict checks pass.
  *
  * Usage: tsx tooling/release-stamp.ts [--version <semver>] [--branch <name>] [--push] [--repo-root <dir>]
  */
@@ -48,8 +48,12 @@ function main(): number {
     : [];
   const notes = subjects.filter((subject) => !STAMP_SUBJECT.test(subject));
   if (notes.length === 0) {
-    console.log(`Nothing changed since stamp ${current}.`);
-    return 0;
+    if (runStrictChecks(root)) {
+      console.log(`Nothing changed since stamp ${current}.`);
+      return 0;
+    }
+    console.log(`Stamp ${current} failed release checks. Regenerating from current source.`);
+    notes.push("Regenerate stale release projections from current source.");
   }
 
   const next = args.version ?? bumpPatch(current);
