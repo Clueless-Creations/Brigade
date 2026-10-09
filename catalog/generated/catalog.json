@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.129",
+  "skillVersion": "0.221.130",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3944,7 +3944,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:d865b5ef3dd32b0fa4f81a88bad7f91bc2ea446316a18e1923a0c5390b1406e3",
+        "sha256": "sha256:0039781827ad101de6cddf456f8ba8809d48d5f6d92e10b1b49971a45a3b6525",
         "origin": "skill"
       }
     },
@@ -7948,7 +7948,7 @@
           "sourceType": "github",
           "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md",
           "reviewCadenceDays": 30,
-          "claimScope": "Basis for the five-agent coordination-overhead caution on the B2C Launch Dispatch Map, and for the Mid-Run Supervision drift signals (script edited but never run past roughly 12 minutes, a self-restarting loop, repeated directory rediscovery, a literal unsubstituted shell variable).",
+          "claimScope": "Basis for the five-agent coordination-overhead caution on the B2C Launch Dispatch Map.",
           "lastReviewDate": "2026-09-02",
           "reviewer": "b2c-maintainers"
         },
@@ -7966,7 +7966,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/orchestration/parallel-agent-orchestration.md",
-        "sha256": "sha256:1fa06f3a50ef3eeac60c6ee02bc6be064fd745fa6cd31b3df14d930fb8bfdced",
+        "sha256": "sha256:f1038cd11776b046775489cf21c0779c6265e8bfd28754fe2ae17dec08896160",
         "origin": "skill"
       }
     },
@@ -10029,7 +10029,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:40f3f75d789a17b53c96de19511a154f2ab5b3ee987df3c3149ca538c8f50e0b",
+        "sha256": "sha256:c1c5bb6dd6c6595653247d860822f7d7393b7f70034950c0f96354f4d288c4fa",
         "origin": "skill"
       }
     },
@@ -20542,14 +20542,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "06c8d561392751774028d903098d0b0e943c05c2e2cac4a9acfb29bd3252e753",
+    "fingerprint": "5dae710ad18841915c21460fedef8d525e3546e50aae5d235bb11d8b6b9d4525",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.129",
-        "revision": "0.221.129",
-        "contentDigest": "94a8d376df4de9b13541a9f218dd8899c140f5c2ca4100666d91c20f3de8c53c"
+        "version": "0.221.130",
+        "revision": "0.221.130",
+        "contentDigest": "c1b725350cacc6cad2b265185fcaec2436f0437bd45a9037e631fa1f1a6c41a0"
       }
     ],
     "base": {

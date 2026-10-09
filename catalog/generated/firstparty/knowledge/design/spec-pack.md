@@ -167,10 +167,16 @@ Each task becomes one issue.
 The issue uses the task area label.
 It adds capability labels when the task lists them.
 Task dependencies become blockers.
-Acceptance lines become the checklist.
+Acceptance lines and required screen states become the checklist.
+Repository tasks also carry the accepted merge requirements.
+Every issue retains those requirements as conditional context for any repository changes.
 A screen task id is `S-<id>` and its area is App.
 A web page task id is `W-<id>` and its area is Web.
+Declared store creative assets become preparation tasks unless an explicit task already owns the source.
 Other tasks come from the `tasks:` list.
+Preserve the exported source revision, source references, checklist sources, and context when assigning work.
+If the source changes, regenerate the draft before dispatch.
+These fields deliver requirements. They do not prove execution, grant authority, or record acceptance.
 Each issue starts on the Build milestone.
 Set `milestone` on a task to move it.
 Allowed values are the five milestones above.
