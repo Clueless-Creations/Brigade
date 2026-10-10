@@ -1353,6 +1353,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
       });
       let progressCount = 0;
       for (const nodeId of pending) {
+        if (hasUnsettledProcess(run)) break;
         if (deferredSharedReviews.has(nodeId)) continue;
         if (isWallClockExceeded(run, sessionNow(), startedAt)) {
           timedOut = true;
@@ -1488,7 +1489,6 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
               }
             : node;
           assertReviewOwnership();
-          if (hasUnsettledProcess(run)) break;
           const outcome = await verifier.verify(reviewNode, {
             executionDeadlineAt,
             runtimeWrites: reviewRuntimeWrites?.snapshot,
