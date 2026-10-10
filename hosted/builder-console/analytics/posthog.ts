@@ -89,9 +89,20 @@ export function createRefreshClient(env: PostHogEnv, kv: KvLike): PostHog {
 
 /** Called from the Worker's scheduled handler. Fails loudly there — a silent stale cache is worse. */
 export async function refreshFlagDefinitions(env: PostHogEnv, kv: KvLike): Promise<void> {
-  const client = createRefreshClient(env, kv);
+  // The SDK resolves reloadFeatureFlags() after several failed fetch/cache paths. A
+  // successful call therefore means this invocation persisted definitions, not merely
+  // that the SDK's promise settled. Count only a completed KV write.
+  let persisted = false;
+  const client = createRefreshClient(env, {
+    get: (key) => kv.get(key),
+    async put(key, value) {
+      await kv.put(key, value);
+      persisted = true;
+    },
+  });
   try {
     await client.reloadFeatureFlags();
+    if (!persisted) throw new Error("Flag definitions were not refreshed");
   } finally {
     await client.shutdown();
   }

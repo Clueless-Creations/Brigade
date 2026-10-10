@@ -80,7 +80,7 @@ test("the staleness sweep, told by Stripe that a subscription is past_due, keeps
       }),
     });
 
-    assert.deepEqual(summary.staleness, { scanned: 1, updated: 1, failed: 0 });
+    assert.deepEqual(summary.staleness, { scanned: 1, updated: 1, failed: 0, failureReasons: {} });
     const entitlement = await harness.readEntitlement(accountId, LOOKUP_KEY);
     assert.equal(entitlement?.active, 1, "past_due inside the grace window must keep access, not revoke it");
     assert.equal(entitlement?.source, "stripe_reconciliation");
@@ -136,8 +136,8 @@ test("the grace sweep revokes an entitlement whose past_due stamp is older than 
       fetchImpl: fakeStripeFetch({}),
     });
 
-    assert.deepEqual(summary.staleness, { scanned: 0, updated: 0, failed: 0 }, "the staleness sweep must have nothing to do here");
-    assert.deepEqual(summary.graceSweep, { scanned: 1, revoked: 1, failed: 0 });
+    assert.deepEqual(summary.staleness, { scanned: 0, updated: 0, failed: 0, failureReasons: {} }, "the staleness sweep must have nothing to do here");
+    assert.deepEqual(summary.graceSweep, { scanned: 1, revoked: 1, failed: 0, failureReasons: {} });
 
     const entitlement = await harness.readEntitlement(accountId, LOOKUP_KEY);
     assert.equal(entitlement?.active, 0, "a past_due subscription over its grace window must be revoked");
@@ -184,7 +184,7 @@ test("the grace sweep leaves a past_due subscription alone while it is still ins
 
     // listOverGracePastDueSubscriptions only returns rows already past the cutoff, so a
     // three-day-old stamp never reaches the grace sweep's per-row loop at all.
-    assert.deepEqual(summary.graceSweep, { scanned: 0, revoked: 0, failed: 0 });
+    assert.deepEqual(summary.graceSweep, { scanned: 0, revoked: 0, failed: 0, failureReasons: {} });
     const entitlement = await harness.readEntitlement(accountId, LOOKUP_KEY);
     assert.equal(entitlement?.active, 1, "still inside the window — must not be touched");
   } finally {
@@ -218,7 +218,7 @@ test("the staleness sweep revokes a past_due subscription this Worker has never 
     });
 
     const first = await reconcileStaleEntitlements(tenant, { secretKey: SECRET_KEY, now, fetchImpl: stripe });
-    assert.deepEqual(first.staleness, { scanned: 1, updated: 1, failed: 0 });
+    assert.deepEqual(first.staleness, { scanned: 1, updated: 1, failed: 0, failureReasons: {} });
     assert.equal((await harness.readEntitlement(accountId, LOOKUP_KEY))?.active, 0, "past_due with no mirror row must fail closed");
     assert.equal(await harness.readSubscriptionMirror("sub_reconunmirror1"), null, "reconciliation must not invent a mirror row");
 
@@ -266,11 +266,15 @@ test("the grace sweep does not rescan a subscription it has already revoked, so 
     );
 
     const first = await reconcileStaleEntitlements(tenant, { secretKey: SECRET_KEY, now, fetchImpl: fakeStripeFetch({}) });
-    assert.deepEqual(first.graceSweep, { scanned: 1, revoked: 1, failed: 0 });
+    assert.deepEqual(first.graceSweep, { scanned: 1, revoked: 1, failed: 0, failureReasons: {} });
     assert.equal((await harness.readEntitlement(accountId, LOOKUP_KEY))?.active, 0);
 
     const second = await reconcileStaleEntitlements(tenant, { secretKey: SECRET_KEY, now, fetchImpl: fakeStripeFetch({}) });
-    assert.deepEqual(second.graceSweep, { scanned: 0, revoked: 0, failed: 0 }, "an already-revoked subscription must drop out of the sweep");
+    assert.deepEqual(
+      second.graceSweep,
+      { scanned: 0, revoked: 0, failed: 0, failureReasons: {} },
+      "an already-revoked subscription must drop out of the sweep",
+    );
   } finally {
     await harness.dispose();
   }

@@ -63,26 +63,25 @@ test("a rotated signing secret still verifies against whichever v1 candidate mat
   assert.equal(await verifyStripeSignature(PAYLOAD, header, "whsec_unrelated", 300, now), false);
 });
 
-test("stripeApiRequest refuses a key that is not rk_-prefixed, before making any request", async () => {
+test("stripeApiRequest refuses an unrestricted account key before making any request", async () => {
   let called = false;
   const fetchImpl = (async () => {
     called = true;
     return new Response("{}", { status: 200 });
   }) as typeof fetch;
-  await assert.rejects(
-    () => stripeApiRequest("/v1/customers", { method: "POST", secretKey: "sk_live_full_access_key", fetchImpl }),
-    /restricted key/,
-  );
-  assert.equal(called, false, "no network call should be attempted with a non-restricted key");
+  await assert.rejects(() => stripeApiRequest("/v1/customers", { method: "POST", secretKey: "sk_live_full_access_key", fetchImpl }), /restricted key/);
+  assert.equal(called, false, "no network call should be attempted with an unrestricted account key");
 });
 
 test("stripeApiRequest surfaces a non-2xx Stripe response as StripeApiError", async () => {
-  const fetchImpl = (async () =>
-    new Response(JSON.stringify({ error: { message: "No such customer" } }), { status: 404 })) as typeof fetch;
-  await assert.rejects(() => stripeApiRequest("/v1/customers/cus_missing", { method: "GET", secretKey: "rk_test_abc", fetchImpl }), (error: unknown) => {
-    assert.ok(error instanceof Error);
-    return true;
-  });
+  const fetchImpl = (async () => new Response(JSON.stringify({ error: { message: "No such customer" } }), { status: 404 })) as typeof fetch;
+  await assert.rejects(
+    () => stripeApiRequest("/v1/customers/cus_missing", { method: "GET", secretKey: "rk_test_abc", fetchImpl }),
+    (error: unknown) => {
+      assert.ok(error instanceof Error);
+      return true;
+    },
+  );
 });
 
 test("stripeApiRequest returns the parsed JSON body on success", async () => {
@@ -91,6 +90,11 @@ test("stripeApiRequest returns the parsed JSON body on success", async () => {
     assert.equal((init?.headers as Record<string, string>).Authorization, "Bearer rk_test_abc");
     return new Response(JSON.stringify({ id: "cus_abc123" }), { status: 200 });
   }) as typeof fetch;
-  const result = await stripeApiRequest("/v1/customers", { method: "POST", body: new URLSearchParams({ email: "a@example.com" }), secretKey: "rk_test_abc", fetchImpl });
+  const result = await stripeApiRequest("/v1/customers", {
+    method: "POST",
+    body: new URLSearchParams({ email: "a@example.com" }),
+    secretKey: "rk_test_abc",
+    fetchImpl,
+  });
   assert.deepEqual(result, { id: "cus_abc123" });
 });

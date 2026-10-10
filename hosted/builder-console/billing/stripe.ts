@@ -30,7 +30,7 @@ export interface StripeRequestOptions {
   readonly accountId?: string;
   readonly method: "GET" | "POST" | "DELETE";
   readonly body?: URLSearchParams;
-  /** The restricted key. Checked for the `rk_` prefix at this call, not before it. */
+  /** An account restricted key or operator-scoped organization key. Checked at this call. */
   readonly secretKey: string;
   /** Injectable so tests never make a real network call. Defaults to the global `fetch`. */
   readonly fetchImpl?: typeof fetch;
@@ -46,20 +46,34 @@ export class StripeApiError extends Error {
   }
 }
 
+/** A local credential-kind or account-context refusal; carries no credential value. */
+export class StripeConfigurationError extends Error {
+  constructor(readonly reason: "unsupported_key_type" | "organization_context_required") {
+    super(
+      reason === "unsupported_key_type"
+        ? "Stripe requests require an account restricted key or an operator-scoped organization key"
+        : "Stripe organization keys require an explicit account context",
+    );
+  }
+}
+
 /**
  * The one function in this Worker that may call `api.stripe.com`.
  *
- * The `rk_` assertion sits here, at the point the key is actually used, rather than at the
- * point it is read off the environment. A boot-time check can be skipped by a code path that
- * never runs it; a check inside the only function that makes the request cannot be, because
- * every caller — `createStripeCustomer` below, the reconciliation job, any future Stripe write —
- * has to route through it. A full secret key (`sk_...`) pasted into the restricted-key slot by
- * mistake fails here, closed, before a single byte reaches Stripe with more privilege than this
- * Worker was scoped to ask for.
+ * Credential validation stays at the request boundary for every caller. Account-level
+ * unrestricted keys remain refused. Stripe organization keys all use `sk_org_`, including
+ * restricted ones: the prefix cannot attest permissions. Operators must scope them to this
+ * Worker's documented resources. Organization calls also require one explicit account context;
+ * the gateway never chooses an account or retries against a different one.
+ * See https://docs.stripe.com/keys/organization-api-keys.
  */
 export async function stripeApiRequest(path: string, opts: StripeRequestOptions): Promise<unknown> {
-  if (!/^rk_/.test(opts.secretKey)) {
-    throw new Error("Stripe requests require a restricted key (the rk_ prefix); refusing to call the API with anything else.");
+  const organizationKey = /^sk_org_[^\s]+$/.test(opts.secretKey);
+  if (!/^rk_/.test(opts.secretKey) && !organizationKey) {
+    throw new StripeConfigurationError("unsupported_key_type");
+  }
+  if (organizationKey && !/^acct_[A-Za-z0-9_]{1,76}$/.test(opts.accountId ?? "")) {
+    throw new StripeConfigurationError("organization_context_required");
   }
   const doFetch = opts.fetchImpl ?? fetch;
   const response = await doFetch(`${STRIPE_API_BASE}${path}`, {
@@ -70,9 +84,8 @@ export async function stripeApiRequest(path: string, opts: StripeRequestOptions)
       // Worker parses, and because a key issued at the organization level refuses a request that
       // names no version at all ("You did not provide an API version").
       "Stripe-Version": STRIPE_API_VERSION,
-      // An organization-level restricted key (the shape the live key turned out to be) rejects any
-      // request that does not name the account it acts on ("Please include the Stripe-Context
-      // header"); an account-level key ignores the header. Sent only when the deployment sets it.
+      // Organization requests name the account explicitly. Account-level requests retain the
+      // existing optional context behavior. Neither path infers an account from a response.
       ...(opts.accountId ? { "Stripe-Context": opts.accountId } : {}),
       ...(opts.body ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
     },
