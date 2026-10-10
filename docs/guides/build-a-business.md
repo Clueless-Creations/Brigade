@@ -14,7 +14,7 @@ Product work follows one short chain:
    from it with `b2c render-product --workspace <id-or-path>`.
 3. Route detailed journey, copy, analytics, implementation, revenue, store, and
    trust work from the links in `PRODUCT.md`.
-4. Use `b2c status` and `b2c plan` for execution state. Humans and ordinary agents
+4. Use `b2c business-status` and `b2c business-plan` for execution state. Humans and ordinary agents
    never parse reducer files.
 
 Git records product revisions. There is no separate product revision store.
@@ -63,8 +63,8 @@ decisions, public actions, destructive work, store submission, and production re
 
 ## Local workspace tools
 
-- `b2c_status`: inspect a registered workspace.
-- `b2c_plan`: compute the next bounded work for a registered workspace.
+- `b2c_business_status`: inspect a registered workspace.
+- `b2c_business_plan`: compute the next bounded work for a registered workspace.
 - `b2c_operate`: preview or replay an operation. It commits only in explicit write mode after its gates pass.
 
 ## Create a planning workspace
@@ -104,6 +104,8 @@ For an existing registered workspace, resume with `business-status` then `busine
 unregistered scaffold, use `b2c workspaces register <id> <path>`; registration does
 not create its product or runtime files. Inspect an existing app before installing
 workspace files and preserve its implementation. Focused changes need no runtime.
+Status and plan report startup guidance that needs attention. See
+[workspace startup guidance](workspace-startup.md) for a refresh that preserves app instructions.
 
 The supported legacy `b2c new` and `b2c bootstrap` commands remain available for
 explicit scaffold and runtime maintenance. Use `business-create` for a new complete

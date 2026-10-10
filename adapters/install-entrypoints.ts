@@ -15,6 +15,8 @@
  *   tsx adapters/install-entrypoints.ts --target /path/to/business-repo \
  *       [--skill-root /path/to/skill] [--apply] [--var APP_NAME=Ocho --var BUSINESS_NAME="Ocho Inc"]
  */
+import { applyTemplateVars, ENTRYPOINT_TEMPLATE_RELATIVE, WORKSPACE_ENTRYPOINT_FILES, refreshWorkspaceEntrypoints } from "./workspace-entrypoints.js";
+export { applyTemplateVars, ENTRYPOINT_TEMPLATE_RELATIVE } from "./workspace-entrypoints.js";
 import { isInitializationOwner } from "../kernel/session/initialization-guard.js";
 import { boundedFileBytes } from "../kernel/lib/bounded-file.js";
 import { atomicFile } from "../kernel/lib/atomic-file.js";
@@ -67,8 +69,6 @@ function isManagedEntry(entry: HookEntry): boolean {
   );
 }
 
-export const ENTRYPOINT_TEMPLATE_RELATIVE = path.join("surfaces/workspace-template", "repo-agent-entrypoints");
-
 export interface EntrypointFile {
   /** Destination path relative to the target repo root. */
   readonly relativePath: string;
@@ -114,11 +114,6 @@ export const ENTRYPOINT_FILES: readonly EntrypointFile[] = [
   rosterTemplate("APP_AGENTS.md"),
   ...ROSTER_PROMPTS.map((name) => rosterTemplate(path.join("agents", name))),
 ];
-
-/** `{{KEY}}` -> value. A placeholder with no supplied value is left intact, never silently blanked — matches the v1 template convention (check-agent-entrypoints.ts asserts the shipped template keeps its own {{...}} tokens). */
-export function applyTemplateVars(content: string, vars: Readonly<Record<string, string>>): string {
-  return content.replace(/\{\{([A-Z0-9_]+)\}\}/g, (match, key: string) => (Object.prototype.hasOwnProperty.call(vars, key) ? vars[key]! : match));
-}
 
 export function readEntrypointTemplates(skillRoot: string): Map<string, string> {
   const files = new Map<string, string>();
@@ -167,8 +162,13 @@ function managedPath(target: string, relative: string): string {
   const segments = relative.split(/[\\/]/);
   for (let index = 0; index < segments.length; index++) {
     current = path.join(current, segments[index]!);
-    if (existsSync(current)) {
-      const stat = lstatSync(current);
+    let stat;
+    try {
+      stat = lstatSync(current);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+    if (stat) {
       if (stat.isSymbolicLink() || (index < segments.length - 1 ? !stat.isDirectory() : !stat.isFile()))
         throw new Error("install-entrypoints: unsafe managed path");
     }
@@ -316,6 +316,14 @@ export function installEntrypoints(
     ...ENTRYPOINT_FILES.map((entry) => path.join(RUNTIME_DIR, "preserved-entrypoints", entry.relativePath)),
   ])
     managedPath(target, relative);
+  const startup = refreshWorkspaceEntrypoints({ target, skillRoot, apply: false, vars });
+  if (startup.status === "modified" || startup.status === "unsafe")
+    fail(
+      `workspace_entrypoints.${startup.status}: ${startup.files
+        .filter((file) => file.status === "modified" || file.status === "unsafe")
+        .map((file) => `${file.file}: ${file.reason}`)
+        .join("; ")}. Preserve app instructions and resolve these files before refreshing.`,
+    );
   const compatible = loadWorkspaceCatalogIfPresent(target);
   if (!compatible.ok) fail(renderCatalogRefusal(compatible.refusal));
   const existingRuntime = existsSync(path.join(target, RUNTIME_CATALOG_PATH)) || existsSync(path.join(target, RUNTIME_MANIFEST_PATH));
@@ -370,8 +378,11 @@ export function installEntrypoints(
     return;
   }
 
+  const refreshed = refreshWorkspaceEntrypoints({ target, skillRoot, apply: true, vars });
+  if (refreshed.status !== "current") fail(`workspace_entrypoints.${refreshed.status}: startup guidance changed during installation.`);
   const preserved: string[] = [];
   for (const [relativePath, content] of templates) {
+    if ((WORKSPACE_ENTRYPOINT_FILES as readonly string[]).includes(relativePath)) continue;
     if (relativePath === CLAUDE_SETTINGS_RELATIVE_PATH) continue; // merged into settingsPath below — never plain-overwritten, so a founder's existing settings.json is never clobbered
     const destination = managedPath(target, relativePath);
     const rendered = applyTemplateVars(content, vars);

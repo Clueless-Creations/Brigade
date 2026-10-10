@@ -290,6 +290,10 @@ Reject unsupported contract versions explicitly.
 For a new business, route to the shared creation operation. Reserve workspace
 registration for adoption of an existing scaffold, and expose actionable recovery
 without automatic removal of files or registrations. See [ADR-0008](decisions/0008-agent-onboarding-entry-path.md).
+Workspace status and plan may report startup-guidance drift without writes or
+new eligibility holds. Explicit local refresh preserves app instructions outside
+Brigade-owned blocks and leaves runtime pins and business state unchanged.
+See [ADR-0022](decisions/0022-workspace-startup-guidance.md).
 Public contracts must not expose raw internal runtime, provider SDK, or authority
 objects. Generate schemas and reference documentation from the same owner. Read-only MCP returns declarations, resolved
 plans, stored observations, limitations, and next actions. It may return

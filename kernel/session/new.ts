@@ -24,6 +24,7 @@ import { isMainModule } from "../lib/cli.js";
 import { writeFounderIntake } from "./founder-brief.js";
 import type { FounderBriefSourceIntent } from "../../contracts/public-api/contract.js";
 import { loadDesignSystem, validateDesignMd } from "../../tooling/lib/design-md.js";
+import { refreshWorkspaceEntrypoints } from "../../adapters/workspace-entrypoints.js";
 import { resolveSkillRoot } from "../../tooling/lib/skill-root.js";
 
 const skillRoot = resolveSkillRoot(import.meta.url);
@@ -108,19 +109,8 @@ export function createPlanningWorkspace(input: { directory: string; slug: string
       writeFileSync(path.join(target, "PRODUCT.md"), renderProductMarkdown(doc), "utf8");
     }
 
-    const templates = path.join(skillRoot, "surfaces/workspace-template", "repo-agent-entrypoints");
-    for (const file of ["AGENTS.md", "CLAUDE.md"]) {
-      const source = path.join(templates, file);
-      if (existsSync(source)) {
-        const rendered = readFileSync(source, "utf8").replaceAll("{{APP_NAME}}", name);
-        writeFileSync(path.join(target, file), rendered, "utf8");
-      }
-    }
-    const cursorSource = path.join(templates, ".cursor/rules/agents.mdc");
-    if (existsSync(cursorSource)) {
-      mkdirSync(path.join(target, ".cursor/rules"), { recursive: true });
-      cpSync(cursorSource, path.join(target, ".cursor/rules/agents.mdc"));
-    }
+    const startup = refreshWorkspaceEntrypoints({ target, skillRoot, apply: true, vars: { APP_NAME: name } });
+    if (startup.status !== "current") throw new Error("business.entrypoint_seed_invalid");
 
     const sourceIntent = input.mandate === undefined ? undefined : writeFounderIntake({ target, slug, mandate: input.mandate });
 
