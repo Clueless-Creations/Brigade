@@ -320,7 +320,10 @@ const repairing = prompt.includes('RECEIPT-ONLY REPAIR');
 fs.appendFileSync('invocations', verifying ? 'verify\\n' : repairing ? 'repair\\n' : 'worker\\n');
 fs.writeFileSync('worker-pid', String(process.pid));
 if (options.authFallback && process.argv[1].endsWith('/codex')) {
-  setTimeout(() => { console.error('authentication required'); process.exit(1); }, options.delayMs);
+  setTimeout(() => {
+    if (options.exhaustContinuationDeadline) fs.writeFileSync('exhausted-deadline', 'expired');
+    console.error('authentication required'); process.exit(1);
+  }, options.delayMs);
   return;
 }
 if (options.descendant) {
@@ -333,7 +336,10 @@ setTimeout(() => {
     return;
   }
   fs.writeFileSync('result.md', 'deadline fixture candidate');
-  if (options.invalidFirst && !repairing) { console.log('invalid receipt transport'); return; }
+  if (options.invalidFirst && !repairing) {
+    if (options.exhaustContinuationDeadline) fs.writeFileSync('exhausted-deadline', 'expired');
+    console.log('invalid receipt transport'); return;
+  }
   const begin = 'BEGIN_KNOWLEDGE_RECEIPT', end = 'END_KNOWLEDGE_RECEIPT';
   const receipt = JSON.parse(prompt.slice(prompt.lastIndexOf(begin) + begin.length, prompt.lastIndexOf(end)).trim());
   for (const entry of receipt.mandatoryKnowledge) entry.sha256 = 'sha256:' + crypto.createHash('sha256').update(fs.readFileSync(entry.path)).digest('hex');
@@ -378,14 +384,24 @@ void createCliExecutor('codex').execute(node, {runId:'run',attemptId:'attempt',w
     `
 import assert from 'node:assert/strict';
 import { createCliExecutor, createCliVerifier } from ${JSON.stringify(path.join(skillRoot, "kernel/session/executor.ts"))};
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 process.env.PATH = ${JSON.stringify(deadlineBin)} + ':' + process.env.PATH;
 process.chdir(${JSON.stringify(deadlineWorkspace)});
 const node = { id:'deadline', workflowId:'workflow.deadline', title:'Deadline fixture', reads:[], references:[{path:'method.md', title:'Fixture method', loadWhen:'before work'}], outputs:['result'], approvals:[], tokenBudget:12000, ttlSeconds:1, verification:{kind:'deterministic', gateIds:[], failClosed:true} } as any;
 const context = { runId:'run', attemptId:'attempt', workspaceDir:process.cwd(), skillRootDir:process.cwd(), artifactPaths:{result:'result.md'}, now:'2026-09-28T00:00:00Z', heartbeat() {} };
 const executor = createCliExecutor('codex');
-const configure = (options) => { writeFileSync('timing.json', JSON.stringify(options)); writeFileSync('invocations', ''); };
+const configure = (options) => { writeFileSync('timing.json', JSON.stringify(options)); writeFileSync('invocations', ''); rmSync('exhausted-deadline', {force:true}); };
+// Startup and settlement may legitimately consume a short continuation budget under load.
+// Advance only the host's deadline clock after the first real worker responds, leaving the
+// separate real-timer cases below and successful continuation cases in the settlement fixture.
+const withExpiredContinuation = async (execute) => {
+  const now = Date.now;
+  const deadline = now() + 30_000;
+  Date.now = () => now() + (existsSync('exhausted-deadline') ? 60_000 : 0);
+  try { return await execute(deadline); }
+  finally { Date.now = now; }
+};
 const listenerCounts = ['SIGINT','SIGTERM','SIGHUP','exit'].map(signal => process.listenerCount(signal));
 (async () => {
 configure({delayMs:1200});
@@ -411,23 +427,19 @@ assert(Date.now()-started < 1200, 'heartbeats must not extend the execution dead
 configure({delayMs:1500});
 const explicit = await executor.execute({...node, executionTimeoutSeconds:0.4}, context);
 assert.match(explicit.error ?? '', /execution deadline exceeded/, 'an explicit task bound must still stop work');
-configure({delayMs:150, authFallback:true, fallbackDelayMs:1500});
-const fallbackStarted = Date.now();
-const fallback = await createCliExecutor('auto').execute(node, {...context, executionDeadlineAt:fallbackStarted+650});
+configure({delayMs:150, authFallback:true, fallbackDelayMs:1500, exhaustContinuationDeadline:true});
+const fallback = await withExpiredContinuation(deadline => createCliExecutor('auto').execute(node, {...context, executionDeadlineAt:deadline}));
 assert.match(fallback.error ?? '', /claude worker execution deadline exceeded/);
-assert.equal(readFileSync('invocations', 'utf8'), 'worker\\nworker\\n', 'auth fallback must reach only the next fake runtime');
-assert(Date.now()-fallbackStarted < 1250, 'auth fallback must not reset the deadline');
+assert.equal(readFileSync('invocations', 'utf8'), 'worker\\n', 'selected auth fallback must not reset an exhausted dispatch deadline or start another worker');
 configure({delayMs:1500});
 const verification = await createCliVerifier('codex').verify(node, {workspaceDir:process.cwd(), skillRootDir:process.cwd(), outputs:beyondLease.outputs, now:context.now, executionDeadlineAt:Date.now()+400});
 assert.equal(verification.status, 'unavailable', 'timeout is never an acceptance or a rejection');
 assert.match(verification.error ?? '', /execution deadline exceeded/);
-configure({delayMs:150, invalidFirst:true, repairDelayMs:1500});
-const repairStarted = Date.now();
-const repaired = await executor.execute(node, {...context, executionDeadlineAt:repairStarted+650});
+configure({delayMs:150, invalidFirst:true, repairDelayMs:1500, exhaustContinuationDeadline:true});
+const repaired = await withExpiredContinuation(deadline => executor.execute(node, {...context, executionDeadlineAt:deadline}));
 assert.match(repaired.error ?? '', /receipt-only repair.*execution deadline exceeded/);
 assert.equal(repaired.outputs.length, 1, 'repair timeout must retain the candidate snapshot');
-assert.equal(readFileSync('invocations', 'utf8'), 'worker\\nrepair\\n', 'receipt repair must use the existing dispatch budget');
-assert(Date.now()-repairStarted < 1250, 'receipt repair must not reset the deadline');
+assert.equal(readFileSync('invocations', 'utf8'), 'worker\\n', 'receipt repair must not reset an exhausted dispatch deadline or start another worker');
 if (process.platform !== 'win32') {
   const sibling = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], {stdio:'ignore'});
   let descendantPid;
@@ -594,18 +606,22 @@ try {
     for(const file of ['late-write','overlapping-worker']) rmSync(file,{force:true});
     writeFileSync('options.json',JSON.stringify(options));
     writeFileSync('invocations','');
-    // Deny only the post-exit observation, while real process-group termination still runs.
+    let cleanupStarted;
+    // Measure the final invocation's cleanup, excluding discovery, worker startup, and the
+    // deliberate late-write observation below. Keep real process-group termination active.
     // For repair, let the first producer settle and deny the continuation's observation.
-    if(options.unconfirmed) process.kill=((pid,signal)=>{
-      if(pid<0 && signal===0 && (!options.repair || pids().length>1)) throw Object.assign(new Error('fixture observation denied'),{code:'EPERM'});
+    process.kill=((pid,signal)=>{
+      if(pid<0 && signal==='SIGKILL') cleanupStarted=Date.now();
+      if(options.unconfirmed && pid<0 && signal===0 && (!options.repair || pids().length>1)) throw Object.assign(new Error('fixture observation denied'),{code:'EPERM'});
       return nativeKill(pid,signal);
     }) as typeof process.kill;
-    const started=Date.now();
     const result=options.verify
       ? await createCliVerifier('auto').verify(node,{workspaceDir:process.cwd(),skillRootDir:process.cwd(),outputs:[],now:context.now})
       : await createCliExecutor('auto').execute(node,context);
+    const cleanupElapsed=cleanupStarted===undefined?undefined:Date.now()-cleanupStarted;
     process.kill=nativeKill;
     try {
+      assert(cleanupElapsed!==undefined && cleanupElapsed<3000,'owned-group cleanup must remain bounded: '+JSON.stringify({options,cleanupElapsed,result}));
       if(options.unconfirmed) {
         assert.equal(result.status,options.verify?'unavailable':'failed',JSON.stringify(result));
         assert.match(result.error??'',/settlement could not be confirmed/);
@@ -615,11 +631,13 @@ try {
       } else {
         assert.equal(result.status,options.fail?'failed':options.verify?'accepted':'succeeded',JSON.stringify({options,result}));
         assert.equal(pids().length,options.repair||options.fallback?2:1);
+        const invocations=readFileSync('invocations','utf8').trim().split('\\n').map(line=>line.split(':').slice(0,2).join(':'));
+        if(options.fallback) assert.deepEqual(invocations,['worker:codex','worker:claude'],'available dispatch time must permit the selected auth fallback');
+        if(options.repair) assert.deepEqual(invocations,['worker:codex','repair:codex'],'available dispatch time must permit same-runtime receipt repair');
       }
       await sleep(1050);
       assert.equal(existsSync('late-write'),false,'a completed CLI left a tool able to write after return: '+JSON.stringify(options));
       assert.equal(existsSync('overlapping-worker'),false,'retry or repair started while the prior tool was alive');
-      assert(Date.now()-started<4500,'settlement must remain bounded, including inherited stdio');
       for(const pid of pids()) assert.throws(()=>nativeKill(pid,0),{code:'ESRCH'},'tool process must stop before the caller continues');
       nativeKill(sibling.pid,0);
     } finally { for(const pid of pids()) { try { nativeKill(pid,'SIGKILL'); } catch {} } }
