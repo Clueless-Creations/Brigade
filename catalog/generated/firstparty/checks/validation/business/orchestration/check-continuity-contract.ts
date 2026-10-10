@@ -176,8 +176,6 @@ function main(): void {
     [
       "PRODUCT.md",
       "DESIGN.md",
-      "b2c status",
-      "b2c plan",
       "Do not rely on chat memory",
       "state/business-state.json",
       "reducer-owned",
@@ -189,15 +187,22 @@ function main(): void {
     ],
     issues,
   );
+  // Advanced session controls may still name status/plan, but startup must route
+  // managed work through the business lifecycle. Check the section, not a mention elsewhere.
+  const start = agents?.split(/^## Start\r?$/m)[1]?.split(/^## /m)[0];
+  if (agents !== undefined && start === undefined) {
+    issues.push({ code: "continuity.term_missing", message: 'AGENTS.md must include a "Start" section', severity: "error" });
+  }
+  requireTerms("AGENTS.md Start", start, ["b2c business-status", "b2c business-plan"], issues);
   forbidTerms("AGENTS.md", agents, ["tsx <skill-root>/core/", "install-control-permissions.ts"], issues);
   checkLengthBudget("AGENTS.md", agents, paths.agents, issues);
 
-  requireTerms("CLAUDE.md", claude, ["Read `AGENTS.md` first", "PRODUCT.md", "DESIGN.md", "b2c status", "b2c plan", "reducer-owned"], issues);
-  forbidTerms("CLAUDE.md", claude, ["--disallowedTools", "ANTHROPIC_API_KEY"], issues);
+  requireTerms("CLAUDE.md", claude, ["Read `AGENTS.md` first", "Follow its `Start` section"], issues);
+  forbidTerms("CLAUDE.md", claude, ["--disallowedTools", "ANTHROPIC_API_KEY", "b2c status", "b2c plan"], issues);
   checkLengthBudget("CLAUDE.md", claude, paths.claude, issues);
 
-  requireTerms("Cursor rule", cursor, ["Read `AGENTS.md` first", "PRODUCT.md", "DESIGN.md", "b2c status", "b2c plan", "reducer-owned"], issues);
-  forbidTerms("Cursor rule", cursor, ["sandbox gates", "structured/JSON output mode"], issues);
+  requireTerms("Cursor rule", cursor, ["Read `AGENTS.md` first", "Follow its `Start` section"], issues);
+  forbidTerms("Cursor rule", cursor, ["sandbox gates", "structured/JSON output mode", "b2c status", "b2c plan"], issues);
 
   requireTerms(
     "APP_AGENTS.md",
