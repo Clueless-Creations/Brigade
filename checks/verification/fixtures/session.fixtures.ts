@@ -40,8 +40,16 @@ import { pathToFileURL } from "node:url";
 import { resolveTsxBin } from "../../../tooling/lib/tsx-bin.js";
 import { composeCatalog } from "../../../catalog/index.js";
 import { toCatalogInput } from "../../../catalog/bridge.js";
-import { acceptVerification, beginAttempt, reconcilePatch, requestVerificationRepair, retainUnacceptedCandidateOutputs } from "../../../kernel/engine/runstate.js";
+import {
+  acceptVerification,
+  beginAttempt,
+  reconcilePatch,
+  requestVerificationRepair,
+  retainUnacceptedCandidateOutputs,
+} from "../../../kernel/engine/runstate.js";
 import { workerEnvironment } from "../../../kernel/session/executor.js";
+import { instantiateWorkOrder } from "../../../kernel/work-orders/instantiate.js";
+import { linkAttempt } from "../../../kernel/work-orders/lifecycle.js";
 import { stringify as stringifyYaml } from "yaml";
 import { DESIGN_FACETS, designArtifact } from "../../validation/business/design/design-acceptance.js";
 
@@ -1896,12 +1904,328 @@ function seedWorkspacePendingResearch(handle: WorkspaceHandle, catalog: CatalogI
 }
 
 function proofStrengthLine(handle: WorkspaceHandle): string | undefined {
-  return readRunState(handle).nodes["run.research-scan"]!.attempts.at(-1)?.independentVerification?.evidence.find((line) =>
-    line.startsWith("Proof strength:"),
-  );
+  return readRunState(handle)
+    .nodes["run.research-scan"]!.attempts.at(-1)
+    ?.independentVerification?.evidence.find((line) => line.startsWith("Proof strength:"));
+}
+
+function registerUncertainWorkerSettlement(harness: Harness): void {
+  if (process.platform === "win32") {
+    harness.skip("session: uncertain process settlement blocks subsequent work", "The process-group observation seam is POSIX-only.");
+    return;
+  }
+  for (const mode of ["worker", "review", "non-idempotent", "external-mutation"] as const) {
+    harness.check(`session: uncertain ${mode} settlement persists a reconciliation hold`, () => {
+      const originalCatalog = singleNodeCatalog();
+      if (mode === "non-idempotent") originalCatalog.workflows[0]!.idempotent = false;
+      if (mode === "external-mutation") originalCatalog.workflows[0]!.actionClass = "mutate";
+      const handle = bootstrapWorkspace(harness, `uncertain-${mode}-settlement`, originalCatalog, {
+        grants: { "domain.engineering": grant("domain.engineering", "run-with-guardrails") },
+      });
+      const bin = path.join(handle.dir, "fixture-bin");
+      mkdirSync(bin);
+      const countPath = path.join(handle.dir, "fixture-invocations");
+      const cli = path.join(bin, "codex");
+      writeFileSync(
+        cli,
+        `#!/usr/bin/env node
+const fs=require('node:fs');
+const path=require('node:path');
+if(process.argv.includes('--version')) { console.log('fixture-runtime'); process.exit(0); }
+fs.appendFileSync(${JSON.stringify(countPath)},'invoked\\n');
+const prompt=process.argv.at(-1);
+if(prompt.includes('BEGIN_VERIFICATION_VERDICT')) {
+ console.log('BEGIN_VERIFICATION_VERDICT\\n'+JSON.stringify({schemaVersion:'1.0.0',workflowId:'workflow.eng-change',verdict:'accepted',evidence:'Inspected fixture bytes.',repairWorkflowIds:[]})+'\\nEND_VERIFICATION_VERDICT');
+} else {
+ const begin='BEGIN_KNOWLEDGE_RECEIPT',end='END_KNOWLEDGE_RECEIPT';
+ const receipt=JSON.parse(prompt.slice(prompt.lastIndexOf(begin)+begin.length,prompt.lastIndexOf(end)).trim());
+ for(const entry of receipt.outputEvidence) { fs.mkdirSync(path.dirname(entry.outputPath),{recursive:true}); fs.writeFileSync(entry.outputPath,'candidate'); entry.summary='Produced assigned output.'; entry.knowledgePaths=receipt.mandatoryKnowledge.map(item=>item.path); }
+ console.log(begin+'\\n'+JSON.stringify(receipt)+'\\n'+end);
+}
+`,
+      );
+      chmodSync(cli, 0o755);
+      const preload = path.join(handle.dir, "deny-observation.mjs");
+      writeFileSync(
+        preload,
+        `const nativeKill=process.kill; process.kill=function(pid,signal) { if(pid<0&&signal===0) throw Object.assign(new Error('fixture process observation denied'),{code:'EPERM'}); return nativeKill(pid,signal); };`,
+      );
+      const first = runSession(
+        [
+          "--workspace",
+          handle.dir,
+          "--brief",
+          handle.briefPath,
+          "--session",
+          `uncertain-${mode}-first`,
+          "--executor",
+          mode === "review" ? "fixture" : "auto",
+          "--worker-runtime",
+          "codex",
+          "--verifier",
+          mode === "review" ? "cli" : "off",
+        ],
+        { PATH: `${bin}:${process.env.PATH ?? ""}`, NODE_OPTIONS: `--import ${pathToFileURL(preload).href}` },
+      );
+      assert(first.code === 0, `the session must record uncertainty rather than crash: ${first.output}`);
+      const before = readRunState(handle);
+      const state = before.nodes["run.eng-change"]!;
+      assert(state.status === "needs_readback", `${mode} must remain held: ${JSON.stringify(state)}`);
+      assert(state.attempts.at(-1)?.readbackRequired === true, "uncertain settlement must persist in the existing attempt owner");
+      assert(state.attempts.at(-1)?.error?.includes("settlement could not be confirmed"), "the attempt must preserve the observable failure");
+      assert(
+        before.artifactBindings.every((binding) => !binding.accepted),
+        "uncertain writers cannot create accepted outputs",
+      );
+      const invocations = readFileSync(countPath, "utf8");
+      const second = runSession(
+        ["--workspace", handle.dir, "--brief", handle.briefPath, "--session", `uncertain-${mode}-second`, "--executor", "fixture", "--verifier", "fixture"],
+        { NODE_OPTIONS: `--import ${pathToFileURL(preload).href}` },
+      );
+      assert(second.code === 0, `the next session must report held work: ${second.output}`);
+      const after = readRunState(handle).nodes["run.eng-change"]!;
+      assert(after.status === "needs_readback" && after.attempts.length === state.attempts.length, "a new session must not retry uncertain work or review");
+      assert(readFileSync(countPath, "utf8") === invocations, "a subsequent session must dispatch no replacement process");
+      const manual = runVerify([
+        "--workspace",
+        handle.dir,
+        "--node",
+        "run.eng-change",
+        "--session",
+        "independent-reviewer",
+        "--evidence",
+        "fixture output looks complete",
+      ]);
+      assert(manual.code !== 0, "manual acceptance must not bypass process reconciliation");
+      const settlement = state.attempts.at(-1)?.processSettlement;
+      assert(Boolean(settlement?.identity), "native identity must bind supported-host recovery");
+      assert(settlement?.outputStreamsClosed === true, "the original output handles must close before safe same-boot recovery");
+      const resume = (label: string) =>
+        runSession(["--workspace", handle.dir, "--brief", handle.briefPath, "--session", label, "--executor", "fixture", "--verifier", "fixture"]);
+      if (mode === "non-idempotent" || mode === "external-mutation") {
+        assert(settlement?.localRetryAllowed === false, "the original effect contract must prohibit automatic retry");
+        const result = resume(`protected-recovery-${mode}`);
+        assert(result.code === 0, `protected recovery must remain readable: ${result.output}`);
+        const after = readRunState(handle).nodes["run.eng-change"]!;
+        assert(
+          after.status === "needs_readback" && after.attempts.length === state.attempts.length,
+          "process absence must not authorize external or non-idempotent replay",
+        );
+        assert(
+          Boolean(after.attempts.at(-1)?.processSettlement?.stoppedAt) && after.attempts.at(-1)?.readbackRequired,
+          "record local stop while preserving effect readback",
+        );
+        return;
+      }
+      // A different native process namespace cannot establish absence in the original namespace.
+      const namespace = structuredClone(before);
+      namespace.nodes["run.eng-change"]!.attempts.at(-1)!.processSettlement!.identity!.pidNamespaceFingerprint = "e".repeat(64);
+      writeRunState(path.join(handle.dir, "run/run-state.json"), namespace);
+      assert(resume(`different-namespace-${mode}`).code === 0, "namespace hold must remain readable");
+      assert(readRunState(handle).nodes["run.eng-change"]!.status === "needs_readback", "another PID namespace must not prove absence");
+      // Copying a held workspace to another host cannot prove the prior writer stopped.
+      const copied = structuredClone(before);
+      copied.nodes["run.eng-change"]!.attempts.at(-1)!.processSettlement!.identity!.hostFingerprint = "f".repeat(64);
+      writeRunState(path.join(handle.dir, "run/run-state.json"), copied);
+      assert(resume(`different-host-${mode}`).code === 0, "different-host hold must remain readable");
+      assert(readRunState(handle).nodes["run.eng-change"]!.attempts.length === state.attempts.length, "different host must not retry");
+      // Closed group plus unclosed inherited output is still an escaped-writer uncertainty.
+      const openPipes = structuredClone(before);
+      openPipes.nodes["run.eng-change"]!.attempts.at(-1)!.processSettlement!.outputStreamsClosed = false;
+      writeRunState(path.join(handle.dir, "run/run-state.json"), openPipes);
+      assert(resume(`open-pipes-${mode}`).code === 0, "open-pipe hold must remain readable");
+      assert(readRunState(handle).nodes["run.eng-change"]!.status === "needs_readback", "same-boot group absence alone must not clear open pipes");
+      // A still-present group (including a reused group ID) may only be observed, never killed.
+      const live = structuredClone(before);
+      const group = Number(spawnSync("/bin/ps", ["-o", "pgid=", "-p", String(process.pid)], { encoding: "utf8" }).stdout.trim());
+      assert(Number.isInteger(group) && group > 1, "fixture parent must have a POSIX process group");
+      live.nodes["run.eng-change"]!.attempts.at(-1)!.processSettlement!.identity!.processGroupId = group;
+      writeRunState(path.join(handle.dir, "run/run-state.json"), live);
+      assert(resume(`live-group-${mode}`).code === 0, "live-group observation must not signal fixture host");
+      assert(readRunState(handle).nodes["run.eng-change"]!.status === "needs_readback", "a present group must prevent retry");
+      // Stopping processes does not reconcile provider or shared-resource effects.
+      const external = structuredClone(before);
+      external.nodes["run.eng-change"]!.attempts.at(-1)!.processSettlement!.localRetryAllowed = false;
+      writeRunState(path.join(handle.dir, "run/run-state.json"), external);
+      assert(resume(`external-hold-${mode}`).code === 0, "external-effect hold must remain readable");
+      const externalAttempt = readRunState(handle).nodes["run.eng-change"]!.attempts.at(-1)!;
+      assert(Boolean(externalAttempt.processSettlement?.stoppedAt) && externalAttempt.readbackRequired, "process proof must leave external readback required");
+      // Renaming the workflow cannot dispatch a replacement while its archived writer is unknown.
+      const renamedCatalog = singleNodeCatalog();
+      renamedCatalog.version = "catalog.session-fixture.renamed";
+      renamedCatalog.workflows[0]!.id = "workflow.renamed-change";
+      writeJson(handle.catalogPath, renamedCatalog);
+      writeRunState(path.join(handle.dir, "run/run-state.json"), copied);
+      const renamedResult = resume(`renamed-${mode}`);
+      assert(renamedResult.code === 0, `renamed workflow hold must remain readable: ${renamedResult.output}`);
+      const renamedRun = readRunState(handle);
+      assert(renamedRun.nodes["run.renamed-change"]!.attempts.length === 0, "an archived unknown writer must fence a renamed workflow");
+      assert(
+        renamedRun.archivedPlans?.some((plan) => plan.nodes["run.eng-change"]?.attempts.at(-1)?.readbackRequired),
+        "renaming must preserve the original hold",
+      );
+      writeJson(handle.catalogPath, singleNodeCatalog());
+      // A native boot change on the same machine proves even escaped prior processes stopped.
+      const rebooted = structuredClone(before);
+      const rebootSettlement = rebooted.nodes["run.eng-change"]!.attempts.at(-1)!.processSettlement!;
+      rebootSettlement.identity!.bootFingerprint = "0".repeat(64);
+      rebootSettlement.outputStreamsClosed = false;
+      writeRunState(path.join(handle.dir, "run/run-state.json"), rebooted);
+      assert(resume(`rebooted-${mode}`).code === 0, "same-host reboot proof must recover local work");
+      assert(
+        readRunState(handle).nodes["run.eng-change"]!.attempts[0]!.processSettlement?.stopEvidence === "host_rebooted",
+        "native boot change must be recorded distinctly",
+      );
+      // Existing occurrence ownership must resume along with the local attempt.
+      const recoverable = structuredClone(before);
+      const occurrence = instantiateWorkOrder(recoverable, {
+        workflowId: "workflow.eng-change",
+        decisionId: "decision.fixture",
+        objectiveId: "objective.fixture",
+        metricId: "metric.fixture",
+        mandateId: "mandate.fixture",
+        mandateStatus: "active",
+        decisionStatus: "authorized",
+        contextSourceIds: [],
+        readinessSnapshot: { capabilityReady: true, recordedAt: before.updatedAt },
+        expectationId: "expectation.fixture",
+        horizonAt: "2099-01-01T00:00:00.000Z",
+        proofPolicy: { kind: "fresh_context", required: true },
+        idempotencyKey: "fixture-recovery",
+        recordedAt: before.updatedAt,
+      }).occurrence;
+      recoverable.nodes["run.eng-change"]!.attempts.at(-1)!.workOrderOccurrenceId = occurrence.id;
+      linkAttempt(recoverable, occurrence.id, state.attempts.at(-1)!.id, before.updatedAt);
+      // Matching archived snapshots must also be resolved rather than blocking later public recovery.
+      recoverable.archivedPlans = [
+        {
+          planId: before.planId,
+          planRevision: before.planRevision,
+          archivedAt: before.updatedAt,
+          nodes: structuredClone(recoverable.nodes),
+          artifactBindings: structuredClone(before.artifactBindings),
+          approvals: structuredClone(before.approvals),
+          workOrders: structuredClone(recoverable.workOrders),
+        },
+      ];
+      // A real re-entry now observes the original stopped group and retries through admission.
+      writeRunState(path.join(handle.dir, "run/run-state.json"), recoverable);
+      const recovered = resume(`recovered-${mode}`);
+      assert(recovered.code === 0, `a stopped local invocation must recover: ${recovered.output}`);
+      const resumed = readRunState(handle).nodes["run.eng-change"]!;
+      const original = resumed.attempts.find((attempt) => attempt.id === state.attempts.at(-1)!.id)!;
+      assert(
+        original.status === "failed" && !original.readbackRequired && original.processSettlement?.stopEvidence === "group_absent",
+        "recovery must preserve failed history and record observed stop",
+      );
+      assert(resumed.attempts.length > state.attempts.length, "a subsequent session must retry once local process settlement is proved");
+      const archivedAttempt = readRunState(handle).archivedPlans![0]!.nodes["run.eng-change"]!.attempts.at(-1)!;
+      assert(
+        !archivedAttempt.readbackRequired && archivedAttempt.status === "failed" && archivedAttempt.processSettlement?.stopEvidence === "group_absent",
+        "matching archived history must retain the successful process readback",
+      );
+      assert(
+        readRunState(handle).workOrders![occurrence.id]!.transitions.some((entry) => entry.ok && entry.reasonCode === "work_order.attempt_failed"),
+        "process recovery must restore the occurrence through its existing lifecycle",
+      );
+      assert(
+        readRunState(handle).archivedPlans![0]!.workOrders![occurrence.id]!.status === "authorized",
+        "archived running occurrence must also retain the recovery transition",
+      );
+    });
+  }
+}
+
+function registerConcurrentProcessSettlement(harness: Harness): void {
+  if (process.platform === "win32") return;
+  for (const denied of [false, true]) {
+    harness.check(`session: ${denied ? "uncertain" : "settled"} concurrent process settlement preserves peer acceptance boundary`, () => {
+      const catalog = singleNodeCatalog();
+      catalog.artifacts.push({ id: "artifact.peer", path: "engineering/peer.log" }, { id: "artifact.context", path: "engineering/context.md" });
+      catalog.workflows[0]!.reads = ["engineering/context.md"];
+      catalog.workflows.push({ ...catalog.workflows[0]!, id: "workflow.peer", title: "Write peer output", outputPaths: ["engineering/peer.log"] });
+      const handle = bootstrapWorkspace(harness, `concurrent-process-${denied}`, catalog, {
+        grants: { "domain.engineering": grant("domain.engineering", "run-with-guardrails") },
+      });
+      mkdirSync(path.join(handle.dir, "engineering"), { recursive: true });
+      writeFileSync(path.join(handle.dir, "engineering/context.md"), "Use a concrete, short onboarding sentence.");
+      const bin = path.join(handle.dir, "fixture-bin");
+      mkdirSync(bin);
+      const cli = path.join(bin, "codex");
+      writeFileSync(
+        cli,
+        `#!/usr/bin/env node
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+if(process.argv.includes('--version')) { console.log('fixture-runtime'); process.exit(0); }
+const prompt=process.argv.at(-1),begin='BEGIN_KNOWLEDGE_RECEIPT',end='END_KNOWLEDGE_RECEIPT';
+const receipt=JSON.parse(prompt.slice(prompt.lastIndexOf(begin)+begin.length,prompt.lastIndexOf(end)).trim());
+const produce=()=>{
+ for(const entry of receipt.taskArtifacts) entry.sha256=crypto.createHash('sha256').update(fs.readFileSync(entry.path)).digest('hex');
+ for(const entry of receipt.outputEvidence) {fs.mkdirSync(path.dirname(entry.outputPath),{recursive:true});fs.writeFileSync(entry.outputPath,'candidate');entry.summary='Produced assigned output.';entry.knowledgePaths=receipt.taskArtifacts.map(item=>item.path);}
+ console.log(begin+'\\n'+JSON.stringify(receipt)+'\\n'+end);
+};
+if(receipt.outputEvidence.some(entry=>entry.outputPath.endsWith('peer.log'))) setTimeout(produce,3000); else produce();
+`,
+      );
+      chmodSync(cli, 0o755);
+      const preload = path.join(handle.dir, "deny-first-group.mjs");
+      writeFileSync(
+        preload,
+        `let first; const nativeKill=process.kill;process.kill=function(pid,signal){if(pid<0&&signal===0){first??=pid;if(pid===first)throw Object.assign(new Error('fixture observation denied'),{code:'EPERM'});}return nativeKill(pid,signal);};`,
+      );
+      const result = runSession(
+        [
+          "--workspace",
+          handle.dir,
+          "--brief",
+          handle.briefPath,
+          "--session",
+          "concurrent-process",
+          "--executor",
+          "auto",
+          "--worker-runtime",
+          "codex",
+          "--verifier",
+          "off",
+          "--max-concurrency",
+          "2",
+        ],
+        { PATH: `${bin}:${process.env.PATH ?? ""}`, ...(denied ? { NODE_OPTIONS: `--import ${pathToFileURL(preload).href}` } : {}) },
+      );
+      assert(result.code === 0, `concurrent process fixture must finish: ${result.output}`);
+      const run = readRunState(handle);
+      const peer = run.nodes["run.peer"]!;
+      assert(peer.attempts.length === 1, "both peers must have started in the same batch without a replacement attempt");
+      if (denied) {
+        assert(run.nodes["run.eng-change"]!.status === "needs_readback", "first peer must preserve its process hold");
+        assert(
+          peer.attempts[0]!.status === "failed" && peer.attempts[0]!.error?.includes("candidate remains unaccepted"),
+          "peer completion after known uncertainty must not reconcile as successful",
+        );
+        assert(
+          run.artifactBindings.filter((binding) => binding.artifactId !== "artifact.context").every((binding) => !binding.accepted),
+          "known process uncertainty cannot accept peer evidence",
+        );
+      } else {
+        assert(
+          peer.attempts[0]!.status === "blocked" && peer.blocker === "Verification required",
+          "normally settled parallel work must retain its produced candidate for independent verification",
+        );
+        assert(
+          run.artifactBindings.some(
+            (binding) => binding.artifactId === "artifact.peer" && binding.attemptId === peer.attempts[0]!.id && Boolean(binding.fingerprint),
+          ),
+          "normal peer output must remain bound to its producing attempt",
+        );
+        assert(peer.attempts[0]!.error === undefined, "the normal concurrent path must not create a process hold");
+      }
+    });
+  }
 }
 
 export function register(harness: Harness): void {
+  registerUncertainWorkerSettlement(harness);
+  registerConcurrentProcessSettlement(harness);
   harness.check("recovery: a rejected knowledge receipt preserves candidate outputs as unaccepted", () => {
     const plan = compilePlan(singleNodeCatalog());
     const businessState = JSON.parse(readFileSync(path.join(skillRoot, "examples/workspace/business/state/business-state.json"), "utf8")) as BusinessStateV2;

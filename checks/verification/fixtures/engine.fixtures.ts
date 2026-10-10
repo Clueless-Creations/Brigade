@@ -73,6 +73,7 @@ import {
   loadCheckpoint,
   loadRunState,
   reconcileEnvironmentalArtifacts,
+  reconcileAcceptedProducedArtifacts,
   reconcilePatch,
   reconcileRunPlan,
   invalidateStaleReviews,
@@ -2765,6 +2766,103 @@ export function register(harness: Harness): void {
     beginAttempt(oldPlan, run, protectedId, "external-producer", now);
     const attempted = reconcileRunPlan(protectedPlan, run, businessState, { ownerSessionId: "next", ttlSeconds: 300, wallClockCapSeconds: 300, now });
     assert(attempted.nodes[protectedId]!.status === "needs_readback", "a changed protected contract with a prior attempt must never automatically replay");
+  });
+
+  harness.check("recovery: changed accepted outputs reopen work without rewriting successful history", () => {
+    const plan = compilePlan(testCatalog(), now);
+    const { run } = seedFor([], plan);
+    const root = harness.makeTempDir("recovered-production");
+    const ids = [nodeId("research-scan"), nodeId("product-spec"), nodeId("growth-post")];
+    for (const id of ids) {
+      const node = plan.nodes.find((candidate) => candidate.id === id)!;
+      const attempt = beginAttempt(plan, run, id, "prior-producer", now);
+      const outputs = node.outputs.map((artifactId) => {
+        const binding = run.artifactBindings.find((candidate) => candidate.artifactId === artifactId)!;
+        mkdirSync(path.dirname(path.join(root, binding.path)), { recursive: true });
+        writeFileSync(path.join(root, binding.path), `accepted bytes for ${artifactId}`);
+        return { artifactId, path: binding.path, fingerprint: workspaceArtifactFingerprint(root, binding.path), evidence: ["fixture production"] };
+      });
+      reconcilePatch(plan, run, { nodeId: id, attemptId: attempt.id, outputs }, now);
+      acceptVerification(plan, run, id, ["fixture acceptance"], now, "independent-reviewer");
+    }
+    const accepted = structuredClone(run);
+    assert(reconcileAcceptedProducedArtifacts(plan, run, root, plusSeconds(now, 1)).length === 0, "unchanged accepted production must remain untouched");
+    assert(JSON.stringify(run) === JSON.stringify(accepted), "unchanged re-observation must not replace proof or update timestamps");
+    const research = run.artifactBindings.find((binding) => binding.artifactId === "artifact.research-brief")!;
+    writeFileSync(path.join(root, research.path), "late changed bytes");
+    const changed = reconcileAcceptedProducedArtifacts(plan, run, root, plusSeconds(now, 2));
+    assert(changed.includes(nodeId("research-scan")) && changed.includes(nodeId("product-spec")), "changed production must invalidate its producer and dependent work");
+    assert(!research.accepted && research.fingerprint === accepted.artifactBindings.find((binding) => binding.artifactId === research.artifactId)!.fingerprint,
+      "current changed bytes must not be laundered into the prior accepted fingerprint");
+    assert(run.nodes[nodeId("research-scan")]!.status === "stale" && run.nodes[nodeId("product-spec")]!.status === "stale", "local work must reopen for checks and repair");
+    assert(run.nodes[nodeId("growth-post")]!.status === "succeeded" && run.artifactBindings.find((binding) => binding.artifactId === "artifact.growth-post")!.accepted,
+      "an unchanged independent producer must retain acceptance");
+    for (const id of ids) assert(JSON.stringify(run.nodes[id]!.attempts) === JSON.stringify(accepted.nodes[id]!.attempts), "recovery must preserve historical successful attempts and their proof");
+
+    const missing = structuredClone(accepted);
+    writeFileSync(path.join(root, research.path), `accepted bytes for ${research.artifactId}`);
+    const external = missing.artifactBindings.find((binding) => binding.artifactId === "artifact.growth-post")!;
+    rmSync(path.join(root, external.path));
+    reconcileAcceptedProducedArtifacts(plan, missing, root, plusSeconds(now, 3));
+    assert(!external.accepted && missing.nodes[nodeId("growth-post")]!.status === "needs_readback", "missing external output cannot trigger blind replay");
+    assert(JSON.stringify(missing.nodes[nodeId("growth-post")]!.attempts) === JSON.stringify(accepted.nodes[nodeId("growth-post")]!.attempts),
+      "a held external producer keeps its successful historical receipt");
+  });
+
+  harness.check("runstate: unresolved attempts survive plan and input changes until reconciliation", () => {
+    const catalog = testCatalog();
+    const plan = compilePlan(catalog, now);
+    const { run, businessState } = seedFor([], plan);
+    const id = nodeId("research-scan");
+    const attempt = beginAttempt(plan, run, id, "prior-worker", now);
+    attempt.status = "needs_readback";
+    attempt.readbackRequired = true;
+    run.nodes[id]!.status = "needs_readback";
+    const changedCatalog = structuredClone(catalog);
+    changedCatalog.workflows.find((node) => node.id === "workflow.research-scan")!.gateCommands = ["check:gates-layout"];
+    const changedPlan = compilePlan(changedCatalog, now);
+    const options = { ownerSessionId: "next-session", ttlSeconds: 300, wallClockCapSeconds: 300, now };
+    const changed = reconcileRunPlan(changedPlan, run, businessState, options);
+    assert(changed.nodes[id]!.status === "needs_readback", "changing ordinary verification gates cannot release an old writer");
+    assert(!computeFrontier(changedPlan, changed, businessState, allowAllAutonomyEvaluator).ready.includes(id), "plan evolution must not admit another attempt");
+    const expectRefusal = (candidate: RunStateDocument) => {
+      const count = candidate.nodes[id]!.attempts.length;
+      let refused = false;
+      try { beginAttempt(changedPlan, candidate, id, "replacement", now); }
+      catch (error) { refused = error instanceof Error && error.message.includes("requires reconciliation"); }
+      assert(refused && candidate.nodes[id]!.attempts.length === count, "the final attempt owner must refuse even a caller that bypasses the frontier");
+    };
+    expectRefusal(changed);
+    changed.nodes[id]!.status = "ready";
+    expectRefusal(changed);
+    assert(!computeFrontier(changedPlan, changed, businessState, allowAllAutonomyEvaluator).ready.includes(id), "a stale status projection cannot override retained readback evidence");
+
+    const consumerId = nodeId("engineering-build");
+    const consumerAttempt = beginAttempt(plan, run, consumerId, "prior-consumer", now);
+    consumerAttempt.status = "needs_readback";
+    consumerAttempt.readbackRequired = true;
+    run.nodes[consumerId]!.status = "needs_readback";
+    invalidateDescendants(plan, run, ["artifact.research-brief"], now);
+    assert(run.nodes[consumerId]!.status === "needs_readback", "changed inputs cannot release an unresolved consumer");
+
+    const removedCatalog = structuredClone(changedCatalog);
+    removedCatalog.workflows = removedCatalog.workflows.filter((node) => node.id !== "workflow.research-scan");
+    for (const node of removedCatalog.workflows) node.dependencies = node.dependencies?.filter((dependency) => dependency !== "workflow.research-scan");
+    const removed = reconcileRunPlan(compilePlan(removedCatalog, now), changed, businessState, options);
+    const restored = reconcileRunPlan(changedPlan, removed, businessState, options);
+    assert(restored.nodes[id]!.status === "needs_readback" && restored.nodes[id]!.attempts[0]?.id === attempt.id,
+      "removing then re-adding a workflow cannot erase its unresolved execution");
+    expectRefusal(restored);
+
+    // Model the existing attempt owner after successful stop/effect reconciliation. Merely
+    // changing status above was insufficient; the unresolved attempt evidence must be cleared.
+    const reconciled = structuredClone(changed);
+    reconciled.nodes[id]!.attempts[0]!.readbackRequired = false;
+    reconciled.nodes[id]!.attempts[0]!.status = "failed";
+    reconciled.nodes[id]!.status = "stale";
+    assert(computeFrontier(changedPlan, reconciled, businessState, allowAllAutonomyEvaluator).ready.includes(id),
+      "a reconciled local attempt must retain its valid retry path");
+    assert(beginAttempt(changedPlan, reconciled, id, "recovered-worker", now).number === 2, "recovery preserves attempt history and admits one new attempt");
   });
 
   harness.check(

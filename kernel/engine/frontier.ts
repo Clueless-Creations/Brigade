@@ -1,6 +1,6 @@
 import type { BusinessStateV2, RunStateDocument, Status } from "../schema/types.js";
 import type { CompiledPlan, CompiledRunNode, RunNodeId, StatePredicate } from "./compile.js";
-import { reconcileWorkflowApplicability } from "./runstate.js";
+import { hasUnresolvedReadback, reconcileWorkflowApplicability } from "./runstate.js";
 
 export interface AutonomyDecision {
   allowed: boolean;
@@ -47,6 +47,7 @@ export function isNodeAuthorized(node: CompiledRunNode, run: RunStateDocument, b
 
 /** Authorization plus ordinary dependency/input readiness for a node that may be reopened. */
 export function isNodeDispatchAdmissible(node: CompiledRunNode, run: RunStateDocument, businessState: BusinessStateV2, evaluator: AutonomyEvaluator): boolean {
+  if (hasUnresolvedReadback(run.nodes[node.id])) return false;
   const accepted = new Set(run.artifactBindings.filter((binding) => binding.accepted).map((binding) => binding.artifactId));
   if (node.dependencies.some((dependency) => run.nodes[dependency]?.status !== "succeeded")) return false;
   if (node.inputs.some((artifactId) => !accepted.has(artifactId))) return false;
@@ -64,7 +65,7 @@ export function refreshAdmissibleConsumerIds(
     plan.nodes
       .filter((node) => {
         const state = run.nodes[node.id];
-        if (!state || !READY_ELIGIBLE_STATUSES.includes(state.status)) return false;
+        if (!state || hasUnresolvedReadback(state) || !READY_ELIGIBLE_STATUSES.includes(state.status)) return false;
         if (!isNodeAuthorized(node, run, businessState, evaluator)) return false;
         return node.refreshDependencies.every((refresh) => {
           const dependency = plan.nodes.find((candidate) => candidate.id === refresh.nodeId);
@@ -89,7 +90,7 @@ export function computeFrontier(plan: CompiledPlan, run: RunStateDocument, busin
 
   for (const node of plan.nodes) {
     const state = run.nodes[node.id];
-    if (!state || !READY_ELIGIBLE_STATUSES.includes(state.status)) continue;
+    if (!state || hasUnresolvedReadback(state) || !READY_ELIGIBLE_STATUSES.includes(state.status)) continue;
     const refreshCycles = new Set(state.dependencyRefreshCycles ?? []);
     if (node.refreshDependencies.some((refresh) => !refreshCycles.has(`${refresh.nodeId}@${state.attempts.length}`))) continue;
     if (node.dependencies.some((dependency) => run.nodes[dependency]?.status !== "succeeded")) continue;

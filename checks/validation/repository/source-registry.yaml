@@ -1093,6 +1093,16 @@ sources:
     locations:
       - docs/research/2026-09-04-graph-and-craft-audit.md
     notes: Auto-discovered from recently added repository content.
+  - id: docs-stripe-com-keys-organization-api-keys
+    name: Stripe — organization API keys
+    source_type: official_docs
+    url: https://docs.stripe.com/keys/organization-api-keys
+    refresh_cadence_days: 90
+    owner: source-freshness
+    locations:
+      - hosted/builder-console/README.md
+    notes: Organization key prefixes do not indicate permission scope. Account context selects the account for
+      requests; configured resource permissions remain an operator responsibility.
   - id: docs-stripe-com-api-checkout-sessions-create
     name: Stripe — Create a Checkout Session
     source_type: official_docs
