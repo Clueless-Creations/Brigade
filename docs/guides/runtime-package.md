@@ -102,6 +102,24 @@ Setup creates `~/.b2c-app-builder/workspaces.json` and prints the MCP registrati
 
 A packed install launches compiled ESM from `dist/` and does not need `tsx`. A source checkout runs `npm run build` (also via `prepack`) or falls back to `tsx` until that build exists.
 
+`npm run runtime:sync` copies managed source files, reconciles dependencies with
+`npm install`, runs the installed package's `build` script when configured,
+then runs its audit.
+Dependency installation and the build run even when no source files changed:
+a previous unverified copy can leave old dependencies, and the launcher prefers
+an existing compiled entrypoint. Source parity alone cannot prove current
+execution. A failed install or build stops verification before the audit. Older
+source-only packages without a build script retain their audit-only verification
+path.
+
+`--no-verify` copies source without installing dependencies, rebuilding, or auditing;
+its result is explicitly unverified. Run a verified sync before relying on those
+installed commands. `runtime:check` compares managed source and pins, not compiled
+execution. The package build owns emitted files; sync preserves unrelated files
+and does not prune orphaned files from `dist/`. Before install or build, verified
+sync refuses symlinks and nonregular entries in that output tree; it leaves them
+untouched for reconciliation.
+
 Portable task export (`npm run skills:export`) is a **source-checkout maintainer command** (needs `tsx` / devDependencies). It is not a supported consumer command from a production registry install. Packed installs already include the generated business task skill trees under `agents/skills/`.
 
 ## Package boundary

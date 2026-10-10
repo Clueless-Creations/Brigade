@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { skillRoot, type Harness } from "./_harness.js";
 
@@ -28,6 +28,209 @@ function writeSourceTree(root: string): string {
 }
 
 export function register(harness: Harness): void {
+  {
+    // Source/pin equality does not prove the public CLI executes those bytes:
+    // its real launcher prefers dist/. Exercise an already-compiled install,
+    // an explicit unverified source sync, and the verified retry with no diff.
+    const root = harness.makeEmptyFixture("runtime-sync-compiled-execution");
+    const source = writeSourceTree(root);
+    const runtime = path.join(root, "runtime");
+    for (const relative of ["entrypoints/cli/b2c.mjs", "entrypoints/cli/help.mjs", "tooling/lib/tsx-launcher.mjs"]) {
+      mkdirSync(path.dirname(path.join(source, relative)), { recursive: true });
+      copyFileSync(path.join(skillRoot, relative), path.join(source, relative));
+    }
+    const command = "kernel/session/refresh-entrypoints.ts";
+    const compiled = "dist/kernel/session/refresh-entrypoints.js";
+    mkdirSync(path.dirname(path.join(source, command)), { recursive: true });
+    const writeGeneration = (generation: string): void => {
+      writeFileSync(path.join(source, command), `const generation: string = ${JSON.stringify(generation)};\nconsole.log(JSON.stringify({ generation }));\n`);
+      writeFileSync(path.join(source, "expected.json"), JSON.stringify({ generation }));
+      writeFileSync(path.join(source, "skill-version.json"), JSON.stringify({ version: `${generation}-fixture` }));
+    };
+    const build = [
+      'import { mkdirSync, readFileSync, writeFileSync } from "node:fs";',
+      'import { stripTypeScriptTypes } from "node:module";',
+      `mkdirSync(${JSON.stringify(path.dirname(compiled))}, { recursive: true });`,
+      `writeFileSync(${JSON.stringify(compiled)}, stripTypeScriptTypes(readFileSync(${JSON.stringify(command)}, "utf8")));`,
+    ].join("\n");
+    writeFileSync(path.join(source, "build.mjs"), build);
+    writeFileSync(
+      path.join(source, "audit.mjs"),
+      [
+        'import assert from "node:assert/strict";',
+        'import { appendFileSync, readFileSync } from "node:fs";',
+        'import { spawnSync } from "node:child_process";',
+        'const result = spawnSync(process.execPath, ["entrypoints/cli/b2c.mjs", "refresh-entrypoints"], { encoding: "utf8" });',
+        "assert.equal(result.status, 0, result.stderr);",
+        "const observed = JSON.parse(result.stdout);",
+        'assert.deepEqual(observed, JSON.parse(readFileSync("expected.json", "utf8")));',
+        'appendFileSync("audit-runs.log", observed.generation + "\\n");',
+        'console.log("Actual installed CLI generation: " + observed.generation);',
+      ].join("\n"),
+    );
+    writeFileSync(
+      path.join(source, "package.json"),
+      JSON.stringify({
+        name: "runtime-compiled-fixture",
+        version: "0.0.1",
+        type: "module",
+        private: true,
+        scripts: { build: "node build.mjs", audit: "node audit.mjs" },
+      }),
+    );
+    writeGeneration("0.0.1");
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "compiled runtime fixture"]);
+    const args = ["sync", "--source", source, "--installed", runtime, "--runtimes-root", path.join(root, "clients")];
+    const observedGeneration = (): string => {
+      const result = spawnSync(process.execPath, [path.join(runtime, "entrypoints/cli/b2c.mjs"), "refresh-entrypoints"], {
+        cwd: root,
+        encoding: "utf8",
+        timeout: 10_000,
+      });
+      if (result.status !== 0) throw new Error(`Installed CLI failed: ${result.stderr}`);
+      return (JSON.parse(result.stdout) as { generation: string }).generation;
+    };
+    harness.runScriptArgs(
+      "verified sync builds the executable runtime before auditing it",
+      "runtime-sync.ts",
+      args,
+      0,
+      "Actual installed CLI generation: 0.0.1",
+    );
+    if (observedGeneration() !== "0.0.1") throw new Error("Initial compiled runtime did not execute through the actual CLI launcher.");
+    mkdirSync(path.join(runtime, "node_modules"), { recursive: true });
+    writeFileSync(path.join(runtime, "custom.txt"), "unowned content survives\n");
+    writeFileSync(path.join(runtime, "dist/custom-helper.js"), "// unowned compiled helper survives\n");
+
+    writeGeneration("0.0.2");
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "update runtime behavior"]);
+    const firstAudit = readFileSync(path.join(runtime, "audit-runs.log"), "utf8");
+    harness.runScriptArgs("explicit no-verify sync preserves the opt-out without running build or audit", "runtime-sync.ts", [...args, "--no-verify"], 0);
+    if (observedGeneration() !== "0.0.1" || readFileSync(path.join(runtime, "audit-runs.log"), "utf8") !== firstAudit)
+      throw new Error("--no-verify unexpectedly built or audited the runtime.");
+    const unverified = harness.results.at(-1)!.output;
+    if (unverified.includes("Running npm run build") || unverified.includes("Running npm run audit")) throw new Error("--no-verify invoked verification.");
+    harness.runScriptArgs(
+      "verified retry rebuilds stale dist even after an identical source-only sync",
+      "runtime-sync.ts",
+      args,
+      0,
+      "Actual installed CLI generation: 0.0.2",
+    );
+    if (observedGeneration() !== "0.0.2") throw new Error("Verified source/pin sync left the actual CLI executing old compiled bytes.");
+    const verified = harness.results.at(-1)!.output;
+    if (!verified.includes("Copied 0 file(s)")) throw new Error("The stale-dist retry must exercise unchanged source and dependencies.");
+
+    writeGeneration("0.0.3");
+    writeFileSync(path.join(source, "build.mjs"), 'console.error("synthetic-build-failure");\nprocess.exit(17);\n');
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "failing build fixture"]);
+    const beforeFailure = readFileSync(path.join(runtime, "audit-runs.log"), "utf8");
+    harness.runScriptArgs("build failure refuses verified sync before audit and success", "runtime-sync.ts", args, 1, "synthetic-build-failure");
+    const failure = harness.results.at(-1)!.output;
+    if (failure.includes("Running npm run audit") || failure.includes("Runtime now at source version"))
+      throw new Error("Build failure reached audit or the success report.");
+    if (readFileSync(path.join(runtime, "audit-runs.log"), "utf8") !== beforeFailure || observedGeneration() !== "0.0.2")
+      throw new Error("A failed build must not audit or claim the newly copied source executed.");
+    writeFileSync(path.join(source, "build.mjs"), build);
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "repair build fixture"]);
+    harness.runScriptArgs("verified sync recovers after the source build is repaired", "runtime-sync.ts", args, 0, "Actual installed CLI generation: 0.0.3");
+    if (observedGeneration() !== "0.0.3") throw new Error("Build recovery did not reach current executable code.");
+    if (
+      readFileSync(path.join(runtime, "custom.txt"), "utf8") !== "unowned content survives\n" ||
+      readFileSync(path.join(runtime, "dist/custom-helper.js"), "utf8") !== "// unowned compiled helper survives\n"
+    )
+      throw new Error("Runtime rebuild removed unowned runtime or compiled helper files.");
+
+    for (const relative of ["dist", "dist/kernel"]) {
+      rmSync(path.join(runtime, "dist"), { recursive: true, force: true });
+      const link = path.join(runtime, relative);
+      const outside = path.join(root, relative.replaceAll("/", "-") + "-outside");
+      const sentinel = path.join(outside, path.relative(relative, compiled));
+      mkdirSync(path.dirname(sentinel), { recursive: true });
+      writeFileSync(sentinel, "outside compiled file must survive\n");
+      mkdirSync(path.dirname(link), { recursive: true });
+      symlinkSync(outside, link);
+      const audits = readFileSync(path.join(runtime, "audit-runs.log"), "utf8");
+      harness.runScriptArgs(`verified build refuses ignored ${relative} symlink escape`, "runtime-sync.ts", args, 1, "symlink");
+      const rejected = harness.results.at(-1)!.output;
+      if (rejected.includes("Running npm run build") || rejected.includes("Runtime now at source version"))
+        throw new Error("Unsafe output path reached the build or success report.");
+      if (readFileSync(sentinel, "utf8") !== "outside compiled file must survive\n" || readFileSync(path.join(runtime, "audit-runs.log"), "utf8") !== audits)
+        throw new Error("Build symlink refusal changed external data or ran audit.");
+    }
+  }
+
+  {
+    // A --no-verify copy updates the ownership manifest but leaves dependencies
+    // old. A verified zero-copy retry must reconcile them before the build.
+    const root = harness.makeEmptyFixture("runtime-sync-dependency-retry");
+    const source = writeSourceTree(root);
+    const runtime = path.join(root, "runtime");
+    const dependencies = ["0.0.1", "0.0.2"].map((version) => {
+      const directory = path.join(root, `dependency-${version}`);
+      mkdirSync(directory);
+      writeFileSync(path.join(directory, "package.json"), JSON.stringify({ name: "fixture-generation", version, type: "module", exports: "./index.js" }));
+      writeFileSync(path.join(directory, "index.js"), `export const generation = ${JSON.stringify(version)};\n`);
+      return directory;
+    });
+    const packageFor = (dependency: string) => ({
+      name: "runtime-dependency-fixture",
+      version: "0.0.1",
+      type: "module",
+      private: true,
+      dependencies: { "fixture-generation": `file:${dependency}` },
+      scripts: { build: "node build.mjs", audit: "node audit.mjs" },
+    });
+    writeFileSync(path.join(source, "package.json"), JSON.stringify(packageFor(dependencies[0]!)));
+    writeFileSync(path.join(source, "expected.json"), JSON.stringify("0.0.1"));
+    writeFileSync(
+      path.join(source, "build.mjs"),
+      [
+        'import { writeFileSync } from "node:fs";',
+        'import { generation } from "fixture-generation";',
+        'writeFileSync("built-generation.json", JSON.stringify(generation));',
+      ].join("\n"),
+    );
+    writeFileSync(
+      path.join(source, "audit.mjs"),
+      [
+        'import assert from "node:assert/strict";',
+        'import { readFileSync } from "node:fs";',
+        'const built = JSON.parse(readFileSync("built-generation.json", "utf8"));',
+        'assert.equal(built, JSON.parse(readFileSync("expected.json", "utf8")));',
+        'console.log("Built dependency generation: " + built);',
+      ].join("\n"),
+    );
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "dependency retry fixture"]);
+    const args = ["sync", "--source", source, "--installed", runtime, "--runtimes-root", path.join(root, "clients")];
+    harness.runScriptArgs("verified sync builds with the initial local dependency", "runtime-sync.ts", args, 0, "Built dependency generation: 0.0.1");
+    writeFileSync(path.join(source, "package.json"), JSON.stringify(packageFor(dependencies[1]!)));
+    writeFileSync(path.join(source, "expected.json"), JSON.stringify("0.0.2"));
+    git(source, ["add", "-A"]);
+    git(source, ["commit", "-qm", "update local dependency"]);
+    harness.runScriptArgs("no-verify copies new dependency declarations without installing them", "runtime-sync.ts", [...args, "--no-verify"], 0);
+    if (JSON.parse(readFileSync(path.join(runtime, "built-generation.json"), "utf8")) !== "0.0.1") throw new Error("--no-verify ran the build.");
+    const stale = spawnSync(process.execPath, ["--input-type=module", "-e", 'import { generation } from "fixture-generation"; console.log(generation);'], {
+      cwd: runtime,
+      encoding: "utf8",
+    });
+    if (stale.status !== 0 || stale.stdout.trim() !== "0.0.1") throw new Error("Dependency retry fixture did not preserve the old installed dependency.");
+    harness.runScriptArgs(
+      "zero-copy verified retry reconciles changed dependencies before building",
+      "runtime-sync.ts",
+      args,
+      0,
+      "Built dependency generation: 0.0.2",
+    );
+    const retried = harness.results.at(-1)!.output;
+    if (!retried.includes("Copied 0 file(s)") || JSON.parse(readFileSync(path.join(runtime, "built-generation.json"), "utf8")) !== "0.0.2")
+      throw new Error("Verified retry failed to build current dependencies without source drift.");
+  }
   // Real verified sync: npm installs a local Prettier package, then the actual
   // audit runner executes its genuine formatting validator and excludes the
   // repository-only boundary check. The selected plan avoids recursive audits.

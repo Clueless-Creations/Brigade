@@ -12,21 +12,22 @@
  *   check   Report drift between source and runtime. Exit 1 when they differ.
  *   sync    Apply the source to the runtime. Refuses on conflicts unless --force
  *           (or --adopt on a first run without a manifest). Writes the ownership
- *           manifest, then runs npm install (when the lockfile changed) and
- *           npm run audit inside the runtime unless --no-verify.
+ *           manifest, then runs npm install, the configured build, and
+ *           npm run audit unless --no-verify.
  *
  * Flags:
  *   --source <dir>      Source skill root (default: this script's skill root).
  *   --installed <dir>   Installed runtime root (default: ~/.codex/skills/b2c-app-builder).
  *   --force             Overwrite conflicting runtime edits (they are lost — commit them to source first).
  *   --adopt             First run only: accept that differing runtime files are superseded by source.
- *   --no-verify         Skip npm install / npm run audit in the runtime after syncing.
+ *   --no-verify         Skip npm install, build, and audit; synchronize source only.
  *   --json              Emit the plan as JSON (check only).
  *   --all-clients       After check, inspect Codex, Claude, Cursor, and agents pins and fail when a present pin does not match. On sync, write each present unique client root, then fail if any present pin still trails.
  *   --runtimes-root     Home directory used to resolve client install roots (default: the process home).
  *
  * The source file set is `git ls-files` under the source root, so gitignored
- * build outputs (dist/, node_modules/) never sync and never count as drift.
+ * build outputs (dist/, node_modules/) are not copied and do not count as source
+ * drift. Verified sync rebuilds emitted outputs through the installed package.
  */
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -214,6 +215,30 @@ function assertNoSymlinkAncestor(target: string, installedRoot: string): void {
   }
 }
 
+/** dist is omitted from source ownership, but install/build scripts can write it. */
+function assertSafeCompiledOutput(installedRoot: string): void {
+  const visit = (current: string): void => {
+    const stat = lstatSync(current, { throwIfNoEntry: false });
+    if (!stat) return;
+    if (stat.isSymbolicLink()) {
+      throw new Error(`Refusing to verify runtime output through symlink ${current}. Reconcile the linked output before retrying.`);
+    }
+    if (stat.isDirectory()) {
+      for (const entry of readdirSync(current)) visit(path.join(current, entry));
+    } else if (!stat.isFile()) {
+      throw new Error(`Refusing to verify nonregular runtime output ${current}. Reconcile the output before retrying.`);
+    }
+  };
+  visit(path.join(installedRoot, "dist"));
+}
+
+function hasBuildScript(installedRoot: string): boolean {
+  const packagePath = path.join(installedRoot, "package.json");
+  if (!existsSync(packagePath)) return false;
+  const manifest = JSON.parse(readFileSync(packagePath, "utf8")) as { scripts?: { build?: unknown } };
+  return typeof manifest.scripts?.build === "string" && manifest.scripts.build.trim().length > 0;
+}
+
 function run(command: string, args: string[], cwd: string): number {
   const result = spawnSync(command, args, { cwd, stdio: "inherit" });
   return result.status ?? 1;
@@ -304,7 +329,7 @@ function applySyncToRoot(options: Options, sourceFiles: Record<string, string>, 
   }
   const copyList = [...plan.copies, ...plan.conflicts.filter((relPath) => sourceFiles[relPath] !== undefined)];
   const deleteList = [...plan.deletes, ...plan.conflicts.filter((relPath) => sourceFiles[relPath] === undefined)];
-  const lockChanged = copyList.includes("package-lock.json") || copyList.includes("package.json") || !existsSync(path.join(installedRoot, "node_modules"));
+  if (options.verify) assertSafeCompiledOutput(installedRoot);
   for (const relPath of copyList) {
     const target = path.join(installedRoot, relPath);
     assertNoSymlinkAncestor(target, installedRoot);
@@ -323,12 +348,25 @@ function applySyncToRoot(options: Options, sourceFiles: Record<string, string>, 
   console.log(`Manifest written: ${path.join(installedRoot, MANIFEST_NAME)} (source version ${manifestOut.sourceVersion}).`);
 
   if (options.verify) {
-    if (lockChanged) {
-      console.log("\nRunning npm install in the runtime (dependencies changed)…");
-      if (run("npm", ["install", "--no-fund", "--no-audit"], installedRoot) !== 0) {
-        console.error("npm install failed in the runtime.");
+    // Source ownership records copies, not completed dependency installation. A
+    // prior --no-verify sync can leave equal manifests with old node_modules.
+    console.log("\nRunning npm install in the runtime (reconciling dependencies)…");
+    if (run("npm", ["install", "--no-fund", "--no-audit"], installedRoot) !== 0) {
+      console.error("npm install failed in the runtime.");
+      return false;
+    }
+    assertSafeCompiledOutput(installedRoot);
+    // Launchers prefer dist even when tracked source already matches. Rebuild on
+    // every verified sync, including retries after an unverified source-only sync.
+    // The package build owns emitted targets; do not delete unowned dist files.
+    if (hasBuildScript(installedRoot)) {
+      console.log("\nRunning npm run build in the runtime (refreshing compiled entrypoints)…");
+      if (run("npm", ["run", "build"], installedRoot) !== 0) {
+        console.error("Runtime build failed. Runtime execution has not been verified.");
         return false;
       }
+    } else {
+      console.log("\nNo runtime build script is configured; verifying the source runtime with its audit.");
     }
     console.log("\nRunning npm run audit in the runtime (skill layout; the repo-root audit remains the merge gate)…");
     if (run("npm", ["run", "audit"], installedRoot) !== 0) {
@@ -337,7 +375,11 @@ function applySyncToRoot(options: Options, sourceFiles: Record<string, string>, 
     }
   }
   verifySymlinkAliases(installedRoot, clientHome(options));
-  console.log(`\nRuntime now at source version ${manifestOut.sourceVersion}.`);
+  console.log(
+    options.verify
+      ? `\nRuntime now at source version ${manifestOut.sourceVersion}.`
+      : `\nRuntime source now at version ${manifestOut.sourceVersion} (unverified: dependency install, build, and audit skipped).`,
+  );
   return true;
 }
 
@@ -359,7 +401,7 @@ function main(): void {
     }
     const pinsOk = reportClientPins(options);
     if (planIsClean(plan) && pinsOk) {
-      console.log("Runtime matches source. No drift.");
+      console.log("Runtime matches source. No tracked-file drift. Compiled output is not checked.");
       return;
     }
     if (!planIsClean(plan)) {
