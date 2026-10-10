@@ -1,6 +1,10 @@
 import { replaceTableBlock } from "./_table-edit.js";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { composeCatalog } from "../../../../catalog/index.js";
+import { toCatalogInput } from "../../../../catalog/bridge.js";
+import { compilePlan } from "../../../../kernel/engine/compile.js";
+import { runDeterministicGates } from "../../../../kernel/session/deterministic-gates.js";
 import {
   type Harness,
   type MutableRecord,
@@ -612,6 +616,14 @@ export function register(h: Harness): void {
   }
   runFixture("a submit-ready claim over pending rows fails", readinessClaimedPending, "check-readiness-coverage.ts", 1, "readiness_coverage.row_pending");
 
+  for (const lane of ["engineering", "store_console", "apple_signing"] as const) {
+    const root = makeFixture(`readiness-coverage-${lane}-succeeded`);
+    const state = readState(root);
+    getLane(state, lane)["status"] = "succeeded";
+    writeState(root, state);
+    runFixture(`a succeeded ${lane} lane cannot leave readiness rows pending`, root, "check-readiness-coverage.ts", 1, "readiness_coverage.row_pending");
+  }
+
   const readinessSimulatorOnly = makeFixture("readiness-coverage-simulator-only");
   writeReadinessLedger(readinessSimulatorOnly, "| cold launch | in-app iOS Simulator, iPhone 17 Pro | `proof/device/cold-launch.png` | Passed |");
   runFixture(
@@ -625,6 +637,96 @@ export function register(h: Harness): void {
   const readinessDeviceEvidence = makeFixture("readiness-coverage-device-evidence");
   writeReadinessLedger(readinessDeviceEvidence, "| cold launch | Release build on a physical device, iPhone 15 | `proof/device/cold-launch.png` | Passed |");
   runFixture("physical-device evidence with resolved companions passes", readinessDeviceEvidence, "check-readiness-coverage.ts", 0);
+
+  for (const [index, result] of ["not passed", "not verified", "will pass", "Passed, but failed the cold launch"].entries()) {
+    const root = makeFixture(`readiness-coverage-nonaffirmative-${index}`);
+    writeReadinessLedger(root, `| cold launch | physical device | \`proof/device/cold-launch.png\` | ${result} |`);
+    runFixture(`nonaffirmative result '${result}' cannot close readiness`, root, "check-readiness-coverage.ts", 1, "readiness_coverage.result_invalid");
+  }
+
+  for (const [index, route] of [
+    "simulator; no physical device tested",
+    "physical device not tested",
+    "physical device planned",
+    "physical device, Pixel 9; not yet tested",
+    "physical device test is pending",
+    "will test on a physical device",
+  ].entries()) {
+    const root = makeFixture(`readiness-coverage-unobserved-device-${index}`);
+    writeReadinessLedger(root, `| cold launch | ${route} | \`proof/device/cold-launch.png\` | Passed |`);
+    runFixture(`unobserved device route '${route}' cannot supply coverage`, root, "check-readiness-coverage.ts", 1, "readiness_coverage.simulator_only");
+  }
+
+  for (const [index, route] of ["physical device without network, Pixel 9", "physical device, Pixel 9; no crashes"].entries()) {
+    const root = makeFixture(`readiness-coverage-observed-condition-${index}`);
+    writeReadinessLedger(root, `| habit check-in | ${route} | \`proof/device/cold-launch.png\` | Passed |`);
+    runFixture(`observed device condition '${route}' preserves coverage`, root, "check-readiness-coverage.ts", 0);
+  }
+
+  const readinessPhysicalInLabel = makeFixture("readiness-coverage-physical-in-label");
+  writeReadinessLedger(readinessPhysicalInLabel, "| physical device cold launch requirement | iOS simulator | `proof/device/cold-launch.png` | Passed |");
+  runFixture(
+    "physical-device words in a journey label do not supply coverage",
+    readinessPhysicalInLabel,
+    "check-readiness-coverage.ts",
+    1,
+    "readiness_coverage.simulator_only",
+  );
+
+  for (const [index, evidence] of ["no evidence", "", "`proof/device/cold-launch.png`, `proof/device/missing.log`"].entries()) {
+    const root = makeFixture(`readiness-coverage-ungrounded-device-${index}`);
+    writeReadinessLedger(root, `| cold launch | physical device | ${evidence} | Passed |`);
+    runFixture(`physical-device coverage requires grounded evidence (${index})`, root, "check-readiness-coverage.ts", 1, "readiness_coverage.evidence_missing");
+  }
+
+  const readinessDated = makeFixture("readiness-coverage-dated-result-and-deferral");
+  writeReadinessLedger(
+    readinessDated,
+    [
+      "| cold launch | Release build on a physical device, iPhone 15 | `proof/device/cold-launch.png` | Passed (2026-09-03) |",
+      "| landscape | not applicable | not applicable | Deferred 2026-09-03: portrait-only scope accepted |",
+    ].join("\n"),
+  );
+  runFixture("dated positive results and dated scope deferrals remain valid", readinessDated, "check-readiness-coverage.ts", 0);
+
+  const readinessMobai = makeFixture("readiness-coverage-mobai-device-column");
+  writeReadinessLedger(readinessMobai, "| habit check-in | MobAI physical device, Pixel 9 | `proof/device/cold-launch.png` | Verified |");
+  const mobaiReadinessPath = path.join(readinessMobai, "engineering/PRODUCTION_READINESS.md");
+  writeFileSync(mobaiReadinessPath, readFileSync(mobaiReadinessPath, "utf8").replace("| Route |", "| Device / OS |"));
+  runFixture("an Android observation in an explicit device column supplies coverage", readinessMobai, "check-readiness-coverage.ts", 0);
+
+  const readinessMatrix = makeFixture("readiness-coverage-ios-matrix-grounding");
+  writeReadinessLedger(readinessMatrix, "| release device | signed device build | no evidence | Passed |");
+  const matrixReadinessPath = path.join(readinessMatrix, "engineering/PRODUCTION_READINESS.md");
+  writeFileSync(matrixReadinessPath, readFileSync(matrixReadinessPath, "utf8").replace("## Device Proof", "## Native iOS Launch-Critical Test Matrix"));
+  runFixture(
+    "an iOS matrix row cannot supply aggregate coverage without an artifact",
+    readinessMatrix,
+    "check-readiness-coverage.ts",
+    1,
+    "readiness_coverage.evidence_missing",
+  );
+
+  // Exercise the actual compiler and runtime gate dispatcher. Other closeout gates retain
+  // their own fixtures; select this gate from the shipped workflow instead of inventing one.
+  const closeout = compilePlan(toCatalogInput(composeCatalog(skillRoot))).nodes.find(
+    (node) => node.workflowId === "workflow.orchestration.full-launch-closeout",
+  );
+  const readinessGates = closeout?.verification.gateIds.filter((gate) => gate === "check:readiness-coverage") ?? [];
+  if (readinessGates.length !== 1 || !closeout?.verification.failClosed) throw new Error("Full launch closeout lost its required readiness gate");
+  for (const [label, root, expected, code] of [
+    ["closeout rejects a physical-device claim with no artifact", readinessMatrix, false, "readiness_coverage.evidence_missing"],
+    ["closeout accepts grounded Android habit-check-in coverage", readinessMobai, true, undefined],
+  ] as const) {
+    const outcome = runDeterministicGates(readinessGates, root);
+    h.results.push({
+      label,
+      ok: outcome.allPassed === expected && (!code || outcome.issueCodes.includes(code)),
+      expectedCode: expected ? 0 : 1,
+      actualCode: outcome.allPassed ? 0 : 1,
+      output: JSON.stringify(outcome),
+    });
+  }
 
   const readinessCompanionPending = makeFixture("readiness-coverage-companion-pending");
   writeReadinessLedger(readinessCompanionPending, "| cold launch | Release build on a physical device, iPhone 15 | `proof/device/cold-launch.png` | Passed |");
