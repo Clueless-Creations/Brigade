@@ -2207,7 +2207,16 @@ if(receipt.outputEvidence.some(entry=>entry.outputPath.endsWith('peer.log'))) se
           "known process uncertainty cannot accept peer evidence",
         );
       } else {
-        assert(peer.attempts[0]!.status === "succeeded", "normally settled parallel work must retain successful production");
+        assert(
+          peer.attempts[0]!.status === "blocked" && peer.blocker === "Verification required",
+          "normally settled parallel work must retain its produced candidate for independent verification",
+        );
+        assert(
+          run.artifactBindings.some(
+            (binding) => binding.artifactId === "artifact.peer" && binding.attemptId === peer.attempts[0]!.id && Boolean(binding.fingerprint),
+          ),
+          "normal peer output must remain bound to its producing attempt",
+        );
         assert(peer.attempts[0]!.error === undefined, "the normal concurrent path must not create a process hold");
       }
     });
