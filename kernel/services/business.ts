@@ -28,6 +28,7 @@ import {
 } from "../../contracts/public-api/contract.js";
 import { resolveProviderImplementation } from "../composition/providers.js";
 import { installedPublicDeclarations, installedPublicPackage } from "../../catalog/business-primitives.js";
+import { workspaceEntrypointWarnings } from "./workspace-entrypoint-warnings.js";
 
 class ContractError extends Error {
   constructor(
@@ -47,9 +48,10 @@ export function failure(
 ): Result<never> {
   return { apiVersion: API_VERSION, requestId: randomUUID(), ok: false, warnings: [], error: { code, message, fields, retryable: false, recovery } };
 }
-function respond<T>(compute: () => T): Result<T> {
+function respond<T>(compute: () => T, warnings: string[] = []): Result<T> {
   try {
-    return { apiVersion: API_VERSION, requestId: randomUUID(), ok: true, warnings: [], data: compute() };
+    const data = compute();
+    return { apiVersion: API_VERSION, requestId: randomUUID(), ok: true, warnings, data };
   } catch (error) {
     if (error instanceof ContractError) return failure(error.code, error.message, error.fields, error.recovery);
     if (error instanceof z.ZodError)
@@ -230,6 +232,7 @@ export function compose(input: unknown): Result<z.infer<typeof previewSchema>> {
 
 /** Project existing runtime observations behind a registered identity; never return raw workspace data. */
 export function businessStatus(input: unknown): Result<z.infer<typeof businessStatusSchema>> {
+  const warnings: string[] = [];
   return respond(() => {
     const args = businessStatusInputSchema.parse(input);
     const entries = loadRegistry().workspaces.filter((entry) => entry.id === args.workspaceId);
@@ -249,6 +252,7 @@ export function businessStatus(input: unknown): Result<z.infer<typeof businessSt
         "Check the local workspace registration and retry.",
       );
     const status = readWorkspaceStatus(resolved.path);
+    if (status.state !== "missing") warnings.push(...workspaceEntrypointWarnings(resolved.path, args.workspaceId));
     const lifecycle = {
       missing: "missing",
       not_bootstrapped: "not_initialized",
@@ -305,7 +309,7 @@ export function businessStatus(input: unknown): Result<z.infer<typeof businessSt
       observedFrom: "local_runtime",
       providerProof: "not_observed",
     });
-  });
+  }, warnings);
 }
 
 type OperationResult<I extends OperationId> = z.infer<Extract<(typeof publicSchemas.PUBLIC_OPERATIONS)[number], { id: I }>["outputSchema"]>;
@@ -383,8 +387,15 @@ export function callPublicOperation(operation: OperationId, input: unknown, host
       return respond(() =>
         publicSchemas.businessInitializedSchema.parse(lifecycleService.initializeBusiness(publicSchemas.businessInitializeInputSchema.parse(input))),
       );
-    case "business.plan":
-      return respond(() => publicSchemas.businessPlanSchema.parse(lifecycleService.planBusiness(publicSchemas.businessPlanInputSchema.parse(input))));
+    case "business.plan": {
+      const warnings: string[] = [];
+      return respond(() => {
+        const args = publicSchemas.businessPlanInputSchema.parse(input);
+        const data = publicSchemas.businessPlanSchema.parse(lifecycleService.planBusiness(args));
+        warnings.push(...workspaceEntrypointWarnings(localComposition.resolveWorkspaceRegistration(args.workspaceId), args.workspaceId));
+        return data;
+      }, warnings);
+    }
     case "business.recover":
       return respond(() =>
         publicSchemas.businessRecoveredSchema.parse(lifecycleService.recoverBusiness(publicSchemas.businessRecoverInputSchema.parse(input))),

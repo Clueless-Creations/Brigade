@@ -6,6 +6,7 @@ Brigade supplies consumer-business primitives through a skill, CLI, and MCP.
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Try the toolkit                       | [Quick start](../README.md#get-started)                                                                                                                              |
 | Give an agent the repository URL      | [Use Brigade with an agent](guides/use-with-an-agent.md)                                                                                                              |
+| Refresh an app's agent instructions   | [Workspace startup guidance](guides/workspace-startup.md) |
 | Understand the ethos                  | [Let your agents cook](ethos.md) and its [kitchen-language boundary](ethos.md#kitchen-language-boundary) |
 | Build or improve one business         | [Business-building guide](guides/build-a-business.md)                                                                                                                |
 | Understand the stable interface       | [Public interface](public-interface.md) and [generated reference](../contracts/public-api/REFERENCE.md)                                                              |

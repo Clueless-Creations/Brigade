@@ -14,6 +14,9 @@ contract.
    Before the runtime exists, these commands provide the planning continuation.
    If this scaffold is unregistered, register its existing directory with `b2c workspaces register <id> <path>`.
    A focused review or code fix needs no registration or runtime.
+   If status or plan reports missing or stale startup guidance, preview `b2c refresh-entrypoints --workspace <id-or-path> --json`.
+   Add `--apply` to refresh Brigade-owned guidance while preserving app instructions outside its managed block. Initialization is not required.
+   Reconcile reported conflicts before retrying; status and plan never change these files.
 3. Before planning, read the applicable nested `AGENTS.md` for each path in scope, even outside the session's starting directory.
    Follow those guides and the current task to the relevant accepted product, feature, journey, and customer source sections.
    Read `DESIGN.md` and its affected flow/screen for user-facing work; read the app's architecture and decision owners

@@ -53,6 +53,13 @@ export const COMMANDS = new Map([
   ],
   ["setup", { script: "kernel/session/setup.ts", summary: "one-time machine preparation: b2c home, empty registry, health checks, next steps" }],
   [
+    "refresh-entrypoints",
+    {
+      script: "kernel/session/refresh-entrypoints.ts",
+      summary: "preview or refresh workspace startup guidance while preserving app instructions (--workspace <id-or-path> --apply)",
+    },
+  ],
+  [
     "founder-key",
     {
       script: "kernel/session/founder-key.ts",
@@ -155,7 +162,7 @@ export const COMMANDS = new Map([
 export const HELP_SECTIONS = [
   {
     heading: "Prepare the kitchen — installation and workspaces",
-    commands: ["setup", "inspect", "doctor", "workspaces", "list"],
+    commands: ["setup", "inspect", "doctor", "workspaces", "list", "refresh-entrypoints"],
   },
   {
     heading: "Build and run a business — product work and lifecycle",

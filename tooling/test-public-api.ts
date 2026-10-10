@@ -12,6 +12,7 @@ const suites = [
   "installed-composition",
   "setup-help",
   "business-help",
+  "workspace-entrypoints",
   "founder-brief-intake",
   "connection-and-packet",
   "leftover-contributor-local",

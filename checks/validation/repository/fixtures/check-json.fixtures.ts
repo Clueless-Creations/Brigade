@@ -82,7 +82,7 @@ export function register(h: Harness): void {
   writeBusinessEntrypoints(continuityMissingStatus);
   {
     const agentsPath = path.join(continuityMissingStatus, "AGENTS.md");
-    writeFileSync(agentsPath, readFileSync(agentsPath, "utf8").replaceAll("b2c status", "status unavailable"), "utf8");
+    writeFileSync(agentsPath, readFileSync(agentsPath, "utf8").replaceAll("b2c business-status", "status unavailable"), "utf8");
   }
   runFixtureJson(
     "continuity-contract (outlier): a missing status entrypoint fails under --json with rule continuity.term_missing",

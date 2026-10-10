@@ -19,6 +19,11 @@ that can answer it.
 Do not create a workspace, install MCP, or configure Jev just to answer a
 focused question. A task skill is intentionally usable on its own.
 
+For managed businesses, creation installs the canonical workspace guide and thin
+host adapters. Status and plan warn when those guides need attention. Use
+[workspace startup guidance](workspace-startup.md) to preview and refresh an existing
+app's guides while preserving its active instructions.
+
 ## The normal first response
 
 For an ordinary product question, the agent should:

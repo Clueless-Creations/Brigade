@@ -65,6 +65,14 @@ Business status returns lifecycle and aggregate work counts from registered loca
 runtime state. It exposes no raw state, paths or grants and labels provider proof
 as unobserved.
 
+Status and plan expose advisory startup-guidance diagnostics through the existing
+`warnings` field. They never repair files or change work eligibility. The local
+maintenance command `b2c refresh-entrypoints --workspace <id-or-path> --json`
+previews guide changes; `--apply` refreshes Brigade-owned blocks while preserving
+app instructions outside them. It requires no runtime initialization and does not
+change runtime pins. This command adds no MCP mutation or versioned business
+operation. See [workspace startup guidance](guides/workspace-startup.md).
+
 Market reports read authored experiments in `operations/metric-contracts.json`
 and accepted observations in existing business state. Reports retain missing or
 incompatible businesses as degraded rows, separate synthetic from observed outcomes,

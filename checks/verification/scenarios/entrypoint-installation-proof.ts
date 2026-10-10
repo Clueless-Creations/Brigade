@@ -159,8 +159,8 @@ export function register(harness: Harness): void {
       assert(refresh.status === 0, `expected entrypoint refresh to succeed: ${refresh.stdout}\n${refresh.stderr}`);
       assert(readFileSync(contextPath, "utf8") === founderContext, "entrypoint refresh must never overwrite founder-owned business context");
       assert(
-        existsSync(path.join(target, ".b2c-launch", "preserved-entrypoints", "AGENTS.md")),
-        "entrypoint refresh must preserve replaced prompt bytes for recovery",
+        readFileSync(path.join(target, "AGENTS.md"), "utf8").endsWith("\nFounder-specific project note.\n"),
+        "entrypoint refresh must keep founder instructions active in the canonical guide",
       );
     },
   );

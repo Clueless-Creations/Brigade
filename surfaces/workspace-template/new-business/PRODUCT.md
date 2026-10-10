@@ -65,5 +65,5 @@ business risks. Name the evidence that can resolve each risk.
 ## Source ownership and state boundary
 
 `product.yaml` owns product meaning. `PRODUCT.md` is its rendered index.
-`strategy/RESEARCH.md` owns evidence. `DESIGN.md` owns design. Use `b2c status`
-and `b2c plan` for execution state. Git owns revisions.
+`strategy/RESEARCH.md` owns evidence. `DESIGN.md` owns design. Use `b2c business-status`
+and `b2c business-plan` for execution state. Git owns revisions.

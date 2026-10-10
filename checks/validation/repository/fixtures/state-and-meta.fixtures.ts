@@ -737,7 +737,7 @@ export function register(h: Harness): void {
   writeBusinessEntrypoints(continuityMissingAgents);
   writeFileSync(
     path.join(continuityMissingAgents, "AGENTS.md"),
-    readFileSync(path.join(continuityMissingAgents, "AGENTS.md"), "utf8").replaceAll("b2c status", "status unavailable"),
+    readFileSync(path.join(continuityMissingAgents, "AGENTS.md"), "utf8").replaceAll("b2c business-status", "status unavailable"),
     "utf8",
   );
   runFixture("generated business without the status entrypoint fails", continuityMissingAgents, "check-continuity-contract.ts", 1, "continuity.term_missing");
