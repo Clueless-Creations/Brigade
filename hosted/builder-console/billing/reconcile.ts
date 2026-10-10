@@ -107,15 +107,18 @@ export async function priceIdForLookupKey(lookupKey: string, secretKey: string, 
     accountId,
     fetchImpl,
   });
-  const parsed = z.object({ data: z.array(z.object({ id: z.string().min(1) })) }).safeParse(result);
+  const parsed = z.object({ data: z.array(z.object({ id: z.string().min(1) })), has_more: z.boolean() }).safeParse(result);
   if (!parsed.success) throw new ReconcileEvidenceError("stripe_invalid_response");
+  // One lookup key identifies one active price. An incomplete list cannot establish absence
+  // or a unique match; leave the prior observation unchanged for the next bounded retry.
+  if (parsed.data.has_more) throw new ReconcileEvidenceError("stripe_incomplete_response");
   return parsed.data.data[0]?.id ?? null;
 }
 
 export interface CustomerSubscriptionList {
   /** Every Subscription object Stripe returned, as sent — callers parse what they need. */
   readonly data: unknown[];
-  /** False only when the page cap below was reached with `has_more` still true. */
+  /** False when the page cap is reached or pagination cannot continue to an explicit end. */
   readonly complete: boolean;
 }
 
@@ -152,7 +155,7 @@ export async function listCustomerSubscriptions(
     });
     // `looseObject`, not `object`: the elements are handed on whole, and zod's default object
     // would strip every field this envelope does not name before a caller could read them.
-    const parsed = z.object({ data: z.array(z.looseObject({ id: z.string().min(1) })), has_more: z.boolean().optional().default(false) }).safeParse(result);
+    const parsed = z.object({ data: z.array(z.looseObject({ id: z.string().min(1) })), has_more: z.boolean() }).safeParse(result);
     if (!parsed.success) throw new ReconcileEvidenceError("stripe_invalid_response");
     data.push(...parsed.data.data);
     if (!parsed.data.has_more) return { data, complete: true };

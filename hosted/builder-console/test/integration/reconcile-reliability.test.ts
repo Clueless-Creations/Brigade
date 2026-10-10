@@ -45,7 +45,7 @@ test("refresh begins before expiry, leaving time to retry without changing the a
     const summary = await reconcileStaleEntitlements(tenant, {
       secretKey: "rk_test_reliability",
       now,
-      fetchImpl: stripe({ data: [{ id: "price_fixture" }] }, { data: [{ id: "sub_fixture", status: "active" }] }),
+      fetchImpl: stripe({ has_more: false, data: [{ id: "price_fixture" }] }, { has_more: false, data: [{ id: "sub_fixture", status: "active" }] }),
     });
     assert.equal(summary.staleness.scanned, 1);
     assert.equal(summary.staleness.updated, 1);
@@ -62,11 +62,11 @@ test("refresh begins before expiry, leaving time to retry without changing the a
 });
 
 for (const [name, prices, subscriptions] of [
-  ["price", { wrong: [] }, { data: [] }],
-  ["emptyprice", { data: [{ id: "" }] }, { data: [{ id: "sub_fixture", status: "active" }] }],
-  ["subscription", { data: [{ id: "price_fixture" }] }, { data: [{ id: "sub_fixture" }] }],
-  ["emptysubscription", { data: [{ id: "price_fixture" }] }, { data: [{ id: "", status: "active" }] }],
-  ["status", { data: [{ id: "price_fixture" }] }, { data: [{ id: "sub_fixture", status: "unexpected" }] }],
+  ["price", { wrong: [] }, { has_more: false, data: [] }],
+  ["emptyprice", { has_more: false, data: [{ id: "" }] }, { has_more: false, data: [{ id: "sub_fixture", status: "active" }] }],
+  ["subscription", { has_more: false, data: [{ id: "price_fixture" }] }, { has_more: false, data: [{ id: "sub_fixture" }] }],
+  ["emptysubscription", { has_more: false, data: [{ id: "price_fixture" }] }, { has_more: false, data: [{ id: "", status: "active" }] }],
+  ["status", { has_more: false, data: [{ id: "price_fixture" }] }, { has_more: false, data: [{ id: "sub_fixture", status: "unexpected" }] }],
 ] as const) {
   test(`invalid ${name} evidence preserves the row without extending access`, async () => {
     const harness = await createTestDatabase();
@@ -88,7 +88,10 @@ for (const [name, prices, subscriptions] of [
 }
 
 test("a valid empty price or subscription list still revokes access", async () => {
-  for (const prices of [{ data: [] }, { data: [{ id: "price_fixture" }] }]) {
+  for (const prices of [
+    { has_more: false, data: [] },
+    { has_more: false, data: [{ id: "price_fixture" }] },
+  ]) {
     const harness = await createTestDatabase();
     try {
       const now = new Date();
@@ -96,7 +99,7 @@ test("a valid empty price or subscription list still revokes access", async () =
       const summary = await reconcileStaleEntitlements(tenantDb(harness.db), {
         secretKey: "rk_test_reliability",
         now,
-        fetchImpl: stripe(prices, { data: [] }),
+        fetchImpl: stripe(prices, { has_more: false, data: [] }),
       });
       assert.equal(summary.staleness.updated, 1);
       assert.equal((await harness.readEntitlement(account, KEY))?.active, 0);
@@ -115,12 +118,12 @@ test("one failed row does not stop other tenants, and failure reasons have bound
     }
     const fetchImpl = (async (input) => {
       const url = new URL(String(input));
-      if (url.pathname.endsWith("/prices")) return Response.json({ data: [{ id: "price_fixture" }] });
+      if (url.pathname.endsWith("/prices")) return Response.json({ has_more: false, data: [{ id: "price_fixture" }] });
       const customer = url.searchParams.get("customer");
       if (customer === "cus_transport") throw new Error("private transport detail");
       if (customer === "cus_invalid") return new Response("private malformed JSON");
       const status = customer === "cus_auth" ? 403 : customer === "cus_limit" ? 429 : customer === "cus_server" ? 503 : 200;
-      return Response.json({ data: [{ id: "sub_fixture", status: "trialing" }], private: "provider detail" }, { status });
+      return Response.json({ has_more: false, data: [{ id: "sub_fixture", status: "trialing" }], private: "provider detail" }, { status });
     }) as typeof fetch;
     const summary = await reconcileStaleEntitlements(tenantDb(harness.db), { secretKey: "rk_test_reliability", now, fetchImpl });
     assert.deepEqual(summary.staleness, {
@@ -156,6 +159,64 @@ test("the existing restricted-key refusal is distinguishable without disclosing 
     assert.equal(summary.staleness.failed, 1);
     assert.deepEqual(await harness.readEntitlement(account, KEY), before);
     assert.doesNotMatch(JSON.stringify(summary), /wrong-key-kind-fixture/);
+  } finally {
+    await harness.dispose();
+  }
+});
+
+for (const [name, prices, subscriptions, reason] of [
+  ["price-absent", { data: [] }, { data: [], has_more: false }, "stripe_invalid_response"],
+  ["price-wrong", { data: [], has_more: "false" }, { data: [], has_more: false }, "stripe_invalid_response"],
+  ["price-incomplete", { data: [], has_more: true }, { data: [], has_more: false }, "stripe_incomplete_response"],
+  ["price-partial", { data: [{ id: "price_fixture" }], has_more: true }, { data: [], has_more: false }, "stripe_incomplete_response"],
+  ["subscription-absent", { data: [{ id: "price_fixture" }], has_more: false }, { data: [] }, "stripe_invalid_response"],
+  [
+    "subscription-canceled",
+    { data: [{ id: "price_fixture" }], has_more: false },
+    { data: [{ id: "sub_fixture", status: "canceled" }] },
+    "stripe_invalid_response",
+  ],
+  ["subscription-wrong", { data: [{ id: "price_fixture" }], has_more: false }, { data: [], has_more: "false" }, "stripe_invalid_response"],
+  ["subscription-incomplete", { data: [{ id: "price_fixture" }], has_more: false }, { data: [], has_more: true }, "stripe_incomplete_response"],
+] as const) {
+  test(`uncertain list completeness (${name}) cannot revoke or refresh an entitlement`, async () => {
+    const harness = await createTestDatabase();
+    try {
+      const now = new Date();
+      const account = await seed(harness, name.replaceAll("-", ""), new Date(now.getTime() - 25 * HOUR));
+      const before = await harness.readEntitlement(account, KEY);
+      const tenant = tenantDb(harness.db);
+      const summary = await reconcileStaleEntitlements(tenant, { secretKey: "rk_test_reliability", now, fetchImpl: stripe(prices, subscriptions) });
+      assert.equal(summary.staleness.failed, 1);
+      assert.equal(summary.staleness.updated, 0);
+      assert.deepEqual(summary.staleness.failureReasons, { [reason]: 1 });
+      assert.deepEqual(await harness.readEntitlement(account, KEY), before);
+      await assert.rejects(tenant.assertEntitled(account, KEY, now.getTime()), (error) => error instanceof AccessError && error.status === 503);
+    } finally {
+      await harness.dispose();
+    }
+  });
+}
+
+test("complete subscription pagination retains an active plan on a later page", async () => {
+  const harness = await createTestDatabase();
+  try {
+    const now = new Date();
+    const account = await seed(harness, "paged", new Date(now.getTime() - 25 * HOUR));
+    const cursors: (string | null)[] = [];
+    const fetchImpl = (async (input) => {
+      const url = new URL(String(input));
+      if (url.pathname.endsWith("/prices")) return Response.json({ data: [{ id: "price_fixture" }], has_more: false });
+      const cursor = url.searchParams.get("starting_after");
+      cursors.push(cursor);
+      return cursor === null
+        ? Response.json({ data: [{ id: "sub_canceled", status: "canceled" }], has_more: true })
+        : Response.json({ data: [{ id: "sub_active", status: "active" }], has_more: false });
+    }) as typeof fetch;
+    const summary = await reconcileStaleEntitlements(tenantDb(harness.db), { secretKey: "rk_test_reliability", now, fetchImpl });
+    assert.deepEqual(cursors, [null, "sub_canceled"]);
+    assert.deepEqual(summary.staleness, { scanned: 1, updated: 1, failed: 0, failureReasons: {} });
+    assert.equal((await harness.readEntitlement(account, KEY))?.active, 1);
   } finally {
     await harness.dispose();
   }

@@ -41,7 +41,8 @@ an SDK call that silently fails to fetch or persist them does not count as succe
 
 Entitlement reconciliation starts after twelve hours without an observation, leaving twelve
 hours for retry before the unchanged 24-hour access ceiling. Each sweep stays bounded and
-continues after individual row failures. Malformed or incomplete Stripe responses leave the
+continues after individual row failures. List responses must provide an explicit boolean
+`has_more`; only a complete list establishes absence. Malformed or incomplete Stripe responses leave the
 last observation unchanged; valid evidence of no active plan still revokes access. Preserving
 an observation does not extend its freshness or grant access beyond the ceiling.
 

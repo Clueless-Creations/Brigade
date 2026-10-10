@@ -155,10 +155,10 @@ test("scheduled billing failures stay visible while healthy rows reconcile and r
     t.mock.method(globalThis, "fetch", async (input: string | URL | Request) => {
       const url = new URL(String(input));
       if (url.pathname === "/flags/definitions") return Response.json({ flags: [] });
-      if (url.pathname.endsWith("/prices")) return Response.json({ data: [{ id: "price_fixture" }] });
+      if (url.pathname.endsWith("/prices")) return Response.json({ has_more: false, data: [{ id: "price_fixture" }] });
       if (url.searchParams.get("customer") === "cus_broken")
         return Response.json({ error: { message: "provider-private-detail", customer: "cus_broken" } }, { status: 403 });
-      return Response.json({ data: [{ id: "sub_fixture", status: "active" }] });
+      return Response.json({ has_more: false, data: [{ id: "sub_fixture", status: "active" }] });
     });
     const { outcomes } = await scheduled({ DB: harness.db, POSTHOG_FEATURE_FLAGS_SECURE_KEY: "fixture_flags_key" });
     assert.equal(outcomes.filter((outcome) => outcome.status === "rejected").length, 1);
@@ -191,8 +191,8 @@ test("scheduled reconciliation refreshes a stale entitlement through an organiza
     t.mock.method(globalThis, "fetch", async (input: string | URL | Request, init?: RequestInit) => {
       contexts.push(new Headers(init?.headers).get("Stripe-Context"));
       return new URL(String(input)).pathname.endsWith("/prices")
-        ? Response.json({ data: [{ id: "price_fixture" }] })
-        : Response.json({ data: [{ id: "sub_fixture", status: "active" }] });
+        ? Response.json({ has_more: false, data: [{ id: "price_fixture" }] })
+        : Response.json({ has_more: false, data: [{ id: "sub_fixture", status: "active" }] });
     });
     const { outcomes } = await scheduled({ DB: harness.db, STRIPE_RESTRICTED_KEY: "sk_org_fixture", STRIPE_ACCOUNT_ID: "acct_fixture" });
     assert.ok(outcomes.every((outcome) => outcome.status === "fulfilled"));

@@ -27,10 +27,10 @@ function fakeStripeFetch(responses: { readonly prices?: unknown; readonly subscr
   return (async (input: string | URL | Request) => {
     const url = typeof input === "string" ? input : input instanceof Request ? input.url : input.toString();
     const body = url.includes("/v1/prices")
-      ? (responses.prices ?? { data: [] })
+      ? (responses.prices ?? { has_more: false, data: [] })
       : url.includes("/v1/subscriptions")
-        ? (responses.subscriptions ?? { data: [] })
-        : { data: [] };
+        ? (responses.subscriptions ?? { has_more: false, data: [] })
+        : { has_more: false, data: [] };
     return new Response(JSON.stringify(body), { status: 200, headers: { "Content-Type": "application/json" } });
   }) as typeof fetch;
 }
@@ -75,8 +75,8 @@ test("the staleness sweep, told by Stripe that a subscription is past_due, keeps
       secretKey: SECRET_KEY,
       now,
       fetchImpl: fakeStripeFetch({
-        prices: { data: [{ id: "price_reconstalegr1" }] },
-        subscriptions: { data: [{ id: "sub_reconstalegr1", status: "past_due" }] },
+        prices: { has_more: false, data: [{ id: "price_reconstalegr1" }] },
+        subscriptions: { has_more: false, data: [{ id: "sub_reconstalegr1", status: "past_due" }] },
       }),
     });
 
@@ -213,8 +213,8 @@ test("the staleness sweep revokes a past_due subscription this Worker has never 
     // Deliberately no upsertSubscription: the entitlement exists (an invoice.paid granted it) but
     // no subscription event was ever mirrored, so there is no row for a dunning stamp to live on.
     const stripe = fakeStripeFetch({
-      prices: { data: [{ id: "price_reconunmirror1" }] },
-      subscriptions: { data: [{ id: "sub_reconunmirror1", status: "past_due" }] },
+      prices: { has_more: false, data: [{ id: "price_reconunmirror1" }] },
+      subscriptions: { has_more: false, data: [{ id: "sub_reconunmirror1", status: "past_due" }] },
     });
 
     const first = await reconcileStaleEntitlements(tenant, { secretKey: SECRET_KEY, now, fetchImpl: stripe });
