@@ -31,6 +31,28 @@ interest collector above is the fallback whenever the gate resolves closed or a 
 fails. The disclosure the interest form makes — "we'll email you a Stripe payment link for the
 monthly or annual plan" — is only shown in that fallback.
 
+## Scheduled recovery
+
+The five-minute scheduled handler runs flag refresh and billing reconciliation independently.
+When `CHECKOUT_ENABLED` is exactly `"on"`, an absent flag-definition key is explicitly skipped:
+that supported mode does not read the flag cache. A configured key still triggers refresh.
+Every other mode requires the key. Refresh succeeds only after definitions are written to KV;
+an SDK call that silently fails to fetch or persist them does not count as success.
+
+Entitlement reconciliation starts after twelve hours without an observation, leaving twelve
+hours for retry before the unchanged 24-hour access ceiling. Each sweep stays bounded and
+continues after individual row failures. List responses must provide an explicit boolean
+`has_more`; only a complete list establishes absence. Malformed or incomplete Stripe responses leave the
+last observation unchanged; valid evidence of no active plan still revokes access. Preserving
+an observation does not extend its freshness or grant access beyond the ceiling.
+
+The database binding is required for billing; its absence fails that scheduled job explicitly.
+Scheduled logs report completion, explicit skips, or failures with counts in fixed categories.
+Row failures reject the billing job after the batch finishes, so successful rows remain updated
+and the scheduler can observe partial failure. Diagnostics exclude account IDs, provider
+payloads, credentials, and raw exceptions. These signals establish what a sweep did, not that
+every account or provider is healthy.
+
 ## Browser pages
 
 Every page is zero-JavaScript HTML on the shared theme (`hosted/knowledge-mcp/theme.ts`, the
@@ -432,7 +454,7 @@ registered.
 | `GOOGLE_CLIENT_ID`            | OAuth 2.0 Web Client id (M3)                             | Secret binding with the same name |
 | `GOOGLE_CLIENT_SECRET`        | OAuth 2.0 Web Client secret (M3)                         | Secret binding with the same name |
 | `B2C_APP_CONSOLE_AUTH_SECRET` | Signs the console's CSRF tokens (M5, `console/pages.ts`) | Secret binding with the same name |
-| `STRIPE_RESTRICTED_KEY`       | Server-side Stripe calls, `rk_`-prefixed (M6)            | Secret binding with the same name |
+| `STRIPE_RESTRICTED_KEY`       | Server-side Stripe calls: account restricted key or operator-scoped organization key (M6) | Secret binding with the same name |
 | `STRIPE_WEBHOOK_SECRET`       | Verifies `Stripe-Signature` (M6)                         | Secret binding with the same name |
 | `RESEND_API_KEY`              | Sends the billing notices in `mail/` (optional; unset = mail off) | Secret binding with the same name |
 
@@ -512,10 +534,13 @@ AGENTS.md's Authority section. Each milestone adds its own section here as it la
    **Customers (Write)**, **Checkout Sessions (Write)**, **Customer portal, i.e. the Billing
    Portal, (Write)**, **Prices (Read)**, **Subscriptions (Read)** (also what the return-from-Stripe
    resync reads), **Invoices (Read)**. The key
-   must start with `rk_`; `stripeApiRequest` (`hosted/builder-console/billing/stripe.ts`) asserts that prefix at
-   the point it is used and refuses to call Stripe with anything else, so a full secret key pasted
-   into this slot by mistake fails closed on the first request instead of silently running with
-   more privilege than intended.
+   uses the `rk_` prefix for an account restricted key. Existing organization deployments may
+   use an [organization API key](https://docs.stripe.com/keys/organization-api-keys), which uses
+   `sk_org_` for every permission level. Scope it to the same minimum resources and configure
+   `STRIPE_ACCOUNT_ID` explicitly. The gateway validates that account context and pins the API
+   version; it never infers an account. The prefix does not prove that permissions are restricted:
+   the operator must verify them in Stripe. Account-level unrestricted `sk_live_` and `sk_test_`
+   keys remain refused. Prefer an account restricted key for a single-account deployment.
 
    The Customer Portal additionally needs its own one-time setup, separate from the API key: open
    Dashboard → Settings → Billing → Customer portal and save a configuration (even the defaults)

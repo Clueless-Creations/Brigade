@@ -9,9 +9,8 @@
  *      whose retries Stripe exhausted after the webhook answered 5xx (webhook.ts, step 5 of its
  *      own doc comment), a missed delivery Stripe gave up retrying. `ENTITLEMENT_STALENESS_CEILING_MS`
  *      (db/tenant.ts) is the same 24-hour bound `assertEntitled` already enforces at read time;
- *      this sweep's only purpose is to keep real-world staleness close to that nominal ceiling by
- *      running far more often than the ceiling requires, so a stale row is caught within minutes
- *      of crossing the threshold rather than sitting there until the next infrequent sweep.
+ *      this sweep starts halfway to that ceiling, leaving twelve hours for bounded retries
+ *      before an unchanged read-time gate must refuse access.
  *
  *   2. The grace sweep revokes access from a `past_due` subscription whose grace window
  *      (`PAST_DUE_GRACE_MS`, `billing/entitlement-policy.ts`) has run out, deterministically —
@@ -26,24 +25,63 @@
  */
 
 import { z } from "zod";
-import { ENTITLEMENT_STALENESS_CEILING_MS, type AccountId, type TenantDb } from "../../knowledge-mcp/db/tenant.js";
+import { ENTITLEMENT_STALENESS_CEILING_MS, SUBSCRIPTION_STATUSES, type AccountId, type TenantDb } from "../../knowledge-mcp/db/tenant.js";
 import { PAST_DUE_GRACE_MS, resolveEntitlement } from "./entitlement-policy.js";
-import { stripeApiRequest, StripeApiError } from "./stripe.js";
+import { stripeApiRequest, StripeApiError, StripeConfigurationError } from "./stripe.js";
 
 export interface ReconcileEnv {
   readonly STRIPE_RESTRICTED_KEY: string;
+}
+
+/** Refresh twice per ceiling window; transient failures have time to recover before access expires. */
+export const ENTITLEMENT_REFRESH_AGE_MS = ENTITLEMENT_STALENESS_CEILING_MS / 2;
+
+export type ReconcileFailureReason =
+  | "stripe_configuration"
+  | "stripe_authentication"
+  | "stripe_rate_limit"
+  | "stripe_unavailable"
+  | "stripe_request_failed"
+  | "stripe_invalid_response"
+  | "stripe_incomplete_response"
+  | "operation_failed";
+
+/** Fixed categories only: never include account IDs, provider bodies, or exception messages. */
+export type ReconcileFailureCounts = Partial<Record<ReconcileFailureReason, number>>;
+
+class ReconcileEvidenceError extends Error {
+  constructor(readonly reason: "stripe_invalid_response" | "stripe_incomplete_response") {
+    super(reason);
+  }
+}
+
+function countFailure(counts: ReconcileFailureCounts, error: unknown): void {
+  let reason: ReconcileFailureReason = "operation_failed";
+  // The request gateway owns credential validation; do not duplicate its accepted key kinds.
+  if (error instanceof StripeConfigurationError) reason = "stripe_configuration";
+  else if (error instanceof ReconcileEvidenceError) reason = error.reason;
+  else if (error instanceof StripeApiError) {
+    if (error.status === 401 || error.status === 403) reason = "stripe_authentication";
+    else if (error.status === 429) reason = "stripe_rate_limit";
+    else if (error.status >= 500) reason = "stripe_unavailable";
+    else if (error.status >= 200 && error.status < 300) reason = "stripe_invalid_response";
+    else reason = "stripe_request_failed";
+  }
+  counts[reason] = (counts[reason] ?? 0) + 1;
 }
 
 export interface StalenessSweepSummary {
   readonly scanned: number;
   readonly updated: number;
   readonly failed: number;
+  readonly failureReasons: ReconcileFailureCounts;
 }
 
 export interface GraceSweepSummary {
   readonly scanned: number;
   readonly revoked: number;
   readonly failed: number;
+  readonly failureReasons: ReconcileFailureCounts;
 }
 
 export interface ReconcileSummary {
@@ -69,14 +107,18 @@ export async function priceIdForLookupKey(lookupKey: string, secretKey: string, 
     accountId,
     fetchImpl,
   });
-  const parsed = z.object({ data: z.array(z.object({ id: z.string() })) }).safeParse(result);
-  return parsed.success ? (parsed.data.data[0]?.id ?? null) : null;
+  const parsed = z.object({ data: z.array(z.object({ id: z.string().min(1) })), has_more: z.boolean() }).safeParse(result);
+  if (!parsed.success) throw new ReconcileEvidenceError("stripe_invalid_response");
+  // One lookup key identifies one active price. An incomplete list cannot establish absence
+  // or a unique match; leave the prior observation unchanged for the next bounded retry.
+  if (parsed.data.has_more) throw new ReconcileEvidenceError("stripe_incomplete_response");
+  return parsed.data.data[0]?.id ?? null;
 }
 
 export interface CustomerSubscriptionList {
   /** Every Subscription object Stripe returned, as sent — callers parse what they need. */
   readonly data: unknown[];
-  /** False only when the page cap below was reached with `has_more` still true. */
+  /** False when the page cap is reached or pagination cannot continue to an explicit end. */
   readonly complete: boolean;
 }
 
@@ -113,8 +155,8 @@ export async function listCustomerSubscriptions(
     });
     // `looseObject`, not `object`: the elements are handed on whole, and zod's default object
     // would strip every field this envelope does not name before a caller could read them.
-    const parsed = z.object({ data: z.array(z.looseObject({ id: z.string() })), has_more: z.boolean().optional().default(false) }).safeParse(result);
-    if (!parsed.success) throw new StripeApiError(502, result);
+    const parsed = z.object({ data: z.array(z.looseObject({ id: z.string().min(1) })), has_more: z.boolean() }).safeParse(result);
+    if (!parsed.success) throw new ReconcileEvidenceError("stripe_invalid_response");
     data.push(...parsed.data.data);
     if (!parsed.data.has_more) return { data, complete: true };
     startingAfter = parsed.data.data.at(-1)?.id;
@@ -151,9 +193,16 @@ async function resolveStripeEntitlement(
   // A list cut off at the page cap says nothing about the subscriptions it did not reach;
   // concluding "no live plan" from it would revoke on a partial read. Thrown, so the sweep counts
   // it as a failure and leaves the row stale for the next run, per its own doc comment.
-  if (!list.complete) throw new Error(`reconcile: subscription list for ${stripeCustomerId} was cut off at the page cap`);
-  const parsed = z.array(z.object({ id: z.string(), status: z.string() })).safeParse(list.data);
-  if (!parsed.success) return false;
+  if (!list.complete) throw new ReconcileEvidenceError("stripe_incomplete_response");
+  const parsed = z
+    .array(
+      z.object({
+        id: z.string(),
+        status: z.enum(SUBSCRIPTION_STATUSES),
+      }),
+    )
+    .safeParse(list.data);
+  if (!parsed.success) throw new ReconcileEvidenceError("stripe_invalid_response");
   const subscriptions = parsed.data;
   if (subscriptions.some((subscription) => subscription.status === "active" || subscription.status === "trialing")) return true;
   const pastDue = subscriptions.find((subscription) => subscription.status === "past_due");
@@ -202,7 +251,7 @@ async function runStalenessSweep(
     readonly now: Date;
   },
 ): Promise<StalenessSweepSummary> {
-  const cutoff = opts.olderThan ?? new Date(opts.now.getTime() - ENTITLEMENT_STALENESS_CEILING_MS);
+  const cutoff = opts.olderThan ?? new Date(opts.now.getTime() - ENTITLEMENT_REFRESH_AGE_MS);
   const stale = await tenant.listStaleEntitlements(cutoff, opts.limit ?? 100);
 
   // Fresh per invocation, not module-level: a lookup_key is meant to stay pointed at one Price
@@ -213,6 +262,7 @@ async function runStalenessSweep(
   const priceCache = new Map<string, string | null>();
   let updated = 0;
   let failed = 0;
+  const failureReasons: ReconcileFailureCounts = {};
   for (const entitlement of stale) {
     try {
       let priceId = priceCache.get(entitlement.lookupKey);
@@ -245,11 +295,12 @@ async function runStalenessSweep(
         opts.now,
       );
       updated += 1;
-    } catch {
+    } catch (error) {
       failed += 1;
+      countFailure(failureReasons, error);
     }
   }
-  return { scanned: stale.length, updated, failed };
+  return { scanned: stale.length, updated, failed, failureReasons };
 }
 
 /**
@@ -274,6 +325,7 @@ async function runGraceSweep(tenant: TenantDb, opts: { readonly limit?: number; 
   const overGrace = await tenant.listOverGracePastDueSubscriptions(cutoff, opts.limit ?? 100);
   let revoked = 0;
   let failed = 0;
+  const failureReasons: ReconcileFailureCounts = {};
   for (const subscription of overGrace) {
     try {
       const { active } = resolveEntitlement({ status: "past_due", pastDueSince: subscription.pastDueSince, now: opts.now });
@@ -294,11 +346,12 @@ async function runGraceSweep(tenant: TenantDb, opts: { readonly limit?: number; 
         );
       }
       revoked += 1;
-    } catch {
+    } catch (error) {
       failed += 1;
+      countFailure(failureReasons, error);
     }
   }
-  return { scanned: overGrace.length, revoked, failed };
+  return { scanned: overGrace.length, revoked, failed, failureReasons };
 }
 
 /**

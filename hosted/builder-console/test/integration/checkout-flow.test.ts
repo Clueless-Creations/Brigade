@@ -157,7 +157,7 @@ before(async () => {
       stripeCalls.push({ url, body });
       const lookupKey = new URL(url).searchParams.get("lookup_keys[]");
       const priceId = lookupKey === "b2c_pro_monthly" ? "price_MONTHLY0001" : lookupKey === "b2c_pro_annual" ? "price_ANNUAL00001" : undefined;
-      return new Response(JSON.stringify({ data: priceId ? [{ id: priceId }] : [] }), { status: 200, headers: { "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ has_more: false, data: priceId ? [{ id: priceId }] : [] }), { status: 200, headers: { "Content-Type": "application/json" } });
     }
     if (url.startsWith("https://api.stripe.com/v1/subscriptions?")) {
       stripeCalls.push({ url, body });

@@ -274,7 +274,13 @@ async function renderConsoleHome(
         const recentlySynced = (await env.FLAGS_KV.get(memo).catch(() => null)) !== null;
         if (!recentlySynced) {
           await env.FLAGS_KV.put(memo, now.toISOString(), { expirationTtl: ttl }).catch(() => undefined);
-          await syncSubscriptionsFromStripe(tenant, session.accountId, stripeCustomerId, { secretKey: env.STRIPE_RESTRICTED_KEY, accountId: env.STRIPE_ACCOUNT_ID }, now);
+          await syncSubscriptionsFromStripe(
+            tenant,
+            session.accountId,
+            stripeCustomerId,
+            { secretKey: env.STRIPE_RESTRICTED_KEY, accountId: env.STRIPE_ACCOUNT_ID },
+            now,
+          );
           subscriptions = await tenant.listSubscriptionsForAccount(session.accountId);
         }
       } catch (error) {
@@ -908,17 +914,48 @@ export default {
    * fetch PostHog flag definitions and write them to KV, and the only place the feature-flags
    * secure key is read.
    *
-   * A failure in the flag refresh is loud rather than swallowed: the request path fails closed
-   * on stale definitions, so a silently broken refresher would hide Checkout indefinitely with
-   * no signal. Reconciliation runs on the same five-minute trigger rather than a schedule of its
+   * A missing flag key is optional only in the explicit operator-enabled Checkout mode.
+   * Configured refreshes and flag-controlled Checkout still report failures. Reconciliation
+   * runs independently on the same five-minute trigger rather than a schedule of its
    * own — entitlements_by_staleness (0003_billing.sql) and subscriptions_past_due_by_stamp
    * (0007_past_due_grace.sql) are both cheap to scan when nothing is stale or over grace.
    * `reconcileStaleEntitlements` (billing/reconcile.ts) runs both of its sweeps here in one call.
    */
   async scheduled(_event: ScheduledController, env: AppEnv, ctx: ExecutionContext): Promise<void> {
-    ctx.waitUntil(refreshFlagDefinitions(env, env.FLAGS_KV));
+    if (env.CHECKOUT_ENABLED === "on" && !env.POSTHOG_FEATURE_FLAGS_SECURE_KEY) {
+      console.info("scheduled_flag_refresh", { outcome: "skipped", reason: "operator_enabled_without_flag_key" });
+    } else {
+      ctx.waitUntil(
+        refreshFlagDefinitions(env, env.FLAGS_KV).catch(() => {
+          console.error("scheduled_flag_refresh", {
+            outcome: "failed",
+            reason: env.POSTHOG_FEATURE_FLAGS_SECURE_KEY ? "refresh_failed" : "missing_configuration",
+          });
+          throw new Error("Scheduled flag refresh failed");
+        }),
+      );
+    }
     // --- M6: entitlement reconciliation ---------------------------------------------------
     const tenant = tenantDbFromEnv(env);
-    if (tenant !== null) ctx.waitUntil(reconcileStaleEntitlements(tenant, { secretKey: env.STRIPE_RESTRICTED_KEY, accountId: env.STRIPE_ACCOUNT_ID }));
+    if (tenant === null) {
+      console.error("scheduled_entitlement_reconciliation", { outcome: "failed", reason: "missing_configuration" });
+      ctx.waitUntil(Promise.reject(new Error("Scheduled entitlement reconciliation requires the database binding")));
+    } else
+      ctx.waitUntil(
+        (async () => {
+          const summary = await reconcileStaleEntitlements(tenant, {
+            secretKey: env.STRIPE_RESTRICTED_KEY,
+            accountId: env.STRIPE_ACCOUNT_ID,
+          }).catch(() => {
+            console.error("scheduled_entitlement_reconciliation", { outcome: "failed", reason: "sweep_failed" });
+            throw new Error("Scheduled entitlement reconciliation failed");
+          });
+          if (summary.staleness.failed > 0 || summary.graceSweep.failed > 0) {
+            console.error("scheduled_entitlement_reconciliation", { outcome: "partial_failure", ...summary });
+            throw new Error("Scheduled entitlement reconciliation had row failures");
+          }
+          console.info("scheduled_entitlement_reconciliation", { outcome: "completed", ...summary });
+        })(),
+      );
   },
 } satisfies ExportedHandler<AppEnv>;
