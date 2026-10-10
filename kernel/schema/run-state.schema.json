@@ -68,11 +68,31 @@
     },
     "artifactBindings": { "type": "array", "items": { "$ref": "#/$defs/artifactBinding" } },
     "nodes": { "type": "object", "additionalProperties": { "$ref": "#/$defs/runNode" } },
-    "publicRequests": { "type": "object", "additionalProperties": {
-      "type": "object", "additionalProperties": false, "required": ["requestDigest", "sessionId", "status"],
-      "properties": {"requestDigest": {"type":"string","pattern":"^sha256:[a-f0-9]{64}$"},"sessionId":{"type":"string"},"status":{"enum":["running","completed"]},
-      "result":{"type":"object","additionalProperties":false,"required":["runId","planId","outcome","completed","held"],"properties":{"runId":{"type":["string","null"]},"planId":{"type":["string","null"]},"outcome":{"type":"string"},"completed":{"type":"integer","minimum":0},"held":{"type":"integer","minimum":0}}}}
-    }},
+    "publicRequests": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requestDigest", "sessionId", "status"],
+        "properties": {
+          "requestDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "sessionId": { "type": "string" },
+          "status": { "enum": ["running", "completed"] },
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["runId", "planId", "outcome", "completed", "held"],
+            "properties": {
+              "runId": { "type": ["string", "null"] },
+              "planId": { "type": ["string", "null"] },
+              "outcome": { "type": "string" },
+              "completed": { "type": "integer", "minimum": 0 },
+              "held": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
     "archivedPlans": { "type": "array", "items": { "$ref": "#/$defs/archivedPlan" } },
     "workOrders": {
       "type": "object",
@@ -196,6 +216,36 @@
         "error": { "type": "string" },
         "readbackRequired": { "type": "boolean" },
         "readbackEvidence": { "type": "string" },
+        "processSettlement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["outputStreamsClosed", "localRetryAllowed"],
+          "allOf": [
+            { "if": { "required": ["stoppedAt"] }, "then": { "required": ["stopEvidence", "identity"] } },
+            { "if": { "required": ["stopEvidence"] }, "then": { "required": ["stoppedAt", "identity"] } },
+            {
+              "if": { "required": ["stopEvidence"], "properties": { "stopEvidence": { "const": "group_absent" } } },
+              "then": { "properties": { "outputStreamsClosed": { "const": true } } }
+            }
+          ],
+          "properties": {
+            "identity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["processGroupId", "hostFingerprint", "bootFingerprint"],
+              "properties": {
+                "processGroupId": { "type": "integer", "minimum": 2, "maximum": 2147483647 },
+                "hostFingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "bootFingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "pidNamespaceFingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+              }
+            },
+            "outputStreamsClosed": { "type": "boolean" },
+            "localRetryAllowed": { "type": "boolean" },
+            "stoppedAt": { "$ref": "#/$defs/dateTime" },
+            "stopEvidence": { "enum": ["group_absent", "host_rebooted"] }
+          }
+        },
         "proofSource": { "enum": ["workspace", "synthetic"] },
         "independentVerification": { "$ref": "#/$defs/independentVerification" },
         "workOrderOccurrenceId": { "type": "string", "minLength": 1 },

@@ -421,14 +421,17 @@ export class OperationRouteRegistry {
         const allowedSource = structuredClone(node.sourceAccess ?? []),
           allowedOutputs = [...node.outputPaths],
           runtimeWrites = context.runtimeWrites;
-        let result: NodeExecutionResult;
+        let result: NodeExecutionResult | undefined;
         try {
           result = await route.executor.execute(node, context);
         } finally {
-          const violations = verifyWorkspaceChanges(context.workspaceDir, before, allowedSource, allowedOutputs, runtimeWrites);
+          const violations = result?.settlementUncertain
+            ? []
+            : verifyWorkspaceChanges(context.workspaceDir, before, allowedSource, allowedOutputs, runtimeWrites);
           if (violations.length)
             throw Error(`binding.worker_mutated_undeclared_workspace: ${workspaceMutationDetails(context.workspaceDir, before, violations)}`);
         }
+        if (result.settlementUncertain) return result;
         this.#route(node);
         executionCycle(node, context);
         if (result.status !== "succeeded") return result;
@@ -637,12 +640,14 @@ export class OperationRouteRegistry {
         validateWorkerOutputs(node, context.workspaceDir, outputs);
         const before = snapshotWorkspaceChanges(context.workspaceDir);
         const runtimeWrites = context.runtimeWrites;
-        let outcome: VerificationOutcome;
+        let outcome: VerificationOutcome | undefined;
         try {
           outcome = await route.verifier.verify(node, context);
         } finally {
-          if (verifyWorkspaceChanges(context.workspaceDir, before, [], [], runtimeWrites).length) throw Error("binding.verifier_mutated_workspace");
+          if (!outcome?.settlementUncertain && verifyWorkspaceChanges(context.workspaceDir, before, [], [], runtimeWrites).length)
+            throw Error("binding.verifier_mutated_workspace");
         }
+        if (outcome.settlementUncertain) return outcome;
         this.#route(node);
         validateWorkerOutputs(node, context.workspaceDir, outputs);
         return outcome;

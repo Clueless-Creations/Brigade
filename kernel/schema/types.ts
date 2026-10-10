@@ -463,6 +463,22 @@ export type ApprovalProvenance =
       validatedAt: string;
     };
 
+/** Host-owned identity of one POSIX invocation; raw machine identifiers never leave the host. */
+export interface LocalProcessIdentity {
+  processGroupId: number;
+  hostFingerprint: string;
+  bootFingerprint: string;
+  /** Linux process IDs are scoped by the native PID namespace. */
+  pidNamespaceFingerprint?: string;
+}
+
+export interface ProcessSettlementObservation {
+  /** Absent when native machine/boot identity cannot be obtained safely. */
+  identity?: LocalProcessIdentity;
+  /** Observed before forcibly closing any inherited output handles. */
+  outputStreamsClosed: boolean;
+}
+
 export interface AttemptRecordV2 {
   id: string;
   nodeId: string;
@@ -478,6 +494,12 @@ export interface AttemptRecordV2 {
   error?: string;
   readbackRequired: boolean;
   readbackEvidence?: string;
+  /** Process lifetime proof is separate from reconciliation of shared or external effects. */
+  processSettlement?: ProcessSettlementObservation & {
+    localRetryAllowed: boolean;
+    stoppedAt?: string;
+    stopEvidence?: "group_absent" | "host_rebooted";
+  };
   /** Optional link to a work-order occurrence. Attempts without a work order omit this field. */
   workOrderOccurrenceId?: string;
   /** Exact-attempt mechanical proof; required before independent review of a gated node. */
@@ -587,7 +609,7 @@ export interface RunStateDocument {
   /** Prior plan evidence is retained here and never participates in current dispatch. */
   archivedPlans?: ArchivedRunPlan[];
   /** Request receipts live with the run they control; they never grant authority. */
-  publicRequests?: Record<string,PublicSessionRecord>;
+  publicRequests?: Record<string, PublicSessionRecord>;
   /** Work-order occurrences are independent of attempts. Optional on runs without a work order. */
   workOrders?: Record<string, WorkOrderOccurrence>;
 }

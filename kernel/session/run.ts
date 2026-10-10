@@ -19,6 +19,7 @@ import {
   type ControlFile,
   type RunStateDocument,
   type PublicSessionResult,
+  type AttemptRecordV2,
 } from "../schema/types.js";
 import { compilePlan, type CatalogInput, type CompiledPlan, type CompiledRunNode, type RunNodeId } from "../engine/compile.js";
 import { computeFrontier, refreshAdmissibleConsumerIds } from "../engine/frontier.js";
@@ -34,6 +35,7 @@ import {
   isWallClockExceeded,
   loadRunState,
   reconcileEnvironmentalArtifacts,
+  reconcileAcceptedProducedArtifacts,
   reconcilePatch,
   reconcileRunPlan,
   invalidateStaleReviews,
@@ -107,6 +109,8 @@ import {
   createFixtureVerifier,
   createSlowSilentExecutor,
   noOpExecutor,
+  localProcessHostIdentity,
+  observeProcessSettlement,
   type NodeExecutor,
   type NodeVerifier,
   type WorkerRuntime,
@@ -208,6 +212,68 @@ export function resolveWorkspacePaths(root: string): WorkspacePaths {
   };
 }
 
+function localProcessRetryAllowed(node: CompiledRunNode): boolean {
+  return node.idempotent && !node.protectedCategory && ["observe", "draft"].includes(node.actionClass) && !node.sharedResources?.length;
+}
+
+function recoveredLocalProcess(attempt: AttemptRecordV2): boolean {
+  const settlement = attempt.processSettlement;
+  return Boolean(settlement?.localRetryAllowed && settlement.stoppedAt && settlement.stopEvidence && !attempt.readbackRequired);
+}
+
+function hasUnsettledProcess(run: RunStateDocument): boolean {
+  return [run, ...(run.archivedPlans ?? [])].some((history) =>
+    Object.values(history.nodes).some((state) => state.attempts.some((attempt) => attempt.processSettlement && !attempt.processSettlement.stoppedAt)),
+  );
+}
+
+/** Re-entry observes the original invocation; it grants no authority and accepts no output. */
+function recoverLocalProcessSettlements(plan: CompiledPlan, run: RunStateDocument, workspace: string, now: string): void {
+  if (!hasUnsettledProcess(run)) return;
+  const host = localProcessHostIdentity();
+  if (!host) return;
+  let changed = false;
+  for (const history of [run, ...(run.archivedPlans ?? [])]) {
+    for (const state of Object.values(history.nodes)) {
+      let recovered = false;
+      for (const attempt of state.attempts) {
+        const settlement = attempt.processSettlement;
+        if (!settlement || settlement.stoppedAt) continue;
+        const evidence = observeProcessSettlement(settlement, host);
+        if (!evidence) continue;
+        settlement.stoppedAt = now;
+        settlement.stopEvidence = evidence;
+        changed = true;
+        // Stopped local processes do not establish the result of a shared or external effect.
+        if (!settlement.localRetryAllowed) continue;
+        attempt.status = "failed";
+        attempt.readbackRequired = false;
+        if (attempt.workOrderOccurrenceId && history.workOrders?.[attempt.workOrderOccurrenceId]) {
+          // Use the occurrence owner for both active state and retained plan snapshots.
+          restoreOccurrenceAfterAttempt({ ...run, workOrders: history.workOrders }, attempt.workOrderOccurrenceId, now);
+        }
+        attempt.readbackEvidence =
+          evidence === "host_rebooted"
+            ? "The original host has rebooted; its prior invocation cannot still run. Outputs remain unaccepted."
+            : "The original invocation group is absent and its output streams were closed. Outputs remain unaccepted.";
+        recovered = true;
+      }
+      if (
+        recovered &&
+        state.status === "needs_readback" &&
+        !state.attempts.some((attempt) => attempt.readbackRequired || attempt.status === "needs_readback")
+      ) {
+        state.status = "pending";
+        state.blocker = undefined;
+      }
+    }
+  }
+  if (changed) {
+    reconcileAcceptedProducedArtifacts(plan, run, workspace, now);
+    run.updatedAt = now;
+  }
+}
+
 /** Close a settled interrupted public request without executing work or accepting evidence.
  * Stale lock recovery and uncertain-effect readback remain separate existing authority boundaries.
  */
@@ -287,6 +353,7 @@ export function recoverPublicRequest(
     if (record.status !== "running" || record.result) throw new Error("business.request_state_invalid");
     const heartbeatAt = Date.parse(run.heartbeatAt);
     if (!Number.isFinite(heartbeatAt) || Date.now() - heartbeatAt <= run.ttlSeconds * 1000) throw new Error("business.request_session_not_settled");
+    recoverLocalProcessSettlements(plan, run, workspace, new Date().toISOString());
     const uncertain = new Set(["running", "orphaned", "needs_readback"]);
     const histories = [run, ...(run.archivedPlans ?? [])];
     for (const history of histories) {
@@ -294,7 +361,7 @@ export function recoverPublicRequest(
       for (const state of Object.values(history.nodes)) {
         const node = history === run ? plan.nodes.find((entry) => entry.id === state.nodeId) : undefined;
         if (
-          state.attempts.some((attempt) => attempt.status === "failed") &&
+          state.attempts.some((attempt) => attempt.status === "failed" && !recoveredLocalProcess(attempt)) &&
           (!node || !node.idempotent || node.protectedCategory || !["observe", "draft"].includes(node.actionClass))
         )
           throw new Error("business.request_readback_required");
@@ -1159,6 +1226,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
     if (run) {
       run.ownerSessionId = sessionId;
       run.wallClockCapSeconds = wallClockCapSeconds;
+      recoverLocalProcessSettlements(plan, run, workspace, startedAt);
       orphanEvents = detectOrphans(plan, run, startedAt);
       for (const event of orphanEvents) {
         const title = plan.nodes.find((node) => node.id === event.nodeId)?.title ?? event.nodeId;
@@ -1380,14 +1448,16 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
           if (reviewOwnershipLost) throw new Error("shared_claim.ownership_lost");
           for (const claim of reviewClaims) assertSharedClaim(sharedHome, claim, sessionNow());
         };
-        const parkReviewReadback = (): void => {
+        const parkReviewReadback = (reason = "A shared resource needs reconciliation before independent review can resume.", error?: string): void => {
           deferredSharedReviews.add(nodeId);
           state.status = "needs_readback";
-          state.blocker = "A shared resource needs reconciliation before independent review can resume.";
+          state.blocker = reason;
           state.acceptedOutputFingerprint = undefined;
           state.verifiedBySessionId = undefined;
           if (attempt) {
             attempt.status = "needs_readback";
+            attempt.readbackRequired = true;
+            if (error) attempt.error = error;
             attempt.finishedAt = sessionNow();
             attempt.independentVerification = undefined;
           }
@@ -1418,6 +1488,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
               }
             : node;
           assertReviewOwnership();
+          if (hasUnsettledProcess(run)) break;
           const outcome = await verifier.verify(reviewNode, {
             executionDeadlineAt,
             runtimeWrites: reviewRuntimeWrites?.snapshot,
@@ -1428,6 +1499,15 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
             outputs,
             now: sessionNow(),
           });
+          if (outcome.settlementUncertain) {
+            if (attempt)
+              attempt.processSettlement = {
+                ...(outcome.processSettlement ?? { outputStreamsClosed: false }),
+                localRetryAllowed: localProcessRetryAllowed(node),
+              };
+            parkReviewReadback("The prior review process must be confirmed stopped before work or review can resume.", outcome.error);
+            continue;
+          }
           reviewRuntimeWrites?.assertIntact();
           assertReviewOwnership();
           // This exact candidate has now been judged (accepted/rejected) or attempted
@@ -1487,15 +1567,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
             advanced.push({ nodeId, title: node.title, unit: domainBusinessUnit(node.domainId, catalog.authority) });
             progressCount += 1;
           } else if (outcome.status === "rejected") {
-            recordRejectedVerification(
-              plan,
-              run,
-              nodeId,
-              [outcome.evidence],
-              judgedAt,
-              reviewReceipt,
-              rejectionOnly ? "failed" : "checked",
-            );
+            recordRejectedVerification(plan, run, nodeId, [outcome.evidence], judgedAt, reviewReceipt, rejectionOnly ? "failed" : "checked");
             state.blocker = VERIFICATION_REJECTED_BLOCKER;
             const repaired = requestVerificationRepair(plan, run, nodeId, [outcome.evidence], judgedAt, outcome.repairWorkflowIds);
             progressCount += repaired.length;
@@ -1559,6 +1631,10 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
       return registered ? `registered:${registered.id}` : `path:${createHash("sha256").update(canonical).digest("hex")}`;
     };
     dispatchLoop: while (true) {
+      if (hasUnsettledProcess(run)) {
+        anomalies.push({ message: "The prior worker process is not yet confirmed stopped. I kept this workspace paused before starting more work." });
+        break;
+      }
       const now = sessionNow();
       if (isWallClockExceeded(run, now, startedAt)) {
         timedOut = true;
@@ -1682,6 +1758,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
 
       const batches = buildDispatchBatches(plan, readyIds, maxConcurrency);
       for (const batch of batches) {
+        if (hasUnsettledProcess(run)) break dispatchLoop;
         let innerBoundary;
         try {
           innerBoundary = checkBatchBoundary(dispatchHooks);
@@ -1827,10 +1904,11 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
               if (sharedOwnershipLost) throw new Error("shared_claim.ownership_lost");
               for (const claim of sharedClaims) assertSharedClaim(sharedHome, claim, sessionNow());
             };
-            const parkSharedReadback = (): void => {
-              const reason = "A shared resource needs reconciliation before this work can resume.";
+            const parkSharedReadback = (reason = "A shared resource needs reconciliation before this work can resume.", error?: string): void => {
               deferredSharedResources.set(nodeId, reason);
               attempt.status = "needs_readback";
+              attempt.readbackRequired = true;
+              if (error) attempt.error = error;
               attempt.finishedAt = sessionNow();
               const current = run.nodes[nodeId]!;
               current.status = "needs_readback";
@@ -1944,6 +2022,32 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
               result = { status: "failed", outputs: [], evidence: [], error: "Shared-resource worker did not return a certain result." };
             } finally {
               clearInterval(heartbeatTimer);
+            }
+            if (result.settlementUncertain) {
+              attempt.processSettlement = {
+                ...(result.processSettlement ?? { outputStreamsClosed: false }),
+                localRetryAllowed: localProcessRetryAllowed(node),
+              };
+              retainUnacceptedCandidateOutputs(run, node, attempt.id, result.outputs);
+              parkSharedReadback("The prior worker process must be confirmed stopped before work can resume.", result.error);
+              return;
+            }
+            if (hasUnsettledProcess(run)) {
+              const reason = "Another worker process is not yet confirmed stopped; this candidate remains unaccepted.";
+              retainUnacceptedCandidateOutputs(run, node, attempt.id, result.outputs);
+              if (sharedClaims.length) {
+                parkSharedReadback(reason);
+              } else {
+                attempt.status = "failed";
+                attempt.error = reason;
+                attempt.finishedAt = sessionNow();
+                run.nodes[nodeId]!.status = "failed";
+                if (attempt.workOrderOccurrenceId) restoreOccurrenceAfterAttempt(run, attempt.workOrderOccurrenceId, sessionNow());
+                invalidateDescendants(plan, run, node.outputs, sessionNow());
+                requestExecutionRepair(plan, run, nodeId, reason, sessionNow());
+                writeRunState(paths.runState, run);
+              }
+              return;
             }
             runtimeWrites?.assertIntact();
             const finishedAt = sessionNow();
@@ -2135,7 +2239,7 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
     // fresh-context work after the loop's last empty-frontier sweep, so judge it before the
     // session closes. Ordinary empty-frontier completion already ran the sweep above; do not
     // invoke an unavailable verifier twice. A timeout or kill switch remains final.
-    if (verifier && !timedOut && haltReason === "cooperative_yield" && cooperativeYieldCandidateAttempts.size > 0) {
+    if (verifier && !hasUnsettledProcess(run) && !timedOut && haltReason === "cooperative_yield" && cooperativeYieldCandidateAttempts.size > 0) {
       await runVerificationSweep(true, cooperativeYieldCandidateAttempts);
     }
 
@@ -2176,9 +2280,10 @@ async function runSessionCore(args: Record<string, string | undefined>, host: In
         nodeId: node.id,
         title: node.title,
         unit: domainBusinessUnit(node.domainId, catalog.authority),
-        reasonText: state.status === "failed"
-          ? "The worker could not finish this task. Its recorded failure needs a correction before work can continue."
-          : translateParkReason({ reasonCode: detail?.allowed === false ? detail.reasonCode : undefined, blocker: state.blocker }),
+        reasonText:
+          state.status === "failed"
+            ? "The worker could not finish this task. Its recorded failure needs a correction before work can continue."
+            : translateParkReason({ reasonCode: detail?.allowed === false ? detail.reasonCode : undefined, blocker: state.blocker }),
         ageText: pendingGate ? formatAge(pendingGate.createdAt, sessionNow()) : undefined,
       });
     }

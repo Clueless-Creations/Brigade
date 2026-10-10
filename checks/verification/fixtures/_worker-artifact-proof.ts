@@ -157,6 +157,21 @@ try {
   assert(!rogueResult.error!.includes(workspace), "diagnostics must use only workspace-relative paths");
   assert(!rogueResult.error!.includes("contents-that-must-stay-private"), "diagnostics must not include file contents");
   for (const name of ["undeclared.txt", "modified.txt", "changed-kind", "recipient@example.invalid"]) rmSync(path.join(workspace, name), { recursive: true });
+  const uncertain = new OperationRouteRegistry([
+    {
+      ...route,
+      executor: {
+        async execute() {
+          writeFileSync(path.join(workspace, "unsettled-worker.txt"), "still unaccepted");
+          return { status: "failed" as const, outputs: [], evidence: [], settlementUncertain: true, error: "fixture settlement uncertainty" };
+        },
+      },
+    },
+  ]);
+  const uncertainResult = await uncertain.execute(node, context);
+  assert.equal(uncertainResult.settlementUncertain, true, "post-worker scope validation must not erase a process reconciliation hold");
+  assert.equal(uncertainResult.status, "failed");
+  rmSync(path.join(workspace, "unsettled-worker.txt"));
   const result = await registry.execute(node, context);
   assert.equal(result.status, "succeeded", result.error ?? "worker route refused");
   assert.equal(calls, 1);
@@ -170,6 +185,21 @@ try {
     now: context.now,
     outputs: result.outputs,
   };
+  const uncertainReview = new OperationRouteRegistry([
+    {
+      ...route,
+      verifier: {
+        async verify() {
+          writeFileSync(path.join(workspace, "unsettled-review.txt"), "still unaccepted");
+          return { status: "unavailable" as const, evidence: "", settlementUncertain: true, error: "fixture settlement uncertainty" };
+        },
+      },
+    },
+  ]);
+  const uncertainVerdict = await uncertainReview.verify(node, verification);
+  assert.equal(uncertainVerdict.settlementUncertain, true, "post-verifier scope validation must not erase a process reconciliation hold");
+  assert.equal(uncertainVerdict.status, "unavailable");
+  rmSync(path.join(workspace, "unsettled-review.txt"));
   const verdict = await registry.verify(node, verification);
   assert.equal(verdict.status, "accepted", JSON.stringify(verdict));
   assert.equal((await registry.verify(node, { ...verification, runId: "run.other" })).status, "rejected");

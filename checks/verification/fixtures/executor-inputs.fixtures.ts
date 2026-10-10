@@ -5,6 +5,7 @@ import { snapshotTaskInputs, verifyTaskInputs } from "../../../kernel/session/in
 import { workerExecutionDeadline } from "../../../kernel/session/executor.js";
 
 export function register(harness: Harness): void {
+  registerProcessSettlement(harness);
   harness.check("executor deadlines: task bounds and remaining session time are independent of heartbeat leases", () => {
     const now = 1000;
     assert(workerExecutionDeadline({}, {}, now) === now + 1800000, "standalone work must retain a bounded thirty-minute default");
@@ -323,7 +324,7 @@ if (options.authFallback && process.argv[1].endsWith('/codex')) {
   return;
 }
 if (options.descendant) {
-  const child = require('node:child_process').spawn(process.execPath, ['-e', "process.on('SIGTERM', () => {}); setInterval(() => {}, 1000);"], {stdio:'ignore'});
+  const child = require('node:child_process').spawn(process.execPath, ['-e', "process.on('SIGTERM', () => {}); setTimeout(() => require('node:fs').writeFileSync('interrupted-late-write', 'old worker wrote'), 900); setInterval(() => {}, 1000);"], {stdio:'ignore'});
   fs.writeFileSync('descendant-pid', String(child.pid));
 }
 setTimeout(() => {
@@ -350,7 +351,21 @@ setTimeout(() => {
     `
 import { createCliExecutor } from ${JSON.stringify(path.join(skillRoot, "kernel/session/executor.ts"))};
 import { writeFileSync } from 'node:fs';
+import childProcess from 'node:child_process';
+import { syncBuiltinESMExports } from 'node:module';
 process.chdir(process.argv[2]);
+if (process.argv[3] === 'startup-kill') {
+  const nativeSpawn = childProcess.spawn;
+  childProcess.spawn = ((...args) => {
+    const child = nativeSpawn(...args);
+    if (args[0] === process.execPath && args[1]?.includes('--eval')) {
+      writeFileSync('supervisor-pid', String(child.pid));
+      process.kill(process.pid, 'SIGKILL');
+    }
+    return child;
+  }) as typeof childProcess.spawn;
+  syncBuiltinESMExports();
+}
 if (process.argv[3] === 'handled') process.on('SIGTERM', () => { writeFileSync('handled-signal', 'observed'); process.exit(42); });
 process.on('message', (message) => { if (message === 'exit') process.exit(23); });
 const node = { id:'deadline', workflowId:'workflow.deadline', title:'Interrupted fixture', reads:[], references:[{path:'method.md',title:'Fixture method',loadWhen:'before work'}], outputs:['result'], approvals:[], tokenBudget:12000, ttlSeconds:1, verification:{kind:'deterministic',gateIds:[],failClosed:true} } as any;
@@ -435,7 +450,7 @@ if (process.platform !== 'win32') {
     if (descendantPid) { try { process.kill(descendantPid, 'SIGKILL'); } catch {} }
   }
   const alive = (pid) => { try { process.kill(pid, 0); return true; } catch (error) { if (error.code !== 'ESRCH') throw error; return false; } };
-  for (const mode of ['SIGTERM','SIGINT','SIGHUP','exit','handled']) {
+  for (const mode of ['SIGTERM','SIGINT','SIGHUP','SIGKILL','startup-kill','exit','handled']) {
     const directory = process.cwd() + '/interrupt-' + mode;
     mkdirSync(directory);
     writeFileSync(directory + '/method.md', 'Produce the assigned local fixture output.');
@@ -448,23 +463,29 @@ if (process.platform !== 'win32') {
     let workerPid, descendantPid;
     try {
       const readyUntil = Date.now()+10000;
-      while (!existsSync(directory+'/descendant-pid') && Date.now()<readyUntil) {
-        assert.equal(host.exitCode, null, 'fake host failed before dispatch: '+hostError);
+      const readyFile = mode === 'startup-kill' ? '/supervisor-pid' : '/descendant-pid';
+      while (!existsSync(directory+readyFile) && Date.now()<readyUntil) {
+        if (mode !== 'startup-kill') assert.equal(host.exitCode, null, 'fake host failed before dispatch: '+hostError);
         await new Promise(resolve => setTimeout(resolve,25));
       }
-      assert(existsSync(directory+'/descendant-pid'), 'fake host must dispatch worker and descendant before interruption: '+hostError);
-      workerPid = Number(readFileSync(directory+'/worker-pid','utf8'));
-      descendantPid = Number(readFileSync(directory+'/descendant-pid','utf8'));
+      assert(existsSync(directory+readyFile), 'fake host must dispatch before interruption: '+hostError);
+      workerPid = Number(readFileSync(directory+(mode === 'startup-kill' ? '/supervisor-pid' : '/worker-pid'),'utf8'));
+      descendantPid = mode === 'startup-kill' ? workerPid : Number(readFileSync(directory+'/descendant-pid','utf8'));
       if (mode === 'exit') host.send('exit');
-      else process.kill(-host.pid, mode === 'handled' ? 'SIGTERM' : mode);
+      else if (mode !== 'startup-kill') process.kill(-host.pid, mode === 'handled' ? 'SIGTERM' : mode);
       let waitTimer;
       const outcome = await Promise.race([exited,new Promise((_, reject) => { waitTimer = setTimeout(() => reject(new Error('interrupted host did not exit')),5000); })]).finally(() => clearTimeout(waitTimer));
       if (mode === 'exit' || mode === 'handled') assert.equal(outcome.code, mode === 'exit' ? 23 : 42, 'existing host exit behavior must survive cleanup');
-      else assert.equal(outcome.signal, mode, 'default signal exit behavior must survive cleanup');
+      else assert.equal(outcome.signal, mode === 'startup-kill' ? 'SIGKILL' : mode, 'default signal exit behavior must survive cleanup');
       for (let check=0; check<40 && (alive(workerPid)||alive(descendantPid)); check++) await new Promise(resolve => setTimeout(resolve,25));
       assert.equal(alive(workerPid), false, mode+' must terminate the detached worker');
       assert.equal(alive(descendantPid), false, mode+' must terminate the worker descendant');
       assert.equal(alive(sibling.pid), true, mode+' must preserve unrelated sibling processes');
+      if (mode === 'SIGKILL' || mode === 'startup-kill') {
+        await new Promise(resolve => setTimeout(resolve,1000));
+        assert.equal(existsSync(directory+'/interrupted-late-write'),false,mode+' must prevent delayed writes after host death');
+        if (mode === 'startup-kill') assert.equal(existsSync(directory+'/worker-pid'),false,'a disconnected supervisor must not start the worker');
+      }
       if (mode === 'handled') assert.equal(readFileSync(directory+'/handled-signal','utf8'),'observed');
     } finally {
       for (const pid of [workerPid,descendantPid]) if (pid) { try { process.kill(pid,'SIGKILL'); } catch {} }
@@ -488,5 +509,132 @@ console.log('lease independence, execution deadlines, review and receipt repair 
     [],
     0,
     "lease independence, execution deadlines, review and receipt repair proved",
+  );
+}
+
+function registerProcessSettlement(harness: Harness): void {
+  if (process.platform === "win32") {
+    harness.skip("executor settlement: POSIX process groups", "Windows has no POSIX process-group ownership; this proof requires a POSIX host.");
+    return;
+  }
+  const workspace = harness.makeTempDir("executor-process-settlement");
+  const bin = path.join(workspace, "bin");
+  mkdirSync(bin);
+  writeFileSync(path.join(workspace, "method.md"), "Produce and independently inspect the assigned fixture output.");
+  const cli = path.join(bin, "codex");
+  writeFileSync(
+    cli,
+    `#!/usr/bin/env node
+const fs = require('node:fs');
+const crypto = require('node:crypto');
+const {spawn} = require('node:child_process');
+if (process.argv.includes('--version')) { console.log('fixture-runtime'); process.exit(0); }
+const options = JSON.parse(fs.readFileSync('options.json', 'utf8'));
+const prompt = process.argv.at(-1);
+const role = prompt.includes('BEGIN_VERIFICATION_VERDICT') ? 'verify' : prompt.includes('RECEIPT-ONLY REPAIR') ? 'repair' : 'worker';
+const runtime = process.argv[1].split('/').at(-1);
+const prior = fs.readFileSync('invocations', 'utf8').trim().split('\\n').filter(Boolean);
+for (const entry of prior) {
+  const pid = Number(entry.split(':').at(-1));
+  try { process.kill(pid, 0); fs.writeFileSync('overlapping-worker', 'previous tool was still alive at next invocation'); } catch {}
+}
+const child = spawn(process.execPath, ['-e',
+  "const fs=require('node:fs'); process.on('SIGTERM',()=>{}); fs.writeFileSync('ready-'+process.pid, 'ready'); setTimeout(()=>{fs.appendFileSync('late-write','old tool wrote\\\\n');},900); setInterval(()=>{},1000);"
+], {stdio: options.inheritPipes ? ['ignore', 'inherit', 'inherit'] : 'ignore'});
+child.unref();
+fs.appendFileSync('invocations', role+':'+runtime+':'+child.pid+'\\n');
+const ready = setInterval(() => {
+  if (!fs.existsSync('ready-'+child.pid)) return;
+  clearInterval(ready);
+  if (options.fail || (options.fallback && runtime === 'codex')) {
+    console.error(options.fallback ? 'authentication required' : 'fixture worker failed');
+    process.exit(1);
+  }
+  if (role === 'verify') {
+    console.log('BEGIN_VERIFICATION_VERDICT\\n'+JSON.stringify({schemaVersion:'1.0.0',workflowId:'workflow.settlement',verdict:'accepted',evidence:'Inspected current fixture bytes.',repairWorkflowIds:[]})+'\\nEND_VERIFICATION_VERDICT');
+    process.exit(0);
+  }
+  if (role !== 'repair') fs.writeFileSync('result.md', 'current candidate');
+  if (options.repair && role !== 'repair') { console.log('invalid receipt'); process.exit(0); }
+  const begin='BEGIN_KNOWLEDGE_RECEIPT', end='END_KNOWLEDGE_RECEIPT';
+  const receipt=JSON.parse(prompt.slice(prompt.lastIndexOf(begin)+begin.length,prompt.lastIndexOf(end)).trim());
+  for(const entry of [...receipt.contractFiles,...receipt.taskArtifacts,...receipt.mandatoryKnowledge]) entry.sha256='sha256:'+crypto.createHash('sha256').update(fs.readFileSync(entry.path)).digest('hex');
+  for(const output of receipt.outputEvidence) { output.knowledgePaths=receipt.mandatoryKnowledge.map(entry=>entry.path); output.summary='Produced the assigned fixture output.'; }
+  const output=begin+'\\n'+JSON.stringify(receipt)+'\\n'+end;
+  if(options.largeOutput) { process.stdout.write('fixture output '.repeat(20000)+'\\n'+output,()=>process.exit(0)); return; }
+  console.log(output);
+  process.exit(0);
+},10);
+`,
+  );
+  chmodSync(cli, 0o755);
+  symlinkSync(cli, path.join(bin, "claude"));
+  symlinkSync(cli, path.join(bin, "cursor-agent"));
+  const integration = path.join(workspace, "integration.ts");
+  writeFileSync(
+    integration,
+    `
+import assert from 'node:assert/strict';
+import {existsSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {spawn} from 'node:child_process';
+import {createCliExecutor,createCliVerifier} from ${JSON.stringify(path.join(skillRoot, "kernel/session/executor.ts"))};
+import {isRetryableWorkerFailure} from ${JSON.stringify(path.join(skillRoot, "kernel/session/attempt-failure.ts"))};
+process.env.PATH=${JSON.stringify(bin)}+':'+process.env.PATH;
+process.chdir(${JSON.stringify(workspace)});
+const node={id:'settlement',workflowId:'workflow.settlement',title:'Process settlement fixture',reads:[],references:[{path:'method.md',title:'Fixture method',loadWhen:'before work'}],outputs:['result'],approvals:[],tokenBudget:12000,ttlSeconds:10,verification:{kind:'deterministic',gateIds:[],failClosed:true}} as any;
+const context={runId:'run',attemptId:'attempt',workspaceDir:process.cwd(),skillRootDir:process.cwd(),artifactPaths:{result:'result.md'},now:'2026-10-01T00:00:00Z',heartbeat(){}};
+const sleep=(ms)=>new Promise(resolve=>setTimeout(resolve,ms));
+const nativeKill=process.kill;
+const sibling=spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'ignore'});
+const listeners=['SIGINT','SIGTERM','SIGHUP','exit'].map(signal=>process.listenerCount(signal));
+const pids=()=>readFileSync('invocations','utf8').trim().split('\\n').filter(Boolean).map(line=>Number(line.split(':').at(-1)));
+(async()=>{
+try {
+  for(const options of [{},{fail:true},{fallback:true},{repair:true},{verify:true},{inheritPipes:true},{largeOutput:true},{unconfirmed:true,fallback:true},{unconfirmed:true,repair:true},{unconfirmed:true,verify:true}]) {
+    for(const file of ['late-write','overlapping-worker']) rmSync(file,{force:true});
+    writeFileSync('options.json',JSON.stringify(options));
+    writeFileSync('invocations','');
+    // Deny only the post-exit observation, while real process-group termination still runs.
+    // For repair, let the first producer settle and deny the continuation's observation.
+    if(options.unconfirmed) process.kill=((pid,signal)=>{
+      if(pid<0 && signal===0 && (!options.repair || pids().length>1)) throw Object.assign(new Error('fixture observation denied'),{code:'EPERM'});
+      return nativeKill(pid,signal);
+    }) as typeof process.kill;
+    const started=Date.now();
+    const result=options.verify
+      ? await createCliVerifier('auto').verify(node,{workspaceDir:process.cwd(),skillRootDir:process.cwd(),outputs:[],now:context.now})
+      : await createCliExecutor('auto').execute(node,context);
+    process.kill=nativeKill;
+    try {
+      if(options.unconfirmed) {
+        assert.equal(result.status,options.verify?'unavailable':'failed',JSON.stringify(result));
+        assert.match(result.error??'',/settlement could not be confirmed/);
+        assert.equal(isRetryableWorkerFailure(result.error),false,'uncertain process ownership must not schedule an automatic retry');
+        assert.equal(pids().length,options.repair?2:1,'uncertain cleanup must stop authentication fallback and further continuations: '+JSON.stringify({options,result}));
+        if(options.repair) assert.equal(result.outputs.length,1,'retain the unaccepted candidate on uncertain repair cleanup');
+      } else {
+        assert.equal(result.status,options.fail?'failed':options.verify?'accepted':'succeeded',JSON.stringify({options,result}));
+        assert.equal(pids().length,options.repair||options.fallback?2:1);
+      }
+      await sleep(1050);
+      assert.equal(existsSync('late-write'),false,'a completed CLI left a tool able to write after return: '+JSON.stringify(options));
+      assert.equal(existsSync('overlapping-worker'),false,'retry or repair started while the prior tool was alive');
+      assert(Date.now()-started<4500,'settlement must remain bounded, including inherited stdio');
+      for(const pid of pids()) assert.throws(()=>nativeKill(pid,0),{code:'ESRCH'},'tool process must stop before the caller continues');
+      nativeKill(sibling.pid,0);
+    } finally { for(const pid of pids()) { try { nativeKill(pid,'SIGKILL'); } catch {} } }
+  }
+  assert.deepEqual(['SIGINT','SIGTERM','SIGHUP','exit'].map(signal=>process.listenerCount(signal)),listeners,'settlement must remove temporary host handlers');
+  console.log('producer, failure, fallback, repair and verifier groups settled before continuation');
+} finally { process.kill=nativeKill; sibling.kill('SIGKILL'); for(const pid of pids()) { try { nativeKill(pid,'SIGKILL'); } catch {} } }
+})();
+`,
+  );
+  harness.runScript(
+    "executor settlement: completed workers cannot leave writing tools or overlap continuations",
+    integration,
+    [],
+    0,
+    "producer, failure, fallback, repair and verifier groups settled before continuation",
   );
 }

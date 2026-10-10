@@ -5,8 +5,9 @@ import { outputFingerprintPath } from "../engine/artifact-fingerprint.js";
 export { outputFingerprintPath } from "../engine/artifact-fingerprint.js";
 import { createHash } from "node:crypto";
 import { spawn, spawnSync } from "node:child_process";
-import { existsSync, lstatSync, readFileSync } from "node:fs";
+import { existsSync, lstatSync, readFileSync, readlinkSync } from "node:fs";
 import path from "node:path";
+import type { LocalProcessIdentity, ProcessSettlementObservation } from "../schema/types.js";
 import type { CompiledRunNode } from "../engine/compile.js";
 import { FOUNDER_ED25519_PUBLIC_KEY_ENV } from "../engine/founder-decision-receipt.js";
 import { FOUNDER_TRUST_FILE_ENV } from "../engine/founder-trust-store.js";
@@ -239,6 +240,9 @@ function substantiveDesignAuditFingerprint(workflowId: string, relativePath: str
 }
 
 export interface NodeExecutionResult {
+  /** The invocation may still be running. Preserve the existing reconciliation hold. */
+  readonly settlementUncertain?: boolean;
+  readonly processSettlement?: ProcessSettlementObservation;
   readonly status: NodeExecutionStatus;
   readonly outputs: readonly NodeExecutionOutput[];
   readonly evidence: readonly string[];
@@ -378,31 +382,121 @@ function registerWorkerCleanup(stop: () => void): () => void {
   };
 }
 
+/**
+ * The POSIX group keeps a small guardian alive until the host settles the invocation. IPC
+ * disconnect also runs after an uncatchable host exit. The worker never inherits that channel.
+ * No detached session/setsid escape, Windows process tree, or external effect is fenced here.
+ */
+const WORKER_SUPERVISOR_SOURCE = `
+const {spawn} = require('node:child_process');
+const stop = () => { try { process.kill(-process.pid, 'SIGKILL'); } catch { process.exit(1); } };
+process.on('disconnect', stop);
+if (!process.connected) stop();
+process.once('message', message => {
+  if (message !== 'start' || !process.connected) { stop(); return; }
+  const worker = spawn(process.argv[1], process.argv.slice(2), {stdio:'inherit'});
+  const complete = result => {
+    if (!process.connected) { stop(); return; }
+    process.send({type:'complete', ...result}, error => { if (error) stop(); });
+  };
+  worker.once('error', error => complete({status:null, error:error.message}));
+  worker.once('exit', status => complete({status}));
+});
+if (process.connected) process.send({type:'ready'}, error => { if (error) stop(); });
+`;
+
+/** Native host and boot identity only; hostname and estimated boot time are not identities. */
+export function localProcessHostIdentity(): Omit<LocalProcessIdentity, "processGroupId"> | undefined {
+  try {
+    let machine: string;
+    let boot: string;
+    let pidNamespace: string | undefined;
+    if (process.platform === "linux") {
+      machine = readFileSync("/etc/machine-id", "utf8").trim();
+      boot = readFileSync("/proc/sys/kernel/random/boot_id", "utf8").trim();
+      pidNamespace = readlinkSync("/proc/self/ns/pid");
+      if (!/^pid:\[[0-9]+\]$/.test(pidNamespace)) return undefined;
+      if (!/^[a-f0-9]{32}$/i.test(machine) || !/^[a-f0-9-]{36}$/i.test(boot)) return undefined;
+    } else if (process.platform === "darwin") {
+      const hardware = spawnSync("/usr/sbin/ioreg", ["-rd1", "-c", "IOPlatformExpertDevice"], { encoding: "utf8", timeout: 1000, maxBuffer: 64 * 1024 });
+      const session = spawnSync("/usr/sbin/sysctl", ["-n", "kern.bootsessionuuid"], { encoding: "utf8", timeout: 1000, maxBuffer: 1024 });
+      machine = hardware.stdout?.match(/"IOPlatformUUID"\s*=\s*"([a-f0-9-]{36})"/i)?.[1] ?? "";
+      boot = session.stdout?.trim() ?? "";
+      if (hardware.status !== 0 || session.status !== 0 || !machine || !/^[a-f0-9-]{36}$/i.test(boot)) return undefined;
+    } else return undefined;
+    const fingerprint = (kind: string, value: string) =>
+      createHash("sha256").update(`brigade-process-${kind}\n${process.platform}\n${value.toLowerCase()}`).digest("hex");
+    return {
+      hostFingerprint: fingerprint("host", machine),
+      bootFingerprint: fingerprint("boot", boot),
+      ...(pidNamespace ? { pidNamespaceFingerprint: fingerprint("pid-namespace", pidNamespace) } : {}),
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+/** Observe only: never signal a persisted PID, which might now belong to an unrelated process. */
+export function observeProcessSettlement(
+  observation: ProcessSettlementObservation,
+  current = localProcessHostIdentity(),
+): "group_absent" | "host_rebooted" | undefined {
+  const original = observation.identity;
+  if (!original || !current || original.hostFingerprint !== current.hostFingerprint) return undefined;
+  if (original.bootFingerprint !== current.bootFingerprint) return "host_rebooted";
+  // An escaped writer can keep an output pipe open after leaving the invocation's group.
+  if (!observation.outputStreamsClosed || original.pidNamespaceFingerprint !== current.pidNamespaceFingerprint) return undefined;
+  try {
+    process.kill(-original.processGroupId, 0);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ESRCH") return "group_absent";
+  }
+  return undefined;
+}
+
 async function runWorker(
   command: WorkerCommand,
   cwd: string,
   executionDeadlineAt: number,
-): Promise<{ status: number | null; stdout: string; stderr: string; timedOut: boolean }> {
+): Promise<{
+  status: number | null;
+  stdout: string;
+  stderr: string;
+  timedOut: boolean;
+  settlementError?: string;
+  processSettlement?: ProcessSettlementObservation;
+}> {
   return await new Promise((resolve) => {
-    const remainingMs = executionDeadlineAt - Date.now();
+    let remainingMs = executionDeadlineAt - Date.now();
     if (remainingMs <= 0) {
       resolve({ status: null, stdout: "", stderr: "", timedOut: true });
       return;
     }
-    // Give this worker its own process group so its tool subprocesses share deadline cleanup.
     const isolatedProcessGroup = process.platform !== "win32";
-    const child = spawn(command.command, [...command.args], {
-      cwd,
-      env: workerEnvironment(command.runtime),
-      stdio: ["ignore", "pipe", "pipe"],
-      detached: isolatedProcessGroup,
-    });
+    const hostIdentity = isolatedProcessGroup ? localProcessHostIdentity() : undefined;
+    remainingMs = executionDeadlineAt - Date.now();
+    if (remainingMs <= 0) {
+      resolve({ status: null, stdout: "", stderr: "", timedOut: true });
+      return;
+    }
+    const child = spawn(
+      isolatedProcessGroup ? process.execPath : command.command,
+      isolatedProcessGroup ? ["--eval", WORKER_SUPERVISOR_SOURCE, "--", command.command, ...command.args] : [...command.args],
+      {
+        cwd,
+        env: workerEnvironment(command.runtime),
+        stdio: isolatedProcessGroup ? ["ignore", "pipe", "pipe", "ipc"] : ["ignore", "pipe", "pipe"],
+        detached: isolatedProcessGroup,
+      },
+    );
     let stdout = "";
     let stderr = "";
     const cap = (value: string, chunk: Buffer): string => `${value}${chunk.toString("utf8")}`.slice(-2_000_000);
-    child.stdout.on("data", (chunk: Buffer) => (stdout = cap(stdout, chunk)));
-    child.stderr.on("data", (chunk: Buffer) => (stderr = cap(stderr, chunk)));
+    child.stdout?.on("data", (chunk: Buffer) => (stdout = cap(stdout, chunk)));
+    child.stderr?.on("data", (chunk: Buffer) => (stderr = cap(stderr, chunk)));
     let timedOut = false;
+    let closed = false;
+    let settling = false;
     let killTimer: ReturnType<typeof setTimeout> | undefined;
     const terminate = (signal: NodeJS.Signals) => {
       try {
@@ -417,24 +511,77 @@ async function runWorker(
       () => {
         timedOut = true;
         terminate("SIGTERM");
-        killTimer = setTimeout(() => terminate("SIGKILL"), 2_000);
+        killTimer = setTimeout(() => void settle(null), 2_000);
       },
       Math.max(1, Math.min(remainingMs, 2_147_483_647)),
     );
     timer.unref();
-    child.on("error", (error) => {
+    // A receipt, error, or closed pipe is not proof that the invocation stopped writing.
+    // Always stop and observe the owned group before the caller can inspect outputs or retry.
+    const settle = async (status: number | null) => {
+      if (settling) return;
+      settling = true;
       clearTimeout(timer);
       if (killTimer) clearTimeout(killTimer);
+      terminate("SIGKILL");
+      const settleBy = Date.now() + 2_000;
+      let settlementError: string | undefined;
+      while (true) {
+        let stopped = child.pid === undefined;
+        let observationError: string | undefined;
+        if (!stopped) {
+          try {
+            process.kill(isolatedProcessGroup ? -child.pid! : child.pid!, 0);
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code === "ESRCH") stopped = true;
+            else observationError = "process inspection failed";
+          }
+        }
+        // Darwin can report EPERM while the killed group leader is a zombie awaiting reaping.
+        // Retry observation within the same bound; only ESRCH plus closed streams proves stop.
+        if (stopped && closed) break;
+        if (Date.now() >= settleBy) {
+          settlementError = `process settlement could not be confirmed: ${observationError ?? (stopped ? "output pipes remain open" : "owned process is still present")}; recovery is required before another invocation`;
+          break;
+        }
+        await new Promise<void>((done) => setTimeout(done, 25));
+      }
+      const processSettlement = settlementError
+        ? {
+            ...(hostIdentity && child.pid && child.pid > 1 ? { identity: { ...hostIdentity, processGroupId: child.pid } } : {}),
+            outputStreamsClosed: closed,
+          }
+        : undefined;
       unregisterCleanup();
-      resolve({ status: null, stdout, stderr: `${stderr}\n${error.message}`, timedOut });
+      // An unobservable process or inherited pipe must not hang the host after explicit failure.
+      if (settlementError) {
+        child.stdout?.destroy();
+        child.stderr?.destroy();
+        if (child.connected) child.disconnect();
+        child.unref();
+      }
+      resolve({ status, stdout, stderr, timedOut, ...(settlementError ? { settlementError, processSettlement } : {}) });
+    };
+    child.on("message", (message: unknown) => {
+      if (message === null || typeof message !== "object") return;
+      const outcome = message as { type?: string; status?: number | null; error?: string };
+      if (outcome.type === "ready" && !settling && child.connected) {
+        child.send("start", (error) => {
+          if (error) void settle(null);
+        });
+      } else if (outcome.type === "complete") {
+        if (outcome.error) stderr += `\n${outcome.error}`;
+        void settle(typeof outcome.status === "number" ? outcome.status : null);
+      }
     });
+    child.on("error", (error) => {
+      stderr += `\n${error.message}`;
+      void settle(null);
+    });
+    child.on("exit", (status) => void settle(status));
     child.on("close", (status) => {
-      clearTimeout(timer);
-      // The CLI can exit before descendants that ignored SIGTERM. Do not abandon them when the session returns.
-      if (timedOut) terminate("SIGKILL");
-      if (killTimer) clearTimeout(killTimer);
-      unregisterCleanup();
-      resolve({ status, stdout, stderr, timedOut });
+      closed = true;
+      void settle(status);
     });
   });
 }
@@ -713,6 +860,15 @@ function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor 
       for (const candidate of runtimes) {
         runtime = candidate;
         result = await runWorker(buildWorkerCommand(candidate, prompt), context.workspaceDir, executionDeadlineAt);
+        if (result.settlementError)
+          return {
+            status: "failed",
+            outputs: [],
+            evidence: [],
+            settlementUncertain: true,
+            processSettlement: result.processSettlement,
+            error: `${runtime} worker ${result.settlementError}`,
+          };
         const scopeErrors = [
           ...verifyTaskInputs(context.workspaceDir, taskInputs, postWorkerWorkspaceDigestRefreshPaths(brief), node.sourceAccess),
           ...verifySourceAccess(context.workspaceDir, sourceSnapshot),
@@ -774,6 +930,16 @@ function createCliWorkerExecutor(requestedRuntime: WorkerRuntime): NodeExecutor 
           context.workspaceDir,
           executionDeadlineAt,
         );
+        if (repairResult.settlementError) {
+          return {
+            status: "failed",
+            outputs: candidateOutputs,
+            evidence: [],
+            settlementUncertain: true,
+            processSettlement: repairResult.processSettlement,
+            error: `receipt-only repair ${repairResult.settlementError}`,
+          };
+        }
         const repairScopeErrors = [
           ...verifyTaskInputs(context.workspaceDir, taskInputs, postWorkerWorkspaceDigestRefreshPaths(brief), node.sourceAccess),
           ...verifySourceAccess(context.workspaceDir, sourceSnapshot),
@@ -912,6 +1078,9 @@ export const noOpExecutor: NodeExecutor = {
  * would be as dishonest as treating it as acceptance. The caller reports it as an unrun check.
  */
 export interface VerificationOutcome {
+  /** No judgment is safe until the prior invocation is confirmed stopped. */
+  readonly settlementUncertain?: boolean;
+  readonly processSettlement?: ProcessSettlementObservation;
   readonly status: "accepted" | "rejected" | "unavailable";
   readonly repairWorkflowIds?: readonly string[];
   readonly evidence: string;
@@ -1002,6 +1171,14 @@ function createCliWorkerVerifier(requestedRuntime: WorkerRuntime): NodeVerifier 
       for (const candidate of runtimes) {
         runtime = candidate;
         result = await runWorker(buildVerifierCommand(candidate, prompt), context.workspaceDir, executionDeadlineAt);
+        if (result.settlementError)
+          return {
+            status: "unavailable",
+            evidence: "",
+            settlementUncertain: true,
+            processSettlement: result.processSettlement,
+            error: `${runtime} verifier ${result.settlementError}`,
+          };
         const failureText = (candidate === "codex" ? codexFailureMessage(result.stdout) : undefined) ?? `${result.stdout}\n${result.stderr}`;
         if (
           result.timedOut ||

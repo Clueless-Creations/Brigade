@@ -29,6 +29,7 @@ import {
   formatProofStrength,
   validateReviewReceipt,
   workflowContractFingerprint,
+  workspaceArtifactFingerprint,
   type WorkspaceRuntimeObservation,
 } from "./review-evidence.js";
 import { DESIGN_TASTE_DELEGATION_APPROVAL_ID } from "./founder-decision-receipt.js";
@@ -68,6 +69,11 @@ const READY_ELIGIBLE_APPLICABILITY: readonly Status[] = ["pending", "ready", "st
 
 function requiresReadbackBeforeRepeat(node: CompiledRunNode): boolean {
   return !node.idempotent || Boolean(node.protectedCategory) || ["spend", "publish", "release", "destructive"].includes(node.actionClass);
+}
+
+/** Status projections and plan changes cannot discharge an attempt's reconciliation obligation. */
+export function hasUnresolvedReadback(state: Pick<RunNodeStateV2, "status" | "attempts"> | undefined): boolean {
+  return Boolean(state && (state.status === "needs_readback" || state.attempts.some((attempt) => attempt.readbackRequired || attempt.status === "needs_readback")));
 }
 
 /**
@@ -175,7 +181,10 @@ export function reconcileRunPlan(
   const invalidated: string[] = [];
   const changedNodes = new Set<string>();
   for (const node of plan.nodes) {
-    const old = prior.nodes[node.id];
+    // Removing and re-adding a workflow cannot discard an unresolved execution. The newest
+    // archived copy wins so a later reconciled record is never replaced by an older hold.
+    const archived = [...(prior.archivedPlans ?? [])].reverse().map((history) => history.nodes[node.id]).find(Boolean);
+    const old = prior.nodes[node.id] ?? (hasUnresolvedReadback(archived) ? archived : undefined);
     if (!old) {
       next.nodes[node.id] = { nodeId: node.id, status: "pending", attempts: [], contractFingerprint: workflowContractFingerprint(node) };
       for (const binding of next.artifactBindings) if (node.outputs.includes(binding.artifactId as never)) binding.accepted = false;
@@ -192,7 +201,7 @@ export function reconcileRunPlan(
     }
     const missingReview = requiresIndependentReview(node) && state.status === "succeeded" && !state.attempts.at(-1)?.independentVerification;
     if (!compatible || missingReview || (state.status === "succeeded" && state.attempts.length === 0)) {
-      if (state.attempts.length > 0 && requiresReadbackBeforeRepeat(node)) {
+      if (hasUnresolvedReadback(state) || (state.attempts.length > 0 && requiresReadbackBeforeRepeat(node))) {
         state.status = "needs_readback";
         state.blocker = "The workflow contract changed; confirm prior external effects before continuing.";
       } else {
@@ -227,7 +236,7 @@ export function reconcileRunPlan(
     for (const node of plan.nodes) {
       if (changedNodes.has(node.id) || !node.dependencies.some((id) => changedNodes.has(id))) continue;
       const state = next.nodes[node.id]!;
-      state.status = state.attempts.length > 0 && requiresReadbackBeforeRepeat(node) ? "needs_readback" : "stale";
+      state.status = hasUnresolvedReadback(state) || (state.attempts.length > 0 && requiresReadbackBeforeRepeat(node)) ? "needs_readback" : "stale";
       state.blocker = state.status === "needs_readback" ? "A prerequisite contract changed; confirm prior effects before repeating." : undefined;
       state.acceptedOutputFingerprint = undefined;
       state.verifiedBySessionId = undefined;
@@ -265,6 +274,11 @@ export function reconcileWorkflowApplicability(plan: CompiledPlan, run: RunState
   const repositoryProfile = businessState.project?.repositoryProfile;
   const repositoryProfileKey = repositoryProfile ? `${repositoryProfile.id}:${repositoryProfile.revision}` : "";
   for (const node of plan.nodes) {
+    const heldState = run.nodes[node.id];
+    if (hasUnresolvedReadback(heldState)) {
+      heldState!.status = "needs_readback";
+      continue;
+    }
     const profileDeferred = node.deferredByProfiles.includes(profileId);
     // Fast exit for the overwhelmingly common case: an unconditional node no profile touches,
     // with no prior applicability history to unwind. Zero behavior change from before profiles.
@@ -357,6 +371,7 @@ export function beginAttempt(
   const node = plan.nodes.find((candidate) => candidate.id === nodeId);
   const state = run.nodes[nodeId];
   if (!node || !state) throw new Error(`Unknown run node ${nodeId}`);
+  if (hasUnresolvedReadback(state)) throw new Error(`${nodeId} requires reconciliation before another attempt`);
   const reusedProducerAttempt = (node.reviewOf ?? [])
     .flatMap((producerId) => run.nodes[producerId]?.attempts ?? [])
     .find((attempt) => attempt.ownerSessionId === ownerSessionId);
@@ -651,7 +666,7 @@ export function invalidateStaleReviews(plan: CompiledPlan, run: RunStateDocument
     if (state?.status !== "succeeded" || receipt?.mode !== "workspace") continue;
     const issues = validateReviewReceipt(plan, run, node.id, receipt, workspaceRoot);
     if (!issues.length) continue;
-    const priorExternalAttempt = requiresReadbackBeforeRepeat(node);
+    const priorExternalAttempt = hasUnresolvedReadback(state) || requiresReadbackBeforeRepeat(node);
     state.status = priorExternalAttempt ? "needs_readback" : "stale";
     state.blocker = priorExternalAttempt ? "Review evidence changed; confirm prior external effects before continuing." : undefined;
     state.acceptedOutputFingerprint = undefined;
@@ -680,7 +695,7 @@ export function requestExecutionRepair(plan: CompiledPlan, run: RunStateDocument
   // A worker failure is not a rejected judgment of the producer it reviews.
   invalidateDescendants(plan, run, node.outputs, now, new Set(node.reviewOf ?? []));
   state.repairInstructions = [`The previous attempt failed: ${finding}. Inspect its existing work, repair only the declared task, and rerun its required checks. Do not repeat an external effect or weaken acceptance.`];
-  if (requiresReadbackBeforeRepeat(node) || node.sharedResources?.length) {
+  if (hasUnresolvedReadback(state) || requiresReadbackBeforeRepeat(node) || node.sharedResources?.length) {
     state.status = "needs_readback";
     attempt.readbackRequired = true;
     state.blocker = "The failed attempt needs effect reconciliation before it can be repeated.";
@@ -860,6 +875,46 @@ export function reconcileEnvironmentalArtifacts(plan: CompiledPlan, run: RunStat
   }
   if (touched) run.updatedAt = now;
   return changed.length > 0 ? invalidateDescendants(plan, run, changed, now) : [];
+}
+
+/**
+ * Re-observe previously accepted production after an interrupted local process is proved
+ * stopped. This never adopts changed bytes as evidence: fingerprints and successful attempt
+ * receipts remain historical, while current acceptance is withdrawn and consumers reopen.
+ */
+export function reconcileAcceptedProducedArtifacts(plan: CompiledPlan, run: RunStateDocument, workspaceRoot: string, now: string): RunNodeId[] {
+  const changed = new Set<string>();
+  const producers = new Set<RunNodeId>();
+  for (const binding of run.artifactBindings) {
+    if (!binding.accepted || !binding.producedBy) continue;
+    let fingerprint: string | undefined;
+    try {
+      fingerprint = workspaceArtifactFingerprint(workspaceRoot, binding.path);
+    } catch {
+      // Missing, unreadable, or unsafe current material cannot retain accepted evidence.
+    }
+    if (fingerprint !== undefined && fingerprint === binding.fingerprint) continue;
+    binding.accepted = false;
+    changed.add(binding.artifactId);
+    const node = plan.nodes.find((candidate) => candidate.id === binding.producedBy);
+    const state = node && run.nodes[node.id];
+    if (!node || !state) continue;
+    producers.add(node.id);
+    const held = hasUnresolvedReadback(state) || requiresReadbackBeforeRepeat(node) || Boolean(node.sharedResources?.length);
+    state.status = held ? "needs_readback" : "stale";
+    state.blocker = held ? "Accepted output changed after process recovery; confirm prior effects before continuing." : undefined;
+    state.acceptedOutputFingerprint = undefined;
+    state.verifiedBySessionId = undefined;
+    for (const output of run.artifactBindings) {
+      if (!node.outputs.includes(output.artifactId as never)) continue;
+      output.accepted = false;
+      changed.add(output.artifactId);
+    }
+  }
+  if (changed.size === 0) return [];
+  const descendants = invalidateDescendants(plan, run, [...changed], now, producers);
+  run.updatedAt = now;
+  return [...new Set([...producers, ...descendants])];
 }
 
 /**
@@ -1050,7 +1105,7 @@ export function invalidateDescendants(
       const consultInputs = consultedArtifactIds(node, plan.artifactBindings);
       if (node.inputs.some((artifactId) => changed.has(artifactId)) || consultInputs.some((artifactId) => changed.has(artifactId))) {
         visited.add(node.id);
-        const priorExternalAttempt = state.attempts.length > 0 && requiresReadbackBeforeRepeat(node);
+        const priorExternalAttempt = hasUnresolvedReadback(state) || (state.attempts.length > 0 && requiresReadbackBeforeRepeat(node));
         state.status = priorExternalAttempt ? "needs_readback" : "stale";
         // A stale node will be re-examined and re-run; a blocker string from its previous life
         // ("Verification required", a park reason) would otherwise survive into digests and
