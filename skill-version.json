@@ -1,9 +1,12 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.133",
+  "version": "0.221.134",
   "updatedAt": "2026-10-10",
   "sourcePath": ".",
   "releaseNotes": [
+    "Merge pull request #703 from Clueless-Creations/fix/managed-worker-lifetime",
+    "Merge pull request #702 from Clueless-Creations/fix/hosted-reconciliation",
+    "Merge pull request #701 from Clueless-Creations/fix/readiness-observations",
     "Rebuild compiled runtime during verified sync (#699)",
     "Preserve app instructions across workspace startup refreshes (#697)",
     "Verify release candidates before merging stamps (#695)",

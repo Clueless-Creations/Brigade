@@ -5,15 +5,15 @@
  * check:native-ios owns the semantics of the iOS launch-critical matrix and check:mobai-proof
  * owns the MobAI section. This gate owns the class of gap neither sees: the AGGREGATE. When the
  * business claims it is ready to submit — a top-level `Status:`/`Readiness:` line in
- * engineering/PRODUCTION_READINESS.md, or a done engineering, store-console, or apple-signing
+ * engineering/PRODUCTION_READINESS.md, or a succeeded engineering, store-console, or apple-signing
  * lane — every result cell in every proof table must be resolved, at least one resolved row must
  * be physical-device evidence (simulator-only readiness is an error, however green), and the
  * companion readiness documents the full launch names (ACCESSIBILITY_READINESS.md,
  * APP_QUALITY.md) must exist without placeholder cells. Before a claim exists, pending rows are a
  * per-table warning so a stalled ledger stays visible without failing a day-zero workspace.
  *
- * Evidence-path existence for the iOS matrix stays with check:native-ios (row-specific proof
- * rules live there); this gate checks paths only on the other tables.
+ * Row-specific iOS matrix and receipt rules stay with check:native-ios. This aggregate gate
+ * requires an existing artifact before any row can supply physical-device coverage.
  *
  * npm script: check:readiness-coverage
  * Usage: tsx checks/validation/business/engineering/check-readiness-coverage.ts --root /path/to/business
@@ -28,14 +28,28 @@ const COMPANIONS = ["engineering/ACCESSIBILITY_READINESS.md", "engineering/APP_Q
 const IOS_MATRIX_HEADING = "native ios launch-critical test matrix";
 const RESULT_HEADERS = new Set(["result", "status", "verified"]);
 const EVIDENCE_HEADERS = new Set(["evidence", "evidence path", "output path"]);
+const DEVICE_HEADERS = new Set(["route", "runtime route", "device", "device / os", "device/os", "device and os"]);
 const PENDING = /^(?:|pending|tbd|todo|unknown|n\/?a|—|-)$/i;
 const RESOLVED_DEFERRAL = /^(?:blocked|not applicable|n-a|deferred)\b/i;
-const PASSED = /\b(?:pass(?:ed)?|done|verified|yes|complete[d]?)\b/i;
+// Accept an affirmative status, optionally followed by a dated annotation. A mention of
+// "passed" inside a failure, plan, or question is not a successful observation.
+const PASSED = /^(?:pass(?:ed)?|done|verified|yes|complete[d]?)(?:[.!]?|\s*(?:[-–—,:]\s*|\(\s*)?20\d{2}-\d{2}-\d{2}\s*\)?)$/i;
 const CLAIM_LINE =
   /^(?:Status|Readiness):\s*(?:submit[- ]ready|ready(?: (?:for|to) submit)?|production[- ]ready|release[- ]ready|store[- ]ready|upload[- ]ready)\b/im;
-const PHYSICAL_DEVICE = /\b(?:physical device|on-device|real device|devicectl|device build|signed device|iphone [0-9a-z ]+\(device\))\b/i;
+const PHYSICAL_DEVICE =
+  /^(?:(?:(?:release|debug|signed) (?:configuration|build) on (?:a )?|(?:mobai|xcodebuildmcp) (?:on (?:a )?)?)?(?:physical device|real device)|on-device|devicectl|(?:signed )?device build|signed device)\b|^(?:iphone|ipad|pixel|samsung) [0-9a-z ]+\((?:physical )?device\)(?:$|[\s,;])/i;
 const SIMULATOR = /\bsimulator\b/i;
-const EVIDENCE_PATH = /`([^`\s]+\.(?:xcresult|png|jpe?g|mp4|mov|log|json|txt|md|html))`/i;
+// Negation must describe the device or its observation. Offline/no-crash test conditions
+// are valid physical-device evidence; incidental "without" or "no" cannot invalidate them.
+const UNOBSERVED_STATE =
+  "(?:pending|planned|required|unknown|unavailable|untested|unverified|missing|blocked|deferred|simulator|preview|(?:not|never)(?: yet)? (?:tested|verified|observed|available|connected|performed|run))";
+const UNOBSERVED_DEVICE = new RegExp(
+  `\\b(?:no|without|not on) (?:(?:a|any|the) )?(?:(?:physical|real) )?device\\b` +
+    `|\\b(?:device|on-device|devicectl|device build)(?: (?:test|testing|verification|observation|run))?(?: (?:is|was|remains))? ${UNOBSERVED_STATE}\\b` +
+    `|(?:^|[;,(]\\s*)${UNOBSERVED_STATE}\\b`,
+  "i",
+);
+const EVIDENCE_PATH = /`([^`\s]+\.(?:xcresult|png|jpe?g|mp4|mov|log|json|txt|md|html))`/gi;
 
 interface SectionTables {
   heading: string;
@@ -79,7 +93,7 @@ function run(): Issue[] {
   const loaded = loadProjectState(args);
   issues.push(...loaded.issues);
   const lane = (key: string): string | undefined => (loaded.state ? asString(getPath(loaded.state, `lanes.${key}.status`))?.toLowerCase() : undefined);
-  const laneClaim = ["engineering", "store_console", "apple_signing"].some((key) => lane(key) === "done");
+  const laneClaim = ["engineering", "store_console", "apple_signing"].some((key) => lane(key) === "succeeded");
 
   const readinessFile = path.join(root, READINESS_PATH);
   if (!existsSync(readinessFile)) {
@@ -109,11 +123,11 @@ function run(): Issue[] {
       const resultIndex = table.headers.findIndex((header) => RESULT_HEADERS.has(header));
       if (resultIndex < 0) continue;
       const evidenceIndex = table.headers.findIndex((header) => EVIDENCE_HEADERS.has(header));
+      const deviceIndexes = table.headers.flatMap((header, index) => (DEVICE_HEADERS.has(header) ? [index] : []));
       let pendingInTable = 0;
       for (const row of table.rows) {
         const label = row[0]?.trim() || "(unnamed row)";
         const result = row[resultIndex]?.trim() ?? "";
-        const rowText = row.join(" | ");
         if (PENDING.test(result)) {
           pendingInTable += 1;
           if (claimed) {
@@ -156,21 +170,25 @@ function run(): Issue[] {
           continue;
         }
         resolvedRows += 1;
-        if (PHYSICAL_DEVICE.test(rowText)) physicalDeviceRows += 1;
-        else if (SIMULATOR.test(rowText)) simulatorRows += 1;
-        if (claimed && !isIosMatrix && evidenceIndex >= 0) {
-          const evidence = row[evidenceIndex] ?? "";
-          const evidencePath = evidence.match(EVIDENCE_PATH)?.[1];
-          if (evidencePath && !isGroundedEvidence(root, evidencePath)) {
-            issues.push(
-              issue(
-                "error",
-                "readiness_coverage.evidence_missing",
-                `"${section.heading}" row "${label}" cites \`${evidencePath}\`, which does not exist in the workspace.`,
-                READINESS_PATH,
-              ),
-            );
-          }
+        const deviceValues = deviceIndexes.map((index) => row[index] ?? "");
+        const physicalDevice = deviceValues.some((value) => PHYSICAL_DEVICE.test(value) && !UNOBSERVED_DEVICE.test(value));
+        const evidence = evidenceIndex >= 0 ? (row[evidenceIndex] ?? "") : "";
+        const evidencePaths = [...evidence.matchAll(EVIDENCE_PATH)].map((match) => match[1]!);
+        const missingEvidence = evidencePaths.filter((candidate) => !isGroundedEvidence(root, candidate));
+        const groundedEvidence = evidencePaths.length > 0 && missingEvidence.length === 0;
+        if (physicalDevice && groundedEvidence) physicalDeviceRows += 1;
+        else if (deviceValues.some((value) => SIMULATOR.test(value))) simulatorRows += 1;
+        if (claimed && ((!isIosMatrix && missingEvidence.length > 0) || (physicalDevice && !groundedEvidence))) {
+          issues.push(
+            issue(
+              "error",
+              "readiness_coverage.evidence_missing",
+              missingEvidence.length > 0
+                ? `"${section.heading}" row "${label}" cites missing evidence: ${missingEvidence.map((candidate) => `\`${candidate}\``).join(", ")}.`
+                : `"${section.heading}" row "${label}" claims physical-device coverage without an existing evidence artifact in an Evidence, Evidence path, or Output path cell.`,
+              READINESS_PATH,
+            ),
+          );
         }
       }
       if (!claimed && pendingInTable > 0) {
