@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.132",
+  "version": "0.221.133",
   "updatedAt": "2026-10-10",
   "sourcePath": ".",
   "releaseNotes": [
+    "Rebuild compiled runtime during verified sync (#699)",
     "Preserve app instructions across workspace startup refreshes (#697)",
     "Verify release candidates before merging stamps (#695)",
     "Preserve specification obligations through assignment and verification (#689)",
