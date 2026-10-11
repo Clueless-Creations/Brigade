@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.134",
+  "version": "0.221.135",
   "updatedAt": "2026-10-10",
   "sourcePath": ".",
   "releaseNotes": [
+    "Await fixture evidence and prove bounded source repair (#705)",
     "Merge pull request #703 from Clueless-Creations/fix/managed-worker-lifetime",
     "Merge pull request #702 from Clueless-Creations/fix/hosted-reconciliation",
     "Merge pull request #701 from Clueless-Creations/fix/readiness-observations",
