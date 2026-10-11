@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.135",
-  "updatedAt": "2026-10-10",
+  "version": "0.221.136",
+  "updatedAt": "2026-10-11",
   "sourcePath": ".",
   "releaseNotes": [
+    "Make Brigade guidance support app-factory improvement and simplification (#707)",
     "Await fixture evidence and prove bounded source repair (#705)",
     "Merge pull request #703 from Clueless-Creations/fix/managed-worker-lifetime",
     "Merge pull request #702 from Clueless-Creations/fix/hosted-reconciliation",
