@@ -1,6 +1,6 @@
 # Consumer-business primitives: north-star architecture
 
-Revision: 9 · Established: 2026-09-04 · Role: normative target architecture
+Revision: 10 · Established: 2026-09-04 · Role: normative target architecture
 
 This is the architecture against which new work and refactoring are reviewed. It
 defines the intended system; it does **not** claim that every boundary exists in
@@ -467,6 +467,13 @@ the operating loop works.
 
 ### ARCH-15: Enforce architecture without freezing it
 
+The app-factory outcome governs engineering choices. Existing mechanisms,
+workflows, instructions, and architectural choices can be simplified, replaced,
+or retired with evidence. Preserve supported guarantees and current authoritative
+data through the change. One logical owner does not mean an immortal module or
+a fixed set of files. Judge the complete solution's complexity and usefulness,
+not the size of its diff or the number of checks it retains.
+
 An architecture steward owns cross-cutting contracts, dependency direction,
 truth ownership, compatibility, and exceptions. Implementers own bounded units;
 independent auditors judge evidence against this document. The role is
@@ -628,8 +635,9 @@ or operating a device.
 Freeze supported consumer requests and result semantics before replacing internal
 mechanisms. Preserve accepted v1 fixtures across every adapter change. New
 operations may be additive; breaking supported semantics require a new major
-version and an architecture decision. ADR-0003 permits a direct cutover for
-this system while it has no installed users. Do not promise that unfinished execution contracts are already stable.
+version and an architecture decision. ADR-0003's direct-cutover premise is
+historical; inspect current consumers and migration obligations before removal.
+Do not promise that unfinished execution contracts are already stable.
 
 The current first slice is `b2c catalog` / `b2c_discover` and `b2c compose` /
 `b2c_compose`, plus `b2c business-status` / `b2c_business_status` for registered
