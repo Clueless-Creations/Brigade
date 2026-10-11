@@ -40,11 +40,13 @@ another.
 
 ## Architecture-sensitive changes
 
-Read the [north-star architecture](docs/north-star-architecture.md) and the
-assigned unit in the [migration roadmap](docs/plans/2026-09-04-1747-refactor-consumer-business-primitives-plan.md).
+Read the applicable rules in the [north-star architecture](docs/north-star-architecture.md)
+and the current task or issue. Read a delivery plan or an assigned unit in the
+[migration roadmap](docs/plans/2026-09-04-1747-refactor-consumer-business-primitives-plan.md)
+when that work is affected; do not invent a historical unit assignment.
 Use the [conformance protocol](docs/architecture-conformance.md) for file
 ownership, independent review, exceptions, and evidence. In the change
-description, cite the ARCH rules, the unit, and the proof of conformance.
+description, cite the applicable ARCH rules, task or unit, and proof of conformance.
 
 The public extension path is still under construction. First-party and community
 implementations must pass the same contracts and external package tests. Do not
@@ -106,6 +108,30 @@ or unmet requirement, the existing owner considered, how benefit will be
 observed, and what maintenance it adds. Ordinary fixes, optional citations, and
 app work do not need that form. Unknown benefit or cost stays unknown.
 
+### Improve the factory
+
+For a substantive platform change, identify the app-building bottleneck or unmet
+product requirement and the outcome that would improve. Compare extending the current mechanism
+with simplifying, consolidating, replacing, or removing it. Prefer the option
+with the least total complexity that meets the requirement. A small patch that
+adds another workaround can cost more than replacing the responsible component.
+
+Use the current task or PR to record the tradeoff and its proof; do not create
+a separate process artifact for an ordinary fix. Choose relevant evidence, such
+as a better app outcome, fewer failed attempts or interventions, lower latency
+or cost, or easier reuse. Record uncertainty instead of claiming a benchmark
+from code size or fixture counts. For an unproven idea, use a bounded experiment
+with stated outcome criteria; keep, revise, or retire it based on the result.
+
+Before removal, inspect callers, selected recipes, package pins, supported
+contracts, and stored data that depend on it. Remove obsolete callers,
+instructions, configuration, and checks with the mechanism. Prove retained
+guarantees and follow the existing decision and migration route for changed
+contracts. An unused internal helper does not need a new ADR merely to be deleted.
+Do not remove checks to conceal failures or change audit policy to evade a
+blocked gate. Deliberate verification-policy changes need their own rationale
+and review; this guidance does not change the required checks below.
+
 Write each knowledge document for one narrow decision, with a narrow `load_when`.
 Gloaguen et al. (2026) found that non-essential context files raised inference
 cost over 20 percent on average and did not improve task success
@@ -115,7 +141,7 @@ cost over 20 percent on average and did not improve task success
 
 - Preserve stable workflow and reference IDs unless the contract changes.
 - Edit catalog definitions before generated projections.
-- Add or update a focused validator when behavior changes.
+- Use focused proof for changed behavior; extend existing tests where suitable, and retire checks only with their obsolete behavior.
 - Keep secrets, provider exports, personal data, and app workspace output out of Git.
 - Refresh official documentation before changing guidance for a fast-moving provider or store.
 - Preserve unrelated working-tree changes.
@@ -278,11 +304,13 @@ Reusable product and experience guidance stays with its affected catalog,
 workflow, or manifest-backed knowledge owner; app artifacts apply when changing
 an existing app's accepted behavior.
 
-Keep one authoritative home per rule. Link to its owner rather than duplicate
-authored instructions. When moving or removing a rule, record its preserved home
-and affected delivery surfaces in the existing plan or PR. Preserve substantive
-requirements, bindings, and the standing [authority and protected-effect
-rules](AGENTS.md#completion-authority-and-protected-effects). Reconcile overlapping
+Keep one authoritative home per active rule. Link to its owner rather than
+duplicate authored instructions. For a moved rule, record its new home. For a
+revised or retired rule, record the reason and affected consumers and delivery
+surfaces in the current task or PR. Obsolete policy does not need a new home.
+Preserve accepted product requirements, current bindings, supported contracts,
+and the standing [authority and protected-effect rules](AGENTS.md#completion-authority-and-protected-effects)
+unless their authorized change is part of the task. Reconcile overlapping
 instructions with their current owners before editing.
 
 Use [Authority and status](docs/README.md#authority-and-status) to distinguish
@@ -302,7 +330,11 @@ verify affected fragments explicitly. Use the existing entrypoint, task-skill,
 and continuity checks when their surfaces change. Walk fresh representative
 tasks through source selection before planning; include cross-area and focused
 business cases when those reading paths are affected. Account for removed
-requirements through their preserved homes. A prose-only correction needs
+rules through their explicit disposition, including deliberate retirement.
+Exact-wording checks are structural signals, not proof of agent behavior or
+permanent prose contracts. Update their expectations with intentional guidance
+changes while preserving negative controls for the retained obligations.
+A prose-only correction needs
 checks for its affected text and links, rather than a new task-walk campaign.
 Independent final-head review and the applicable [repository checks](#checks)
 remain required. Link and task walks do not establish runtime, device, provider,

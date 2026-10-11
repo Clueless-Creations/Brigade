@@ -1,6 +1,6 @@
 ---
 name: b2c-maintainer
-description: "Route the maintenance work on the B2C App Builder repository: instructions and routing, mechanism changes, upstream support upkeep, and maintenance-grade provider integrations. Use for repository-local ownership only; use Brigade for operating one business and b2c-contributor for first source intake."
+description: "Maintain Brigade's platform: instructions, routing, runtime implementation, architecture, simplification and removal, upstream upkeep, and provider integrations. Use for repository-local engineering; use Brigade for operating one business and b2c-contributor for external source intake."
 metadata:
   short-description: Maintain the builder and its upstreams
 ---
@@ -27,8 +27,10 @@ Use this router for one of the following:
 
 2. **Architectural or mechanism edits**
 
+- use [Improve the factory](../../../CONTRIBUTING.md#improve-the-factory) to compare changes by their app-building outcome and total complexity
 - load `docs/architecture-conformance.md` and `docs/north-star-architecture.md` as required
 - record boundary changes with evidence (`path:line`) and keep decision ownership in `docs/decisions/`
+- keep changes to builder runtime and reducer implementation on this route; preserve their supported guarantees, not their current structure
 
 3. **Upstream support maintenance**
 
@@ -42,12 +44,16 @@ Use this router for one of the following:
 - map native capability to canonical operations and independent conformance evidence
 - preserve adapter seams and only keep provider-native code at the boundary layer
 
-## Do not route here
+## Other scopes
 
-- source-adoption intake, rights review, and manifest proposal
-- business runtime operation, reducer edits, provider credentials, workspace-specific operator policy
+Route external source intake, rights review, and manifest proposals to
+[`b2c-contributor`](../b2c-contributor/SKILL.md). Return here for accepted-source maintenance.
 
-Route those to `b2c-contributor` first, then return here after a contribution is accepted.
+Route operation of one business to [Brigade](../../../SKILL.md), including its
+selected provider credentials and workspace operator policy. Change that
+business's execution state through its public operations and reducer. Editing
+the reducer implementation is platform maintenance, not permission to edit
+workspace state directly.
 
 ## CI and checks
 
