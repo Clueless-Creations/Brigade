@@ -62,6 +62,7 @@ import { register as registerSkillSupplyChain } from "./fixtures/skill-supply-ch
 import { register as registerContinuityLengthBudget } from "./fixtures/continuity-length-budget.fixtures.js";
 import { register as registerUpstreams } from "./fixtures/upstreams.fixtures.js";
 import { register as registerAgentEntrypoints } from "./fixtures/agent-entrypoints.fixtures.js";
+import { register as registerCluPrLint } from "./fixtures/clu-pr-lint.fixtures.js";
 
 /** Registration order is report order — the same order the serial loop always used. */
 const modules: Array<{ name: string; register: (harness: Harness) => void }> = [
@@ -102,6 +103,7 @@ const modules: Array<{ name: string; register: (harness: Harness) => void }> = [
   { name: "continuity-length-budget", register: registerContinuityLengthBudget },
   { name: "upstreams", register: registerUpstreams },
   { name: "agent-entrypoints", register: registerAgentEntrypoints },
+  { name: "clu-pr-lint", register: registerCluPrLint },
 ];
 
 const argv = process.argv.slice(2);

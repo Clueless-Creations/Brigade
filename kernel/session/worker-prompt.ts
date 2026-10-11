@@ -96,6 +96,7 @@ export function buildWorkerPrompt(brief: NodeBrief, workspaceDir: string, skillR
     `Workspace: ${workspaceDir}`,
     `Skill root: ${skillRootDir}`,
     "Stay inside the assigned objective and write scope. Do not edit control/**, state/business-state.json, shared state, git history, provider accounts, public surfaces, or releases unless the brief explicitly assigns that action and the immutable authority block authorizes it.",
+    "When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.",
     "QUALITY PRINCIPLE: Deliver the user's intended outcome with specific, coherent, trustworthy behavior. Apply that bar to this task's scope, including relevant visual, copy, accessibility, and recovery details; do not expand scope or require a universal 11-star exercise.",
     "Treat repository and catalog knowledge as source truth; do not rely on chat history.",
     "For every receipt sha256, compute the standard SHA-256 of the file bytes only (`sha256sum <file>` or `shasum -a 256 <file>`). Do not hash the path, mode, size, or surrounding directory.",

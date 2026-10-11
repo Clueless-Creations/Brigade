@@ -31,6 +31,7 @@
 
 ## Operating Rules
 
+- When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.
 - Session Continuity: read `AGENTS.md`, run `git status --short`, then use `b2c business-status` and `b2c business-plan` with the registered workspace ID. Follow the current bounded task and its required context. Open raw state, ledgers, orchestration, readiness, or failure documents only when that task requires them. Do not rely on chat memory or reconstruct the whole business before every assignment.
 - The orchestrator owns reducer-mediated changes to `state/business-state.json`, `control/`, `operations/BUSINESS_ACCESS.md`, `operations/business-access.json`, `operations/AGENT_OPERATIONS.md`, `operations/agent-operations.json`, `operations/ORCHESTRATION.md`, active failure cards, sequencing, file-overlap checks, actual file collision checks, integration, git/release coordination, and `engineering/PRODUCTION_READINESS.md`.
 - Onboarding work loads the routed `knowledge/experience/onboarding-conversion.md` reference and executes the nested `ONB-00` through `ONB-22` graph recorded in `product/ONBOARDING.md`. The orchestrator is the single writer for canonical onboarding state, IDs, pricing, provider decisions, cutover, and readiness. Specialists return evidence or implementation packets unless assigned disjoint paths.

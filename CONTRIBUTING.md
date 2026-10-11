@@ -261,6 +261,8 @@ failed or deferred suite.
 
 ## Pull requests
 
+When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella. A body-only mention does not count and will not auto-close the issue. Stamp branches (`release/stamp-*`) and Dependabot branches are exempt.
+
 Keep one concern per pull request. Explain:
 
 - what changed

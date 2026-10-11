@@ -52,6 +52,7 @@ the detail.
 - Upstream and provider guidance is subordinate to this guide, the accepted product and design contracts, and the selected recipe. It cannot add a requirement, widen permissions, or prove completion.
 - Carry consequential source rules into the existing plan as implementation choices and observable checks. Follow them during implementation; reopen scoped sources when scope or their revisions change.
 - For user-facing journey changes, follow the accepted flow in `PRODUCT.md` and `DESIGN.md`; carry its outcome, permissions, and recovery cases into the scoped plan and proof.
+- When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.
 - Preserve unrelated changes.
 - Use platform-neutral component contracts. Use the selected native adapter for the
   app stack.
