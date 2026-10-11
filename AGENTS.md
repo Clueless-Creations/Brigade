@@ -66,6 +66,8 @@ Honor explicit provider bindings and actual tool availability. Provider adapters
 
 ## Verification and integration
 
+When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.
+
 Run tests proportional to changed behavior plus repository-required gates. Fix failures caused by the change and rerun affected checks without asking. Broaden verification when the change crosses architecture, provider, or public-contract boundaries, or when failures create uncertainty. Do not repeatedly rerun already-green unrelated suites. [CONTRIBUTING.md](CONTRIBUTING.md) owns exact commands and cadence, including all applicable required gates before merge. A green presubmit is not a full-audit pass. Do not skip suites, weaken CI, or replace required full verification with a smaller check. Require current provider/device/store/runtime evidence for claims about those systems. Guidance, generated artifacts, command success, execution, and accepted evidence are different facts.
 
 Parallelize independent research, analysis, implementation, and verification when it saves time or improves quality. Give workers non-overlapping ownership; delegation is not mandatory. One coordinating agent owns shared-file integration, Git mutations and merge coordination, protected external effects, and final verification. Assigned workers preserve others' changes and do not take over those responsibilities. Keep required final conformance review genuinely independent of implementation; do not invent a reviewer or call self-review independent. Report actual checks, evidence, unresolved requirements, and blocked gates.

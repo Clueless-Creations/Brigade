@@ -66,4 +66,6 @@ Load exact commands from [CONTRIBUTING.md](../../../CONTRIBUTING.md) only for th
 
 ## Handoff
 
+When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.
+
 Report the changed ownership, manifest deltas, checks run, conformance evidence, blocks, and founder decisions that block merge or release.
