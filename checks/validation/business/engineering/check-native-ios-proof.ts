@@ -125,9 +125,9 @@ function validateReadiness(text: string, file: string): void {
   );
   requireAny(
     text,
-    ["Codex Desktop", "XcodeBuildMCP", "MobAI", "SnapshotPreviews", "serve-sim", ...IN_APP_SIMULATOR_TERMS],
+    ["Codex Desktop", "XcodeBuildMCP", "MobileBuildMCP", "MobAI", "SnapshotPreviews", "serve-sim", ...IN_APP_SIMULATOR_TERMS],
     "native_ios_proof.route_missing",
-    "Native iOS readiness must name the actual proof route: the in-app iOS Simulator, Codex Desktop/XcodeBuildMCP, MobAI, SnapshotPreviews, or serve-sim.",
+    "Native iOS readiness must name the actual proof route: the in-app iOS Simulator, Codex Desktop, MobileBuildMCP (formerly XcodeBuildMCP), MobAI, SnapshotPreviews, or serve-sim.",
     file,
   );
   requireAny(
@@ -204,26 +204,35 @@ function validateReadiness(text: string, file: string): void {
     );
   }
 
-  if (includesAny(text, ["XcodeBuildMCP", "xcodebuildmcp"])) {
+  if (includesAny(text, ["XcodeBuildMCP", "xcodebuildmcp", "MobileBuildMCP", "mobilebuildmcp"])) {
     requireAny(
       text,
-      ["session_show_defaults", "build_run_sim", "xcodebuildmcp --help", "xcodebuildmcp tools", "xcodebuildmcp simulator"],
+      [
+        "session_show_defaults",
+        "build_run_sim",
+        "xcodebuildmcp --help",
+        "xcodebuildmcp tools",
+        "xcodebuildmcp simulator",
+        "mobilebuildmcp --help",
+        "mobilebuildmcp tools",
+        "mobilebuildmcp simulator",
+      ],
       "native_ios_proof.xcodebuildmcp_route_missing",
-      "XcodeBuildMCP proof must record either MCP tool names or live CLI help/tool discovery used for the run.",
+      "MobileBuildMCP (formerly XcodeBuildMCP) proof must record either MCP tool names or live CLI help/tool discovery used for the run.",
       file,
     );
     requireAny(
       text,
       ["project", "workspace", "scheme"],
       "native_ios_proof.xcodebuildmcp_project_scheme_missing",
-      "XcodeBuildMCP proof must record the project/workspace and scheme used.",
+      "MobileBuildMCP proof must record the project/workspace and scheme used.",
       file,
     );
     requireAny(
       text,
       ["simulator", "device", "UDID", "destination"],
       "native_ios_proof.xcodebuildmcp_target_missing",
-      "XcodeBuildMCP proof must record the simulator/device target.",
+      "MobileBuildMCP proof must record the simulator/device target.",
       file,
     );
   }

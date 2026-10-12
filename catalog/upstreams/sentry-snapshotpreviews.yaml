@@ -15,9 +15,9 @@ copyright: Copyright (c) 2023 Emerge Tools
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/getsentry/SnapshotPreviews/blob/856a1c1585e31d4113c019050d6d0712cf6ddadc/LICENSE
+  evidence_url: https://github.com/getsentry/SnapshotPreviews/blob/e90a09906ef9d0d7fc29871202b4048cd360ee25/LICENSE
   evidence_sha256: d0404079f9a0cfade1fa38c8d4809834851886212359b7ac9d5a20470f719e07
-  reviewed_revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+  reviewed_revision: e90a09906ef9d0d7fc29871202b4048cd360ee25
   notice_file: catalog/upstreams/notices/sentry-snapshotpreviews.txt
   scope: Selected preview-export procedures and dependency awareness only. No package source, binary targets,
     transitive dependencies or example app are incorporated.
@@ -40,21 +40,22 @@ relationships:
       host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
-    revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Read-only metadata, license and selected documentation inspection; no tool or live provider execution.
+    revision: e90a09906ef9d0d7fc29871202b4048cd360ee25
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: v0.20.0 commit, reviewed 2026-10-12. License digest unchanged. No tool or live provider execution.
   reviewed_guidance:
-    revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Selected preview-export procedures and dependency awareness only. No package source, binary targets,
-      transitive dependencies or example app are incorporated.
+    revision: e90a09906ef9d0d7fc29871202b4048cd360ee25
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: v0.20.0 commit e90a09906ef9d0d7fc29871202b4048cd360ee25 (2026-10-08), including v0.19.0 spinner
+      hiding. Upgrade in its own change, re-record affected baselines once, and never mix that re-record with
+      UI changes. No package source, binary targets, transitive dependencies, or example app are incorporated.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    - range: e90a09906ef9d0d7fc29871202b4048cd360ee25
       status: untested
       evidence:
         - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
@@ -91,7 +92,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-06"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

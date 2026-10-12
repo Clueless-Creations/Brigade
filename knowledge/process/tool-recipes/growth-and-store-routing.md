@@ -35,7 +35,7 @@ Use `aso-store-ops.md` as the router. Load `app-store-listing-prep.md` for Apple
 Fallback:
 
 - If the ASO skills are installed but not discoverable in the current runtime, search local skill/plugin directories for the skill name and read its `SKILL.md`.
-- If the Eronred ASO skill set is relevant, refresh `https://github.com/Eronred/aso-skills` and prefer installed or vendored skill docs over memory.
+- If the Eronred ASO skill set is relevant, refresh `https://github.com/appeeky/aso-skills` and prefer installed or vendored skill docs over memory.
 - If no ASO skill pack is installed, use [`paid-tool-routing.md`](../../operations/paid-tool-routing.md) before replacing paid ASO tooling with AppKittie, public App Store/Play Console research, manual keyword sheets, and the same outputs: context, keyword map, metadata variants, `APP_STORE_LISTING.md`, `store/STORE_CONSOLE.md`, `app-store-listing.html`, `store/store-console.html`, `SCREENSHOTS.md`, launch calendar, and post-launch monitoring loop.
 
 ## Paid User Acquisition Routing
@@ -117,7 +117,7 @@ Inputs:
 
 - `PRODUCT.md`, `strategy/BRAND.md`, `DESIGN.md`, `product/ONBOARDING.md`, `LAUNCH.md`, `analytics/ANALYTICS.md`, `revenue/REVENUE_OPS.md`, `trust/PRIVACY.md`, `trust/TERMS.md`
 - AppKittie/XPOZ/review evidence for audience language and competitor creator patterns
-- real app screenshots/recordings from MobAI, Codex Desktop native iOS/XcodeBuildMCP, serve-sim, or approved fallback
+- real app screenshots/recordings from MobAI, Codex Desktop native iOS/MobileBuildMCP, serve-sim, or approved fallback
 - Higgsfield visuals only as supporting assets constrained by `DESIGN.md`
 
 Outputs:
@@ -158,7 +158,7 @@ Inputs:
 
 - `PRODUCT.md`, `strategy/BRAND.md`, `DESIGN.md`, `LAUNCH.md`, `product/ONBOARDING.md`, `revenue/REVENUE_OPS.md`, `trust/PRIVACY.md`, `trust/TERMS.md`, and `strategy/RESEARCH.md`
 - MobAI screenshots/recordings for real app proof
-- Codex Desktop native iOS/XcodeBuildMCP or serve-sim screenshots/recordings when Apple-platform media proof is available or approved as a fallback
+- Codex Desktop native iOS/MobileBuildMCP or serve-sim screenshots/recordings when Apple-platform media proof is available or approved as a fallback
 - Higgsfield assets for design-system constrained hooks, mascots, backgrounds, and motion
 - `growth/UGC_PLAYBOOK.md`, `ugc/script-bank.md`, and creator/post results when a creator-led engine exists
 

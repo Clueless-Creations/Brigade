@@ -13,10 +13,10 @@ maintainers:
 license:
   spdx: MIT
   status: verified
-  reviewed_revision: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
+  reviewed_revision: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
   scope: Root LICENSE; only the listed upstream paths were adopted. Dependencies, linked material, and bundled third-party
     content need separate review.
-  evidence_url: https://github.com/RevenueCat/ai-toolkit/blob/b9b77b12da33213c9c2e750b06cd6270c1d8ed65/LICENSE
+  evidence_url: https://github.com/RevenueCat/ai-toolkit/blob/ccfc038185ec457b2ac9077f3bbf1ba947a44dbb/LICENSE
   evidence_sha256: 2e92c72a8e13012a7f53d2bebbee52ab1a1c06cf652092faecf4523a5bc23e3f
   notice_file: catalog/upstreams/notices/revenuecat-ai-toolkit.txt
 source_ids:
@@ -41,20 +41,20 @@ relationships:
       and remotely downloaded skills remain separate compatibility dependencies.
 baselines:
   reviewed_source:
-    revision: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Read-only archive inspected; branch head rechecked via GitHub. This is source review, not a binary execution test.
+    revision: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Head ccfc038185ec457b2ac9077f3bbf1ba947a44dbb (2026-09-25). License digest unchanged. No binary execution.
   reviewed_guidance:
-    revision: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Adapted selected procedures; intentional deviations are recorded locally.
+    revision: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Reviewed 2026-10-12 at ccfc038185ec457b2ac9077f3bbf1ba947a44dbb, after tag v2.3.0 (ac20d26b35be0d01d0dbd3130c1b34932d402e5d). Store-state writes follow the Plans API (create, plan, show diffs, confirm, apply). Paywall setup chooses RevenueCat Paywall by default when no screen exists. Experiment exposure_status is exposed or not_exposed. Audiences are inspected with preview-audience. Brigade still refuses rc.products.store.apply and paywall publish. Intentional deviations stay recorded locally.
 support:
   policy: Reviewed source guidance only. No upstream executable or live provider integration was exercised. SDK and tool compatibility
     must be verified against the selected app and host before execution.
   versions:
-    - range: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
+    - range: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
       status: untested
       evidence:
         - Source inspection only; no live execution or broad SDK-version support claim.
@@ -89,7 +89,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-06"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

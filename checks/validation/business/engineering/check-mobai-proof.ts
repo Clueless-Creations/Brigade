@@ -121,7 +121,7 @@ function validateProjectProof(state: unknown): void {
   if (!section) {
     // Deleting the section used to skip validatePlatformMatrix entirely, so an
     // Android-in-scope launch whose only device evidence came from an iOS-only
-    // route (the in-app simulator, XcodeBuildMCP) passed with no Android proof
+    // route (the in-app simulator, MobileBuildMCP) passed with no Android proof
     // and no recorded decision. Cross-platform scope has to be answered, even
     // if the answer is a dated "not needed".
     const platforms = asArray(getPath(state, "project.platforms"))

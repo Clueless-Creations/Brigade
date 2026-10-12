@@ -2974,7 +2974,7 @@ sources:
   - id: github-com-revenuecat-ai-toolkit-license
     name: RevenueCat AI Toolkit
     source_type: github
-    url: https://github.com/RevenueCat/ai-toolkit/blob/b9b77b12da33213c9c2e750b06cd6270c1d8ed65/LICENSE
+    url: https://github.com/RevenueCat/ai-toolkit/blob/ccfc038185ec457b2ac9077f3bbf1ba947a44dbb/LICENSE
     refresh_cadence_days: 7
     owner: b2c-maintainers
     locations:
@@ -2992,7 +2992,7 @@ sources:
   - id: github-com-revenuecat-cli-license
     name: RevenueCat CLI
     source_type: github
-    url: https://github.com/RevenueCat/cli/blob/1a3d2820b3166dd6d4cc4775902e43eeeab5f004/LICENSE
+    url: https://github.com/RevenueCat/cli/blob/548f93276088f73fc15a411f34f02a51ba56ad4d/LICENSE
     refresh_cadence_days: 7
     owner: b2c-maintainers
     locations:
@@ -3010,7 +3010,7 @@ sources:
   - id: github-com-posthog-wizard-license
     name: PostHog wizard
     source_type: github
-    url: https://github.com/PostHog/wizard/blob/41c12328636f46a517777b17359dd8f5b3d14d96/LICENSE
+    url: https://github.com/PostHog/wizard/blob/52220a3e60e4c14555fddef61afb0a8dc3b68b94/LICENSE
     refresh_cadence_days: 7
     owner: b2c-maintainers
     locations:
@@ -3034,6 +3034,16 @@ sources:
     locations:
       - knowledge/data/posthog-agent-tooling.md
     notes: Reviewed source, not automatic installation, business adoption or live verification.
+  - id: github-com-appeeky-aso-skills
+    name: ASO and App Marketing Skills
+    source_type: github
+    url: https://github.com/appeeky/aso-skills
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/eronred-aso-skills.yaml
+      - knowledge/store/screenshot-toolchain.md
+    notes: Canonical repository after the transfer from Eronred/aso-skills. Manifest id stays eronred-aso-skills.
   - id: github-com-eronred-aso-skills
     name: ASO and App Marketing Skills
     source_type: github
@@ -3049,7 +3059,7 @@ sources:
   - id: github-com-eronred-aso-skills-tree-main-skills
     name: ASO and App Marketing Skills
     source_type: github
-    url: https://github.com/Eronred/aso-skills/tree/main/skills
+    url: https://github.com/appeeky/aso-skills/tree/main/skills
     refresh_cadence_days: 7
     owner: source-freshness
     locations:
@@ -3060,16 +3070,219 @@ sources:
     notes: Skill-directory reference retained from existing guidance. Immutable reviewed source selectors and rights
       remain in the upstream manifest.
   - id: github-com-getsentry-xcodebuildmcp
-    name: XcodeBuildMCP
+    name: MobileBuildMCP
     source_type: github
-    url: https://github.com/getsentry/XcodeBuildMCP
+    url: https://github.com/getsentry/MobileBuildMCP
     refresh_cadence_days: 7
     owner: source-freshness
     locations:
       - catalog/upstreams/sentry-xcodebuildmcp.yaml
       - knowledge/engineering/xcodebuildmcp-testing.md
       - knowledge/process/tool-recipes/device-capture-and-proof.md
-    notes: Reviewed source and derivation mapping for selected screenshot or capture guidance.
+    notes: Reviewed source and derivation mapping for selected screenshot or capture guidance. Formerly
+      getsentry/XcodeBuildMCP. The manifest id stays sentry-xcodebuildmcp.
+  - id: github-com-getsentry-xcodebuildmcp-retired-path
+    name: XcodeBuildMCP retired repository path
+    source_type: github
+    url: https://github.com/getsentry/XcodeBuildMCP
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - ACKNOWLEDGMENTS.md
+      - THIRD_PARTY_NOTICES.md
+      - docs/upstreams/support-report.md
+    notes: GitHub redirects this path to getsentry/MobileBuildMCP. Kept so generated credits that still name the
+      old path stay registered until the release stamp rewrites them.
+  - id: xcodebuildmcp-com-docs-cli
+    name: MobileBuildMCP CLI docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/cli.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-clients
+    name: MobileBuildMCP client docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/clients.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-configuration
+    name: MobileBuildMCP configuration docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/configuration.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-installation
+    name: MobileBuildMCP installation docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/installation.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-privacy
+    name: MobileBuildMCP privacy docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/privacy.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-setup
+    name: MobileBuildMCP setup docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/setup.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-skills
+    name: MobileBuildMCP skills docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/skills.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-tools
+    name: MobileBuildMCP tools docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/tools.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-troubleshooting
+    name: MobileBuildMCP troubleshooting docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/troubleshooting.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-workflows
+    name: MobileBuildMCP workflow docs
+    source_type: docs
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/workflows.mdx
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/knowledge/engineering/engineering-xcodebuildmcp-testing.yaml
+      - knowledge/engineering/xcodebuildmcp-testing.md
+    notes: Docs moved off xcodebuildmcp.com in MobileBuildMCP v2.7.1. Reviewed 2026-10-12.
+  - id: xcodebuildmcp-com-docs-cli-retired
+    name: Retired xcodebuildmcp.com CLI docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/cli
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-clients-retired
+    name: Retired xcodebuildmcp.com client docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/clients
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-configuration-retired
+    name: Retired xcodebuildmcp.com configuration docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/configuration
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-installation-retired
+    name: Retired xcodebuildmcp.com installation docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/installation
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-privacy-retired
+    name: Retired xcodebuildmcp.com privacy docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/privacy
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-setup-retired
+    name: Retired xcodebuildmcp.com setup docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/setup
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-skills-retired
+    name: Retired xcodebuildmcp.com skills docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/skills
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-tools-retired
+    name: Retired xcodebuildmcp.com tools docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/tools
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-troubleshooting-retired
+    name: Retired xcodebuildmcp.com troubleshooting docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/troubleshooting
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
+  - id: xcodebuildmcp-com-docs-workflows-retired
+    name: Retired xcodebuildmcp.com workflow docs
+    source_type: docs
+    url: https://xcodebuildmcp.com/docs/workflows
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Domain retired in MobileBuildMCP v2.7.1. Generated catalog still cites it until the release stamp.
   - id: github-com-getsentry-snapshotpreviews
     name: SnapshotPreviews
     source_type: github
@@ -3126,7 +3339,7 @@ sources:
   - id: parth-app-store-screenshots-license
     name: App Store Screenshots reviewed license
     source_type: github
-    url: https://github.com/ParthJadhav/app-store-screenshots/blob/18951ddc4e06c53a3d34207732c16d9568f88d11/LICENSE
+    url: https://github.com/ParthJadhav/app-store-screenshots/blob/8b75d86b7cbbd04bc32786cf491241adcb66d79e/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3136,7 +3349,7 @@ sources:
   - id: eronred-aso-skills-license
     name: ASO and App Marketing Skills reviewed license
     source_type: github
-    url: https://github.com/Eronred/aso-skills/blob/4df730f456c21e42b9a2ea2be89fb32caf787728/LICENSE
+    url: https://github.com/appeeky/aso-skills/blob/3919d7c27402d92c7ef698f2016174b874ea189e/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3144,9 +3357,9 @@ sources:
     notes: Immutable license evidence reviewed with the selected upstream commit. A new adoption must review and
       retain its own license; this entry is not live executable verification.
   - id: sentry-xcodebuildmcp-license
-    name: XcodeBuildMCP reviewed license
+    name: MobileBuildMCP reviewed license
     source_type: github
-    url: https://github.com/getsentry/XcodeBuildMCP/blob/e6ef59b49b44012c824f0a0de261c96142e37390/LICENSE
+    url: https://github.com/getsentry/MobileBuildMCP/blob/d13ff0c707b0681769cf31da0eb42c4f94ceafff/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3156,7 +3369,7 @@ sources:
   - id: sentry-snapshotpreviews-license
     name: SnapshotPreviews reviewed license
     source_type: github
-    url: https://github.com/getsentry/SnapshotPreviews/blob/856a1c1585e31d4113c019050d6d0712cf6ddadc/LICENSE
+    url: https://github.com/getsentry/SnapshotPreviews/blob/e90a09906ef9d0d7fc29871202b4048cd360ee25/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3166,7 +3379,7 @@ sources:
   - id: evanbacon-serve-sim-license
     name: serve-sim reviewed license
     source_type: github
-    url: https://github.com/EvanBacon/serve-sim/blob/0ee6fbde40a6b5840d0c6e0379f544feb9fa246b/LICENSE
+    url: https://github.com/EvanBacon/serve-sim/blob/6d009686ed08f7d8bd19bca9f9f67a9237931f44/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3391,7 +3604,7 @@ sources:
   - id: last30days-skill-file
     name: last30days SKILL.md
     source_type: github
-    url: https://github.com/mvanhorn/last30days-skill/blob/310f0b405db2d84adb4993bbf140cef9584057d2/skills/last30days/SKILL.md
+    url: https://github.com/mvanhorn/last30days-skill/blob/50998cd1ba583f13a63b20e3fb5d906c71c31655/skills/last30days/SKILL.md
     refresh_cadence_days: 30
     owner: source-freshness
     locations:
@@ -3403,7 +3616,7 @@ sources:
   - id: last30days-skill-license
     name: last30days reviewed license
     source_type: github
-    url: https://github.com/mvanhorn/last30days-skill/blob/310f0b405db2d84adb4993bbf140cef9584057d2/LICENSE
+    url: https://github.com/mvanhorn/last30days-skill/blob/50998cd1ba583f13a63b20e3fb5d906c71c31655/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3566,7 +3779,7 @@ sources:
   - id: emilkowalski-skills-license
     name: Emil Kowalski skills reviewed license
     source_type: github
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/LICENSE
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3576,7 +3789,7 @@ sources:
   - id: emilkowalski-review-animations
     name: Emil Kowalski review-animations skill
     source_type: github
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/review-animations/SKILL.md
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md
     refresh_cadence_days: 30
     owner: source-freshness
     locations:
@@ -3588,7 +3801,7 @@ sources:
   - id: emilkowalski-apple-design
     name: Emil Kowalski apple-design skill
     source_type: github
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/apple-design/SKILL.md
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/apple-design/SKILL.md
     refresh_cadence_days: 30
     owner: source-freshness
     locations:
@@ -3600,7 +3813,7 @@ sources:
   - id: emilkowalski-break-ui
     name: Emil Kowalski break-ui skill
     source_type: github
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/break-ui/SKILL.md
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md
     refresh_cadence_days: 30
     owner: source-freshness
     locations:
@@ -3609,6 +3822,33 @@ sources:
       - catalog/knowledge/design/design-mobile-flow-craft.yaml
     notes: Skill-file reference retained from existing guidance. Immutable reviewed source selectors and rights
       remain in the upstream manifest.
+  - id: emilkowalski-review-animations-previous
+    name: Emil Kowalski review-animations skill at the previous reviewed commit
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/review-animations/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Generated catalog still cites e8a175de until the release stamp. The reviewed skill file is 2d228630ba1446365f614a108cb8252f1feda202.
+  - id: emilkowalski-apple-design-previous
+    name: Emil Kowalski apple-design skill at the previous reviewed commit
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/apple-design/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Generated catalog still cites e8a175de until the release stamp. The reviewed skill file is 2d228630ba1446365f614a108cb8252f1feda202.
+  - id: emilkowalski-break-ui-previous
+    name: Emil Kowalski break-ui skill at the previous reviewed commit
+    source_type: github
+    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/break-ui/SKILL.md
+    refresh_cadence_days: 30
+    owner: source-freshness
+    locations:
+      - catalog/generated/catalog.json
+    notes: Generated catalog still cites e8a175de until the release stamp. The reviewed skill file is 2d228630ba1446365f614a108cb8252f1feda202.
   - id: github-vercel-labs-agent-skills
     name: Vercel Labs agent skills
     source_type: github

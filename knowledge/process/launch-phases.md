@@ -699,7 +699,7 @@ Do:
 - Run secret-bearing commands through `doppler run --` or the approved provider wrapper, and update `SECRETS.md` whenever implementation introduces new variables.
 - Verify real test data lands where expected: database/Firestore/Supabase/Postgres, RevenueCat, Stripe, Resend, PostHog, Sentry, store console, or provider logs.
 - Use `ce-code-review`, `ce-test-browser`, `ce-test-xcode`, `ce-proof`, or `ce-demo-reel` when available and appropriate.
-- Use `xcodebuildmcp-testing.md` for all Apple simulator/device proof and start at its Route Ladder rung 0: the in-app iOS Simulator (Claude Code Desktop pane or Codex `build-ios-apps`) for running the app, checking screens, walking flows, and reproducing bugs on a local Mac. Escalate to XcodeBuildMCP, SnapshotPreviews, or serve-sim when the lane needs scripted/CI builds, preview coverage, or a browser-visible stream. Replacing MobAI with any Apple-only rung requires a recorded coverage decision per `paid-tool-routing.md`.
+- Use `xcodebuildmcp-testing.md` for all Apple simulator/device proof and start at its Route Ladder rung 0: the in-app iOS Simulator (Claude Code Desktop pane or Codex `build-ios-apps`) for running the app, checking screens, walking flows, and reproducing bugs on a local Mac. Escalate to MobileBuildMCP, SnapshotPreviews, or serve-sim when the lane needs scripted/CI builds, preview coverage, or a browser-visible stream. Replacing MobAI with any Apple-only rung requires a recorded coverage decision per `paid-tool-routing.md`.
 - Record all verification and blockers in `engineering/PRODUCTION_READINESS.md`.
 - Run deterministic validators or LaunchBench checks where available, update failure cards, update `state/business-state.json`,.
 
@@ -715,7 +715,7 @@ Acceptance:
 - Unit tests, integration tests, browser/mobile E2E, and provider/backend proof cover the launch-critical paths.
 - Release/staging build has mocks disabled and production-like configuration verified.
 - Frontend actions are proven against backend/provider state when a backend/provider is in scope.
-- Device proof exists for critical mobile flows from the rung actually used — in-app iOS Simulator (rung 0), MobAI, XcodeBuildMCP, serve-sim, or SnapshotPreviews — with the rung, evidence paths, and coverage limitations recorded, or the blocker is explicit (including "no local Mac in this session" for cloud/SSH runs).
+- Device proof exists for critical mobile flows from the rung actually used — in-app iOS Simulator (rung 0), MobAI, MobileBuildMCP, serve-sim, or SnapshotPreviews — with the rung, evidence paths, and coverage limitations recorded, or the blocker is explicit (including "no local Mac in this session" for cloud/SSH runs).
 - Remaining gaps are founder-only gates, external access waits, or platform review waits.
 - `state/business-state.json` matches the proof and blockers in `engineering/PRODUCTION_READINESS.md`.
 
@@ -771,7 +771,7 @@ Do:
 - Build campaign brief, prompts, angles, Blitz preferences, UTM convention, and 30-day cadence from the launch docs.
 - Use MobAI full-quality screenshots and screen recordings plus Higgsfield design-system visuals as approved media inputs.
 - For polished app-flow demo videos, load `mobai-toolbelt.md` and route to MobAI `mobile-recorder-skill` for iOS/Android or `desktop-recorder-skill` for macOS/web. Save `.mob` or `screenplay.json`, raw capture, final export, captions, and upload copy in `growth/DEMO_VIDEO.md`.
-- Use in-app iOS Simulator screenshots/recordings (rung 0, either runtime), or XcodeBuildMCP/serve-sim captures, when Apple-platform media is needed; copy captures off the Desktop into the repo's raw capture directory, verify native resolution against the target well, and record limitations.
+- Use in-app iOS Simulator screenshots/recordings (rung 0, either runtime), or MobileBuildMCP/serve-sim captures, when Apple-platform media is needed; copy captures off the Desktop into the repo's raw capture directory, verify native resolution against the target well, and record limitations.
 - Generate content, QA it against brand/legal/store claims, and prepare a schedule.
 - Schedule or post only after explicit approval.
 - Run weekly analytics loops that connect Fastlane performance to installs, trials, purchases, attribution answers, and product analytics.

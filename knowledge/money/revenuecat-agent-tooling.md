@@ -82,6 +82,32 @@ The executable candidate is GitHub release **v0.1.1**
 The later source head is not the installed release. Do not run
 `npx @revenuecat/cli@latest` at runtime.
 
+Guidance reviewed at `548f93276088f73fc15a411f34f02a51ba56ad4d` (after v0.1.4)
+is not the v0.1.1 adapter. On that later CLI, credential precedence is the
+`--api-key` flag, then `RC_API_KEY`, then OAuth login, then a stored key. Silent
+OAuth refresh runs only when OAuth is the active source. `rc apps list
+--all-projects` can locate an app by `--bundle-id` (App Store and Mac App Store,
+case-insensitive) or `--package-name` (Play and Amazon, exact). Those flags are
+mutually exclusive. `rc setup apple` reads the Apple service key from `HEAD
+/logout` without cookies or redirect following, then falls back to Olympus. It
+does not save a session or cache the service key. Setup stays founder-gated.
+Do not treat any of this as behavior of the pinned v0.1.1 executable.
+
+The AI Toolkit store-state skill writes through the Plans API: create, plan,
+show `plan_items` diffs, explicit confirmation, then apply. Reads stay
+`get-product-store-state`. Do not call the old `set-product-store-state`.
+Brigade still refuses `rc.products.store.apply`. Paywall setup chooses how the
+paywall is built before coding. The default is a RevenueCat Paywall when the
+app has no paywall screen. If a screen already exists, keep it and wire
+offerings. Ask when the session can ask. If it cannot, take the default and
+say so. A custom paywall change needs an app release and cannot be A/B tested.
+Price and offering tests still can. Experiment `exposure_status` is `exposed`
+or `not_exposed`, not enrolled. Omit it when every customer is enrolled.
+Confirm `indicative_price`, `trial_duration`, and `duration` with
+`get-product-store-state`. "Exposed customers" means paywall viewers. Inspect
+an audience with `preview-audience` and `body.rules`. Do not create an audience
+just to inspect it. Publishing a paywall still needs a separate grant.
+
 Discovery uses a trusted absolute path, `--version`, and `commands --json` with
 `--no-input --no-color`. It does not install, log in, refresh OAuth, or change
 profiles. An unrelated binary named `rc` is not RevenueCat. A profile named

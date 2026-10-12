@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "upstreamId": "typesafe-ai",
-  "checkedAt": "2026-09-19T19:35:00.000Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "manual",
   "latestStable": {
     "tag": "v0.7.0",
@@ -21,6 +21,7 @@
   "archived": false,
   "host": null,
   "unknowns": [
+    "v0.7.4 (e70bf99a89f27102247613bcd5d1aa8923a1cda9, published 2026-10-09) inspected 2026-10-12. License digest unchanged. No procedure change. Qualification pin remains v0.7.0 / 2ce5c65f13646cab6e6f782328194c9d85f3300a.",
     "Observation covers the Python SDK GitHub release/tag only; npm @typesafe-ai/sdk latest 0.6.0 is a distinct distribution recorded in qualification docs, not this observation's latestStable tag.",
     "Public docs.typesafe.ai pages have no immutable git revision; guidance baseline is the 2026-09-19 read date plus page set.",
     "No host executable, Brigade package install, provider session, or live System One call was performed.",

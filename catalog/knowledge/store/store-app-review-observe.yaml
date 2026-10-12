@@ -37,7 +37,7 @@ sources:
     claim_scope: Rork asc 5.4.0 changes cached Apple web-session account selection and version defaults.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli-releases-5-7-0
     name: github.com
@@ -47,7 +47,7 @@ sources:
     claim_scope: Current Rork asc review command flags.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: developer-apple-com-documentation-appstoreconnectapi-webhook-events
     name: developer.apple.com
@@ -89,7 +89,7 @@ sources:
     claim_scope: Rork asc 4.9.0 adds metadata validate, metadata push dry-run, and web agreements status.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli
     name: github.com
@@ -99,7 +99,7 @@ sources:
     claim_scope: asc web review show returns threads, messages, structured reasons, and attachments.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: docs-asccli-sh-commands-web
     name: docs.asccli.sh

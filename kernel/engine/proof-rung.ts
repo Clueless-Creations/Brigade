@@ -8,7 +8,7 @@ import type { BusinessStateV2 } from "../schema/types.js";
  * interactive-agent-only capabilities with no headless process to invoke — a `tsx` subprocess has
  * no simulator pane and no computer-use tool of its own. This function NEVER returns those rungs.
  * It picks between the two rungs a script CAN actually drive: rung 2 (raw xcodebuild/xcrun
- * simctl, the same primitives XcodeBuildMCP itself wraps) for iOS on a local macOS session, and
+ * simctl, the same primitives MobileBuildMCP itself wraps) for iOS on a local macOS session, and
  * rung 4 (the MobAI CLI) for Android or an explicit MobAI selection. Everything else is
  * `"blocked"`, named with a reason a founder can act on — never a silent claim that a rung ran
  * when it did not.

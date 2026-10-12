@@ -55,7 +55,7 @@ Also refresh:
 - available signing identities: `security find-identity -v -p codesigning`
 - project build settings for every app target
 - App Store Connect CLI docs and `asc --help` when using the Rork CLI route
-- XcodeBuildMCP docs and local CLI/tool help when using XcodeBuildMCP
+- MobileBuildMCP docs and local CLI/tool help when using MobileBuildMCP
 
 Record the docs checked date and command basis in `store/APPLE_SIGNING.md`, `store/APPLE_APP_STORE_REQUIREMENTS.md`, `store/STORE_CONSOLE.md`, or `engineering/PRODUCTION_READINESS.md`.
 
@@ -237,7 +237,7 @@ find ios -name '*.entitlements' -o -name 'PrivacyInfo.xcprivacy' -o -name 'Info.
 plutil -p ios/MyApp/Info.plist
 ```
 
-When XcodeBuildMCP is available and in scope, use its project/session discovery and build tools first, then record equivalent evidence. Always call `session_show_defaults` before the first XcodeBuildMCP build/run/test in a session.
+When MobileBuildMCP is available and in scope, use its project/session discovery and build tools first, then record equivalent evidence. Always call `session_show_defaults` before the first MobileBuildMCP build/run/test in a session.
 
 Inventory every app target, extension, widget, watch target, clip, test host, and notification service extension. Each target may need a related bundle ID, entitlement, signing team, and provisioning profile.
 
@@ -485,7 +485,7 @@ xcodebuild -exportArchive \
   -authenticationKeyIssuerID "$ASC_ISSUER_ID"
 ```
 
-or Xcode Organizer / XcodeBuildMCP / ASC CLI proof. Prefer the repo's established build tooling and the live docs for exact commands.
+or Xcode Organizer / MobileBuildMCP / ASC CLI proof. Prefer the repo's established build tooling and the live docs for exact commands.
 
 Do not call an app "uploaded", "TestFlight-ready", "release-ready", or "store-ready" unless the build has been archived and either uploaded/processing in App Store Connect or the blocker is named with the exact missing account/signing/app-record step.
 

@@ -1,11 +1,15 @@
 {
   "schemaVersion": 1,
   "upstreamId": "evanbacon-serve-sim",
-  "checkedAt": "2026-09-06T15:58:00.701780Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "manual",
   "latestStable": null,
   "prereleases": [],
-  "branchHead": null,
+  "branchHead": {
+    "branch": "main",
+    "sha": "6d009686ed08f7d8bd19bca9f9f67a9237931f44",
+    "committedAt": "2026-10-11T00:00:00Z"
+  },
   "releasesSinceBaseline": [],
   "licenseSha256": "9024cdf56dfe7e66523698a9f63d3a0061eb15f43bd5ea8e3833a56017ae37fd",
   "licenseChanged": false,

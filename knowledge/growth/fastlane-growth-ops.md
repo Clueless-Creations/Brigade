@@ -209,7 +209,7 @@ Preference rules:
 Use real app media before generic generated visuals. Route capture through the Route Ladder in `xcodebuildmcp-testing.md` first:
 
 - in-app iOS Simulator screenshots, recordings, and logs (rung 0, either runtime) first when the session is on a local Mac and the lane is a one-off Apple capture
-- XcodeBuildMCP captures for scripted/CI or physical-device Apple work
+- MobileBuildMCP captures for scripted/CI or physical-device Apple work
 - MobAI full-quality screenshots and screen recordings when the lane needs Android coverage or a repeatable capture cadence; record the coverage decision when an Apple-only rung replaces an intended MobAI route
 - MobAI `mobile-recorder-skill` for polished iOS/Android app-flow videos with `.mob` choreography, tap ripples, finger overlay, phone bezel/background, zoom, variable speed, captions, final mp4, and upload copy
 - MobAI `desktop-recorder-skill` for polished macOS/web app-flow videos with `screenplay.json`, click ripples, cursor sprite, captions, zoom, variable speed, final mp4, and upload copy
@@ -233,20 +233,20 @@ MobAI capture rules:
 
 Native iOS fallback/proof:
 
-- load `xcodebuildmcp-testing.md` before Codex Desktop native iOS/XcodeBuildMCP, SnapshotPreviews, or serve-sim proof
-- a plain Apple-only capture starts at rung 0 with no confirmation; when a lane needs a MobAI delta (Android, repeatable cadence, recorder polish) and MobAI is unavailable, confirm the XcodeBuildMCP replacement through `paid-tool-routing.md`
+- load `xcodebuildmcp-testing.md` before Codex Desktop native iOS/MobileBuildMCP, SnapshotPreviews, or serve-sim proof
+- a plain Apple-only capture starts at rung 0 with no confirmation; when a lane needs a MobAI delta (Android, repeatable cadence, recorder polish) and MobAI is unavailable, confirm the MobileBuildMCP replacement through `paid-tool-routing.md`
 - record Apple-only coverage limits, preview-only limits, provider-proof pairing, and signing/distribution limits in `growth/FASTLANE_OPS.md`, `SCREENSHOTS.md`, and `engineering/PRODUCTION_READINESS.md`
 
 ### Multi-Format Delivery
 
-Once a master video exists (real app footage from MobAI, Codex Desktop native iOS/XcodeBuildMCP, serve-sim, or a Higgsfield-generated supporting creative), convert it to all required aspect ratios at near-zero incremental cost versus three separate generations. See the **Master → All Platforms** recipe in `tool-recipes/visual-and-motion-production.md` for the full workflow.
+Once a master video exists (real app footage from MobAI, Codex Desktop native iOS/MobileBuildMCP, serve-sim, or a Higgsfield-generated supporting creative), convert it to all required aspect ratios at near-zero incremental cost versus three separate generations. See the **Master → All Platforms** recipe in `tool-recipes/visual-and-motion-production.md` for the full workflow.
 
 Key points for this surface:
 
 - `reframe` on the Higgsfield MCP has no `higgsfield reframe ...` CLI command. Confirm the live arguments in Higgsfield MCP tool help before running.
 - Personal Clipper, named in Higgsfield's public MCP operations table, extracts shorts from long recordings before reframing. The help page does not publish a tool id. Confirm the live id in Higgsfield MCP tool help before calling it.
 - Targets: 9:16 (TikTok / Reels), 1:1 (feed), 16:9 (YouTube / LinkedIn).
-- **App Preview guardrail:** any reframe intended as an App Preview must be sourced from REAL app footage (an in-app iOS Simulator recording, MobAI, XcodeBuildMCP, or serve-sim capture) captured at a resolution that meets the target well. Generated video and preview-only snapshots are never valid App Preview sources.
+- **App Preview guardrail:** any reframe intended as an App Preview must be sourced from REAL app footage (an in-app iOS Simulator recording, MobAI, MobileBuildMCP, or serve-sim capture) captured at a resolution that meets the target well. Generated video and preview-only snapshots are never valid App Preview sources.
 - **Spend-confirmation gate:** `reframe` on the Higgsfield MCP deducts credits. Personal Clipper does too when you call it. Confirm spend with the founder per `paid-tool-routing.md` and surface the current balance with `balance` on the Higgsfield MCP before running.
 - **CONTENT_ASSETS.md traceability:** record all output URLs, source job IDs (`source_job_id`), and aspect-ratio variants in `CONTENT_ASSETS.md` / `growth/content-assets/manifest.json`. Run `brain_activity` virality scoring on each variant and log the score before scheduling any paid distribution.
 - Do not schedule reframed variants until the founder approves each output.

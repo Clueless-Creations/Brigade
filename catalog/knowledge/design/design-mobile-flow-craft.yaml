@@ -87,14 +87,14 @@ sources:
   - id: emilkowalski-break-ui
     name: Emil Kowalski break-ui worst-case data
     source_type: upstream_method
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/break-ui/SKILL.md
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/break-ui/SKILL.md
     review_cadence_days: 30
     claim_scope: MIT-licensed worst-case data stress method. B2C App Builder adapts the plausible-extremes catalog
       without requiring a demo toggle in the product UI.
     last_review_date: 2026-10-07
     reviewer: b2c-maintainers
     publisher: Emil Kowalski
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
     upstream_id: emilkowalski-skills
     selectors: &emil-break
       - LICENSE
@@ -149,7 +149,7 @@ derivations:
   - source_ids:
       - emilkowalski-break-ui
     relationship: adapted
-    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    baseline: 2d228630ba1446365f614a108cb8252f1feda202
     selectors: *emil-break
     rationale: Add plausible worst-case data stress to state-cycle review without requiring a product-UI demo toggle.
     omissions:

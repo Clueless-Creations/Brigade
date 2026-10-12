@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "upstreamId": "posthog-context-mill",
-  "checkedAt": "2026-09-06T13:59:41.931798Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "manual",
   "latestStable": {
-    "tag": "v1.51.0",
-    "publishedAt": "2026-09-03T20:14:25Z",
+    "tag": "v1.55.0",
+    "publishedAt": "2026-09-23T18:52:39Z",
     "assets": []
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "bbc88864bf8ba2efac43bb4c2782e4406bc0dfa6",
-    "committedAt": "2026-09-04T17:46:42Z"
+    "sha": "679c57b6163b60eadb1fc82fb2a29db5a9fc0d55",
+    "committedAt": "2026-10-06T00:00:00Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": null,
@@ -20,9 +20,8 @@
   "archived": false,
   "host": null,
   "unknowns": [
-    "Maintainer-assembled from the retained read-only GitHub archive intake; release list covers one page, not full history.",
-    "No host executable, provider session, SDK integration, or release asset binary was tested.",
-    "No release-to-commit ancestry comparison was made; releases since the reviewed source are not asserted.",
-    "No license file found. Rights review is unresolved and no code or skill content is adopted."
+    "No LICENSE file at 679c57b6163b60eadb1fc82fb2a29db5a9fc0d55. Rights review stays unresolved and no skill text is adopted.",
+    "Latest release v1.55.0 is older than the reviewed head. No release-to-commit ancestry was fully compared.",
+    "No host executable, provider session, or live query was tested."
   ]
 }

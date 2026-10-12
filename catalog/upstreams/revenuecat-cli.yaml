@@ -12,9 +12,9 @@ maintainers:
 license:
   spdx: MIT
   status: verified
-  reviewed_revision: 1a3d2820b3166dd6d4cc4775902e43eeeab5f004
+  reviewed_revision: 548f93276088f73fc15a411f34f02a51ba56ad4d
   scope: Root LICENSE; only the listed upstream paths were adopted. Dependencies, linked material, and bundled third-party content need separate review.
-  evidence_url: https://github.com/RevenueCat/cli/blob/1a3d2820b3166dd6d4cc4775902e43eeeab5f004/LICENSE
+  evidence_url: https://github.com/RevenueCat/cli/blob/548f93276088f73fc15a411f34f02a51ba56ad4d/LICENSE
   evidence_sha256: 2a966901053e26d85533a8fb524aacf4894911220a41f326c9637ab821029523
   notice_file: catalog/upstreams/notices/revenuecat-cli.txt
 source_ids: [github-com-revenuecat-cli]
@@ -61,10 +61,10 @@ baselines:
     by: b2c-maintainers
     note: GitHub release v0.1.1 (published 2026-08-27). npm @revenuecat/cli 0.1.1 ships the same native binaries. This is the executable candidate. It is not a host-install proof. Create/attach argv is qualified against this commit's cobra schemas, not branch-head README.
   reviewed_guidance:
-    revision: 1a3d2820b3166dd6d4cc4775902e43eeeab5f004
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Adapted selected procedures from the later source review. Branch head f4e77d6c6b128a390d46e9ed5aef9c4cf79f62e2 is newer than v0.1.1 and is not treated as the installed release.
+    revision: 548f93276088f73fc15a411f34f02a51ba56ad4d
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Guidance head 548f93276088f73fc15a411f34f02a51ba56ad4d (2026-10-06). RC_API_KEY outranks stored OAuth, apps can be found by store identifier across projects, and the Apple sign-in service-key lookup is fixed. Executable support stays v0.1.1 at 448a9998bd2107c274b9eb1cf55ad5d5d81f6377. Those later behaviors are not claimed for the v0.1.1 adapter.
 support:
   policy: Executable operations are qualified against release v0.1.1 only. Discovery, version/schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
   versions:
@@ -73,7 +73,7 @@ support:
       evidence:
         - "GitHub release v0.1.1 at 448a9998bd2107c274b9eb1cf55ad5d5d81f6377; npm @revenuecat/cli 0.1.1."
         - "Fixture-backed discovery and process adapter in adapters/providers/revenuecat; no live binary was exercised."
-    - range: 1a3d2820b3166dd6d4cc4775902e43eeeab5f004
+    - range: 548f93276088f73fc15a411f34f02a51ba56ad4d
       status: untested
       evidence: ["Source inspection only for adapted guidance; not an executable support claim."]
   operations:
@@ -157,7 +157,7 @@ host_probe:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-09"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

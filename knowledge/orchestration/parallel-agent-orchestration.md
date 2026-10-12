@@ -118,7 +118,7 @@ Do not parallelize these unless they are isolated in separate worktrees and the 
 
 - edits to `state/business-state.json`, `AGENTS.md`, `engineering/ENGINEERING_PLAN.md`, `engineering/PRODUCTION_READINESS.md`, or release notes
 - migrations plus code depending on the migration state
-- MobAI, in-app iOS Simulator panes, XcodeBuildMCP, serve-sim, or simulator/device automation on the same target device — and note that an in-app simulator device belongs to the session that launched it (max 4 panes per session), so a subagent cannot inherit the orchestrator's simulator; the orchestrator runs the device flow itself
+- MobAI, in-app iOS Simulator panes, MobileBuildMCP, serve-sim, or simulator/device automation on the same target device — and note that an in-app simulator device belongs to the session that launched it (max 4 panes per session), so a subagent cannot inherit the orchestrator's simulator; the orchestrator runs the device flow itself
 - App Store Connect, Google Play, RevenueCat, Stripe, Resend, PostHog, DNS, domain, Fastlane, or social-account mutations
 - git staging, committing, merging, rebasing, tagging, pushing, release submission, or public posting
 - final production-readiness, pricing, legal, security acceptance, or launch decisions

@@ -1,8 +1,9 @@
 schema_version: 1
 id: sentry-xcodebuildmcp
-project: XcodeBuildMCP
-canonical_url: https://github.com/getsentry/XcodeBuildMCP
+project: MobileBuildMCP
+canonical_url: https://github.com/getsentry/MobileBuildMCP
 aliases:
+  - getsentry/MobileBuildMCP
   - getsentry/XcodeBuildMCP
 authors:
   - name: Cameron Cooke
@@ -14,9 +15,9 @@ copyright: Copyright (c) 2025 Cameron Cooke
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/getsentry/XcodeBuildMCP/blob/e6ef59b49b44012c824f0a0de261c96142e37390/LICENSE
+  evidence_url: https://github.com/getsentry/MobileBuildMCP/blob/d13ff0c707b0681769cf31da0eb42c4f94ceafff/LICENSE
   evidence_sha256: fef28fc4165c72b1f0e4ce94654ba44ad7ff7d5d2538b3d01e66e9cc5be3c4f6
-  reviewed_revision: e6ef59b49b44012c824f0a0de261c96142e37390
+  reviewed_revision: d13ff0c707b0681769cf31da0eb42c4f94ceafff
   notice_file: catalog/upstreams/notices/sentry-xcodebuildmcp.txt
   scope: Selected help-first tool routing and capture guidance only. Upstream binaries, templates, third-party
     packages and THIRD_PARTY_LICENSES components are not redistributed.
@@ -33,33 +34,35 @@ relationships:
       - checks/verification/fixtures/screenshot-upstreams.fixtures.ts
     upstream_paths:
       - README.md
-      - skills/xcodebuildmcp/SKILL.md
-      - skills/xcodebuildmcp-cli/SKILL.md
+      - skills/mobilebuildmcp/SKILL.md
+      - skills/mobilebuildmcp-cli/SKILL.md
     pin_authority: Reviewed immutable source commit and the existing builder package digest pin this guidance. A
       host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
-    revision: e6ef59b49b44012c824f0a0de261c96142e37390
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Read-only metadata, license and selected documentation inspection; no tool or live provider execution.
+    revision: d13ff0c707b0681769cf31da0eb42c4f94ceafff
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: v2.7.1 commit d13ff0c707b0681769cf31da0eb42c4f94ceafff (2026-09-23). Read-only metadata, license, and
+      selected documentation inspection on 2026-10-12. No tool or live provider execution. License digest unchanged.
   reviewed_guidance:
-    revision: e6ef59b49b44012c824f0a0de261c96142e37390
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Selected help-first tool routing and capture guidance only. Upstream binaries, templates, third-party
-      packages and THIRD_PARTY_LICENSES components are not redistributed.
+    revision: d13ff0c707b0681769cf31da0eb42c4f94ceafff
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: MobileBuildMCP was XcodeBuildMCP through v2.7.0. Manifest id sentry-xcodebuildmcp stays so notices,
+      source ids, and contribution identity do not churn. npm package, binaries, MOBILEBUILDMCP_* env, config dir,
+      and state dir follow v2.7.1. xcodebuildmcp.com is retired. Homebrew tap remains getsentry/xcodebuildmcp.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: e6ef59b49b44012c824f0a0de261c96142e37390
+    - range: d13ff0c707b0681769cf31da0eb42c4f94ceafff
       status: untested
       evidence:
         - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
   operations:
     - id: sentry-xcodebuildmcp-guidance
-      title: Selected XcodeBuildMCP procedures
+      title: Selected MobileBuildMCP procedures (formerly XcodeBuildMCP)
       keywords:
         - screenshot
         - simulator
@@ -79,7 +82,7 @@ support:
   platforms: []
 adaptations:
   - id: host-selection-wins
-    description: The upstream preference for XcodeBuildMCP over raw native tools does not override explicit business
+    description: The upstream preference for MobileBuildMCP over raw native tools does not override explicit business
       bindings or adequate host-native tools. No global install or skill init runs during source adoption.
     owner: knowledge/engineering/xcodebuildmcp-testing.md
     intentional: true
@@ -91,11 +94,11 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-06"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true
   use: adapted
-  summary: Selected XcodeBuildMCP methods inform knowledge/engineering/xcodebuildmcp-testing.md,
+  summary: Selected MobileBuildMCP methods inform knowledge/engineering/xcodebuildmcp-testing.md,
     knowledge/process/tool-recipes/device-capture-and-proof.md. Original authors and license notices are
     retained; no live integration is claimed.

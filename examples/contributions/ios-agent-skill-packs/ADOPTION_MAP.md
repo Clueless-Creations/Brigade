@@ -18,7 +18,7 @@ Created: 2026-10-07T16:28:02.099Z. Synthetic: no.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | expo-skills-1 | repository | https://github.com/expo/skills | 650 Industries, Inc. (aka Expo) | main@d4f484024fec15196bfd3c272e953e3f983972cf | complete | verified MIT; evidence LICENSE | 6 |
 | appllama-appllama-skills-2 | repository | https://github.com/Appllama/appllama-skills | Antmind Ventures Private Limited (appllama.io) | main@dd5caaec3d5d50ad7fc0324da238119c6b7c3707 | complete | verified MIT; evidence LICENSE | 5 |
-| emilkowalski-skills-3 | repository | https://github.com/emilkowalski/skills | Emil Kowalski | main@e8a175de22ae1e49370fc144c1f3bb9aeedf988d | complete | verified MIT; evidence LICENSE | 2 |
+| emilkowalski-skills-3 | repository | https://github.com/emilkowalski/skills | Emil Kowalski | main@2d228630ba1446365f614a108cb8252f1feda202 | complete | verified MIT; evidence LICENSE | 2 |
 | vercel-labs-agent-skills-4 | repository | https://github.com/vercel-labs/agent-skills | vercel-labs | main@063bee94c3f4df8453406c830b0a7df0f2860278 | complete | unverified MIT; evidence README.md names MIT without license text | 16 |
 | twostraws-swiftui-agent-skill-5 | repository | https://github.com/twostraws/SwiftUI-Agent-Skill | Paul Hudson | main@f9800713b24580bc444931949aad4519128605e8 | complete | verified MIT; evidence LICENSE | 4 |
 

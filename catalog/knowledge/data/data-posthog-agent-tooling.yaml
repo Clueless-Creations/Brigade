@@ -23,7 +23,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: PostHog
-    revision: 41c12328636f46a517777b17359dd8f5b3d14d96
+    revision: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
     retrieved_at: 2026-09-06T13:59:44.598491Z
     rights:
       status: verified
@@ -55,7 +55,7 @@ derivations:
   - relationship: adapted
     source_ids:
       - github-com-posthog-wizard
-    baseline: 41c12328636f46a517777b17359dd8f5b3d14d96
+    baseline: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
     selectors:
       - README.md
       - src/lib/programs

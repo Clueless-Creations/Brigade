@@ -1,9 +1,10 @@
 schema_version: 1
 id: eronred-aso-skills
 project: ASO and App Marketing Skills
-canonical_url: https://github.com/Eronred/aso-skills
+canonical_url: https://github.com/appeeky/aso-skills
 aliases:
   - Eronred/aso-skills
+  - appeeky/aso-skills
 authors:
   - name: Erencan
     role: original author or copyright holder identified in the reviewed source
@@ -14,15 +15,16 @@ copyright: Copyright (c) 2026 Erencan
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/Eronred/aso-skills/blob/4df730f456c21e42b9a2ea2be89fb32caf787728/LICENSE
+  evidence_url: https://github.com/appeeky/aso-skills/blob/3919d7c27402d92c7ef698f2016174b874ea189e/LICENSE
   evidence_sha256: 7fdc99dd7d8c1242068d470c2a3f91d531a622dbcad57da91971389dbe5155ec
-  reviewed_revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
+  reviewed_revision: 3919d7c27402d92c7ef698f2016174b874ea189e
   notice_file: catalog/upstreams/notices/eronred-aso-skills.txt
   scope: Selected screenshot strategy, preview and app-context guidance only; no tools, API integrations, samples
     or marketing assets are imported.
 source_ids:
   - github-com-eronred-aso-skills
   - github-com-eronred-aso-skills-tree-main-skills
+  - github-com-appeeky-aso-skills
 relationships:
   - kind: adapted-method
     consumption: Selected published methods and tool procedures are adapted into existing builder guidance. No whole
@@ -42,21 +44,22 @@ relationships:
       host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
-    revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Read-only metadata, license and selected documentation inspection; no tool or live provider execution.
+    revision: 3919d7c27402d92c7ef698f2016174b874ea189e
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Canonical repository is appeeky/aso-skills. License digest unchanged. No tool or live provider execution.
   reviewed_guidance:
-    revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Selected screenshot strategy, preview and app-context guidance only; no tools, API integrations, samples
-      or marketing assets are imported.
+    revision: 3919d7c27402d92c7ef698f2016174b874ea189e
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Reviewed 2026-10-12 at 3919d7c27402d92c7ef698f2016174b874ea189e on appeeky/aso-skills, formerly
+      Eronred/aso-skills. Packaged as a Claude Code plugin. Brigade still routes named skills and does not
+      install the plugin. No tools, API integrations, samples, or marketing assets are imported.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    - range: 3919d7c27402d92c7ef698f2016174b874ea189e
       status: untested
       evidence:
         - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
@@ -97,7 +100,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-06"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

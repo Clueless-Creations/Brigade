@@ -57,5 +57,5 @@ sources:
     claim_scope: Metadata validate and metadata push dry-run stay preflight. Review submit is out of this phase.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli

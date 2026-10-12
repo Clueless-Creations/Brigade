@@ -14,9 +14,9 @@ copyright: Copyright (c) 2026 Matt Van Horn
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/mvanhorn/last30days-skill/blob/310f0b405db2d84adb4993bbf140cef9584057d2/LICENSE
+  evidence_url: https://github.com/mvanhorn/last30days-skill/blob/50998cd1ba583f13a63b20e3fb5d906c71c31655/LICENSE
   evidence_sha256: 31803213a789825dc419de43542381e1d570b4408cf2bcf2e8a9947a6d3fd2ab
-  reviewed_revision: 310f0b405db2d84adb4993bbf140cef9584057d2
+  reviewed_revision: 50998cd1ba583f13a63b20e3fb5d906c71c31655
   notice_file: catalog/upstreams/notices/last30days-skill.txt
   scope: Selected published recency-research methods from README.md and skills/last30days/SKILL.md
     only. No engine, vendor tree, install hook, setup wizard, cookie capture, or skill text is imported.
@@ -53,21 +53,20 @@ relationships:
     pin_authority: npx skills add carries no pin. Reviewed commit below identifies the README and skill name this routing cites.
 baselines:
   reviewed_source:
-    revision: 310f0b405db2d84adb4993bbf140cef9584057d2
-    observed_at: "2026-09-08"
+    revision: 50998cd1ba583f13a63b20e3fb5d906c71c31655
+    observed_at: "2026-10-12"
     by: b2c-maintainers
-    note: Read-only license, README, and selected SKILL.md inspection; no engine run, skill install from
-      this contribution, or live source query.
+    note: v3.28.0 inspected 2026-10-12. License digest unchanged. No engine run or skill install.
   reviewed_guidance:
-    revision: 310f0b405db2d84adb4993bbf140cef9584057d2
-    observed_at: "2026-09-08"
+    revision: 50998cd1ba583f13a63b20e3fb5d906c71c31655
+    observed_at: "2026-10-12"
     by: b2c-maintainers
-    note: Selected methods adapted into research-intelligence; skill name routed as opt-in guidance only.
+    note: v3.28.0 at 50998cd1ba583f13a63b20e3fb5d906c71c31655 (2026-10-11). No procedure change. Selected methods stay in research-intelligence; the skill name stays opt-in guidance.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: 310f0b405db2d84adb4993bbf140cef9584057d2
+    - range: 50998cd1ba583f13a63b20e3fb5d906c71c31655
       status: untested
       evidence:
         - Source inspection and the last30days-research-boundary routing eval only; no live last30days
@@ -118,7 +117,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 30
-  last_review: "2026-09-08"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

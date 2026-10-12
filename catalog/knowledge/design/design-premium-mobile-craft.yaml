@@ -43,14 +43,14 @@ sources:
   - id: emilkowalski-review-animations
     name: Emil Kowalski review-animations standards
     source_type: upstream_method
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/review-animations/SKILL.md
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/review-animations/SKILL.md
     review_cadence_days: 30
     claim_scope: MIT-licensed motion-review gaps. B2C App Builder adapts asymmetric enter/exit, origin-aware
       scale, rapid-trigger interruptibility, and gentler reduced motion onto the existing token scale.
     last_review_date: 2026-10-07
     reviewer: b2c-maintainers
     publisher: Emil Kowalski
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
     upstream_id: emilkowalski-skills
     selectors: &emil-review
       - LICENSE
@@ -124,7 +124,7 @@ derivations:
   - source_ids:
       - emilkowalski-review-animations
     relationship: adapted
-    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    baseline: 2d228630ba1446365f614a108cb8252f1feda202
     selectors: *emil-review
     rationale: Add missing motion-review rules to the Acceptance Checklist and Common Failures using
       DesignTokens.Motion instead of CSS easings or millisecond literals.

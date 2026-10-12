@@ -16,7 +16,7 @@ sources:
     title: App Store Screenshots
     canonicalUrl: https://github.com/ParthJadhav/app-store-screenshots
     publisher: Parth Jadhav
-    revision: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    revision: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     retrievedAt: 2026-09-06T15:57:52.804206Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -41,9 +41,9 @@ sources:
   - id: eronred-aso-skills
     kind: repository
     title: ASO and App Marketing Skills
-    canonicalUrl: https://github.com/Eronred/aso-skills
+    canonicalUrl: https://github.com/appeeky/aso-skills
     publisher: Erencan
-    revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    revision: 3919d7c27402d92c7ef698f2016174b874ea189e
     retrievedAt: 2026-09-06T15:57:54.602674Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -69,10 +69,10 @@ sources:
     directives: []
   - id: sentry-xcodebuildmcp
     kind: repository
-    title: XcodeBuildMCP
-    canonicalUrl: https://github.com/getsentry/XcodeBuildMCP
+    title: MobileBuildMCP
+    canonicalUrl: https://github.com/getsentry/MobileBuildMCP
     publisher: Cameron Cooke
-    revision: e6ef59b49b44012c824f0a0de261c96142e37390
+    revision: d13ff0c707b0681769cf31da0eb42c4f94ceafff
     retrievedAt: 2026-09-06T15:57:57.050471Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -90,8 +90,8 @@ sources:
       evidenceSha256: fef28fc4165c72b1f0e4ce94654ba44ad7ff7d5d2538b3d01e66e9cc5be3c4f6
     selectors: &a3
       - README.md
-      - skills/xcodebuildmcp/SKILL.md
-      - skills/xcodebuildmcp-cli/SKILL.md
+      - skills/mobilebuildmcp/SKILL.md
+      - skills/mobilebuildmcp-cli/SKILL.md
     registrySourceId: github-com-getsentry-xcodebuildmcp
     upstreamId: sentry-xcodebuildmcp
     directives: []
@@ -100,7 +100,7 @@ sources:
     title: SnapshotPreviews
     canonicalUrl: https://github.com/getsentry/SnapshotPreviews
     publisher: Emerge Tools
-    revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    revision: e90a09906ef9d0d7fc29871202b4048cd360ee25
     retrievedAt: 2026-09-06T15:57:58.988151Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -127,7 +127,7 @@ sources:
     title: serve-sim
     canonicalUrl: https://github.com/EvanBacon/serve-sim
     publisher: Evan Bacon
-    revision: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+    revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
     retrievedAt: 2026-09-06T15:58:00.701780Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -365,7 +365,7 @@ units:
       - Global installs, full upstream agents, unreviewed assets and unverified live support.
   - id: sentry-xcodebuildmcp-guidance-1
     kind: knowledge
-    title: XcodeBuildMCP selected guidance
+    title: MobileBuildMCP selected guidance
     upstream:
       sourceId: sentry-xcodebuildmcp
       selector: README.md
@@ -384,7 +384,7 @@ units:
     kept:
       - Documented methods and relevant supported-tool semantics.
     changed:
-      - The upstream preference for XcodeBuildMCP over raw native tools does not override explicit business
+      - The upstream preference for MobileBuildMCP over raw native tools does not override explicit business
         bindings or adequate host-native tools. No global install or skill init runs during source adoption.
       - Tool discovery and screenshot capture are not proof of current app correctness, provider behavior, store
         readiness or independent design acceptance.
@@ -392,7 +392,7 @@ units:
       - Global installs, full upstream agents, unreviewed assets and unverified live support.
   - id: sentry-xcodebuildmcp-guidance-2
     kind: knowledge
-    title: XcodeBuildMCP selected guidance
+    title: MobileBuildMCP selected guidance
     upstream:
       sourceId: sentry-xcodebuildmcp
       selector: README.md
@@ -411,7 +411,7 @@ units:
     kept:
       - Documented methods and relevant supported-tool semantics.
     changed:
-      - The upstream preference for XcodeBuildMCP over raw native tools does not override explicit business
+      - The upstream preference for MobileBuildMCP over raw native tools does not override explicit business
         bindings or adequate host-native tools. No global install or skill init runs during source adoption.
       - Tool discovery and screenshot capture are not proof of current app correctness, provider behavior, store
         readiness or independent design acceptance.
@@ -530,7 +530,7 @@ derivations:
     sourceIds:
       - parth-app-store-screenshots
     relationship: adapted
-    baseline: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    baseline: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     selectors: *a1
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -548,7 +548,7 @@ derivations:
     sourceIds:
       - parth-app-store-screenshots
     relationship: adapted
-    baseline: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    baseline: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     selectors: *a1
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -566,7 +566,7 @@ derivations:
     sourceIds:
       - parth-app-store-screenshots
     relationship: adapted
-    baseline: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    baseline: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     selectors: *a1
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -584,7 +584,7 @@ derivations:
     sourceIds:
       - eronred-aso-skills
     relationship: adapted
-    baseline: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    baseline: 3919d7c27402d92c7ef698f2016174b874ea189e
     selectors: *a2
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -602,7 +602,7 @@ derivations:
     sourceIds:
       - eronred-aso-skills
     relationship: adapted
-    baseline: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    baseline: 3919d7c27402d92c7ef698f2016174b874ea189e
     selectors: *a2
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -620,7 +620,7 @@ derivations:
     sourceIds:
       - eronred-aso-skills
     relationship: adapted
-    baseline: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    baseline: 3919d7c27402d92c7ef698f2016174b874ea189e
     selectors: *a2
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -638,11 +638,11 @@ derivations:
     sourceIds:
       - sentry-xcodebuildmcp
     relationship: adapted
-    baseline: e6ef59b49b44012c824f0a0de261c96142e37390
+    baseline: d13ff0c707b0681769cf31da0eb42c4f94ceafff
     selectors: *a3
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
-      - The upstream preference for XcodeBuildMCP over raw native tools does not override explicit business
+      - The upstream preference for MobileBuildMCP over raw native tools does not override explicit business
         bindings or adequate host-native tools. No global install or skill init runs during source adoption.
       - Tool discovery and screenshot capture are not proof of current app correctness, provider behavior, store
         readiness or independent design acceptance.
@@ -654,11 +654,11 @@ derivations:
     sourceIds:
       - sentry-xcodebuildmcp
     relationship: adapted
-    baseline: e6ef59b49b44012c824f0a0de261c96142e37390
+    baseline: d13ff0c707b0681769cf31da0eb42c4f94ceafff
     selectors: *a3
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
-      - The upstream preference for XcodeBuildMCP over raw native tools does not override explicit business
+      - The upstream preference for MobileBuildMCP over raw native tools does not override explicit business
         bindings or adequate host-native tools. No global install or skill init runs during source adoption.
       - Tool discovery and screenshot capture are not proof of current app correctness, provider behavior, store
         readiness or independent design acceptance.
@@ -670,7 +670,7 @@ derivations:
     sourceIds:
       - sentry-snapshotpreviews
     relationship: adapted
-    baseline: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    baseline: e90a09906ef9d0d7fc29871202b4048cd360ee25
     selectors: *a4
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -686,7 +686,7 @@ derivations:
     sourceIds:
       - sentry-snapshotpreviews
     relationship: adapted
-    baseline: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    baseline: e90a09906ef9d0d7fc29871202b4048cd360ee25
     selectors: *a4
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -702,7 +702,7 @@ derivations:
     sourceIds:
       - evanbacon-serve-sim
     relationship: adapted
-    baseline: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+    baseline: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
     selectors: *a5
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -718,7 +718,7 @@ derivations:
     sourceIds:
       - evanbacon-serve-sim
     relationship: adapted
-    baseline: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+    baseline: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
     selectors: *a5
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:

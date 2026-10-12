@@ -1,49 +1,43 @@
 {
   "schemaVersion": 1,
   "upstreamId": "rork-app-store-connect-cli",
-  "checkedAt": "2026-10-08T03:31:36.280Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "github-api",
   "latestStable": {
-    "tag": "5.13.0",
-    "publishedAt": "2026-10-07T00:02:25Z",
+    "tag": "5.14.1",
+    "publishedAt": "2026-10-10T16:34:28Z",
     "assets": [
       {
-        "name": "asc_5.13.0_checksums.txt",
-        "sha256": "f33898544d347ea068d7dfb67bac2d41ba1a44308838cc2e97318787efd7fdf5",
-        "bytes": 451
+        "name": "asc_5.14.1_checksums.txt",
+        "sha256": "82ca6b696b1d4df8eca37d3dc2c5fab1589142f1a513b7ac2b414f6d0db789b9"
       },
       {
-        "name": "asc_5.13.0_linux_amd64",
-        "sha256": "7e43e453495c0d49ba8a93953fcf4d3a51c0b4593c00af6e8c53b243350a5db9",
-        "bytes": 63017122
+        "name": "asc_5.14.1_linux_amd64",
+        "sha256": "821f33ae517dde93996d8b76e6b9e4e21b52ca8b7b14bcc278a8cdd6039ee814"
       },
       {
-        "name": "asc_5.13.0_linux_arm64",
-        "sha256": "0a1cca759c1d77d427df5bca5fa315121c8fce14afe52f6545cd18883f019a85",
-        "bytes": 57147554
+        "name": "asc_5.14.1_linux_arm64",
+        "sha256": "47f2269e73847033b688f492a1f32403100500296cca0773abe3c9b95b8d4e83"
       },
       {
-        "name": "asc_5.13.0_macOS_amd64",
-        "sha256": "94433789f807548ddcd0e854eeb67d9dfd768a9cf52718a20f8b5a39aaefbc18",
-        "bytes": 64886592
+        "name": "asc_5.14.1_macOS_amd64",
+        "sha256": "74324b37c7cbf3b75aef445665b5fd1f2de7141fc671ef047f8c561737ba9695"
       },
       {
-        "name": "asc_5.13.0_macOS_arm64",
-        "sha256": "9dd0b127563f9a1bf7e4113ea244f11a2813e2ebfd1841182bf2913431053393",
-        "bytes": 58451104
+        "name": "asc_5.14.1_macOS_arm64",
+        "sha256": "da5bd4a0aa52b1a1a04f5c2480d03f1e74ba53ec02410186ee2503c262109642"
       },
       {
-        "name": "asc_5.13.0_windows_amd64.exe",
-        "sha256": "d1f3051457592910df742a89df59ca29a12a2b01667f699172657258b356b9d8",
-        "bytes": 63920128
+        "name": "asc_5.14.1_windows_amd64.exe",
+        "sha256": "f5a68c30640c323d8efdd8557de1de50b32dba2fcc91c833de4295c759540fcc"
       }
     ]
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "7d94553cbed81d6af8155071e65e859b23dc5b29",
-    "committedAt": "2026-10-08T03:22:12Z"
+    "sha": "7af4b877a881b4463c15eb79e3affb5742b233f6",
+    "committedAt": "2026-10-10T16:34:28Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b",
@@ -74,5 +68,9 @@
     ],
     "selected": "/usr/local/bin/asc"
   },
-  "unknowns": []
+  "unknowns": [
+    "5.14.1 asset digests are the published checksums file, not a local binary hash. No local --help was run.",
+    "Recorded host block is the historical 5.7.0 probe and was not re-probed.",
+    "Main 2ea08fc5a6ce615073ef65a653a3504543d76a64 after this tag is not the reviewed source."
+  ]
 }

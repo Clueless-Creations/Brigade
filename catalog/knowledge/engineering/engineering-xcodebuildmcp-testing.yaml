@@ -1,11 +1,11 @@
 schema_version: 1.0.0
 id: reference.engineering.xcodebuildmcp-testing
-title: XcodeBuildMCP Testing
+title: MobileBuildMCP Testing
 domain_id: domain.engineering
 document_path: knowledge/engineering/xcodebuildmcp-testing.md
 load_when: first for any "run the app", "check this screen", "walk this flow", "reproduce this bug", screenshot,
   screen-recording, or device-automation request on a local Mac — the Route Ladder starts at the zero-setup
-  in-app iOS Simulator before XcodeBuildMCP CLI/MCP or MobAI
+  in-app iOS Simulator before MobileBuildMCP CLI/MCP or MobAI
 lifecycle: active
 bindings:
   workflow_ids:
@@ -42,7 +42,7 @@ sources:
     url: https://learn.chatgpt.com/use-cases/ios-simulator-bug-debugging
     review_cadence_days: 7
     claim_scope: Official OpenAI use-case doc for Codex's in-app iOS Simulator reproduce-debug-verify loop, its
-      XcodeBuildMCP plus build-ios-apps prerequisites, capability list, and best practices. Canonical URL; the
+      MobileBuildMCP plus build-ios-apps prerequisites, capability list, and best practices. Canonical URL; the
       developers.openai.com/codex form redirects here.
     last_review_date: 2026-08-17
     reviewer: b2c-maintainers
@@ -60,28 +60,28 @@ sources:
     source_type: github
     url: https://github.com/openai/plugins/tree/main/plugins/build-ios-apps
     review_cadence_days: 7
-    claim_scope: Codex plugin that wires XcodeBuildMCP and ships the iOS debugger agent plus simulator-browser,
+    claim_scope: Codex plugin that wires MobileBuildMCP and ships the iOS debugger agent plus simulator-browser,
       performance-trace, memory-leak, App Intents, and SwiftUI skills. Check its skill list before adding
       serve-sim or tracing tools separately.
     last_review_date: 2026-08-17
     reviewer: b2c-maintainers
   - id: github-com-getsentry-xcodebuildmcp
-    name: XcodeBuildMCP
+    name: MobileBuildMCP
     source_type: github
-    url: https://github.com/getsentry/XcodeBuildMCP
+    url: https://github.com/getsentry/MobileBuildMCP
     review_cadence_days: 7
     claim_scope: Selected help-first tool routing and capture guidance only. Upstream binaries, templates,
       third-party packages and THIRD_PARTY_LICENSES components are not redistributed.
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Cameron Cooke
-    revision: e6ef59b49b44012c824f0a0de261c96142e37390
+    revision: d13ff0c707b0681769cf31da0eb42c4f94ceafff
     retrieved_at: 2026-09-06T15:57:57.050471Z
     upstream_id: sentry-xcodebuildmcp
     selectors: &a2
       - README.md
-      - skills/xcodebuildmcp/SKILL.md
-      - skills/xcodebuildmcp-cli/SKILL.md
+      - skills/mobilebuildmcp/SKILL.md
+      - skills/mobilebuildmcp-cli/SKILL.md
     rights:
       status: verified
       spdx: MIT
@@ -90,84 +90,84 @@ sources:
       notes: Selected guidance adapted; unimported assets and executable dependencies retain separate review
         requirements.
   - id: xcodebuildmcp-com-docs-cli
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/cli
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/cli.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-clients
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/clients
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/clients.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-configuration
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/configuration
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/configuration.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-installation
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/installation
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/installation.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-privacy
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/privacy
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/privacy.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-setup
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/setup
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/setup.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-skills
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/skills
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/skills.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-tools
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/tools
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/tools.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-troubleshooting
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/troubleshooting
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/troubleshooting.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: xcodebuildmcp-com-docs-workflows
-    name: xcodebuildmcp.com
+    name: MobileBuildMCP docs
     source_type: docs
-    url: https://xcodebuildmcp.com/docs/workflows
+    url: https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/workflows.mdx
     review_cadence_days: 7
-    claim_scope: Auto-discovered from recently added repository content.
-    last_review_date: 2026-08-17
+    claim_scope: Official MobileBuildMCP documentation after xcodebuildmcp.com was retired in v2.7.1.
+    last_review_date: 2026-10-12
     reviewer: b2c-maintainers
   - id: github-com-getsentry-snapshotpreviews
     name: SnapshotPreviews
@@ -179,7 +179,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Emerge Tools
-    revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    revision: e90a09906ef9d0d7fc29871202b4048cd360ee25
     retrieved_at: 2026-09-06T15:57:58.988151Z
     upstream_id: sentry-snapshotpreviews
     selectors: &a1
@@ -202,7 +202,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Emerge Tools
-    revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    revision: e90a09906ef9d0d7fc29871202b4048cd360ee25
     retrieved_at: 2026-09-06T15:57:58.988151Z
     upstream_id: sentry-snapshotpreviews
     selectors: *a1
@@ -224,7 +224,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Evan Bacon
-    revision: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+    revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
     retrieved_at: 2026-09-06T15:58:00.701780Z
     upstream_id: evanbacon-serve-sim
     selectors: &a3
@@ -281,12 +281,12 @@ derivations:
   - source_ids:
       - github-com-getsentry-xcodebuildmcp
     relationship: adapted
-    baseline: e6ef59b49b44012c824f0a0de261c96142e37390
+    baseline: d13ff0c707b0681769cf31da0eb42c4f94ceafff
     selectors: *a2
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
     omissions:
-      - The upstream preference for XcodeBuildMCP over raw native tools does not override explicit business
+      - The upstream preference for MobileBuildMCP over raw native tools does not override explicit business
         bindings or adequate host-native tools. No global install or skill init runs during source adoption.
       - Tool discovery and screenshot capture are not proof of current app correctness, provider behavior, store
         readiness or independent design acceptance.
@@ -297,7 +297,7 @@ derivations:
   - source_ids:
       - github-com-getsentry-snapshotpreviews
     relationship: adapted
-    baseline: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    baseline: e90a09906ef9d0d7fc29871202b4048cd360ee25
     selectors: *a1
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
@@ -313,7 +313,7 @@ derivations:
   - source_ids:
       - github-com-emerge-tools-snapshotpreviews
     relationship: adapted
-    baseline: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    baseline: e90a09906ef9d0d7fc29871202b4048cd360ee25
     selectors: *a1
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
@@ -329,7 +329,7 @@ derivations:
   - source_ids:
       - github-com-evanbacon-serve-sim
     relationship: adapted
-    baseline: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+    baseline: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
     selectors: *a3
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.

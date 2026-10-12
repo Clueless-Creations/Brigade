@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "upstreamId": "emilkowalski-skills",
-  "checkedAt": "2026-10-07T16:46:14.485Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "github-api",
   "latestStable": null,
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
-    "committedAt": "2026-10-02T10:43:31Z"
+    "sha": "2d228630ba1446365f614a108cb8252f1feda202",
+    "committedAt": "2026-10-11T13:58:32Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",

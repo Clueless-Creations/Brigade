@@ -74,7 +74,7 @@ Rules:
 
 - `AGENTS.md` is mandatory for real app builds and builder handoffs; start from `surfaces/workspace-template/repo-agent-entrypoints/AGENTS.md` so future agents keep using `b2c` without another founder prompt. `CLAUDE.md` should start from `surfaces/workspace-template/repo-agent-entrypoints/CLAUDE.md` and point back to `AGENTS.md` instead of duplicating product truth. Keep these files as maps to source docs, active plans, validators, and failure cards.
 - Unit tests are not enough for production readiness.
-- Screenshot proof from any device route — in-app simulator, MobAI, XcodeBuildMCP — is not backend proof; pair device actions with database/provider/dashboard evidence.
+- Screenshot proof from any device route — in-app simulator, MobAI, MobileBuildMCP — is not backend proof; pair device actions with database/provider/dashboard evidence.
 - Do not use generated builders from a prompt alone. Include repo-local instructions and artifacts so later agents can continue without reconstructing the launch logic.
 
 ## Choosing MCP, CLI, Or Skill For A New Tool

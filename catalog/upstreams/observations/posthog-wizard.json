@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "upstreamId": "posthog-wizard",
-  "checkedAt": "2026-09-06T13:59:44.598491Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "manual",
   "latestStable": {
-    "tag": "v2.73.0",
-    "publishedAt": "2026-09-04T19:56:41Z",
+    "tag": "v2.81.1",
+    "publishedAt": "2026-10-08T15:59:40Z",
     "assets": []
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "41c12328636f46a517777b17359dd8f5b3d14d96",
-    "committedAt": "2026-09-04T19:56:22Z"
+    "sha": "52220a3e60e4c14555fddef61afb0a8dc3b68b94",
+    "committedAt": "2026-10-08T00:00:00Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "6dd6cb84dae639a6d710f4217f507a1f590864cd2c4699557a8380b0a7254d27",
@@ -20,8 +20,7 @@
   "archived": false,
   "host": null,
   "unknowns": [
-    "Maintainer-assembled from the retained read-only GitHub archive intake; release list covers one page, not full history.",
-    "No host executable, provider session, SDK integration, or release asset binary was tested.",
-    "No release-to-commit ancestry comparison was made; releases since the reviewed source are not asserted."
+    "v2.81.1 tag commit is 4480651e369b84cdd1719636ac32204045bb8dd0. Reviewed head includes two later install-resilience commits.",
+    "No wizard execution or live provider session was tested."
   ]
 }

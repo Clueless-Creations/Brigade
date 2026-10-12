@@ -51,7 +51,7 @@ sources:
     last_review_date: 2026-09-08
     reviewer: b2c-maintainers
     publisher: Matt Van Horn
-    revision: 310f0b405db2d84adb4993bbf140cef9584057d2
+    revision: 50998cd1ba583f13a63b20e3fb5d906c71c31655
     upstream_id: last30days-skill
     selectors:
       - README.md
@@ -95,7 +95,7 @@ sources:
     last_review_date: 2026-10-07
     reviewer: b2c-maintainers
     publisher: Emil Kowalski
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
     upstream_id: emilkowalski-skills
     selectors:
       - README.md

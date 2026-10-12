@@ -150,7 +150,7 @@ sources:
     last_review_date: 2026-10-07
     reviewer: b2c-maintainers
     publisher: Emil Kowalski
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
     upstream_id: emilkowalski-skills
     rights:
       status: verified

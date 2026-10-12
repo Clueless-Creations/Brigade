@@ -72,7 +72,7 @@ baselines:
     revision: v0.7.0 (2ce5c65f13646cab6e6f782328194c9d85f3300a)
     observed_at: "2026-09-19"
     by: b2c-contributor source review (#513)
-    note: Read-only GitHub + PyPI + npm metadata. LICENSE notice retained. No SDK install into Brigade workspace; no binary execution test.
+    note: Qualification pin stays v0.7.0 (2ce5c65f13646cab6e6f782328194c9d85f3300a). v0.7.4 (e70bf99a89f27102247613bcd5d1aa8923a1cda9, published 2026-10-09) was inspected on 2026-10-12. License digest unchanged. No procedure change, so the paper qualification is not repinned. No SDK install into Brigade workspace; no binary execution test.
   reviewed_guidance:
     revision: docs.typesafe.ai public pages observed 2026-09-19 (llms.txt index; api; primitives; how-to-build-with-system-one; legal; sdk/python; sdk/javascript)
     observed_at: "2026-09-19"
@@ -136,7 +136,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 14
-  last_review: "2026-09-19"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

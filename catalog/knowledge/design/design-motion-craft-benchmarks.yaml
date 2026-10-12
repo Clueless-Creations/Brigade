@@ -85,14 +85,14 @@ sources:
   - id: emilkowalski-apple-design
     name: Emil Kowalski apple-design gesture methods
     source_type: upstream_method
-    url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/skills/apple-design/SKILL.md
+    url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/skills/apple-design/SKILL.md
     review_cadence_days: 30
     claim_scope: MIT-licensed momentum-projection and directional-hint methods. B2C App Builder adapts the
       gaps into Gesture & Scroll Physics in stack-neutral wording.
     last_review_date: 2026-10-07
     reviewer: b2c-maintainers
     publisher: Emil Kowalski
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
     upstream_id: emilkowalski-skills
     selectors: &emil-apple
       - LICENSE
@@ -107,7 +107,7 @@ derivations:
   - source_ids:
       - emilkowalski-apple-design
     relationship: adapted
-    baseline: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    baseline: 2d228630ba1446365f614a108cb8252f1feda202
     selectors: *emil-apple
     rationale: Add momentum projection and directional hint to Gesture & Scroll Physics so SwiftUI,
       Flutter, and Reanimated sessions share the same method.

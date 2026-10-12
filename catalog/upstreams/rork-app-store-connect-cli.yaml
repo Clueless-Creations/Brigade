@@ -20,7 +20,7 @@ license:
   status: verified
   evidence_url: https://github.com/rorkai/App-Store-Connect-CLI/blob/main/LICENSE
   evidence_sha256: 56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b
-  reviewed_revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564 (tag 5.13.0, 2026-10-07); LICENSE text matches the 2026-09-28 digest
+  reviewed_revision: 7af4b877a881b4463c15eb79e3affb5742b233f6 (tag 5.14.1, 2026-10-10); LICENSE text matches the 2026-09-28 digest
   notice_file: catalog/upstreams/notices/rork-app-store-connect-cli.txt
   scope: Root LICENSE of the CLI repository. The builder distributes no copied CLI source; the notice is retained because the executable is a direct upstream relationship and the command procedures are adapted from its documentation.
   notes: GitHub reports license key mit for this repository. The Homebrew formula also records MIT. Neither is legal advice.
@@ -71,15 +71,15 @@ relationships:
     pin_authority: knowledge manifest last_review_date and the reviewed baselines below
 baselines:
   reviewed_source:
-    revision: "3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564"
-    observed_at: "2026-10-08"
+    revision: "7af4b877a881b4463c15eb79e3affb5742b233f6"
+    observed_at: "2026-10-12"
     by: b2c-maintainers
-    note: Tag 5.13.0 commit. Local Linux amd64 --help on 2026-10-08. Checksum 7e43e453495c0d49ba8a93953fcf4d3a51c0b4593c00af6e8c53b243350a5db9. No App Store Connect API call. The exact 5.1.0 JSON samples remain historical.
+    note: Tag 5.14.1 commit 7af4b877a881b4463c15eb79e3affb5742b233f6. Published Linux amd64 checksum 821f33ae517dde93996d8b76e6b9e4e21b52ca8b7b14bcc278a8cdd6039ee814. The 5.13.0 Linux amd64 checksum 7e43e453495c0d49ba8a93953fcf4d3a51c0b4593c00af6e8c53b243350a5db9 is historical. No local 5.14.1 --help run and no App Store Connect API call. The exact 5.1.0 JSON samples remain historical. Main after this tag (2ea08fc5a6ce615073ef65a653a3504543d76a64) is not adopted.
   reviewed_guidance:
-    revision: "5.13.0"
-    observed_at: "2026-10-08"
+    revision: "5.14.1"
+    observed_at: "2026-10-12"
     by: b2c-maintainers
-    note: "Per-revision guidance through 5.13.0. 5.8.0 adds screenshot framing and web apps create --if-exists; no cookbook command change. 5.8.1 is a status and builds fix. 5.9.0 blocks validate on a missing base-territory price and on missing iPad screenshots when --ipa shows iPad. 5.9.1 and 5.9.2 are auth and web fixes. 5.10.0 adds status --until, StoreKit reads, and IAP or subscription localization import. 5.11.0 is recovery and classification fixes; no new cookbook command. 5.12.0 adds Asset Library reads, creative image upload, header and search placements, iPhone Duo screenshots and previews, and product page optimization v2. 5.12.1 stops polling failed library images. 5.13.0 adds reusable video upload, image and video lifecycle, reuse across custom product pages and In-App Events, and OpenAPI 4.5.1 list filters. This is not a workspace pin; inspect does not upgrade the host, and `b2c doctor` is a supported equivalent for observing the version."
+    note: "Per-revision guidance through 5.14.1. 5.8.0 adds screenshot framing and web apps create --if-exists; no cookbook command change. 5.8.1 is a status and builds fix. 5.9.0 blocks validate on a missing base-territory price and on missing iPad screenshots when --ipa shows iPad. 5.9.1 and 5.9.2 are auth and web fixes. 5.10.0 adds status --until, StoreKit reads, and IAP or subscription localization import. 5.11.0 is recovery and classification fixes; no new cookbook command. 5.12.0 adds Asset Library reads, creative image upload, header and search placements, iPhone Duo screenshots and previews, and product page optimization v2. 5.12.1 stops polling failed library images. 5.13.0 adds reusable video upload, image and video lifecycle, reuse across custom product pages and In-App Events, and OpenAPI 4.5.1 list filters. 5.14.0 adds asc builds compile and asc builds package for local iOS packaging on Linux. 5.14.1 is a Go security bump and an Xcode project-formatting fix; no further cookbook command. Flags for the new commands were read from source ShortUsage at 7af4b877, not from a local --help run. Re-verify with asc <cmd> --help before use. This is not a workspace pin; inspect does not upgrade the host, and `b2c doctor` is a supported equivalent for observing the version."
 support:
   policy: Executable guidance is stored per exact reviewed revision. Any other installed version re-verifies each command with `asc <cmd> --help` before first use (Verified Command Cookbook rule). A passing live probe proves the probed tokens on the probed binary only, never a version range. Support is `>= 5.0.0 < 6.0.0`. Major versions below 5 are unsupported. Web-login handoff is refused unless the winning binary is `>= 5.1.0`.
   versions:
@@ -87,7 +87,7 @@ support:
       status: supported
       evidence:
         - knowledge/store/app-store-connect-cli.md Verified Command Cookbook (local --help, 2026-10-08)
-        - GitHub releases 5.0.0 through 5.7.0, plus 5.8.0 (2026-09-29), 5.8.1 (2026-09-30), 5.9.0 (2026-10-01), 5.9.1 (2026-10-01), 5.9.2 (2026-10-03), 5.10.0 (2026-10-04), 5.11.0 (2026-10-05), 5.12.0 (2026-10-06), 5.12.1 (2026-10-06), and 5.13.0 (2026-10-07)
+        - GitHub releases 5.0.0 through 5.7.0, plus 5.8.0 (2026-09-29), 5.8.1 (2026-09-30), 5.9.0 (2026-10-01), 5.9.1 (2026-10-01), 5.9.2 (2026-10-03), 5.10.0 (2026-10-04), 5.11.0 (2026-10-05), 5.12.0 (2026-10-06), 5.12.1 (2026-10-06), 5.13.0 (2026-10-07), 5.14.0 (2026-10-08), and 5.14.1 (2026-10-10)
     - range: "<5.0.0"
       status: unsupported
       evidence:
@@ -124,6 +124,10 @@ support:
     - id: asc.screenshots.validate
       title: asc screenshots sizes / validate; deprecated screenshot upload after founder approval
       keywords: [screenshot, screenshots]
+      owners: [knowledge/store/app-store-connect-cli.md]
+    - id: asc.builds.local
+      title: asc builds compile and asc builds package (source-read; re-verify with --help)
+      keywords: [builds, compile, package, xtool, rcodesign]
       owners: [knowledge/store/app-store-connect-cli.md]
     - id: asc.asset-library
       title: asc asset-library view, list, upload, and lifecycle
@@ -239,7 +243,7 @@ host_probe:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-10-08"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

@@ -439,7 +439,7 @@
       "session_type": "local | cloud_or_ssh_blocked",
       "preflight": "Confirm this is a local macOS session (the pane and computer-use cannot reach a Mac's simulators from cloud, SSH, or container sessions), the runtime version and plan gate, that org policy has not disabled simulator tools, and that Xcode plus an iOS simulator runtime are installed. Confirm a fixture or sandbox account before any sign-in on the device.",
       "validation": "engineering/PRODUCTION_READINESS.md records the runtime and version, the local session, the simulated device and OS, the fixture-account decision, the exported screenshot/recording paths under proof/ios-simulator/, and the coverage this route does not provide: no Android, no physical device, no repeatable suite/CI, no distribution readiness.",
-      "fallback": "Escalate to XcodeBuildMCP for scripted/CI or physical-device Apple work, serve-sim for browser-visible simulators, or MobAI for Android and repeatable suites; record the rung change in strategy/TOOL_DECISIONS.md. When no local Mac is reachable, mark device proof blocked rather than narrating a simulator run that did not happen.",
+      "fallback": "Escalate to MobileBuildMCP for scripted/CI or physical-device Apple work, serve-sim for browser-visible simulators, or MobAI for Android and repeatable suites; record the rung change in strategy/TOOL_DECISIONS.md. When no local Mac is reachable, mark device proof blocked rather than narrating a simulator run that did not happen.",
       "accessRoute": "native_device",
       "docsCheckedAt": "",
       "requiredSecrets": []
@@ -452,16 +452,16 @@
       "cli_version": "",
       "preflight": "Refresh the desktop release, active MCP resources, npm CLI version/help, and MobAI CI docs independently; confirm tier, device/app access, bundle/package ID, locale, seeded demo state, and critical .mob flows before mutation.",
       "validation": "engineering/PRODUCTION_READINESS.md records separate desktop/MCP/CLI versions, selected tier, iOS/Android device-flow evidence, AI-heal diff review plus rerun, bounded repeat parameters, host-script allowlist/secret/cleanup proof, provider correlation, and limitations. SCREENSHOTS.md links raw captures to final composition.",
-      "fallback": "Use MobAI Free without a spend gate when it fits. Ask before Plus/Pro spend or an XcodeBuildMCP Apple-only substitution; record missing Android/cross-platform proof and use Android emulator/ADB or a dated blocker.",
+      "fallback": "Use MobAI Free without a spend gate when it fits. Ask before Plus/Pro spend or a MobileBuildMCP Apple-only substitution; record missing Android/cross-platform proof and use Android emulator/ADB or a dated blocker.",
       "accessRoute": "not_selected",
       "docsCheckedAt": "",
       "requiredSecrets": []
     },
     "codex_native_ios": {
       "route": "codex_desktop_native_tooling_when_exposed",
-      "preflight": "When Codex Desktop exposes native Apple/XcodeBuildMCP tools, load xcodebuildmcp-testing.md, call session_show_defaults before the first build/run/test, and confirm project/workspace, scheme, simulator/device, OS/runtime, and configuration.",
+      "preflight": "When Codex Desktop exposes native Apple/MobileBuildMCP tools, load xcodebuildmcp-testing.md, call session_show_defaults before the first build/run/test, and confirm project/workspace, scheme, simulator/device, OS/runtime, and configuration.",
       "validation": "engineering/PRODUCTION_READINESS.md records exposed MCP tool names such as build_run_sim/test_sim/screenshot/log capture, output paths, simulator/device details, provider-proof pairing, and the distribution-readiness limitation.",
-      "fallback": "Use XcodeBuildMCP CLI, serve-sim, SnapshotPreviews preview proof, MobAI, or mark proof blocked according to the lane and paid-tool approval state.",
+      "fallback": "Use MobileBuildMCP CLI, serve-sim, SnapshotPreviews preview proof, MobAI, or mark proof blocked according to the lane and paid-tool approval state.",
       "accessRoute": "not_selected",
       "docsCheckedAt": "",
       "requiredSecrets": []
@@ -470,7 +470,7 @@
       "route": "optional_open_source_cli_preview_proof",
       "preflight": "Refresh getsentry/SnapshotPreviews, confirm SwiftUI/UIKit/AppKit previews exist, link SnapshottingTests, and decide SnapshotTest vs PreviewLayoutTest.",
       "validation": "engineering/PRODUCTION_READINESS.md records package URL/version/commit, TEST_RUNNER_SNAPSHOTS_EXPORT_DIR, exported PNG/JSON paths, deterministic fixtures, and preview-only limitation.",
-      "fallback": "Use XcodeBuildMCP/Codex Desktop screenshots, serve-sim, MobAI, or manual preview review; do not call preview proof runtime E2E.",
+      "fallback": "Use MobileBuildMCP/Codex Desktop screenshots, serve-sim, MobAI, or manual preview review; do not call preview proof runtime E2E.",
       "accessRoute": "not_selected",
       "docsCheckedAt": "",
       "requiredSecrets": []
@@ -479,7 +479,7 @@
       "route": "optional_open_source_cli_simulator_stream",
       "preflight": "Refresh EvanBacon/serve-sim, confirm macOS + Xcode command line tools + Node 18+, boot the intended iOS Simulator, and choose URL/port.",
       "validation": "engineering/PRODUCTION_READINESS.md or SCREENSHOTS.md records npx serve-sim resolution, booted simulator/device, localhost preview URL/port, actions, logs, stream proof, and provider/signing limitations.",
-      "fallback": "Use Codex Desktop native iOS/XcodeBuildMCP tools, MobAI, founder-provided captures, or mark simulator proof blocked.",
+      "fallback": "Use Codex Desktop native iOS/MobileBuildMCP tools, MobAI, founder-provided captures, or mark simulator proof blocked.",
       "accessRoute": "not_selected",
       "docsCheckedAt": "",
       "requiredSecrets": []

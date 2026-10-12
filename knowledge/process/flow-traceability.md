@@ -185,5 +185,5 @@ Before sending to Rork, Claude, Codex, or another builder:
 - Paywall copy, RevenueCat products, Stripe prices, terms, screenshots, and store metadata drift apart.
 - Paid-tool evidence and free-fallback evidence are mixed together without confidence or limitation notes.
 - MobAI verifies a visual path, but no provider/dashboard/database proof confirms the action landed.
-- XcodeBuildMCP is used as a MobAI fallback without founder confirmation or without recording Apple-only coverage limits.
+- MobileBuildMCP is used as a MobAI fallback without founder confirmation or without recording Apple-only coverage limits.
 - A builder prompt references many docs but does not state the trace IDs or contracts that define done.

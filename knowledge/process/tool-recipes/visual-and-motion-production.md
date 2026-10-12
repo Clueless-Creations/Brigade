@@ -332,7 +332,7 @@ Purpose: score every creative before distribution; never pay for a campaign with
 
 Purpose: produce one high-quality master video then derive all platform ratios and short clips without re-generating.
 
-1. **Source master.** For App Preview: the source must be real app footage — an in-app simulator recording (rung 0), MobAI, or XcodeBuildMCP capture per `xcodebuildmcp-testing.md` / `mobai-toolbelt.md`. Verify the capture's native resolution against the target well before compositing. For ads and social, generated or captured footage is acceptable.
+1. **Source master.** For App Preview: the source must be real app footage — an in-app simulator recording (rung 0), MobAI, or MobileBuildMCP capture per `xcodebuildmcp-testing.md` / `mobai-toolbelt.md`. Verify the capture's native resolution against the target well before compositing. For ads and social, generated or captured footage is acceptable.
 2. **Long-recording trim (optional).** For a recording longer than 60 seconds, Higgsfield's public operations table names Personal Clipper for short clips from a long video. The help page does not publish a tool id. Confirm the live id in Higgsfield MCP tool help before calling it. Skip this step when the master is already the right length.
 3. **Spend confirm.** Surface the balance with `balance` on the Higgsfield MCP. Confirm `reframe` spend with the founder per `paid-tool-routing.md`.
 4. **Reframe to all platform ratios.** Use `reframe` on the Higgsfield MCP with the master video to produce 9:16, 1:1, and 16:9 variants. Confirm the live arguments in Higgsfield MCP tool help before running. Veo 3.1 format limits (16:9 or 9:16 only; 4/6/8 seconds only) do not apply to `reframe`. `reframe` operates on existing footage.

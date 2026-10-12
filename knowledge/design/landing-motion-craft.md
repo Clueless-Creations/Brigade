@@ -35,6 +35,8 @@ Host the supplied React adapters in Next.js App Router or another React SSR site
 
 Rules 1, 2, and 4 are mechanically enforced by `check:landing-funnel` when landing sources animate. Deploy gates and browser proof verify rule 3.
 
+When a landing animation drops frames, load Emil Kowalski's `animation-performance` skill (`emilkowalski/skills`, reviewed at `2d228630ba1446365f614a108cb8252f1feda202`). It diagnoses web jank: composite-only properties, CSS versus WAAPI versus `requestAnimationFrame`, Framer Motion, React re-renders, blur, and `will-change`. It does not choose easing, decide whether to animate, or cover React Native. Keep mobile frame budgets in `premium-mobile-craft.md` and `motion-craft-benchmarks.md`. Do not copy the skill's CSS values onto the `--motion-*` scale. `animate-expo` remains the React Native producer.
+
 1. **Real text, always.** Above-the-fold copy exists in static HTML and is never animation-gated. Reveal states apply only under `html.js`. A final-only no-JavaScript visual is valid only when semantic prose or captions contain every claim and proof. Otherwise, render static visual panels in document flow.
 2. **Reduced motion preserves proof.** Animated sources must include a `prefers-reduced-motion` rule. A final-only visual is valid only when semantic prose or captions contain every claim and proof. Otherwise, render static visual panels in document flow.
 3. **Motion never gates LCP/INP.** Server-render or statically render content; hydrate choreography after. Entrance animation must not delay first paint or hide text from crawlers.
