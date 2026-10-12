@@ -15,6 +15,7 @@ Review:
 - labels, roles, focus order, reading order, contrast, text scaling, touch targets, keyboard and switch access
 - reduced motion, haptic alternatives, captions, dynamic content announcements, errors, and recovery
 - iOS and Android coverage, narrow and large screens, orientation, locale expansion, slow network, offline, background, and interruption states
+- the live-screen test for a changed screen: long names, 2x text, landscape, overlap, overflow, and reachable actions, with the shipping view under test rather than a mock fixture screenshot
 - reproducible steps, environment details, screenshots or recordings, severity, expected behavior, and retest evidence
 
 Allowed write scope: none unless the orchestrator assigns isolated test or fixture paths. The orchestrator owns shared device and simulator sessions.

@@ -467,12 +467,13 @@ tasks:
 
 repo:
   files:
-    - { path: AGENTS.md, purpose: "Short worker guide: read spec.yaml, build one screen, compare to mock, run gate." }
+    - { path: AGENTS.md, purpose: "Short worker guide: read spec.yaml, build one screen, ship a live-screen test, do not branch production views on fixture properties, compare to the mock, and run the gate." }
     - { path: spec/spec.yaml, purpose: "This manifest (approved copy)." }
     - { path: spec/index.html, purpose: "Rendered spec pack." }
     - { path: DESIGN.md, purpose: "Tokens and style prompt, same values as design.tokens." }
     - { path: TASKS.md, purpose: "Generated from screens, web pages, and tasks. W-DISCOVERY has no dependencies. W-POLISH runs after W-landing and loads landing-motion-craft.md, then the visual references, then the copy references." }
-    - { path: scripts/merge-gate.sh, purpose: "Build, unit tests, screenshot-vs-mock check, lint, and the snapshot record-mode step." }
+    - { path: scripts/merge-gate.sh, purpose: "Build, unit tests, screenshot-vs-mock check, lint, the snapshot record-mode step, the live-screen test step, and the mock-state branch step." }
+    - { path: templates/live-screen/, purpose: "Flutter and SwiftUI live-screen harness. Copy the flavour that matches meta.stack into the screen pull request." }
     - { path: .env.example, purpose: "Names only, no values." }
     - { path: web/, purpose: "Landing and policy pages. Each page head carries title, description, canonical, Open Graph, an X card, a favicon, and theme-color. The og:image is a 1200 by 630 PNG or JPG with an absolute URL." }
   merge_gate:
@@ -482,6 +483,8 @@ repo:
     - Screenshot-vs-mock review recorded with any differences fixed or listed.
     - No hard-coded colors, sizes or strings outside tokens and copy files.
     - No snapshot test is in record mode.
+    - Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.
+    - No production view branches on a fixture property such as a name-length threshold or a gate-only flag.
 
 gates:
   gate_1:
