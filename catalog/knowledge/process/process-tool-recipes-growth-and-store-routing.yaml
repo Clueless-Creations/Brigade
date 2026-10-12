@@ -14,14 +14,14 @@ sources:
   - id: github-com-eronred-aso-skills
     name: ASO and App Marketing Skills
     source_type: github
-    url: https://github.com/Eronred/aso-skills
+    url: https://github.com/appeeky/aso-skills
     review_cadence_days: 7
     claim_scope: Selected screenshot strategy, preview and app-context guidance only; no tools, API integrations,
       samples or marketing assets are imported.
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Erencan
-    revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    revision: 3919d7c27402d92c7ef698f2016174b874ea189e
     retrieved_at: 2026-09-06T15:57:54.602674Z
     upstream_id: eronred-aso-skills
     selectors: &a1
@@ -40,7 +40,7 @@ derivations:
   - source_ids:
       - github-com-eronred-aso-skills
     relationship: adapted
-    baseline: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    baseline: 3919d7c27402d92c7ef698f2016174b874ea189e
     selectors: *a1
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.

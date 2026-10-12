@@ -1,23 +1,27 @@
 {
   "schemaVersion": 1,
   "upstreamId": "sentry-xcodebuildmcp",
-  "checkedAt": "2026-09-06T15:57:57.050471Z",
+  "checkedAt": "2026-10-12T14:20:00.000Z",
   "method": "manual",
   "latestStable": {
-    "tag": "v2.7.0",
-    "publishedAt": "2026-07-23T14:07:50Z",
+    "tag": "v2.7.1",
+    "publishedAt": "2026-09-23T20:14:49Z",
     "assets": []
   },
   "prereleases": [],
-  "branchHead": null,
+  "branchHead": {
+    "branch": "main",
+    "sha": "d13ff0c707b0681769cf31da0eb42c4f94ceafff",
+    "committedAt": "2026-09-23T20:14:49Z"
+  },
   "releasesSinceBaseline": [],
   "licenseSha256": "fef28fc4165c72b1f0e4ce94654ba44ad7ff7d5d2538b3d01e66e9cc5be3c4f6",
   "licenseChanged": false,
   "archived": null,
   "host": null,
   "unknowns": [
-    "Assembled from bounded GitHub metadata and selected immutable source files. Release list is one page, not complete history.",
-    "The captured review records the resolved source commit; the default branch name and release ancestry are not retained as a separate branch-head claim.",
-    "No upstream executable, editor export, native device run, paid API or live business was tested."
+    "v2.7.1 reviewed from GitHub metadata and selected files on 2026-10-12. No host binary was installed.",
+    "npm package xcodebuildmcp stops at 2.7.0. The reviewed package is mobilebuildmcp@2.7.1.",
+    "No upstream executable, editor export, native device run, paid API, or live business was tested."
   ]
 }

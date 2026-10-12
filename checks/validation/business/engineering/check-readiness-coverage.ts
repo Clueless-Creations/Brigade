@@ -37,7 +37,7 @@ const PASSED = /^(?:pass(?:ed)?|done|verified|yes|complete[d]?)(?:[.!]?|\s*(?:[-
 const CLAIM_LINE =
   /^(?:Status|Readiness):\s*(?:submit[- ]ready|ready(?: (?:for|to) submit)?|production[- ]ready|release[- ]ready|store[- ]ready|upload[- ]ready)\b/im;
 const PHYSICAL_DEVICE =
-  /^(?:(?:(?:release|debug|signed) (?:configuration|build) on (?:a )?|(?:mobai|xcodebuildmcp) (?:on (?:a )?)?)?(?:physical device|real device)|on-device|devicectl|(?:signed )?device build|signed device)\b|^(?:iphone|ipad|pixel|samsung) [0-9a-z ]+\((?:physical )?device\)(?:$|[\s,;])/i;
+  /^(?:(?:(?:release|debug|signed) (?:configuration|build) on (?:a )?|(?:mobai|xcodebuildmcp|mobilebuildmcp) (?:on (?:a )?)?)?(?:physical device|real device)|on-device|devicectl|(?:signed )?device build|signed device)\b|^(?:iphone|ipad|pixel|samsung) [0-9a-z ]+\((?:physical )?device\)(?:$|[\s,;])/i;
 const SIMULATOR = /\bsimulator\b/i;
 // Negation must describe the device or its observation. Offline/no-crash test conditions
 // are valid physical-device evidence; incidental "without" or "no" cannot invalidate them.

@@ -14,9 +14,9 @@ copyright: Copyright (c) 2026 Emil Kowalski
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/emilkowalski/skills/blob/e8a175de22ae1e49370fc144c1f3bb9aeedf988d/LICENSE
+  evidence_url: https://github.com/emilkowalski/skills/blob/2d228630ba1446365f614a108cb8252f1feda202/LICENSE
   evidence_sha256: 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b
-  reviewed_revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+  reviewed_revision: 2d228630ba1446365f614a108cb8252f1feda202
   notice_file: catalog/upstreams/notices/emilkowalski-skills.txt
   scope: Root LICENSE. Selected published methods from review-animations, apple-design, and break-ui only.
     CSS easings, millisecond literals, web library opinions, and install hooks are not imported.
@@ -63,23 +63,24 @@ relationships:
       - skills/improve-animations/SKILL.md
       - skills/find-animation-opportunities/SKILL.md
       - skills/write-swift/SKILL.md
+      - skills/animation-performance/SKILL.md
     pin_authority: npx skills add carries no pin. Reviewed commit below identifies the README and skill names this routing cites.
 baselines:
   reviewed_source:
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
-    observed_at: "2026-10-07"
-    by: b2c-contributor source review
-    note: Read-only license, README, and selected SKILL.md inspection; no skill install or live host execution.
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Head 2d228630ba1446365f614a108cb8252f1feda202 (2026-10-11). License digest unchanged. No skill install.
   reviewed_guidance:
-    revision: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
-    observed_at: "2026-10-07"
-    by: b2c-contributor source review
-    note: Gap methods adapted into existing craft owners; named skills routed as opt-in producer or auditor packs.
+    revision: 2d228630ba1446365f614a108cb8252f1feda202
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Reviewed 2026-10-12 at 2d228630ba1446365f614a108cb8252f1feda202. animation-performance is a web diagnostic skill. Route it from landing motion procedures. Do not import its CSS or will-change rules into mobile tokens. React Native stays on animate-expo.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    - range: 2d228630ba1446365f614a108cb8252f1feda202
       status: untested
       evidence:
         - Source inspection and the ios-skill-pack-boundary routing eval only; no live host-skill execution
@@ -123,7 +124,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 30
-  last_review: "2026-10-07"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

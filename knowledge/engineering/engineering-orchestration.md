@@ -136,7 +136,7 @@ Every real app build or builder handoff should create or update a business-speci
 - privacy/legal/store disclosure constraints
 - Compound Engineering routing: when to use `ce-brainstorm`, `ce-plan`, `ce-work`, worktrees, subagents, and review
 - MobAI/native iOS/device-testing rules and serialized device ownership
-- paid-tool routing and confirmed MobAI/XcodeBuildMCP fallback rules plus SnapshotPreviews/serve-sim limits
+- paid-tool routing and confirmed MobAI/MobileBuildMCP fallback rules plus SnapshotPreviews/serve-sim limits
 - backend/frontend E2E proof requirements
 - common mistakes and launch blockers
 - exact verification commands or scripts when known
@@ -203,7 +203,7 @@ Parallel safety check:
 
 Use `ce-worktree` when parallel engineering lanes need isolation. Prefer meaningful branch/worktree names such as `feat/onboarding-analytics` or `fix/revenuecat-entitlement-sync`.
 
-MobAI is serialized: one orchestrator owns the device flow, while other agents may inspect code, prepare fixtures, or analyze logs in parallel. Its free tier needs no spend approval; Plus/Pro-only capabilities do. If MobAI is unavailable, use [`paid-tool-routing.md`](../operations/paid-tool-routing.md) before substituting XcodeBuildMCP or another device/simulator route because the replacement changes platform coverage and proof quality.
+MobAI is serialized: one orchestrator owns the device flow, while other agents may inspect code, prepare fixtures, or analyze logs in parallel. Its free tier needs no spend approval; Plus/Pro-only capabilities do. If MobAI is unavailable, use [`paid-tool-routing.md`](../operations/paid-tool-routing.md) before substituting MobileBuildMCP or another device/simulator route because the replacement changes platform coverage and proof quality.
 
 ## 6. `engineering/ENGINEERING_PLAN.md` Requirements
 
@@ -257,7 +257,7 @@ Required proof, adjusted to the product:
 - unit tests for pure logic and edge cases
 - integration tests for app-to-backend, provider callbacks, database writes, entitlement projection, email sends, and analytics wrappers
 - browser E2E for web funnels, checkout, privacy/terms pages, support flows, and dashboards where applicable
-- mobile E2E for onboarding, attribution, paywall, restore, activation, settings, account deletion, and screenshot-critical flows: in-app iOS Simulator (rung 0) for iOS-only walkthroughs and repro, MobAI for Android coverage and repeatable suites, XcodeBuildMCP when the lane needs scripted/CI builds or physical hardware — record the rung used and the coverage it does not provide
+- mobile E2E for onboarding, attribution, paywall, restore, activation, settings, account deletion, and screenshot-critical flows: in-app iOS Simulator (rung 0) for iOS-only walkthroughs and repro, MobAI for Android coverage and repeatable suites, MobileBuildMCP when the lane needs scripted/CI builds or physical hardware — record the rung used and the coverage it does not provide
 - on-device taste pass for every built screen against `premium-mobile-craft.md`/`quality-lens.md` (see §8 Device Loop's closing step) — functional E2E proof that a screen runs and can be captured is not proof it looks premium, on-brand, or non-generic
 - backend proof that frontend actions create the expected records/events in the real test backend, database, Firestore/Supabase/Postgres, RevenueCat, Stripe, Resend, or PostHog target
 - app integrity, rate-limit, idempotency, and abuse-path proof when paid access, user accounts, sensitive data, or backend mutation are in scope
@@ -297,11 +297,11 @@ MobAI is a freemium third-party tool. Use its free tier without a spend gate whe
 
 Load `xcodebuildmcp-testing.md` before any Apple simulator/device proof, in either runtime. In Claude Code Desktop the simulator pane opens automatically when the agent runs the app in a simulator — local sessions only, per-device consent, fixture accounts only because device screenshots leave the machine. In Codex, call `session_show_defaults` before the first build/run/test and use exposed MCP tools such as `build_run_sim` when defaults are set. Either way record runtime and version, project/workspace, scheme, simulated device and OS, tool names, screenshot/log paths, and the simulator-only limitation in `engineering/PRODUCTION_READINESS.md`.
 
-Use XcodeBuildMCP after confirmation for Apple-platform build/run/test/UI automation/screenshots/logs/video:
+Use MobileBuildMCP after confirmation for Apple-platform build/run/test/UI automation/screenshots/logs/video:
 
 - load `xcodebuildmcp-testing.md`
-- refresh official XcodeBuildMCP docs and local CLI/tool help before install/setup/commands/proof
-- use MCP tools when exposed, otherwise the `xcodebuildmcp-cli` skill and CLI
+- refresh official MobileBuildMCP docs and local CLI/tool help before install/setup/commands/proof
+- use MCP tools when exposed, otherwise the `mobilebuildmcp-cli` skill and CLI
 - run `session_show_defaults` before first MCP build/run/test in a session
 - use one-shot build/run tools when defaults are configured
 - record Apple-only scope and any missing Android/MobAI coverage
@@ -330,7 +330,7 @@ For store screenshots, keep raw captures separate from composed assets. For E2E 
 - support/privacy/delete action reaches the intended backend/email route
 - lifecycle email/webhook appears in provider logs when expected
 
-If device access is blocked, mark production readiness as blocked for that flow. A cloud, SSH, or container session cannot reach a local Mac's simulators at all, so rung 0 is simply unavailable there: record that as the blocker and route the proof to a machine that can, rather than narrating a simulator run that did not happen. Do not replace live-device proof with screenshots, preview snapshots, or unit tests. If XcodeBuildMCP, SnapshotPreviews, or serve-sim is used, write the exact simulator/device, OS, workflow, output paths, and limitation into `engineering/PRODUCTION_READINESS.md`.
+If device access is blocked, mark production readiness as blocked for that flow. A cloud, SSH, or container session cannot reach a local Mac's simulators at all, so rung 0 is simply unavailable there: record that as the blocker and route the proof to a machine that can, rather than narrating a simulator run that did not happen. Do not replace live-device proof with screenshots, preview snapshots, or unit tests. If MobileBuildMCP, SnapshotPreviews, or serve-sim is used, write the exact simulator/device, OS, workflow, output paths, and limitation into `engineering/PRODUCTION_READINESS.md`.
 
 ## 9. LaunchBench And Failure Cards
 
@@ -367,7 +367,7 @@ Engineering-heavy work is done only when:
 - Parallel agents were considered by default, used where safe, and serialized where required.
 - Specialist audit agents or equivalent independent review checked the build against attribution, onboarding, analytics, revenue, store, privacy, design, and production-readiness requirements where in scope.
 - frontend, backend, analytics, revenue, email, and mobile-device paths were tested end to end where in scope.
-- In-app simulator proof (rung 0), MobAI proof, XcodeBuildMCP proof, serve-sim simulator proof, or SnapshotPreviews preview proof is paired with backend/provider verification where app flows mutate state, and the simulator-only/preview-only/no-Android/no-distribution limits are explicit.
+- In-app simulator proof (rung 0), MobAI proof, MobileBuildMCP proof, serve-sim simulator proof, or SnapshotPreviews preview proof is paired with backend/provider verification where app flows mutate state, and the simulator-only/preview-only/no-Android/no-distribution limits are explicit.
 - production-readiness evidence is written down.
 - deterministic validators or LaunchBench scenarios were run where applicable, and active failure cards are explicit.
 - remaining blockers are explicit founder-only gates, access gaps, platform review waits, or external service issues.

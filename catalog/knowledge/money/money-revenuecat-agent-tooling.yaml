@@ -25,7 +25,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: RevenueCat
-    revision: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
+    revision: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
     retrieved_at: 2026-09-06T13:59:33.574497Z
     rights:
       status: verified
@@ -51,7 +51,7 @@ sources:
     last_review_date: 2026-09-08
     reviewer: b2c-maintainers
     publisher: RevenueCat
-    revision: 1a3d2820b3166dd6d4cc4775902e43eeeab5f004
+    revision: 548f93276088f73fc15a411f34f02a51ba56ad4d
     retrieved_at: 2026-09-06T13:59:35.856259Z
     rights:
       status: verified
@@ -73,7 +73,7 @@ derivations:
   - relationship: adapted
     source_ids:
       - github-com-revenuecat-ai-toolkit
-    baseline: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
+    baseline: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
     selectors:
       - README.md
       - revenuecat/skills/create-revenuecat-project/SKILL.md
@@ -93,7 +93,7 @@ derivations:
   - relationship: adapted
     source_ids:
       - github-com-revenuecat-cli
-    baseline: 1a3d2820b3166dd6d4cc4775902e43eeeab5f004
+    baseline: 548f93276088f73fc15a411f34f02a51ba56ad4d
     selectors:
       - README.md
     rationale: Retain relevant official procedures while preserving existing artifact ownership, scoped authority and

@@ -201,7 +201,7 @@ Must include:
 - Compound Engineering routing, `operations/ORCHESTRATION.md`, safe parallel-agent/worktree rules, and when to use `ce-brainstorm`, `ce-plan`, `ce-work`, review, and proof skills
 - app-local agent roster pointer to `APP_AGENTS.md` and `agents/`, including orchestrator ownership and specialist audit roles
 - MobAI/native iOS/device testing rules and serialized device ownership
-- paid-tool routing and approved MobAI/XcodeBuildMCP fallback rules plus SnapshotPreviews/serve-sim limitations
+- paid-tool routing and approved MobAI/MobileBuildMCP fallback rules plus SnapshotPreviews/serve-sim limitations
 - UGC/Fastlane growth rules when social distribution is in scope
 - backend/frontend E2E and production-readiness gates
 - common agent mistakes
@@ -525,7 +525,7 @@ Must include:
 
 - build/typecheck/lint/test commands and outcomes for every touched repo
 - frontend/browser E2E evidence when web surfaces exist
-- MobAI mobile E2E evidence when app flows exist: independently checked desktop/MCP/CLI versions, selected Free/Plus/Pro tier, an existing `.mob` flow and run artifact for every supported platform, provider correlation, reviewed AI-heal diff plus passing rerun when used, explicit repeat bounds, and host-script endpoint/secret/cleanup/backend-proof attestation; or Codex Desktop native iOS/XcodeBuildMCP evidence with founder-confirmed coverage limitations when MobAI is unavailable
+- MobAI mobile E2E evidence when app flows exist: independently checked desktop/MCP/CLI versions, selected Free/Plus/Pro tier, an existing `.mob` flow and run artifact for every supported platform, provider correlation, reviewed AI-heal diff plus passing rerun when used, explicit repeat bounds, and host-script endpoint/secret/cleanup/backend-proof attestation; or Codex Desktop native iOS/MobileBuildMCP evidence with founder-confirmed coverage limitations when MobAI is unavailable
 - in-app iOS Simulator evidence (rung 0) when used: agent surface and app version, the plan/policy gate cleared, that the session was local (not cloud or SSH), the simulated device and OS, the fixture or sandbox account used instead of a real account, screenshot/recording paths committed into the repo, backend/provider correlation for any flow that mutates state, and the coverage the route does not provide — no Android, no physical device, no distribution readiness
 - SnapshotPreviews preview proof when used: package/version/commit, `SnapshotTest` or `PreviewLayoutTest`, `TEST_RUNNER_SNAPSHOTS_EXPORT_DIR`, exported PNG/JSON paths, and preview-only limitation
 - serve-sim simulator proof when used: booted simulator/device, preview URL/port, actions/logs, stream evidence paths, and provider/signing limitations
@@ -1027,7 +1027,7 @@ Must include:
 - current official screenshot/asset sources checked with URLs and dates
 - device matrix by platform, device class, display well, locale, required/optional status, and dimensions
 - complete locale × supported device-family × product-page coverage: iPhone and iPad for Apple; phone, 7-inch tablet, and 10-inch tablet for Google Play; default and each custom page or listing in scope
-- raw MobAI/native iOS/device capture path, Codex Desktop native iOS/XcodeBuildMCP capture path, serve-sim stream capture path, SnapshotPreviews preview-only path when applicable, production composition path, design-system frame path, final upload path, visual proof path, and upload status
+- raw MobAI/native iOS/device capture path, Codex Desktop native iOS/MobileBuildMCP capture path, serve-sim stream capture path, SnapshotPreviews preview-only path when applicable, production composition path, design-system frame path, final upload path, visual proof path, and upload status
 - screenshot slot strategy: first three conversion frames, source screen, headline, copy overlay, claim risk, localization, and production readiness
 - App Icon and App Preview route, source inputs, output paths, thumbnail/poster-frame QA, and founder approval gate when in scope
 - generated asset use: Higgsfield or other AI assets labeled `direction`, `draft`, or `production`, with proof that real app UI remains truthful and visible

@@ -1,4 +1,4 @@
-# Native iOS Proof: In-App Simulators, XcodeBuildMCP, SnapshotPreviews, And serve-sim
+# Native iOS Proof: In-App Simulators, MobileBuildMCP, SnapshotPreviews, And serve-sim
 
 Use this when iOS, iPadOS, macOS, tvOS, watchOS, or visionOS build/test/run/UI automation is needed, when the runtime can drive an iOS Simulator in-app, when Codex exposes native Apple tooling, or when CLI users need open-source simulator and preview proof routes.
 
@@ -13,7 +13,7 @@ A screenshot or recording is a raw observation, not automatic acceptance or fina
 creative. Provider-specific guidance below describes current compatibility routes;
 the mobile app operation contract owns provider-neutral execution and capture.
 
-The in-app simulator, XcodeBuildMCP, SnapshotPreviews, and serve-sim are not full MobAI replacements. They are Apple-platform routes: excellent for simulator/device workflows, Xcode builds, tests, screenshots, UI automation, logs, debugging, and video capture. SnapshotPreviews adds preview-to-PNG/JSON coverage from XCTest. serve-sim exposes a booted simulator through a local browser stream/control surface. None of them cover Android device automation, and none of them replace App Store signing/distribution proof.
+The in-app simulator, MobileBuildMCP, SnapshotPreviews, and serve-sim are not full MobAI replacements. They are Apple-platform routes: excellent for simulator/device workflows, Xcode builds, tests, screenshots, UI automation, logs, debugging, and video capture. SnapshotPreviews adds preview-to-PNG/JSON coverage from XCTest. serve-sim exposes a booted simulator through a local browser stream/control surface. None of them cover Android device automation, and none of them replace App Store signing/distribution proof.
 
 For Apple distribution, TestFlight, physical-device signing, archives, exports, or uploads, load `apple-signing-release.md` too. Simulator proof does not by itself prove App Store signing readiness.
 
@@ -52,14 +52,14 @@ Pick the lightest rung that can actually produce the evidence the lane needs, th
 | ---- | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | 0    | In-app iOS Simulator: Claude Code Desktop simulator pane, or Codex with the `build-ios-apps` plugin | none beyond Xcode and the iOS platform                           | build, install, launch, tap/type/scroll, read the screen, screenshots, screen recordings, simulator logs                                                | Android, physical devices, signing/distribution, repeatable regression suites, CI |
 | 1    | Claude Code CLI `computer-use`                                                                      | enable one built-in MCP server, grant two macOS permissions      | the same simulator work from a terminal session                                                                                                         | rung 0's gaps, plus it holds a machine-wide screen-control lock                   |
-| 2    | XcodeBuildMCP MCP tools or CLI                                                                      | install plus `xcodebuildmcp setup`                               | scripted and CI Apple builds, tests, UI automation, logs, video, deterministic project discovery, **physical Apple devices over USB/Wi-Fi**             | Android, distribution readiness                                                   |
+| 2    | MobileBuildMCP MCP tools or CLI                                                                      | install plus `mobilebuildmcp setup`                               | scripted and CI Apple builds, tests, UI automation, logs, video, deterministic project discovery, **physical Apple devices over USB/Wi-Fi**             | Android, distribution readiness                                                   |
 | 3    | SnapshotPreviews                                                                                    | XCTest target wiring                                             | deterministic preview PNG/JSON coverage for SwiftUI/UIKit/AppKit previews                                                                               | runtime E2E, navigation, provider behavior                                        |
 | 3    | serve-sim                                                                                           | `serve-sim` (already bundled in Codex's `build-ios-apps` plugin) | a booted simulator visible and controllable at a browser URL, for remote-Mac or CLI agents                                                              | provider proof, distribution readiness                                            |
 | 4    | MobAI                                                                                               | desktop app, bridge, and tier selection                          | iOS **and Android**, `.mob` suites, AI test generation/healing, performance gates, CI, multi-device runs, polished demo recording, LLDB-style debugging | App Store signing/distribution                                                    |
 
 The rungs are a rough cost order, not a strict hierarchy. serve-sim is the clearest example: on the Codex side it is not an extra install at all, because the `build-ios-apps` plugin's simulator-browser skill shells out to it — check what the runtime already bundles before treating a rung as an escalation.
 
-The two capability deltas that decide most escalations are concrete, not stylistic: the in-app simulator drives **simulated devices only** (XcodeBuildMCP and MobAI reach physical hardware), and it has **no Android path at all** (only MobAI, or the repo's own emulator/ADB tooling, does). Everything else at rung 0 — build, launch, tap, type, screenshot, record, read logs — is real proof.
+The two capability deltas that decide most escalations are concrete, not stylistic: the in-app simulator drives **simulated devices only** (MobileBuildMCP and MobAI reach physical hardware), and it has **no Android path at all** (only MobAI, or the repo's own emulator/ADB tooling, does). Everything else at rung 0 — build, launch, tap, type, screenshot, record, read logs — is real proof.
 
 Rung 0 and rung 4 answer different questions. Rung 0 answers "is this screen right, right now" in one turn. MobAI answers "does this journey still pass on iOS and Android next week" and owns the demo-video and performance-gate lanes. A launch package that needs both should use both; `mobai-toolbelt.md` stays the reference for everything at rung 4.
 
@@ -67,25 +67,25 @@ Rung 0 is unavailable in cloud, SSH, and container sessions, because the agent i
 
 ## Current Sources To Refresh
 
-Refresh these before implementation because in-app simulator gates, XcodeBuildMCP versions, tool names, and client snippets change:
+Refresh these before implementation because in-app simulator gates, MobileBuildMCP versions, tool names, and client snippets change:
 
 - Claude Code Desktop iOS Simulator pane: `https://code.claude.com/docs/en/desktop-ios-simulator`
 - Claude Code CLI computer use: `https://code.claude.com/docs/en/computer-use`
 - Codex iOS Simulator debugging loop: `https://learn.chatgpt.com/use-cases/ios-simulator-bug-debugging`
 - Codex native development collection: `https://learn.chatgpt.com/use-cases/collections/native-development`
 - Codex Build iOS Apps plugin: `https://github.com/openai/plugins/tree/main/plugins/build-ios-apps`
-- GitHub: `https://github.com/getsentry/XcodeBuildMCP`
-- Installation: `https://xcodebuildmcp.com/docs/installation`
-- Setup: `https://xcodebuildmcp.com/docs/setup`
-- MCP clients: `https://xcodebuildmcp.com/docs/clients`
-- CLI usage: `https://xcodebuildmcp.com/docs/cli`
-- Configuration: `https://xcodebuildmcp.com/docs/configuration`
-- Tools reference: `https://xcodebuildmcp.com/docs/tools`
-- Workflows: `https://xcodebuildmcp.com/docs/workflows`
-- Troubleshooting: `https://xcodebuildmcp.com/docs/troubleshooting`
-- Privacy: `https://xcodebuildmcp.com/docs/privacy`
-- Skills: `https://xcodebuildmcp.com/docs/skills`
-- Local skill when installed: `xcodebuildmcp-cli`
+- GitHub: `https://github.com/getsentry/MobileBuildMCP`
+- Installation: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/installation.mdx`
+- Setup: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/setup.mdx`
+- MCP clients: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/clients.mdx`
+- CLI usage: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/cli.mdx`
+- Configuration: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/configuration.mdx`
+- Tools reference: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/tools.mdx`
+- Workflows: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/workflows.mdx`
+- Troubleshooting: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/troubleshooting.mdx`
+- Privacy: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/privacy.mdx`
+- Skills: `https://github.com/getsentry/mobilebuildmcp.com/blob/main/app/docs/_content/skills.mdx`
+- Local skill when installed: `mobilebuildmcp-cli`
 - SnapshotPreviews: `https://github.com/getsentry/SnapshotPreviews`
 - serve-sim: `https://github.com/EvanBacon/serve-sim`
 - Apple testing overview: `https://developer.apple.com/documentation/xcode/testing`
@@ -96,7 +96,7 @@ Refresh these before implementation because in-app simulator gates, XcodeBuildMC
 
 ## Live Documentation Gate
 
-Before installation, setup, client configuration, CLI commands, tool names, privacy settings, skills, or screenshot/test proof, refresh the official docs above and the local CLI help when available. Do not treat this reference, the local `xcodebuildmcp-cli` skill, old transcripts, or project memory as version authority.
+Before installation, setup, client configuration, CLI commands, tool names, privacy settings, skills, or screenshot/test proof, refresh the official docs above and the local CLI help when available. Do not treat this reference, the local `mobilebuildmcp-cli` skill, old transcripts, or project memory as version authority.
 
 Record in `engineering/PRODUCTION_READINESS.md` or `SCREENSHOTS.md`:
 
@@ -105,7 +105,7 @@ Record in `engineering/PRODUCTION_READINESS.md` or `SCREENSHOTS.md`:
 - official docs version/tag when shown
 - for the in-app simulator: the agent surface and app version, the plan/policy gate, the session type (local, not cloud/SSH), and the simulated device plus OS
 - installed version or install route: Homebrew, npm/npx, or existing binary
-- `xcodebuildmcp --help`, `xcodebuildmcp tools`, or MCP tool-list snapshot
+- `mobilebuildmcp --help`, `mobilebuildmcp tools`, or MCP tool-list snapshot
 - SnapshotPreviews package URL/version/commit when used
 - serve-sim package version or `serve-sim` resolution when used
 - Xcode version, macOS version, simulator/device runtime, project/workspace, scheme, and configuration
@@ -129,7 +129,7 @@ Use the in-app simulator (rung 0) first when:
 - one-turn visual/interaction feedback is the point, not a stored regression suite
 - an implementation change needs a same-session "did this actually work" check before it is written up
 
-Use XcodeBuildMCP after the founder confirms the fallback when:
+Use MobileBuildMCP after the founder confirms the fallback when:
 
 - MobAI is intended but not available in the runtime
 - the task is Apple-platform only
@@ -138,7 +138,7 @@ Use XcodeBuildMCP after the founder confirms the fallback when:
 - LLDB/debugging or crash/log triage is needed
 - the repo needs deterministic Xcode project discovery and session defaults
 
-Do not silently switch from MobAI to XcodeBuildMCP or to the in-app simulator. Use `paid-tool-routing.md` first: an easier route that drops Android, suite repeatability, CI, or performance gates is a coverage decision, not a convenience.
+Do not silently switch from MobAI to MobileBuildMCP or to the in-app simulator. Use `paid-tool-routing.md` first: an easier route that drops Android, suite repeatability, CI, or performance gates is a coverage decision, not a convenience.
 
 Do not treat SnapshotPreviews or serve-sim as distribution proof. SnapshotPreviews proves deterministic preview rendering and exports; serve-sim proves a booted simulator can be observed/controlled through a browser stream. Production-readiness still needs runtime app flow proof, backend/provider proof, signing proof when distribution is in scope, and founder-only gates.
 
@@ -212,11 +212,11 @@ Costs to weigh against rung 0: computer use holds a machine-wide lock until the 
 
 Refresh `https://learn.chatgpt.com/use-cases/ios-simulator-bug-debugging` and the plugin repo before quoting the setup.
 
-Codex's in-app simulator loop is XcodeBuildMCP plus the `build-ios-apps` plugin (`https://github.com/openai/plugins/tree/main/plugins/build-ios-apps`), which wraps the iOS debugger agent workflow: discover the project/workspace and schemes, find or boot a simulator, build, install, launch, relaunch with log capture, resolve bundle IDs, read the accessibility hierarchy, screenshot, tap/type/scroll/gesture, stream simulator logs, attach LLDB, set breakpoints, and inspect stack frames and variables. The plugin bundles a set of skills beyond the debugger — simulator-in-browser mirroring (which shells out to `serve-sim`), SwiftUI preview browsing, performance tracing, memory-leak triage, App Intents, and SwiftUI refactor/pattern skills — so check the plugin's own skill list before installing serve-sim or a tracing tool separately. A parallel `build-macos-apps` plugin exists for macOS targets. No plan or subscription gate is documented for the plugin; XcodeBuildMCP must be configured with the simulator, UI automation, debugging, and logging workflows.
+Codex's in-app simulator loop is MobileBuildMCP plus the `build-ios-apps` plugin (`https://github.com/openai/plugins/tree/main/plugins/build-ios-apps`), which wraps the iOS debugger agent workflow: discover the project/workspace and schemes, find or boot a simulator, build, install, launch, relaunch with log capture, resolve bundle IDs, read the accessibility hierarchy, screenshot, tap/type/scroll/gesture, stream simulator logs, attach LLDB, set breakpoints, and inspect stack frames and variables. The plugin bundles a set of skills beyond the debugger — simulator-in-browser mirroring (which shells out to `serve-sim`), SwiftUI preview browsing, performance tracing, memory-leak triage, App Intents, and SwiftUI refactor/pattern skills — so check the plugin's own skill list before installing serve-sim or a tracing tool separately. A parallel `build-macos-apps` plugin exists for macOS targets. No plan or subscription gate is documented for the plugin; MobileBuildMCP must be configured with the simulator, UI automation, debugging, and logging workflows.
 
 Prerequisites the docs name: an Xcode project or workspace with configured schemes, a booted simulator or the ability to boot one, and test credentials/fixtures when the flow needs an account.
 
-When Codex exposes native Apple/XcodeBuildMCP tools, prefer those tools over shell commands: tool schemas define the current command surface and keep simulator/build/log state visible in the agent runtime.
+When Codex exposes native Apple/MobileBuildMCP tools, prefer those tools over shell commands: tool schemas define the current command surface and keep simulator/build/log state visible in the agent runtime.
 
 Required sequence:
 
@@ -232,41 +232,43 @@ In-app native iOS proof — Claude pane or Codex plugin — can satisfy Apple si
 
 ## Setup Flow
 
-Refresh the Live Documentation Gate first. Preferred install options below are examples from current docs, not permanent requirements:
+Refresh the Live Documentation Gate first. Preferred install options below are the reviewed v2.7.1 examples, not a permission to install `@latest`.
+
+MobileBuildMCP was XcodeBuildMCP through v2.7.0. The npm package `xcodebuildmcp`, the `xcodebuildmcp` and `xcodebuildmcp-doctor` binaries, the `XCODEBUILDMCP_*` environment prefix, `.xcodebuildmcp/config.yaml`, and the `xcodebuildmcp.com` domain are retired. The Homebrew tap name is still `getsentry/xcodebuildmcp`. The MCP registry name is `io.github.getsentry/mobilebuildmcp`. State defaults live under `~/Library/Developer/MobileBuildMCP`.
 
 ```bash
 brew tap getsentry/xcodebuildmcp
-brew install xcodebuildmcp
+brew install mobilebuildmcp
 ```
 
 or:
 
 ```bash
-npm install -g "xcodebuildmcp@<reviewed-version>"
-xcodebuildmcp --help
+npm install -g "mobilebuildmcp@2.7.1"
+mobilebuildmcp --help
 ```
 
 Verify the environment using the current docs:
 
 ```bash
-xcodebuildmcp-doctor # selected compatible installation, not an implicit latest download
+mobilebuildmcp-doctor # selected compatible installation, not an implicit latest download
 ```
 
 or:
 
 ```bash
-xcodebuildmcp-doctor
+mobilebuildmcp-doctor
 ```
 
 Run setup in the project root:
 
 ```bash
-xcodebuildmcp setup
+mobilebuildmcp setup
 ```
 
-The setup wizard creates or updates `.xcodebuildmcp/config.yaml` with enabled workflows, project/workspace path, scheme, configuration, simulator defaults, and debug options. Commit this config only when it contains repo-safe defaults and no secrets.
+The setup wizard creates or updates `.mobilebuildmcp/config.yaml` with enabled workflows, project/workspace path, scheme, configuration, simulator defaults, and debug options. Commit this config only when it contains repo-safe defaults and no secrets. Workflow and debug environment variables use the `MOBILEBUILDMCP_*` prefix, including `MOBILEBUILDMCP_ENABLED_WORKFLOWS`, `MOBILEBUILDMCP_SENTRY_DISABLED`, and `MOBILEBUILDMCP_DEBUG`.
 
-Record whether setup used Homebrew, npm/npx, an existing binary, or an MCP client-managed `npx` command. If `xcodebuildmcp upgrade` or another update route is needed, use the current official docs before running it.
+Record whether setup used Homebrew, npm/npx, an existing binary, or an MCP client-managed `npx` command. If `mobilebuildmcp upgrade` or another update route is needed, use the current official docs before running it.
 
 ## MCP Client Routing
 
@@ -274,7 +276,7 @@ When MCP tools are exposed, prefer the tools over raw shell.
 
 Important sequence:
 
-1. Call `session_show_defaults` before the first XcodeBuildMCP build, run, or test in a session.
+1. Call `session_show_defaults` before the first MobileBuildMCP build, run, or test in a session.
 2. If project/workspace, scheme, and simulator defaults are set, call `build_run_sim` or the relevant one-shot tool directly.
 3. Use discovery tools only when defaults are missing or wrong.
 4. Do not manually boot/open Simulator as a prerequisite for `build_run_sim`; the tool handles it where needed.
@@ -282,35 +284,37 @@ Important sequence:
 
 Current client snippets include:
 
-- Claude Code: `claude mcp add XcodeBuildMCP -- npx -y "xcodebuildmcp@<reviewed-version>" mcp`
-- Codex CLI: `codex mcp add XcodeBuildMCP -- npx -y "xcodebuildmcp@<reviewed-version>" mcp`
-- Codex config: `[mcp_servers.XcodeBuildMCP]` with `command = "npx"` and `args = ["-y", "xcodebuildmcp@<reviewed-version>", "mcp"]`
+- Claude Code: `claude mcp add MobileBuildMCP -- npx -y "mobilebuildmcp@2.7.1" mcp`
+- Codex CLI: `codex mcp add MobileBuildMCP -- npx -y "mobilebuildmcp@2.7.1" mcp`
+- Codex config: `[mcp_servers.MobileBuildMCP]` with `command = "npx"` and `args = ["-y", "mobilebuildmcp@2.7.1", "mcp"]`
+
+On the v2.7.1 tool schemas, `env` and `testRunnerEnv` are arrays of `{key, value}` objects. `xcode_ide_call_tool.arguments` is a JSON object string. Do not send the older map form or a bare object for that arguments field.
 
 If Codex or Xcode agent tools time out, current docs recommend raising `tool_timeout_sec`.
 
 ## CLI Routing
 
-Use the CLI when MCP tools are not exposed or when scripting/CI is simpler. Load the local `xcodebuildmcp-cli` skill when available, but let live docs and local `--help` override stale examples.
+Use the CLI when MCP tools are not exposed or when scripting/CI is simpler. Load the local `mobilebuildmcp-cli` skill when available, but let live docs and local `--help` override stale examples.
 
 Discovery:
 
 ```bash
-xcodebuildmcp --help
-xcodebuildmcp tools
-xcodebuildmcp simulator --help
-xcodebuildmcp ui-automation --help
+mobilebuildmcp --help
+mobilebuildmcp tools
+mobilebuildmcp simulator --help
+mobilebuildmcp ui-automation --help
 ```
 
 Common commands:
 
 ```bash
-xcodebuildmcp setup
-xcodebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj --simulator-name "iPhone 17 Pro"
-xcodebuildmcp simulator build-and-run --scheme MyApp --project-path ./MyApp.xcodeproj
-xcodebuildmcp simulator test --scheme MyApp --project-path ./MyApp.xcodeproj --simulator-name "iPhone 17 Pro"
-xcodebuildmcp simulator record-video --simulator-id <UDID> --output-path ./session.mp4
-xcodebuildmcp ui-automation snapshot-ui --simulator-id <UDID>
-xcodebuildmcp ui-automation screenshot --simulator-id <UDID> --return-format path
+mobilebuildmcp setup
+mobilebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj --simulator-name "iPhone 17 Pro"
+mobilebuildmcp simulator build-and-run --scheme MyApp --project-path ./MyApp.xcodeproj
+mobilebuildmcp simulator test --scheme MyApp --project-path ./MyApp.xcodeproj --simulator-name "iPhone 17 Pro"
+mobilebuildmcp simulator record-video --simulator-id <UDID> --output-path ./session.mp4
+mobilebuildmcp ui-automation snapshot-ui --simulator-id <UDID>
+mobilebuildmcp ui-automation screenshot --simulator-id <UDID> --return-format path
 ```
 
 Use `--json` for complex arguments and `--output jsonl` for long-running operations that should stream machine-readable progress.
@@ -351,6 +355,8 @@ SnapshotPreviews is especially useful before screenshot composition because it c
 
 Record snapshot references in a separate commit, never together with the gate.
 
+Upgrade SnapshotPreviews in its own change. v0.19.0 makes `UIActivityIndicatorView.startAnimating()` a no-op while a snapshot renders, so indeterminate spinners, including the default SwiftUI `ProgressView`, stay hidden on iOS and tvOS. `hidesWhenStopped` defaults to true, which matches the hosted runner and keeps baselines that already hid the spinner valid. Baselines that currently show a spinner change once. `SNAPSHOTS_DISABLE_FREEZE_SPINNERS=1` opts out. v0.20.0 fixes PNG encoding of extended-range images so color is not premultiplied by alpha. Translucent PNG bytes can change once. Re-record those baselines in a dedicated change, review the image diff, and do not mix that re-record with UI changes. Do not leave a snapshot test in record mode. `examples/spec-pack/MERGE.md` rejects a committed record mode, and `scripts/check-snapshot-record-mode.sh` is the check.
+
 ## serve-sim CLI Proof
 
 The reviewed package README requires macOS, Xcode command-line tools and an
@@ -361,7 +367,7 @@ contain sensitive data; use synthetic accounts and a scoped local endpoint.
 LAN/tunnel exposure, webcam capture, injected camera helpers and host permission
 changes require separate authorization and are not part of screenshot adoption.
 
-Use serve-sim when CLI users need a booted iOS Simulator visible and controllable through a browser surface, especially for Codex CLI, Claude Code, Cursor, or remote Mac flows where the agent needs a URL instead of a local Simulator window.
+Use serve-sim when CLI users need a booted iOS Simulator visible and controllable through a browser surface, especially for Codex CLI, Claude Code, Cursor, or remote Mac flows where the agent needs a URL instead of a local Simulator window. The reviewed revision also previews iPhone Duo. A Duo preview is a viewing aid. It does not replace the App Store Duo screenshot sizes in `app-store-connect-cli.md`.
 
 Refreshed source summary:
 
@@ -415,14 +421,14 @@ When UI tests crash with signal kill, time out, or flake, escalate in order — 
 3. **Full suite last**, once — only after units + isolated UI pass.
 4. **A green suite is not contract proof.** If the suite passes while RevenueCat returns zero packages, the paywall shows "Purchases unavailable", or PostHog person properties lack `self_reported_source`, open a `test-suite-green-contracts-unproven` failure card and require backend/provider proof before any paywall/attribution-ready claim.
 
-**120s MCP tool timeout — manual fallback.** XcodeBuildMCP MCP tools time out at ~120s; post-clean-cache builds exceed it. When `test_sim`/`build_run_sim` times out: `build_sim` (build only) → `install_app_sim` (built `.app`) → `launch_app_sim` → `get_simulator_logs`/`tail_logs`. Record the fallback route in `engineering/PRODUCTION_READINESS.md`.
+**120s MCP tool timeout — manual fallback.** MobileBuildMCP MCP tools time out at ~120s; post-clean-cache builds exceed it. When `test_sim`/`build_run_sim` times out: `build_sim` (build only) → `install_app_sim` (built `.app`) → `launch_app_sim` → `get_simulator_logs`/`tail_logs`. Record the fallback route in `engineering/PRODUCTION_READINESS.md`.
 
 **xcresulttool syntax (Xcode 16 / 26).** Read test summaries with `xcresulttool get test-results summary --path <bundle.xcresult>`; refresh `xcresulttool --help` before scripting result parsing.
 
 For App Store screenshot work:
 
 - in-app simulator captures (pane **Cmd+S**/**Cmd+R**, or the Codex screenshot tool) are valid raw real-app UI; copy them off the Desktop into the repo's raw capture directory and record the device, OS, locale, and fixture account
-- use real app UI from XcodeBuildMCP captures when MobAI is not approved/available
+- use real app UI from MobileBuildMCP captures when MobAI is not approved/available
 - compose final screenshots through `DESIGN.md` tokens and screenshot HTML
 - keep raw captures separate from final upload assets
 - map each final image to Apple display wells and Google device classes
@@ -430,7 +436,7 @@ For App Store screenshot work:
 
 ## Privacy And Telemetry
 
-Current XcodeBuildMCP docs state that it uses Sentry for internal runtime error telemetry only. They state that project build/test failures, tool inputs/outputs, environment variables, source code, build artifacts, certificates, and provisioning profiles are not sent.
+Current MobileBuildMCP docs state that it uses Sentry for internal runtime error telemetry only. They state that project build/test failures, tool inputs/outputs, environment variables, source code, build artifacts, certificates, and provisioning profiles are not sent.
 
 Opt out when the launch/privacy posture requires it:
 
@@ -444,7 +450,7 @@ or add:
 sentryDisabled: true
 ```
 
-to `.xcodebuildmcp/config.yaml`.
+to `.mobilebuildmcp/config.yaml`.
 
 Record the telemetry decision in `strategy/TOOL_DECISIONS.md` or `engineering/PRODUCTION_READINESS.md`.
 
@@ -458,16 +464,16 @@ In-app simulator (rung 0), before escalating:
 - check the desktop app version against the current docs gate, and check whether an organization policy (`disableMobileSimulatorTools`, `requireCoworkFullVmSandbox`) disabled the simulator tools
 - a cloud, SSH, or container session cannot reach a local simulator at all; that is a routing fact, not a bug to retry
 
-Current XcodeBuildMCP docs recommend:
+Current MobileBuildMCP docs recommend:
 
-- run `xcodebuildmcp-doctor` or the MCP `doctor` tool
+- run `mobilebuildmcp-doctor` or the MCP `doctor` tool
 - confirm Xcode and Command Line Tools are installed
-- verify required workflows in `.xcodebuildmcp/config.yaml`
+- verify required workflows in `.mobilebuildmcp/config.yaml`
 - check simulator/device availability and permissions
 - enable workflows such as `["simulator", "device", "debugging", "ui-automation"]` when tools are missing
 - use a `zsh -lc` wrapper and known `PATH` for Xcode/Codex agent environments that cannot find `npx`
 - open Xcode and configure signing when device builds fail with signing errors
-- restart stale simulators or the XcodeBuildMCP daemon when stateful tools get stuck
+- restart stale simulators or the MobileBuildMCP daemon when stateful tools get stuck
 
 Do not flatten these into "Xcode is broken". Record the exact doctor finding and next action.
 
@@ -477,9 +483,9 @@ Do not flatten these into "Xcode is broken". Record the exact doctor finding and
 
 - in-app simulator route when used: the agent surface and app version, the plan/policy gate cleared, that it was a local session (not cloud or SSH), the simulated device and OS, the fixture/sandbox account used instead of a real account, the exported screenshot/recording paths now committed in the repo, and the coverage this route does not provide (no Android, no physical device, no distribution readiness)
 - Codex in-app native iOS route when used: `session_show_defaults`, exposed MCP tool names, project/workspace, scheme, simulator/device, and screenshot/log/test paths
-- XcodeBuildMCP version or install route
+- MobileBuildMCP version or install route
 - docs refreshed date, official docs URLs, and docs version/tag when shown
-- CLI/help or `xcodebuildmcp tools` snapshot used to choose commands
+- CLI/help or `mobilebuildmcp tools` snapshot used to choose commands
 - any local skill/docs mismatch and the selected command/tool route
 - doctor status or blocker
 - MCP or CLI route

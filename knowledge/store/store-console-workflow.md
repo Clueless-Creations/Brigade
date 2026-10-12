@@ -101,7 +101,7 @@ Create these when a store submission is in scope:
 - `store/store-console.html`: founder-facing mock console with copy buttons or clearly copyable fields grouped by exact ASC/Play Console page.
 - `SCREENSHOTS.md`: screenshot capture, ParthJadhav/app-store-screenshots composition route when used, dimensions, device targets, locale, proof constraints, upload status, and source image paths.
 - `screenshots/`: final upload assets plus raw MobAI/native iOS/device captures and intermediate compositions.
-- `strategy/TOOL_DECISIONS.md` or an embedded tool-decision section when ASC CLI, paid ASO tools, MobAI, Codex Desktop native iOS/XcodeBuildMCP, SnapshotPreviews, serve-sim, Higgsfield, or paid screenshot/creator tooling affects the packet.
+- `strategy/TOOL_DECISIONS.md` or an embedded tool-decision section when ASC CLI, paid ASO tools, MobAI, Codex Desktop native iOS/MobileBuildMCP, SnapshotPreviews, serve-sim, Higgsfield, or paid screenshot/creator tooling affects the packet.
 
 Small launches can merge `SCREENSHOTS.md` into `store/STORE_CONSOLE.md`, but keep `store/store-console.html` as the human-facing copy-paste surface.
 
@@ -616,7 +616,7 @@ Use:
 - the in-app iOS Simulator (rung 0 of the Route Ladder in `xcodebuildmcp-testing.md`) for raw Apple captures on a local Mac
 - MobAI for real app screenshots when the lane needs Android coverage, a repeatable capture matrix, or multi-device runs
 - MobAI `mobile-recorder-skill` for polished iOS/Android app-preview or launch demo videos when video assets are in scope
-- XcodeBuildMCP for scripted/CI Apple-platform screenshots, videos, logs, and UI automation, or as the founder-confirmed fallback when an intended MobAI delta lane is unavailable
+- MobileBuildMCP for scripted/CI Apple-platform screenshots, videos, logs, and UI automation, or as the founder-confirmed fallback when an intended MobAI delta lane is unavailable
 - Higgsfield for supporting visual assets only after the real UI is clear
 - `SCREENSHOTS.md` for final slot table
 - `screenshots/index.html` or equivalent screenshot HTML for local composition/export proof when final stills are being assembled
@@ -652,11 +652,11 @@ MobAI recorder route:
 - Save `.mob`, raw video, final video, captions, upload copy, target device, fixture, duration, dimensions, and rerender instructions.
 - Use `DESIGN.md` for phone bezel/background, captions, thumbnail/frame treatment, and upload copy voice.
 
-### XcodeBuildMCP Fallback
+### MobileBuildMCP Fallback
 
-MobAI is a freemium third-party tool. Its free tier needs no spend approval when it satisfies the capture lane; Plus/Pro features still require a founder gate. A plain Apple-only capture needs no fallback confirmation — it starts at the in-app iOS Simulator (rung 0). If MobAI is unavailable for a lane that needs a MobAI delta (Android, a repeatable matrix, multi-device runs), do not silently switch platform coverage. Load `paid-tool-routing.md`, ask the founder to confirm XcodeBuildMCP as the Apple-only fallback, then load `xcodebuildmcp-testing.md`.
+MobAI is a freemium third-party tool. Its free tier needs no spend approval when it satisfies the capture lane; Plus/Pro features still require a founder gate. A plain Apple-only capture needs no fallback confirmation — it starts at the in-app iOS Simulator (rung 0). If MobAI is unavailable for a lane that needs a MobAI delta (Android, a repeatable matrix, multi-device runs), do not silently switch platform coverage. Load `paid-tool-routing.md`, ask the founder to confirm MobileBuildMCP as the Apple-only fallback, then load `xcodebuildmcp-testing.md`.
 
-Use XcodeBuildMCP for:
+Use MobileBuildMCP for:
 
 - Apple simulator/device build, run, test, logs, screenshots, UI snapshots, and video
 - screenshot-critical iOS/iPadOS flows when Android is not in scope
@@ -670,7 +670,7 @@ Limitations:
 
 Record in `SCREENSHOTS.md`:
 
-- selected tool: in-app simulator (rung 0), MobAI, XcodeBuildMCP, manual simulator, or blocked
+- selected tool: in-app simulator (rung 0), MobAI, MobileBuildMCP, manual simulator, or blocked
 - founder confirmation for fallback
 - raw capture path
 - device/simulator, OS, locale, theme, fixture, screen path
@@ -765,7 +765,7 @@ Do not make this a marketing page. It should feel like an operator console: dens
 - Privacy answers are copied from a policy generator instead of data inventory and SDK behavior.
 - Google Play Data safety and Apple App Privacy disagree.
 - App screenshots use generated art but do not show the real app UI.
-- MobAI or XcodeBuildMCP captures are raw but never converted into composed, copy-led, platform-specific iPhone/iPad/Play assets.
+- MobAI or MobileBuildMCP captures are raw but never converted into composed, copy-led, platform-specific iPhone/iPad/Play assets.
 - ParthJadhav/app-store-screenshots is used as a one-off style idea instead of a real local export board with source captures, app icon, locale/device decks, final files, and validation proof.
 - App Icon or App Preview work is skipped even though the ASO pack has specialist guidance for it.
 - Store products exist but are not attached to the app version or review/submission state.

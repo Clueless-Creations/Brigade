@@ -14,9 +14,9 @@ copyright: "Project-specific copyright line not stated in LICENSE; attribution: 
 license:
   spdx: Apache-2.0
   status: verified
-  evidence_url: https://github.com/EvanBacon/serve-sim/blob/0ee6fbde40a6b5840d0c6e0379f544feb9fa246b/LICENSE
+  evidence_url: https://github.com/EvanBacon/serve-sim/blob/6d009686ed08f7d8bd19bca9f9f67a9237931f44/LICENSE
   evidence_sha256: 9024cdf56dfe7e66523698a9f63d3a0061eb15f43bd5ea8e3833a56017ae37fd
-  reviewed_revision: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+  reviewed_revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
   notice_file: catalog/upstreams/notices/evanbacon-serve-sim.txt
   scope: Selected simulator viewing and control guidance only. No Swift helper, injected library, source package,
     camera integration or external dependency is incorporated. Root LICENSE has no project-specific copyright
@@ -39,22 +39,23 @@ relationships:
       host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
-    revision: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Read-only metadata, license and selected documentation inspection; no tool or live provider execution.
+    revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Head 6d009686ed08f7d8bd19bca9f9f67a9237931f44 (2026-10-11). License digest unchanged. No tool execution.
   reviewed_guidance:
-    revision: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
-    observed_at: "2026-09-06"
-    by: b2c-contributor source review
-    note: Selected simulator viewing and control guidance only. No Swift helper, injected library, source package,
-      camera integration or external dependency is incorporated. Root LICENSE has no project-specific copyright
-      line; package metadata names Evan Bacon.
+    revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
+    observed_at: "2026-10-12"
+    by: b2c-maintainers
+    note: Reviewed 2026-10-12 at 6d009686ed08f7d8bd19bca9f9f67a9237931f44. iPhone Duo preview is a viewing aid,
+      not an App Store screenshot size. No Swift helper, injected library, source package, camera integration,
+      or external dependency is incorporated. Root LICENSE has no project-specific copyright line; package
+      metadata names Evan Bacon.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b
+    - range: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
       status: untested
       evidence:
         - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
@@ -92,7 +93,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-09-06"
+  last_review: "2026-10-12"
   status: current
 credits:
   acknowledge: true

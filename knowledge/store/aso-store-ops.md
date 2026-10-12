@@ -123,7 +123,7 @@ Checklist:
 - produce composed final assets with headline, copy overlay, device frame or intentional frameless layout, background/supporting visuals, export dimensions, and visual QA
 - show actual app UI or faithful production screens; do not rely on generic generated art
 - capture real app UI with the in-app iOS Simulator (rung 0) when the session is on a local Mac with a local build — no install, no gate — or with MobAI when Android or a repeatable capture matrix is in scope
-- use XcodeBuildMCP for scripted or CI Apple-platform screenshot capture; record the coverage decision per `paid-tool-routing.md` whenever an Apple-only rung replaces MobAI
+- use MobileBuildMCP for scripted or CI Apple-platform screenshot capture; record the coverage decision per `paid-tool-routing.md` whenever an Apple-only rung replaces MobAI
 - make the value proposition readable at thumbnail size
 - use current iPhone, iPad, Google Play, and app-target device sizes/upload wells required for the current platform
 - route App Icon work through `app-icon-optimization` or equivalent, and verify 1024x1024 output, no alpha, no rounded corners, thumbnail contrast, and category differentiation

@@ -60,6 +60,21 @@ its template beside it. It describes a Next.js editor, connected-canvas layouts,
 locale and device decks, saved uploads and PNG export. The builder adapts those
 procedures; it does not bundle the upstream template, fonts, mockups or samples.
 
+Route iPhone Duo screenshot decks and App Store creative assets through this
+editor when the listing needs them. Duo device keys are `duo-outer`,
+`duo-outer-landscape`, `duo-inner`, and `duo-inner-landscape`. Creative targets
+are universal `5244×2950`, product-page header `3840×1646`, and search results
+at 3:2. Apple bezels ship in the template `frames/` directory. Export final PNGs
+as 24-bit RGB. Apple requires iPhone Duo screenshots for submissions starting
+April 2027. The accepted pixel sizes and the `IPHONE_DUO` upload device stay in
+`app-store-connect-cli.md`. A Duo preset is not proof that the export matches
+`APP_IPHONE_DUO`.
+
+The ASO skill repository is now `appeeky/aso-skills` (formerly `Eronred/aso-skills`).
+It is packaged as a Claude Code plugin and is also installable with `npx skills add`.
+Brigade still routes the named screenshot, preview, and marketing-context skills.
+It does not install the plugin. The manifest id stays `eronred-aso-skills`.
+
 Before setup, resolve the selected source commit and inspect its actual manifest,
 lockfile, license scope and required environment. Record the proposed editor
 location, files changed, package installation and any network effects. Use an

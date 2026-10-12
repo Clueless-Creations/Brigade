@@ -57,8 +57,8 @@ Refresh official docs before final packets or commands:
 
 Also inspect the ASO skill set when available:
 
-- Eronred ASO skills: `https://github.com/Eronred/aso-skills`
-- Eronred ASO skill directory: `https://github.com/Eronred/aso-skills/tree/main/skills`
+- Eronred ASO skills: `https://github.com/appeeky/aso-skills`
+- Eronred ASO skill directory: `https://github.com/appeeky/aso-skills/tree/main/skills`
 - Local vendored copy, when present: `skills/vendor/aso-skills/skills/*`
 - Installed local skills such as `ios-screenshots`, `finding-app-niches`, `analyzing-competitors`, and `researching-paywalls`
 
@@ -273,10 +273,10 @@ Screenshots and previews should start from real app UI. When marketing compositi
 - use `11_STAR_EXPERIENCE.md` for the magical moment and line of feasibility so screenshots and ads do not overpromise
 - load [`design-visual-system.md`](../design/design-visual-system.md) for the screenshot-frame HTML-proof contract and Higgsfield production routing, and run composed frames through its [`quality-lens.md`](../design/quality-lens.md) Anti-Generic Checks before calling a screenshot deck done — a technically correct, on-brand screenshot can still read as generic
 - use the in-app iOS Simulator (rung 0, Claude Code Desktop pane or Codex `build-ios-apps`) for real iOS captures on a local Mac; record device, OS, locale, fixture account, and native capture dimensions, and copy files off the Desktop into `screenshots/raw/`
-- use MobAI for real iOS/Android captures when Android or a repeatable capture matrix is in scope; use XcodeBuildMCP for scripted/CI capture and record project/scheme/simulator/device/output paths in `engineering/PRODUCTION_READINESS.md`
+- use MobAI for real iOS/Android captures when Android or a repeatable capture matrix is in scope; use MobileBuildMCP for scripted/CI capture and record project/scheme/simulator/device/output paths in `engineering/PRODUCTION_READINESS.md`
 - use serve-sim for browser-visible booted-simulator capture/control when CLI users need a URL; record URL/port, actions, logs, and limitations
 - use SnapshotPreviews for preview/component PNG/JSON evidence via `TEST_RUNNER_SNAPSHOTS_EXPORT_DIR`; keep it labeled preview-only, not runtime App Preview footage
-- use ParthJadhav/app-store-screenshots as the preferred local composition/export editor when App Store or Play Store screenshot decks need production layouts, locale/device/theme variants, or bulk PNG export from real app captures plus design-system copy
+- use ParthJadhav/app-store-screenshots as the preferred local composition/export editor when App Store or Play Store screenshot decks need production layouts, locale/device/theme variants, or bulk PNG export from real app captures plus design-system copy. Compose iPhone Duo decks and App Store creative assets (universal, product-page header, and search) in that editor, with its bundled Apple bezels and 24-bit RGB PNG export. Upload sizes stay in `app-store-connect-cli.md`.
 - create `SCREENSHOTS.md` before calling screenshots done; it must separate raw capture paths from production compositions and final upload files
 - produce final screenshot artwork for every required supported iPhone and iPad well, not just raw device captures, with readable headline/copy overlay, device frame or intentional frameless layout, dimensions, alpha/color-space validation, thumbnail QA, and visual proof
 - create or update a screenshot composition/export board such as `screenshots/index.html` when composing final stills locally

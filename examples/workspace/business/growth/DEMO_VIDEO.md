@@ -28,7 +28,7 @@ Owner: design-guru + marketing-guru + orchestrator
 
 | Step | Tool/route | Input | Output | Proof | Status |
 | --- | --- | --- | --- | --- | --- |
-| Raw capture | in-app iOS Simulator Cmd+R (Desktop → `demo/raw/`), MobAI recorder, Codex Desktop native iOS/XcodeBuildMCP, serve-sim, or approved fallback | device/session | `demo/raw/` | command or recording log | blocked |
+| Raw capture | in-app iOS Simulator Cmd+R (Desktop → `demo/raw/`), MobAI recorder, Codex Desktop native iOS/MobileBuildMCP, serve-sim, or approved fallback | device/session | `demo/raw/` | command or recording log | blocked |
 | Edit/render | Remotion or approved editor | raw capture + captions | `demo/final/` | render command/log | blocked |
 | Reframe | Higgsfield reframe or local render variants | master clip | store/social aspect variants | output manifest | blocked |
 | QA | visual + claims review | final clips | approval notes | founder gate | blocked |

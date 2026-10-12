@@ -10,7 +10,7 @@ Part of the [Tool Recipes](../tool-recipes.md) index. Before using any paid or a
 
 Purpose: capture truthful app UI for App Store and Google Play screenshots, record polished demo videos, create app-preview/social proof, and compose final assets with the design system.
 
-Load `xcodebuildmcp-testing.md` first for any "run the app / check this screen / walk this flow / reproduce this bug" request: its Route Ladder starts at the in-app iOS Simulator (rung 0 — Claude Code Desktop's simulator pane or Codex with the `build-ios-apps` plugin), which needs no install and no account, and it also covers the CLI `computer-use` route, XcodeBuildMCP, SnapshotPreviews preview exports, serve-sim streaming, and Apple simulator/device command examples. Always load `mobai-toolbelt.md` before MobAI device automation, recorder skills, Android coverage, repeatable `.mob` suites, polished demo/app-preview recording, or MobAI-adjacent build/test tooling. Refresh the MobAI org and relevant repo docs before installing or naming commands.
+Load `xcodebuildmcp-testing.md` first for any "run the app / check this screen / walk this flow / reproduce this bug" request: its Route Ladder starts at the in-app iOS Simulator (rung 0 — Claude Code Desktop's simulator pane or Codex with the `build-ios-apps` plugin), which needs no install and no account, and it also covers the CLI `computer-use` route, MobileBuildMCP, SnapshotPreviews preview exports, serve-sim streaming, and Apple simulator/device command examples. Always load `mobai-toolbelt.md` before MobAI device automation, recorder skills, Android coverage, repeatable `.mob` suites, polished demo/app-preview recording, or MobAI-adjacent build/test tooling. Refresh the MobAI org and relevant repo docs before installing or naming commands.
 
 Use when:
 
@@ -60,10 +60,10 @@ Recorder-skill route:
 
 Confirmed free fallback:
 
-- MobAI is freemium: use its free tier without a spend gate when one device/current quotas fit, but ask before Plus/Pro spend. If MobAI is unavailable and the lane is iOS-only, the in-app iOS Simulator (rung 0) is the first fallback — free, zero-setup, no spend gate — and only the lost Android/suite/CI/physical-device coverage needs recording per [`paid-tool-routing.md`](../../operations/paid-tool-routing.md). Escalate to XcodeBuildMCP when the lane needs scripted builds, CI, or physical hardware, and record the Apple-only limitation either way.
+- MobAI is freemium: use its free tier without a spend gate when one device/current quotas fit, but ask before Plus/Pro spend. If MobAI is unavailable and the lane is iOS-only, the in-app iOS Simulator (rung 0) is the first fallback — free, zero-setup, no spend gate — and only the lost Android/suite/CI/physical-device coverage needs recording per [`paid-tool-routing.md`](../../operations/paid-tool-routing.md). Escalate to MobileBuildMCP when the lane needs scripted builds, CI, or physical hardware, and record the Apple-only limitation either way.
 - After confirmation, load `xcodebuildmcp-testing.md` for iOS/iPadOS/macOS/tvOS/watchOS/visionOS build, run, UI automation, screenshot, video, and log workflows.
-- Refresh official XcodeBuildMCP docs and local `xcodebuildmcp --help`/`xcodebuildmcp tools` output before setup commands, CLI syntax, MCP tool names, screenshot captures, or readiness proof.
-- Use XcodeBuildMCP for Apple simulator/device captures and record the missing MobAI coverage. Use Android emulator/ADB or mark Android proof blocked for Android-only flows.
+- Refresh official MobileBuildMCP docs and local `mobilebuildmcp --help`/`mobilebuildmcp tools` output before setup commands, CLI syntax, MCP tool names, screenshot captures, or readiness proof.
+- Use MobileBuildMCP for Apple simulator/device captures and record the missing MobAI coverage. Use Android emulator/ADB or mark Android proof blocked for Android-only flows.
 
 In-app native iOS route (rung 0, both runtimes):
 

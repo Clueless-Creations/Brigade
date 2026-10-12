@@ -210,7 +210,7 @@ export function writeCompleteStoreScreenshots(root: string): void {
     [
       "# Store Screenshots",
       "Status: partial until founder approval for upload.",
-      "Source Ledger: DESIGN.md, 11_STAR_EXPERIENCE.md, APP_STORE_LISTING.md, CONTENT_ASSETS.md, MobAI raw captures, Codex Desktop native iOS/XcodeBuildMCP captures, serve-sim streams, SnapshotPreviews preview-only proof, Higgsfield supporting visuals, Remotion rendered frames, ParthJadhav/app-store-screenshots export board, app-store-screenshots.json state, and asc-screenshot-resize validation.",
+      "Source Ledger: DESIGN.md, 11_STAR_EXPERIENCE.md, APP_STORE_LISTING.md, CONTENT_ASSETS.md, MobAI raw captures, Codex Desktop native iOS/MobileBuildMCP captures, serve-sim streams, SnapshotPreviews preview-only proof, Higgsfield supporting visuals, Remotion rendered frames, ParthJadhav/app-store-screenshots export board, app-store-screenshots.json state, and asc-screenshot-resize validation.",
       "Narrative: Slot 1 sells the core outcome; slots 2-3 prove the V1 scalable slice; later slots show one benefit per frame.",
       "App Icon: 1024x1024 PNG, no alpha, no rounded corners, tested at App Store search thumbnail size, with Higgsfield route recorded when generated.",
       "App Preview Video (Autoplay Hook): app previews autoplay muted and always precede screenshots; the first preview's first 3-5 seconds are the muted hook showing the magical moment first, produced via aso-skills:app-preview-video, with a poster frame, real in-app footage, and founder approval before upload.",

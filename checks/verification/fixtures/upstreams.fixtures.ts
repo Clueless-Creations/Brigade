@@ -273,7 +273,10 @@ async function prove(): Promise<void> {
     assert(rork.license.noticeRetained === true, "the retained notice is reported");
 
     const skills = row(inventory, SKILLS);
-    assert(skills.reviewedGuidance === "unrecorded", `skills reviewedGuidance ${skills.reviewedGuidance}`);
+    assert(
+      skills.reviewedGuidance === "9c7e769f09a18237c9bd9c70f70aef65f0cd0391",
+      `skills reviewedGuidance ${skills.reviewedGuidance}`,
+    );
     assert(
       skills.reviewedSource === "f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8",
       `skills reviewedSource stays the install-skills lock, not an inferred head: ${skills.reviewedSource}`,

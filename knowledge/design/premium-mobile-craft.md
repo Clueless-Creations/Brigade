@@ -30,7 +30,7 @@ Authoritative references to refresh before changing API-level guidance (register
 - Apple — LazyVStack: `https://developer.apple.com/documentation/swiftui/lazyvstack`
 - React Native — Performance Overview: `https://reactnative.dev/docs/performance`
 - Flutter — Performance best practices: `https://docs.flutter.dev/perf/best-practices`
-- Motion (web-surface parity for landing/funnel only): `https://motion.dev/docs/react`
+- Motion (web-surface parity for landing/funnel only): `https://motion.dev/docs/react`. Dropped frames on a landing page go to `animation-performance` in [`landing-motion-craft.md`](./landing-motion-craft.md). That skill does not change this mobile frame budget.
 
 ## The Five Details
 

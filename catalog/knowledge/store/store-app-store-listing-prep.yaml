@@ -194,14 +194,14 @@ sources:
   - id: github-com-eronred-aso-skills
     name: ASO and App Marketing Skills
     source_type: github
-    url: https://github.com/Eronred/aso-skills
+    url: https://github.com/appeeky/aso-skills
     review_cadence_days: 7
     claim_scope: Selected screenshot strategy, preview and app-context guidance only; no tools, API integrations,
       samples or marketing assets are imported.
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Erencan
-    revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    revision: 3919d7c27402d92c7ef698f2016174b874ea189e
     retrieved_at: 2026-09-06T15:57:54.602674Z
     upstream_id: eronred-aso-skills
     selectors: &a1
@@ -219,14 +219,14 @@ sources:
   - id: github-com-eronred-aso-skills-tree-main-skills
     name: ASO and App Marketing Skills
     source_type: github
-    url: https://github.com/Eronred/aso-skills
+    url: https://github.com/appeeky/aso-skills
     review_cadence_days: 7
     claim_scope: Selected screenshot strategy, preview and app-context guidance only; no tools, API integrations,
       samples or marketing assets are imported.
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Erencan
-    revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    revision: 3919d7c27402d92c7ef698f2016174b874ea189e
     retrieved_at: 2026-09-06T15:57:54.602674Z
     upstream_id: eronred-aso-skills
     selectors: *a1
@@ -247,7 +247,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Parth Jadhav
-    revision: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    revision: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     retrieved_at: 2026-09-06T15:57:52.804206Z
     upstream_id: parth-app-store-screenshots
     selectors: &a2
@@ -336,7 +336,7 @@ derivations:
   - source_ids:
       - github-com-eronred-aso-skills
     relationship: adapted
-    baseline: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    baseline: 3919d7c27402d92c7ef698f2016174b874ea189e
     selectors: *a1
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
@@ -354,7 +354,7 @@ derivations:
   - source_ids:
       - github-com-eronred-aso-skills-tree-main-skills
     relationship: adapted
-    baseline: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    baseline: 3919d7c27402d92c7ef698f2016174b874ea189e
     selectors: *a1
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
@@ -372,7 +372,7 @@ derivations:
   - source_ids:
       - github-com-parthjadhav-app-store-screenshots
     relationship: adapted
-    baseline: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    baseline: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     selectors: *a2
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.

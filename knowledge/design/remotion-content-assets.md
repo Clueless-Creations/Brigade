@@ -70,7 +70,7 @@ Remotion can be lower-cost, but it is not universally free for every commercial 
 
 Use truthful inputs before rendered embellishment:
 
-- real app screenshots or recordings from MobAI, XcodeBuildMCP, simulator/device capture, Android emulator/ADB, or founder-owned captures
+- real app screenshots or recordings from MobAI, MobileBuildMCP, simulator/device capture, Android emulator/ADB, or founder-owned captures
 - `11_STAR_EXPERIENCE.md` for the magical moment, line of feasibility, and complete product experience the asset should express
 - `DESIGN.md` tokens, typography, voice, shape, spacing, and banned aesthetics
 - `design.md`, `product/ONBOARDING.md`, `APP_STORE_LISTING.md`, `revenue/REVENUE_OPS.md`, `analytics/ANALYTICS.md`, and legal docs for claim and pricing truth

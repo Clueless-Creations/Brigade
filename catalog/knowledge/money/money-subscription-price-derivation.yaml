@@ -23,7 +23,7 @@ sources:
     claim_scope: Rork asc 5.5.0 retains asc subscriptions pricing derive; its new schedule defaults do not change this dry-run guidance.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli-releases-5-7-0
     name: github.com
@@ -33,7 +33,7 @@ sources:
     claim_scope: Rork asc 5.7.0 schedule-create date defaults and current subscription price derivation help.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
     name: github.com
@@ -43,7 +43,7 @@ sources:
     claim_scope: Rork asc 4.9.0 adds experimental asc subscriptions pricing derive with --dry-run.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: developer-apple-com-documentation-appstoreconnectapi-configuring-subscription-prices
     name: developer.apple.com

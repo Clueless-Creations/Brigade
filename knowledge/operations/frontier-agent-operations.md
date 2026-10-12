@@ -41,7 +41,7 @@ At the first business session, complete a step-away preflight before build work.
 - check local CLI presence and current `--help` for fast-moving tools
 - record browser availability without inspecting cookies, local storage, profiles, passwords, session stores, or secret values
 - record whether the session can reach a local Mac at all before planning device work: a cloud, SSH, or container session cannot see the simulators on the founder's machine, so the in-app simulator rung is unavailable and the proof must route elsewhere or be marked blocked
-- list connected simulators/devices through the exposed native tool or current MobAI/XcodeBuildMCP help
+- list connected simulators/devices through the exposed native tool or current MobAI/MobileBuildMCP help
 - record capability status, checked-at time, account scope, environment, and supported action classes in `operations/agent-operations.json`
 - derive the required capability list from the launch scope; include source control, CI, website hosting, DNS, asset generation, screenshots, devices, signing, App Store Connect, Google Play, analytics, revenue, email, and support when in scope
 - verify authentication and the narrowest durable operator role for every required capability

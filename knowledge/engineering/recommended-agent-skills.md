@@ -30,6 +30,7 @@ Expo is a selectable app stack, not the default. Load [`expo-stack-selection.md`
 | `emilkowalski/skills` `review-animations`, `improve-animations`, `find-animation-opportunities` | auditor; different agent from the producer | motion review only | yes | stack-neutral Brigade owners first; these packs are Expo/web-leaning | yes, web motion | founder |
 | `emilkowalski/skills` `write-swift` | producer reference | yes | no | no | no | founder |
 | `emilkowalski/skills` `apple-design`, `emil-design-eng`, `animate`, `animation-vocabulary`, `mobile-native` | reference, web/landing lane | no | no | no | yes | founder |
+| `emilkowalski/skills` `animation-performance` | auditor, web jank only | no | no; React Native stays on `animate-expo` | no | yes; diagnose dropped frames, do not import CSS or `will-change` rules into mobile tokens | founder |
 | `Appllama/appllama-skills` `appllama-app-design-skill` | producer companion | no | yes | no; use `mobile-flow-craft.md` | no | founder |
 | `Appllama/appllama-skills` `appllama-usage` | provider usage | only with authorized Appllama MCP | only with authorized Appllama MCP | only with authorized Appllama MCP | no | independently authorized MCP |
 | `vercel-labs/agent-skills` React Native skill | hold | no | opt-in install after a LICENSE file exists; Brigade adapts nothing | no | no | founder; rights still unverified |

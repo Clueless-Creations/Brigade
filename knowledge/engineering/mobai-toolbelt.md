@@ -183,7 +183,7 @@ mobai-ci test ./flows --output reports
 
 ## Device Lost / Bridge Recovery
 
-After any build event that restarts or relaunches the simulator — such as `build_run_sim` from XcodeBuildMCP, `xcodebuild`, or any Xcode-triggered relaunch — the device registry resets and the previously known UUID is stale.
+After any build event that restarts or relaunches the simulator — such as `build_run_sim` from MobileBuildMCP, `xcodebuild`, or any Xcode-triggered relaunch — the device registry resets and the previously known UUID is stale.
 
 **Pattern: check before every post-build automation sequence.**
 

@@ -301,7 +301,7 @@ sources:
     last_review_date: 2026-09-06
     reviewer: b2c-contributor source review
     publisher: Parth Jadhav
-    revision: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    revision: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     retrieved_at: 2026-09-06T15:57:52.804206Z
     upstream_id: parth-app-store-screenshots
     selectors: &a1
@@ -322,7 +322,7 @@ sources:
     claim_scope: Auto-discovered from recently added repository content.
     last_review_date: 2026-10-08
     reviewer: b2c-maintainers
-    revision: 3f0b4993ae2dce8601ffe02bb5b6d1b36a2f5564
+    revision: 7af4b877a881b4463c15eb79e3affb5742b233f6
     upstream_id: rork-app-store-connect-cli
   - id: github-com-rorkai-app-store-connect-cli-skills
     name: github.com
@@ -418,7 +418,7 @@ derivations:
   - source_ids:
       - github-com-parthjadhav-app-store-screenshots
     relationship: adapted
-    baseline: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    baseline: 8b75d86b7cbbd04bc32786cf491241adcb66d79e
     selectors: *a1
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
