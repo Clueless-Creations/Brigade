@@ -1,9 +1,12 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.138",
+  "version": "0.221.139",
   "updatedAt": "2026-10-13",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-181: Require a live-screen test on screen pull requests (#710)",
+    "Use shared atomicFile in composition activation (#720)",
+    "Reuse manifest-io case and error helpers in upstreams-load (#719)",
     "Remove unreferenced exports from hot kernel modules (#717)",
     "Remove unreferenced helper functions from provider evidence maps (#716)",
     "Remove unreferenced constants from provider evidence maps (#715)",

@@ -2,7 +2,7 @@
   "extension": {
     "apiVersion": "b2c.extension/v1",
     "id": "b2c/consumer-business",
-    "version": "0.221.138",
+    "version": "0.221.139",
     "hostApiVersion": "b2c/v1",
     "title": "Consumer business",
     "dependencies": [],
@@ -5183,7 +5183,7 @@
           "providerIds": [
             "provider.doppler"
           ],
-          "contextFingerprint": "sha256:990c613855575cd9a9e1a4a01cc7c5655981b64ba8118b7278d3b0542e6a95bb"
+          "contextFingerprint": "sha256:ca0e08a59531fbf53d50dae9a6b1cac0d8ba08e23a1459a04517aa7d7437705a"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before any new secret, key, token, env var, webhook secret, or .env",
@@ -5680,7 +5680,7 @@
             "provider.security-review",
             "provider.sentry"
           ],
-          "contextFingerprint": "sha256:8766bf5680b0aa068d25bc4eaf21f086eb0257b33298d18e4d1abe86a6ef1b1c"
+          "contextFingerprint": "sha256:ed70ceb2481e8fdba885a2ede93185996f812790a9965539130c25bf017776aa"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before threat modeling, hardening, scans, or any security-readiness claim. Founder phrasing: checked nobody can hack in or steal data.",
@@ -5784,7 +5784,7 @@
           "workflowId": "workflow.trust.community-and-user-safety",
           "instructions": "Confirm whether users can create, share, discover, or message content. When required, define moderation, reporting, blocking, escalation, support contact, age controls, response targets, and evidence. Record the operating model in trust/COMMUNITY_SAFETY.md. Test the common abuse and recovery paths. Do not mark this work as not needed without a reason and product evidence.",
           "providerIds": [],
-          "contextFingerprint": "sha256:33eef0851793bbad9a2d42a9d690803f3fa796119d24fa48a0e8de212ce59cd4"
+          "contextFingerprint": "sha256:a7ef29b15b8bbf635bbbc02c8407df02b4821034dcdd2b2685148f154d1d28f8"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When the product includes social, chat, creator, or other user-generated content",
@@ -5846,7 +5846,7 @@
           "workflowId": "workflow.trust.generative-ai-safety",
           "instructions": "Confirm whether the product generates text, images, audio, or video. When required, define prohibited uses, input and output controls, reporting, enforcement, human escalation, age controls, and model or provider responsibilities. Test harmful, deceptive, exploitative, and sexual-content abuse cases. Define a named self-harm and crisis response — detect self-harm/suicide/crisis language and respond with a real crisis resource, not a generic refusal — and test that path explicitly; it is not covered by the general harmful-content test. Record controls and evidence in trust/AI_SAFETY.md. When a capability can create paid model-provider spend, write trust/AI_PROVIDER_CONTROLS.md with auth, entitlement, reservation, kill switch, one backend secret, and separate application versus provider-account cap status. If paid generation does not apply, still write that file with Paid generation: not applicable and a named reason. Do not mark this work as not needed without a reason and product evidence.",
           "providerIds": [],
-          "contextFingerprint": "sha256:c28f39fab0aec996f5e5e67fabeb6d1d5d814a7ee0563b7029587ee67d4c9a79"
+          "contextFingerprint": "sha256:cc8afa268919c9f13045cc17c2175ea2250c8abd725e553f6c2f244d82052667"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When the product generates text, images, audio, or video",
@@ -5908,7 +5908,7 @@
           "workflowId": "workflow.product.app-archetype-detection-and-starter",
           "instructions": "Compare the accepted product shape with the four shipped archetypes: habit tracker, photo or AI media, social network, and AI chat companion. When one is the product's center of gravity, copy its starter into the app instead of rebuilding the same wiring. Use an opening mandate that delegates stack and implementation choices. Ask the founder only when the match is ambiguous and that choice was not delegated. The copied starter and its README are the durable selection record. Do not rewrite PRODUCT.md or raw runtime state here. Run check:app-archetype and check:archetype-starter. If the product only contains a similar feature, use the general core-loop and complete-product method instead of forcing a pack.",
           "providerIds": [],
-          "contextFingerprint": "sha256:5b0202dc686be5be754f7b8c0874e6d032933ba2c3905d5578e279f738ed0ec8"
+          "contextFingerprint": "sha256:54c2ae63d5e4597abaea084ee1d6b45536d9645f62995ea510b2beec2a53d747"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Request matches a known product shape (social / AI-chat / habit / photo-AI)",
@@ -6224,7 +6224,7 @@
           "workflowId": "workflow.experience.emotional-design-audit-auditor",
           "instructions": "Audit EMOTIONAL_DESIGN.md against every card the app actually implements — for each, verify the specific bright-line/dark-line test from that card's own file (experience-cards/<name>-card.md) and verify the selection rationale against the actual product moment, not just that a card is named. When no card is selected, independently review the visible, explicit not-applicable decision and alternative; do not invent four required mechanisms. HIGH-risk cards (Variable Reward, Streak & Loss Aversion) get the strictest read: confirm the escape hatch, counter-metric, and non-empty fallback are real, not aspirational language. Write findings as EMOTIONAL_AUDIT.md's Audit Output Contract, and any dark-pattern violation or missing per-card attestation field becomes a failure card per failure-cards.md rather than a note to fix later — check:emotional-design enforces the attestation fields this audit must produce.",
           "providerIds": [],
-          "contextFingerprint": "sha256:3ed7659107d4dbd8b91038905279ca191f1b318ee5bd071244cb90cfc9507ba8"
+          "contextFingerprint": "sha256:1edef8396f0a3a42c9533453885093a1429f23c4e70b16f9a0c8809ce28dd100"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "\"Audit this app's emotional design\" / \"emotional UX audit\"",
@@ -7664,7 +7664,7 @@
           "workflowId": "workflow.design.brand-definition",
           "instructions": "Write `strategy/BRAND.md` as the voice and identity contract every downstream copy and design surface answers to: name, one-line promise, the audience it speaks to (from `strategy/RESEARCH.md`'s evidence, not aspiration), voice register with three do/don't example pairs, vocabulary the brand owns and words it never uses, and the visual-identity intent the Design Room turns into tokens. Derive it from the research and the 11-star experience bar — a brand document that could describe any app in the category is template residue, not a brand. This file is the standard `writing-quality-no-slop` protects and the store listing speaks in.",
           "providerIds": [],
-          "contextFingerprint": "sha256:b8331bfcb78bc34fff5f55afac0d3eb177f0dacce8c7a2f61dda0f04f1d18991"
+          "contextFingerprint": "sha256:58a6ec29c2d5dc1c5a261fe4b0135d1966d8bb9fbb82790d3e04459d70434419"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Crossing research into design: before the Design Room locks visual identity, and before any marketing or store copy claims a brand voice",
@@ -7718,7 +7718,7 @@
           "providerIds": [
             "provider.refero"
           ],
-          "contextFingerprint": "sha256:622232a9f5835ffa8de02d909c8e53fca474d86a4cd12f68408efb9701177b8d"
+          "contextFingerprint": "sha256:f273f3ff8125bdaa9405c1c8b60517a0c0847b527418b94dc6eb7f9beb1fdd61"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before DESIGN.md mutation, generated visuals, native animation, or landing motion for a high-impact surface: onboarding, core loop, landing story, paywall, store first frames, trust and consent",
@@ -7777,7 +7777,7 @@
           "workflowId": "workflow.design.design-room",
           "instructions": "Read PRODUCT.md first. DESIGN.md is the design authority; studio/seed/business.json is its structured screen and flow map. Load only the bound evidence and craft references needed for the affected surface. For substantive work, inspect the relevant references and rough direction, make a tangible draft of the important journey, critique concrete hierarchy/UX/identity/interaction/accessibility/recovery defects, revise the candidate substantively, and compare the revised candidate with the selected target before implementation. Develop at least three distinct concepts before selecting one. Preserve them in DESIGN.md frontmatter under exploration with unique concept IDs, reference-to-principle mappings, native/mobile-web/desktop-web treatments, a distinguishing mechanic, one selected decision, rejected decisions, and the rationale for each. The generated Design Room must expose this evidence beside the selected system. For new substantive design work, author the versioned foundation in DESIGN.md: communication priorities, material decision rationale, identity invariants, reference influence, and typography resources. Distinguish researched facts from creative hypotheses and platform or legibility constraints. Explore mechanisms that differ in communication and composition, not just names, palettes, or prose. For bounded maintenance of an accepted legacy design, the same Design Room owner follows quality-lens Focused review using direct compatible checks and fresh independent review; that procedure does not execute or accept this full workflow. Within this full workflow, repairs preserve accepted exploration and the required foundation while correcting the affected contract and dependencies. A physical metaphor, expressive motion, or layered composition is selected only when it improves the user job. Recompose each form factor with representative content and protect hierarchy. Keep durable decisions in DESIGN.md. Add screen or flow files only when the structured route is not enough. Use platform-neutral component contracts and the selected stack adapter. Update one coherent scope, validate it, and render the read-only Design Room. Git records revisions. When the opening mandate delegates design direction, choose and record the strongest direction. Otherwise, recommend it for founder approval.",
           "providerIds": [],
-          "contextFingerprint": "sha256:1a72d155ffeff279edc9167ba02f12fa1fa6ad40784f8ae9a8d93e9f455dd7a8"
+          "contextFingerprint": "sha256:9ff238bd4f5c2943db9b2914135b465067bb27681e8445450398628f12e7f038"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "New or substantively revised design systems, concepts, or cross-surface direction. Founder phrasing: design how every screen looks and feels. A bounded correction to an accepted legacy contract uses the direct focused-maintenance procedure in quality-lens, not full Design Room execution.",
@@ -7831,7 +7831,7 @@
           "workflowId": "workflow.design.design-system-audit",
           "instructions": "Audit DESIGN.md, studio/seed/business.json, and design/design-room.html in a fresh context that never saw the producer's transcript, against the frozen rubric under design/reviews/rubrics/ and the reference pack for the surface. Use quality-lens defect diagnosis to separate brief, concept, composition, identity drift, typography, implementation, and claim failures. Inspect actual representative states; record a consequential defect, its evidence, the smallest appropriate repair, and any justified exception. Similar vocabulary or a completed checklist does not prove quality. Apply the quality-lens facets, the design-worthiness questions, the vibecoded tells, the audience-derived-identity checklist, and the twelve craft-bar conditions from the full-launch-program reference; score each condition meet, exceed, deliberately break with a reason, or fail. Run npx @google/design.md lint on DESIGN.md and diff it against the last accepted version; run the Impeccable critique and audit commands as read-only lenses when installed. Regenerate design/reviews/DESIGN_SYSTEM_REVIEW.md during every audit attempt; the engine rejects unchanged pre-existing review bytes instead of rebinding a stale decision. Write a ## Findings section with exactly one `Severity: <value>.` line; allowed values are none, minor, major, high, high-severity, and blocker, and any explanation follows the period. Also include `Candidate input fingerprint: <ENGINE-BOUND INPUT FINGERPRINT>` exactly once and `Frozen rubric: design/reviews/rubrics/<file> version <version>`. Read the immutable `ENGINE-ISSUED DESIGN TASTE DELEGATION` authority block. It is the externally trusted signed receipt snapshot captured for this exact attempt before dispatch. A delegation recorded after dispatch never authorizes these audit bytes and requires a fresh attempt. When its status is approved, also write exactly one ## Delegated Taste Decision table with columns Decision authority, Date, Surfaces reviewed, One-product stranger test, Copy-test, and Verdict. Omit that table when the status is rejected, absent, or stale; never infer delegation from workspace files or read run/run-state.json. Decision authority must be exactly Founder opening mandate; Verdict must be pass or fail; the three observations must be substantive. A pass cannot coexist with an unresolved blocker, a high or high-severity finding, or a major finding. Do not write or trust a reviewer identity or delegation claim in the artifact: the gate derives the current engine-issued audit identity, the current-run signed founder delegation, and producer exclusion from engine-owned state, the protected trust binding, its audit chain, and the exact artifact binding. A direct signed founder pass for the exact current DESIGN.md may resolve only a delegated taste fail after Findings contains no unresolved major, high, high-severity, or blocker issue; it never clears an independent finding. Do not edit DESIGN.md, restyle, edit copy, or mark the review done. A structured fail or an unresolved high or high-severity finding rejects the product direction and returns actionable findings only to the Design Room producer for bounded internal repair and a fresh independent review. Missing, malformed, stale, changed-after-gate, or non-independent audit evidence consumes a bounded retry of this audit node only and never reopens Design Room; persistent invalid audit evidence blocks at the audit cap. If product repair makes no progress, change the approach using the frozen rubric; ask the founder only for retained authority or a decision the mandate did not delegate. Exhausted repair attempts remain incomplete rather than lowering the bar.",
           "providerIds": [],
-          "contextFingerprint": "sha256:4ab6c46b4e6851459f5add0ccc1c5418d0514808451c66382cade490dc3029ae"
+          "contextFingerprint": "sha256:06dec09d3b35a4dedec22f8f462863b978a5924ebd65e6834a4e6af3d7f3b898"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After DESIGN.md or the Design Room changes for a high-impact surface, before the recorded taste decision and before landing, screenshots, generated visuals, or engineering consume the direction",
@@ -7887,7 +7887,7 @@
           "workflowId": "workflow.design.implementation-craft-audit",
           "instructions": "Independently inspect the actual native app and desktop/mobile landing runtime against the accepted DESIGN.md acceptance scope and frozen reference rubrics. Apply reference.design.consumer-craft-benchmarks principles only where they serve this product. Diagnose brief, concept, composition, identity drift, typography, implementation, and claim defects separately using reference.design.quality-lens. Inspect actual font loading, script coverage, text expansion, fallback behavior, recovery, and repeated controls. Reject unsupported claims and report unobserved capabilities as missing evidence. A conventional control, system font, monochrome palette, or quiet surface can be the correct result. Regenerate design/proofs/design-acceptance.json and design/reviews/IMPLEMENTATION_REVIEW.md during every audit attempt; write exactly one `Acceptance report SHA-256: <64 lowercase hex>` line in the Markdown bound to the current JSON bytes. Set report.reviewer.sessionId to the immutable engine-issued execution identity for this exact audit attempt. Both audit files must remain exact output bindings produced by that same attempt; never invent a reviewer label or reuse another attempt's output. The engine rejects unchanged pre-existing audit bytes instead of rebinding stale evidence. Use reference.design.design-acceptance and record actionable findings. Load the optional Interfaces review guidance in reference.design.design-visual-system when available; scope it to implemented screens and states, record unreviewed domains, and keep its findings in this same review. Companion review never substitutes for the independent acceptance evidence. The report may only index capture and interaction receipts with `{id, receipt, producer}`. Consume machine-produced native evidence from the selected proof/ios-* or proof/android-* lane and browser evidence from growth/landing/proof/. Each strict producer receipt owns the evidence artifact byte digest, candidate and runtime identity, observed timestamp, surface and evidence IDs, platform, tool, and exact device or browser identity. Never author or repair producer receipts inside this audit. Register each installed native runtime in nativeRuntimes[] with id, platform (ios or android), its platform-specific target, candidateSha256, sourceFingerprint, deviceId, and receipt path/hash. Register each landing runtime in browserRuntimes[] from the immutable receipt selected by growth/landing/proof/browser-proof.json. Bind its current candidate and source fingerprint, exact build fingerprint, served origin and URL, browser and OS identity, new browser context ID, launch and navigation transcript hashes, and receipt path/hash. The browser receipt sessionId must equal the current accepted landing producer attempt that ran `b2c browser-proof --session-id`; reject a copied, hand-authored, older, or relabeled page even when its screenshot looks plausible. Require every browser surface, capture, and interaction to cite the matching runtime and browser context. iOS runtimes bind bundleId, buildNumber, executableSha256, and bundleContentSha256 identity. Consume simulator rung-2 receipts from proof/ios-simulator/ and physical-ios-install receipts from proof/ios-device/; physical iPhones also bind deviceModelIdentifier, osVersion, and osBuild plus the four hashed tool transcripts. Android runtimes bind packageName, integer versionCode, built APK-or-AAB format/hash, exact installation APK hash, device model/API/OS identity, and an android-emulator-install receipt from proof/android-emulator/ or physical-android-install receipt from proof/android-device/. For every Android receipt, builtPackage.source.root must equal the canonical business root and builtPackage.source.roots must equal the sorted, deduplicated Android native implementationPaths in accepted DESIGN.md. Consume only a named machine-produced strict receipt; never reconstruct or hand-author one from MobAI output. If the built package is an AAB, require the derived installation APK and a distinct hashed conversion transcript; install and read back that derived APK's package/version identity. All receipt timelines must build, install, read back the installed identity, and launch on the same target after candidate production and before review. Each native surface lists matching runtimeIds[]; every native capture and interaction receipt cites its matching runtimeId. screenReader: true is valid only for a physical-device runtime, and its VoiceOver or TalkBack interaction must cite that same physical runtime. For every evidence reference, require current accepted run-state provenance from the declared native or landing producer workflow and exact attempt, recompute the current ancestor artifact binding, and reject the implementation-craft audit as producedBy. Reject any identity, chronology, target, producer, or hash mismatch. Require every calibrated facet and every required state on each surface to meet its floor; never average away a failing native experience. Do not repair product code or weaken scope, references, or criteria during review. A product or craft rejection routes each finding only to a declared reviewOf producer for a fresh bounded repair attempt. A missing declared report, malformed report schema or worker knowledge receipt, stale report/candidate hash, invented or same-identity review, invalid review chronology, or audit output changed after its gate retries this audit node alone within its attempt budget; it never reopens a product producer. Other failed acceptance criteria route their actionable findings to the declared producer that owns the evidence. Continue while producer evidence changes, stop after two consecutive unchanged product rounds or eight audit attempts, and keep the work incomplete rather than lowering the bar. Mechanical integrity checks and independent rendered judgment must both pass.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9b23def2280d020f3466b7e81a7c3d837ff6ac323046e2c392b8527988225eaf"
+          "contextFingerprint": "sha256:3e9c7d98d775d7dee1e8a581b125e2fe3ee7b9019d14e0eb2ed781ad8217b7b4"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "The native app and landing page run and their required behavior has evidence, before full business closeout",
@@ -7941,7 +7941,7 @@
           "workflowId": "workflow.design.token-promotion",
           "instructions": "Run npm run promote:design-tokens to derive the DTCG JSON, CSS, SwiftUI, Expo/React Native, and Flutter token files from the accepted tokens in DESIGN.md. This is a mechanical adapter step, not a redesign. Promoted values must match the authored contract exactly. Promote only after check:design-worthiness accepts either a direct founder/owner Taste Gate decision bound to the exact current DESIGN.md bytes by its protected-store-verified signed receipt, or the exact dispatch-bound delegated decision in design/reviews/DESIGN_SYSTEM_REVIEW.md under the same externally anchored current-run receipt chain. This acceptance does not grant publish or release authority. check:token-promotion proves that every emitted target is current.",
           "providerIds": [],
-          "contextFingerprint": "sha256:1227843510ebc0f85a8868a5fac22b26b76d8c5c234da87619e99180cbfbbb70"
+          "contextFingerprint": "sha256:041db317f6ce77c86ca842dfe904e9d32f9c1860889fd4d5f1a2652bc617b51e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "DESIGN.md tokens change and the design is accepted",
@@ -7995,7 +7995,7 @@
           "providerIds": [
             "provider.refero"
           ],
-          "contextFingerprint": "sha256:af9eedf847166f9fbcb5163ba9093d19df5c3c144e422c632fa93d4618d39fa3"
+          "contextFingerprint": "sha256:b4f76a3b8c99609b75ef6493f724e0136052f53613956690c02a722cf6adf74f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before flow maps, state matrices, UX_PATTERNS.md, or bug-trap coverage",
@@ -8048,7 +8048,7 @@
           "workflowId": "workflow.design.premium-mobile-craft",
           "instructions": "Wire the five invisible premium details into every screen: press states, subtle structural motion, semantic haptics, keyboard behavior, and loading or empty states. Start with the platform-neutral contracts in surfaces/ui-library/components/. Then implement them through the selected stack adapter. SwiftUI has the current reference adapter in surfaces/ui-library/adapters/swiftui.json. For Expo, React Native, Flutter, or another stack, create the equivalent native adapter and record real implementation proof before marking it implemented. Shared tokens express intent; they do not imply behavioral parity. Never hand-type a motion value in view code. Read the promoted preset layer, reserve celebration motion for earned moments, and honor reduced-motion preferences. Route advanced effects to motion-craft-benchmarks.md. Bind every live effect to real state, a plain fallback, and a reduced-motion result. Ground catalog recipes in a live 60fps MCP exemplar only when studio/seed/business.json records interaction bespoke-motion or scroll-linked and strategy/TOOL_DECISIONS.md records that MCP as ready, active, or connected; if the technique is selected and the MCP is unavailable, hold rather than claiming a distilled recipe is equivalent. Translate mechanics rather than brand or exact layout. check:motion-contract proves the contract was applied; adjectives in DESIGN.md do not.",
           "providerIds": [],
-          "contextFingerprint": "sha256:7150e0327b1187448c42450ad5855735e07b5fa5a1b02611275008eb5aa61fb1"
+          "contextFingerprint": "sha256:4e230aa707a956e7920a05b2907982fbdef1af0d24fe11c4acf75a8b1fb7ccb6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before in-app UI build/polish, press-state/haptics/loading-empty wiring, live-state effects, or \"premium feel\"",
@@ -8103,7 +8103,7 @@
           "providerIds": [
             "provider.higgsfield"
           ],
-          "contextFingerprint": "sha256:d9f7404d4adfd465d836bf714714a734330dfaabbdd31c8787170308a00d85da"
+          "contextFingerprint": "sha256:b097d4b66cc7d7ef722503fa0f0ea2179cb625e33c79f4f64255f80d34b54d5e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before rendered videos/stills, app previews, ad/social variants. Founder phrasing: demo videos and preview clips from real screens for ads.",
@@ -8397,7 +8397,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:22a6f46cd575a0d918f122b33935866ff723ca8b91f396a52862dc34eb42b59b"
+          "contextFingerprint": "sha256:33d40f9cf5885f6d850593917a618e551e8308819b782fea7c1e0caefffe94ee"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Apple Developer enrollment, Team ID, signing, profiles, archive/upload, TestFlight. Founder phrasing: get on the App Store, ship to TestFlight, get the ios build signed and into testers hands.",
@@ -8469,7 +8469,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:8af05173e1a6ff6f8e918b9294b20ed8af37613589ca708ceed09e63145a10b0"
+          "contextFingerprint": "sha256:f5939d4cbf3aabfd2767b04193be3e68c67a219b64885527eab877e982ac8898"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before ASC upload — PrivacyInfo.xcprivacy, required-reason APIs, App Privacy answers",
@@ -8595,7 +8595,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:90699e4dcb732f46ad1b702f64c580734380cb7615e09a23a5f6a28c901117a7"
+          "contextFingerprint": "sha256:25865866435d5eb9b804f2dafc581191ad97b488a0a2107b0ce8ab8b28567d6c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before Rork asc CLI app creation, metadata, screenshots, TestFlight, RevenueCat sync",
@@ -8669,7 +8669,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:2475cb5e8c358558b123f4729c405c553dbed3a31f7441534464fb1788f7cf47"
+          "contextFingerprint": "sha256:db3161b8355810a2426468263fad5db20c855a4fd2319458f3abe7d45b032690"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When an App Store version is in review, or after a status change, before any remediation or resubmission",
@@ -8740,7 +8740,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:7250e49bc74e14e90cb093120b73de365d5cc46d8c52806dde46ad37397c2795"
+          "contextFingerprint": "sha256:1d8219fbd2ba06b3c5363b9bb40f3e8abff76dc397ae81e4e4b5ae3a9170e13e"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After App Review observe classifies a rejection, before any store submission",
@@ -8811,7 +8811,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:f3433b33b31da29ebe1e0f78971297b4162536e08a796aa34e305c5bbf705a33"
+          "contextFingerprint": "sha256:0b0342b6146cdfd57bc4144770a06814d8b4ad5aaaae79e21bb620a3868c2a90"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After bounded App Review remediation is independently verified, before any further Apple mutation",
@@ -8882,7 +8882,7 @@
           "providerIds": [
             "provider.app-store-screenshots"
           ],
-          "contextFingerprint": "sha256:29d532182cf910a49c14a83c78e23a1c0d31b22db3ee045fd8134359b736d5d9"
+          "contextFingerprint": "sha256:67a690d3504cf0ab522f27562392b1a45454ec309ec9c7f26c45c013fc919939"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Store screenshots needed (raw capture → composed iPhone/iPad/Play assets), including the set uploaded to App Store Connect",
@@ -8941,7 +8941,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:026d8ca080b8c490594b7ee3d33c0d19a788e08558341ef75342329da06ccd96"
+          "contextFingerprint": "sha256:a520f0c52b7d5614ee1ba4ddab17aa7371cfa6d37970b04e3a31b12e3d6c31ec"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Android in scope (platforms include android or an android bundle id exists)",
@@ -9249,7 +9249,7 @@
           "providerIds": [
             "provider.app-store-connect"
           ],
-          "contextFingerprint": "sha256:9605766752f6ae37f9b7b3ba0809ef066be6674821e16ec19eeb2afcf0496ba8"
+          "contextFingerprint": "sha256:a2587cb2fb0b186bdc10d1866cd06253181d64307e19ace1249712c17084eef7"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "A signed iOS build is proven and an exact TestFlight group standing envelope is current",
@@ -9321,7 +9321,7 @@
           "providerIds": [
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:34338f531e563782a65eeed9cce9a5a1a558a2b70e10d48a8a14e99b141bb0a1"
+          "contextFingerprint": "sha256:b285229042ae5e7e8a6185302953ba0b54e8bf43c91416caa1fcab0b6e0e1a64"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "An AAB is proven and an exact internal or closed-testing track standing envelope is current",
@@ -9394,7 +9394,7 @@
             "provider.app-store-connect",
             "provider.google-play"
           ],
-          "contextFingerprint": "sha256:03d7738c7f06691b2c2901deeb05c55dc60580e466ffa082e47be6f48e66ef61"
+          "contextFingerprint": "sha256:c06e93dcd64e90ba4b4f757fba8b6327c99975d16f98c0246c4dc80a05f62b70"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before store distribution in every selected region",
@@ -9463,7 +9463,7 @@
           "workflowId": "workflow.engineering.source-change-manifest",
           "instructions": "Fingerprint the mobile source roots, dependency locks, build configuration, localization resources, analytics schema, onboarding, paywall, and privacy manifests. Compare them with the last accepted checkpoint. Write engineering/SOURCE_CHANGE_MANIFEST.json with changed paths, before/after digests, and every applicable Change Cascade Map type. A change can carry multiple types. Open the matching change-cascade work before the app slice merges. An empty change list is valid only when the current aggregate digest matches the accepted checkpoint.",
           "providerIds": [],
-          "contextFingerprint": "sha256:ce469d730d6ed3f736eba085394e4ec57096d954e5ef634938a38387d727ff28"
+          "contextFingerprint": "sha256:6d93fcb10816b27156e928a6097fcf3511188f7470931d3e524482a53cc2ba58"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "When design is accepted and after every accepted app-source, build-config, localization, onboarding, feature, paywall, SDK, or visual change",
@@ -9533,7 +9533,7 @@
           "workflowId": "workflow.engineering.engineering-orchestration-ce-production-readiness",
           "instructions": "Route non-trivial implementation through the Compound Engineering loop. Use the five-stage Standalone Engineering Loop when CE is unavailable. Record the route in engineering/ENGINEERING_PLAN.md. For new apps, apply the New app kickoff checklist in knowledge/engineering/engineering-orchestration.md section 6 before screen implementation. Use affected accepted journeys as implementation slices; reuse authoritative data, enforce role/context scopes, and distinguish implemented behavior from observed proof. Keep proposed role/platform parity outside the accepted release scope. When DESIGN.md is accepted, start app implementation and the local landing build in the same ready batch. Also dispatch the prepared launch-surface prompt for store copy, product-page plans, screenshot plans, marketing assets, and price-copy checks. Give each agent a disjoint write scope. Before each app slice merges, start a read-only launch-surface impact audit. Apply affected public-surface updates in parallel with the next app slice. Record file ownership and serialized resources in operations/ORCHESTRATION.md. Require build, typecheck, lint, integration tests, mobile end-to-end proof, provider proof, and an on-device taste pass. Write the results to engineering/PRODUCTION_READINESS.md. Run check:compound-engineering and check:orchestration before the engineering lane is done.",
           "providerIds": [],
-          "contextFingerprint": "sha256:9564fbe4ed26b67b4dade4d80dd0e42c33c2bdf4b4d1a127e3c8210612c979aa"
+          "contextFingerprint": "sha256:f2da241e68f556bea17f0352896ca54a2afed70fc0200719b0400c9a54a309c1"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before actual app implementation, builder prompts, or production-readiness claims",
@@ -9606,7 +9606,7 @@
           "workflowId": "workflow.engineering.backend-data-contract",
           "instructions": "Pick one backend route (Supabase, Firebase, or custom), record the reason in engineering/TECH_SPEC.md's Backend Selection sub-section, and never silently substitute another route mid-build — a switch is a change-cascade event and a founder-only gate. Write the Data Model as one row per entity (owner, key fields, relationships, retention/deletion path, PII class) and the Authorization Model as a create/read/update/delete matrix expressed in the route's actual enforcement mechanism — RLS policies, Firestore security rules, or middleware authz — deny by default. Treat untested authorization as absent: exercise owner/anonymous/other-user access for every matrix row and record the exact test command and evidence path, not just 'RLS' in prose. Pass `npm run check:backend-contract -- --root . --state state/business-state.json`; the account-deletion promise in this contract's retention rules must match trust/PRIVACY.md's deletion promise exactly, not just approximately.",
           "providerIds": [],
-          "contextFingerprint": "sha256:85614e9102bf5412015471d4fd0cf323519044f71ea172f6e8a49f7abf809ed9"
+          "contextFingerprint": "sha256:2475ca2d1f8c8987e3ce22db7cf75e91b78ac6276f95c1c102c684c23e74a701"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before schema/auth prompts or engineering/TECH_SPEC.md data/API sections harden",
@@ -9668,7 +9668,7 @@
           "workflowId": "workflow.engineering.app-agent-roster-and-repo-entrypoints",
           "instructions": "Fill AGENTS.md, CLAUDE.md, APP_AGENTS.md, and the complete agents/ roster from the current business documents. Include agents/launch-surface-producer.md. AGENTS.md must tell future agents to keep using the B2C App Builder skill's workflow. It must require state updates, validators, and the design-lock fan-out. Assign each role its audit surface. Specialists can edit only an assigned disjoint scope. They never stage, commit, release, spend, submit, or publish. A fresh agent must be able to resume from AGENTS.md and the roster without chat history.",
           "providerIds": [],
-          "contextFingerprint": "sha256:7e29726bad8ed4f8a19e5a71506d12ff76000d3d42c14275688817cc245d05be"
+          "contextFingerprint": "sha256:cd7b7e598e970d8665958f76f2cdfcfc0ba92147c956960164886f1c9b34cc78"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before builder handoff bundles, AGENTS.md/CLAUDE.md, APP_AGENTS.md, agents/",
@@ -9720,7 +9720,7 @@
           "providerIds": [
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:7870f6c2f07d8da2f5030be3b39054bb15978fcb7e507d799a33e869c5436aef"
+          "contextFingerprint": "sha256:da13923471831867df28796ff2fd1140516f0b4b3e49c6a20092fc95c7af46cd"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before MobAI-delta device work — Android coverage, repeatable .mob suites, multi-device or physical-hardware runs, performance gates, MobAI CI, or recorder-skill demo videos/app previews — after the Route Ladder (native-ios-proof-route-ladder) routes past the in-app simulator",
@@ -9798,7 +9798,7 @@
             "provider.serve-sim",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:274b772830439370fc18adb8f8bd084c0cee931cf17992c6ed8701060ea5bae3"
+          "contextFingerprint": "sha256:a818aa260bc4edacde9cba6289cffcf3aed5b94233eef32a19f92e244e551c9f"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "First for any iOS or Android device automation, run-the-app, screen-check, flow-walk, bug-repro, screenshot, or screen-recording request — read the selected platforms, then pick the lightest proof rung that covers them",
@@ -9873,7 +9873,7 @@
             "provider.in-app-ios-simulator",
             "provider.mobai"
           ],
-          "contextFingerprint": "sha256:fe8946535918b43e453464df29ac3ee14230551fd4cf207be44002bd4698d0fa"
+          "contextFingerprint": "sha256:1bd8c0e295b2e6a5282f2a8bf3683d54908f79badd2d170ebe892ed067b1bcab"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -9946,7 +9946,7 @@
           "providerIds": [
             "provider.sentry"
           ],
-          "contextFingerprint": "sha256:c640ea2361d464eb4b71779d683d3b1400d32a281f3a186e7233f70381ae844f"
+          "contextFingerprint": "sha256:708aed672c10096332d65e524c06aac981d0e9e9e3702ad1a652d86b2309af73"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before beta or store submission on every mobile launch",
@@ -10016,7 +10016,7 @@
           "workflowId": "workflow.data.analytics-and-attribution-blueprint",
           "instructions": "Write analytics/ANALYTICS.md and render analytics/analytics-plan.html before onboarding, paywall, funnel, or store-CTA copy locks. Define one internal user ID, UTMs/click IDs plus self-reported source keys, and an event catalog with owner, trigger, properties, and QA method. Record the HDYHAU survey: randomize options, allow multi-select, include TV/offline, place it mid-onboarding, and connect it to blended ROAS. Name when paid acquisition would require AppsFlyer. Pass check:analytics-catalog and check:attribution against the authored contract and local implementation evidence. Live PostHog capture remains a later provider-proof boundary.",
           "providerIds": [],
-          "contextFingerprint": "sha256:25dfc0b94682124789d4b965f7d84ce1280cf555ce47acb8e269c63de571ae54"
+          "contextFingerprint": "sha256:d2f4ffbad322ddf86e76e5289624156ed0f002d842b6a8ed2628751d543ccb92"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before locking onboarding/paywall/funnels/store CTAs or any prompt naming events",
@@ -10615,7 +10615,7 @@
             "provider.revenuecat",
             "provider.stripe"
           ],
-          "contextFingerprint": "sha256:744eb00e9b1ce1f96f604e1cb119e11374bff4edba6c6d160fca0cbf891b54a7"
+          "contextFingerprint": "sha256:a955cfe0fdf85e307f5cd82cbb20351e1caa28b8604bbf6d752d75be0b72cff6"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "Before RevenueCat/Stripe/web billing, products, paywall, entitlement, webhooks, pricing. Founder phrasing: how do I charge for subscriptions or a purchase.",
@@ -10701,7 +10701,7 @@
           "providerIds": [
             "provider.revenuecat"
           ],
-          "contextFingerprint": "sha256:4128bbfc9265801f059abcb709d29e54f8ad6b7722968f909d30e7b1c1c89c16"
+          "contextFingerprint": "sha256:963e328b98655d841de394813e594d31e3592ab8a39ed9914bf8383af9716e8c"
         },
         "provider": "b2c/consumer-business-worker",
         "description": "After a live paywall exists, or when the experiment backlog needs a next test",
@@ -15946,8 +15946,8 @@
     ]
   },
   "files": {
-    "extension.yaml": "04e46fe8b4d8d611e313519f366daeeaca3d80179112d1cf3cb720a89b06fa08",
-    "catalog-pack.yaml": "19e2bb884028aae84bcdc3ca204aa8898ff1f70e2f31e20cd19e5662c8d1d568",
+    "extension.yaml": "c1fa7e3fb782a6f07066aa137c1c3d15914b5975b9d3a705bf4e9fdc9af60a67",
+    "catalog-pack.yaml": "01ecd703b72f3e596d10d93d393a6ccdc9c07d0f65d30a1a23e99d2291949b1d",
     "knowledge/data/analytics-attribution.md": "7ce25e85fae4f32bef85df3efd264172561e7a1be2b6d3d7e709d8c330f134ce",
     "knowledge/data/posthog-agent-tooling.md": "61ffdbc79a985a41a11fbe6e1c7c5663050104208baa9d05b8ebe33186ab93cc",
     "knowledge/design/audience-derived-identity.md": "04c90b39c9d41cf00257c70b4e579f3e29684254d444917b9a5690d48be74f5f",
@@ -15966,14 +15966,14 @@
     "knowledge/design/quality-lens.md": "060c3cd05125d933fff0912acb1ed4555495a9282eeea9a7d3d9979b7aa91024",
     "knowledge/design/refero-ux-patterns.md": "0d3749627640b178d965f0798a3dc1bb3512cccf094214c2cc78af2d3b4a9b3c",
     "knowledge/design/remotion-content-assets.md": "e52b383451fad2a5ecbaa69f03c79d1080fb752f0c3df00d2071ce49d3251866",
-    "knowledge/design/spec-pack.md": "0039781827ad101de6cddf456f8ba8809d48d5f6d92e10b1b49971a45a3b6525",
+    "knowledge/design/spec-pack.md": "dbd05f9d87e72810df2429feb777db98e759b8bc3acef5815b0aba5fbf1a27bb",
     "knowledge/design/surfaces-b2c.md": "656699f28354e78fa2b297489b51f8cc1acf082e2559f4c221f480ab3156e54f",
     "knowledge/design/vibecoded-tells.md": "557ce14e63bbb3635b74e1ce3093ab76f3bc01f46c6caddb521d65efb69d0569",
     "knowledge/engineering/accessibility-readiness.md": "34a99193a4f8566331f04f8eb79687136a3ed619b742ebbf1c1c444814413bef",
-    "knowledge/engineering/app-agent-roster.md": "2bf6fed311e0d84ac964c5f849ae3002ec3237c497c68d54786b6af68df5f082",
+    "knowledge/engineering/app-agent-roster.md": "346d959c46996b690025be65600fc1b48247cde3484fe5728cfd2dfed7c6750c",
     "knowledge/engineering/app-quality.md": "1d0c12d9151484e0660a3f93322440b5a279b307cd268dd3e5dc386032d19895",
     "knowledge/engineering/backend-data-contract.md": "4519931a783e460c9eca66792e7bf8a0b9293739a1332b143bf1a7818fede601",
-    "knowledge/engineering/engineering-orchestration.md": "8818f8eb610aceda6b4143e39ddfb9ebbb4e1b5771c2c486a9368a64cf6f68f0",
+    "knowledge/engineering/engineering-orchestration.md": "a92a425aa460adae10e7cc9e34c105634d282ac87a4623ff7896ae46f782b6eb",
     "knowledge/engineering/expo-compatibility.md": "8bd94152843ea4fee9f518998fad077776ff1907d2dc8f863d7c65339f8a49fe",
     "knowledge/engineering/expo-operations-map.md": "073805e3471f10c2a163c07674ebef3df6a4581c862af4c30e8ac2a6a2e7ad4e",
     "knowledge/engineering/expo-stack-selection.md": "2d398586f35788131d8d2002a12dac53d4049e45ceab2082bd7730c2378a4fba",
@@ -16098,7 +16098,7 @@
     "knowledge/words/conversion-copy.md": "68739b91f0f977f28718f48dd2368bb8c59a03a3f3d44a30efa08d12eb2956ab",
     "knowledge/words/no-slop-writing.md": "4c9e962cafa5da40dba01778e879b9687c940e0acf4ab298c1b2ef07cda4ffa2",
     "checks/validation/repository/audit-skill-links.ts": "781b1715e075b59ce673fbefad9bacab29eceb93e9f96ef60944bfda884eaf5c",
-    "package.json": "efbd43024204d947e6b665349737c6c3015982c8b1680b047acc031a19e679b9",
+    "package.json": "9752ca7c766900a7dc7618c492d67f2ada1f66c89d33816de519837358d3ba98",
     "tooling/catalog-scaffold.ts": "6a54386c9259c97834599249115b0dd82308c16e2c9bb35c02f3058280467077",
     "catalog/render-routing.ts": "6f4ebb7828f7c6edb42464c1583140d23dedcf6ce7277d9411aaac1f27c5ba01",
     "checks/validation/repository/check-agent-entrypoints.ts": "fde2977df566923626a647ccacec7bea6dacb00ffd1ed00ceeb860f8203b0bef",
@@ -16415,5 +16415,5 @@
     "catalog/upstreams/notices/parth-app-store-screenshots.txt": "a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a"
   },
   "dependencies": [],
-  "digest": "sha256:22b790ff1813333437a5a8b25398fcbec887d4eeca99f6fac64660f296b68d20"
+  "digest": "sha256:2c922327388d3e660f863744b0a1a2c4a9b5bfd7ece30e8422f9f6a47bd77978"
 }
