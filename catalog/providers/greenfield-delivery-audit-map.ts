@@ -334,10 +334,6 @@ export function greenfield66OpenChildren(): readonly Greenfield66ChildRow[] {
   return GREENFIELD_66_CHILDREN.filter((row) => row.state === "open");
 }
 
-export function greenfield66SequenceIndex(issue: Greenfield66SequenceIssue): number {
-  return GREENFIELD_66_U4_REMAINING_SEQUENCE.indexOf(issue);
-}
-
 export function greenfield66SequenceIsLocked(): boolean {
   return (
     GREENFIELD_66_U4_REMAINING_SEQUENCE.length === 6 &&
@@ -355,10 +351,6 @@ export function greenfield66SequenceIsLocked(): boolean {
 
 export function greenfield66ProofClassesRemainDistinct(): boolean {
   return new Set(GREENFIELD_66_PROOF_CLASSES).size === GREENFIELD_66_PROOF_CLASSES.length;
-}
-
-export function greenfield66ImplementsSibling(_issue: string): boolean {
-  return false;
 }
 
 export function greenfield66UmbrellaClosesChildren(): boolean {
