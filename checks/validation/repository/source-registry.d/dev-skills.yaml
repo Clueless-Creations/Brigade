@@ -1,0 +1,28 @@
+sources:
+  - id: github-dietrichgebert-ponytail
+    name: Ponytail agent skills
+    source_type: repository
+    url: https://github.com/DietrichGebert/ponytail
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - .agents/skills/VENDORED.md
+    notes: MIT. Source of the vendored ponytail and ponytail-review repository dev skills.
+  - id: github-cursor-plugins
+    name: Cursor plugins (pstack, cursor-team-kit)
+    source_type: repository
+    url: https://github.com/cursor/plugins
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - .agents/skills/VENDORED.md
+    notes: MIT. Source of the vendored Pstack skills and the thermo-nuclear-code-quality-review dev skill.
+  - id: github-com-pr-link-pattern
+    name: GitHub pull request link pattern
+    source_type: website
+    url: https://github.com/
+    refresh_cadence_days: 365
+    owner: maintainer
+    locations:
+      - .agents/skills/poteto-mode/SKILL.md
+    notes: Placeholder PR link format in the vendored poteto-mode skill, not a fetched source.
