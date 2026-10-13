@@ -462,10 +462,6 @@ export function appleAscRowsForOpClass(opClass: AscOpClass): readonly AscCanonic
   return APPLE_ASC_CANONICAL_MAP.filter((row) => row.opClass === opClass);
 }
 
-export function appleAscRowsForEvidenceClass(evidenceClass: AscEvidenceClass): readonly AscCanonicalMapRow[] {
-  return APPLE_ASC_CANONICAL_MAP.filter((row) => row.evidenceClass === evidenceClass);
-}
-
 export function appleAscProtectedRows(): readonly AscCanonicalMapRow[] {
   return APPLE_ASC_CANONICAL_MAP.filter(
     (row) => row.authorityClass === "founder-protected" || row.authorityClass === "rejected" || APPLE_ASC_PROTECTED_EFFECTS.includes(row.effectClass),

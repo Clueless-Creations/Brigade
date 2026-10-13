@@ -346,10 +346,6 @@ export function superwallRowsForOpClass(opClass: SuperwallOpClass): readonly Sup
   return SUPERWALL_CANONICAL_MAP.filter((row) => row.opClass === opClass);
 }
 
-export function superwallRowsForEvidenceClass(evidenceClass: SuperwallEvidenceClass): readonly SuperwallCanonicalMapRow[] {
-  return SUPERWALL_CANONICAL_MAP.filter((row) => row.evidenceClass === evidenceClass);
-}
-
 export function superwallProtectedRows(): readonly SuperwallCanonicalMapRow[] {
   return SUPERWALL_CANONICAL_MAP.filter(
     (row) => row.authorityClass === "founder-protected" || row.authorityClass === "rejected" || SUPERWALL_PROTECTED_EFFECTS.includes(row.effectClass),
