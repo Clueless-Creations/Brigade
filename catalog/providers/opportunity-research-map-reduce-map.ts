@@ -10,13 +10,7 @@
  * Hypotheses do not change scope, spend, or collection permissions.
  */
 export const OPPORTUNITY_RESEARCH_MAP_PATH = "catalog/providers/opportunity-research-map-reduce-map.ts" as const;
-export const OPPORTUNITY_RESEARCH_SERVICE_MODULE = "kernel/services/opportunity-research-map-reduce.ts" as const;
-export const OPPORTUNITY_RESEARCH_RECIPE_MODULE = "catalog/workflows/opportunity-research-map-reduce.ts" as const;
 export const OPPORTUNITY_RESEARCH_FIXTURE = "checks/verification/fixtures/opportunity-research-map-reduce.fixtures.ts" as const;
-export const RESEARCH_OBSERVATION_CONTRACT = "contracts/research/observation.ts" as const;
-export const RESEARCH_SERVICE = "kernel/services/research.ts" as const;
-export const RESEARCH_DECISION_SERVICE = "kernel/services/research-decision.ts" as const;
-export const GO_PIVOT_KNOWLEDGE = "knowledge/research/go-pivot-or-kill.md" as const;
 
 export const OPPORTUNITY_RESEARCH_ISSUE = "#527" as const;
 export const OPPORTUNITY_RESEARCH_EPIC = "#511" as const;

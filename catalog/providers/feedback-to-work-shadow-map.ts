@@ -8,12 +8,8 @@
  * founder / evidence-accept / repair side effects.
  */
 export const FEEDBACK_TO_WORK_SHADOW_MAP_PATH = "catalog/providers/feedback-to-work-shadow-map.ts" as const;
-export const FEEDBACK_TO_WORK_SHADOW_RECIPE_MODULE = "catalog/workflows/feedback-to-work-shadow.ts" as const;
 export const FEEDBACK_TO_WORK_SHADOW_SERVICE_MODULE = "kernel/services/feedback-to-work-shadow.ts" as const;
-export const WORK_PROPOSAL_SHADOW_MODULE = "kernel/operating-model/work-proposal-shadow.ts" as const;
 export const FEEDBACK_TO_WORK_SHADOW_FIXTURE = "checks/verification/fixtures/feedback-to-work-shadow.fixtures.ts" as const;
-export const KNOWLEDGE_APPLICABILITY_MODULE = "kernel/knowledge-service/context-bound-applicability.ts" as const;
-export const SEMANTIC_EVAL_BASELINES_MAP = "catalog/providers/semantic-eval-baselines-map.ts" as const;
 export const INFERENCE_RECEIPT_STORE_MODULE = "kernel/services/inference-receipt-store.ts" as const;
 export const SEMANTIC_GRAPH_VIEWS_MODULE = "kernel/knowledge-service/semantic-graph-views.ts" as const;
 

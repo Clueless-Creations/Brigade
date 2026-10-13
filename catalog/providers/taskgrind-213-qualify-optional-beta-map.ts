@@ -20,11 +20,9 @@ export const TASKGRIND_213_ADR = "docs/decisions/0013-provider-integration-bound
 export const TASKGRIND_213_PROVIDER_GUIDE = "docs/guides/provider-integrations.md" as const;
 
 export const TASKGRIND_213_ISSUE = "#213" as const;
-export const TASKGRIND_213_PROGRAM = "U6-Skills-Astra" as const;
 export const TASKGRIND_213_STAMP = "0.221.61" as const;
 export const TASKGRIND_213_BASE_MAIN_SHA = "ee1e358ffa6a1f3cb38b4407735cb7078181b2f1" as const;
 export const TASKGRIND_213_CONSUMES = ["#395", "#117", "ADR-0013", "APP_QUALITY"] as const;
-export const TASKGRIND_213_COORDINATES = ["#117", "#378"] as const;
 export const TASKGRIND_213_HOLD_ID = "taskgrind.qualification-authoritative-access-unavailable" as const;
 export const TASKGRIND_213_MODE = "operator-assisted" as const;
 export const TASKGRIND_213_QUALIFICATION_STATUS = "hold" as const;

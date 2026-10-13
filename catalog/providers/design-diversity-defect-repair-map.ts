@@ -10,10 +10,7 @@
  * templates. Pareto/confidence ≠ visual review / founder direction.
  */
 export const DESIGN_DIVERSITY_MAP_PATH = "catalog/providers/design-diversity-defect-repair-map.ts" as const;
-export const DESIGN_DIVERSITY_SERVICE_MODULE = "kernel/services/design-diversity-defect-repair.ts" as const;
-export const DESIGN_DIVERSITY_RECIPE_MODULE = "catalog/workflows/design-diversity-defect-repair.ts" as const;
 export const DESIGN_DIVERSITY_FIXTURE = "checks/verification/fixtures/design-diversity-defect-repair.fixtures.ts" as const;
-export const DESIGN_ACCEPTANCE_FIXTURE = "checks/verification/fixtures/design-acceptance.fixtures.ts" as const;
 export const DESIGN_FOUNDATION_FIXTURE = "checks/verification/fixtures/design-foundation-guidance.fixtures.ts" as const;
 export const QUALITY_LENS_DOC = "knowledge/design/quality-lens.md" as const;
 export const PRODUCT_EXPERIENCE_WORKFLOWS = "catalog/workflows/product-experience.ts" as const;

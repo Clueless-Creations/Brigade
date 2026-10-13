@@ -12,13 +12,8 @@
  * Candidate questions stay inactive until reviewed into a pinned composition.
  */
 export const TRANSFERABLE_MECHANISMS_MAP_PATH = "catalog/providers/transferable-mechanisms-question-eval-map.ts" as const;
-export const TRANSFERABLE_MECHANISMS_SERVICE_MODULE = "kernel/services/transferable-mechanisms-question-eval.ts" as const;
-export const TRANSFERABLE_MECHANISMS_RECIPE_MODULE = "catalog/workflows/transferable-mechanisms-question-eval.ts" as const;
 export const TRANSFERABLE_MECHANISMS_FIXTURE = "checks/verification/fixtures/transferable-mechanisms-question-eval.fixtures.ts" as const;
-export const MEASUREMENT_OWNER = "kernel/operating-model/measurement.ts" as const;
-export const MARKET_EXPERIMENT_OWNER = "kernel/operating-model/market-experiment.ts" as const;
 export const QUESTION_PACK_CONTRACT = "contracts/semantic/question-pack.ts" as const;
-export const CONTRIBUTION_CHECK = "kernel/contribution/check.ts" as const;
 
 export const TRANSFERABLE_MECHANISMS_ISSUE = "#528" as const;
 export const TRANSFERABLE_MECHANISMS_EPIC = "#511" as const;
