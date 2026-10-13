@@ -25,7 +25,6 @@ import { appendOperatingRecord, applyOperatingEvent, seedOperatingModel } from "
 import type { OperatingModel } from "./types.js";
 
 export const WORK_PROPOSAL_SHADOW_ISSUE = "#522" as const;
-export const WORK_PROPOSAL_SHADOW_EPIC = "#511" as const;
 export const WORK_PROPOSAL_SHADOW_STAMP = "0.221.43" as const;
 export const WORK_PROPOSAL_SHADOW_NO_NETWORK = true as const;
 export const WORK_PROPOSAL_SHADOW_SHADOW_ONLY = true as const;
@@ -233,30 +232,6 @@ export function emitShadowWorkProposal(input: ShadowWorkProposalInput): ShadowWo
     proposalDigest,
     model,
     semanticEvidenceIds: [...input.evidenceIds],
-  };
-}
-
-/** Build a synthetic observation record bound to source uri/revision (post-ingestion). */
-export function syntheticObservationRecord(input: {
-  id: string;
-  metricId: string;
-  sourceUri: string;
-  sourceRevision: string;
-  recordedAt: string;
-  observedAt: string;
-  value?: unknown;
-  producer?: string;
-}): ObservationRecord {
-  return {
-    ...common(input.id, input.recordedAt, input.producer ?? "b2c.feedback-to-work-shadow"),
-    kind: "observation",
-    status: "recorded",
-    metricId: input.metricId,
-    observedAt: input.observedAt,
-    source: { uri: input.sourceUri, revision: input.sourceRevision },
-    independenceGroup: "synthetic.fixture",
-    confidence: { lower: 0.5, upper: 0.7 },
-    value: input.value ?? null,
   };
 }
 

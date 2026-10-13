@@ -16,7 +16,7 @@
  * Jev decides (Choice/Score/Noul); LLM writes; code owns graph views + edge accounting.
  */
 import { digestOf, sha256Hex } from "../../contracts/semantic/canonicalize.js";
-import { type FieldProvenance, verifyPinnedExcerpt, type PinVerifyResult } from "./projection-helpers.js";
+import { verifyPinnedExcerpt, type PinVerifyResult } from "./projection-helpers.js";
 
 export const SEMANTIC_GRAPH_VIEWS_ISSUE = "#519" as const;
 export const SEMANTIC_GRAPH_VIEWS_EPIC = "#511" as const;
@@ -709,17 +709,6 @@ export function resolveEdgeProvenance(edge: CandidateEdge): { sourceRefs: readon
     sourceRefs: edge.evidenceSpans,
     receiptRef: edge.inferenceReceiptId,
     authority: edge.authority,
-  };
-}
-
-/** FieldProvenance → EvidenceSpanRef helper (consume #517). */
-export function spanFromProvenance(p: FieldProvenance): EvidenceSpanRef {
-  return {
-    sourceId: p.sourceId,
-    fieldPath: p.fieldPath,
-    spanStart: p.spanStart,
-    spanEnd: p.spanEnd,
-    contentSha256: p.contentSha256,
   };
 }
 
