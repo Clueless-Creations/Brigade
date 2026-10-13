@@ -12,7 +12,7 @@
  *
  * Jev decides (Choice/Score/Noul); LLM writes; code owns persist / replay / cache.
  */
-import { digestOf, sha256Hex } from "../../contracts/semantic/canonicalize.js";
+import { digestOf } from "../../contracts/semantic/canonicalize.js";
 import { PLAN_IDENTITY_CANONICALIZATION_VERSION } from "../../contracts/semantic/query-ir.js";
 import {
   parseInferenceReceipt,
@@ -29,7 +29,6 @@ export const INFERENCE_RECEIPT_STORE_STAMP = "0.221.40" as const;
 export const INFERENCE_RECEIPT_STORE_SCHEMA_VERSION = 1 as const;
 export const INFERENCE_RECEIPT_STORE_NO_521_IMPL = false as const;
 export const INFERENCE_RECEIPT_STORE_NO_522_IMPL = false as const;
-export const INFERENCE_RECEIPT_STORE_NO_523_IMPL = false as const;
 export const INFERENCE_RECEIPT_STORE_NO_NETWORK = true as const;
 export const INFERENCE_RECEIPT_STORE_NO_PARALLEL_CACHE_AUTHORITY = true as const;
 export const INFERENCE_RECEIPT_STORE_NO_TTL_ONLY = true as const;
@@ -558,13 +557,4 @@ export function assertNoSecretsInReceiptSurfaces(receipt: InferenceReceipt): voi
 /** Simulate a provider call (fixtures only) — policy replay must never use this. */
 export function recordProviderCall(counter: ProviderCallCounter): void {
   counter.calls += 1;
-}
-
-/** Hash helper re-export for fixtures that need stable digests without importing crypto. */
-export function stableDigest(value: unknown): string {
-  return digestOf(value);
-}
-
-export function sha256OfText(text: string): string {
-  return sha256Hex(text);
 }

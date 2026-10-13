@@ -21,7 +21,6 @@ export const RESEARCH_395_CORE_FIXTURES = "checks/validation/repository/fixtures
 export const RESEARCH_395_ARTIFACT_CONTRACTS = "knowledge/process/artifact-contracts.md" as const;
 
 export const RESEARCH_395_ISSUE = "#395" as const;
-export const RESEARCH_395_PROGRAM = "U6-Skills-Astra" as const;
 export const RESEARCH_395_STAMP = "0.221.60" as const;
 export const RESEARCH_395_BASE_MAIN_SHA = "b85f26fce8aaf4f42ed60db6382a6dff6de64d8e" as const;
 export const RESEARCH_395_CONSUMES = ["#400", "#406", "#407", "#427", "#453", "#459", "#468", "#476", "#483", "#488", "#492", "#145", "#173", "#180"] as const;

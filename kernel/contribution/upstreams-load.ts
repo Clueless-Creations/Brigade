@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import YAML from "yaml";
+import { camelToSnake, formatZodError, snakeToCamel } from "./manifest-io.js";
 import { upstreamManifestSchema, upstreamObservationSchema, type UpstreamManifest, type UpstreamObservation } from "../../contracts/contribution/contract.js";
 
 /**
@@ -30,47 +31,14 @@ export interface UpstreamLoadIssue {
   readonly path?: string;
 }
 
+export { camelToSnake };
+
 export interface LoadedUpstreams {
   readonly upstreams: LoadedUpstream[];
   readonly issues: UpstreamLoadIssue[];
 }
 
-function snakeToCamel(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(snakeToCamel);
-  if (value && typeof value === "object") {
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, entry]) => [
-        key.replace(/_([a-z0-9])/gu, (_match, char: string) => char.toUpperCase()),
-        snakeToCamel(entry),
-      ]),
-    );
-  }
-  return value;
-}
-
-export function camelToSnake(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(camelToSnake);
-  if (value && typeof value === "object") {
-    return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>)
-        .filter(([, entry]) => entry !== undefined)
-        .map(([key, entry]) => [key.replace(/[A-Z]/gu, (char) => `_${char.toLowerCase()}`), camelToSnake(entry)]),
-    );
-  }
-  return value;
-}
-
 const sha256 = (value: string | Buffer): string => createHash("sha256").update(value).digest("hex");
-
-function formatZodError(error: unknown): string {
-  if (error && typeof error === "object" && "issues" in error && Array.isArray((error as { issues: unknown[] }).issues)) {
-    return (error as { issues: Array<{ path: PropertyKey[]; message: string }> }).issues
-      .slice(0, 6)
-      .map((issue) => `${issue.path.map(String).join(".") || "(root)"}: ${issue.message}`)
-      .join("; ");
-  }
-  return error instanceof Error ? error.message : String(error);
-}
 
 /** Parse one authored manifest (snake_case YAML) into the typed contract shape. */
 export function parseUpstreamManifest(text: string, sourceLabel = "upstream manifest"): UpstreamManifest {
