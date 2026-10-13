@@ -5,8 +5,8 @@ import { reconcileRunPlan, buildCheckpoint } from "../engine/runstate.js";
 import { validateBusinessState, validateRunState, validateCheckpoint } from "../schema/index.js";
 import { assertNoPendingErasure } from "../reducer/erasure-guard.js";
 import type { CompiledPlan } from "../engine/compile.js";
-import { createHash, randomUUID } from "node:crypto";
-import { closeSync, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { closeSync, fsyncSync, lstatSync, openSync, readFileSync, unlinkSync } from "node:fs";
 import path from "node:path";
 import { parseDocument } from "yaml";
 import { z } from "zod";
@@ -15,6 +15,7 @@ import { compilePlan, type CatalogInput } from "../engine/compile.js";
 import { workflowContractFingerprint } from "../engine/review-evidence.js";
 import { acquireLock, releaseLock, readLock, isStale } from "../reducer/lock.js";
 import { createSnapshotReader } from "./resources.js";
+import { atomicFile } from "../lib/atomic-file.js";
 
 const CATALOG = "catalog.json";
 const RUNTIME = ".b2c-launch/runtime.json";
@@ -102,28 +103,6 @@ function read(workspace: string, relative: string): string | null {
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
     throw error;
-  }
-}
-function atomicWrite(file: string, bytes: string): void {
-  mkdirSync(path.dirname(file), { recursive: true, mode: 0o700 });
-  const temporary = `${file}.${randomUUID()}.tmp`;
-  try {
-    const descriptor = openSync(temporary, "wx", 0o600);
-    try {
-      writeFileSync(descriptor, bytes);
-      fsyncSync(descriptor);
-    } finally {
-      closeSync(descriptor);
-    }
-    renameSync(temporary, file);
-    const directory = openSync(path.dirname(file), "r");
-    try {
-      fsyncSync(directory);
-    } finally {
-      closeSync(directory);
-    }
-  } finally {
-    if (existsSync(temporary)) unlinkSync(temporary);
   }
 }
 function durableRemove(file: string): void {
@@ -411,7 +390,7 @@ function finish(workspace: string, preview: ActivationPreview, options: Activati
   }
   for (const [key, relative] of SURFACES) {
     const after = preview.files[key].after;
-    if (after !== null) atomicWrite(location(workspace, relative), after);
+    if (after !== null) atomicFile(location(workspace, relative), after);
     options.afterWrite?.(key);
   }
   durableRemove(location(workspace, JOURNAL));
@@ -434,7 +413,7 @@ export function applyCompositionActivation(workspace: string, input: ActivationP
       runtime: object(preview.files.runtime.after),
     });
     if (refreshed.id !== preview.id) throw new Error("composition.stale_preview");
-    atomicWrite(location(workspace, JOURNAL), JSON.stringify({ schemaVersion: 1, status: "incomplete", preview }));
+    atomicFile(location(workspace, JOURNAL), JSON.stringify({ schemaVersion: 1, status: "incomplete", preview }));
     options.afterWrite?.("journal");
     return finish(workspace, preview, options);
   });
@@ -461,7 +440,7 @@ export function recoverCompositionActivation(workspace: string, mode: "resume" |
       const before = journal.preview.files[key].before;
       if (before === null) {
         if (read(workspace, relative) !== null) durableRemove(location(workspace, relative));
-      } else atomicWrite(location(workspace, relative), before);
+      } else atomicFile(location(workspace, relative), before);
       options.afterWrite?.(key);
     }
     durableRemove(location(workspace, JOURNAL));
