@@ -28,7 +28,8 @@ relationships:
     consumption: Reauthor structural simplification, canonical-layer ownership, meaningful abstractions,
       explicit type boundaries, and atomicity review in repository guidance.
     local_owners:
-      - docs/guides/code-quality-review.md
+      - .agents/skills/chained-review/SKILL.md
+      - .agents/skills/VENDORED.md
     tests:
       - checks/validation/repository/check-upstreams.ts
     upstream_paths:
@@ -45,7 +46,7 @@ baselines:
     revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
     observed_at: "2026-10-13"
     by: b2c-contributor source review
-    note: Selected method adapted for a repository-local draft; independent adoption review and pilot remain pending.
+    note: Selected methods inform the repository-local chain. Source review, independent review, host qualification and pilot acceptance are distinct evidence.
 support:
   policy: Source-reviewed maintainability method only. Review depth follows semantic risk and explicit task scope.
   versions:
@@ -57,7 +58,7 @@ support:
     - id: structural-code-quality-review
       title: Review structural complexity, canonical boundaries, and behavior-preserving simplification
       owners:
-        - docs/guides/code-quality-review.md
+        - .agents/skills/chained-review/SKILL.md
   unsupported_operations:
     - id: automatic-rewrite-or-merge
       reason: Review does not authorize unrelated restructuring or automatic merge. Existing independent review and quality gates remain required.
@@ -68,7 +69,7 @@ adaptations:
   - id: bounded-structural-review
     description: Require a demonstrated maintainability concern and preserve behavior during simplification.
       Replace fixed file-size blockers and speculative redesign demands with evidence-based, task-scoped findings.
-    owner: docs/guides/code-quality-review.md
+    owner: .agents/skills/chained-review/SKILL.md
     intentional: true
 review:
   owner: b2c-maintainers

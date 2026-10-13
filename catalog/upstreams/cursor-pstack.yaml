@@ -18,7 +18,7 @@ license:
   evidence_sha256: bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e
   reviewed_revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
   notice_file: catalog/upstreams/notices/cursor-pstack.txt
-  scope: pstack/LICENSE covers the three selected principle skills. Other plugin contents are not adopted.
+  scope: pstack/LICENSE covers the three selected principle skills. Broader previously vendored plugin contents remain outside the supported local review path.
 source_ids:
   - github-cursor-pstack
   - cursor-pstack-laziness-protocol
@@ -30,7 +30,8 @@ relationships:
     consumption: Reauthor decision consolidation, reproduction and root-cause analysis, and direct verification
       in repository review guidance.
     local_owners:
-      - docs/guides/code-quality-review.md
+      - .agents/skills/chained-review/SKILL.md
+      - .agents/skills/VENDORED.md
     tests:
       - checks/validation/repository/check-upstreams.ts
     upstream_paths:
@@ -49,7 +50,7 @@ baselines:
     revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
     observed_at: "2026-10-13"
     by: b2c-contributor source review
-    note: Selected methods adapted for a repository-local draft; independent adoption review and pilot remain pending.
+    note: Selected methods inform the repository-local chain. Source review, independent review, host qualification and pilot acceptance are distinct evidence.
 support:
   policy: Source-reviewed methods only. Cursor host tools, models, and shipping playbooks are not integrated.
   versions:
@@ -61,10 +62,10 @@ support:
     - id: reproduce-simplify-and-verify
       title: Consolidate decisions, fix demonstrated root causes, and verify the actual result
       owners:
-        - docs/guides/code-quality-review.md
+        - .agents/skills/chained-review/SKILL.md
   unsupported_operations:
     - id: plugin-autonomy
-      reason: No poteto-mode, shipping or cleanup playbooks, automatic PR creation, merge, external action, or permission expansion.
+      reason: The supported chain does not invoke poteto-mode, shipping or cleanup playbooks, automatic PR creation, merge, external action, or permission expansion.
     - id: automatic-install-or-update
       reason: No plugin installation, model selection, hook execution, automatic updates, or workspace repins.
   platforms: []
@@ -72,7 +73,7 @@ adaptations:
   - id: preserve-trust-boundaries
     description: Root-cause analysis does not remove validation, error handling, or trust-boundary guards.
       Fix repeated instances only within the authorized scope. Verification remains proportional to risk and existing gates.
-    owner: docs/guides/code-quality-review.md
+    owner: .agents/skills/chained-review/SKILL.md
     intentional: true
 review:
   owner: b2c-maintainers
