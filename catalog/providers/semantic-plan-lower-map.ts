@@ -13,11 +13,6 @@ export const SEMANTIC_PLAN_LOWER_ISSUE = "#516" as const;
 export const SEMANTIC_PLAN_LOWER_EPIC = "#511" as const;
 export const SEMANTIC_PLAN_LOWER_CONSUMES = ["#512", "#513", "#514", "#515"] as const;
 export const SEMANTIC_PLAN_LOWER_STAMP = "0.221.36" as const;
-export const SEMANTIC_PLAN_LOWER_BASE_MAIN_SHA = "b8d7c7a705a16a9731017078306c8944b3da7700" as const;
-export const SEMANTIC_PLAN_LOWER_LIVE_NOT_PERFORMED = true as const;
-export const SEMANTIC_PLAN_LOWER_HOSTED_KEY_OWNER = "CoS→Eduardo" as const;
-export const SEMANTIC_PLAN_LOWER_IOS_SIM_OOS = true as const;
-export const SEMANTIC_PLAN_LOWER_NEXT_AFTER_CLOSE = "#517" as const;
 
 export const SEMANTIC_PLAN_LOWER_AC = [
   {

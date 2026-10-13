@@ -45,7 +45,6 @@ export const CATALOG_INDEX = "catalog/index.ts" as const;
 
 export const GREENFIELD_75_BASE_MAIN_SHA = "375587fcafd7c69391a522b04ee105b30ec5abe2" as const;
 export const GREENFIELD_75_STAMP = "0.221.29" as const;
-export const GREENFIELD_75_ISSUE = "#75" as const;
 
 export const GREENFIELD_75_STATUS = ["done", "residual", "held", "sibling"] as const;
 export type Greenfield75Status = (typeof GREENFIELD_75_STATUS)[number];

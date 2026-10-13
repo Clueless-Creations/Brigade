@@ -7,14 +7,11 @@
  * waiver of gates. No device proof generation. No auto-accepted scope.
  */
 export const CHANGE_IMPACT_OBLIGATION_MAP_PATH = "catalog/providers/change-impact-obligation-to-test-map.ts" as const;
-export const CHANGE_IMPACT_OBLIGATION_SERVICE_MODULE = "kernel/services/change-impact-obligation-to-test.ts" as const;
-export const CHANGE_IMPACT_OBLIGATION_RECIPE_MODULE = "catalog/workflows/change-impact-obligation-to-test.ts" as const;
 export const CHANGE_IMPACT_OBLIGATION_FIXTURE = "checks/verification/fixtures/change-impact-obligation-to-test.fixtures.ts" as const;
 export const BUSINESS_CHANGE_IMPACT_FIXTURE = "checks/verification/fixtures/business-change-impact.fixtures.ts" as const;
 export const GREENFIELD_76_MAP = "catalog/providers/greenfield-76-change-impact-closeout-map.ts" as const;
 export const OPERATING_SYSTEM_WORKFLOWS = "catalog/workflows/operating-system.ts" as const;
 export const RUNSTATE = "kernel/engine/runstate.ts" as const;
-export const SOURCE_FINGERPRINT = "kernel/engine/source-fingerprint.ts" as const;
 
 export const CHANGE_IMPACT_OBLIGATION_ISSUE = "#525" as const;
 export const CHANGE_IMPACT_OBLIGATION_EPIC = "#511" as const;

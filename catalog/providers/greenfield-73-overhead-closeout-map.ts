@@ -31,14 +31,12 @@ export const GREENFIELD_BENCHMARK_PROTOCOL = "checks/verification/rehearsal/gree
 export const EVAL_BASELINES_FIXTURE = "checks/verification/fixtures/eval-baselines.fixtures.ts" as const;
 export const GREENFIELD_66_FIXTURE = "checks/verification/fixtures/greenfield-delivery-audit-66.fixtures.ts" as const;
 export const GREENFIELD_66_AUDIT_DOC = "checks/verification/rehearsal/greenfield-delivery-audit-66.md" as const;
-export const GREENFIELD_66_MAP = "catalog/providers/greenfield-delivery-audit-map.ts" as const;
 export const GREENFIELD_70_AUDIT_DOC = "checks/verification/rehearsal/greenfield-70-applicability-closeout.md" as const;
 export const GREENFIELD_71_AUDIT_DOC = "checks/verification/rehearsal/greenfield-71-handoff-closeout.md" as const;
 export const PRODUCT_EXPERIENCE_WORKFLOWS = "catalog/workflows/product-experience.ts" as const;
 
 export const GREENFIELD_73_BASE_MAIN_SHA = "e1bbc824980030389bdd9501cf07eb6cb9d819e2" as const;
 export const GREENFIELD_73_STAMP = "0.221.28" as const;
-export const GREENFIELD_73_ISSUE = "#73" as const;
 
 export const GREENFIELD_73_STATUS = ["done", "residual", "held", "sibling"] as const;
 export type Greenfield73Status = (typeof GREENFIELD_73_STATUS)[number];
