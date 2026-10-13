@@ -1,0 +1,82 @@
+schema_version: 1
+id: cursor-team-kit
+project: Cursor Team Kit
+canonical_url: https://github.com/cursor/plugins/tree/main/cursor-team-kit
+aliases:
+  - cursor/plugins/cursor-team-kit
+authors:
+  - name: Cursor
+    role: copyright holder identified in the reviewed plugin license
+maintainers:
+  - name: Cursor
+    role: upstream repository maintainer
+copyright: Copyright (c) 2026 Cursor
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/cursor-team-kit/LICENSE
+  evidence_sha256: 702f5f331b56aff0e33d8c7826df5202559f894145eb70355c6477b55b5bb8a0
+  reviewed_revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+  notice_file: catalog/upstreams/notices/cursor-team-kit.txt
+  scope: cursor-team-kit/LICENSE covers the selected Thermo-Nuclear Code Quality Review skill only.
+source_ids:
+  - github-cursor-team-kit
+  - cursor-team-kit-thermo-nuclear-review
+  - cursor-team-kit-license
+relationships:
+  - kind: adapted-method
+    consumption: Reauthor structural simplification, canonical-layer ownership, meaningful abstractions,
+      explicit type boundaries, and atomicity review in repository guidance.
+    local_owners:
+      - docs/guides/code-quality-review.md
+    tests:
+      - checks/validation/repository/check-upstreams.ts
+    upstream_paths:
+      - cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md
+      - cursor-team-kit/LICENSE
+    pin_authority: Reviewed immutable commit pins this method. No host plugin installation or workspace repin.
+baselines:
+  reviewed_source:
+    revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+    observed_at: "2026-10-13"
+    by: b2c-contributor source review
+    note: Read-only review of selected skill text and plugin license. No upstream execution.
+  reviewed_guidance:
+    revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+    observed_at: "2026-10-13"
+    by: b2c-contributor source review
+    note: Selected method adapted for a repository-local draft; independent adoption review and pilot remain pending.
+support:
+  policy: Source-reviewed maintainability method only. Review depth follows semantic risk and explicit task scope.
+  versions:
+    - range: 1dcc2bacde73ddd284803b7af28164d0436198fc
+      status: untested
+      evidence:
+        - Source and rights inspection only; pilot evidence is separate.
+  operations:
+    - id: structural-code-quality-review
+      title: Review structural complexity, canonical boundaries, and behavior-preserving simplification
+      owners:
+        - docs/guides/code-quality-review.md
+  unsupported_operations:
+    - id: automatic-rewrite-or-merge
+      reason: Review does not authorize unrelated restructuring or automatic merge. Existing independent review and quality gates remain required.
+    - id: fixed-size-blocker
+      reason: File length and diff size are review signals, not automatic split rules or acceptance thresholds.
+  platforms: []
+adaptations:
+  - id: bounded-structural-review
+    description: Require a demonstrated maintainability concern and preserve behavior during simplification.
+      Replace fixed file-size blockers and speculative redesign demands with evidence-based, task-scoped findings.
+    owner: docs/guides/code-quality-review.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 90
+  last_review: "2026-10-13"
+  status: current
+credits:
+  acknowledge: true
+  use: adapted
+  summary: Selected Thermo-Nuclear Code Quality Review methods from Cursor Team Kit inform repository-local
+    guidance. Cursor attribution and the MIT notice are retained. No Anthropic authorship or quality uplift is claimed.

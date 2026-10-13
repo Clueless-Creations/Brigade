@@ -1,0 +1,82 @@
+schema_version: 1
+id: ponytail
+project: Ponytail
+canonical_url: https://github.com/DietrichGebert/ponytail
+aliases:
+  - DietrichGebert/ponytail
+authors:
+  - name: DietrichGebert
+    role: original author and copyright holder
+maintainers:
+  - name: DietrichGebert
+    role: upstream maintainer
+copyright: Copyright (c) 2026 DietrichGebert
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/DietrichGebert/ponytail/blob/2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5/LICENSE
+  evidence_sha256: fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab
+  reviewed_revision: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
+  notice_file: catalog/upstreams/notices/ponytail.txt
+  scope: Root LICENSE covers the selected method from skills/ponytail/SKILL.md.
+source_ids:
+  - github-dietrichgebert-ponytail
+  - ponytail-skill
+  - ponytail-license
+relationships:
+  - kind: adapted-method
+    consumption: Reauthor the smallest complete change, existing-owner reuse, native-option preference,
+      and preservation of validation and error handling in repository review guidance.
+    local_owners:
+      - docs/guides/code-quality-review.md
+    tests:
+      - checks/validation/repository/check-upstreams.ts
+    upstream_paths:
+      - skills/ponytail/SKILL.md
+      - LICENSE
+    pin_authority: Reviewed immutable commit pins this method. No host skill installation or workspace repin.
+baselines:
+  reviewed_source:
+    revision: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
+    observed_at: "2026-10-13"
+    by: b2c-contributor source review
+    note: Read-only review of skill text and license. No upstream code or installer executed.
+  reviewed_guidance:
+    revision: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
+    observed_at: "2026-10-13"
+    by: b2c-contributor source review
+    note: Selected method adapted for a repository-local draft; independent adoption review and pilot remain pending.
+support:
+  policy: Source-reviewed method only. No runtime integration or measured quality improvement is claimed.
+  versions:
+    - range: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
+      status: untested
+      evidence:
+        - Source and rights inspection only; pilot evidence is separate.
+  operations:
+    - id: smallest-complete-change
+      title: Smallest complete change with existing abstractions and required safeguards
+      owners:
+        - docs/guides/code-quality-review.md
+  unsupported_operations:
+    - id: automatic-install-or-update
+      reason: Source review does not authorize installation, hooks, upgrades, workspace repins, publication, or merge.
+    - id: line-count-target
+      reason: Diff size is a signal. Correctness, security, accessibility, tests, and maintainability govern the decision.
+  platforms: []
+adaptations:
+  - id: task-scoped-complete-change
+    description: Keep the selected method within the current task. Omit persistent session modes,
+      shortest-diff scoring, rigid comment formats, and benchmark targets. Existing quality gates stay authoritative.
+    owner: docs/guides/code-quality-review.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 90
+  last_review: "2026-10-13"
+  status: current
+credits:
+  acknowledge: true
+  use: adapted
+  summary: Selected Ponytail methods inform repository-local code quality guidance. Original attribution
+    and the MIT notice are retained. No benchmark uplift or upstream runtime integration is claimed.
