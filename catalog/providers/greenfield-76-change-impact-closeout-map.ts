@@ -39,7 +39,6 @@ export const GREENFIELD_BENCHMARK_PROTOCOL = "checks/verification/rehearsal/gree
 
 export const GREENFIELD_76_BASE_MAIN_SHA = "2864605e9b6031174d475d1219b260ba303927be" as const;
 export const GREENFIELD_76_STAMP = "0.221.30" as const;
-export const GREENFIELD_76_ISSUE = "#76" as const;
 
 export const GREENFIELD_76_STATUS = ["done", "residual", "held", "sibling"] as const;
 export type Greenfield76Status = (typeof GREENFIELD_76_STATUS)[number];
