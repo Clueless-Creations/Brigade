@@ -236,6 +236,7 @@ Use this checklist for new apps.
 5. Use consistent icon and image styles. Record asset rights and reusable generation instructions; preserve selected providers and existing authority.
 6. Name bounded implementation slices in this plan. Preserve reducer-owned pending work and the existing press/celebration and Reduce Motion rules.
 7. Build and inspect each visible slice. Use §8's selected simulator/device route for mobile slices. Use §1b's browser route for web slices. Capture actual UI, repair observed gaps, and record proof limits.
+8. For each screen slice, add the live-screen test from the spec pack template.
 
 Original Brigade guidance informed by the supplied prompt summary, attributed to `ernestosoftware`; source access and rights remain unverified.
 
@@ -258,6 +259,13 @@ Required proof, adjusted to the product:
 - integration tests for app-to-backend, provider callbacks, database writes, entitlement projection, email sends, and analytics wrappers
 - browser E2E for web funnels, checkout, privacy/terms pages, support flows, and dashboards where applicable
 - mobile E2E for onboarding, attribution, paywall, restore, activation, settings, account deletion, and screenshot-critical flows: in-app iOS Simulator (rung 0) for iOS-only walkthroughs and repro, MobAI for Android coverage and repeatable suites, XcodeBuildMCP when the lane needs scripted/CI builds or physical hardware — record the rung used and the coverage it does not provide
+- A changed screen ships a live-screen test.
+- The test pumps the shipping view.
+- Use a real controller, or fake that controller at the boundary.
+- Run the primary interaction for that screen.
+- Cover long names, 2x text, and landscape.
+- Assert no overlap, no overflow, and reachable actions.
+- Do not branch a production view on a fixture property.
 - on-device taste pass for every built screen against `premium-mobile-craft.md`/`quality-lens.md` (see §8 Device Loop's closing step) — functional E2E proof that a screen runs and can be captured is not proof it looks premium, on-brand, or non-generic
 - backend proof that frontend actions create the expected records/events in the real test backend, database, Firestore/Supabase/Postgres, RevenueCat, Stripe, Resend, or PostHog target
 - app integrity, rate-limit, idempotency, and abuse-path proof when paid access, user accounts, sensitive data, or backend mutation are in scope

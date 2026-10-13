@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.138",
+  "skillVersion": "0.221.139",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3944,7 +3944,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:0039781827ad101de6cddf456f8ba8809d48d5f6d92e10b1b49971a45a3b6525",
+        "sha256": "sha256:dbd05f9d87e72810df2429feb777db98e759b8bc3acef5815b0aba5fbf1a27bb",
         "origin": "skill"
       }
     },
@@ -4145,7 +4145,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/app-agent-roster.md",
-        "sha256": "sha256:2bf6fed311e0d84ac964c5f849ae3002ec3237c497c68d54786b6af68df5f082",
+        "sha256": "sha256:346d959c46996b690025be65600fc1b48247cde3484fe5728cfd2dfed7c6750c",
         "origin": "skill"
       }
     },
@@ -4342,7 +4342,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:8818f8eb610aceda6b4143e39ddfb9ebbb4e1b5771c2c486a9368a64cf6f68f0",
+        "sha256": "sha256:a92a425aa460adae10e7cc9e34c105634d282ac87a4623ff7896ae46f782b6eb",
         "origin": "skill"
       }
     },
@@ -20542,14 +20542,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "f1fc2ee1af10ea4e395533f2973236a3f50adcec821ba073ad52321018cc1539",
+    "fingerprint": "aca87126d0837f2692fb3fc88a98dc7401ff00fbcac7988ca6ae0713f0807167",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.138",
-        "revision": "0.221.138",
-        "contentDigest": "c9e8adafe7c1c4b90390d4d71da7736770e52445866cac1836a31f9ce2b5689b"
+        "version": "0.221.139",
+        "revision": "0.221.139",
+        "contentDigest": "cd9e39bb48e6849e2047a097077959f0b443e7000ac614a988903c8ee3e94bb7"
       }
     ],
     "base": {
