@@ -31,7 +31,6 @@ export const INITIALIZATION_PUBLIC_TEST = "checks/verification/public-api/initia
 
 export const GREENFIELD_66_BASE_MAIN_SHA = "d3bd0b5fba5381bb4787bfeb79e3f3c9cc5dbfeb" as const;
 export const GREENFIELD_66_STAMP = "0.221.25" as const;
-export const GREENFIELD_66_UMBRELLA_ISSUE = "#66" as const;
 
 export const GREENFIELD_66_PILLARS = ["intent-preservation", "overhead-measurable", "e2e-proof-framework"] as const;
 export type Greenfield66Pillar = (typeof GREENFIELD_66_PILLARS)[number];

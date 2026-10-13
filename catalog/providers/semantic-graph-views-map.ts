@@ -13,8 +13,6 @@ export const SEMANTIC_SOURCE_PROJECTION_MODULE = "kernel/services/source-project
 export const SEMANTIC_SOURCE_PROJECTION_HELPERS = "kernel/knowledge-service/projection-helpers.ts" as const;
 export const SEMANTIC_BATCH_MODULE = "kernel/session/semantic-batch.ts" as const;
 export const SEMANTIC_CONTRACTS_RECEIPTS = "contracts/semantic/receipts.ts" as const;
-export const SEMANTIC_ONTOLOGY_WORLD = "catalog/ontology/world.yaml" as const;
-export const SEMANTIC_GRAPH_FOUNDATIONS_CHECK = "checks/validation/repository/check-graph-foundations.ts" as const;
 
 export const SEMANTIC_GRAPH_VIEWS_ISSUE = "#519" as const;
 export const SEMANTIC_GRAPH_VIEWS_EPIC = "#511" as const;
@@ -29,8 +27,6 @@ export const SEMANTIC_GRAPH_VIEWS_NO_GRAPH_DB = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_AUTO_MERGE = true as const;
 export const SEMANTIC_GRAPH_VIEWS_NO_520_IMPL = false as const;
 export const SEMANTIC_GRAPH_VIEWS_NEXT_AFTER_CLOSE = "#574" as const;
-export const SEMANTIC_GRAPH_VIEWS_HOOKS_ONLY_520 = false as const;
-export const SEMANTIC_GRAPH_VIEWS_HOOKS_IMPLEMENTED_520 = true as const;
 
 export const SEMANTIC_GRAPH_VIEWS_AC = [
   {

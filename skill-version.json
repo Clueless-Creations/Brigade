@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.136",
-  "updatedAt": "2026-10-11",
+  "version": "0.221.137",
+  "updatedAt": "2026-10-13",
   "sourcePath": ".",
   "releaseNotes": [
+    "Add Ponytail, Pstack, and thermonuclear review as repository dev skills (CLU-308) (#713)",
     "Make Brigade guidance support app-factory improvement and simplification (#707)",
     "Await fixture evidence and prove bounded source repair (#705)",
     "Merge pull request #703 from Clueless-Creations/fix/managed-worker-lifetime",

@@ -30,7 +30,6 @@ export const GREENFIELD_66_AUDIT_DOC = "checks/verification/rehearsal/greenfield
 
 export const GREENFIELD_70_BASE_MAIN_SHA = "d00ebd80066d75cd13998efe963743d15b8316ff" as const;
 export const GREENFIELD_70_STAMP = "0.221.26" as const;
-export const GREENFIELD_70_ISSUE = "#70" as const;
 
 export const GREENFIELD_70_STATUS = ["done", "residual", "held", "sibling"] as const;
 export type Greenfield70Status = (typeof GREENFIELD_70_STATUS)[number];

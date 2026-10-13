@@ -39,7 +39,6 @@ export const GREENFIELD_76_MAP = "catalog/providers/greenfield-76-change-impact-
 
 export const GREENFIELD_72_BASE_MAIN_SHA = "0775bc21bfdd8c59c6855cc180fb56e306c79b47" as const;
 export const GREENFIELD_72_STAMP = "0.221.31" as const;
-export const GREENFIELD_72_ISSUE = "#72" as const;
 export const GREENFIELD_72_CLOSE_PATH = "path-a-paper" as const;
 
 /** Path A status vocabulary for AC→evidence rows. */
