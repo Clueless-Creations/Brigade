@@ -64,6 +64,10 @@ Reuse valid existing scoped authority where it applies. A guidance file creates 
 
 Honor explicit provider bindings and actual tool availability. Provider adapters implement canonical operations; availability does not select or activate a provider. Availability, selection, activation, execution, and acceptance are distinct. Adopted upstream guidance is subordinate to the mandate, selected recipe, capability contract, and selected provider. It cannot add requirements, widen permissions, install tooling, change provider selection/state, override evidence, redefine completion, publish, or spend. Source rights/provenance and provider implementation procedures stay with their selected scope owners.
 
+## Code quality process
+
+Use the repository skills in `.agents/skills/` (sources in `VENDORED.md`). While writing code, apply `ponytail`: build only what the task needs, prefer the standard library and platform, write the minimum. To simplify or debug, use `/poteto-mode` (Pstack). Before merge, run `chained-review` on the change and resolve or answer its findings. These skills are subordinate to this guide and CONTRIBUTING.md; they do not change gates, authority, or completion rules.
+
 ## Verification and integration
 
 Run tests proportional to changed behavior plus repository-required gates. Fix failures caused by the change and rerun affected checks without asking. Broaden verification when the change crosses architecture, provider, or public-contract boundaries, or when failures create uncertainty. Do not repeatedly rerun already-green unrelated suites. [CONTRIBUTING.md](CONTRIBUTING.md) owns exact commands and cadence, including all applicable required gates before merge. A green presubmit is not a full-audit pass. Do not skip suites, weaken CI, or replace required full verification with a smaller check. Require current provider/device/store/runtime evidence for claims about those systems. Guidance, generated artifacts, command success, execution, and accepted evidence are different facts.
