@@ -7,7 +7,6 @@ import { assert, skillRoot, type Harness } from "./_harness.js";
 const pack = path.join(skillRoot, "examples/spec-pack");
 const liveScript = path.join(pack, "scripts/check-live-screen-test.sh");
 const mockScript = path.join(pack, "scripts/check-mock-state-branches.sh");
-const gateScript = path.join(pack, "scripts/merge-gate.sh");
 const scriptsDir = path.join(pack, "scripts");
 
 const lengthView = [
