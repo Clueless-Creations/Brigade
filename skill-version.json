@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.139",
-  "updatedAt": "2026-10-13",
+  "version": "0.221.140",
+  "updatedAt": "2026-10-14",
   "sourcePath": ".",
   "releaseNotes": [
+    "docs(chained-review): reword merge line to green-CI merge rule (#726)",
     "CLU-181: Require a live-screen test on screen pull requests (#710)",
     "Use shared atomicFile in composition activation (#720)",
     "Reuse manifest-io case and error helpers in upstreams-load (#719)",
