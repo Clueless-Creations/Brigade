@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Chained review
 
-Review only. Do not merge, push to main, or change behavior.
+The review step itself is read-only: do not push to main or change behavior while reviewing.
 
 1. Pick the target: the named PR, branch, or files. Nothing named: the current branch against `main`.
 2. Run `thermo-nuclear-code-quality-review` on the target. List each finding with file, line, and the proposed change.
@@ -14,4 +14,4 @@ Review only. Do not merge, push to main, or change behavior.
 4. Run `ponytail-review` for correctness, safety, and tests on what remains.
 5. For each kept change, use `/poteto-mode` (Pstack). Bugs follow its bug-fix playbook: reproduce, root cause, smallest fix, runtime evidence.
 6. Verify: run the tests the change touches plus the gates in CONTRIBUTING.md. Record lines of code before and after (`git diff --shortstat main`).
-7. Report: findings, what changed, tests run, LOC before and after. For a baseline pass, open one small PR per coherent simplification and leave it open for review.
+7. Report: findings, what changed, tests run, LOC before and after. For a baseline pass, open one small PR per coherent simplification. Merge it once CI is green and review is clean, unless Codex or the PR states a specific reason to hold. Never bypass branch protections or force-push. Production releases, App Store submissions, payments, and cutover gates still need the founder's explicit yes.
