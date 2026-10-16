@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.142",
+  "version": "0.221.143",
   "updatedAt": "2026-10-16",
   "sourcePath": ".",
   "releaseNotes": [
+    "Reconcile the canonical engineering loop with repository gates (#712)",
     "docs: add Linear traceability rule (CLU-454) (#732)",
     "Correct fixture modes and full CI classification (CLU-188) (#730)",
     "Add draft Grok plugin package for Brigade iOS Release (#728)",
