@@ -20,7 +20,7 @@
     "check:wrangler-pin": "node -e \"const want=require('./package.json').devDependencies.wrangler;let got=null;try{got=require('wrangler/package.json').version}catch{}if(got===want)process.exit(0);console.error('\\\\nwrangler '+(got||'not installed')+' resolved, but '+want+' is pinned.\\\\n'+'Run: npm ci --prefix hosted/knowledge-mcp\\\\n'+'Do NOT regenerate the types to make this go away. A different wrangler bundles a different '+'workerd, so regenerating REPLACES worker-configuration.d.ts with stale runtime types -- '+'thousands of deletions -- while looking like a routine fix. If you ever do regenerate, '+'read git diff --stat before committing.\\\\n');process.exit(1)\""
   },
   "dependencies": {
-    "@cloudflare/workers-oauth-provider": "0.10.3",
+    "@cloudflare/workers-oauth-provider": "1.2.3",
     "@modelcontextprotocol/sdk": "^1.32.0",
     "zod": "^4.6.5"
   },

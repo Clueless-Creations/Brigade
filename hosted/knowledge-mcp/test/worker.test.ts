@@ -900,10 +900,14 @@ test("CIMD is advertised and an unresolvable client metadata document is a sanit
   const metadata = (await (await fetchPath("/.well-known/oauth-authorization-server")).json()) as {
     client_id_metadata_document_supported: boolean;
     token_endpoint_auth_methods_supported: string[];
+    code_challenge_methods_supported: string[];
+    response_types_supported: string[];
   };
   // Claude selects CIMD only when both are advertised; either one missing silently falls back to DCR.
   assert.equal(metadata.client_id_metadata_document_supported, true);
   assert.ok(metadata.token_endpoint_auth_methods_supported.includes("none"));
+  assert.deepEqual(metadata.code_challenge_methods_supported, ["S256"]);
+  assert.deepEqual(metadata.response_types_supported, ["code"]);
 
   // A URL-formatted client_id whose document cannot be fetched must not surface as a 500:
   // that misreports the cause and makes authorize a probe for reachable hosts.
