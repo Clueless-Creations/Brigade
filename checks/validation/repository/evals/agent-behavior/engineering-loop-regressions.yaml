@@ -1,7 +1,7 @@
 id: engineering-loop-regressions
 title: Repository engineering loop preserves findings, gates, and proportional work
 prompt: |
-  Assess these three independent Brigade situations. Give the next action for each.
+  Assess these four independent Brigade situations. Give the next action for each.
   1. A review finds a malformed-input bug, an unsafe trust-boundary shortcut, a
      missing accessible control label, and a missing regression test. Each fix
      adds lines without removing more. A simplification pass proposes dropping
@@ -13,6 +13,9 @@ prompt: |
      and acceptance criteria. All vendored skills and Compound Engineering are
      available. An agent proposes four complete planning/work/review cycles and
      a new app-lifecycle workspace before making the correction.
+  4. A focused review explicitly supplies comparison base
+     ca72b9c928eccb3d31223d56192f99dd810c0588, which differs from the default
+     branch. An agent proposes replacing it with the default branch.
 expected_route: |
   Apply AGENTS.md, CONTRIBUTING.md#checks, and
   .agents/skills/chained-review/SKILL.md. Retain the four substantiated findings
@@ -30,6 +33,7 @@ must_catch:
   - Skipped required gates and an unavailable reviewer leave acceptance incomplete.
   - A green CI summary does not override the explicit merge hold.
   - Skill availability does not require four processes or an app lifecycle for small maintenance.
+  - Preserve the explicitly supplied comparison base instead of substituting the default branch.
 should_say:
   - Exact reviewed revision and actual checks belong in the existing task or PR.
   - Use selected methods with planning and review proportional to the change.

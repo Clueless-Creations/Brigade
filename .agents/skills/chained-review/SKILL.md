@@ -32,8 +32,9 @@ the same target. This is a prompt entry point, not an executable quality gate.
 
 Read the applicable [AGENTS.md](../../../AGENTS.md), task, ownership and
 [required checks](../../../CONTRIBUTING.md#checks). Resolve base and head to
-immutable commit IDs. For a named PR, use its actual target branch; otherwise use
-the repository's default branch. Record the merge base, head, reviewed paths and
+immutable commit IDs. Preserve an explicitly supplied comparison base. When no base
+is supplied, use the named PR's actual target branch or the repository's default
+branch for other targets. Record the merge base, head, reviewed paths and
 whether local edits are included. Preserve other agents' work.
 
 Default to focused review of the diff, affected callers, tests and contracts.
