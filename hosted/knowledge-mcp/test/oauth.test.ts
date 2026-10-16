@@ -230,3 +230,23 @@ test("consent binds ignored query fields while retaining strict form validation"
   assert.equal(redirect.searchParams.get("iss"), origin);
   for (const name of ["ui_locales", "future_extension", "code"]) assert.ok(!redirect.searchParams.has(name));
 });
+
+test("OAuth 1.x advertises the MCP resource, required read scope, and S256-only PKCE", async () => {
+  const env = await environment(async () => null);
+  const resource = await worker.fetch(new Request(`${origin}/.well-known/oauth-protected-resource/mcp`), env, context);
+  assert.equal(resource.status, 200);
+  const resourceMetadata = (await resource.json()) as { resource: string; scopes_supported: string[] };
+  assert.equal(resourceMetadata.resource, `${origin}/mcp`);
+  assert.deepEqual(resourceMetadata.scopes_supported, ["b2c:read"]);
+  const authorizationServer = await worker.fetch(new Request(`${origin}/.well-known/oauth-authorization-server`), env, context);
+  assert.equal(authorizationServer.status, 200);
+  const authorizationMetadata = (await authorizationServer.json()) as {
+    code_challenge_methods_supported: string[];
+    response_types_supported: string[];
+    grant_types_supported: string[];
+  };
+  assert.deepEqual(authorizationMetadata.code_challenge_methods_supported, ["S256"]);
+  assert.deepEqual(authorizationMetadata.response_types_supported, ["code"]);
+  assert.ok(authorizationMetadata.grant_types_supported.includes("authorization_code"));
+  assert.ok(!authorizationMetadata.grant_types_supported.includes("implicit"));
+});
