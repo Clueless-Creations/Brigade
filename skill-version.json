@@ -1,9 +1,13 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.143",
+  "version": "0.221.144",
   "updatedAt": "2026-10-16",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-374: migrate @cloudflare/workers-oauth-provider 0.10.3 to 1.2.3 (#735)",
+    "CLU-371: regenerate Worker types so Dependabot #722 passes CI (#736)",
+    "build(deps): bump posthog-node in /hosted/builder-console (#724)",
+    "build(deps): bump @babel/parser from 8.0.4 to 8.0.7 (#723)",
     "Reconcile the canonical engineering loop with repository gates (#712)",
     "docs: add Linear traceability rule (CLU-454) (#732)",
     "Correct fixture modes and full CI classification (CLU-188) (#730)",
