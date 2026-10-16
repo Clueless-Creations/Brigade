@@ -46,6 +46,25 @@ B2C App Builder is built on open-source work and adapts published methods. This 
   - adapted-method: Selected cross-platform flow-research, navigation-semantics, native-fidelity, anti-generic, motion, and verification methods are reauthored in knowledge/design/mobile-flow-craft.md. No whole skill, executable, native dependency, or asset was installed by this contribution.
   - selected-skill-guidance: The Expo/React Native app-design skill and the provider-usage skill are named as opt-in companion packs. Installation happens only with founder approval. No SKILL.md is auto-installed as a top-level builder skill, and Appllama MCP is never a default dependency.
 
+**pstack**
+
+- Original author: Lauren Tan, original author and copyright holder; poteto on GitHub
+- Current maintainer: Cursor, upstream repository maintainer
+- License: MIT (verified)
+- Canonical URL: https://github.com/cursor/plugins/tree/main/pstack
+- Contributes: Three pstack principle skills by Lauren Tan inform repository-local code quality guidance. Original attribution and the MIT notice are retained. No plugin runtime or external-action authority is adopted.
+- How we consume it:
+  - adapted-method: Reauthor decision consolidation, reproduction and root-cause analysis, and direct verification in repository review guidance.
+
+**Cursor Team Kit**
+
+- Original author: Cursor, copyright holder identified in the reviewed plugin license
+- License: MIT (verified)
+- Canonical URL: https://github.com/cursor/plugins/tree/main/cursor-team-kit
+- Contributes: Selected Thermo-Nuclear Code Quality Review methods from Cursor Team Kit inform repository-local guidance. Cursor attribution and the MIT notice are retained. No Anthropic authorship or quality uplift is claimed.
+- How we consume it:
+  - adapted-method: Reauthor structural simplification, canonical-layer ownership, meaningful abstractions, explicit type boundaries, and atomicity review in repository guidance.
+
 **Emil Kowalski agent skills**
 
 - Original author: Emil Kowalski, original author or copyright holder identified in the reviewed source
@@ -127,6 +146,15 @@ B2C App Builder is built on open-source work and adapts published methods. This 
 - Contributes: Selected App Store Screenshots methods inform knowledge/store/screenshot-toolchain.md, knowledge/store/app-store-listing-prep.md, knowledge/store/store-console-workflow.md. Original authors and license notices are retained; no live integration is claimed.
 - How we consume it:
   - adapted-method: Selected published methods and tool procedures are adapted into existing builder guidance. No whole skill, executable, native dependency or asset was installed by this contribution.
+
+**Ponytail**
+
+- Original author: DietrichGebert, original author and copyright holder
+- License: MIT (verified)
+- Canonical URL: https://github.com/DietrichGebert/ponytail
+- Contributes: Selected Ponytail methods inform repository-local code quality guidance. Original attribution and the MIT notice are retained. No benchmark uplift or upstream runtime integration is claimed.
+- How we consume it:
+  - adapted-method: Reauthor the smallest complete change, existing-owner reuse, native-option preference, and preservation of validation and error handling in repository review guidance.
 
 **PostHog wizard**
 
