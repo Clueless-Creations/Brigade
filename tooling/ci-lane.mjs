@@ -147,6 +147,19 @@ export function scopesForFiles(files) {
   return scopes;
 }
 
+/** Select stamp policy from the checked ref, independently of verification depth. */
+export function selectStampMode({ eventName = "", headRef = "", ref = "", defaultBranch = "" } = {}) {
+  if (eventName === "pull_request") {
+    if (!headRef || headRef.startsWith("release/stamp-")) return "release";
+    return "pr";
+  }
+  if (!["push", "workflow_dispatch"].includes(eventName) || !defaultBranch || !ref.startsWith("refs/heads/")) return "release";
+  const branch = ref.slice("refs/heads/".length);
+  if (!branch || branch.startsWith("release/stamp-")) return "release";
+  if (branch === defaultBranch) return "main";
+  return eventName === "workflow_dispatch" ? "pr" : "release";
+}
+
 /**
  * @param {{ eventName?: string, verificationInput?: string, files?: string[], unknown?: boolean }} input
  */
@@ -217,7 +230,14 @@ function gitChangedFiles(base, head) {
 }
 
 function writeOutput(cadence) {
+  const stampMode = selectStampMode({
+    eventName: process.env.EVENT_NAME ?? process.env.GITHUB_EVENT_NAME,
+    headRef: process.env.HEAD_REF,
+    ref: process.env.REF,
+    defaultBranch: process.env.DEFAULT_BRANCH,
+  });
   const lines = [
+    `stamp_mode=${stampMode}`,
     `verification=${cadence.verification}`,
     `heavy=${cadence.heavy ? "true" : "false"}`,
     `hosted=${cadence.hosted ? "true" : "false"}`,

@@ -7,6 +7,8 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | amir-brand-system | Amir Mushich Brand System Skill | adapted-method | 30f6084ddf6adf4173cf882fce266015f8872c17@2026-09-07 | 30f6084ddf6adf4173cf882fce266015f8872c17@2026-09-07 | `30f6084ddf6adf4173cf882fce266015f8872c17` untested | unknown (no observation) | none | not observed | current; last 2026-09-07; due 2026-10-07 | 3 | 1 |
 | amir-cinematic-scroll | Amir Mushich Cinematic Scroll Prompt Kit | adapted-method | 39ac222e385061c1eeab7f063b869950ee7cca1b@2026-09-07 | 39ac222e385061c1eeab7f063b869950ee7cca1b@2026-09-07 | `39ac222e385061c1eeab7f063b869950ee7cca1b` untested | unknown (no observation) | none | not observed | current; last 2026-09-07; due 2026-10-07 | 2 | 1 |
 | appllama-skills | Appllama agent skills | adapted-method, selected-skill-guidance | dd5caaec3d5d50ad7fc0324da238119c6b7c3707@2026-09-07 | dd5caaec3d5d50ad7fc0324da238119c6b7c3707@2026-09-07 | `dd5caaec3d5d50ad7fc0324da238119c6b7c3707` untested | unknown (observation records no stable release) | 2026-10-07 | not observed | current; last 2026-09-07; due 2026-10-07 | 2 | 1 |
+| cursor-pstack | pstack | adapted-method | 1dcc2bacde73ddd284803b7af28164d0436198fc@2026-10-13 | 1dcc2bacde73ddd284803b7af28164d0436198fc@2026-10-13 | `1dcc2bacde73ddd284803b7af28164d0436198fc` untested | unknown (no observation) | none | not observed | current; last 2026-10-13; due 2027-01-11 | 2 | 1 |
+| cursor-team-kit | Cursor Team Kit | adapted-method | 1dcc2bacde73ddd284803b7af28164d0436198fc@2026-10-13 | 1dcc2bacde73ddd284803b7af28164d0436198fc@2026-10-13 | `1dcc2bacde73ddd284803b7af28164d0436198fc` untested | unknown (no observation) | none | not observed | current; last 2026-10-13; due 2027-01-11 | 2 | 1 |
 | emilkowalski-skills | Emil Kowalski agent skills | adapted-method, selected-skill-guidance | e8a175de22ae1e49370fc144c1f3bb9aeedf988d@2026-10-07 | e8a175de22ae1e49370fc144c1f3bb9aeedf988d@2026-10-07 | `e8a175de22ae1e49370fc144c1f3bb9aeedf988d` untested | unknown (observation records no stable release) | 2026-10-07 | not observed | current; last 2026-10-07; due 2026-11-06 | 5 | 1 |
 | eronred-aso-skills | ASO and App Marketing Skills | adapted-method | 4df730f456c21e42b9a2ea2be89fb32caf787728@2026-09-06 | 4df730f456c21e42b9a2ea2be89fb32caf787728@2026-09-06 | `4df730f456c21e42b9a2ea2be89fb32caf787728` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
 | evanbacon-serve-sim | serve-sim | adapted-method | 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b@2026-09-06 | 0ee6fbde40a6b5840d0c6e0379f544feb9fa246b@2026-09-06 | `0ee6fbde40a6b5840d0c6e0379f544feb9fa246b` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 2 | 1 |
@@ -16,6 +18,7 @@ Generated from catalog/upstreams for maintainers. It states what the builder sup
 | layers-growth-mcp | Layers Growth MCP and CLI | remote-service, adapted-method | unknown | docs and README read 2026-09-05 (no immutable revision published for the docs page; layers/mcp main pushed 2026-09-04T06:39:47Z)@2026-09-05 | `hosted (unversioned)` untested | unknown (no observation) | none | not observed | current; last 2026-09-05; due 2026-10-05 | 8 | 2 |
 | masko | Masko workflow skills | selected-skill-guidance, remote-service | 9feb999e8e3bf609728261ab17bdcf63f0e811ff@2026-10-08 | 9feb999e8e3bf609728261ab17bdcf63f0e811ff@2026-10-08 | `9feb999e8e3bf609728261ab17bdcf63f0e811ff` untested | unknown (no observation) | none | not observed | deferred; last 2026-10-08; due 2026-11-07 | 3 | 1 |
 | parth-app-store-screenshots | App Store Screenshots | adapted-method | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | 18951ddc4e06c53a3d34207732c16d9568f88d11@2026-09-06 | `18951ddc4e06c53a3d34207732c16d9568f88d11` untested | unknown (observation records no stable release) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 3 | 1 |
+| ponytail | Ponytail | adapted-method | 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5@2026-10-13 | 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5@2026-10-13 | `2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5` untested | unknown (no observation) | none | not observed | current; last 2026-10-13; due 2027-01-11 | 2 | 1 |
 | posthog-context-mill | PostHog context mill | selected-skill-guidance | bbc88864bf8ba2efac43bb4c2782e4406bc0dfa6@2026-09-06 | unknown | `bbc88864bf8ba2efac43bb4c2782e4406bc0dfa6` untested | v1.51.0 (published 2026-09-03) | 2026-09-06 | not observed | deferred; last 2026-09-06; due 2026-09-13 | 1 | 1 |
 | posthog-wizard | PostHog wizard | adapted-method | 41c12328636f46a517777b17359dd8f5b3d14d96@2026-09-06 | 41c12328636f46a517777b17359dd8f5b3d14d96@2026-09-06 | `41c12328636f46a517777b17359dd8f5b3d14d96` untested | v2.73.0 (published 2026-09-04) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 1 | 1 |
 | revenuecat-ai-toolkit | RevenueCat AI Toolkit | adapted-method | b9b77b12da33213c9c2e750b06cd6270c1d8ed65@2026-09-06 | b9b77b12da33213c9c2e750b06cd6270c1d8ed65@2026-09-06 | `b9b77b12da33213c9c2e750b06cd6270c1d8ed65` untested | v2.2.0 (published 2026-08-28) | 2026-09-06 | not observed | current; last 2026-09-06; due 2026-09-13 | 1 | 1 |
@@ -83,6 +86,40 @@ Unknowns (observation 2026-10-07, method github-api):
 
 - no stable release was read; releases since baseline are unknown
 - host executable not observed: pass --observe-host to probe PATH
+
+## cursor-pstack
+
+pstack. Canonical URL: https://github.com/cursor/plugins/tree/main/pstack
+
+Unsupported operations:
+
+- plugin-autonomy: The supported chain does not invoke poteto-mode, shipping or cleanup playbooks, automatic PR creation, merge, external action, or permission expansion.
+- automatic-install-or-update: No plugin installation, model selection, hook execution, automatic updates, or workspace repins.
+
+Intentional adaptations:
+
+- preserve-trust-boundaries: Root-cause analysis does not remove validation, error handling, or trust-boundary guards. Fix repeated instances only within the authorized scope. Verification remains proportional to risk and existing gates. (owner: .agents/skills/chained-review/SKILL.md)
+
+Unknowns:
+
+- No observation recorded.
+
+## cursor-team-kit
+
+Cursor Team Kit. Canonical URL: https://github.com/cursor/plugins/tree/main/cursor-team-kit
+
+Unsupported operations:
+
+- automatic-rewrite-or-merge: Review does not authorize unrelated restructuring or automatic merge. Existing independent review and quality gates remain required.
+- fixed-size-blocker: File length and diff size are review signals, not automatic split rules or acceptance thresholds.
+
+Intentional adaptations:
+
+- bounded-structural-review: Require a demonstrated maintainability concern and preserve behavior during simplification. Replace fixed file-size blockers and speculative redesign demands with evidence-based, task-scoped findings. (owner: .agents/skills/chained-review/SKILL.md)
+
+Unknowns:
+
+- No observation recorded.
 
 ## emilkowalski-skills
 
@@ -275,6 +312,23 @@ Unknowns (observation 2026-09-06, method manual):
 - The captured review records the resolved source commit; the default branch name and release ancestry are not retained as a separate branch-head claim.
 - No upstream executable, editor export, native device run, paid API or live business was tested.
 - No stable release appeared in the inspected release page; source commits must also be reviewed.
+
+## ponytail
+
+Ponytail. Canonical URL: https://github.com/DietrichGebert/ponytail
+
+Unsupported operations:
+
+- automatic-install-or-update: Source review does not authorize installation, hooks, upgrades, workspace repins, publication, or merge.
+- line-count-target: Diff size is a signal. Correctness, security, accessibility, tests, and maintainability govern the decision.
+
+Intentional adaptations:
+
+- task-scoped-complete-change: Keep the selected method within the current task. Omit persistent session modes, shortest-diff scoring, rigid comment formats, and benchmark targets. Existing quality gates stay authoritative. (owner: .agents/skills/chained-review/SKILL.md)
+
+Unknowns:
+
+- No observation recorded.
 
 ## posthog-context-mill
 

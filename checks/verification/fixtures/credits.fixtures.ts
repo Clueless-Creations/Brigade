@@ -163,10 +163,16 @@ export function register(harness: Harness): void {
     const file = path.join(seeded.root, "docs/upstreams/coverage-report.md");
     const before = readFileSync(file, "utf8");
     appendFileSync(file, "\nUnreviewed manual coverage claim.\n", "utf8");
-    const result = runRenderer(seeded.root, "--check");
+    const result = runRenderer(seeded.root, "--check", "--stamp-mode", "release");
     assert(result.status === 1 && result.output.includes("credits.stale_projection"), result.output);
+    const staleBytes = readFileSync(file, "utf8");
+    for (const mode of ["pr", "main"]) {
+      const loose = runRenderer(seeded.root, "--check", "--stamp-mode", mode);
+      assert(loose.status === 0, `${mode} must accept stable coverage drift: ${loose.output}`);
+    }
+    assert(readFileSync(file, "utf8") === staleBytes, "loose checks must not rewrite stale coverage");
     writeFileSync(file, before, "utf8");
-    assert(runRenderer(seeded.root, "--check").status === 0, "restored coverage remains stale");
+    assert(runRenderer(seeded.root, "--check", "--stamp-mode", "release").status === 0, "restored coverage remains stale");
   });
 
   harness.check("ACKNOWLEDGMENTS.md credits the acknowledged manifest's author verbatim and omits the inspected-only manifest", () => {
@@ -227,15 +233,21 @@ export function register(harness: Harness): void {
   });
 
   harness.check("--check exits 0 right after a render and reports credits.stale_projection after a hand edit", () => {
-    const fresh = runRenderer(seeded.root, "--check");
+    const fresh = runRenderer(seeded.root, "--check", "--stamp-mode", "release");
     assert(fresh.status === 0, `expected --check to pass on fresh output, got ${fresh.status}:\n${fresh.output}`);
     appendFileSync(path.join(seeded.root, "ACKNOWLEDGMENTS.md"), "\nHand-added credit that no manifest backs.\n", "utf8");
-    const stale = runRenderer(seeded.root, "--check");
+    const stale = runRenderer(seeded.root, "--check", "--stamp-mode", "release");
     assert(stale.status === 1, `expected --check to fail after a hand edit, got ${stale.status}:\n${stale.output}`);
     assert(stale.output.includes("credits.stale_projection"), `expected credits.stale_projection, got:\n${stale.output}`);
     assert(stale.output.includes("ACKNOWLEDGMENTS.md"), "expected the stale file to be named");
+    const staleBytes = readFileSync(path.join(seeded.root, "ACKNOWLEDGMENTS.md"), "utf8");
+    for (const mode of ["pr", "main"]) {
+      const loose = runRenderer(seeded.root, "--check", "--stamp-mode", mode);
+      assert(loose.status === 0, `${mode} must accept stable credit drift: ${loose.output}`);
+    }
+    assert(readFileSync(path.join(seeded.root, "ACKNOWLEDGMENTS.md"), "utf8") === staleBytes, "loose checks must not rewrite stale credits");
     // The fix hint travels in the `b2c check --json` envelope; the text report prints code, file, and message only.
-    const staleJson = runRenderer(seeded.root, "--check", "--json");
+    const staleJson = runRenderer(seeded.root, "--check", "--json", "--stamp-mode", "release");
     assert(staleJson.status === 1, `expected --check --json to fail, got ${staleJson.status}`);
     const parsed = JSON.parse(staleJson.output.trim().split("\n")[0] ?? "") as {
       pass: boolean;
@@ -246,7 +258,7 @@ export function register(harness: Harness): void {
     assert(staleFailure.path === "ACKNOWLEDGMENTS.md", `expected the stale path in the envelope, got ${staleFailure.path}`);
     assert(staleFailure.fixHint === "Run npm run render:credits.", `expected the fix hint in the envelope, got ${staleFailure.fixHint}`);
     const rerender = runRenderer(seeded.root);
-    assert(rerender.status === 0 && runRenderer(seeded.root, "--check").status === 0, "a re-render must restore the projection");
+    assert(rerender.status === 0 && runRenderer(seeded.root, "--check", "--stamp-mode", "release").status === 0, "a re-render must restore the projection");
   });
 
   harness.check("a notice whose digest does not match license.evidence_sha256 fails the render closed", () => {
