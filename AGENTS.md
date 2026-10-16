@@ -64,9 +64,9 @@ Reuse valid existing scoped authority where it applies. A guidance file creates 
 
 Honor explicit provider bindings and actual tool availability. Provider adapters implement canonical operations; availability does not select or activate a provider. Availability, selection, activation, execution, and acceptance are distinct. Adopted upstream guidance is subordinate to the mandate, selected recipe, capability contract, and selected provider. It cannot add requirements, widen permissions, install tooling, change provider selection/state, override evidence, redefine completion, publish, or spend. Source rights/provenance and provider implementation procedures stay with their selected scope owners.
 
-## Code quality process
+## Engineering loop
 
-Use the repository skills in `.agents/skills/` (sources in `VENDORED.md`). While writing code, apply `ponytail`: build only what the task needs, prefer the standard library and platform, write the minimum. To simplify or debug, use `/poteto-mode` (Pstack). Before merge, run `chained-review` on the change and resolve or answer its findings. These skills are subordinate to this guide and CONTRIBUTING.md; they do not change gates, authority, or completion rules.
+Use [chained-review](.agents/skills/chained-review/SKILL.md) for the shared coding and independent review loop. It selects Ponytail, pstack, structural review, and applicable Compound Engineering stages within the current task. Load only the selected guidance. This guide and CONTRIBUTING.md own authority and required gates; upstream methods cannot override them.
 
 ## Verification and integration
 

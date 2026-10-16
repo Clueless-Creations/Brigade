@@ -1,0 +1,87 @@
+schema_version: 1
+id: cursor-pstack
+project: pstack
+canonical_url: https://github.com/cursor/plugins/tree/main/pstack
+aliases:
+  - cursor/plugins/pstack
+authors:
+  - name: Lauren Tan
+    role: original author and copyright holder; poteto on GitHub
+maintainers:
+  - name: Cursor
+    role: upstream repository maintainer
+copyright: Copyright (c) 2026 Lauren Tan
+license:
+  spdx: MIT
+  status: verified
+  evidence_url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/pstack/LICENSE
+  evidence_sha256: bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e
+  reviewed_revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+  notice_file: catalog/upstreams/notices/cursor-pstack.txt
+  scope: pstack/LICENSE covers the three selected principle skills. Broader previously vendored plugin contents remain outside the supported local review path.
+source_ids:
+  - github-cursor-pstack
+  - cursor-pstack-laziness-protocol
+  - cursor-pstack-fix-root-causes
+  - cursor-pstack-prove-it-works
+  - cursor-pstack-license
+relationships:
+  - kind: adapted-method
+    consumption: Reauthor decision consolidation, reproduction and root-cause analysis, and direct verification
+      in repository review guidance.
+    local_owners:
+      - .agents/skills/chained-review/SKILL.md
+      - .agents/skills/VENDORED.md
+    tests:
+      - checks/validation/repository/check-upstreams.ts
+    upstream_paths:
+      - pstack/skills/principle-laziness-protocol/SKILL.md
+      - pstack/skills/principle-fix-root-causes/SKILL.md
+      - pstack/skills/principle-prove-it-works/SKILL.md
+      - pstack/LICENSE
+    pin_authority: Reviewed immutable commit pins these methods. No host plugin installation or workspace repin.
+baselines:
+  reviewed_source:
+    revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+    observed_at: "2026-10-13"
+    by: b2c-contributor source review
+    note: Read-only review of the three selected skill files and plugin license. No upstream execution.
+  reviewed_guidance:
+    revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+    observed_at: "2026-10-13"
+    by: b2c-contributor source review
+    note: Selected methods inform the repository-local chain. Source review, independent review, host qualification and pilot acceptance are distinct evidence.
+support:
+  policy: Source-reviewed methods only. Cursor host tools, models, and shipping playbooks are not integrated.
+  versions:
+    - range: 1dcc2bacde73ddd284803b7af28164d0436198fc
+      status: untested
+      evidence:
+        - Source and rights inspection only; pilot evidence is separate.
+  operations:
+    - id: reproduce-simplify-and-verify
+      title: Consolidate decisions, fix demonstrated root causes, and verify the actual result
+      owners:
+        - .agents/skills/chained-review/SKILL.md
+  unsupported_operations:
+    - id: plugin-autonomy
+      reason: The supported chain does not invoke poteto-mode, shipping or cleanup playbooks, automatic PR creation, merge, external action, or permission expansion.
+    - id: automatic-install-or-update
+      reason: No plugin installation, model selection, hook execution, automatic updates, or workspace repins.
+  platforms: []
+adaptations:
+  - id: preserve-trust-boundaries
+    description: Root-cause analysis does not remove validation, error handling, or trust-boundary guards.
+      Fix repeated instances only within the authorized scope. Verification remains proportional to risk and existing gates.
+    owner: .agents/skills/chained-review/SKILL.md
+    intentional: true
+review:
+  owner: b2c-maintainers
+  cadence_days: 90
+  last_review: "2026-10-13"
+  status: current
+credits:
+  acknowledge: true
+  use: adapted
+  summary: Three pstack principle skills by Lauren Tan inform repository-local code quality guidance.
+    Original attribution and the MIT notice are retained. No plugin runtime or external-action authority is adopted.

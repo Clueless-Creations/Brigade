@@ -1,17 +1,102 @@
 ---
 name: chained-review
-description: Run the pre-merge code quality review. Runs the thermonuclear review on a change, applies Ponytail's YAGNI ladder to every finding, and uses Pstack to simplify and verify. Use for /chained-review, "review before merge", or a baseline simplification pass.
-disable-model-invocation: true
+description: Review a bounded change with Ponytail, selected pstack principles, and Thermo-Nuclear structural questions. Report concrete findings and verification limits before merge; do not edit or ship.
 ---
 
 # Chained review
 
-The review step itself is read-only: do not push to main or change behavior while reviewing.
+Use one loop for repository coding and review. Sources, pins, licenses, and
+local adaptations are recorded in [VENDORED.md](../VENDORED.md).
 
-1. Pick the target: the named PR, branch, or files. Nothing named: the current branch against `main`.
-2. Run `thermo-nuclear-code-quality-review` on the target. List each finding with file, line, and the proposed change.
-3. Pass each finding through `ponytail`: does it need to exist, can the standard library or platform do it, can it be one line. Keep the smallest option. Drop findings that add code without removing more.
-4. Run `ponytail-review` for correctness, safety, and tests on what remains.
-5. For each kept change, use `/poteto-mode` (Pstack). Bugs follow its bug-fix playbook: reproduce, root cause, smallest fix, runtime evidence.
-6. Verify: run the tests the change touches plus the gates in CONTRIBUTING.md. Record lines of code before and after (`git diff --shortstat main`).
-7. Report: findings, what changed, tests run, LOC before and after. For a baseline pass, open one small PR per coherent simplification. Merge it once CI is green and review is clean, unless Codex or the PR states a specific reason to hold. Never bypass branch protections or force-push. Production releases, App Store submissions, payments, and cutover gates still need the founder's explicit yes.
+## During authorized implementation
+
+Read the applicable instructions, current task, owner claims and affected code.
+Use the existing issue and plan; resolve active writer overlap before editing.
+Plan only the uncertain steps and meaningful risks. A small, clear fix needs no
+separate planning document. Load only guidance that changes the current decision.
+Apply the methods below while writing, then run the affected tests and required gates.
+
+For non-trivial app work, follow the existing
+[Compound Engineering route](../../../knowledge/orchestration/compound-engineering-routing.md).
+Use its selected plan, work, test and proof stages once. Apply this review's
+methods within its independent review stage, without a second review ceremony.
+Repository maintenance does not activate the app lifecycle. Retain a reusable
+lesson at its existing owner only when evidence warrants one; skip routine recaps.
+
+## Invoke and bound the review
+
+In Codex, request `$chained-review <base> <head> [focused|deep]`, or select the skill
+through `/skills`. Other hosts may expose their own skill picker. If discovery is
+unavailable, ask an independent reviewing agent to follow this file directly with
+the same target. This is a prompt entry point, not an executable quality gate.
+
+Read the applicable [AGENTS.md](../../../AGENTS.md), task, ownership and
+[required checks](../../../CONTRIBUTING.md#checks). Resolve base and head to
+immutable commit IDs. Preserve an explicitly supplied comparison base. When no base
+is supplied, use the named PR's actual target branch or the repository's default
+branch for other targets. Record the merge base, head, reviewed paths and
+whether local edits are included. Preserve other agents' work.
+
+Default to focused review of the diff, affected callers, tests and contracts.
+Use deep review only for an explicit request or demonstrated structural risk;
+limit it to the affected dependency path. State retained behavior and guarantees.
+Trivial edits need only affected text, links and existing required checks.
+
+Review is read-only. Findings do not authorize fixes, PR creation, merge,
+installation, publication, deployment, external messages or spend. Do not invoke
+`poteto-mode`, its shipping/cleanup playbooks, setup scripts, or model/tool choices
+as part of this chain. Separately authorized fixes belong to the implementer;
+a reviewer who did not implement them must check the final head and affected
+guarantees. A skipped or unavailable reviewer is incomplete evidence. Merge follows
+the repository's actual gates, protections and current authorization. Green CI or
+an AI review creates no merge authority and does not resolve missing acceptance.
+
+## Apply the selected methods
+
+1. **Correctness and safety — Ponytail review.** Inspect connected code for wrong
+   results, security risks, data loss, concurrency and missing meaningful tests.
+   Establish these findings before considering simplification; never discard one
+   because its fix adds lines. Preserve accessibility and supported behavior.
+2. **Necessity and reuse — Ponytail.** Check whether each mechanism serves the
+   requested behavior. Prefer the existing owner, helper or abstraction, then
+   standard-library, native and already-installed options. Remove speculative
+   flexibility only after checking supported callers. Prefer readable code over
+   dense one-liners; new dependencies and abstractions must earn their upkeep.
+3. **Structure — Thermo-Nuclear review.** Trace repeated decisions, branching,
+   wrappers, unclear type boundaries and logic outside its canonical owner.
+   Suggest restructuring only for a demonstrated concern. File length is a signal,
+   not a split rule or blocker. Inspect partial updates, recovery, ordering and
+   cancellation; parallelize only work proved independent.
+4. **Root cause and proof — pstack.** Apply the selected Laziness Protocol, Fix Root
+   Causes and Prove It Works principles: consolidate repeated decisions, reproduce
+   defects, trace their cause and check the real result. Keep related fixes within
+   scope. Preserve trust-boundary validation, necessary guards and error handling.
+   Compilation alone does not prove runtime correctness.
+
+Correctness, security, accessibility, supported behavior, tests and maintainability
+outrank line-count reduction. Zero deletion is valid. Do not remove meaningful
+tests, weaken checks or expand scope to obtain a smaller diff.
+
+## Report and evaluate
+
+Record exact base/head, reviewer independence, coverage and checks actually run.
+Each finding needs a location, triggering case, consequence, bounded correction
+and distinguishing proof. Separate regressions, existing debt, optional
+simplifications and missing evidence. Do not invent findings or block on taste.
+Report no substantiated findings when appropriate, together with coverage limits
+and required checks still pending. Use the existing task or PR, not a new store.
+
+For a pilot, preselect immutable representative changes and a time budget in the
+existing task: include a small fix, stateful/asynchronous code and instructions.
+Record accepted findings, rejected suggestions, actual test evidence, review time,
+coverage limits and requested rework. Record added/removed lines only as context.
+A three-case diagnostic does not satisfy a separately agreed larger pilot.
+Reconcile existing pilot evidence before scheduling more runs. Compare matched
+tasks from clean snapshots on each host separately. Keep evaluation cases and
+their source revisions in the repository, with held-out answers outside coding
+instructions. Track quality, rework, elapsed time and cost; unknown values stay unknown.
+
+The maintainer decides whether to keep, narrow, revise or retire the method from
+observed quality and rework. No benchmark percentage is a local target. Broader
+adoption requires the agreed pilot, existing quality gates and independent review;
+each repository needs its own owner, instructions, active-work and gate mapping.

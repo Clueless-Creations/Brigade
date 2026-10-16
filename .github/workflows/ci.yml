@@ -151,6 +151,7 @@ jobs:
       matrix:
         shard: ["1/2", "2/2"]
     env:
+      B2C_STAMP_MODE: ${{ needs.scope.outputs.stamp_mode || 'release' }}
       B2C_FIXTURE_CONCURRENCY: "2"
     steps:
       - uses: actions/checkout@v4
