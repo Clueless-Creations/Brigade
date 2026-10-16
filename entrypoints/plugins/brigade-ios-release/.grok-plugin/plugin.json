@@ -1,0 +1,13 @@
+{
+  "name": "brigade-ios-release",
+  "version": "0.1.0",
+  "description": "Finds what will get your iOS app rejected and walks you to TestFlight with the exact fix for each blocker.",
+  "author": {
+    "name": "Clueless Creations",
+    "url": "https://clueless-creations.com/"
+  },
+  "homepage": "https://clueless-creations.com/",
+  "repository": "https://github.com/Clueless-Creations/Brigade",
+  "license": "MIT",
+  "keywords": ["brigade", "brigade ios", "brigade testflight", "brigade app store"]
+}

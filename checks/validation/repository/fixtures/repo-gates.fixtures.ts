@@ -295,7 +295,7 @@ export function register(h: Harness): void {
   runScriptArgs(
     "generated pages fail when a page is edited away from its source",
     "check-generated-pages.ts",
-    ["--root", pagesDrift],
+    ["--root", pagesDrift, "--stamp-mode", "release"],
     1,
     "generated_pages.drift",
   );
@@ -332,13 +332,13 @@ export function register(h: Harness): void {
   runScriptArgs(
     "--page product/onboarding.html passes even though an unrelated declared page has drifted",
     "check-generated-pages.ts",
-    ["--root", pagesScopedDriftElsewhere, "--page", "product/onboarding.html"],
+    ["--root", pagesScopedDriftElsewhere, "--page", "product/onboarding.html", "--stamp-mode", "release"],
     0,
   );
   runScriptArgs(
     "the unscoped check still fails on that same unrelated drift",
     "check-generated-pages.ts",
-    ["--root", pagesScopedDriftElsewhere],
+    ["--root", pagesScopedDriftElsewhere, "--stamp-mode", "release"],
     1,
     "generated_pages.drift",
   );
@@ -346,10 +346,17 @@ export function register(h: Harness): void {
   runScriptArgs(
     "--page product/onboarding.html still fails when onboarding.html itself has drifted",
     "check-generated-pages.ts",
-    ["--root", pagesDrift, "--page", "product/onboarding.html"],
+    ["--root", pagesDrift, "--page", "product/onboarding.html", "--stamp-mode", "release"],
     1,
     "generated_pages.drift",
   );
+
+  const stalePage = path.join(pagesDrift, "product/onboarding.html");
+  const stalePageBytes = readFileSync(stalePage, "utf8");
+  for (const mode of ["pr", "main"]) {
+    runScriptArgs(`generated pages accept stable drift in ${mode} mode`, "check-generated-pages.ts", ["--root", pagesDrift, "--stamp-mode", mode], 0);
+  }
+  assert.equal(readFileSync(stalePage, "utf8"), stalePageBytes, "loose checks must not rewrite the stale page");
 
   runScriptArgs(
     "a --page value with no matching manifest entry fails loudly instead of passing vacuously",

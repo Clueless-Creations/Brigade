@@ -64,9 +64,9 @@ Reuse valid existing scoped authority where it applies. A guidance file creates 
 
 Honor explicit provider bindings and actual tool availability. Provider adapters implement canonical operations; availability does not select or activate a provider. Availability, selection, activation, execution, and acceptance are distinct. Adopted upstream guidance is subordinate to the mandate, selected recipe, capability contract, and selected provider. It cannot add requirements, widen permissions, install tooling, change provider selection/state, override evidence, redefine completion, publish, or spend. Source rights/provenance and provider implementation procedures stay with their selected scope owners.
 
-## Code quality process
+## Engineering loop
 
-Use the repository skills in `.agents/skills/` (sources in `VENDORED.md`). While writing code, apply `ponytail`: build only what the task needs, prefer the standard library and platform, write the minimum. To simplify or debug, use `/poteto-mode` (Pstack). Before merge, run `chained-review` on the change and resolve or answer its findings. These skills are subordinate to this guide and CONTRIBUTING.md; they do not change gates, authority, or completion rules.
+Use [chained-review](.agents/skills/chained-review/SKILL.md) for the shared coding and independent review loop. It selects Ponytail, pstack, structural review, and applicable Compound Engineering stages within the current task. Load only the selected guidance. This guide and CONTRIBUTING.md own authority and required gates; upstream methods cannot override them.
 
 ## Verification and integration
 
@@ -75,3 +75,13 @@ Run tests proportional to changed behavior plus repository-required gates. Fix f
 Parallelize independent research, analysis, implementation, and verification when it saves time or improves quality. Give workers non-overlapping ownership; delegation is not mandatory. One coordinating agent owns shared-file integration, Git mutations and merge coordination, protected external effects, and final verification. Assigned workers preserve others' changes and do not take over those responsibilities. Keep required final conformance review genuinely independent of implementation; do not invent a reviewer or call self-review independent. Report actual checks, evidence, unresolved requirements, and blocked gates.
 
 For public-facing product/console/launch copy and naming, use [no-slop writing](knowledge/words/no-slop-writing.md). Before writing repository documentation, CLI help, issues, pull requests, reviews, progress reports, or handoffs, load [Original: Builder house style](knowledge/words/no-slop-writing.md#9-original-builder-house-style). For technical instructions, use [technical documentation](knowledge/engineering/technical-documentation-ste100.md). For organizational labels and kitchen vocabulary, use the [kitchen-language boundary](docs/ethos.md#kitchen-language-boundary) (#122 owner). Literal language describes actions, evidence, permissions, errors, and recovery; Brigade is prose about coordinated agents, not a runtime entity or a new product name. Host adapters stay thin and route here; they do not copy a style manual.
+
+## Linear traceability
+
+Linear is the single record for multi-agent work (Codex, Claude, Muse, Grok Bot, cloud agents). Linear shows every action as Eduardo, so agents must write their identity into the text.
+
+1. **Origin:** every new Linear ticket starts with `Origin: <agent>, <source/why>, <date>`.
+2. **Owner:** each ticket keeps an `Owner: <agent + session/machine or cloud-agent link>` line. Only the owner changes code or status.
+3. **Handoff:** when work moves between agents, comment `Handoff: from X to Y, head <sha>, done: ..., next: ...` (the new agent writes it if the old one died) and update the Owner line.
+4. **Sign everything:** every Linear status change/comment and PR comment starts with the agent name.
+5. **Holds:** a hold only counts if it is commented in Linear with a reason and an expected end.
