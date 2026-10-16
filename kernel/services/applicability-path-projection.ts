@@ -25,7 +25,6 @@ import { buildReverseRefIndex, type InvalidationEffect } from "../engine/inferen
 import { retainSelectedProviderKnowledge, type CandidateRecord } from "../knowledge-service/projection-helpers.js";
 
 export const APPLICABILITY_PATH_PROJECTION_ISSUE = "#521" as const;
-export const APPLICABILITY_PATH_PROJECTION_EPIC = "#511" as const;
 export const APPLICABILITY_PATH_PROJECTION_CONSUMES = ["#518", "#519", "#520"] as const;
 export const APPLICABILITY_PATH_PROJECTION_STAMP = "0.221.42" as const;
 export const APPLICABILITY_PATH_PROJECTION_NO_NETWORK = true as const;

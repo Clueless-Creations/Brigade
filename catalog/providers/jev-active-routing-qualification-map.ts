@@ -11,12 +11,8 @@
  * selection stays host-explicit through the existing provider-neutral semantic
  * contract, so Jev remains swappable.
  */
-export const JEV_ROUTING_MAP_PATH = "catalog/providers/jev-active-routing-qualification-map.ts" as const;
-export const JEV_ROUTING_SERVICE_MODULE = "kernel/services/jev-active-routing-qualification.ts" as const;
-export const JEV_ROUTING_RECIPE_MODULE = "catalog/workflows/jev-active-routing-qualification.ts" as const;
 export const JEV_ROUTING_FIXTURE = "checks/verification/fixtures/jev-active-routing-qualification.fixtures.ts" as const;
 export const JEV_ROUTING_DOC = "docs/upstreams/jev-active-routing-qualification.md" as const;
-export const TYPESAFE_QUALIFY_MAP_MODULE = "catalog/providers/typesafe-qualify-map.ts" as const;
 export const TYPESAFE_ADAPTER_DIR = "adapters/providers/typesafe" as const;
 /** Flat shared surface kernel may import (ARCH-03/04); not the nested adapter tree. */
 export const TYPESAFE_SEMANTIC_SURFACE = "adapters/providers/typesafe-semantic.ts" as const;

@@ -64,11 +64,9 @@ Reuse valid existing scoped authority where it applies. A guidance file creates 
 
 Honor explicit provider bindings and actual tool availability. Provider adapters implement canonical operations; availability does not select or activate a provider. Availability, selection, activation, execution, and acceptance are distinct. Adopted upstream guidance is subordinate to the mandate, selected recipe, capability contract, and selected provider. It cannot add requirements, widen permissions, install tooling, change provider selection/state, override evidence, redefine completion, publish, or spend. Source rights/provenance and provider implementation procedures stay with their selected scope owners.
 
-## Code quality process
+## Engineering loop
 
-While writing code, apply the task-scoped methods in [chained-review](.agents/skills/chained-review/SKILL.md): build only the required behavior, reuse the existing owner and abstractions, then consider standard-library, native, and already-installed options. Reproduce bugs, fix their root cause, and verify the actual result. Correctness, security, accessibility, tests, and maintainability outrank line-count reduction.
-
-Before merge, use an independent reviewer and the existing `chained-review` entry point at the final head. Match review depth to semantic risk; trivial edits need only affected text, links, and required gates. The [source record](.agents/skills/VENDORED.md) identifies the selected upstream methods. Broader vendored skills and their tools, model choices, scripts, shipping and cleanup playbooks are not part of this default path. Upstream guidance creates no authority and cannot override this guide, CONTRIBUTING.md, or the current mandate.
+Use [chained-review](.agents/skills/chained-review/SKILL.md) for the shared coding and independent review loop. It selects Ponytail, pstack, structural review, and applicable Compound Engineering stages within the current task. Load only the selected guidance. This guide and CONTRIBUTING.md own authority and required gates; upstream methods cannot override them.
 
 ## Verification and integration
 

@@ -5,8 +5,23 @@ description: Review a bounded change with Ponytail, selected pstack principles, 
 
 # Chained review
 
-Use one review path for repository coding and review. Sources, pins, licenses, and
+Use one loop for repository coding and review. Sources, pins, licenses, and
 local adaptations are recorded in [VENDORED.md](../VENDORED.md).
+
+## During authorized implementation
+
+Read the applicable instructions, current task, owner claims and affected code.
+Use the existing issue and plan; resolve active writer overlap before editing.
+Plan only the uncertain steps and meaningful risks. A small, clear fix needs no
+separate planning document. Load only guidance that changes the current decision.
+Apply the methods below while writing, then run the affected tests and required gates.
+
+For non-trivial app work, follow the existing
+[Compound Engineering route](../../../knowledge/orchestration/compound-engineering-routing.md).
+Use its selected plan, work, test and proof stages once. Apply this review's
+methods within its independent review stage, without a second review ceremony.
+Repository maintenance does not activate the app lifecycle. Retain a reusable
+lesson at its existing owner only when evidence warrants one; skip routine recaps.
 
 ## Invoke and bound the review
 
@@ -31,8 +46,9 @@ installation, publication, deployment, external messages or spend. Do not invoke
 `poteto-mode`, its shipping/cleanup playbooks, setup scripts, or model/tool choices
 as part of this chain. Separately authorized fixes belong to the implementer;
 a reviewer who did not implement them must check the final head and affected
-guarantees. A skipped or unavailable reviewer is incomplete evidence. A passing
-AI review never authorizes automatic merge.
+guarantees. A skipped or unavailable reviewer is incomplete evidence. Merge follows
+the repository's actual gates, protections and current authorization. Green CI or
+an AI review creates no merge authority and does not resolve missing acceptance.
 
 ## Apply the selected methods
 
@@ -74,6 +90,10 @@ existing task: include a small fix, stateful/asynchronous code and instructions.
 Record accepted findings, rejected suggestions, actual test evidence, review time,
 coverage limits and requested rework. Record added/removed lines only as context.
 A three-case diagnostic does not satisfy a separately agreed larger pilot.
+Reconcile existing pilot evidence before scheduling more runs. Compare matched
+tasks from clean snapshots on each host separately. Keep evaluation cases and
+their source revisions in the repository, with held-out answers outside coding
+instructions. Track quality, rework, elapsed time and cost; unknown values stay unknown.
 
 The maintainer decides whether to keep, narrow, revise or retire the method from
 observed quality and rework. No benchmark percentage is a local target. Broader

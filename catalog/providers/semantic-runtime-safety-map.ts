@@ -9,8 +9,6 @@
  * Coordinates closed #73+#74+#75+#109.
  */
 export const SEMANTIC_RUNTIME_SAFETY_MAP_PATH = "catalog/providers/semantic-runtime-safety-map.ts" as const;
-export const SEMANTIC_RUNTIME_SAFETY_SERVICE_MODULE = "kernel/services/semantic-runtime-safety.ts" as const;
-export const SEMANTIC_RUNTIME_SAFETY_ROLLOUT_MODULE = "catalog/workflows/semantic-runtime-safety-rollout.ts" as const;
 export const SEMANTIC_RUNTIME_SAFETY_FIXTURE = "checks/verification/fixtures/semantic-runtime-safety.fixtures.ts" as const;
 export const FEEDBACK_TO_WORK_SHADOW_SERVICE_MODULE = "kernel/services/feedback-to-work-shadow.ts" as const;
 export const INFERENCE_RECEIPT_STORE_MODULE = "kernel/services/inference-receipt-store.ts" as const;

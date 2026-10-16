@@ -53,7 +53,7 @@ Angle, name, price, screens, web copy, event map, definition of good, kill crite
 
 <!-- One screen per pull request. Each matches its mock and passes tests. -->
 
-Workers build one screen per pull request, in `TASKS.md` order. Each pull request must pass tests and a screenshot-vs-mock check. You dogfood on your phone. Gate 2 decides on submission.
+Workers build one screen per pull request, in `TASKS.md` order. Each pull request must pass tests, a live-screen test of the shipping screen, and a screenshot-vs-mock check. You dogfood on your phone. Gate 2 decides on submission.
 
 Approval writes the ledger record to the user's own private store when the ledger is on.
 

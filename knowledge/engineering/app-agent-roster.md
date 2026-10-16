@@ -49,6 +49,8 @@ The app-local roster is not a replacement for `AGENTS.md`, `product/experience/1
 - Marketing guru acts as the marketing and growth expert for positioning, ASO, GEO/SEO, acquisition, lifecycle, conversion, reviews, channel learning, acquisition-message continuity, and competitor review evidence.
 - Launch surface producer builds the local landing site after design acceptance. This role also keeps public surfaces synchronized with app changes.
 - Mobile engineer owns iOS and Android architecture, implementation, performance, platform behavior, and focused mobile tests.
+- A screen change ships a live-screen test of the shipping view.
+- Production views do not branch on a fixture property.
 - Backend and infrastructure engineer owns data, API, auth, jobs, deployment, observability, and provider integration.
 - Accessibility and device QA specialist owns assistive-technology checks, device coverage, locale and screen stress, and real-flow evidence.
 - Security architect acts as the security and release reviewer for threat analysis, platform hardening, privacy controls, onboarding data minimization, identity and redemption protection, signing, store requirements, one-time transformation security, supply-chain checks, and readiness evidence.

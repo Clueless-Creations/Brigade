@@ -8,9 +8,6 @@
  * Coordinates closed #75. Path scores = ranking heuristics only.
  */
 export const KNOWLEDGE_APPLICABILITY_MAP_PATH = "catalog/providers/knowledge-applicability-map.ts" as const;
-export const KNOWLEDGE_METHOD_ONTOLOGY = "catalog/ontology/knowledge-method-applicability.ts" as const;
-export const CONTEXT_BOUND_APPLICABILITY_MODULE = "kernel/knowledge-service/context-bound-applicability.ts" as const;
-export const APPLICABILITY_PATH_PROJECTION_MODULE = "kernel/services/applicability-path-projection.ts" as const;
 export const KNOWLEDGE_APPLICABILITY_FIXTURE = "checks/verification/fixtures/knowledge-applicability.fixtures.ts" as const;
 export const INFERENCE_RECEIPT_STORE_MODULE = "kernel/services/inference-receipt-store.ts" as const;
 export const INFERENCE_INVALIDATION_MODULE = "kernel/engine/inference-invalidation.ts" as const;

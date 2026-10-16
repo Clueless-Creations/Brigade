@@ -8,19 +8,12 @@
  * Source-fingerprint guarantees intact. Coordinates #74 / #76.
  */
 export const INFERENCE_RECEIPTS_MAP_PATH = "catalog/providers/inference-receipts-map.ts" as const;
-export const INFERENCE_RECEIPTS_STORE_MODULE = "kernel/services/inference-receipt-store.ts" as const;
 export const INFERENCE_INVALIDATION_MODULE = "kernel/engine/inference-invalidation.ts" as const;
-export const INFERENCE_RECEIPT_OWNERSHIP_MODULE = "kernel/reducer/inference-receipt-ownership.ts" as const;
 export const INFERENCE_RECEIPTS_FIXTURE = "checks/verification/fixtures/inference-receipts.fixtures.ts" as const;
 export const SEMANTIC_GRAPH_VIEWS_MODULE = "kernel/knowledge-service/semantic-graph-views.ts" as const;
 export const SEMANTIC_GRAPH_OWNERSHIP_MODULE = "kernel/reducer/semantic-graph-ownership.ts" as const;
 export const SEMANTIC_CONTRACTS_RECEIPTS = "contracts/semantic/receipts.ts" as const;
-export const EVIDENCE_ERASURE_MODULE = "kernel/reducer/erasure.ts" as const;
-export const SOURCE_FINGERPRINT_MODULE = "kernel/engine/source-fingerprint.ts" as const;
 
-export const INFERENCE_RECEIPTS_ISSUE = "#520" as const;
-export const INFERENCE_RECEIPTS_EPIC = "#511" as const;
-export const INFERENCE_RECEIPTS_CONSUMES = ["#512", "#513", "#514", "#515", "#516", "#517", "#518", "#519"] as const;
 export const INFERENCE_RECEIPTS_STAMP = "0.221.40" as const;
 export const INFERENCE_RECEIPTS_BASE_MAIN_SHA = "4a32176ff8443f9e7cf296ff3a812d8b84086990" as const;
 export const INFERENCE_RECEIPTS_LIVE_NOT_PERFORMED = true as const;

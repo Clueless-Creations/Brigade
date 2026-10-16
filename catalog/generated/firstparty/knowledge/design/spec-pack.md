@@ -118,7 +118,7 @@ Send the chat in this order:
 1. Name the app and the angle in one line. Then give review evidence as counts.
 2. State the price model in one sentence.
 3. Give pack counts: screens and states, light and dark mocks, and the click-through prototype. Also count web pages with real copy, the store listing, and payments setup. Also count analytics events with targets and kill criteria, build tasks, and backend or no backend. Then give the spec-check result and the research spend.
-4. Tell the founder how to approve. Ask them to open `index.html` and reply "approved" or list changes. After approval, workers build one screen per pull request. Each screen matches its mock and passes tests.
+4. Tell the founder how to approve. Ask them to open `index.html` and reply "approved" or list changes. After approval, workers build one screen per pull request. Each screen matches its mock and passes tests. Each screen also ships a live-screen test.
 5. List the open decisions only the founder can make. Give each decision a recommendation.
 6. Describe the tracker work. Point to [Tracker mapping](#tracker-mapping). Keep the draft. Read the issue count from `tracker-draft.json`. Do not create tracker issues or store listings before approval. When the app is announced or launched, update its portfolio card. Use the founder's portfolio site, if any (a workspace setting). Refresh the "how we build" story.
 
@@ -200,6 +200,13 @@ They do not ask questions.
 A screen is done when all of these are true:
 
 - Each required state has a simulator screenshot that matches its mock.
+- A live-screen test pumps the shipping view.
+- The controller is real, or it is faked at the boundary.
+- The test runs the primary interaction.
+- The test covers long names, 2x text, and landscape.
+- The test finds no overlap and no overflow.
+- Reachable actions stay reachable.
+- Production code does not branch on a fixture property.
 - The screen tests pass.
 - The merge gate is green.
 

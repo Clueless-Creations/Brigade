@@ -20,6 +20,10 @@ The manifests retain immutable source paths, license evidence and hashes.
 [Chained review](chained-review/SKILL.md) is the single local review procedure.
 It adapts these selected methods under AGENTS.md and CONTRIBUTING.md:
 
+The existing [Compound Engineering route](../../knowledge/orchestration/compound-engineering-routing.md)
+owns applicable app stages. This loop reuses those stages and supplies the review
+methods below; it adds no second planning, implementation, review or lesson process.
+
 | Source unit | Kept | Local constraint |
 | --- | --- | --- |
 | Ponytail / Ponytail review | Necessity, reuse, native options, connected-code correctness and safety review | Preserve validation, error handling, accessibility and meaningful tests. No shortest-diff score, benchmark target, or exemption for unsafe documented shortcuts. |

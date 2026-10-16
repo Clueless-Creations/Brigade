@@ -16,7 +16,6 @@
 import {
   EVIDENCE_GAP_ACTION_CLASS_MAP,
   EVIDENCE_GAP_CANDIDATE_ACTIONS,
-  EVIDENCE_GAP_KINDS,
   EVIDENCE_GAP_RANKING_RECIPE_POLICY,
   type EvidenceGapCandidateAction,
   type EvidenceGapKind,
@@ -427,12 +426,6 @@ export function conflictingEvidenceIsLegible(conflicting: readonly ConflictingEv
     collapsedToSingleConfidence: false,
     count: conflicting.length,
   };
-}
-
-export function assertKnownGapKind(kind: string): asserts kind is EvidenceGapKind {
-  if (!(EVIDENCE_GAP_KINDS as readonly string[]).includes(kind)) {
-    throw new EvidenceGapRankingError("gap.unknown_kind", `Unknown evidence gap kind: ${kind}`);
-  }
 }
 
 /** Observational usefulness metric hook — separate from ranking-code correctness. */

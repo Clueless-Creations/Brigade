@@ -13,13 +13,9 @@
  * business without an explicit scope decision.
  */
 export const BOUNDED_AI_COMPONENTS_MAP_PATH = "catalog/providers/bounded-ai-product-components-map.ts" as const;
-export const BOUNDED_AI_COMPONENTS_SERVICE_MODULE = "kernel/services/bounded-ai-product-components.ts" as const;
-export const BOUNDED_AI_COMPONENTS_RECIPE_MODULE = "catalog/workflows/bounded-ai-product-components.ts" as const;
 export const BOUNDED_AI_COMPONENTS_FIXTURE = "checks/verification/fixtures/bounded-ai-product-components.fixtures.ts" as const;
 export const QUESTION_PACK_CONTRACT = "contracts/semantic/question-pack.ts" as const;
-export const SEMANTIC_QUESTIONS_CONTRACT = "contracts/semantic/questions.ts" as const;
 export const SEMANTIC_RUNTIME_SAFETY_OWNER = "kernel/services/semantic-runtime-safety.ts" as const;
-export const INFERENCE_RECEIPT_OWNER = "kernel/services/inference-receipt-store.ts" as const;
 
 export const BOUNDED_AI_COMPONENTS_ISSUE = "#529" as const;
 export const BOUNDED_AI_COMPONENTS_EPIC = "#511" as const;
