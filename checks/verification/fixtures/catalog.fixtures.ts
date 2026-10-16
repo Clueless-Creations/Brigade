@@ -49,7 +49,7 @@ function installedFreshnessFixture(harness: Harness, label: string) {
     spawnSync(resolveTsxBin(skillRoot), [path.join(installedRoot, relative), ...args], {
       cwd: fixtureRoot,
       encoding: "utf8",
-      env: { ...process.env, NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ""} --import ${pathToFileURL(clockPath).href}`.trim() },
+      env: { ...process.env, B2C_STAMP_MODE: "release", NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ""} --import ${pathToFileURL(clockPath).href}`.trim() },
     });
   return { fixtureRoot, installedRoot, run };
 }
@@ -223,6 +223,10 @@ export function register(harness: Harness): void {
       renderDrift.status === 1 && renderDrift.stderr.includes("catalog_render.generated_drift"),
       "source renderer checks must compare the pin to its snapshot",
     );
+    for (const mode of ["pr", "main"]) {
+      const loose = run("catalog/render-routing.ts", ["--check", ...sourceArgs, "--stamp-mode", mode]);
+      assert(loose.status === 0 && loose.stdout.includes("byte-stable"), `${mode} must accept stable snapshot drift: ${loose.stdout}\n${loose.stderr}`);
+    }
     assert(readFileSync(path.join(installedRoot, knowledgeFreshnessPinPath), "utf8") === before, "freshness checks must not rewrite the pin");
     const render = run("catalog/render-routing.ts", sourceArgs);
     assert(render.status === 0, `source rendering must update the pin: ${render.stderr}`);

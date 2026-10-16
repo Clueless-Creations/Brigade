@@ -215,7 +215,7 @@ export function register(harness: Harness): void {
       try {
         const script = path.join(skillRoot, "catalog/render-routing.ts");
         // Right exit code (0), right text expectation: should read as ok.
-        probe.runScript("control: --check should pass with a correct expectation", script, ["--check"], 0, "current");
+        probe.runScript("control: --check should pass with a correct expectation", script, ["--check", "--stamp-mode", "pr"], 0, "byte-stable");
         // Right exit code (0), WRONG text expectation: must read as a FAILURE — this is exactly the
         // trap. A harness that only compared exit codes would call this "ok" too, which would mean a
         // validator failing for the wrong reason could still satisfy a fixture that only checks exit
@@ -224,7 +224,7 @@ export function register(harness: Harness): void {
         probe.runScript(
           "control: --check with a deliberately wrong expectation must be reported as a failure",
           script,
-          ["--check"],
+          ["--check", "--stamp-mode", "pr"],
           0,
           "this text will never appear in render-routing's output",
         );
