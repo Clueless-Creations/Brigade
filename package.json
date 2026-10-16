@@ -109,6 +109,7 @@
     "check:capability-delta": "tsx checks/validation/repository/check-capability-delta.ts",
     "check:catalog": "tsx checks/validation/repository/check-catalog.ts",
     "check:change-cascade": "tsx checks/validation/business/process/check-change-cascade.ts",
+    "check:clu-pr-lint": "tsx checks/validation/repository/check-clu-pr-lint.ts --repo-root .",
     "check:component-contracts": "tsx checks/validation/business/design/check-component-contracts.ts --root .",
     "check:compound-engineering": "tsx checks/validation/business/engineering/check-compound-engineering-routing.ts",
     "check:content-assets": "tsx checks/validation/business/design/check-content-assets.ts",
