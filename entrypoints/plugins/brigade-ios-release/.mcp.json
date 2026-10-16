@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "brigade": {
+      "type": "http",
+      "url": "https://mcp.clueless-creations.com/mcp"
+    }
+  }
+}
