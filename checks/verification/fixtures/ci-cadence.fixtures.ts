@@ -59,13 +59,18 @@ export function register(harness: Harness): void {
     });
   }
 
-  harness.check("stamp mode: both audit jobs consume the Scope result and fail closed when it is unavailable", () => {
+  harness.check("stamp mode: presubmit and both audit jobs consume the Scope result and fail closed when it is unavailable", () => {
     assert(ciYml.includes("stamp_mode: ${{ steps.lane.outputs.stamp_mode }}"), "Scope must expose the tested classification");
     for (const input of ["HEAD_REF: ${{ github.head_ref }}", "REF: ${{ github.ref }}", "DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}"]) {
       assert(ciYml.includes(input), `Scope must supply ${input}`);
     }
-    const consumers = ciYml.match(/B2C_STAMP_MODE: \$\{\{ needs\.scope\.outputs\.stamp_mode \|\| 'release' \}\}/gu) ?? [];
-    assert(consumers.length === 2, "presubmit and audit-fast must use the same classification with a strict fallback");
+    for (const id of ["presubmit", "audit-fast", "audit-heavy"]) {
+      const job = ciYml.split(`  ${id}:\n`)[1]?.split(/\n  [a-z-]+:\n/u)[0] ?? "";
+      assert(
+        job.includes("B2C_STAMP_MODE: ${{ needs.scope.outputs.stamp_mode || 'release' }}"),
+        `${id} must consume Scope's classification with a strict fallback`,
+      );
+    }
   });
 
   harness.check("presubmit vs full: docs stay on presubmit; knowledge selects hosted; kernel defers heavy serial suites", () => {
