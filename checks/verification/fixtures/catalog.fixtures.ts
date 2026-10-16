@@ -49,7 +49,7 @@ function installedFreshnessFixture(harness: Harness, label: string) {
     spawnSync(resolveTsxBin(skillRoot), [path.join(installedRoot, relative), ...args], {
       cwd: fixtureRoot,
       encoding: "utf8",
-      env: { ...process.env, B2C_STAMP_MODE: "release", NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ""} --import ${pathToFileURL(clockPath).href}`.trim() },
+      env: { ...process.env, NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ""} --import ${pathToFileURL(clockPath).href}`.trim() },
     });
   return { fixtureRoot, installedRoot, run };
 }
@@ -165,7 +165,7 @@ export function register(harness: Harness): void {
     assert(!result.stdout.includes("knowledge.source.stale"), "installed catalog must not switch to the wall clock");
     const knowledgeResult = run("tooling/knowledge.ts", ["check"]);
     assert(knowledgeResult.status === 0, `installed knowledge check must use the same freshness pin:\n${knowledgeResult.stdout}\n${knowledgeResult.stderr}`);
-    const renderResult = run("catalog/render-routing.ts", ["--check"]);
+    const renderResult = run("catalog/render-routing.ts", ["--check", "--stamp-mode", "release"]);
     assert(renderResult.stdout.includes("projection(s) current"), "installed renderer must execute, not silently skip its CLI entrypoint");
     assert(
       renderResult.status === 0,
@@ -193,7 +193,9 @@ export function register(harness: Harness): void {
       for (const [relative, args] of [
         ["checks/validation/repository/check-catalog.ts", []],
         ["tooling/knowledge.ts", ["check"]],
-        ["catalog/render-routing.ts", ["--check"]],
+        ["catalog/render-routing.ts", ["--check", "--stamp-mode", "release"]],
+        ["catalog/render-routing.ts", ["--check", "--stamp-mode", "pr"]],
+        ["catalog/render-routing.ts", ["--check", "--stamp-mode", "main"]],
       ] as const) {
         const result = run(relative, [...args]);
         const output = `${result.stdout}\n${result.stderr}`;
@@ -218,7 +220,7 @@ export function register(harness: Harness): void {
     assert(catalogDrift.status === 1 && catalogDrift.stderr.includes("knowledge.freshness_pin.drift"), "source catalog checks must detect a stale pin");
     const knowledgeDrift = run("tooling/knowledge.ts", ["check", ...sourceArgs]);
     assert(knowledgeDrift.status === 1 && knowledgeDrift.stderr.includes("knowledge.freshness_pin.drift"), "source knowledge checks must detect a stale pin");
-    const renderDrift = run("catalog/render-routing.ts", ["--check", ...sourceArgs]);
+    const renderDrift = run("catalog/render-routing.ts", ["--check", ...sourceArgs, "--stamp-mode", "release"]);
     assert(
       renderDrift.status === 1 && renderDrift.stderr.includes("catalog_render.generated_drift"),
       "source renderer checks must compare the pin to its snapshot",
@@ -230,7 +232,10 @@ export function register(harness: Harness): void {
     assert(readFileSync(path.join(installedRoot, knowledgeFreshnessPinPath), "utf8") === before, "freshness checks must not rewrite the pin");
     const render = run("catalog/render-routing.ts", sourceArgs);
     assert(render.status === 0, `source rendering must update the pin: ${render.stderr}`);
-    assert(run("catalog/render-routing.ts", ["--check", ...sourceArgs]).status === 0, "source rendering must produce deterministic current output");
+    assert(
+      run("catalog/render-routing.ts", ["--check", ...sourceArgs, "--stamp-mode", "release"]).status === 0,
+      "source rendering must produce deterministic current output",
+    );
     const advanced = run("checks/validation/repository/check-catalog.ts", sourceArgs);
     assert(advanced.status === 1 && advanced.stdout.includes("knowledge.source.stale"), "an advanced pin must still reject genuinely overdue sources");
   });
