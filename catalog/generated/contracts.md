@@ -786,7 +786,7 @@ _Before rendered videos/stills, app previews, ad/social variants. Founder phrasi
 - **Consults:** —
 - **Produces:** `growth/content-assets/CONTENT_ASSETS.md`, `growth/content-assets/content-assets.html`
 - **Gates:** `check:content-assets-foundation`
-- **Knowledge:** [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Content Asset Production](../../knowledge/design/remotion-content-assets.md), [Visual And Motion Production](../../knowledge/process/tool-recipes/visual-and-motion-production.md)
+- **Knowledge:** [Brand System Skill Onboard](../../knowledge/design/brand-system-skill-onboard.md), [Design Evidence Stack](../../knowledge/design/design-evidence-stack.md), [Design Visual System](../../knowledge/design/design-visual-system.md), [Fictional pitch film worked example](../../knowledge/design/pitch-film-example.md), [Pitch Film Studio](../../knowledge/design/pitch-film-studio.md), [Pitch film templates](../../knowledge/design/pitch-film-templates.md), [Content Asset Production](../../knowledge/design/remotion-content-assets.md), [Visual And Motion Production](../../knowledge/process/tool-recipes/visual-and-motion-production.md)
 
 ## Every Word A User Reads
 

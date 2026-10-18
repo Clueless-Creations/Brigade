@@ -55,7 +55,7 @@ Establish subscriptions, acquisition, funnels, attribution, and lifecycle work.
 
 Knowledge: [Pricing and getting paid](money/) · [Marketing and growth](growth/) · [Analytics and tracking](data/).
 
-Task skills: [Review monetization](../agents/skills/b2c-review-monetization/SKILL.md) · [Plan a launch](../agents/skills/b2c-plan-launch/SKILL.md).
+Task skills: [Pitch Film Studio](../agents/skills/b2c-pitch-film-studio/SKILL.md) · [Review monetization](../agents/skills/b2c-review-monetization/SKILL.md) · [Plan a launch](../agents/skills/b2c-plan-launch/SKILL.md).
 
 Browse [Pricing and getting paid](../catalog/generated/routing.md#pricing-and-getting-paid) for task-specific load conditions.
 Browse [Marketing and growth](../catalog/generated/routing.md#marketing-and-growth) for task-specific load conditions.

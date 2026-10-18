@@ -23,6 +23,7 @@ An implementation request authorizes completing its in-scope, reversible reposit
 <!-- catalog-generated:start task-skills -->
 | Task | Use when |
 | --- | --- |
+| [Pitch Film Studio](agents/skills/b2c-pitch-film-studio/SKILL.md) | Write or review a pitch film |
 | [Research an opportunity](agents/skills/b2c-research-opportunity/SKILL.md) | Validate an app opportunity |
 | [Design or review onboarding](agents/skills/b2c-design-onboarding/SKILL.md) | Design or review onboarding |
 | [Review monetization](agents/skills/b2c-review-monetization/SKILL.md) | Review monetization |

@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.144",
-  "updatedAt": "2026-10-16",
+  "version": "0.221.145",
+  "updatedAt": "2026-10-18",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-478: Add Pitch Film Studio task skill",
     "CLU-374: migrate @cloudflare/workers-oauth-provider 0.10.3 to 1.2.3 (#735)",
     "CLU-371: regenerate Worker types so Dependabot #722 passes CI (#736)",
     "build(deps): bump posthog-node in /hosted/builder-console (#724)",
