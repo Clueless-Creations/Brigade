@@ -19,6 +19,16 @@ export interface TaskSkill {
 
 export const taskSkills: readonly TaskSkill[] = [
   {
+    name: "b2c-pitch-film-studio",
+    title: "Pitch Film Studio",
+    description:
+      "Write or review a consumer product sales pitch, product demo, short ad, or brand story. Route only the needed brief, concept, causal script, director/editor handoff, or evidence review stage. Use for film writing and production guidance, not provider setup, rendering permission, or publishing.",
+    workflowId: "workflow.design.content-assets-remotion-generated-visuals",
+    publicArea: "revenue-and-growth",
+    routeCue: "Write or review a pitch film",
+    method: { referenceId: "reference.design.pitch-film-studio", heading: "Focused film method" },
+  },
+  {
     name: "b2c-research-opportunity",
     title: "Research an opportunity",
     description:
@@ -211,12 +221,12 @@ export function renderPublicKnowledgeReadme(catalog?: Catalog): string {
   ].join("\n");
 }
 
-function focusedMethod(catalog: Catalog, skill: TaskSkill, from: string): string | undefined {
+function focusedMethod(catalog: Catalog, skill: TaskSkill, from: string, sourceRoot: string): string | undefined {
   if (!skill.method) return undefined;
   const reference = catalog.references.find((candidate) => candidate.id === skill.method!.referenceId);
   if (!reference) throw new Error(`Task skill ${skill.name} method reference is unresolved.`);
   const sourcePath = reference.path;
-  const source = readFileSync(sourcePath, "utf8");
+  const source = readFileSync(path.join(sourceRoot, sourcePath), "utf8");
   const lines = source.split(/\r?\n/u);
   const heading = lines.findIndex((line) => /^#{1,6} /u.test(line) && line.replace(/^#{1,6} /u, "").trim() === skill.method!.heading);
   if (heading < 0) throw new Error(`Task skill ${skill.name} method heading is missing or empty: ${skill.method.heading}`);
@@ -277,7 +287,7 @@ function renderContract(catalog: Catalog, workflow: CatalogWorkflowDef, from: st
   ].join("\n");
 }
 
-export function renderTaskSkillFiles(catalog: Catalog): Record<string, string> {
+export function renderTaskSkillFiles(catalog: Catalog, sourceRoot = process.cwd()): Record<string, string> {
   const names = new Set<string>();
   for (const skill of taskSkills) {
     if (names.has(skill.name)) throw new Error(`Duplicate task skill name: ${skill.name}`);
@@ -341,7 +351,7 @@ export function renderTaskSkillFiles(catalog: Catalog): Record<string, string> {
       "",
       "Carry the accepted user's intended outcome through the work: make the result meaningfully better for that user, preserve relevant identity, hierarchy, accessibility, and recovery constraints, and verify behavior as well as presence. Apply this only where relevant; a narrow fix stays narrow. This principle does not require an 11-star exercise or a numeric taste score.",
       "",
-      focusedMethod(catalog, skill, `${base}/SKILL.md`) ?? entry.instructions,
+      focusedMethod(catalog, skill, `${base}/SKILL.md`, sourceRoot) ?? entry.instructions,
       "",
       "## Load only what the task needs",
       "",

@@ -59,6 +59,7 @@
     "agents/skills/b2c-review-business-performance",
     "agents/skills/b2c-review-experience",
     "agents/skills/b2c-plan-launch",
+    "agents/skills/b2c-pitch-film-studio",
     "agents/skills/b2c-verify-release-readiness",
     "surfaces/studio/seed/schema/business.empty.json",
     "surfaces/studio/seed/schema/business.schema.json",

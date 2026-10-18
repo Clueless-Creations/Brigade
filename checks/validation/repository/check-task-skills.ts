@@ -10,7 +10,8 @@ const issues: Issue[] = [];
 try {
   const flags = parseFlags(process.argv.slice(2), [{ flags: ["--root", "--skill-root", "--repo-root"], key: "root" }]);
   const root = path.resolve(flagString(flags, "root") ?? resolveSkillRoot(import.meta.url));
-  for (const error of renderTaskSkills(root, true, driftIsLoose(resolveDriftMode(process.argv)))) {
+  const stampMode = resolveDriftMode(process.argv);
+  for (const error of renderTaskSkills(root, true, driftIsLoose(stampMode))) {
     issues.push(issue("error", "task_skills.projection_drift", error));
   }
   if (!issues.length) {
@@ -19,6 +20,7 @@ try {
       encoding: "utf8",
       timeout: 120_000,
       maxBuffer: 4 * 1024 * 1024,
+      env: { ...process.env, B2C_STAMP_MODE: stampMode },
     });
     // Keep machine-readable stdout to one canonical envelope, including on failure.
     if (!process.argv.includes("--json")) {
