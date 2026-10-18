@@ -1,0 +1,13 @@
+schema_version: 1.0.0
+id: reference.design.pitch-film-templates
+title: Pitch film templates
+domain_id: domain.design
+document_path: knowledge/design/pitch-film-templates.md
+load_when: drafting a film brief, concept comparison, exact transcript or format-specific script
+lifecycle: active
+bindings:
+  workflow_ids:
+    - workflow.design.content-assets-remotion-generated-visuals
+  context_pack_ids: []
+sources: []
+source_exemption: Repository-original film method and fictional examples; no external factual claims or imported source expression.

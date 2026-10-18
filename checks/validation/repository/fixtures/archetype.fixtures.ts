@@ -49,10 +49,17 @@ export function register(h: Harness): void {
 
   runScriptArgs("references within context budget pass", "check-reference-size.ts", ["--skill-root", skillRoot], 0);
 
+  // Synthetic stamped-index fixtures test release contracts, independent of an inherited PR mode.
   const oversizedRef = makeEmptyFixture("reference-size-over-budget");
   mkdirSync(path.join(oversizedRef, "knowledge"), { recursive: true });
   writeFileSync(path.join(oversizedRef, "knowledge", "huge-lane.md"), `# Huge\n${"x".repeat(70 * 1024)}\n`, "utf8");
-  runScriptArgs("oversized reference fails the context budget", "check-reference-size.ts", ["--skill-root", oversizedRef], 1, "reference_size.over_budget");
+  runScriptArgs(
+    "oversized reference fails the context budget",
+    "check-reference-size.ts",
+    ["--skill-root", oversizedRef, "--stamp-mode", "release"],
+    1,
+    "reference_size.over_budget",
+  );
 
   const oversizedEntrypoint = makeEmptyFixture("entrypoint-size-over-budget");
   mkdirSync(path.join(oversizedEntrypoint, "knowledge"), { recursive: true });
@@ -61,7 +68,7 @@ export function register(h: Harness): void {
   runScriptArgs(
     "oversized SKILL.md fails the entrypoint budget",
     "check-reference-size.ts",
-    ["--skill-root", oversizedEntrypoint],
+    ["--skill-root", oversizedEntrypoint, "--stamp-mode", "release"],
     1,
     "reference_size.entrypoint_over_budget",
   );
@@ -80,7 +87,7 @@ export function register(h: Harness): void {
   runScriptArgs(
     "knowledge file with no catalog/generated/routing.md at all fails",
     "check-reference-size.ts",
-    ["--skill-root", missingGeneratedIndex],
+    ["--skill-root", missingGeneratedIndex, "--stamp-mode", "release"],
     1,
     "reference_size.generated_index_missing",
   );
@@ -99,7 +106,7 @@ export function register(h: Harness): void {
   runScriptArgs(
     "generated routing index that misses a knowledge file fails",
     "check-reference-size.ts",
-    ["--skill-root", incompleteGeneratedIndex],
+    ["--skill-root", incompleteGeneratedIndex, "--stamp-mode", "release"],
     1,
     "reference_size.index_incomplete",
   );
@@ -120,7 +127,7 @@ export function register(h: Harness): void {
   runScriptArgs(
     "knowledge file mentioned in prose but never linked from the generated index fails",
     "check-reference-size.ts",
-    ["--skill-root", mentionOnlyGeneratedIndex],
+    ["--skill-root", mentionOnlyGeneratedIndex, "--stamp-mode", "release"],
     1,
     "reference_size.index_incomplete",
   );

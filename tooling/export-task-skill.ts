@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { composeCatalog } from "../catalog/index.js";
+import { composeAuthoredCatalog } from "../catalog/authoring.js";
 import { referencesForTask, renderTaskSkillFiles, skillDirectory, taskSkills } from "../catalog/task-skills.js";
 import type { Catalog } from "../catalog/types.js";
 import { isMainModule } from "./lib/cli-entrypoint.js";
@@ -53,7 +53,7 @@ export function collectTaskSkillPackage(root: string, catalog: Catalog, name: st
   const skill = taskSkills.find((candidate) => candidate.name === name);
   if (!skill) throw new Error("Unknown task skill. Export only a declared business task.");
   const prefix = `${skillDirectory(skill)}/`;
-  const generated = Object.fromEntries(Object.entries(renderTaskSkillFiles(catalog)).filter(([file]) => file.startsWith(prefix)));
+  const generated = Object.fromEntries(Object.entries(renderTaskSkillFiles(catalog, root)).filter(([file]) => file.startsWith(prefix)));
   const known = new Map(catalog.references.map((reference) => [reference.path, reference]));
   const sources = new Map<string, string>();
   const queue = referencesForTask(catalog, skill).map((reference) => reference.path);
@@ -162,7 +162,8 @@ if (isMainModule(import.meta.url)) {
       throw new Error("Outside a Git checkout, supply --source-revision with the full reviewed source commit.");
     }
   }
-  const bundle = collectTaskSkillPackage(root, composeCatalog(root), name, revision);
+  // Portable export is a source/maintainer workflow, including unstamped authored guidance.
+  const bundle = collectTaskSkillPackage(root, composeAuthoredCatalog(root), name, revision);
   const directory = writeTaskSkillPackage(output, name, bundle);
   console.log(
     JSON.stringify(
