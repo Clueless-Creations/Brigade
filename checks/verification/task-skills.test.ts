@@ -11,6 +11,7 @@ import { composeCatalog } from "../../catalog/index.js";
 import { publicBusinessAreas } from "../../catalog/areas.js";
 import { referencesForTask, renderTaskSkillFiles, skillDirectory, taskSkills, workflowsForTask } from "../../catalog/task-skills.js";
 import { collectTaskSkillPackage, writeTaskSkillPackage } from "../../tooling/export-task-skill.js";
+import { buildHostedKnowledgeBundle } from "../../tooling/render-hosted-bundle.js";
 import { renderTaskSkills, replaceGeneratedBlock, taskSkillProjections } from "../../tooling/render-task-skills.js";
 import { driftIsLoose, resolveDriftMode } from "../../tooling/lib/stamp-mode.js";
 
@@ -278,6 +279,12 @@ void test("source render and export do not require a stamped runtime catalog", (
     assert.ok(projections[`${skillDirectory(skill)}/SKILL.md`]!.includes(marker), "method rendering must read the selected root instead of cwd");
     assert.deepEqual(renderTaskSkills(source, true, true), [], "PR mode permits missing generated projections");
     assert.ok(renderTaskSkills(source, true).some((error) => error.startsWith("Task skill projection drift:")), "release mode requires generated projections");
+    const hosted = buildHostedKnowledgeBundle(source);
+    const filmDocument = hosted.documents.find((document) => document.referenceId === reference.id);
+    assert.equal(filmDocument?.markdown, changed, "default bundle generation must include authored film guidance without a stamp");
+    assert.equal(filmDocument?.sourceSha256, hash(changed));
+    const staleCatalog = { ...hosted.catalog, references: hosted.catalog.references.filter((entry) => entry.id !== reference.id) };
+    assert.throws(() => buildHostedKnowledgeBundle(source, staleCatalog), /hosted_bundle\.active_graph_mismatch/u, "an explicitly stale catalog must still fail closed");
 
     const childTest = path.join(source, "checks/verification/task-skills.test.ts");
     mkdirSync(path.dirname(childTest), { recursive: true });
