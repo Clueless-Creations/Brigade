@@ -1,7 +1,7 @@
 apiVersion: b2c.extension/v1
 hostApiVersion: b2c/v1
 id: b2c/consumer-business
-version: 0.221.144
+version: 0.221.145
 title: Consumer business
 dependencies: []
 imports: []
@@ -64,6 +64,18 @@ resources:
     mediaType: text/markdown
   - id: b2c/resource-7d0b7f394ce06c843e9e84b0702d8e37e90e46e6f29bf1a41ea0ed41ddc1c6d8
     path: knowledge/design/motion-craft-benchmarks.md
+    kind: knowledge
+    mediaType: text/markdown
+  - id: b2c/resource-2a2b100114c221ea28e8af1c136abab8bd06054f615865c15f4240b5fd343b7e
+    path: knowledge/design/pitch-film-example.md
+    kind: knowledge
+    mediaType: text/markdown
+  - id: b2c/resource-d3109b173e2810aa1ca5c1f12205b6cc8808cfe29932423f895959558ce83981
+    path: knowledge/design/pitch-film-studio.md
+    kind: knowledge
+    mediaType: text/markdown
+  - id: b2c/resource-e4467f4a13e156c691ee4d07601b7f412d3a96b13ce20de4dff80707c4727dda
+    path: knowledge/design/pitch-film-templates.md
     kind: knowledge
     mediaType: text/markdown
   - id: b2c/resource-195ac4d9c47e0df8ac61152f71c051b673fd0e5eb8cabdb623bec96ab8cf3fdd
@@ -6282,6 +6294,9 @@ implementations:
       - b2c/resource-96c538d591f62303620a4728e75c75d4a2c7ffb75d8e2c523370cfb1f413c1dd
       - b2c/resource-870b5399c4ac6017ff991bbf833992b75a7036bd8bdac142738575979cf1d408
       - b2c/resource-6a8a56eab2549e79f4b3d0b65be03c1cf90d116cac73e724e53a8fb7c21df996
+      - b2c/resource-2a2b100114c221ea28e8af1c136abab8bd06054f615865c15f4240b5fd343b7e
+      - b2c/resource-d3109b173e2810aa1ca5c1f12205b6cc8808cfe29932423f895959558ce83981
+      - b2c/resource-e4467f4a13e156c691ee4d07601b7f412d3a96b13ce20de4dff80707c4727dda
       - b2c/resource-c997f1bc1573bc5786b777b8dadfc8b7fcfaa5a7426cb445c6bda821bad90ea5
       - b2c/resource-f7df5b756d329d71306133aa57e3973d910f8802e06d302edf41b35bbf2f6e0e
       - b2c/resource-bd12055a0b99acfca666f9e6b423680f0a3194ec7f79457a9d9503a128e73fc4
@@ -6312,7 +6327,7 @@ implementations:
       instructions: "For new content production, write manifest schema_version 2 with provider-neutral asset kinds and structured briefs; check:content-assets-foundation prevents a legacy downgrade. Read the accepted Anchor Brand Kit in DESIGN.md and follow reference.design.remotion-content-assets brand consistency procedure before producing a still or video: bind kit revision, reference roles, permitted variation, approved claims, selected model and inputs; review the actual output before scaling variants. Select the production route per asset from actual capability and rights evidence. A supported generation provider may supply new imagery or presenter video; a supported composition renderer may assemble real UI, tokens, screenshots, copy, and data into variants. Higgsfield and Remotion are conditional supported examples, not requirements for every asset. Do not generate when the founder has not approved the intended paid route's fallback, the selected provider or renderer commercial-license eligibility for this business is unclear, or the source UI/asset rights are missing. Record every produced asset in growth/content-assets/CONTENT_ASSETS.md (and its content-assets.html) with its route, token/source inputs, and license basis — check:content-assets validates the packet and declared local inputs; separate execution receipts and inspection of actual output establish what rendered and whether it meets the brief, and this node is not idempotent because each run can legitimately produce new asset variants."
       providerIds:
         - provider.higgsfield
-      contextFingerprint: sha256:b097d4b66cc7d7ef722503fa0f0ea2179cb625e33c79f4f64255f80d34b54d5e
+      contextFingerprint: sha256:aa6c900e2e55c70218c2a708e3636306f0a1887a198811257a28b8fe6ed30c46
   - id: b2c/worker.words.writing-quality-no-slop
     version: 1.0.0
     provider: b2c/consumer-business-worker
@@ -10930,6 +10945,9 @@ recipes:
               - reference.design.brand-system-skill-onboard
               - reference.design.design-evidence-stack
               - reference.design.design-visual-system
+              - reference.design.pitch-film-example
+              - reference.design.pitch-film-studio
+              - reference.design.pitch-film-templates
               - reference.design.remotion-content-assets
               - reference.process.tool-recipes.visual-and-motion-production
             neutralContextPackIds: []
