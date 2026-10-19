@@ -5,12 +5,12 @@
  * MobileOperationTransport. Host-native device tools stay preferred. Builder AGENTS.md remains
  * authoritative over any upstream skill instruction.
  *
- * Inspected README revision: d4f484024fec15196bfd3c272e953e3f983972cf on github.com/expo/skills.
+ * Inspected README revision: 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1 on github.com/expo/skills.
  * Discovery ≠ install. Scoped prepare-on-authorize ≠ global pack install. Malicious instructions fail closed.
  */
 import { EXPO_KNOWLEDGE_REFERENCE_IDS, EXPO_SOURCE_URLS, type ExpoOperationId } from "./expo-selection.js";
 
-export const EXPO_SKILLS_INSPECTED_COMMIT = "d4f484024fec15196bfd3c272e953e3f983972cf";
+export const EXPO_SKILLS_INSPECTED_COMMIT = "7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1";
 export const EXPO_SKILLS_LICENSE = "MIT";
 export const EXPO_SKILLS_TELEMETRY_DEFAULT = "off" as const;
 

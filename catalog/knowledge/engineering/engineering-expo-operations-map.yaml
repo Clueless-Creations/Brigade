@@ -40,12 +40,13 @@ sources:
     review_cadence_days: 7
     claim_scope: >-
       Official Expo skill pack named as an optional selected-session install. Discover the mapped
-      skill from catalog/stacks/expo-agent-tools.ts. Paid EAS skills stay unselected. expo-skill-feedback,
-      hooks, and Expo MCP stay refused.
-    last_review_date: 2026-10-07
+      skill from catalog/stacks/expo-agent-tools.ts. Reviewed head 7ddc1f5 lets expo-overview launch
+      without onboarding or the dev menu. eas-observe can record JS errors and native crashes. Paid
+      EAS skills stay unselected. expo-skill-feedback, hooks, and Expo MCP stay refused.
+    last_review_date: 2026-10-19
     reviewer: b2c-maintainers
     publisher: 650 Industries, Inc. (aka Expo)
-    revision: d4f484024fec15196bfd3c272e953e3f983972cf
+    revision: 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1
     upstream_id: expo-skills
     selectors:
       - README.md
@@ -66,4 +67,4 @@ derivations:
     rationale: Operation routing treats EAS services, MCP, and official skills as separate optional selections
       with explicit gaps until child packages land.
     reviewer: b2c-maintainers
-    reviewed_at: 2026-10-07
+    reviewed_at: 2026-10-19

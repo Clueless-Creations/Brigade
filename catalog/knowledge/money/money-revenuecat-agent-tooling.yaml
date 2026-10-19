@@ -22,11 +22,11 @@ sources:
     url: https://github.com/RevenueCat/ai-toolkit
     review_cadence_days: 7
     claim_scope: Selected procedures and limitations; no installed or live-provider support claim.
-    last_review_date: 2026-09-06
-    reviewer: b2c-contributor source review
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
     publisher: RevenueCat
-    revision: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
-    retrieved_at: 2026-09-06T13:59:33.574497Z
+    revision: 136d2df6b41ac594340d15afa33e0b58d85d545b
+    retrieved_at: 2026-10-19T14:30:00.000Z
     rights:
       status: verified
       spdx: MIT
@@ -48,11 +48,11 @@ sources:
     review_cadence_days: 7
     claim_scope: Selected v0.1.1 procedures, typed executable mapping, and limitations; no live-host
       execution or unpinned latest-binary claim.
-    last_review_date: 2026-09-08
+    last_review_date: 2026-10-19
     reviewer: b2c-maintainers
     publisher: RevenueCat
-    revision: 548f93276088f73fc15a411f34f02a51ba56ad4d
-    retrieved_at: 2026-09-06T13:59:35.856259Z
+    revision: 836cf0db60310262cb57acf8619ea9a3797ce4e9
+    retrieved_at: 2026-10-19T14:30:00.000Z
     rights:
       status: verified
       spdx: MIT
@@ -73,7 +73,7 @@ derivations:
   - relationship: adapted
     source_ids:
       - github-com-revenuecat-ai-toolkit
-    baseline: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
+    baseline: 136d2df6b41ac594340d15afa33e0b58d85d545b
     selectors:
       - README.md
       - revenuecat/skills/create-revenuecat-project/SKILL.md
@@ -86,14 +86,14 @@ derivations:
       independently verified acceptance.
     omissions:
       - Automatic installation, broad agent workflows, unreviewed remotely fetched skills and implicit acceptance.
-    reviewer: b2c-contributor source review
-    reviewed_at: 2026-09-06
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-19
     notice: catalog/upstreams/notices/revenuecat-ai-toolkit.txt
     evaluation: npm run test:fixtures -- official-upstreams
   - relationship: adapted
     source_ids:
       - github-com-revenuecat-cli
-    baseline: 548f93276088f73fc15a411f34f02a51ba56ad4d
+    baseline: 836cf0db60310262cb57acf8619ea9a3797ce4e9
     selectors:
       - README.md
     rationale: Retain relevant official procedures while preserving existing artifact ownership, scoped authority and
@@ -103,6 +103,6 @@ derivations:
       - Automatic installation, unpinned latest binaries, raw API passthrough, nested setup/rico/skills, and implicit
         acceptance.
     reviewer: b2c-maintainers
-    reviewed_at: 2026-09-08
+    reviewed_at: 2026-10-19
     notice: catalog/upstreams/notices/revenuecat-cli.txt
     evaluation: npm run test:fixtures -- official-upstreams

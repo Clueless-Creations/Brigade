@@ -443,7 +443,7 @@ sources:
       - catalog/knowledge/store/store-app-review-resubmit.yaml
       - knowledge/store/app-review-resubmit.md
       - knowledge/store/app-store-listing-prep.md
-    notes: App Review access and explanatory notes, plus conditional free-companion IAP treatment in 3.1.3(f); checked 2026-10-03.
+    notes: App Review access and explanatory notes, plus 2026-10-16 2.3.14, 2.5.19, 1.2 NCII including AI-generated imagery, and 3.1.1(a) wording; checked 2026-10-19.
   - id: developer-apple-com-help-app-store-connect-platform-version-information
     name: Apple Platform version information
     source_type: official_docs
@@ -2974,7 +2974,7 @@ sources:
   - id: github-com-revenuecat-ai-toolkit-license
     name: RevenueCat AI Toolkit
     source_type: github
-    url: https://github.com/RevenueCat/ai-toolkit/blob/ccfc038185ec457b2ac9077f3bbf1ba947a44dbb/LICENSE
+    url: https://github.com/RevenueCat/ai-toolkit/blob/136d2df6b41ac594340d15afa33e0b58d85d545b/LICENSE
     refresh_cadence_days: 7
     owner: b2c-maintainers
     locations:
@@ -2992,7 +2992,7 @@ sources:
   - id: github-com-revenuecat-cli-license
     name: RevenueCat CLI
     source_type: github
-    url: https://github.com/RevenueCat/cli/blob/548f93276088f73fc15a411f34f02a51ba56ad4d/LICENSE
+    url: https://github.com/RevenueCat/cli/blob/836cf0db60310262cb57acf8619ea9a3797ce4e9/LICENSE
     refresh_cadence_days: 7
     owner: b2c-maintainers
     locations:
@@ -3010,7 +3010,7 @@ sources:
   - id: github-com-posthog-wizard-license
     name: PostHog wizard
     source_type: github
-    url: https://github.com/PostHog/wizard/blob/52220a3e60e4c14555fddef61afb0a8dc3b68b94/LICENSE
+    url: https://github.com/PostHog/wizard/blob/ea67c7845b8142087ad361a82b977eea1f7bc53a/LICENSE
     refresh_cadence_days: 7
     owner: b2c-maintainers
     locations:
@@ -3333,7 +3333,7 @@ sources:
       - knowledge/engineering/expo-operations-map.md
       - knowledge/engineering/recommended-agent-skills.md
       - knowledge/engineering/external-skill-packs.md
-    notes: Reviewed official Expo skills at d4f484024fec15196bfd3c272e953e3f983972cf. Discovery is not
+    notes: Reviewed official Expo skills at 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1. Discovery is not
       install. Selected stack-neutral methods are adapted into design owners. expo-skill-feedback, hooks,
       and Expo MCP stay refused.
   - id: parth-app-store-screenshots-license
@@ -3379,7 +3379,7 @@ sources:
   - id: evanbacon-serve-sim-license
     name: serve-sim reviewed license
     source_type: github
-    url: https://github.com/EvanBacon/serve-sim/blob/6d009686ed08f7d8bd19bca9f9f67a9237931f44/LICENSE
+    url: https://github.com/EvanBacon/serve-sim/blob/a30d70a55e05654d974c86803b68d4f675be77e3/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -3719,7 +3719,7 @@ sources:
   - id: expo-skills-license
     name: Official Expo skills reviewed license
     source_type: github
-    url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/LICENSE
+    url: https://github.com/expo/skills/blob/7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1/LICENSE
     refresh_cadence_days: 365
     owner: b2c-maintainers
     locations:
@@ -4128,6 +4128,70 @@ sources:
       - catalog/knowledge/store/store-app-store-connect-cli.yaml
       - knowledge/store/app-store-connect-cli.md
     notes: Rork asc 5.13.0 release notes. Adds video upload, image and video lifecycle, media reuse, and OpenAPI 4.5.1 list filters. Local --help was checked on 2026-10-08. No App Store Connect API call.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-14-2
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.14.2
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.14.2 release notes. Unifies the positional payload contract and guards builds mutations. Notes recover builds view. Linux 5.15.0 --help later showed builds view as unknown.
+  - id: github-com-rorkai-app-store-connect-cli-releases-5-15-0
+    name: github.com
+    source_type: official_docs
+    url: https://github.com/rorkai/App-Store-Connect-CLI/releases/tag/5.15.0
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - catalog/upstreams/rork-app-store-connect-cli.yaml
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+      - knowledge/store/app-store-connect-cli.md
+    notes: Rork asc 5.15.0 release notes. Adds web auth --two-factor-method sms and experimental messages-code. Linux --help checked on 2026-10-19. No macOS binary. No App Store Connect API call.
+  - id: developer-apple-com-news-92th7e5i
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=92th7e5i
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+      - knowledge/experience/ethics-guardrail.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+      - knowledge/trust/community-safety.md
+      - catalog/knowledge/trust/trust-community-safety.yaml
+      - knowledge/store/app-review-remediate.md
+      - catalog/knowledge/store/store-app-review-remediate.yaml
+    notes: Apple news dated October 16, 2026. App Review Guidelines add 2.3.14 creative assets, 2.5.19 hidden or undocumented features, 1.2 NCII including AI-generated imagery, and 3.1.1(a) wording.
+  - id: developer-apple-com-news-vvzx6cul
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=vvzx6cul
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - knowledge/store/app-store-listing-prep.md
+      - catalog/knowledge/store/store-app-store-listing-prep.yaml
+      - knowledge/experience/ethics-guardrail.md
+      - catalog/knowledge/experience/experience-ethics-guardrail.yaml
+    notes: Apple news dated October 16, 2026. Companion note for the same App Review Guidelines update.
+  - id: developer-apple-com-news-17mwd36z
+    name: developer.apple.com
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=17mwd36z
+    refresh_cadence_days: 7
+    owner: source-freshness
+    locations:
+      - knowledge/store/app-review-observe.md
+      - catalog/knowledge/store/store-app-review-observe.yaml
+      - knowledge/store/app-review-remediate.md
+      - catalog/knowledge/store/store-app-review-remediate.yaml
+      - knowledge/store/app-store-connect-cli.md
+      - catalog/knowledge/store/store-app-store-connect-cli.yaml
+    notes: Apple news dated October 13, 2026. Developer Program License Agreement update. Account Holder acceptance only. Agents never accept it.
   - id: developer-apple-com-documentation-appstoreconnectapi-uploading-assets-to-app-store-connect
     name: developer.apple.com
     source_type: official_docs

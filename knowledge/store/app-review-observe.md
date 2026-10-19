@@ -164,6 +164,8 @@ A missing web session is a founder handoff.
 
 Never call `asc web agreements accept` from an App Review mandate.
 Agreement acceptance needs the Account Holder.
+The 2026-10-13 [Developer Program License Agreement update](https://developer.apple.com/news/?id=17mwd36z) is founder action.
+Agents never accept it.
 It needs an exact one-shot authorization.
 It needs interactive confirmation and provider readback.
 

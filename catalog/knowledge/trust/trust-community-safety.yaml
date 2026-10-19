@@ -15,8 +15,16 @@ sources:
     source_type: official_policy
     url: https://developer.apple.com/app-store/review/guidelines/
     review_cadence_days: 14
-    claim_scope: Supports moderation, reporting, blocking, and contact requirements.
-    last_review_date: 2026-08-17
+    claim_scope: Supports moderation, reporting, blocking, and contact requirements. Guideline 1.2 now names nonconsensual intimate imagery, including AI-generated imagery.
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-news-92th7e5i
+    name: Updated App Review Guidelines
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=92th7e5i
+    review_cadence_days: 14
+    claim_scope: October 16, 2026 update. Guideline 1.2 names NCII, including AI-generated imagery.
+    last_review_date: 2026-10-19
     reviewer: b2c-maintainers
   - id: google-play-ugc-policy
     name: Google Play user-generated content policy

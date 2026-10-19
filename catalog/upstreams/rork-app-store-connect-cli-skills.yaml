@@ -25,7 +25,7 @@ source_ids:
   - github-com-rorkai-app-store-connect-cli-skills
 relationships:
   - kind: selected-skill-guidance
-    consumption: Selected skill names (asc-cli-usage, asc-metadata-sync, asc-shots-pipeline, asc-screenshot-resize, asc-release-flow, asc-submission-health, asc-revenuecat-catalog-sync, asc-analytics-reports, asc-ad-hoc-distribution, and the rest of the routed list) are loaded as subordinate reference material when a store workflow selects them. Installation happens only with founder approval through `asc install-skills` (pinned by the CLI to a reviewed commit) or `npx skills add`. No SKILL.md is auto-installed as a top-level builder skill.
+    consumption: Selected skill names (asc-cli-usage, asc-metadata-sync, asc-shots-pipeline, asc-screenshot-resize, asc-release-flow, asc-submission-health, asc-revenuecat-catalog-sync, asc-analytics-reports, asc-ad-hoc-distribution, asc-in-app-events, and the rest of the routed list) are loaded as subordinate reference material when a store workflow selects them. Installation happens only with founder approval through `asc install-skills` (pinned by the CLI to a reviewed commit) or `npx skills add`. No SKILL.md is auto-installed as a top-level builder skill.
     local_owners:
       - knowledge/store/app-store-connect-cli.md
       - catalog/knowledge/store/store-app-store-connect-cli.yaml
@@ -34,7 +34,7 @@ relationships:
     upstream_paths:
       - README.md
       - "*/SKILL.md"
-    pin_authority: "`asc install-skills` on asc 5.14.1 still locks commit f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8; `npx skills add` carries no pin"
+    pin_authority: "`asc install-skills` still locks commit f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8; `npx skills add` carries no pin"
 baselines:
   reviewed_source:
     revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
@@ -42,10 +42,10 @@ baselines:
     by: b2c-maintainers
     note: asc 5.14.1 README still locks install-skills to this commit. No SKILL.md text was copied.
   reviewed_guidance:
-    revision: 9c7e769f09a18237c9bd9c70f70aef65f0cd0391
-    observed_at: "2026-10-12"
+    revision: 4b496c57b262985df88f2382a65029d3fec3ab95
+    observed_at: "2026-10-19"
     by: b2c-maintainers
-    note: Reviewed main on 2026-10-12. Twelve commits past the install lock sync examples through asc 5.10. The builder cookbook is 5.14.1 and wins on conflict. The install lock stays f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8.
+    note: Reviewed main on 2026-10-19 at 4b496c57b262985df88f2382a65029d3fec3ab95. Adds asc-in-app-events and syncs build and asset workflows. The builder cookbook is 5.15.0 and wins on conflict. The install lock stays f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8.
 support:
   policy: Skill guidance is advice. It never marks a lane done, never overrides the builder's own reference on conflict, and loads only for the store workflows that name it. Guidance changes upstream are reviewed by mapped semantic comparison, not text merge.
   versions:
@@ -81,6 +81,9 @@ support:
     - id: asc-ad-hoc-distribution
       title: experimental private iOS distribution with plan-hash approval
       keywords: [asc-ad-hoc-distribution, ad-hoc]
+    - id: asc-in-app-events
+      title: In-App Event create, localize, media, and founder-gated submit or recover
+      keywords: [asc-in-app-events, in-app events]
   unsupported_operations:
     - id: asc-wall-submit
       reason: Public submission to the Wall of Apps is a founder-approved public action; the builder never automates it.
@@ -97,7 +100,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-10-12"
+  last_review: "2026-10-19"
   status: current
 credits:
   acknowledge: true

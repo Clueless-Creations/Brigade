@@ -16,7 +16,7 @@ sources:
     title: RevenueCat AI Toolkit
     canonicalUrl: https://github.com/RevenueCat/ai-toolkit
     publisher: RevenueCat
-    revision: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
+    revision: 136d2df6b41ac594340d15afa33e0b58d85d545b
     retrievedAt: 2026-09-06T13:59:33.574497Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -44,7 +44,7 @@ sources:
     title: RevenueCat CLI
     canonicalUrl: https://github.com/RevenueCat/cli
     publisher: RevenueCat
-    revision: 548f93276088f73fc15a411f34f02a51ba56ad4d
+    revision: 836cf0db60310262cb57acf8619ea9a3797ce4e9
     retrievedAt: 2026-09-06T13:59:35.856259Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -66,7 +66,7 @@ sources:
     title: PostHog wizard
     canonicalUrl: https://github.com/PostHog/wizard
     publisher: PostHog
-    revision: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
+    revision: ea67c7845b8142087ad361a82b977eea1f7bc53a
     retrievedAt: 2026-09-06T13:59:44.598491Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -90,7 +90,7 @@ sources:
     title: PostHog context mill
     canonicalUrl: https://github.com/PostHog/context-mill
     publisher: PostHog
-    revision: 679c57b6163b60eadb1fc82fb2a29db5a9fc0d55
+    revision: 06e5d88881d50166a6b8da9526dc511fe5614fb6
     retrievedAt: 2026-09-06T13:59:41.931798Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -207,7 +207,7 @@ derivations:
     sourceIds:
       - revenuecat-ai-toolkit
     relationship: adapted
-    baseline: ccfc038185ec457b2ac9077f3bbf1ba947a44dbb
+    baseline: 136d2df6b41ac594340d15afa33e0b58d85d545b
     selectors:
       - README.md
       - revenuecat/skills/create-revenuecat-project/SKILL.md
@@ -227,7 +227,7 @@ derivations:
     sourceIds:
       - revenuecat-cli
     relationship: adapted
-    baseline: 548f93276088f73fc15a411f34f02a51ba56ad4d
+    baseline: 836cf0db60310262cb57acf8619ea9a3797ce4e9
     selectors:
       - README.md
     rationale: Retain useful official procedures; preserve canonical product, consent, identity, analytics and acceptance owners.
@@ -241,7 +241,7 @@ derivations:
     sourceIds:
       - posthog-wizard
     relationship: adapted
-    baseline: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
+    baseline: ea67c7845b8142087ad361a82b977eea1f7bc53a
     selectors:
       - README.md
       - src/lib/programs

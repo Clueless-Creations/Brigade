@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "upstreamId": "posthog-wizard",
-  "checkedAt": "2026-10-12T14:20:00.000Z",
+  "checkedAt": "2026-10-19T14:30:00.000Z",
   "method": "manual",
   "latestStable": {
-    "tag": "v2.81.1",
-    "publishedAt": "2026-10-08T15:59:40Z",
+    "tag": "v2.84.1",
+    "publishedAt": "2026-10-16T22:08:33Z",
     "assets": []
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "52220a3e60e4c14555fddef61afb0a8dc3b68b94",
-    "committedAt": "2026-10-08T00:00:00Z"
+    "sha": "ea67c7845b8142087ad361a82b977eea1f7bc53a",
+    "committedAt": "2026-10-16T22:08:33Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "6dd6cb84dae639a6d710f4217f507a1f590864cd2c4699557a8380b0a7254d27",
@@ -20,7 +20,7 @@
   "archived": false,
   "host": null,
   "unknowns": [
-    "v2.81.1 tag commit is 4480651e369b84cdd1719636ac32204045bb8dd0. Reviewed head includes two later install-resilience commits.",
+    "v2.84.1 tag commit is ea67c7845b8142087ad361a82b977eea1f7bc53a. No Brigade procedure change from the 2026-10-12 review.",
     "No wizard execution or live provider session was tested."
   ]
 }

@@ -35,7 +35,7 @@ This packet is the copy-paste operator surface for App Store Connect and Google 
 
 ### App Review Information
 
-Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and [Guidelines 2.1/2.3.1](https://developer.apple.com/app-store/review/guidelines/). Provide current review contact details and access to all reviewable features. Notes must describe new features, functionality, and product changes specifically, plus any settings or instructions needed to test them.
+Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and [Guidelines 2.1/2.3.1/2.5.19](https://developer.apple.com/app-store/review/guidelines/). Provide current review contact details and access to all reviewable features. Notes must describe new features, functionality, and product changes specifically, plus any settings or instructions needed to test them. Do not hide dormant or undocumented features.
 
 Sign-in required: unknown — inspect the shipped reviewable features, then record yes or no. Unknown is an unresolved Brigade packet state, not an Apple checkbox value.
 

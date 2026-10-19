@@ -30,8 +30,24 @@ sources:
     source_type: official_docs
     url: https://developer.apple.com/app-store/review/guidelines
     review_cadence_days: 7
-    claim_scope: Guideline sections used to route metadata, binary, missing-information, and protected-policy plans.
-    last_review_date: 2026-08-17
+    claim_scope: Guideline sections used to route metadata, binary, missing-information, and protected-policy plans, including 2.5.19 hidden or undocumented features.
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-news-17mwd36z
+    name: Developer Program License Agreement update
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=17mwd36z
+    review_cadence_days: 7
+    claim_scope: October 13, 2026 Developer Program License Agreement update. Account Holder acceptance only. Agents never accept it.
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-news-92th7e5i
+    name: Updated App Review Guidelines
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=92th7e5i
+    review_cadence_days: 7
+    claim_scope: October 16, 2026 update. Guideline 2.5.19 parks hidden, dormant, or undocumented features as legal_policy unless the founder already approved a bounded product-scope change.
+    last_review_date: 2026-10-19
     reviewer: b2c-maintainers
   - id: developer-apple-com-documentation-bundleresources-information-property-list-cfbu
     name: Apple CFBundleShortVersionString documentation

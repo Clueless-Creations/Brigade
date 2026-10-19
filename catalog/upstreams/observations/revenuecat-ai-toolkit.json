@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "upstreamId": "revenuecat-ai-toolkit",
-  "checkedAt": "2026-10-12T14:20:00.000Z",
+  "checkedAt": "2026-10-19T14:30:00.000Z",
   "method": "manual",
   "latestStable": {
     "tag": "v2.3.0",
@@ -11,8 +11,8 @@
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "ccfc038185ec457b2ac9077f3bbf1ba947a44dbb",
-    "committedAt": "2026-09-25T00:00:00Z"
+    "sha": "136d2df6b41ac594340d15afa33e0b58d85d545b",
+    "committedAt": "2026-10-19T09:20:02Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "2e92c72a8e13012a7f53d2bebbee52ab1a1c06cf652092faecf4523a5bc23e3f",
@@ -20,7 +20,7 @@
   "archived": false,
   "host": null,
   "unknowns": [
-    "v2.3.0 tag is ac20d26b35be0d01d0dbd3130c1b34932d402e5d. Reviewed head ccfc038 is the later experiment and audience correction.",
+    "v2.3.0 tag is ac20d26b35be0d01d0dbd3130c1b34932d402e5d. Reviewed head 136d2df is later store-state, charts, and troubleshoot guidance.",
     "No host executable, provider session, SDK integration, or release asset binary was tested."
   ]
 }

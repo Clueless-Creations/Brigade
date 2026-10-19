@@ -16,14 +16,14 @@ copyright: Copyright (c) 2025-present 650 Industries, Inc. (aka Expo)
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/expo/skills/blob/d4f484024fec15196bfd3c272e953e3f983972cf/LICENSE
+  evidence_url: https://github.com/expo/skills/blob/7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1/LICENSE
   evidence_sha256: 49c5f9c7097c9a940ff663a54c27a4c60e379df6cc2b3052df0d37a09a85df93
-  reviewed_revision: d4f484024fec15196bfd3c272e953e3f983972cf
+  reviewed_revision: 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1
   notice_file: catalog/upstreams/notices/expo-skills.txt
   scope: Root LICENSE and plugins/expo/LICENSE (identical Expo MIT text). plugins/expo/skills/expo-animation/LICENSE
     is Emil Kowalski's MIT notice (sha256 4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b)
     and is not covered by this notice file. No skill pack, hook, MCP client, or plugin is imported.
-  notes: Inventory reviewed at d4f484024fec15196bfd3c272e953e3f983972cf. Discovery is not install. Hooks and
+  notes: Inventory reviewed at 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1. Discovery is not install. Hooks and
     expo-skill-feedback stay refused.
 source_ids:
   - github-com-expo-skills
@@ -68,21 +68,23 @@ relationships:
     pin_authority: npx skills add carries no pin. Reviewed commit below identifies the README and skill names this routing cites.
 baselines:
   reviewed_source:
-    revision: d4f484024fec15196bfd3c272e953e3f983972cf
-    observed_at: "2026-10-07"
-    by: b2c-contributor source review
-    note: Read-only license, README, skills.sh.json, selected SKILL.md, and hook inspection; 14 commits after
-      170589a7ee8963156f63de8202fa96cf08a9e610 were read. No skill install, hook execution, or Expo MCP call.
+    revision: 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1
+    observed_at: "2026-10-19"
+    by: b2c-maintainers
+    note: Read-only license, README, and selected skill inspection at 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1.
+      eas-observe now covers JS errors and native crashes. expo-overview can launch Expo Go and dev builds
+      without onboarding or the dev menu. No skill install, hook execution, or Expo MCP call.
   reviewed_guidance:
-    revision: d4f484024fec15196bfd3c272e953e3f983972cf
-    observed_at: "2026-10-07"
-    by: b2c-contributor source review
-    note: Selected methods adapted into existing design owners; skill names routed as opt-in Expo-stack guidance only.
+    revision: 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1
+    observed_at: "2026-10-19"
+    by: b2c-maintainers
+    note: Selected methods stay in existing design owners. Skill names stay opt-in Expo-stack guidance.
+      eas-observe error and crash reporting does not replace the native-crash-reporter owner.
 support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: d4f484024fec15196bfd3c272e953e3f983972cf
+    - range: 7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1
       status: untested
       evidence:
         - Source inspection, inventory fixtures, and the ios-skill-pack-boundary routing eval only; no live Expo
@@ -139,7 +141,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 30
-  last_review: "2026-10-07"
+  last_review: "2026-10-19"
   status: current
 credits:
   acknowledge: true

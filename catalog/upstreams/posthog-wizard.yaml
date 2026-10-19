@@ -12,9 +12,9 @@ maintainers:
 license:
   spdx: MIT
   status: verified
-  reviewed_revision: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
+  reviewed_revision: ea67c7845b8142087ad361a82b977eea1f7bc53a
   scope: Root LICENSE; only the listed upstream paths were adopted. Dependencies, linked material, and bundled third-party content need separate review.
-  evidence_url: https://github.com/PostHog/wizard/blob/52220a3e60e4c14555fddef61afb0a8dc3b68b94/LICENSE
+  evidence_url: https://github.com/PostHog/wizard/blob/ea67c7845b8142087ad361a82b977eea1f7bc53a/LICENSE
   evidence_sha256: 6dd6cb84dae639a6d710f4217f507a1f590864cd2c4699557a8380b0a7254d27
   notice_file: catalog/upstreams/notices/posthog-wizard.txt
 source_ids: [github-com-posthog-wizard]
@@ -27,19 +27,19 @@ relationships:
     pin_authority: Reviewed commit below and the builder package content digest identify the authored guidance; host executables and remotely downloaded skills remain separate compatibility dependencies.
 baselines:
   reviewed_source:
-    revision: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
-    observed_at: "2026-10-12"
+    revision: ea67c7845b8142087ad361a82b977eea1f7bc53a
+    observed_at: "2026-10-19"
     by: b2c-maintainers
-    note: Head 52220a3e60e4c14555fddef61afb0a8dc3b68b94. License digest unchanged. No wizard execution.
+    note: Release v2.84.1 at ea67c7845b8142087ad361a82b977eea1f7bc53a. License digest unchanged. No wizard execution.
   reviewed_guidance:
-    revision: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
-    observed_at: "2026-10-12"
+    revision: ea67c7845b8142087ad361a82b977eea1f7bc53a
+    observed_at: "2026-10-19"
     by: b2c-maintainers
-    note: Reviewed 2026-10-12 at 52220a3e60e4c14555fddef61afb0a8dc3b68b94. Release v2.81.1 is 4480651e369b84cdd1719636ac32204045bb8dd0. LLM Analytics is renamed AI Observability. Default wizard runs can add AI Observability and Logs; that default is not authorization. Error-tracking release linking for Python, Ruby, and PHP is a separate job. Two commits after the tag are install-resilience fixes, not new Brigade procedures.
+    note: Reviewed 2026-10-19 at ea67c7845b8142087ad361a82b977eea1f7bc53a (v2.84.1, 2026-10-16). No Brigade procedure change. Earlier AI Observability, Logs default, and language-specific error-tracking release-linking notes still apply.
 support:
   policy: Reviewed source guidance only. No upstream executable or live provider integration was exercised. SDK and tool compatibility must be verified against the selected app and host before execution.
   versions:
-    - range: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
+    - range: ea67c7845b8142087ad361a82b977eea1f7bc53a
       status: untested
       evidence: ["Source inspection only; no live execution or broad SDK-version support claim."]
   operations:
@@ -65,7 +65,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 7
-  last_review: "2026-10-12"
+  last_review: "2026-10-19"
   status: current
 credits:
   acknowledge: true
