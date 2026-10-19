@@ -79,7 +79,15 @@ sources:
     url: https://developer.apple.com/help/account/access/resolving-access-issues
     review_cadence_days: 7
     claim_scope: An unaccepted agreement can block App Store Connect access. Account Holder action.
-    last_review_date: 2026-08-24
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-news-17mwd36z
+    name: Developer Program License Agreement update
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=17mwd36z
+    review_cadence_days: 7
+    claim_scope: October 13, 2026 Developer Program License Agreement update. Account Holder acceptance only. Agents never accept it.
+    last_review_date: 2026-10-19
     reviewer: b2c-maintainers
   - id: github-com-rorkai-app-store-connect-cli-releases-4-9-0
     name: github.com

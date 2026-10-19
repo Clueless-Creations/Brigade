@@ -274,7 +274,7 @@ async function prove(): Promise<void> {
 
     const skills = row(inventory, SKILLS);
     assert(
-      skills.reviewedGuidance === "9c7e769f09a18237c9bd9c70f70aef65f0cd0391",
+      skills.reviewedGuidance === "4b496c57b262985df88f2382a65029d3fec3ab95",
       `skills reviewedGuidance ${skills.reviewedGuidance}`,
     );
     assert(
@@ -307,8 +307,10 @@ async function prove(): Promise<void> {
     );
     const skills = row(inventory, SKILLS);
     assert(
-      skills.installed === "not-observed" && skills.latestStable === "unknown" && skills.reviewedGuidance === "unrecorded",
-      "the skills row stays unrecorded and unobserved",
+      skills.installed === "not-observed" &&
+        skills.latestStable === "unknown" &&
+        skills.reviewedGuidance === "4b496c57b262985df88f2382a65029d3fec3ab95",
+      `the skills row stays unobserved; guidance comes from the copied manifest: ${skills.reviewedGuidance}`,
     );
     assert(!JSON.stringify(skills).includes(recordedTag), "the skills row carries no borrowed version");
   });

@@ -46,7 +46,8 @@ export interface ExpoObservabilityAssessment {
 export const EXPO_OBSERVABILITY_OWNERS: readonly ExpoObservabilityOwner[] = ["eas-observe", "product-analytics", "native-crash-reporter"];
 
 export const EXPO_OBSERVABILITY_NOTES = {
-  distinct: "EAS Observe, product analytics, and native crash reporting are distinct owners — none silently replaces another.",
+  distinct:
+    "EAS Observe, product analytics, and native crash reporting are distinct owners. Observe can now record JS errors and native crashes; that does not replace a native crash reporter owner.",
   configuredNotArrived: "A configured SDK is not proof events arrived; a dashboard with no events is not proof health.",
   missingVisible: "Missing data, preview limits, and absent native crash coverage remain visible — never fake green.",
   privacy: "Monitoring config must not leak secrets/PII or duplicate canonical business events without explicit mapping.",

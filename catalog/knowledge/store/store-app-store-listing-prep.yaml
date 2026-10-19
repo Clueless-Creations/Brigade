@@ -36,8 +36,24 @@ sources:
     source_type: official_docs
     url: https://developer.apple.com/app-store/review/guidelines
     review_cadence_days: 7
-    claim_scope: Guideline 3.1.3(f) payment applicability and Guidelines 2.1/2.3.1 review access and explanatory notes.
-    last_review_date: 2026-10-03
+    claim_scope: Guideline 3.1.3(f) payment applicability, Guidelines 2.1/2.3.1 review access, 2.3.14 creative assets, 2.5.19 hidden features, and 3.1.1(a) wording.
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-news-92th7e5i
+    name: Updated App Review Guidelines
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=92th7e5i
+    review_cadence_days: 7
+    claim_scope: October 16, 2026 App Review Guidelines update. Adds 2.3.14 creative assets, 2.5.19 hidden or undocumented features, 1.2 NCII including AI-generated imagery, and 3.1.1(a) wording.
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
+  - id: developer-apple-com-news-vvzx6cul
+    name: App Review Guidelines companion note
+    source_type: official_docs
+    url: https://developer.apple.com/news/?id=vvzx6cul
+    review_cadence_days: 7
+    claim_scope: October 16, 2026 companion note for the same App Review Guidelines update.
+    last_review_date: 2026-10-19
     reviewer: b2c-maintainers
   - id: developer-apple-com-help-app-store-connect-platform-version-information
     name: Apple Platform version information

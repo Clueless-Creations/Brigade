@@ -61,11 +61,11 @@ sources:
     claim_scope: Selected simulator viewing and control guidance only. No Swift helper, injected library, source
       package, camera integration or external dependency is incorporated. Root LICENSE has no project-specific
       copyright line; package metadata names Evan Bacon.
-    last_review_date: 2026-09-06
-    reviewer: b2c-contributor source review
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
     publisher: Evan Bacon
-    revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
-    retrieved_at: 2026-09-06T15:58:00.701780Z
+    revision: a30d70a55e05654d974c86803b68d4f675be77e3
+    retrieved_at: 2026-10-19T14:30:00.000Z
     upstream_id: evanbacon-serve-sim
     selectors: &a2
       - packages/serve-sim/README.md
@@ -121,7 +121,7 @@ derivations:
   - source_ids:
       - github-com-evanbacon-serve-sim
     relationship: adapted
-    baseline: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
+    baseline: a30d70a55e05654d974c86803b68d4f675be77e3
     selectors: *a2
     rationale: Reconcile existing selected guidance with the reviewed source while preserving builder artifact
       ownership, host selection, authority and evidence semantics.
@@ -130,8 +130,8 @@ derivations:
         expose a LAN/tunnel by default. Inspect actual host and Xcode requirements.
       - Camera injection, webcam capture, host accessibility changes, remote exposure and stopping other
         sessions require their own authority. Streaming does not certify provider state or signing readiness.
-    reviewer: b2c-contributor source review
-    reviewed_at: 2026-09-06
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-19
     notice: catalog/upstreams/notices/evanbacon-serve-sim.txt
     evaluation: npm run test:fixtures -- screenshot-upstreams
   - source_ids:

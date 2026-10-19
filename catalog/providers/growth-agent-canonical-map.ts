@@ -48,8 +48,8 @@ export const POSTHOG_WIZARD_UPSTREAM = "catalog/upstreams/posthog-wizard.yaml" a
 export const POSTHOG_CONTEXT_MILL_UPSTREAM = "catalog/upstreams/posthog-context-mill.yaml" as const;
 export const POSTHOG_WIZARD_KNOWLEDGE = "knowledge/data/posthog-agent-tooling.md" as const;
 export const POSTHOG_PROBE_TOOL = "tooling/probe-posthog.ts" as const;
-export const POSTHOG_WIZARD_REVIEWED_REVISION = "52220a3e60e4c14555fddef61afb0a8dc3b68b94" as const;
-export const POSTHOG_CONTEXT_MILL_REVIEWED_REVISION = "679c57b6163b60eadb1fc82fb2a29db5a9fc0d55" as const;
+export const POSTHOG_WIZARD_REVIEWED_REVISION = "ea67c7845b8142087ad361a82b977eea1f7bc53a" as const;
+export const POSTHOG_CONTEXT_MILL_REVIEWED_REVISION = "06e5d88881d50166a6b8da9526dc511fe5614fb6" as const;
 
 /** ADR + guide pins for #24 lifecycle reconcile. */
 export const PROVIDER_INTEGRATION_ADR = "docs/decisions/0013-provider-integration-boundary.md" as const;

@@ -148,7 +148,7 @@ Determine payment-rule applicability from the shipped experience before requirin
 [Apple guideline 3.1.3(f)](https://developer.apple.com/app-store/review/guidelines/) permits qualifying free stand-alone companions to paid web tools without IAP, with examples including VoIP, cloud storage, email services, and web hosting.
 That route requires no purchasing inside the app and no calls to action for purchase outside the app. Document the evidence for those conditions and the applicable storefront rules.
 An empty subscription catalog alone is not an IAP blocker; a web subscription alone does not establish an exemption.
-Assess the selected storefront under 3.1.1(a) and any applicable 3.1.3/3.1.4 exception; do not turn paid feature access alone into a universal IAP requirement.
+Assess the selected storefront under 3.1.1(a) and any applicable 3.1.3/3.1.4 exception. 3.1.1(a) now says links may go to a permitted destination. Music Streaming Services Entitlements sit inside the StoreKit External Purchase Link Entitlements bullet. Do not turn paid feature access alone into a universal IAP requirement.
 When IAP is required or used, preserve product, review, entitlement, and purchase checks. Do not change the business model merely to satisfy a tool checklist.
 
 Load `revenue-monetization.md` before pricing or product mutations. Reconcile pricing and entitlements across the surfaces used by the accepted payment model:
@@ -209,6 +209,8 @@ When the Rork App Store Connect CLI skill pack is available, map App Store work 
 Refresh the upstream skill pack and `asc --help` before copying command syntax into launch artifacts. If a new upstream ASC skill appears, add it to `source-registry.yaml`, update this route map when relevant, and add LaunchBench coverage if it closes a known gap.
 
 App creation is in scope for the ASC route. If the app record does not exist, load `apple-signing-release.md` and `app-store-connect-cli.md`, produce the sticky-field preflight, and then use the current ASC CLI/skill-pack path after founder approval. Do not replace this with a manual-only handoff unless ASC auth, agreements, account role, or the refreshed CLI/skill docs show an explicit blocker.
+
+Creative assets (Guideline 2.3.14, [2026-10-16](https://developer.apple.com/news/?id=92th7e5i)) can appear in the product page header and in search results. They must match the app's content, brand, and audience. They must not include inappropriate content, misleading app references, unverifiable claims, or specific discounted prices. Treat them as listing metadata, not as a screenshot substitute. The same update restates 3.1.1(a) and is also noted at [this companion post](https://developer.apple.com/news/?id=vvzx6cul).
 
 For custom product pages:
 

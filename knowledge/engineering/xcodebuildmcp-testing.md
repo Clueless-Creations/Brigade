@@ -377,6 +377,8 @@ Refreshed source summary:
 - Streams simulator framebuffer through MJPEG plus a WebSocket control channel and forwards simulator logs to the browser UI.
 - CLI supports gestures, button presses, typing, rotation, CoreAnimation debug flags, memory warnings, and camera injection.
 
+Host exec and `.ipa` install now require `--allow-exec` at server start. Without that flag, `/exec` returns 403. Trust is loopback-only. Do not enable `--allow-exec` unless the founder approved host-shell use for this run. `serve-sim doctor` collects redacted diagnostics. `--max-bitrate` caps the H.264 stream.
+
 Common commands from the current README:
 
 ```bash
@@ -384,9 +386,12 @@ Common commands from the current README:
 serve-sim "<selected-device>"
 serve-sim --detach "<selected-device>"
 serve-sim --list "<selected-device>"
+serve-sim doctor
 # Do not stop other simulator sessions; cleanup must target this run.
 serve-sim type "Hello, world!" -d "<selected-udid>"
 serve-sim button home -d "<selected-udid>"
+# Host shell and .ipa install stay off unless founder-approved.
+# serve-sim --allow-exec
 ```
 
 Record in `engineering/PRODUCTION_READINESS.md` or `SCREENSHOTS.md`:

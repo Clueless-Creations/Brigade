@@ -30,6 +30,7 @@ It must not call `asc review submit`.
 It must not call `asc publish appstore --submit`.
 It must not call `asc metadata push` without `--dry-run`.
 It must not call `asc web agreements accept`.
+The 2026-10-13 [Developer Program License Agreement update](https://developer.apple.com/news/?id=17mwd36z) is Account Holder work.
 
 Load `app-review-resubmit.md` after independent verification.
 
@@ -45,6 +46,7 @@ Build one plan from the classified kind.
 - `missing_review_information` uses `review_notes`. Do not rebuild.
 - `login_review_access` uses `review_access`. Do not store credentials.
 - `legal_policy`, `product_scope_disagreement`, `privacy_data_disclosure`, `payments_subscriptions`, and `unclear_conflicting` park.
+- Hidden, dormant, or undocumented features, including bait-and-switch after approval, now cite Guideline 2.5.19. Park those as `legal_policy` unless the founder already approved a bounded product-scope change.
 
 The plan names:
 

@@ -220,7 +220,7 @@ export function register(h: Harness): void {
       "executable candidate must be the v0.1.1 commit",
     );
     assert(
-      row.manifest.baselines.reviewedGuidance?.revision === "548f93276088f73fc15a411f34f02a51ba56ad4d",
+      row.manifest.baselines.reviewedGuidance?.revision === "836cf0db60310262cb57acf8619ea9a3797ce4e9",
       "historical guidance baseline must remain",
     );
     assert(row.observation?.host === null, "historical observation must not invent a host executable");

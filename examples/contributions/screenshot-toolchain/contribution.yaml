@@ -127,7 +127,7 @@ sources:
     title: serve-sim
     canonicalUrl: https://github.com/EvanBacon/serve-sim
     publisher: Evan Bacon
-    revision: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
+    revision: a30d70a55e05654d974c86803b68d4f675be77e3
     retrievedAt: 2026-09-06T15:58:00.701780Z
     reviewedAt: 2026-09-06
     retrieval:
@@ -702,7 +702,7 @@ derivations:
     sourceIds:
       - evanbacon-serve-sim
     relationship: adapted
-    baseline: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
+    baseline: a30d70a55e05654d974c86803b68d4f675be77e3
     selectors: *a5
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:
@@ -718,7 +718,7 @@ derivations:
     sourceIds:
       - evanbacon-serve-sim
     relationship: adapted
-    baseline: 6d009686ed08f7d8bd19bca9f9f67a9237931f44
+    baseline: a30d70a55e05654d974c86803b68d4f675be77e3
     selectors: *a5
     rationale: Selected procedures adapted to existing builder contracts; differences are recorded in catalog/upstreams.
     omissions:

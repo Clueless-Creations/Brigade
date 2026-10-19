@@ -1,43 +1,43 @@
 {
   "schemaVersion": 1,
   "upstreamId": "rork-app-store-connect-cli",
-  "checkedAt": "2026-10-12T14:20:00.000Z",
+  "checkedAt": "2026-10-19T14:30:00.000Z",
   "method": "github-api",
   "latestStable": {
-    "tag": "5.14.1",
-    "publishedAt": "2026-10-10T16:34:28Z",
+    "tag": "5.15.0",
+    "publishedAt": "2026-10-17T17:24:07Z",
     "assets": [
       {
-        "name": "asc_5.14.1_checksums.txt",
-        "sha256": "82ca6b696b1d4df8eca37d3dc2c5fab1589142f1a513b7ac2b414f6d0db789b9"
+        "name": "asc_5.15.0_checksums.txt",
+        "sha256": "14daa16271c2af21cfa38afed5cd68f74023e75177e48cdab4487a01e74f2f47"
       },
       {
-        "name": "asc_5.14.1_linux_amd64",
-        "sha256": "821f33ae517dde93996d8b76e6b9e4e21b52ca8b7b14bcc278a8cdd6039ee814"
+        "name": "asc_5.15.0_linux_amd64",
+        "sha256": "614ae3190938f4826c8cfbbb836a1926f765963614c17fdeb86750883f71aa70"
       },
       {
-        "name": "asc_5.14.1_linux_arm64",
-        "sha256": "47f2269e73847033b688f492a1f32403100500296cca0773abe3c9b95b8d4e83"
+        "name": "asc_5.15.0_linux_arm64",
+        "sha256": "07203e9e961f44e376b5117852d8a11a043c8cfee9628e8471379e9c21b1a2c5"
       },
       {
-        "name": "asc_5.14.1_macOS_amd64",
-        "sha256": "74324b37c7cbf3b75aef445665b5fd1f2de7141fc671ef047f8c561737ba9695"
+        "name": "asc_5.15.0_macOS_amd64",
+        "sha256": "4945df669cd2b59aeef64f1867c02b11e7f06558c251afbba96227d5b447fd8f"
       },
       {
-        "name": "asc_5.14.1_macOS_arm64",
-        "sha256": "da5bd4a0aa52b1a1a04f5c2480d03f1e74ba53ec02410186ee2503c262109642"
+        "name": "asc_5.15.0_macOS_arm64",
+        "sha256": "29b3f747acd94d1dc49884f4c0a7404181ec058c635d0ce20fc4202c930edf22"
       },
       {
-        "name": "asc_5.14.1_windows_amd64.exe",
-        "sha256": "f5a68c30640c323d8efdd8557de1de50b32dba2fcc91c833de4295c759540fcc"
+        "name": "asc_5.15.0_windows_amd64.exe",
+        "sha256": "dfc88db751add649d50e1874e2766bf32de740883099fc7f5ade0902d485616b"
       }
     ]
   },
   "prereleases": [],
   "branchHead": {
     "branch": "main",
-    "sha": "7af4b877a881b4463c15eb79e3affb5742b233f6",
-    "committedAt": "2026-10-10T16:34:28Z"
+    "sha": "b9520c3865b54c5c02f905793ac3565fc2885aee",
+    "committedAt": "2026-10-17T17:06:09Z"
   },
   "releasesSinceBaseline": [],
   "licenseSha256": "56fde5f70d5af10b746863208dee6bf0b99e49066da1f76e1800c760e276139b",
@@ -69,8 +69,9 @@
     "selected": "/usr/local/bin/asc"
   },
   "unknowns": [
-    "5.14.1 asset digests are the published checksums file, not a local binary hash. No local --help was run.",
+    "5.15.0 asset digests are the published checksums file, not a local binary hash of a host PATH install.",
     "Recorded host block is the historical 5.7.0 probe and was not re-probed.",
-    "Main 2ea08fc5a6ce615073ef65a653a3504543d76a64 after this tag is not the reviewed source."
+    "Local Linux 5.15.0 --help was run from a downloaded release binary on 2026-10-19. No macOS binary. No App Store Connect API call.",
+    "On Linux 5.15.0, `asc builds view` is unknown. Use `asc builds info`. The 5.14.2 release notes recover builds view."
   ]
 }

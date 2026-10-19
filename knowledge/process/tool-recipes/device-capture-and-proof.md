@@ -74,7 +74,7 @@ In-app native iOS route (rung 0, both runtimes):
 CLI proof tools:
 
 - SnapshotPreviews (`https://github.com/getsentry/SnapshotPreviews`) supports XCTest preview checks. Link `SnapshottingTests`: `SnapshotTest` can export snapshots, while `PreviewLayoutTest` checks layout without PNG export. Use `TEST_RUNNER_SNAPSHOTS_EXPORT_DIR` for snapshot export and label the results preview-only, not app-session evidence.
-- serve-sim (`https://github.com/EvanBacon/serve-sim`) streams and controls a booted iOS Simulator in a browser. Resolve the explicitly selected executable/version before starting a local preview at `http://localhost:3200` or the chosen port. Record a specific booted simulator/UDID, actions and logs. No implicit `npx` download, webcam capture or remote exposure is authorized; streaming does not replace provider proof or App Store signing readiness.
+- serve-sim (`https://github.com/EvanBacon/serve-sim`) streams and controls a booted iOS Simulator in a browser. Resolve the explicitly selected executable/version before starting a local preview at `http://localhost:3200` or the chosen port. Record a specific booted simulator/UDID, actions and logs. Host exec and `.ipa` install need `--allow-exec` at start. Trust is loopback-only. No implicit `npx` download, webcam capture or remote exposure is authorized; streaming does not replace provider proof or App Store signing readiness.
 
 These source reviews do not certify installed tools or authorize setup. Inspect
 actual macOS, architecture, Xcode and dependency requirements before use. Keep

@@ -50,12 +50,14 @@ may be fetched from context-mill, independently of the installed wizard version.
 Pin or record the selected bundle and verify its compatibility before use.
 
 PostHog renamed LLM Analytics to AI Observability. Treat older "LLM Analytics"
-labels as that product. Wizard 2.81.1 can add AI Observability and Logs on a
-default run. That default is not authorization to enable either product. The
-context-mill feature-flags step skill is a setup aid for the wizard. It does not
-replace the builder's feature-flag owner or grant a flag change. Error-tracking
-release linking for Python, Ruby, and PHP deploys is a separate job. Run it only
-when that linking is in scope.
+labels as that product. Wizard 2.84.1 and context-mill 1.57.0 were reviewed on
+2026-10-19. They do not change Brigade procedures. Wizard 2.81.1 and later can
+add AI Observability and Logs on a default run. That default is not
+authorization to enable either product. The context-mill feature-flags step
+skill is a setup aid for the wizard. It does not replace the builder's
+feature-flag owner or grant a flag change. Error-tracking release linking for
+Python, Ruby, and PHP deploys is a separate job. Run it only when that linking
+is in scope.
 
 Context-mill is tracked separately because its inspected revision has no root
 license. Its skill files, examples and generated bundles are not redistributed or

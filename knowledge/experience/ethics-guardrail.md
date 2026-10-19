@@ -173,7 +173,13 @@ Agents must not cross these lines. Attribute-uncertain items are flagged.
 
 - App Review Guidelines §2.3 (Accurate Metadata): privacy information, the description,
   screenshots, and previews must accurately reflect the app's core experience and stay
-  current. §2.3.1(a) rejects hidden features and a promoted false price.
+  current. §2.3.14 covers creative assets. They must match the app's content, brand, and
+  audience. They must not include inappropriate content, misleading app references,
+  unverifiable claims, or specific discounted prices. §2.5.19 rejects hidden, dormant,
+  or undocumented features, including bait-and-switch after review. §2.3.1 still
+  covers accurate metadata and a promoted false price. See the [2026-10-16
+  update](https://developer.apple.com/news/?id=92th7e5i) and the
+  [companion note](https://developer.apple.com/news/?id=vvzx6cul).
 - App Review Guidelines §3.1.2(a): an app that tries to trick users into purchasing a
   subscription under false pretenses, or that uses bait-and-switch or scam practices,
   will be removed. There is no current §3.2.2(b).

@@ -63,7 +63,7 @@ Workflow jobs that deploy a server, publish an OTA, or submit to a store are ext
 
 ## 7. Skills, MCP, And Proof
 
-Official Expo skills: upstream `expo-skills` at https://github.com/expo/skills — optional, reviewed, selected-session only. Discover the mapped skill name from `catalog/stacks/expo-agent-tools.ts` first. Expo MCP: https://docs.expo.dev/mcp/ — optional provider route. #87 reuses existing mobile-operation routing. Do not install a competing agent framework. Paid EAS skills stay unselected until chosen. `expo-skill-feedback`, hooks, and telemetry stay refused.
+Official Expo skills: upstream `expo-skills` at https://github.com/expo/skills — optional, reviewed, selected-session only. Discover the mapped skill name from `catalog/stacks/expo-agent-tools.ts` first. Reviewed head `7ddc1f5796996e5c7efe2fc3fa9168eb24e8dac1` lets `expo-overview` launch Expo Go and dev builds without onboarding or the dev menu. `eas-observe` can record JS errors and native crashes. That does not replace a distinct native crash reporter. Expo MCP: https://docs.expo.dev/mcp/ — optional provider route. #87 reuses existing mobile-operation routing. Do not install a competing agent framework. Paid EAS skills stay unselected until chosen. `expo-skill-feedback`, hooks, and telemetry stay refused.
 
 Quality, Maestro/EAS Workflows E2E, Observe, and upgrade proof: #88. The frozen proof matrix is the issue comment on #88. Unit mocks cannot satisfy simulator, device, or store rows.
 

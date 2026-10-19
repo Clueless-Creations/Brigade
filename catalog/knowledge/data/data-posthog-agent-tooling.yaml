@@ -20,11 +20,11 @@ sources:
     url: https://github.com/PostHog/wizard
     review_cadence_days: 7
     claim_scope: Selected procedures and limitations; no installed or live-provider support claim.
-    last_review_date: 2026-09-06
-    reviewer: b2c-contributor source review
+    last_review_date: 2026-10-19
+    reviewer: b2c-maintainers
     publisher: PostHog
-    revision: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
-    retrieved_at: 2026-09-06T13:59:44.598491Z
+    revision: ea67c7845b8142087ad361a82b977eea1f7bc53a
+    retrieved_at: 2026-10-19T14:30:00.000Z
     rights:
       status: verified
       spdx: MIT
@@ -55,7 +55,7 @@ derivations:
   - relationship: adapted
     source_ids:
       - github-com-posthog-wizard
-    baseline: 52220a3e60e4c14555fddef61afb0a8dc3b68b94
+    baseline: ea67c7845b8142087ad361a82b977eea1f7bc53a
     selectors:
       - README.md
       - src/lib/programs
@@ -64,7 +64,7 @@ derivations:
       independently verified acceptance.
     omissions:
       - Automatic installation, broad agent workflows, unreviewed remotely fetched skills and implicit acceptance.
-    reviewer: b2c-contributor source review
-    reviewed_at: 2026-09-06
+    reviewer: b2c-maintainers
+    reviewed_at: 2026-10-19
     notice: catalog/upstreams/notices/posthog-wizard.txt
     evaluation: npm run test:fixtures -- official-upstreams
