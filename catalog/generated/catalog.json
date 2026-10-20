@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.145",
+  "skillVersion": "0.221.146",
   "areas": [
     {
       "id": "area.operating-system",
@@ -19490,6 +19490,14 @@
       "audit": "required"
     },
     {
+      "id": "gate.check-clu-pr-lint",
+      "command": "check:clu-pr-lint",
+      "scriptPath": "checks/validation/repository/check-clu-pr-lint.ts",
+      "commandManifestPath": "package.json",
+      "ownerDomainId": "domain.machine",
+      "audit": "required"
+    },
+    {
       "id": "gate.check-component-contracts",
       "command": "check:component-contracts",
       "scriptPath": "checks/validation/business/design/check-component-contracts.ts",
@@ -20593,14 +20601,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "de0817102a86dcc937c61f92ff0b3771de418a186364e1435cdc3d38cfd1b40c",
+    "fingerprint": "e609b7b7f1ab790398bcf1416f5ea36e726562d77be8519ded6a2b3d6183dd2f",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.145",
-        "revision": "0.221.145",
-        "contentDigest": "0903bbfcd7b2bc749aafa37a6d6ee5e92206c08d2d2c7a46984776158c2ac45a"
+        "version": "0.221.146",
+        "revision": "0.221.146",
+        "contentDigest": "0e5320a9689eee2495a58a92779788f82665cfb44900cec996bb5a0a81454f92"
       }
     ],
     "base": {

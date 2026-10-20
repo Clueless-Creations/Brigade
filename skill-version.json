@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.145",
-  "updatedAt": "2026-10-18",
+  "version": "0.221.146",
+  "updatedAt": "2026-10-20",
   "sourcePath": ".",
   "releaseNotes": [
+    "Require CLU ids in branch names, PR titles, and the merge gate (#709)",
     "CLU-478: Add Pitch Film Studio task skill",
     "CLU-374: migrate @cloudflare/workers-oauth-provider 0.10.3 to 1.2.3 (#735)",
     "CLU-371: regenerate Worker types so Dependabot #722 passes CI (#736)",

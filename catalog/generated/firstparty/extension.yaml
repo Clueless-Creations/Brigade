@@ -1,7 +1,7 @@
 apiVersion: b2c.extension/v1
 hostApiVersion: b2c/v1
 id: b2c/consumer-business
-version: 0.221.145
+version: 0.221.146
 title: Consumer business
 dependencies: []
 imports: []
@@ -732,6 +732,10 @@ resources:
     mediaType: text/plain
   - id: b2c/resource-5d106c57ec479799ed48747b76545c48b95bd54a319d601924fc2c0598ed4156
     path: checks/validation/business/process/check-change-cascade.ts
+    kind: gate
+    mediaType: text/plain
+  - id: b2c/resource-366c7709f0db10088c28e3b92015b1687925b71a47dcf1720237797b8d2ca7b5
+    path: checks/validation/repository/check-clu-pr-lint.ts
     kind: gate
     mediaType: text/plain
   - id: b2c/resource-4b3487666c07b8ba3add48e128316ae9824a644baa49b38168da0174cf7e86b9
