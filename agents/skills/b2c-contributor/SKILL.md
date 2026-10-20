@@ -55,4 +55,6 @@ When drafting or checking a contribution, use the `b2c contribute` plan/check/pr
 
 ## Handoff
 
+When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.
+
 Report scope, units, rights posture, required refusals, check/eval results, and required downstream maintainer handoff with evidence.
