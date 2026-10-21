@@ -604,6 +604,89 @@ function checkResolvedAppleSignOff(markdown: string): void {
   });
 }
 
+function promptTableCells(line: string): string[] | undefined {
+  const trimmed = line.trim();
+  if (!trimmed.startsWith("|")) return undefined;
+  return trimmed
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim().replaceAll("`", ""));
+}
+
+function isPromptSeparator(cells: string[]): boolean {
+  return cells.every((cell) => /^:?-+:?$/.test(cell.replaceAll(" ", "")));
+}
+
+function inactiveRemoteFlag(value: string): boolean {
+  return /^(?:none|no|n\/a|na|false|off|not used|—|-)?\.?$/i.test(value.trim());
+}
+
+function explicitReviewBuildOverride(value: string): boolean {
+  const trimmed = value.trim();
+  if (trimmed.length < 12 || inactiveRemoteFlag(trimmed)) return false;
+  if (/\b(?:todo|tbd|pending|placeholder|unknown|missing|blocked)\b/i.test(trimmed)) return false;
+  return /review build|review-build|submitted build/i.test(trimmed);
+}
+
+function checkStoreRequiredPromptReachability(markdown: string): void {
+  const lines = markdown.split(/\r?\n/);
+  const heading = lines.findIndex((line) => /store-required prompt reachability/i.test(line));
+  const rows: string[][] = [];
+  if (heading !== -1) {
+    for (const line of lines.slice(heading + 1)) {
+      if (/^#{1,6}\s/.test(line.trim()) && rows.length > 0) break;
+      const cells = promptTableCells(line);
+      if (!cells || isPromptSeparator(cells) || cells.some((cell) => /\{\{/.test(cell))) continue;
+      const header = cells.join(" ").toLowerCase();
+      if (header.includes("remote flag") && header.includes("reviewer path")) continue;
+      if (cells.length >= 6) rows.push(cells);
+    }
+  }
+  if (rows.length === 0) {
+    issues.push(
+      issue(
+        "error",
+        "apple_requirements.store_prompt_reachability_missing",
+        "A ready Apple submission must record Store-Required Prompt Reachability for each store-required ATT or permission surface.",
+        relative,
+      ),
+    );
+    return;
+  }
+  for (const cells of rows) {
+    const surface = cells[0] ?? "A store-required prompt";
+    const storeRequired = cells[1] ?? "";
+    const reachable = cells[2] ?? "";
+    const remoteFlag = cells[3] ?? "";
+    const override = cells[4] ?? "";
+    const reviewerPath = cells[5] ?? "";
+    if (!inactiveRemoteFlag(remoteFlag) && !explicitReviewBuildOverride(override)) {
+      issues.push(
+        issue(
+          "error",
+          "apple_requirements.store_prompt_behind_flag",
+          `${surface} is behind remote flag "${remoteFlag.trim()}" without an explicit review-build override.`,
+          relative,
+        ),
+      );
+    }
+    if (!/^(?:yes|true|required)$/i.test(storeRequired.trim())) continue;
+    const pathOk = /first launch/i.test(reviewerPath) || /[>→]|->/.test(reviewerPath);
+    const reachableOk = /first launch|review notes/i.test(reachable) || /^yes$/i.test(reachable.trim());
+    if (!pathOk || !reachableOk || /^(?:no|false)$/i.test(reachable.trim())) {
+      issues.push(
+        issue(
+          "error",
+          "apple_requirements.store_prompt_unreachable",
+          `${surface} must be reachable on the default review build, on first launch or from the exact path stated in the review notes.`,
+          relative,
+        ),
+      );
+    }
+  }
+}
+
 const platforms = state
   ? asArray(getPath(state, "project.platforms"))
       .map((item) => asString(item)?.toLowerCase())
@@ -663,6 +746,7 @@ if (appleRequirementsSkipped) {
     "trust/PRIVACY.md",
     "trust/SECURITY.md",
     "founder approval",
+    "Store-Required Prompt Reachability",
   ];
 
   for (const phrase of requiredPhrases) {
@@ -705,6 +789,7 @@ if (appleRequirementsSkipped) {
     }
 
     checkUnresolvedLines(text);
+    checkStoreRequiredPromptReachability(text);
     if (hasUnresolvedTemplateState(text)) {
       issues.push(
         issue(

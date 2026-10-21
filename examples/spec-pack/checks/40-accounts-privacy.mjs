@@ -1,7 +1,7 @@
 // CLU-105. Accounts, privacy inventory, security, and legal preflight.
 export const id = "accounts-privacy";
 export const describe =
-  "Accounts, Sign in with Apple or an equivalent private login, privacy inventory, security, and legal preflight.";
+  "Accounts, Sign in with Apple or an equivalent private login, privacy inventory, store-required prompt reachability, security, and legal preflight.";
 
 const ACCOUNT_MODES = new Set(["none", "optional", "required"]);
 const STATUSES = new Set(["pass", "fix", "n/a", "founder_fact_needed"]);
@@ -9,9 +9,32 @@ const LEGAL_ITEMS = ["coppa", "fonts", "session_replay", "can_spam", "auto_renew
 const HUMAN_STEP_ITEMS = new Set(["dmca", "can_spam"]);
 const THIRD_PARTY = new Set(["facebook", "google", "x", "twitter", "linkedin", "amazon", "wechat"]);
 const EQUIVALENT_FEATURES = ["limits_data_to_name_and_email", "private_email", "no_advertising_without_consent"];
+const PROMPT_KINDS = new Set(["att", "permission"]);
+const PROMPT_REACHABLE = new Set(["first_launch", "review_notes"]);
+const INACTIVE_REMOTE_FLAG = new Set(["", "none", "no", "n/a", "na", "false", "off", "not used"]);
 
 function text(value) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
+}
+
+function remoteFlagText(value) {
+  if (typeof value === "boolean") return value ? "true" : "none";
+  return text(value);
+}
+
+function inactiveRemoteFlag(value) {
+  return INACTIVE_REMOTE_FLAG.has(value.trim().toLowerCase());
+}
+
+function explicitReviewBuildOverride(value) {
+  const trimmed = text(value);
+  if (trimmed.length < 12 || inactiveRemoteFlag(trimmed)) return false;
+  if (/\b(todo|tbd|pending|placeholder|unknown|missing|blocked)\b/i.test(trimmed)) return false;
+  return /review build|review-build|submitted build/i.test(trimmed);
+}
+
+function exactReviewerPath(value) {
+  return value.includes(">") || value.includes("→") || value.includes("->");
 }
 
 function providerId(provider) {
@@ -82,6 +105,45 @@ function checkPrivacy(spec) {
     });
   }
   if (!Array.isArray(privacy.required_reason_apis)) errors.push("privacy: required_reason_apis must be a list");
+  errors.push(...checkStoreRequiredPrompts(privacy));
+  return errors;
+}
+
+function checkStoreRequiredPrompts(privacy) {
+  const errors = [];
+  const rows = privacy.store_required_prompts;
+  if (!Array.isArray(rows)) {
+    errors.push("privacy: store_required_prompts must be a list");
+    return errors;
+  }
+  let att = false;
+  rows.forEach((row, index) => {
+    const label = `privacy.store_required_prompts[${index}]`;
+    if (!row || typeof row !== "object" || Array.isArray(row)) {
+      errors.push(`${label}: must be a prompt row`);
+      return;
+    }
+    if (!text(row.id)) errors.push(`${label}: id is required`);
+    const kind = text(row.kind);
+    if (!PROMPT_KINDS.has(kind)) errors.push(`${label}: kind must be att or permission`);
+    if (kind === "att") att = true;
+    const reachable = text(row.reachable);
+    if (!PROMPT_REACHABLE.has(reachable)) errors.push(`${label}: reachable must be first_launch or review_notes`);
+    const reviewerPath = text(row.reviewer_path);
+    if (!reviewerPath) errors.push(`${label}: reviewer_path is required`);
+    else if (reachable === "first_launch" && !/first launch/i.test(reviewerPath)) {
+      errors.push(`${label}: reviewer_path must say the prompt appears on first launch`);
+    } else if (reachable === "review_notes" && !exactReviewerPath(reviewerPath)) {
+      errors.push(`${label}: reviewer_path must be the exact navigation path`);
+    }
+    const remoteFlag = remoteFlagText(row.remote_flag);
+    if (!inactiveRemoteFlag(remoteFlag) && !explicitReviewBuildOverride(row.review_build_override)) {
+      errors.push(`${label}: remote flag "${remoteFlag}" needs an explicit review_build_override`);
+    }
+  });
+  if (privacy.tracking === true && !att) {
+    errors.push("privacy: tracking requires a store-required App Tracking Transparency prompt that is reachable on the review build");
+  }
   return errors;
 }
 

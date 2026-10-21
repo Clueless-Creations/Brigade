@@ -97,6 +97,62 @@ function reviewFieldValues(text: string, labels: string[]): string[] {
   return values;
 }
 
+function inactivePromptAnswer(value: string): boolean {
+  return /\bno store-required\b|\bnot in scope\b|\bnone in scope\b/i.test(value);
+}
+
+function storePromptBehindFlag(value: string): boolean {
+  if (/review-build override|review build override/i.test(value) || /\bno remote feature flag\b/i.test(value)) return false;
+  return /\b(?:feature flag|remote flag|remote config)\b/i.test(value);
+}
+
+function storePromptPathResolved(value: string): boolean {
+  if (/\b(?:TODO|TBD|unknown|missing|pending|blocked|placeholder|not set|not configured|fill in|to fill)\b/i.test(value) || /\{\{/.test(value)) {
+    return false;
+  }
+  if (inactivePromptAnswer(value) || /first launch/i.test(value)) return true;
+  return /[>→]|->/.test(value);
+}
+
+function checkStoreRequiredPromptPath(text: string, file: string, ready: boolean): void {
+  if (!ready) return;
+  const values = reviewFieldValues(text, ["Store-required prompt path"]);
+  if (values.length === 0) {
+    issues.push(
+      issue(
+        "error",
+        "store_console.store_prompt_path_missing",
+        `${file} must record Store-required prompt path as first launch, the exact navigation path, or that no store-required ATT or permission surface exists.`,
+        file,
+      ),
+    );
+    return;
+  }
+  for (const value of values) {
+    if (storePromptBehindFlag(value)) {
+      issues.push(
+        issue(
+          "error",
+          "store_console.store_prompt_behind_flag",
+          `${file} records a store-required prompt behind a remote flag without an explicit review-build override.`,
+          file,
+        ),
+      );
+      continue;
+    }
+    if (!storePromptPathResolved(value)) {
+      issues.push(
+        issue(
+          "error",
+          "store_console.store_prompt_path_unresolved",
+          `${file} must name the exact navigation path to each store-required ATT or permission surface, or first launch.`,
+          file,
+        ),
+      );
+    }
+  }
+}
+
 function checkIosReviewAccess(text: string, file: string, ready: boolean): void {
   const answers = reviewFieldValues(text, ["Sign-in required", "Login required"]).map((value) => {
     if (/^(yes|true|required)\s*(?:$|[—–,:()-])/i.test(value)) return "required";
@@ -350,10 +406,12 @@ if (!markdown) {
 
   requirePhrases(markdown, requiredPhrases, "store_console", markdownPath);
 
+  const storeReady = storeConsoleDone || statusLineClaimsReady(markdown);
   if (hasIos) {
-    requireAgeRatingAnswers(markdown, markdownPath, storeConsoleDone || statusLineClaimsReady(markdown));
-    checkIosReviewAccess(markdown, markdownPath, storeConsoleDone || statusLineClaimsReady(markdown));
+    requireAgeRatingAnswers(markdown, markdownPath, storeReady);
+    checkIosReviewAccess(markdown, markdownPath, storeReady);
   }
+  checkStoreRequiredPromptPath(markdown, markdownPath, storeReady);
 
   for (const line of collisionFallbackLines(markdown)) {
     if (!hasFounderStopGuard(line)) {

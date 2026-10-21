@@ -30,12 +30,15 @@ This packet is the copy-paste operator surface for App Store Connect and Google 
 ## Review Packet
 
 - Review notes describe new features and product changes, plus any account setup, entitlement, restoration, deletion, or privacy-sensitive instructions needed to test them.
+- Every store-required ATT or permission surface is reachable on the default review build with no remote feature flag, either on first launch or from the exact path in `Store-required prompt path`. A remote feature flag is allowed only with an explicit review-build override recorded on that same line. The same rule applies to Google Play permission and consent dialogs a reviewer must see.
 - App Store Connect upload readiness is blocked until `store/APPLE_APP_STORE_REQUIREMENTS.md` accounts for privacy manifests, required reason APIs, SDK manifest/signature status, App Privacy labels, purpose strings, ATT, account deletion, review notes, and archive/upload warnings.
 - If the app name is already in use, stop for founder approval before using any fallback name.
 
 ### App Review Information
 
-Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and [Guidelines 2.1/2.3.1](https://developer.apple.com/app-store/review/guidelines/). Provide current review contact details and access to all reviewable features. Notes must describe new features, functionality, and product changes specifically, plus any settings or instructions needed to test them.
+Follow [Apple's field definitions](https://developer.apple.com/help/app-store-connect/reference/app-information/platform-version-information) and [Guidelines 2.1/2.3.1](https://developer.apple.com/app-store/review/guidelines/). Provide current review contact details and access to all reviewable features. Notes must describe new features, functionality, and product changes specifically, plus any settings or instructions needed to test them. Notes also record the exact navigation path to each store-required ATT or permission surface, or state that the surface appears on first launch.
+
+Store-required prompt path: {{EXACT_NAVIGATION_PATH_OR_FIRST_LAUNCH}}
 
 Sign-in required: unknown — inspect the shipped reviewable features, then record yes or no. Unknown is an unresolved Brigade packet state, not an Apple checkbox value.
 
@@ -45,7 +48,7 @@ An app without login does not need demo credentials. That does not establish tha
 
 Record reusable, non-secret Notes content in `APP_STORE_LISTING.md`. Read existing review details and reuse verified information before preparing an authorized update through the supported ASC review-details route. Refresh the applicable command's help for current flags; preserve founder approval for mutations and submission.
 
-If no new functionality or product/testing changes need new Notes, an explained `Review notes: N/A` can record reuse of current approved review information. Bare N/A remains unresolved; reuse does not exempt the Notes obligations above or imply an empty Apple field.
+If no new functionality or product/testing changes need new Notes, an explained `Review notes: N/A` can record reuse of current approved review information. Bare N/A remains unresolved; reuse does not exempt the Notes obligations above or imply an empty Apple field. Reuse still requires `Store-required prompt path` for each store-required ATT or permission surface.
 
 ## Age Rating Questionnaire
 

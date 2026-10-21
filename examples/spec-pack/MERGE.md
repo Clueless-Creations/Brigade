@@ -45,6 +45,7 @@ radius**. If either is in doubt, stop and ask the founder.
 
 - Payments and prices: products, prices, offers, purchase providers.
 - Store metadata, screenshots, review notes, submission, or release.
+- A store-required ATT or permission prompt behind a remote feature flag, unless the spec records an explicit review-build override and the review notes give first launch or the exact path.
 - Authentication: sign-in, tokens, sessions, account linking.
 - Deleting or changing user data, and production database migrations.
 - Security text, privacy policy, terms, and data-collection disclosures.

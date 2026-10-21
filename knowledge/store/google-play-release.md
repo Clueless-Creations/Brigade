@@ -139,6 +139,7 @@ Common B2C rejection/removal causes to preempt:
 - Metadata violations: ranking claims, price/promo spam, keyword stuffing, misleading icons or testimonials (see the listing rules in `store-console-workflow.md`).
 - Incomplete App content declarations or a privacy policy URL that is dead, geofenced, or a PDF.
 - Sensitive permissions (location in background, SMS, QUERY_ALL_PACKAGES) without an approved declaration.
+- A store-required permission or consent dialog, including an advertising-id prompt the reviewer must see, that is off on the review build because a remote feature flag is off, or that has no exact path in the review notes. A remote feature flag is allowed only with an explicit review-build override in `store/GOOGLE_PLAY_RELEASE.md` and `Store-required prompt path` in `store/STORE_CONSOLE.md`.
 
 Policy strikes accumulate against the developer account, and repeated or severe violations can terminate the account and all its apps — treat every rejection as account-level risk, not a per-app annoyance. If a rejection or removal is wrong, use the policy appeal route in Play Console with evidence; do not resubmit unchanged builds hoping for a different reviewer, and do not make policy-significant changes to dodge review. Appeals, resubmissions after rejection, and any communication with Google policy teams are founder-gated.
 
@@ -161,6 +162,7 @@ Done-status requirements — do not mark the artifact or the Play side of `lanes
 - the current release-track state is recorded (track, version code/name, status, dates)
 - the Data safety reconciliation with `privacy-terms.md` and `store/APPLE_APP_STORE_REQUIREMENTS.md` is explicitly stated as consistent or the divergence is documented
 - the personal-account 12-tester/14-day closed-testing gate is addressed with tester counts and dates, or the artifact states the account is an organization account and the gate does not apply
+- every store-required permission or consent surface is reachable on the default review build with no remote feature flag, on first launch or from the exact path in the review notes, or an explicit review-build override is recorded with that path
 
 Also update `store/STORE_CONSOLE.md` and `store/store-console.html` with the Play click paths and paste values, `state/business-state.json` (`lanes.store_console`, `providers.google_play`, and lane blockers), `SECRETS.md` for the upload keystore and `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`, and `revenue/REVENUE_OPS.md` when Play Billing is in scope.
 
