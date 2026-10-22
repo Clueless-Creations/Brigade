@@ -978,6 +978,47 @@ export function register(h: Harness): void {
   );
   runFixture("discover available with authorized Apple Ads passes", asoOpsAdsAuthorized, "check-aso-evidence.ts", 0);
 
+  const promptRow = "| None in scope | no | not applicable | none | not used | not applicable |";
+  const replacePromptRow = (root: string, row: string): void => {
+    const file = path.join(root, "store/APPLE_APP_STORE_REQUIREMENTS.md");
+    writeFileSync(file, readFileSync(file, "utf8").replace(promptRow, row), "utf8");
+  };
+  const appleCheck = "check-apple-app-store-requirements.ts";
+  const firstLaunchPrompt = makeFixture("apple-store-prompt-first-launch");
+  writeCompleteAppleRequirements(firstLaunchPrompt);
+  replacePromptRow(firstLaunchPrompt, "| App Tracking Transparency | yes | first launch | none | not used | First launch |");
+  runFixture("ready Apple requirements pass when ATT is on first launch with no remote flag", firstLaunchPrompt, appleCheck, 0);
+
+  const overridePrompt = makeFixture("apple-store-prompt-override");
+  writeCompleteAppleRequirements(overridePrompt);
+  replacePromptRow(
+    overridePrompt,
+    "| App Tracking Transparency | yes | review notes | att_prompt | The submitted review build forces this prompt on. | Settings > Privacy > Tracking |",
+  );
+  runFixture("ready Apple requirements pass when a remote flag has an explicit review-build override", overridePrompt, appleCheck, 0);
+
+  const flaggedPrompt = makeFixture("apple-store-prompt-flag");
+  writeCompleteAppleRequirements(flaggedPrompt);
+  replacePromptRow(flaggedPrompt, "| App Tracking Transparency | yes | review notes | att_prompt | not used | Settings > Privacy > Tracking |");
+  runFixture(
+    "ready Apple requirements fail when a store-required prompt is behind a remote flag",
+    flaggedPrompt,
+    appleCheck,
+    1,
+    "apple_requirements.store_prompt_behind_flag",
+  );
+
+  const buriedPrompt = makeFixture("apple-store-prompt-buried");
+  writeCompleteAppleRequirements(buriedPrompt);
+  replacePromptRow(buriedPrompt, "| App Tracking Transparency | yes | no | none | not used | buried in settings |");
+  runFixture(
+    "ready Apple requirements fail when a store-required prompt has no review path",
+    buriedPrompt,
+    appleCheck,
+    1,
+    "apple_requirements.store_prompt_unreachable",
+  );
+
   registerAppReviewContract(h);
 }
 
@@ -1602,6 +1643,59 @@ export function registerReviewAccess(h: Harness): void {
   const reviewCheck = "check-store-console-packet.ts";
   const unknownLogin = "store_console.review_login_applicability_unknown";
   const missingAccess = "store_console.review_access_unresolved";
+  const withPromptPath = (name: string, pathLine: string | null): string => {
+    const root = reviewPacket(name, ["Sign-in required: no — all reviewable features are accessible without authentication."]);
+    const packet = path.join(root, "store/STORE_CONSOLE.md");
+    const current = readFileSync(packet, "utf8");
+    writeFileSync(
+      packet,
+      pathLine === null ? current.replace(/^Store-required prompt path:.*\n?/m, "") : current.replace(/^Store-required prompt path:.*$/m, pathLine),
+      "utf8",
+    );
+    return root;
+  };
+  runFixture(
+    "ready review notes pass when no store-required prompt is in scope",
+    withPromptPath("store-prompt-none", "Store-required prompt path: none — no store-required ATT or permission surface on this build."),
+    reviewCheck,
+    0,
+  );
+  runFixture(
+    "ready review notes pass with the exact path to a store-required prompt",
+    withPromptPath("store-prompt-path", "Store-required prompt path: Settings > Privacy > Tracking."),
+    reviewCheck,
+    0,
+  );
+  runFixture(
+    "ready review notes pass when a remote flag names a review-build override",
+    withPromptPath(
+      "store-prompt-override",
+      "Store-required prompt path: Settings > Privacy > Tracking. Review-build override: the submitted review build forces the prompt on.",
+    ),
+    reviewCheck,
+    0,
+  );
+  runFixture(
+    "ready review notes fail when a store-required prompt is behind a remote flag",
+    withPromptPath("store-prompt-flag", "Store-required prompt path: Settings > Privacy > Tracking, behind remote flag att_prompt."),
+    reviewCheck,
+    1,
+    "store_console.store_prompt_behind_flag",
+  );
+  runFixture(
+    "ready review notes fail when the store-required prompt path is missing",
+    withPromptPath("store-prompt-missing", null),
+    reviewCheck,
+    1,
+    "store_console.store_prompt_path_missing",
+  );
+  runFixture(
+    "ready review notes fail when the store-required prompt path is not exact",
+    withPromptPath("store-prompt-buried", "Store-required prompt path: buried in settings."),
+    reviewCheck,
+    1,
+    "store_console.store_prompt_path_unresolved",
+  );
   runFixture(
     "no-login review readiness does not require demo, device, or service phrases",
     reviewPacket("review-no-login", ["Sign-in required: no — all reviewable features are accessible without authentication."]),

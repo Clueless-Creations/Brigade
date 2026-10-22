@@ -98,6 +98,7 @@ The machine check lives in `examples/spec-pack/checks/`. `build.mjs` loads those
 The check list lives in `examples/spec-pack/README.md`.
 The check proves the spec is complete.
 The check does not prove the design is good.
+`privacy.store_required_prompts` lists every ATT or permission dialog a store reviewer must see. Each row is reachable on the default review build on first launch or from the exact path in the review notes. A remote flag needs an explicit review-build override. Tracking requires an `att` row.
 
 Gate 1 is the human gate.
 The founder reviews `index.html` and the checklist.

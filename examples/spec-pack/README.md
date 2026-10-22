@@ -80,7 +80,12 @@ mode, `&w=<px>&h=<px>` for another device size).
     the Guideline 4.8 privacy features. Any other mode needs the `delete` web
     surface and `in_app_delete_screen`.
 16. `privacy` names the data inventory, processors, and required-reason APIs.
-    `security` names entitlements, the secrets location, and deep-link checks.
+    `privacy.store_required_prompts` lists every ATT or permission dialog a
+    store reviewer must see. Each row is reachable on the default review build
+    on first launch or from the exact navigation path in the review notes. A
+    remote flag needs `review_build_override` that names the review build.
+    Tracking requires an `att` row. `security` names entitlements, the secrets
+    location, and deep-link checks.
 17. `legal_preflight` lists all six checks. `n/a` needs a reason. The DMCA and
     email-provider items need human steps unless they are `n/a`.
 18. `onboarding` has an archetype and a reason. `utility-quick-start` has at

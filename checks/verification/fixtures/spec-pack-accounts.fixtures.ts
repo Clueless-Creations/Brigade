@@ -20,6 +20,11 @@ type SpecDoc = {
   }>;
   web: Array<{ id: string }>;
   accounts?: Record<string, unknown>;
+  privacy?: {
+    tracking?: boolean;
+    store_required_prompts?: Array<Record<string, unknown>>;
+    [key: string]: unknown;
+  };
   legal_preflight?: Array<Record<string, unknown>>;
 };
 
@@ -88,6 +93,82 @@ export function register(harness: Harness): void {
     assert(result.html.includes('document.getElementById("w-privacy")'), "label map is not attached to the privacy page");
     assert(result.html.includes("PostHog") && result.html.includes("RevenueCat") && result.html.includes("Sentry"), "example inventory is missing a processor");
     assert(result.html.includes('"id": "coppa"') || result.html.includes("id: coppa"), "legal preflight items were not rendered into the page");
+    assert(result.html.includes("No store-required ATT or permission surface."), "empty store-required prompt list was not rendered");
+  });
+
+  harness.check("spec-pack store-required ATT prompt on first launch passes", () => {
+    const result = withSpec(harness, "spec-pack-store-prompt-pass", (spec) => {
+      spec.privacy = {
+        ...(spec.privacy ?? {}),
+        tracking: true,
+        store_required_prompts: [
+          {
+            id: "att",
+            kind: "att",
+            reachable: "first_launch",
+            reviewer_path: "The prompt appears on first launch.",
+            remote_flag: "none",
+          },
+        ],
+      };
+    });
+    assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.output}`);
+    assert(result.html.includes("Store-required prompts"), "store-required prompt table was not rendered");
+    assert(result.html.includes("first_launch"), "first-launch prompt was not rendered");
+  });
+
+  harness.check("spec-pack store-required prompt with a review-build override passes", () => {
+    const result = withSpec(harness, "spec-pack-store-prompt-override", (spec) => {
+      spec.privacy = {
+        ...(spec.privacy ?? {}),
+        tracking: true,
+        store_required_prompts: [
+          {
+            id: "att",
+            kind: "att",
+            reachable: "review_notes",
+            reviewer_path: "Settings > Privacy > Tracking",
+            remote_flag: "att_prompt",
+            review_build_override: "The submitted review build forces this prompt on.",
+          },
+        ],
+      };
+    });
+    assert(result.status === 0, `expected exit 0, got ${result.status}\n${result.output}`);
+  });
+
+  harness.check("spec-pack tracking without a reachable ATT prompt fails", () => {
+    const result = withSpec(harness, "spec-pack-store-prompt-tracking", (spec) => {
+      spec.privacy = { ...(spec.privacy ?? {}), tracking: true, store_required_prompts: [] };
+    });
+    assert(result.status === 1, `expected exit 1, got ${result.status}\n${result.output}`);
+    assert(
+      result.output.includes("privacy: tracking requires a store-required App Tracking Transparency prompt"),
+      `missing tracking prompt error\n${result.output}`,
+    );
+  });
+
+  harness.check("spec-pack store-required prompt behind a remote flag fails", () => {
+    const result = withSpec(harness, "spec-pack-store-prompt-flag", (spec) => {
+      spec.privacy = {
+        ...(spec.privacy ?? {}),
+        tracking: true,
+        store_required_prompts: [
+          {
+            id: "att",
+            kind: "att",
+            reachable: "review_notes",
+            reviewer_path: "Settings > Privacy > Tracking",
+            remote_flag: "att_prompt",
+          },
+        ],
+      };
+    });
+    assert(result.status === 1, `expected exit 1, got ${result.status}\n${result.output}`);
+    assert(
+      result.output.includes('remote flag "att_prompt" needs an explicit review_build_override'),
+      `missing remote-flag error\n${result.output}`,
+    );
   });
 
   harness.check("spec-pack optional Google login without Apple or an equivalent fails Guideline 4.8", () => {
