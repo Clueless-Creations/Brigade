@@ -986,10 +986,7 @@ export function register(h: Harness): void {
   const appleCheck = "check-apple-app-store-requirements.ts";
   const firstLaunchPrompt = makeFixture("apple-store-prompt-first-launch");
   writeCompleteAppleRequirements(firstLaunchPrompt);
-  replacePromptRow(
-    firstLaunchPrompt,
-    "| App Tracking Transparency | yes | first launch | none | not used | First launch |",
-  );
+  replacePromptRow(firstLaunchPrompt, "| App Tracking Transparency | yes | first launch | none | not used | First launch |");
   runFixture("ready Apple requirements pass when ATT is on first launch with no remote flag", firstLaunchPrompt, appleCheck, 0);
 
   const overridePrompt = makeFixture("apple-store-prompt-override");
@@ -1002,10 +999,7 @@ export function register(h: Harness): void {
 
   const flaggedPrompt = makeFixture("apple-store-prompt-flag");
   writeCompleteAppleRequirements(flaggedPrompt);
-  replacePromptRow(
-    flaggedPrompt,
-    "| App Tracking Transparency | yes | review notes | att_prompt | not used | Settings > Privacy > Tracking |",
-  );
+  replacePromptRow(flaggedPrompt, "| App Tracking Transparency | yes | review notes | att_prompt | not used | Settings > Privacy > Tracking |");
   runFixture(
     "ready Apple requirements fail when a store-required prompt is behind a remote flag",
     flaggedPrompt,
