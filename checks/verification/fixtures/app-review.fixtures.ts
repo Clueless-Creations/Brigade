@@ -1443,7 +1443,8 @@ export function register(harness: Harness): void {
       mkdirSync(path.join(workspace, "store"), { recursive: true });
       seedCompatibleCatalog(workspace);
       writeFakeAsc(binDir);
-      const watching = startObserveMandate({ ...mandateInput(), expiresAt: "2026-10-24T12:00:00.000Z" }, createFixtureProvider(loadPack()), now);
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+      const watching = startObserveMandate({ ...mandateInput(), expiresAt }, createFixtureProvider(loadPack()), now);
       writeAppReviewWatch(workspace, watching);
       const accepted = signedRequest(webhookFixtureBody, { queue: createFileWebhookQueue(queueDir) });
       assert(accepted.result.stored === true, "accept persists the envelope");

@@ -56,7 +56,11 @@ export function register(h: Harness): void {
     );
     assert(!remaining.some((entry) => entry.id === "check:upstreams"), "check:upstreams must leave remaining-tsx once its compiled twin is eligible");
     assert(!remaining.some((entry) => entry.id === "check:validator-docs"), "check:validator-docs must leave remaining-tsx once its compiled twin is eligible");
-    assert(remaining.length === 114, `remaining-tsx count drifted: ${remaining.length}`);
+    assert(remaining.length === 115, `remaining-tsx count drifted: ${remaining.length}`);
+    assert(
+      remaining.some((entry) => entry.id === "check:clu-pr-lint" && entry.sourcePath === "checks/validation/repository/check-clu-pr-lint.ts"),
+      "the CLU pull-request gate must remain explicit in the uncompiled inventory",
+    );
     assert(
       remaining.some((entry) => entry.id === "check:task-skills" && entry.sourcePath === "checks/validation/repository/check-task-skills.ts"),
       "the repository-only task-skill test runner must remain explicit in the uncompiled inventory",
