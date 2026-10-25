@@ -1,6 +1,6 @@
 # Connect the builder
 
-Open this reference only for requested setup or connectivity needed by current managed execution. Focused advice does not require a connection.
+Open this reference for requested setup, connectivity needed by current managed execution, or explicit runtime retirement. Focused advice does not require a connection.
 
 ## Capability and compatibility
 
@@ -16,3 +16,7 @@ This is a connectivity gate, not the business start path. If the local MCP is un
 4. Keep the MCP read-only by default. Use the CLI for approved writes.
 
 Do not edit an agent configuration or install software unless the user requested setup. For managed work, use the [business lifecycle](business-lifecycle.md): create or resume, then status, then plan.
+
+## Retired runtimes
+
+When the owner explicitly retires Formation or another business runtime, replace obsolete routing requirements with supported repository commands and current provider procedures. Do not restore a retired runtime merely because an old guide or manifest names it. Preserve required tests, security review, checkout checks, release authority, rollback and provider acceptance. Retain protected state and audit history. Retirement changes the execution route; it does not waive a release gate or authorize external effects.

@@ -15,7 +15,7 @@ For a product-system question, prefer the smallest authoritative projection befo
 
 ## Focused task
 
-For existing app-repository work, read its available root and applicable nested `AGENTS.md` before planning; follow their scoped routes. Open the matching task directly. Do not install software, require an MCP connection, create a workspace, or activate a full operating graph merely to apply the expertise. A review is read-only unless changes are also requested.
+Follow app root/scoped `AGENTS.md` before planning; open the matching task. Do not install software, require an MCP connection, create a workspace, or activate a full operating graph merely to apply the expertise. A review is read-only unless changes are also requested. Honor [explicit runtime retirement](agents/skills/brigade/references/setup.md#retired-runtimes).
 
 <!-- Portable completion rule: equality with the standing contract is checked. -->
 An implementation request authorizes completing its in-scope, reversible repository work: inspect, edit, test, repair failures caused by the change, regenerate affected output, inspect the diff, and complete required checks without repeated intermediate approvals. Preserve unrelated work; this does not authorize unrelated fixes. Review-only and planning-only requests remain review and planning, not implementation.
