@@ -9,15 +9,16 @@ Check current consumers, package pins, and migration obligations before removing
 Preserve supported meanings within a public major version; breaking changes require a decision and migration.
 Remove obsolete owners and update their callers together after those obligations are resolved.
 Review the README, agent guides, skill, source templates, setup and help output,
-CLI and MCP, generated schemas, and examples as one release surface. U23 and U24
-precede the internal roadmap. U25 owns the lifecycle facade and U26 owns mobile
-app operation. A new facade does not complete unimplemented provider or business proofs.
+CLI and MCP, generated schemas, and examples as one release surface.
+A new facade does not complete unimplemented provider or business proofs.
 
 Use this protocol with the [north-star architecture](north-star-architecture.md)
-and [migration plan](plans/2026-09-04-1747-refactor-consumer-business-primitives-plan.md).
-The architecture owns rules. The plan owns requirements, work-unit definitions,
-and acceptance. This document owns the review and handoff process. It does not
-create another execution-state store.
+and the current task or issue. The architecture owns rules. Applicable delivery
+plans own their work-unit definitions and acceptance; use the
+[migration plan](plans/2026-09-04-1747-refactor-consumer-business-primitives-plan.md)
+when that migration is affected. New work need not fit a historical unit.
+This document owns the review and handoff process. It does not create another
+execution-state store.
 
 ## Roles
 
@@ -39,15 +40,16 @@ conformance review must still be independent of the implementation.
 
 1. Inspect the branch, revision, dirty files, and active ownership. Preserve work
    from other agents. A dirty checkout is context, not permission to overwrite.
-2. Read the plan's Goal Capsule, Verification Contract, Definition of Done, and
-   the assigned unit. Load only its cited requirements, decisions, and ARCH rules.
+2. Read the task's objective, acceptance, and relevant requirements, decisions,
+   and ARCH rules. Load a plan's contract and assigned unit when applicable.
 3. Inspect current source and focused tests. Report whether the described gap
    still exists; a plan's snapshot does not outrank current evidence.
 4. Confirm dependencies by evidence, then declare owned paths and excluded paths.
    Serialize overlapping runtime/catalog files. A dependent unit can research
    early, but cannot assume an unintegrated contract is available.
-5. Execute within the unit. If it cannot be bounded as written, propose the
-   smallest split or architecture decision before broadening it.
+5. Execute within the agreed task. If evidence invalidates its assumptions,
+   revise the bounded approach and acceptance. Use an architecture decision when
+   the contract changes; keep unrelated work outside the task.
 
 ## Audit result
 
@@ -59,7 +61,7 @@ Use one finding per violated contract. Report:
 | Observation         | Exact source path and current line or observed behavior                                |
 | Impact              | Concrete business, extension, authority, compatibility, or proof consequence           |
 | Classification      | Conforms; existing debt; regression; missing evidence; or architecture decision needed |
-| Smallest correction | Existing owner to change and bounded behavior to restore                               |
+| Coherent correction | Mechanism to simplify, replace, remove, or extend; retained guarantees and bounded outcome |
 | Proof               | Input and expected result that distinguish a real fix from a cosmetic change           |
 
 Do not score code by resemblance to a proposed folder layout. Judge ownership,
@@ -70,7 +72,7 @@ missing evidence as missing; do not infer live behavior from fixtures or prose.
 
 | Check                          | Rules            | Reviewer asks                                                                                        |
 | ------------------------------ | ---------------- | ---------------------------------------------------------------------------------------------------- |
-| Product purpose and simplicity | ARCH-01–ARCH-03  | Does this help a consumer business, and extend an existing owner?                                    |
+| Product purpose and simplicity | ARCH-01–ARCH-03  | Does this improve an app-building outcome, justify its complexity, and keep one owner per responsibility? |
 | Extension parity and selection | ARCH-04–ARCH-06  | Can an external package do this without kernel edits or root-package privileges?                     |
 | Truth and migration            | ARCH-07, ARCH-08 | Is there one owner, a stable active pin, and recoverable migration?                                  |
 | Agent usability                | ARCH-09, ARCH-11 | Can an agent discover supported actions, limitations, proof, and re-entry through existing services? |
@@ -122,8 +124,8 @@ do not copy the entire roadmap into every agent prompt.
 ```text
 Role: implementer (or read-only auditor).
 Objective: <one bounded observable outcome>.
-Plan: <the applicable existing delivery plan>.
-Unit: <existing unit or issue>; requirements/decisions: <relevant IDs>.
+Task: <current task or issue>; requirements/decisions: <relevant IDs>.
+Plan/unit: <only when an existing delivery plan applies>.
 Architecture: docs/north-star-architecture.md; applicable rules: <ARCH IDs>.
 Baseline and dependencies: <revision, integrated prerequisites and evidence>.
 Owned paths: <exact files or narrow module>.
@@ -131,10 +133,10 @@ Excluded/shared paths: <other agent ownership and required integration window>.
 You are not alone in the codebase. Preserve others' edits and accommodate them.
 Allowed work: <local source/doc changes and focused verification>.
 Reserved actions: <existing authority constraints; none are granted by this task>.
-Acceptance: <cite the unit scenarios and add task-specific inputs if needed>.
+Acceptance: <observable outcome and retained guarantees; applicable unit scenarios>.
 Escalate: <contract change, unresolved ownership, invalid plan assumption>.
 Return: changes, rule mapping, proof, limitations, debt, next dependency.
-Do not rewrite the architecture to fit the implementation.
+Challenge invalid assumptions with evidence; do not rewrite rules merely to hide a failing implementation.
 ```
 
 For a decision-bearing workflow or routing issue, append only the relevant

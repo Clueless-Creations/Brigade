@@ -92,7 +92,10 @@ export interface Harness {
   readonly tempRoot: string;
   readonly results: CaseResult[];
   makeTempDir: (name: string) => string;
-  check: (label: string, fn: () => void) => void;
+  /** Run immediately until an async case is pending, then execute later cases in order. */
+  check: (label: string, fn: () => void | Promise<void>) => void;
+  /** Settle every registered case before reporting results or cleaning up shared files. */
+  waitForChecks: () => Promise<void>;
   /**
    * Record that a case could not be evaluated in this environment, with the reason. Use only when
    * the case's *subject* is absent — not when it is merely inconvenient to set up, and never to
@@ -108,6 +111,7 @@ export interface Harness {
 export function createHarness(schemaDir: string): Harness {
   const tempRoot = mkdtempSync(path.join(tmpdir(), "b2c-core-fixtures-"));
   const results: CaseResult[] = [];
+  let pending: Promise<void> | undefined;
   const tsxBin = resolveTsxBin(skillRoot);
   const ajv = createSchemaRegistry(schemaDir);
 
@@ -117,13 +121,46 @@ export function createHarness(schemaDir: string): Harness {
     return dir;
   };
 
-  const check = (label: string, fn: () => void): void => {
-    try {
-      fn();
-      results.push({ label, ok: true, detail: "" });
-    } catch (error) {
-      results.push({ label, ok: false, detail: error instanceof Error ? error.message : String(error) });
+  const check = (label: string, fn: () => void | Promise<void>): void => {
+    // Reserve the registration position without claiming a pass before the callback settles.
+    const result: CaseResult = { label, ok: false, detail: "Check has not completed; await harness.waitForChecks()." };
+    results.push(result);
+    const pass = (): void => {
+      result.ok = true;
+      result.detail = "";
+    };
+    const fail = (error: unknown): void => {
+      result.detail = error instanceof Error ? error.message : String(error);
+    };
+    const invoke = (): void | Promise<void> => {
+      try {
+        const completion = fn();
+        if (completion && typeof completion.then === "function") {
+          return Promise.resolve(completion).then(pass, fail);
+        }
+        pass();
+      } catch (error) {
+        fail(error);
+      }
+    };
+    // Synchronous suites retain immediate execution. Once a case yields, later callbacks must
+    // wait so shared fixture mutations cannot overtake it. Rejections are captured above and do
+    // not prevent subsequent cases from running.
+    const predecessor = pending;
+    const completion = predecessor ? predecessor.then(invoke) : invoke();
+    if (completion) {
+      // The first callback can register nested async checks before returning its own promise.
+      // Keep both completions so neither the next callback nor cleanup can overtake that work.
+      const settled = !predecessor && pending ? Promise.all([pending, completion]).then(() => {}) : completion;
+      pending = settled;
+      void settled.then(() => {
+        if (pending === settled) pending = undefined;
+      });
     }
+  };
+
+  const waitForChecks = async (): Promise<void> => {
+    while (pending) await pending;
   };
 
   const skip = (label: string, reason: string): void => {
@@ -138,17 +175,20 @@ export function createHarness(schemaDir: string): Harness {
   };
 
   const runScript = (label: string, scriptPath: string, args: string[], expectedCode: number, expectedText?: string): void => {
-    const result = spawnSync(tsxBin, [scriptPath, ...args], { cwd: skillRoot, encoding: "utf8" });
-    const output = `${result.stdout}\n${result.stderr}`;
-    const ok = result.status === expectedCode && (!expectedText || output.includes(expectedText));
-    results.push({ label, ok, detail: ok ? "" : `expected exit ${expectedCode}, got ${result.status}\n${output.trim()}` });
+    check(label, () => {
+      const result = spawnSync(tsxBin, [scriptPath, ...args], { cwd: skillRoot, encoding: "utf8" });
+      const output = `${result.stdout}\n${result.stderr}`;
+      const ok = result.status === expectedCode && (!expectedText || output.includes(expectedText));
+      assert(ok, `expected exit ${expectedCode}, got ${result.status}\n${output.trim()}`);
+    });
   };
 
   const cleanup = (): void => {
+    if (pending) throw new Error("Cannot clean up pending fixture checks; await harness.waitForChecks().");
     rmSync(tempRoot, { recursive: true, force: true });
   };
 
-  return { tempRoot, results, makeTempDir, check, skip, checkSchema, runScript, cleanup };
+  return { tempRoot, results, makeTempDir, check, waitForChecks, skip, checkSchema, runScript, cleanup };
 }
 
 export function reportResults(results: CaseResult[]): number {

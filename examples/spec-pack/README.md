@@ -24,6 +24,8 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
 | `GATE1.md` | Founder-facing Gate 1 summary. Replace the placeholders. |
 | `MERGE.md` | When a reviewer agent can merge a build pull request without the founder. |
+| `scripts/merge-gate.sh` | Runs the record-mode, live-screen, and mock-state steps. |
+| `templates/live-screen/` | Flutter and SwiftUI live-screen harness. |
 
 ## Use
 
@@ -34,7 +36,7 @@ node build.mjs --list-checks
 ./render-mocks.sh      # mocks/<screen>--<state>.png for comparison
 ```
 
-Copy [`scripts/check-snapshot-record-mode.sh`](scripts/check-snapshot-record-mode.sh) into `scripts/merge-gate.sh`. It fails when a tracked snapshot test is in record mode.
+Copy [`scripts/merge-gate.sh`](scripts/merge-gate.sh) and the `check-*.sh` steps beside it into the app's `scripts/` folder. The gate fails when a tracked snapshot test is in record mode, when a changed shipping view has no live-screen test, or when a production view branches on a fixture property. Copy [`templates/live-screen/`](templates/live-screen/) into the screen pull request.
 
 One mock alone: open `index.html?mock=<screen>:<state>` (add `:dark` for dark
 mode, `&w=<px>&h=<px>` for another device size).
@@ -137,8 +139,10 @@ scope reason when a clause does not apply; an area label alone is not that reaso
 4. **Build to spec**: one screen at a time. A screen is done when:
    its simulator screenshot for each required state matches
    `mocks/<screen>--<state>.png` in layout, copy, tokens and tap targets; its
-   tests pass; and the merge gate is green. Differences are fixed or listed in
-   the PR. A reviewer merges only under `MERGE.md`.
+   live-screen test pumps the shipping widget or view and passes; its other
+   tests pass; and the merge gate is green. A mock-fixture screenshot is not
+   the live-screen test. Differences are fixed or listed in the PR. A reviewer
+   merges only under `MERGE.md`.
 5. **Gate 2**: the founder approves store submission after a real-device
    dogfood verdict.
 6. **Launch and run**: the daily ship loop reads the event map to judge

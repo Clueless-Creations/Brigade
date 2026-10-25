@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.134
-revision: 0.221.134
+version: 0.221.146
+revision: 0.221.146
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -2773,6 +2773,9 @@ workflows:
       - reference.design.brand-system-skill-onboard
       - reference.design.design-evidence-stack
       - reference.design.design-visual-system
+      - reference.design.pitch-film-example
+      - reference.design.pitch-film-studio
+      - reference.design.pitch-film-templates
       - reference.design.remotion-content-assets
       - reference.process.tool-recipes.visual-and-motion-production
     role_id: role.design-guru
@@ -6104,6 +6107,33 @@ references:
         omissions:
           - Do not import CSS or web-only construction steps.
         notice: catalog/upstreams/notices/emilkowalski-skills.txt
+    replacement_ids: []
+  - id: reference.design.pitch-film-example
+    title: Fictional pitch film worked example
+    domain_id: domain.design
+    path: knowledge/design/pitch-film-example.md
+    load_when: a worked paper example is needed to understand the film method; never as product or production proof
+    lifecycle: active
+    source_exemption: Repository-original film method and fictional examples; no external factual claims or imported source expression.
+    sources: []
+    replacement_ids: []
+  - id: reference.design.pitch-film-studio
+    title: Pitch Film Studio
+    domain_id: domain.design
+    path: knowledge/design/pitch-film-studio.md
+    load_when: writing or reviewing a sales pitch, product demo, short ad or brand story; film brief, concepts, script, production handoff or evidence review
+    lifecycle: active
+    source_exemption: Repository-original film method and fictional examples; no external factual claims or imported source expression.
+    sources: []
+    replacement_ids: []
+  - id: reference.design.pitch-film-templates
+    title: Pitch film templates
+    domain_id: domain.design
+    path: knowledge/design/pitch-film-templates.md
+    load_when: drafting a film brief, concept comparison, exact transcript or format-specific script
+    lifecycle: active
+    source_exemption: Repository-original film method and fictional examples; no external factual claims or imported source expression.
+    sources: []
     replacement_ids: []
   - id: reference.design.premium-mobile-craft
     title: Premium Mobile Craft
@@ -13015,6 +13045,12 @@ gates:
     command_manifest_path: package.json
     script_path: checks/validation/business/process/check-change-cascade.ts
     owner_domain_id: domain.process
+    audit: required
+  - id: gate.check-clu-pr-lint
+    command: check:clu-pr-lint
+    command_manifest_path: package.json
+    script_path: checks/validation/repository/check-clu-pr-lint.ts
+    owner_domain_id: domain.machine
     audit: required
   - id: gate.check-component-contracts
     command: check:component-contracts

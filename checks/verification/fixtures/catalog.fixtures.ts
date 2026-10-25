@@ -9,6 +9,7 @@ import { knowledgeFreshnessPinPath, loadKnowledgeFreshnessPin, writeKnowledgeFre
 import { toCatalogInput } from "../../../catalog/bridge.js";
 import { resolveCatalogAuthority } from "../../../catalog/domain-authority.js";
 import { readFirstpartyPackage } from "../../../catalog/packs/installed-firstparty.js";
+import { composeAuthoredCatalog } from "../../../catalog/authoring.js";
 import { composeCatalog } from "../../../catalog/index.js";
 import { renderGeneratedFiles } from "../../../catalog/render-routing.js";
 import type { Catalog, CatalogDomain, CatalogWorkflowDef, WorkflowId } from "../../../catalog/types.js";
@@ -20,6 +21,7 @@ import { allowAllAutonomyEvaluator, computeFrontier } from "../../../kernel/engi
 import { seedRunState } from "../../../kernel/engine/runstate.js";
 import type { BusinessStateV2 } from "../../../kernel/schema/types.js";
 import { repositoryProfileIds, type Grant, type GrantsMap } from "../../../kernel/schema/types.js";
+import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 
 // skillRoot is the repository root (ADR-0002); the ledger lives at docs/plans/attachments/.
 const resolvedLedgerPath = path.join(repoRoot, "docs", "plans", "attachments", "2026-08-port-ledger.md");
@@ -155,25 +157,29 @@ export function register(harness: Harness): void {
     }
   });
 
-  harness.check("catalog freshness: an isolated installed skill uses the same snapshot pin as the source checkout", () => {
+  harness.check("catalog freshness: copied source retains the same freshness baseline in the selected stamp mode", () => {
     const { installedRoot, run } = installedFreshnessFixture(harness, "catalog-freshness-installed");
     const result = run("checks/validation/repository/check-catalog.ts");
-    assert(
-      result.status === 0,
-      `installed catalog must retain the committed freshness baseline, got exit ${result.status}:\n${result.stdout}\n${result.stderr}`,
-    );
-    assert(!result.stdout.includes("knowledge.source.stale"), "installed catalog must not switch to the wall clock");
+    assert(result.status === 0, `copied catalog must retain the committed freshness baseline, got exit ${result.status}:\n${result.stdout}\n${result.stderr}`);
+    assert(!result.stdout.includes("knowledge.source.stale"), "copied catalog must not switch to the wall clock");
     const knowledgeResult = run("tooling/knowledge.ts", ["check"]);
-    assert(knowledgeResult.status === 0, `installed knowledge check must use the same freshness pin:\n${knowledgeResult.stdout}\n${knowledgeResult.stderr}`);
-    const renderResult = run("catalog/render-routing.ts", ["--check"]);
-    assert(renderResult.stdout.includes("projection(s) current"), "installed renderer must execute, not silently skip its CLI entrypoint");
+    assert(
+      knowledgeResult.status === 0,
+      `copied-source knowledge check must use the same freshness pin:\n${knowledgeResult.stdout}\n${knowledgeResult.stderr}`,
+    );
+    const stampMode = resolveDriftMode(process.argv);
+    const renderResult = run("catalog/render-routing.ts", ["--check", "--stamp-mode", stampMode]);
     assert(
       renderResult.status === 0,
-      `installed renderer must check its packaged pin without repository docs:\n${renderResult.stdout}\n${renderResult.stderr}`,
+      `copied-source renderer must check its pin in ${stampMode} mode without ancestor repository docs:\n${renderResult.stdout}\n${renderResult.stderr}`,
+    );
+    assert(
+      renderResult.stdout.includes(driftIsLoose(stampMode) ? "byte-stable" : "projection(s) current"),
+      "copied-source renderer must execute the selected stamp check",
     );
     assert(
       JSON.stringify(loadKnowledgeFreshnessPin(installedRoot)) === JSON.stringify(loadKnowledgeFreshnessPin(skillRoot)),
-      "the isolated install must carry the source pin unchanged",
+      "the copied source must carry the freshness pin unchanged",
     );
     const decoy = path.resolve(installedRoot, "../../docs/source-freshness/source-snapshots/current.json");
     mkdirSync(path.dirname(decoy), { recursive: true });
@@ -193,7 +199,9 @@ export function register(harness: Harness): void {
       for (const [relative, args] of [
         ["checks/validation/repository/check-catalog.ts", []],
         ["tooling/knowledge.ts", ["check"]],
-        ["catalog/render-routing.ts", ["--check"]],
+        ["catalog/render-routing.ts", ["--check", "--stamp-mode", "release"]],
+        ["catalog/render-routing.ts", ["--check", "--stamp-mode", "pr"]],
+        ["catalog/render-routing.ts", ["--check", "--stamp-mode", "main"]],
       ] as const) {
         const result = run(relative, [...args]);
         const output = `${result.stdout}\n${result.stderr}`;
@@ -218,15 +226,22 @@ export function register(harness: Harness): void {
     assert(catalogDrift.status === 1 && catalogDrift.stderr.includes("knowledge.freshness_pin.drift"), "source catalog checks must detect a stale pin");
     const knowledgeDrift = run("tooling/knowledge.ts", ["check", ...sourceArgs]);
     assert(knowledgeDrift.status === 1 && knowledgeDrift.stderr.includes("knowledge.freshness_pin.drift"), "source knowledge checks must detect a stale pin");
-    const renderDrift = run("catalog/render-routing.ts", ["--check", ...sourceArgs]);
+    const renderDrift = run("catalog/render-routing.ts", ["--check", ...sourceArgs, "--stamp-mode", "release"]);
     assert(
       renderDrift.status === 1 && renderDrift.stderr.includes("catalog_render.generated_drift"),
       "source renderer checks must compare the pin to its snapshot",
     );
+    for (const mode of ["pr", "main"]) {
+      const loose = run("catalog/render-routing.ts", ["--check", ...sourceArgs, "--stamp-mode", mode]);
+      assert(loose.status === 0 && loose.stdout.includes("byte-stable"), `${mode} must accept stable snapshot drift: ${loose.stdout}\n${loose.stderr}`);
+    }
     assert(readFileSync(path.join(installedRoot, knowledgeFreshnessPinPath), "utf8") === before, "freshness checks must not rewrite the pin");
     const render = run("catalog/render-routing.ts", sourceArgs);
     assert(render.status === 0, `source rendering must update the pin: ${render.stderr}`);
-    assert(run("catalog/render-routing.ts", ["--check", ...sourceArgs]).status === 0, "source rendering must produce deterministic current output");
+    assert(
+      run("catalog/render-routing.ts", ["--check", ...sourceArgs, "--stamp-mode", "release"]).status === 0,
+      "source rendering must produce deterministic current output",
+    );
     const advanced = run("checks/validation/repository/check-catalog.ts", sourceArgs);
     assert(advanced.status === 1 && advanced.stdout.includes("knowledge.source.stale"), "an advanced pin must still reject genuinely overdue sources");
   });
@@ -929,9 +944,11 @@ export function register(harness: Harness): void {
   });
 
   harness.check("validate: the real catalog composed from disk has zero structural errors", () => {
+    const authored = composeAuthoredCatalog(skillRoot);
+    const issues = validateCatalog(authored, skillRoot).filter((issue) => issue.severity === "error");
+    assert(issues.length === 0, `expected the authored catalog to match source files, got: ${issues.map((i) => `${i.code}: ${i.message}`).join("; ")}`);
+    // Runtime composition still reads the verified release package, independently of authored validation.
     const catalog = composeCatalog(skillRoot);
-    const issues = validateCatalog(catalog, skillRoot).filter((issue) => issue.severity === "error");
-    assert(issues.length === 0, `expected the real catalog to be clean, got: ${issues.map((i) => `${i.code}: ${i.message}`).join("; ")}`);
     const composition = catalog.composition;
     assert(Boolean(composition), "composeCatalog must pin a composition fingerprint");
     const firstpartyPackage = readFirstpartyPackage(skillRoot);

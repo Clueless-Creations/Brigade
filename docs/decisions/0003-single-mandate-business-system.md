@@ -6,6 +6,14 @@ Authority: founder direction in the current architecture completion task
 Rules: ARCH-01 through ARCH-15
 Units: U2 through U26
 
+## Historical premise
+
+Clarification, 2026-10-10: the no-installed-users statement below records the
+2026-09-05 migration premise. It is not evidence about current consumers or
+permission to discard their data. Apply the current
+[public contract and migration rules](../north-star-architecture.md#public-contract-first)
+before removing supported behavior. The original decision remains below for traceability.
+
 ## Decision
 
 One mandate starts the complete consumer-business workflow. The default recipe

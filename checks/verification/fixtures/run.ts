@@ -51,15 +51,17 @@ async function runInProcess(selected: string[]): Promise<CaseResult[]> {
     for (const name of selected) {
       const suiteFile = suiteFiles[suiteNames.indexOf(name)]!;
       const module = (await import(pathToFileURL(path.join(fixturesDir, suiteFile)).href)) as {
-        register?: (harness: Harness) => void;
+        register?: (harness: Harness) => void | Promise<void>;
       };
       if (typeof module.register !== "function") {
         console.error(`Fixture suite "${name}" does not export register(harness).`);
         process.exit(1);
       }
-      module.register(harness);
+      await module.register(harness);
+      await harness.waitForChecks();
     }
   } finally {
+    await harness.waitForChecks();
     harness.cleanup();
   }
   return harness.results;

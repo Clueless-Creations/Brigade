@@ -6,14 +6,17 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
+import { composeAuthoredCatalog } from "../../catalog/authoring.js";
 import { composeCatalog } from "../../catalog/index.js";
 import { publicBusinessAreas } from "../../catalog/areas.js";
 import { referencesForTask, renderTaskSkillFiles, skillDirectory, taskSkills, workflowsForTask } from "../../catalog/task-skills.js";
 import { collectTaskSkillPackage, writeTaskSkillPackage } from "../../tooling/export-task-skill.js";
-import { replaceGeneratedBlock, taskSkillProjections } from "../../tooling/render-task-skills.js";
+import { buildHostedKnowledgeBundle } from "../../tooling/render-hosted-bundle.js";
+import { renderTaskSkills, replaceGeneratedBlock, taskSkillProjections } from "../../tooling/render-task-skills.js";
+import { driftIsLoose, resolveDriftMode } from "../../tooling/lib/stamp-mode.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const catalog = composeCatalog(root);
+const catalog = composeAuthoredCatalog(root);
 const revision = "1971c5d1e6f2c1aed38dde1ec8debc2c459be69d";
 const hash = (text: string): string => createHash("sha256").update(text).digest("hex");
 const scratchRoot = path.join(root, ".tmp-task-skill-checks");
@@ -48,10 +51,10 @@ void test("six public areas cover business domains without changing internal aut
   assert.ok(catalog.areas.some((area) => area.id === "area.operating-system"));
 });
 
-void test("pilot tasks project real workflow contracts without mutating the catalog", () => {
+void test("task methods project real workflow contracts without mutating the catalog", () => {
   const before = JSON.stringify(catalog);
   const files = renderTaskSkillFiles(catalog);
-  assert.equal(taskSkills.length, 9);
+  assert.equal(new Set(taskSkills.map((skill) => skill.name)).size, taskSkills.length);
   assert.equal(taskSkills.filter((skill) => skill.method).length, taskSkills.length, "all task skills now use focused methods");
   for (const name of ["b2c-research-opportunity", "b2c-design-onboarding", "b2c-review-monetization"]) {
     assert.ok(taskSkills.some((skill) => skill.name === name));
@@ -156,9 +159,9 @@ void test("provider selection metadata cannot rewrite neutral task instructions"
   assert.equal(renderTaskSkillFiles(catalog)[file], renderTaskSkillFiles(altered)[file]);
 });
 
-void test("generated projections remain current and root routing stays bounded", () => {
+void test("generated projections follow the selected stamp mode and root routing stays bounded", () => {
   const files = taskSkillProjections(root);
-  for (const [file, content] of Object.entries(files)) assert.equal(readFileSync(path.join(root, file), "utf8"), content, file);
+  assert.deepEqual(renderTaskSkills(root, true, driftIsLoose(resolveDriftMode(process.argv))), []);
   const entry = files["SKILL.md"]!;
   assert.ok(Buffer.byteLength(entry) < 6500);
   assert.match(entry, /Focused task/);
@@ -171,7 +174,7 @@ void test("generated projections remain current and root routing stays bounded",
   }
 });
 
-void test("the packed runtime contains the canonical nine-task library", () => {
+void test("the packed runtime contains the stamped task library", () => {
   const result = spawnSync("npm", ["pack", "--dry-run", "--json", "--ignore-scripts"], {
     cwd: root,
     encoding: "utf8",
@@ -183,8 +186,16 @@ void test("the packed runtime contains the canonical nine-task library", () => {
   const files = new Set((report[0]?.files ?? []).map((entry) => entry.path).filter((entry): entry is string => typeof entry === "string"));
   assert.ok(files.has("SKILL.md"));
   assert.ok(files.has("agents/skills/brigade/references/business-lifecycle.md"));
-  for (const skill of taskSkills) {
-    const prefix = `${skillDirectory(skill)}/`;
+  // Ordinary PRs add authored descriptors before the release stamp writes their directories.
+  // The committed generated index owns the library shipped by the current stamp.
+  const index = readFileSync(path.join(root, "agents/skills/README.md"), "utf8");
+  const block = index.split("<!-- catalog-generated:start task-skills -->")[1]?.split("<!-- catalog-generated:end task-skills -->")[0];
+  assert.ok(block, "the stamped task index is missing");
+  const names = [...block.matchAll(/\]\((b2c-[a-z0-9-]+)\/SKILL\.md\)/gu)].map((match) => match[1]!);
+  assert.ok(names.length > 0, "the stamped task index is empty");
+  assert.equal(new Set(names).size, names.length);
+  for (const name of names) {
+    const prefix = `agents/skills/${name}/`;
     assert.ok(files.has(`${prefix}SKILL.md`), `${prefix}SKILL.md is missing from npm pack`);
     assert.ok(files.has(`${prefix}references/task.md`), `${prefix}references/task.md is missing from npm pack`);
     assert.ok(
@@ -195,11 +206,145 @@ void test("the packed runtime contains the canonical nine-task library", () => {
   assert.ok(![...files].some((file) => /(?:^|\/)(?:b2c-maintainer|b2c-contributor)(?:\/|$)|(?:^|\/)\.env(?:\/|$)/u.test(file)));
 });
 
+void test("package parity distinguishes the stamped PR library from required release projections", () => {
+  const temporary = mkScratch("b2c-task-package-parity-");
+  try {
+    for (const file of ["package.json", "package-lock.json", "skill-version.json", ".nvmrc", ".node-version"]) {
+      cpSync(path.join(root, file), path.join(temporary, file));
+    }
+    mkdirSync(path.join(temporary, "entrypoints/cli"), { recursive: true });
+    writeFileSync(path.join(temporary, "entrypoints/cli/b2c.mjs"), "// Fixture arms the local pack check.\n");
+    const fakeNpm = path.join(temporary, "empty-pack.cjs");
+    // Empty pack output isolates required-path selection; the real pack smoke runs above.
+    writeFileSync(fakeNpm, 'process.stdout.write(JSON.stringify([{ files: [] }]));\n');
+    const indexPath = path.join(temporary, "agents/skills/README.md");
+    mkdirSync(path.dirname(indexPath), { recursive: true });
+    const film = taskSkills.find((skill) => skill.method?.referenceId === "reference.design.pitch-film-studio")!;
+    const stampedIndex = readFileSync(path.join(root, "agents/skills/README.md"), "utf8")
+      .split(/\r?\n/u).filter((line) => !line.includes(`](${film.name}/SKILL.md)`)).join("\n");
+    writeFileSync(indexPath, stampedIndex);
+    const run = (mode: "pr" | "release") => {
+      const result = spawnSync(
+        process.execPath,
+        ["--import", "tsx", path.join(root, "checks/validation/repository/check-package-parity.ts"), "--repo-root", temporary, "--skill-root", temporary, "--json"],
+        { cwd: root, encoding: "utf8", timeout: 30_000, env: { ...process.env, B2C_STAMP_MODE: mode, npm_execpath: fakeNpm } },
+      );
+      assert.equal(result.status, 1, result.stderr);
+      return (JSON.parse(result.stdout) as { failures: Array<{ rule: string; message: string }> }).failures;
+    };
+    const pr = run("pr");
+    assert.ok(!pr.some((entry) => entry.rule === "package_parity.pack_missing_file" && entry.message.includes(`${skillDirectory(film)}/`)));
+    assert.ok(pr.some((entry) => entry.rule === "package_parity.pack_missing_file" && entry.message.includes("agents/skills/b2c-research-opportunity/SKILL.md")), "missing stamped skills must still fail in PR mode");
+    assert.ok(run("release").some((entry) => entry.rule === "package_parity.pack_missing_file" && entry.message.includes(`${skillDirectory(film)}/SKILL.md`)), "release mode must require the new descriptor's files");
+    rmSync(indexPath);
+    assert.ok(run("pr").some((entry) => entry.rule === "package_parity.task_skill_index_missing"));
+    for (const malformed of ["no generated table", stampedIndex.replace("| Task | Use when |", "| Broken | Table |"), `${stampedIndex}\n<!-- catalog-generated:start task-skills -->`]) {
+      writeFileSync(indexPath, malformed);
+      assert.ok(run("pr").some((entry) => entry.rule === "package_parity.task_skill_index_invalid"), "a malformed index must not silently exempt task files");
+    }
+  } finally {
+    rmSync(temporary, { recursive: true, force: true });
+  }
+});
+
 void test("generated block replacement refuses ambiguous ownership", () => {
   assert.throws(() => replaceGeneratedBlock("no markers", "task-skills", "x"), /Missing/);
   const marked = "<!-- catalog-generated:start x -->old<!-- catalog-generated:end x -->";
   assert.match(replaceGeneratedBlock(marked, "x", "new"), /new/);
   assert.throws(() => replaceGeneratedBlock(marked + marked, "x", "new"), /duplicated/);
+});
+
+void test("source render and export do not require a stamped runtime catalog", () => {
+  const temporary = mkScratch("b2c-unstamped-task-");
+  const source = path.join(temporary, "source");
+  try {
+    mkdirSync(source);
+    for (const file of ["package.json", "skill-version.json", "LICENSE", "THIRD_PARTY_NOTICES.md"]) {
+      cpSync(path.join(root, file), path.join(source, file));
+    }
+    for (const directory of ["catalog/knowledge", "knowledge"]) {
+      cpSync(path.join(root, directory), path.join(source, directory), { recursive: true });
+    }
+    const skill = taskSkills.find((entry) => entry.method?.referenceId === "reference.design.pitch-film-studio")!;
+    const reference = catalog.references.find((entry) => entry.id === skill.method!.referenceId)!;
+    const original = readFileSync(path.join(root, reference.path), "utf8");
+    const marker = "Alternate-root fixture method must bind these source bytes.";
+    const changed = original.replace(`## ${skill.method!.heading}\n`, `## ${skill.method!.heading}\n\n${marker}\n`);
+    assert.notEqual(changed, original);
+    writeFileSync(path.join(source, reference.path), changed);
+    assert.ok(!existsSync(path.join(source, "catalog/generated")));
+    assert.throws(() => composeCatalog(source), { code: "ENOENT" }, "runtime reads must still require the verified stamp");
+    const projections = taskSkillProjections(source);
+    for (const skill of taskSkills) assert.ok(projections[`${skillDirectory(skill)}/SKILL.md`]);
+    assert.ok(projections[`${skillDirectory(skill)}/SKILL.md`]!.includes(marker), "method rendering must read the selected root instead of cwd");
+    assert.deepEqual(renderTaskSkills(source, true, true), [], "PR mode permits missing generated projections");
+    assert.ok(renderTaskSkills(source, true).some((error) => error.startsWith("Task skill projection drift:")), "release mode requires generated projections");
+    const hosted = buildHostedKnowledgeBundle(source);
+    const filmDocument = hosted.documents.find((document) => document.referenceId === reference.id);
+    assert.equal(filmDocument?.markdown, changed, "default bundle generation must include authored film guidance without a stamp");
+    assert.equal(filmDocument?.sourceSha256, hash(changed));
+    const staleCatalog = { ...hosted.catalog, references: hosted.catalog.references.filter((entry) => entry.id !== reference.id) };
+    assert.throws(() => buildHostedKnowledgeBundle(source, staleCatalog), /hosted_bundle\.active_graph_mismatch/u, "an explicitly stale catalog must still fail closed");
+
+    const childTest = path.join(source, "checks/verification/task-skills.test.ts");
+    mkdirSync(path.dirname(childTest), { recursive: true });
+    writeFileSync(childTest, 'import assert from "node:assert/strict"; assert.equal(process.env.B2C_STAMP_MODE, "pr");\n');
+    const runChecker = (mode: "pr" | "release" | undefined, inheritedMode: "" | undefined) => {
+      const result = spawnSync(
+        process.execPath,
+        ["--import", "tsx", path.join(root, "checks/validation/repository/check-task-skills.ts"), "--root", source, ...(mode ? ["--stamp-mode", mode] : []), "--json"],
+        { cwd: root, encoding: "utf8", timeout: 30_000, env: { ...process.env, B2C_STAMP_MODE: inheritedMode } },
+      );
+      return { status: result.status, report: JSON.parse(result.stdout), stderr: result.stderr };
+    };
+    for (const inheritedMode of [undefined, ""] as const) {
+      const pr = runChecker("pr", inheritedMode);
+      assert.equal(pr.status, 0, pr.stderr);
+      assert.equal(pr.report.pass, true, "an explicit PR flag must reach child tests without relying on inherited env");
+    }
+    for (const mode of ["release", undefined] as const) {
+      const strict = runChecker(mode, undefined);
+      assert.equal(strict.status, 1);
+      assert.ok(strict.report.failures.some((entry: { rule: string }) => entry.rule === "task_skills.projection_drift"), "release/default mode must retain strict stamp checks");
+    }
+
+    const result = spawnSync(
+      process.execPath,
+      ["--import", "tsx", path.join(root, "tooling/export-task-skill.ts"), "--root", source, "--skill", skill.name, "--output", path.join(temporary, "export"), "--source-revision", revision],
+      { cwd: root, encoding: "utf8", timeout: 30_000 },
+    );
+    assert.equal(result.status, 0, result.stderr);
+    const report = JSON.parse(result.stdout);
+    assert.equal(report.installed, false);
+    assert.equal(report.executionIncluded, false);
+    const manifest = JSON.parse(readFileSync(path.join(report.directory, "source-manifest.json"), "utf8"));
+    assert.equal(manifest.sourceRevision, revision);
+    const methodSource = manifest.sources.find((entry: { referenceId: string }) => entry.referenceId === skill.method!.referenceId);
+    assert.equal(methodSource?.sha256, hash(changed));
+    assert.ok(readFileSync(path.join(report.directory, "SKILL.md"), "utf8").includes(marker), "exported method and manifest must bind the same root");
+    assert.equal(readFileSync(path.join(report.directory, "references/source", reference.path), "utf8"), changed);
+    assert.equal(readFileSync(path.join(root, reference.path), "utf8"), original);
+  } finally {
+    rmSync(temporary, { recursive: true, force: true });
+  }
+});
+
+void test("the film task exports its method and shared production and script guidance", () => {
+  const skill = taskSkills.find((entry) => entry.method?.referenceId === "reference.design.pitch-film-studio");
+  assert.ok(skill, "the film task must bind its authored method");
+  assert.equal(skill.workflowId, "workflow.design.content-assets-remotion-generated-visuals");
+  assert.equal(skill.groupId, undefined, "conditional film stages must not create another managed workflow group");
+  const bundle = collectTaskSkillPackage(root, catalog, skill.name, revision);
+  for (const anchor of ["strategic-brief", "three-concepts", "causal-script", "production-handoff", "evidence-and-quality-review"]) {
+    assert.ok(bundle.files["SKILL.md"]!.includes(`](references/source/knowledge/design/pitch-film-studio.md#${anchor})`), `film stage does not link to its bundled source: ${anchor}`);
+  }
+  for (const referenceId of ["reference.design.pitch-film-studio", "reference.design.remotion-content-assets", "reference.growth.ugc-creator-engine"]) {
+    const reference = catalog.references.find((entry) => entry.id === referenceId);
+    assert.ok(reference, `missing film reference: ${referenceId}`);
+    assert.ok(bundle.sourcePaths.includes(reference.path), `film export omits ${referenceId}`);
+    assert.ok(bundle.files[`references/source/${reference.path}`], `film reference is not relocated: ${referenceId}`);
+  }
+  assert.ok(!bundle.supplementalLinks.some((url) => /\/knowledge\/(?:design\/(?:pitch-film-studio|remotion-content-assets)|growth\/ugc-creator-engine)\.md(?:[#?]|$)/u.test(url)));
 });
 
 for (const skill of taskSkills) {

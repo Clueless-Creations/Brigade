@@ -16,6 +16,18 @@ radius**. If either is in doubt, stop and ask the founder.
   view overflows its container, nothing overlaps, and sizes match the mock.
   A green merge gate is not enough: a gate can pass with clipping recorded
   into new snapshot references.
+- For a screen change, the pull request includes a live-screen test copied
+  from [`templates/live-screen/`](templates/live-screen/). The test pumps the
+  shipping widget or view. The controller is the real one, or a fake of that
+  same type at the boundary. It runs the primary interaction, long names, 2x
+  text, and landscape when the screen has those cases. It asserts no overlap,
+  no overflow, and reachable actions. A mock-fixture screenshot is not this
+  test. The check is
+  [`scripts/check-live-screen-test.sh`](scripts/check-live-screen-test.sh).
+- Production code does not branch on a fixture property. A name-length
+  threshold such as `name.length > 36`, and a gate-only flag, are fixture
+  properties. The check is
+  [`scripts/check-mock-state-branches.sh`](scripts/check-mock-state-branches.sh).
 - The pull request does its task and nothing else. Each remaining
   difference from the mock is listed in the pull request.
 

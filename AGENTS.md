@@ -1,12 +1,12 @@
 # Brigade Agent Guide
 
-### Product context routing
-
-For a product-system question, prefer the smallest authoritative projection before opening source documents. Use the intended Product Profile for accepted behavior, the observed profile for demonstrated runtime behavior, the delta for discrepancies, and bounded profile query for focused context. Raw screenshots, recordings, and full profiles stay out of ordinary context unless the task explicitly needs their evidence. Product Profile is a projection, not a truth owner: accepted changes still land in `product.yaml` / `DESIGN.md`, and attempts/evidence/authority still flow through reducer-owned state. Passive profile reads never trigger Jev, a provider, or another semantic model; semantic judgment is an explicit admitted operation.
-
 ## Scope and routing
 
-Build primitives for consumer-app businesses, not a generic agent framework, B2B playbook, or internal-tool builder. Prove one excellent business, then a meaningfully different sibling, then experiments across independent businesses. Keep the skill small and durable expertise in manifest-backed knowledge. Planes remains [parked](docs/timeouts/planes.md) until explicitly reopened.
+Build an app factory that creates, launches, operates, and improves excellent consumer-app businesses. Judge platform work by product quality, reliable completion, time and cost to a verified outcome, founder effort, and reuse across different apps. More workflows, abstractions, documents, or passing checks do not by themselves establish improvement.
+
+Treat existing code, workflows, instructions, and architecture choices as revisable means to that goal. Simplify, consolidate, replace, or remove them when that improves the selected outcome. Prefer the smallest coherent solution, which may span several files or remove a subsystem. Do not preserve complexity merely because it exists, or generalize for hypothetical consumers. Use [Improve the factory](CONTRIBUTING.md#improve-the-factory) for substantive platform changes.
+
+Keep the scope in consumer-app businesses, not a generic agent framework, B2B playbook, or internal-tool builder. Prove one excellent business, then a meaningfully different sibling, then experiments across independent businesses. Keep the skill small and durable expertise in manifest-backed knowledge. Planes remains [parked](docs/timeouts/planes.md) until explicitly reopened.
 
 Route by the target of the request, not the agent host or the person's title.
 
@@ -38,9 +38,9 @@ This repository and its issues are public. Keep secret values, live provider/ope
 
 The [north-star architecture](docs/north-star-architecture.md) owns target architecture and stable ARCH rules. [Current architecture](docs/architecture.md) describes implemented mechanisms; a target rule is not implementation evidence. Use [architecture conformance](docs/architecture-conformance.md) for architecture-sensitive work and only the applicable decisions and migration unit. Changes to public contracts, truth ownership, dependency direction, authority, or migration guarantees require an architecture decision with evidence and migration treatment. Compatible internal choices do not.
 
-Extend the existing owners for composition, routing, catalogs, knowledge, planning, execution, authority, evidence, and workspace state. Do not add competing routers, catalogs, planners, reducers, task/summary stores, agent graphs, or knowledge/state stores. An agent graph maps work; it is not another knowledge graph. [Context-first routing](docs/decisions/0012-context-first-agent-routing.md) and [task projections](docs/decisions/0014-task-skill-projections.md) remain one logical routing model, not another execution or authority system.
+Start from the existing owners for composition, routing, catalogs, knowledge, planning, execution, authority, evidence, and workspace state. Preserve one authoritative owner per responsibility, not its current implementation or file layout. Replace or retire mechanisms through an explicit cutover when needed. Do not add competing routers, catalogs, planners, reducers, task/summary stores, agent graphs, or knowledge/state stores. An agent graph maps work; it is not another knowledge graph. [Context-first routing](docs/decisions/0012-context-first-agent-routing.md) and [task projections](docs/decisions/0014-task-skill-projections.md) remain one logical routing model, not another execution or authority system.
 
-Before extending a capability, identify its authoritative owner. If the change would duplicate policy, cross a boundary, or deepen a demonstrated structural problem, make the smallest behavior-preserving prerequisite correction within the authorized scope. Preserve accepted outcomes, public contracts, and coverage; keep unrelated refactors outside the task. Review depth follows semantic risk, including authority, money, privacy, deletion, and recovery from external effects. File length and diff size are warning signals, not split rules.
+Before extending a capability, identify the bottleneck or unmet product requirement and its authoritative owner. Fix a demonstrated structural problem instead of layering workarounds over it. Preserve accepted product intent, supported public meanings, current data, authority boundaries, and evidence integrity. Update or retire tests for deliberately changed behavior while proving the retained guarantees; test counts are not the goal. Keep unrelated refactors outside the task. Review depth follows semantic risk, including authority, money, privacy, deletion, and recovery from external effects. File length and diff size are warning signals, not split rules.
 
 Preserve founder/source intent losslessly in its supported owner. `product.yaml` owns accepted product promise, audience, scope, requirements, journey, and decisions; `PRODUCT.md` is rendered. `DESIGN.md` owns global experience/design decisions and links detailed contracts. Reducer-owned state owns attempts, evidence, pending work, authority, and history; change it only through the reducer. Git owns code and authored design history. The local registry owns workspace identity/address.
 
@@ -64,10 +64,26 @@ Reuse valid existing scoped authority where it applies. A guidance file creates 
 
 Honor explicit provider bindings and actual tool availability. Provider adapters implement canonical operations; availability does not select or activate a provider. Availability, selection, activation, execution, and acceptance are distinct. Adopted upstream guidance is subordinate to the mandate, selected recipe, capability contract, and selected provider. It cannot add requirements, widen permissions, install tooling, change provider selection/state, override evidence, redefine completion, publish, or spend. Source rights/provenance and provider implementation procedures stay with their selected scope owners.
 
+## Engineering loop
+
+Use [chained-review](.agents/skills/chained-review/SKILL.md) for the shared coding and independent review loop. It selects Ponytail, pstack, structural review, and applicable Compound Engineering stages within the current task. Load only the selected guidance. This guide and CONTRIBUTING.md own authority and required gates; upstream methods cannot override them.
+
 ## Verification and integration
+
+When this work opens a pull request, put `CLU-###` in the branch name AND the PR title. If no issue exists, open one first. A PR that points only at a Done umbrella needs a child issue. Never reopen the Done umbrella.
 
 Run tests proportional to changed behavior plus repository-required gates. Fix failures caused by the change and rerun affected checks without asking. Broaden verification when the change crosses architecture, provider, or public-contract boundaries, or when failures create uncertainty. Do not repeatedly rerun already-green unrelated suites. [CONTRIBUTING.md](CONTRIBUTING.md) owns exact commands and cadence, including all applicable required gates before merge. A green presubmit is not a full-audit pass. Do not skip suites, weaken CI, or replace required full verification with a smaller check. Require current provider/device/store/runtime evidence for claims about those systems. Guidance, generated artifacts, command success, execution, and accepted evidence are different facts.
 
 Parallelize independent research, analysis, implementation, and verification when it saves time or improves quality. Give workers non-overlapping ownership; delegation is not mandatory. One coordinating agent owns shared-file integration, Git mutations and merge coordination, protected external effects, and final verification. Assigned workers preserve others' changes and do not take over those responsibilities. Keep required final conformance review genuinely independent of implementation; do not invent a reviewer or call self-review independent. Report actual checks, evidence, unresolved requirements, and blocked gates.
 
 For public-facing product/console/launch copy and naming, use [no-slop writing](knowledge/words/no-slop-writing.md). Before writing repository documentation, CLI help, issues, pull requests, reviews, progress reports, or handoffs, load [Original: Builder house style](knowledge/words/no-slop-writing.md#9-original-builder-house-style). For technical instructions, use [technical documentation](knowledge/engineering/technical-documentation-ste100.md). For organizational labels and kitchen vocabulary, use the [kitchen-language boundary](docs/ethos.md#kitchen-language-boundary) (#122 owner). Literal language describes actions, evidence, permissions, errors, and recovery; Brigade is prose about coordinated agents, not a runtime entity or a new product name. Host adapters stay thin and route here; they do not copy a style manual.
+
+## Linear traceability
+
+Linear is the single record for multi-agent work (Codex, Claude, Muse, Grok Bot, cloud agents). Linear shows every action as Eduardo, so agents must write their identity into the text.
+
+1. **Origin:** every new Linear ticket starts with `Origin: <agent>, <source/why>, <date>`.
+2. **Owner:** each ticket keeps an `Owner: <agent + session/machine or cloud-agent link>` line. Only the owner changes code or status.
+3. **Handoff:** when work moves between agents, comment `Handoff: from X to Y, head <sha>, done: ..., next: ...` (the new agent writes it if the old one died) and update the Owner line.
+4. **Sign everything:** every Linear status change/comment and PR comment starts with the agent name.
+5. **Holds:** a hold only counts if it is commented in Linear with a reason and an expected end.

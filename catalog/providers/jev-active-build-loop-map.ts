@@ -8,12 +8,7 @@
  *
  * Paper / synthetic fixtures only; live assessment not performed.
  */
-export const JEV_LOOP_MAP_PATH = "catalog/providers/jev-active-build-loop-map.ts" as const;
-export const JEV_LOOP_SERVICE_MODULE = "kernel/services/jev-active-build-loop.ts" as const;
-export const JEV_LOOP_RECIPE_MODULE = "catalog/workflows/jev-active-build-loop.ts" as const;
 export const JEV_LOOP_FIXTURE = "checks/verification/fixtures/jev-active-build-loop.fixtures.ts" as const;
-export const JEV_LOOP_DOC = "docs/upstreams/jev-active-build-loop.md" as const;
-export const JEV_QUALIFICATION_SERVICE = "kernel/services/jev-active-routing-qualification.ts" as const;
 export const EVIDENCE_GAP_RANKING_OWNER = "kernel/services/evidence-gap-ranking.ts" as const;
 export const SEMANTIC_RUNTIME_SAFETY_OWNER = "kernel/services/semantic-runtime-safety.ts" as const;
 export const SEMANTIC_BATCH_OWNER = "kernel/session/semantic-batch.ts" as const;

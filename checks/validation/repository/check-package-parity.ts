@@ -11,6 +11,7 @@ import { auditExcludedScripts, buildAuditPlan, type AuditLayout } from "../../..
 import { skillDirectory, taskSkills } from "../../../catalog/task-skills.js";
 import { SCRIPT_ROOTS, findScriptPath, scriptBasenameFromCommand } from "../../../tooling/lib/script-paths.js";
 import { resolveSkillRoot } from "../../../tooling/lib/skill-root.js";
+import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 
 interface PackageJson {
   name?: string;
@@ -247,7 +248,7 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
     "agents/skills/brigade/references/business-lifecycle.md",
     "agents/skills/brigade/references/composition.md",
     "agents/skills/brigade/references/mobile-operation.md",
-    ...taskSkills.flatMap((skill) => [`${skillDirectory(skill)}/SKILL.md`, `${skillDirectory(skill)}/references/task.md`]),
+    ...requiredTaskSkillDirectories().flatMap((directory) => [`${directory}/SKILL.md`, `${directory}/references/task.md`]),
     "skill-version.json",
     "tsconfig.json",
     "catalog/generated/catalog.json",
@@ -323,6 +324,51 @@ function checkPackStandalone(runtimePkg: PackageJson): void {
   if (packedSet.has("design-room.html")) {
     issues.push(issue("error", "package_parity.pack_dev_leak", "npm pack would ship design-room.html — tighten the files manifest.", "package.json"));
   }
+}
+
+/** PRs keep the previous stamped library until the release stamp writes new projections. */
+function requiredTaskSkillDirectories(): string[] {
+  if (!driftIsLoose(resolveDriftMode(process.argv))) return taskSkills.map(skillDirectory);
+  const relative = "agents/skills/README.md";
+  const source = path.join(args.skillRoot, relative);
+  if (!existsSync(source)) {
+    issues.push(
+      issue("error", "package_parity.task_skill_index_missing", "The stamped task-skill index is missing; package membership cannot be verified.", relative),
+    );
+    return [];
+  }
+  const text = readFileSync(source, "utf8");
+  const start = "<!-- catalog-generated:start task-skills -->";
+  const end = "<!-- catalog-generated:end task-skills -->";
+  const left = text.indexOf(start);
+  const right = text.indexOf(end);
+  const rows = text
+    .slice(left + start.length, right)
+    .trim()
+    .split(/\r?\n/u);
+  const names = rows.slice(2).map((row) => /^\| \[[^\]\n]+\]\((b2c-[a-z0-9-]+)\/SKILL\.md\) \| .+ \|$/u.exec(row)?.[1]);
+  if (
+    left < 0 ||
+    right < left ||
+    text.indexOf(start, left + start.length) >= 0 ||
+    text.indexOf(end, right + end.length) >= 0 ||
+    rows[0] !== "| Task | Use when |" ||
+    rows[1] !== "| --- | --- |" ||
+    !names.length ||
+    names.some((name) => !name) ||
+    new Set(names).size !== names.length
+  ) {
+    issues.push(
+      issue(
+        "error",
+        "package_parity.task_skill_index_invalid",
+        "The stamped task-skill index must contain one generated task table with unique valid skill paths.",
+        relative,
+      ),
+    );
+    return [];
+  }
+  return names.map((name) => `agents/skills/${name}`);
 }
 
 function checkTrackedTemplateEntrypoints(repoRoot: string): void {

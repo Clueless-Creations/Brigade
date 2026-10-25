@@ -178,6 +178,9 @@ sources:
       - entrypoints/plugins/brigade-first-five-minutes/mcp.json
       - entrypoints/plugins/brigade-first-five-minutes/scripts/validate.mjs
       - entrypoints/plugins/brigade-first-five-minutes/scripts/probe.mjs
+      - entrypoints/plugins/brigade-ios-release/.mcp.json
+      - entrypoints/plugins/brigade-ios-release/README.md
+      - entrypoints/plugins/brigade-ios-release/SUBMISSION.md
     notes: First-party knowledge endpoint. MCP knowledge tools are anonymous after ADR-0021. HTTP /api/v1 remains
       key-gated. Use provider deployment and health readback. URL updated 2026-09-01 for the
       mcp.clueless-creations.com cutover; the old workers.dev route was removed and 404s.
@@ -301,6 +304,9 @@ sources:
     owner: maintainer
     locations:
       - hosted/builder-console/console/chrome.ts
+      - entrypoints/plugins/brigade-ios-release/.grok-plugin/plugin.json
+      - entrypoints/plugins/brigade-ios-release/README.md
+      - entrypoints/plugins/brigade-ios-release/SUBMISSION.md
     notes: First-party company origin. SITE_ORIGIN in hosted/builder-console/console/chrome.ts links the console
       chrome back to the marketing site; the Worker never fetches it. The privacy and Google data pages under this
       origin are registered separately.
@@ -348,6 +354,15 @@ sources:
       - entrypoints/plugins/brigade-first-five-minutes/plugin.json
       - entrypoints/plugins/brigade-first-five-minutes/README.md
     notes: Manifest supportURL for the First Five Minutes plugin. The page is being added in a separate site PR and returned 404 on 2026-10-07. It must be live before a directory submission.
+  - id: x-ai-bot-marketplace-submit-a-plugin
+    name: xAI Grok Bot plugin submission form
+    source_type: website
+    url: https://x.ai/bot/marketplace/submit-a-plugin
+    refresh_cadence_days: 90
+    owner: maintainer
+    locations:
+      - entrypoints/plugins/brigade-ios-release/SUBMISSION.md
+    notes: Draft submission notes for a later Grok Bot marketplace listing. This repository change does not submit the form.
   - id: code-claude-com-docs-en-costs
     name: code.claude.com
     source_type: official_docs
@@ -1959,6 +1974,7 @@ sources:
       - package.json
       - hosted/builder-console/console/chrome.ts
       - tooling/export-task-skill.ts
+      - entrypoints/plugins/brigade-ios-release/.grok-plugin/plugin.json
     notes: Canonical repo URL used by the package.json homepage field, the console's Open source link, and the
       exported task-skill repository field. Self-referential; tracked so the registry stays exhaustive rather than
       because it can drift upstream. Renamed from b2c-mobile-business-launch-skill on 2026-08-05 and from

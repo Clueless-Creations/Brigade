@@ -8,6 +8,7 @@ import { cpSync, readFileSync, writeFileSync, mkdirSync, symlinkSync } from "nod
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { composeAuthoredCatalog } from "../../../catalog/authoring.js";
+import { renderFirstpartyPackage } from "../../../catalog/packs/firstparty.js";
 import { composeCatalog, composeCatalogFromPacks } from "../../../catalog/index.js";
 import { toCatalogInput } from "../../../catalog/bridge.js";
 import { composePacks } from "../../../catalog/packs/compose.js";
@@ -79,8 +80,15 @@ export function register(harness: Harness): void {
     assert.throws(() => validateExtension(unbound), /requires workflow mappings/);
   });
   harness.check("firstparty manifest: complete authored compiler contract survives the common loader", () => {
-    const authored = composeAuthoredCatalog(skillRoot),
-      loaded = composeCatalog(skillRoot);
+    const authored = composeAuthoredCatalog(skillRoot);
+    const root = harness.makeTempDir("firstparty-authored");
+    cpSync(path.join(skillRoot, "skill-version.json"), path.join(root, "skill-version.json"));
+    for (const [relative, bytes] of Object.entries(renderFirstpartyPackage(skillRoot))) {
+      const target = path.join(root, relative);
+      mkdirSync(path.dirname(target), { recursive: true });
+      writeFileSync(target, bytes);
+    }
+    const loaded = composeCatalog(root);
     assert.deepEqual(withoutResource(toCatalogInput(loaded)), withoutResource(toCatalogInput(authored)));
     for (const field of [
       "areas",
@@ -111,9 +119,9 @@ export function register(harness: Harness): void {
     const imported = loadSnapshotPacks([{ directory: root, snapshot }]);
     const sourcePacks = loadSnapshotPacks([{ directory: source, snapshot }]);
     assert.deepEqual(imported, sourcePacks);
-    const authored = composeAuthoredCatalog(skillRoot);
+    const installed = composeCatalog(skillRoot);
     const empty: Catalog = {
-      ...authored,
+      ...installed,
       areas: [],
       domains: [],
       phases: [],
@@ -131,7 +139,7 @@ export function register(harness: Harness): void {
     };
     const result = composePacks(empty, imported);
     assert.deepEqual(result.issues, []);
-    assert.deepEqual(withoutResource(toCatalogInput(result.catalog)), withoutResource(toCatalogInput(authored)));
+    assert.deepEqual(withoutResource(toCatalogInput(result.catalog)), withoutResource(toCatalogInput(installed)));
     const reference = imported[0]!.references[0]!;
     writeFileSync(path.join(root, reference.path), "changed after selection");
     assert.throws(() => loadSnapshotPacks([{ directory: root, snapshot }]), /Pinned resource changed/);

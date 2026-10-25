@@ -6,8 +6,6 @@
  */
 export const SEMANTIC_BATCH_MAP_PATH = "catalog/providers/semantic-batch-map.ts" as const;
 export const SEMANTIC_BATCH_MODULE = "kernel/session/semantic-batch.ts" as const;
-export const SEMANTIC_BATCH_DISPATCH_MODULE = "kernel/engine/dispatch.ts" as const;
-export const SEMANTIC_BATCH_OWNERSHIP_MODULE = "kernel/reducer/semantic-batch-ownership.ts" as const;
 export const SEMANTIC_BATCH_FIXTURE = "checks/verification/fixtures/semantic-batch.fixtures.ts" as const;
 export const SEMANTIC_SOURCE_PROJECTION_MODULE = "kernel/services/source-projection.ts" as const;
 export const SEMANTIC_PLAN_LOWER_MODULE = "kernel/composition/semantic-plan-lower.ts" as const;
@@ -20,7 +18,6 @@ export const SEMANTIC_BATCH_STAMP = "0.221.38" as const;
 export const SEMANTIC_BATCH_BASE_MAIN_SHA = "610e0e8a3e44aa0f97fcb9fc75d57a410bf0818a" as const;
 export const SEMANTIC_BATCH_LIVE_NOT_PERFORMED = true as const;
 export const SEMANTIC_BATCH_HOSTED_KEY_OWNER = "CoS→Eduardo" as const;
-export const SEMANTIC_BATCH_IOS_SIM_OOS = true as const;
 export const SEMANTIC_BATCH_LIVE_BATCH_BENCHMARKS_OOS = true as const;
 export const SEMANTIC_BATCH_NEXT_AFTER_CLOSE = "#519" as const;
 export const SEMANTIC_BATCH_NO_SECOND_SCHEDULER = true as const;

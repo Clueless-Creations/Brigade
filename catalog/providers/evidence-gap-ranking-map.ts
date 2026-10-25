@@ -7,12 +7,7 @@
  * no founder-question-count change / no auto-approval / no inferred preferences.
  */
 export const EVIDENCE_GAP_RANKING_MAP_PATH = "catalog/providers/evidence-gap-ranking-map.ts" as const;
-export const EVIDENCE_GAP_RANKING_SERVICE_MODULE = "kernel/services/evidence-gap-ranking.ts" as const;
-export const EVIDENCE_GAP_RANKING_RECIPE_MODULE = "catalog/workflows/evidence-gap-ranking.ts" as const;
 export const EVIDENCE_GAP_RANKING_FIXTURE = "checks/verification/fixtures/evidence-gap-ranking.fixtures.ts" as const;
-export const PLAN_MODULE = "kernel/session/plan.ts" as const;
-export const FRONTIER_MODULE = "kernel/engine/frontier.ts" as const;
-export const PLAN_PROJECTION_MODULE = "kernel/services/plan-projection.ts" as const;
 
 export const EVIDENCE_GAP_RANKING_ISSUE = "#524" as const;
 export const EVIDENCE_GAP_RANKING_EPIC = "#511" as const;

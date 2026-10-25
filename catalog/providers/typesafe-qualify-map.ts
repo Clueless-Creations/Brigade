@@ -5,9 +5,7 @@
  * with implement | defer | reject dispositions. No adapter transport, no
  * credentials, no Brigade package dependency activation.
  */
-export const TYPESAFE_QUALIFY_MAP_PATH = "catalog/providers/typesafe-qualify-map.ts" as const;
 export const TYPESAFE_QUALIFY_DOC = "docs/upstreams/typesafe-qualification.md" as const;
-export const TYPESAFE_QUALIFY_FIXTURE = "checks/verification/fixtures/typesafe-qualify.fixtures.ts" as const;
 export const TYPESAFE_UPSTREAM_MANIFEST = "catalog/upstreams/typesafe-ai.yaml" as const;
 export const TYPESAFE_UPSTREAM_NOTICE = "catalog/upstreams/notices/typesafe-ai.txt" as const;
 export const TYPESAFE_UPSTREAM_OBSERVATION = "catalog/upstreams/observations/typesafe-ai.json" as const;
@@ -15,7 +13,6 @@ export const SEMANTIC_CONTRACTS_DIR = "contracts/semantic" as const;
 
 export const TYPESAFE_QUALIFY_ISSUE = "#513" as const;
 export const TYPESAFE_QUALIFY_EPIC = "#511" as const;
-export const TYPESAFE_QUALIFY_CONSUMES = "#512" as const;
 export const TYPESAFE_QUALIFY_NEXT = "#515" as const;
 export const TYPESAFE_QUALIFY_STAMP = "0.221.33" as const;
 export const TYPESAFE_QUALIFY_BASE_MAIN_SHA = "38f7b6fb123606940c811c40f02073fc8f73bbed" as const;
@@ -34,7 +31,6 @@ export const TYPESAFE_CONFIRM_WITHOUT_PRINT = 'test -n "$TYPESAFE_API_KEY" && ec
 export const TYPESAFE_DOCS_URL = "https://docs.typesafe.ai" as const;
 export const TYPESAFE_HOW_TO_BUILD_URL = "https://docs.typesafe.ai/concepts/how-to-build-with-system-one" as const;
 export const TYPESAFE_API_DOCS_URL = "https://docs.typesafe.ai/api" as const;
-export const TYPESAFE_LEGAL_URL = "https://docs.typesafe.ai/legal" as const;
 export const TYPESAFE_API_BASE_DEFAULT = "https://api.typesafe.ai" as const;
 export const TYPESAFE_MODEL_DEFAULT = "jev-latest" as const;
 

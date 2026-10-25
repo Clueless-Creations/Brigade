@@ -13,6 +13,7 @@ Use the main business entrypoint by default. Focused task skills are optional, g
 <!-- catalog-generated:start task-skills -->
 | Task | Use when |
 | --- | --- |
+| [Pitch Film Studio](b2c-pitch-film-studio/SKILL.md) | Write or review a pitch film |
 | [Research an opportunity](b2c-research-opportunity/SKILL.md) | Validate an app opportunity |
 | [Design or review onboarding](b2c-design-onboarding/SKILL.md) | Design or review onboarding |
 | [Review monetization](b2c-review-monetization/SKILL.md) | Review monetization |
@@ -24,7 +25,7 @@ Use the main business entrypoint by default. Focused task skills are optional, g
 | [Verify release readiness](b2c-verify-release-readiness/SKILL.md) | Verify release readiness |
 <!-- catalog-generated:end task-skills -->
 
-Nine focused task skills cover the six business areas. [Browse all six business areas](../../knowledge/README.md) for the supporting workflows and references. Internal onboarding stages remain behind one task skill, not 23 installations.
+The stamped task library covers the six business areas. [Browse all six business areas](../../knowledge/README.md) for the supporting workflows and references. Internal onboarding stages remain behind one task skill, not 23 installations.
 
 ## Product Profile jobs
 

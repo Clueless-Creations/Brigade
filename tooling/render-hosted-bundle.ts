@@ -4,7 +4,6 @@ import { existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, statSync,
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { composeAuthoredCatalog } from "../catalog/authoring.js";
-import { composeCatalog } from "../catalog/index.js";
 import { loadKnowledgePackages } from "../catalog/knowledge-packages.js";
 import type { Catalog, CatalogKnowledgePackage } from "../catalog/types.js";
 import { indexKnowledgeSections } from "../kernel/knowledge-service/sections.js";
@@ -74,10 +73,10 @@ function readBoundFile(skillRoot: string, binding: string, kind: "document" | "m
   return { text, sha256: digest(bytes) };
 }
 
-/** Only this build-time module reads source files. The hosted service uses its output. */
+/** Build from authored sources before release stamping. The hosted service uses the generated output. */
 export function buildHostedKnowledgeBundle(
   skillRoot: string,
-  catalog: Catalog = composeCatalog(skillRoot),
+  catalog: Catalog = composeAuthoredCatalog(skillRoot),
   packages: readonly CatalogKnowledgePackage[] = loadKnowledgePackages(skillRoot),
 ): HostedKnowledgeBundle {
   const active = packages.filter((item) => item.lifecycle === "active").sort((left, right) => (left.id < right.id ? -1 : left.id > right.id ? 1 : 0));

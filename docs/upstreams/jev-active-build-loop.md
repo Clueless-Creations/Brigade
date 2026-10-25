@@ -8,7 +8,7 @@
 
 ## What this path is
 
-An admitted build uses **qualified** semantic decisions to **choose and execute** the next useful work, context, worker/tool route, observation or repair. A meaningful result requests the next decision. This is **active build routing**, not only ranking or final validation.
+The target is an admitted build that uses qualified decisions to choose work, observations, and repairs. The current helper models that selection with synthetic observations and decisions. `runOfflineObservationStep` returns a description of an action; it does not execute a worker or change app source.
 
 Jev (TypeSafe System One) is reached only through the existing provider-neutral semantic binding and stays **swappable**. Jev is neither the authority owner nor the source of product truth.
 
@@ -24,19 +24,21 @@ Jev (TypeSafe System One) is reached only through the existing provider-neutral 
 
 No pasted architecture prompt is required. No new public CLI/MCP command is invented while implementation is pending review of #574.
 
-## Guarantees this paper proof establishes
+## What the local checks cover
 
-1. A **changed observation** changes the next **executed** action (not only a displayed rank).
-2. Build-level and within-task checkpoints **share ownership and receipts**.
-3. An **admitted** active policy continues reversible work **without frontier re-approval** of each Jev answer (executor still rechecks freshness/authority before dispatch).
-4. New/unknown problems reach **bounded** evidence gathering or generative fallback — never arbitrary effects; PATH credentials do not activate routes.
-5. **Passive reads** issue zero inference requests; **stale** selections refuse dispatch.
-6. **Real async** covers independent/dependent rounds, concurrency/rate/deadline limits, cancellation, late results and partial failures via existing `#518` batch/ownership owners.
-7. Wrong binding, unsupported modality, missing grant, contradictory evidence and **no-match** stay explicit.
-8. Loop / no-progress / fairness cases terminate within declared bounds.
-9. **Independent review** and required provider/device evidence remain mandatory.
-10. Fresh installed agents can find this path from catalog markers and this doc.
-11. Frozen baseline reports completed outcomes, cost honesty (actual/estimated/unknown), correction effort and limitations (missing haptic proof stays **unknown**).
+1. Changed observations produce different selected-action descriptions.
+2. Checkpoint values retain supplied source revisions, ownership identifiers, and synthetic receipt identifiers.
+3. Policy helpers refuse stale selections, missing grants, wrong bindings, unsupported modalities, and no-match results.
+4. Route helpers retain bounded fallback and prevent PATH presence from activating a route.
+5. No-network asynchronous work exercises the existing batch settlement and ownership helpers.
+6. Cancellation and deadlines retain one outcome per candidate, including candidates that never dispatched.
+7. Round counts and paper cost estimates include only dispatched work. Failed and cancelled requests remain counted.
+8. Loop helpers enforce iteration, no-progress, and fairness bounds.
+9. Review helpers refuse missing independent review or required device evidence.
+
+Run the checks with `npm run test:fixtures -- jev-active-build-loop`. The runner waits for asynchronous checks before reporting results or removing temporary files.
+
+The frozen baseline reports modeled outcomes and unknown live cost. It does not measure repaired source, customer success, or human time saved. File-presence checks establish discoverable repository references; they do not establish fresh installed-agent behavior.
 
 ## What this does **not** claim
 

@@ -238,11 +238,38 @@ export function register(harness: Harness): void {
     );
     const cancelled = await runActiveLoopFanout({ cancel: true });
     assert(cancelled.cancelled && cancelled.ownershipReleased, "cancel");
+    assert(cancelled.outcomesComplete && new Set(cancelled.outcomes.map((entry) => entry.workId)).size === 5, "cancel must account for every candidate once");
+    assert(cancelled.independentRounds === 1 && cancelled.dependentRounds === 0, "cancelled dependent work must not count as an execution round");
+    assert(cancelled.outcomes.filter((entry) => entry.round === "dependent").every((entry) => entry.status === "cancelled"), "undispatched dependents retain cancellation");
+    assert(cancelled.cost.kind === "estimated" && cancelled.cost.value === 0.006, "estimate must include cancelled requests but exclude undispatched requests");
     const deadline = await runActiveLoopFanout({ tightDeadline: true });
     assert(deadline.ownershipReleased, "deadline ownership");
+    assert(deadline.outcomesComplete && new Set(deadline.outcomes.map((entry) => entry.workId)).size === 5, "deadline must account for every candidate once");
+    assert(deadline.independentRounds === 1 && deadline.dependentRounds === 0, "expired dependent work must not dispatch");
+    assert(deadline.outcomes.filter((entry) => entry.round === "dependent").every((entry) => entry.status === "deadline_exceeded"), "undispatched dependents retain deadline expiry");
+    assert(deadline.cost.kind === "estimated" && deadline.cost.value === 0.006, "estimate must exclude requests refused at the deadline");
     assert(deadline.deadlineExceeded || deadline.lateResults >= 1 || deadline.outcomes.some((o) => o.status === "late" || o.status === "cancelled"), "late");
     const over = await runActiveLoopFanout({ overCap: true });
     assert(!over.admitted && over.outcomes.every((o) => o.status === "not_admitted"), "cap");
+  });
+
+  harness.check("jev-active-build-loop: delayed timers cannot accept results after the deadline", async () => {
+    const pending = runActiveLoopFanout({ tightDeadline: true });
+    const until = performance.now() + 100;
+    while (performance.now() < until) { /* Exercise a stalled event loop past the 25ms deadline. */ }
+    const result = await pending;
+    assert(result.deadlineExceeded && result.outcomesComplete && result.ownershipReleased, "expired work must settle completely");
+    assert(result.outcomes.every((entry) => entry.status === "late" || entry.status === "deadline_exceeded"), "no late success or recovery may be accepted");
+    assert(result.dependentRounds === 0 && result.lateResults === 3, "only the original three requests dispatched");
+  });
+
+  harness.check("jev-active-build-loop: the first abort reason remains consistent across dispatched and pending work", async () => {
+    const pending = runActiveLoopFanout({ cancel: true, tightDeadline: true });
+    const until = performance.now() + 100;
+    while (performance.now() < until) { /* Let the earlier cancellation and later deadline both become due. */ }
+    const result = await pending;
+    assert(result.cancelled && !result.deadlineExceeded && result.lateResults === 0, "the earlier cancellation owns settlement");
+    assert(result.outcomesComplete && result.outcomes.every((entry) => entry.status === "cancelled"), "every outcome must retain the same cancellation reason");
   });
 
   harness.check("jev-active-build-loop: AC7 explicit no-match/wrong-binding paths", () => {

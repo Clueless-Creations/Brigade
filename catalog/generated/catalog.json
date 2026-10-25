@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.134",
+  "skillVersion": "0.221.146",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3510,6 +3510,54 @@
       }
     },
     {
+      "id": "reference.design.pitch-film-example",
+      "path": "knowledge/design/pitch-film-example.md",
+      "domainId": "domain.design",
+      "title": "Fictional pitch film worked example",
+      "loadWhen": "a worked paper example is needed to understand the film method; never as product or production proof",
+      "lifecycle": "active",
+      "sourceExemption": "Repository-original film method and fictional examples; no external factual claims or imported source expression.",
+      "sources": [],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/design/pitch-film-example.md",
+        "sha256": "sha256:3f2947d63ddd5e4a03391088188135110080bad07898e0d8d0f985248527ae94",
+        "origin": "skill"
+      }
+    },
+    {
+      "id": "reference.design.pitch-film-studio",
+      "path": "knowledge/design/pitch-film-studio.md",
+      "domainId": "domain.design",
+      "title": "Pitch Film Studio",
+      "loadWhen": "writing or reviewing a sales pitch, product demo, short ad or brand story; film brief, concepts, script, production handoff or evidence review",
+      "lifecycle": "active",
+      "sourceExemption": "Repository-original film method and fictional examples; no external factual claims or imported source expression.",
+      "sources": [],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/design/pitch-film-studio.md",
+        "sha256": "sha256:a3eda84459633896fc9b855576821dba08d2f5eae8131353a3003d0fd63ab001",
+        "origin": "skill"
+      }
+    },
+    {
+      "id": "reference.design.pitch-film-templates",
+      "path": "knowledge/design/pitch-film-templates.md",
+      "domainId": "domain.design",
+      "title": "Pitch film templates",
+      "loadWhen": "drafting a film brief, concept comparison, exact transcript or format-specific script",
+      "lifecycle": "active",
+      "sourceExemption": "Repository-original film method and fictional examples; no external factual claims or imported source expression.",
+      "sources": [],
+      "replacementIds": [],
+      "resource": {
+        "path": "catalog/generated/firstparty/knowledge/design/pitch-film-templates.md",
+        "sha256": "sha256:d0049069eb42f03f6885ec6263ff962c0ecdcc436a10221c7186d9bbcfe435a2",
+        "origin": "skill"
+      }
+    },
+    {
       "id": "reference.design.premium-mobile-craft",
       "path": "knowledge/design/premium-mobile-craft.md",
       "domainId": "domain.design",
@@ -3944,7 +3992,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:0039781827ad101de6cddf456f8ba8809d48d5f6d92e10b1b49971a45a3b6525",
+        "sha256": "sha256:dbd05f9d87e72810df2429feb777db98e759b8bc3acef5815b0aba5fbf1a27bb",
         "origin": "skill"
       }
     },
@@ -4145,7 +4193,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/app-agent-roster.md",
-        "sha256": "sha256:2bf6fed311e0d84ac964c5f849ae3002ec3237c497c68d54786b6af68df5f082",
+        "sha256": "sha256:346d959c46996b690025be65600fc1b48247cde3484fe5728cfd2dfed7c6750c",
         "origin": "skill"
       }
     },
@@ -4342,7 +4390,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/engineering/engineering-orchestration.md",
-        "sha256": "sha256:8818f8eb610aceda6b4143e39ddfb9ebbb4e1b5771c2c486a9368a64cf6f68f0",
+        "sha256": "sha256:a92a425aa460adae10e7cc9e34c105634d282ac87a4623ff7896ae46f782b6eb",
         "origin": "skill"
       }
     },
@@ -15137,6 +15185,9 @@
         "reference.design.brand-system-skill-onboard",
         "reference.design.design-evidence-stack",
         "reference.design.design-visual-system",
+        "reference.design.pitch-film-example",
+        "reference.design.pitch-film-studio",
+        "reference.design.pitch-film-templates",
         "reference.design.remotion-content-assets",
         "reference.process.tool-recipes.visual-and-motion-production"
       ],
@@ -19439,6 +19490,14 @@
       "audit": "required"
     },
     {
+      "id": "gate.check-clu-pr-lint",
+      "command": "check:clu-pr-lint",
+      "scriptPath": "checks/validation/repository/check-clu-pr-lint.ts",
+      "commandManifestPath": "package.json",
+      "ownerDomainId": "domain.machine",
+      "audit": "required"
+    },
+    {
       "id": "gate.check-component-contracts",
       "command": "check:component-contracts",
       "scriptPath": "checks/validation/business/design/check-component-contracts.ts",
@@ -20542,14 +20601,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "781d4befdb0ab330dfbf0393963852c525b6b7e524a5ef1cf186f812f354a0d0",
+    "fingerprint": "e609b7b7f1ab790398bcf1416f5ea36e726562d77be8519ded6a2b3d6183dd2f",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.134",
-        "revision": "0.221.134",
-        "contentDigest": "95f0772c240040e78fedece8dbda155984943fca5b1d13810522f7ccb679444c"
+        "version": "0.221.146",
+        "revision": "0.221.146",
+        "contentDigest": "0e5320a9689eee2495a58a92779788f82665cfb44900cec996bb5a0a81454f92"
       }
     ],
     "base": {
@@ -20561,7 +20620,7 @@
       "business-pack.consumer-business": {
         "domains": 15,
         "workflows": 115,
-        "references": 149
+        "references": 152
       }
     }
   }

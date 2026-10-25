@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { composeCatalog } from "../catalog/index.js";
+import { composeAuthoredCatalog } from "../catalog/authoring.js";
 import { renderBusinessAreaTable, renderTaskSkillFiles, renderTaskTable, taskSkillMarker, taskSkills } from "../catalog/task-skills.js";
 import { isMainModule } from "./lib/cli-entrypoint.js";
 import { resolveSkillRoot } from "./lib/skill-root.js";
@@ -19,7 +19,8 @@ export function replaceGeneratedBlock(text: string, name: string, content: strin
 }
 
 export function taskSkillProjections(root: string): Record<string, string> {
-  const files = renderTaskSkillFiles(composeCatalog(root));
+  // This source-only renderer must include authored changes before the next release stamp.
+  const files = renderTaskSkillFiles(composeAuthoredCatalog(root), root);
   for (const [file, marker, body] of [
     ["README.md", "business-areas", renderBusinessAreaTable()],
     ["SKILL.md", "task-skills", renderTaskTable("SKILL.md")],

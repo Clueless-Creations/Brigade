@@ -20,12 +20,15 @@
  * sends agents nowhere.
  *
  * npm script: check:reference-size
- * Usage: tsx checks/validation/repository/check-reference-size.ts --skill-root /path/to/skill [--budget-bytes N]
+ * Usage: tsx checks/validation/repository/check-reference-size.ts --skill-root /path/to/skill [--budget-bytes N] [--stamp-mode pr|main|release]
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { composeAuthoredCatalog } from "../../../catalog/authoring.js";
+import { renderReferenceIndex } from "../../../catalog/render-routing.js";
 import { flagNumber, flagString, issue, parseFlags, reportAndExit, type Issue } from "../../../tooling/lib/launch-state.js";
+import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const defaultSkillRoot = path.resolve(scriptDir, "../../..");
@@ -68,6 +71,7 @@ const EXCLUSIONS: Record<string, string> = {
 };
 
 const args = parseArgs(process.argv.slice(2));
+const looseStampMode = driftIsLoose(resolveDriftMode(process.argv.slice(2)));
 const issues: Issue[] = [];
 
 /**
@@ -150,8 +154,9 @@ for (const root of presentRoots) {
  * knowledge files needs an index that links each of its immediate children.
  *
  * Two index mechanisms are accepted, because both are load-bearing:
- *   - `knowledge/`             — indexed centrally by the GENERATED
- *                                catalog/generated/routing.md's Reference Index section
+ *   - `knowledge/`             — indexed centrally by the Reference Index section
+ *                                of catalog/generated/routing.md (release mode), or its
+ *                                authored projection before release stamping (PR/main mode)
  *                                (rendered by catalog/render-routing.ts from
  *                                knowledge manifests' authored `loadWhen` data; a
  *                                catalog reference entry is what makes a knowledge file
@@ -166,20 +171,21 @@ for (const root of presentRoots) {
  * but is not something an agent can follow, so both directions below are
  * checked against parsed link targets rather than raw text.
  */
-let generatedIndexHrefs: Set<string> | undefined;
+let referenceIndexHrefs: Set<string> | undefined;
 
-/** Absolute, resolved link targets found in catalog/generated/routing.md, memoized. */
-function loadGeneratedIndexHrefs(): Set<string> | undefined {
-  if (generatedIndexHrefs) return generatedIndexHrefs;
+/** Resolve both projections from the generated index's location without writing stamp files. */
+function loadReferenceIndexHrefs(): Set<string> | undefined {
+  if (referenceIndexHrefs) return referenceIndexHrefs;
   const generatedIndexPath = path.join(args.skillRoot, "catalog", "generated", "routing.md");
-  if (!existsSync(generatedIndexPath)) return undefined;
-  const hrefs = linkedHrefs(readFileSync(generatedIndexPath, "utf8")).map((href) => path.resolve(path.dirname(generatedIndexPath), href));
-  generatedIndexHrefs = new Set(hrefs);
-  return generatedIndexHrefs;
+  if (!looseStampMode && !existsSync(generatedIndexPath)) return undefined;
+  const content = looseStampMode ? renderReferenceIndex(composeAuthoredCatalog(args.skillRoot)) : readFileSync(generatedIndexPath, "utf8");
+  const hrefs = linkedHrefs(content).map((href) => path.resolve(path.dirname(generatedIndexPath), href));
+  referenceIndexHrefs = new Set(hrefs);
+  return referenceIndexHrefs;
 }
 
 function checkReachableViaGeneratedIndex(dir: string, files: Array<{ name: string }>): void {
-  const linked = loadGeneratedIndexHrefs();
+  const linked = loadReferenceIndexHrefs();
   if (!linked) {
     issues.push(
       issue(
@@ -199,7 +205,7 @@ function checkReachableViaGeneratedIndex(dir: string, files: Array<{ name: strin
         issue(
           "error",
           "reference_size.index_incomplete",
-          `catalog/generated/routing.md does not link ${relative}. Add a knowledge manifest with a load-when trigger, or delete the unreachable file.`,
+          `${looseStampMode ? "The authored reference index" : "catalog/generated/routing.md"} does not link ${relative}. Add a knowledge manifest with a load-when trigger, or delete the unreachable file.`,
           relative,
         ),
       );

@@ -665,16 +665,21 @@ export async function runActiveLoopFanout(input?: {
 
   const controller = new AbortController();
   let cancelled = false;
-  if (input?.cancel) {
-    setTimeout(() => {
+  const cancellationTimer = input?.cancel
+    ? setTimeout(() => {
+      if (controller.signal.aborted) return;
       cancelled = true;
       state = requestCancellation(state);
-      controller.abort();
-    }, 5);
-  }
+      controller.abort("cancelled");
+    }, 5)
+    : undefined;
 
   const deadlineMs = bounds.deadlineMs ?? JEV_LOOP_BOUNDS.deadlineMs;
-  const deadlineTimer = setTimeout(() => controller.abort(), deadlineMs);
+  const deadlineTimer = setTimeout(() => {
+    if (controller.signal.aborted) return;
+    deadlineExceeded = true;
+    controller.abort("deadline_exceeded");
+  }, deadlineMs);
 
   const outcomes: LoopFanoutOutcome[] = [];
   let peak = 0;
@@ -682,41 +687,43 @@ export async function runActiveLoopFanout(input?: {
   let lateResults = 0;
   let partialFailures = 0;
   let deadlineExceeded = false;
+  let independentRounds = 0;
+  let dependentRounds = 0;
   const startedAt = Date.now();
+
+  function stopped(): boolean {
+    // A delayed event loop can resolve an earlier sleep before running the deadline timer.
+    // Check the cutoff at the acceptance boundary as well as in the timer callback.
+    if (!controller.signal.aborted && Date.now() - startedAt >= deadlineMs) {
+      deadlineExceeded = true;
+      controller.abort("deadline_exceeded");
+    }
+    return controller.signal.aborted;
+  }
+
+  function recordStopped(item: SemanticWorkItem): void {
+    const status = controller.signal.reason === "cancelled" ? "cancelled" : "late";
+    if (status === "late") lateResults += 1;
+    outcomes.push({ workId: item.workId, status, round: item.dependsOn.length ? "dependent" : "independent", diagnosis: null });
+  }
 
   async function runOne(item: SemanticWorkItem): Promise<void> {
     inFlight += 1;
     peak = Math.max(peak, inFlight);
     try {
-      if (controller.signal.aborted) {
-        const status = Date.now() - startedAt >= deadlineMs ? "deadline_exceeded" : "cancelled";
-        if (status === "deadline_exceeded") {
-          deadlineExceeded = true;
-          lateResults += 1;
-        }
-        outcomes.push({
-          workId: item.workId,
-          status: status === "deadline_exceeded" ? "late" : "cancelled",
-          round: item.dependsOn.length ? "dependent" : "independent",
-          diagnosis: null,
-        });
+      if (stopped()) {
+        recordStopped(item);
         return;
       }
       const delay = item.workId.endsWith("c") ? 90 : item.workId.endsWith("e") ? 35 : 10;
       try {
         await sleep(delay, controller.signal);
       } catch {
-        const status = Date.now() - startedAt >= deadlineMs ? "late" : "cancelled";
-        if (status === "late") {
-          deadlineExceeded = true;
-          lateResults += 1;
-        }
-        outcomes.push({
-          workId: item.workId,
-          status,
-          round: item.dependsOn.length ? "dependent" : "independent",
-          diagnosis: null,
-        });
+        recordStopped(item);
+        return;
+      }
+      if (stopped()) {
+        recordStopped(item);
         return;
       }
       if (item.workId.endsWith("b")) {
@@ -757,7 +764,16 @@ export async function runActiveLoopFanout(input?: {
       { kind: "independent" as const, batch: independent },
       { kind: "dependent" as const, batch: dependent },
     ]) {
-      if (controller.signal.aborted && input?.cancel) break;
+      // Cancellation and deadline expiry also settle candidates that never dispatched.
+      // They contribute an outcome, but no execution round or estimated request cost.
+      if (stopped()) {
+        const status = cancelled ? "cancelled" : "deadline_exceeded";
+        if (!cancelled) deadlineExceeded = true;
+        for (const item of round.batch) {
+          outcomes.push({ workId: item.workId, status, round: round.kind, diagnosis: null });
+        }
+        continue;
+      }
       const reservation = reserveResources({ items: round.batch, bounds, authorityOk: true });
       if (!reservation.admitted) {
         for (const item of round.batch) {
@@ -775,6 +791,8 @@ export async function runActiveLoopFanout(input?: {
           state,
           round.batch.map((i) => i.workId),
         );
+        if (round.kind === "independent") independentRounds += 1;
+        else dependentRounds += 1;
       } catch {
         for (const item of round.batch) {
           outcomes.push({ workId: item.workId, status: "cancelled", round: round.kind, diagnosis: null });
@@ -785,6 +803,7 @@ export async function runActiveLoopFanout(input?: {
     }
   } finally {
     clearTimeout(deadlineTimer);
+    clearTimeout(cancellationTimer);
   }
 
   groupSharedStateBatches(items, bounds);
@@ -793,6 +812,7 @@ export async function runActiveLoopFanout(input?: {
   for (const outcome of outcomes) {
     if (
       !settledOrUnresolved.has(outcome.workId) &&
+      state.dispatchedWorkIds.includes(outcome.workId) &&
       (outcome.status === "late" || outcome.status === "cancelled" || outcome.status === "failed" || outcome.status === "deadline_exceeded")
     ) {
       state = { ...state, unresolvedWorkIds: [...state.unresolvedWorkIds, outcome.workId] };
@@ -816,10 +836,15 @@ export async function runActiveLoopFanout(input?: {
     deadlineExceeded: deadlineExceeded || Boolean(input?.tightDeadline && (deadlineExceeded || lateResults > 0)),
     lateResults,
     partialFailures,
-    independentRounds: 1,
-    dependentRounds: 1,
+    independentRounds,
+    dependentRounds,
     outcomes,
-    cost: { kind: "estimated", value: items.length * 0.002, currency: "USD", note: "Paper estimate; live cost unknown." },
+    cost: {
+      kind: "estimated",
+      value: state.dispatchedWorkIds.length * 0.002,
+      currency: "USD",
+      note: "Paper estimate for dispatched work, including failed or cancelled work; live cost unknown.",
+    },
   };
 }
 

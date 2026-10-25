@@ -1083,7 +1083,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
     "files": [
       {
         "path": "AGENTS.md",
-        "purpose": "Short worker guide: read spec.yaml, build one screen, compare to mock, run gate."
+        "purpose": "Short worker guide: read spec.yaml, build one screen, ship a live-screen test, do not branch production views on fixture properties, compare to the mock, and run the gate."
       },
       {
         "path": "spec/spec.yaml",
@@ -1103,7 +1103,11 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       },
       {
         "path": "scripts/merge-gate.sh",
-        "purpose": "Build, unit tests, screenshot-vs-mock check, lint, and the snapshot record-mode step."
+        "purpose": "Build, unit tests, screenshot-vs-mock check, lint, the snapshot record-mode step, the live-screen test step, and the mock-state branch step."
+      },
+      {
+        "path": "templates/live-screen/",
+        "purpose": "Flutter and SwiftUI live-screen harness. Copy the flavour that matches meta.stack into the screen pull request."
       },
       {
         "path": ".env.example",
@@ -1120,7 +1124,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "Each changed screen has a simulator screenshot per required state.",
       "Screenshot-vs-mock review recorded with any differences fixed or listed.",
       "No hard-coded colors, sizes or strings outside tokens and copy files.",
-      "No snapshot test is in record mode."
+      "No snapshot test is in record mode.",
+      "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+      "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
     ]
   },
   "gates": {
@@ -1211,7 +1217,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1223,7 +1231,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/screens/0"
@@ -1238,7 +1248,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1258,7 +1270,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1271,7 +1285,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/screens/1"
@@ -1286,7 +1302,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1306,7 +1324,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1319,7 +1339,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/screens/2"
@@ -1334,7 +1356,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1352,7 +1376,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1363,7 +1389,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/screens/3"
@@ -1378,7 +1406,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1400,7 +1430,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1415,7 +1447,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/screens/4"
@@ -1430,7 +1464,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1448,7 +1484,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1459,7 +1497,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/screens/5"
@@ -1474,7 +1514,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1496,7 +1538,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1511,7 +1555,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/web/0"
@@ -1526,7 +1572,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1543,7 +1591,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1553,7 +1603,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/web/1"
@@ -1568,7 +1620,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1585,7 +1639,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1595,7 +1651,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/web/2"
@@ -1610,7 +1668,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1627,7 +1687,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1637,7 +1699,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/web/3"
@@ -1652,7 +1716,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1669,7 +1735,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1679,7 +1747,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/web/4"
@@ -1694,7 +1764,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1712,7 +1784,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1723,7 +1797,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/tasks/0"
@@ -1738,7 +1814,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1767,7 +1845,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a simulator screenshot per required state.",
         "For repository changes, satisfy repo.merge_gate: Screenshot-vs-mock review recorded with any differences fixed or listed.",
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
-        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode."
+        "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
+        "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1787,7 +1867,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/2",
         "/repo/merge_gate/3",
         "/repo/merge_gate/4",
-        "/repo/merge_gate/5"
+        "/repo/merge_gate/5",
+        "/repo/merge_gate/6",
+        "/repo/merge_gate/7"
       ],
       "source_refs": [
         "/tasks/1"
@@ -1802,7 +1884,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         }
       ]
@@ -1832,7 +1916,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         },
         {
@@ -1873,7 +1959,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         },
         {
@@ -1914,7 +2002,9 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "Each changed screen has a simulator screenshot per required state.",
             "Screenshot-vs-mock review recorded with any differences fixed or listed.",
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
-            "No snapshot test is in record mode."
+            "No snapshot test is in record mode.",
+            "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
           ]
         },
         {
@@ -1933,7 +2023,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
   ],
   "source": {
     "file": "spec.yaml",
-    "sha256": "24638c868c69bcb81595c7d998e069698b5cde93df2eb25b6e3c935907a42468",
+    "sha256": "20ad1e6eeedd9ed3a975ec23e7ac7de03162f602e9b5077a376621f3c5ef1234",
     "spec_version": "0.1.0",
     "status": "draft"
   }

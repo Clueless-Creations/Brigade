@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, readdirSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, symlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getLane, readState, writeState, skillRoot, type Harness } from "./_harness.js";
@@ -395,6 +395,7 @@ export function register(h: Harness): void {
     "check-evidence-schema-drift.ts",
     1,
     "evidence_schema_drift.stale",
+    ["--stamp-mode", "release"],
   );
 
   const missingFingerprintRoot = makeShadowSkillRoot(h, "evidence-schema-drift-shadow-root-missing");
@@ -404,6 +405,29 @@ export function register(h: Harness): void {
     "check-evidence-schema-drift.ts",
     1,
     "evidence_schema_drift.version_file_missing",
+    ["--stamp-mode", "release"],
+  );
+
+  const staleBytes = readFileSync(path.join(shadowRoot, "kernel/schema/evidence-schema-version.json"), "utf8");
+  for (const mode of ["pr", "main"]) {
+    runFixture(`drift gate: ${mode} accepts a stable render with a stale fingerprint`, shadowRoot, "check-evidence-schema-drift.ts", 0, undefined, [
+      "--stamp-mode",
+      mode,
+    ]);
+    runFixture(`drift gate: ${mode} accepts a stable render with no fingerprint`, missingFingerprintRoot, "check-evidence-schema-drift.ts", 0, undefined, [
+      "--stamp-mode",
+      mode,
+    ]);
+  }
+  expect(
+    h,
+    "drift gate: loose checks leave the stale fingerprint unchanged",
+    readFileSync(path.join(shadowRoot, "kernel/schema/evidence-schema-version.json"), "utf8") === staleBytes,
+  );
+  expect(
+    h,
+    "drift gate: loose checks do not write a missing fingerprint",
+    !existsSync(path.join(missingFingerprintRoot, "kernel/schema/evidence-schema-version.json")),
   );
 
   const freshFingerprint = computeEvidenceSchemaFingerprint(shadowRoot);
@@ -413,6 +437,8 @@ export function register(h: Harness): void {
     shadowRoot,
     "check-evidence-schema-drift.ts",
     0,
+    undefined,
+    ["--stamp-mode", "release"],
   );
 }
 

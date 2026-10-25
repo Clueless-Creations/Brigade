@@ -19,7 +19,7 @@ export function register(harness: Harness): void {
     spawnSync(process.execPath, [laneScript, ...args], {
       cwd: repoRoot,
       encoding: "utf8",
-      env: { ...process.env, EVENT_NAME: "", VERIFICATION: "", GITHUB_OUTPUT: "", ...env },
+      env: { ...process.env, EVENT_NAME: "", VERIFICATION: "", GITHUB_OUTPUT: "", HEAD_REF: "", REF: "", DEFAULT_BRANCH: "", ...env },
     });
 
   const runAggregate = (env: NodeJS.ProcessEnv) =>
@@ -32,6 +32,46 @@ export function register(harness: Harness): void {
       encoding: "utf8",
     });
   };
+
+  const stampCases: Array<[string, string, string, string, string, string]> = [
+    ["ordinary PR", "pull_request", "fix/fixtures", "refs/pull/730/merge", "main", "pr"],
+    ["stamp PR", "pull_request", "release/stamp-0.221.142", "refs/pull/730/merge", "main", "release"],
+    ["PR without a head", "pull_request", "", "refs/pull/730/merge", "main", "release"],
+    ["default-branch push", "push", "", "refs/heads/main", "main", "main"],
+    ["custom default-branch push", "push", "", "refs/heads/trunk", "trunk", "main"],
+    ["unexpected branch push", "push", "", "refs/heads/fix/fixtures", "main", "release"],
+    ["ordinary branch dispatch", "workflow_dispatch", "", "refs/heads/fix/fixtures", "main", "pr"],
+    ["default-branch dispatch", "workflow_dispatch", "", "refs/heads/main", "main", "main"],
+    ["stamp branch dispatch", "workflow_dispatch", "", "refs/heads/release/stamp-0.221.142", "main", "release"],
+    ["tag dispatch", "workflow_dispatch", "", "refs/tags/v0.221.141", "main", "release"],
+    ["stamp-named tag dispatch", "workflow_dispatch", "", "refs/tags/release/stamp-0.221.142", "main", "release"],
+    ["dispatch without a ref", "workflow_dispatch", "", "", "main", "release"],
+    ["dispatch without a branch name", "workflow_dispatch", "", "refs/heads/", "main", "release"],
+    ["dispatch without default-branch metadata", "workflow_dispatch", "", "refs/heads/fix/fixtures", "", "release"],
+    ["unknown event", "unknown", "", "refs/heads/fix/fixtures", "main", "release"],
+    ["similar ordinary branch name", "workflow_dispatch", "", "refs/heads/release/stampish", "main", "pr"],
+  ];
+  for (const [label, eventName, headRef, ref, defaultBranch, expected] of stampCases) {
+    harness.check(`stamp mode: ${label}`, () => {
+      const result = runLane(["--files", "docs/validators.md"], { EVENT_NAME: eventName, HEAD_REF: headRef, REF: ref, DEFAULT_BRANCH: defaultBranch });
+      assert(result.status === 0 && result.stdout.includes(`stamp_mode=${expected}\n`), `expected ${expected}:\n${result.stdout}\n${result.stderr}`);
+      if (eventName === "workflow_dispatch") assert(result.stdout.includes("verification=full"), "mode selection must retain full dispatch coverage");
+    });
+  }
+
+  harness.check("stamp mode: presubmit and both audit jobs consume the Scope result and fail closed when it is unavailable", () => {
+    assert(ciYml.includes("stamp_mode: ${{ steps.lane.outputs.stamp_mode }}"), "Scope must expose the tested classification");
+    for (const input of ["HEAD_REF: ${{ github.head_ref }}", "REF: ${{ github.ref }}", "DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}"]) {
+      assert(ciYml.includes(input), `Scope must supply ${input}`);
+    }
+    for (const id of ["presubmit", "audit-fast", "audit-heavy"]) {
+      const job = ciYml.split(`  ${id}:\n`)[1]?.split(/\n  [a-z-]+:\n/u)[0] ?? "";
+      assert(
+        job.includes("B2C_STAMP_MODE: ${{ needs.scope.outputs.stamp_mode || 'release' }}"),
+        `${id} must consume Scope's classification with a strict fallback`,
+      );
+    }
+  });
 
   harness.check("presubmit vs full: docs stay on presubmit; knowledge selects hosted; kernel defers heavy serial suites", () => {
     const docs = runLane(["--files", "docs/validators.md"]);

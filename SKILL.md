@@ -7,7 +7,7 @@ metadata:
 
 # Brigade
 
-Start with the user's job, not the framework. This is the default business entrypoint. Task skills project the same workflow and knowledge owners; they are not another execution system. Do not load the whole corpus.
+Start with the user's job. This default business entrypoint and task skills share workflow and knowledge owners. They add no execution system. Load only relevant guidance.
 
 ### Product context routing
 
@@ -23,6 +23,7 @@ An implementation request authorizes completing its in-scope, reversible reposit
 <!-- catalog-generated:start task-skills -->
 | Task | Use when |
 | --- | --- |
+| [Pitch Film Studio](agents/skills/b2c-pitch-film-studio/SKILL.md) | Write or review a pitch film |
 | [Research an opportunity](agents/skills/b2c-research-opportunity/SKILL.md) | Validate an app opportunity |
 | [Design or review onboarding](agents/skills/b2c-design-onboarding/SKILL.md) | Design or review onboarding |
 | [Review monetization](agents/skills/b2c-review-monetization/SKILL.md) | Review monetization |
@@ -60,4 +61,4 @@ Honor accepted scope, explicit provider bindings, and actual tool availability. 
 
 Require current provider or device evidence before making claims about those systems. Guidance, generated artifacts, command success, and accepted evidence are different facts. Never copy credentials, provider state, names, prices, or domains from another app. Do not route current work through Planes.
 
-Report what changed or was found, what evidence exists, what remains unverified, and the next decision. [Browse the six business areas](knowledge/README.md) only when the task needs orientation.
+Report changes or findings, evidence, unverified work, and the next decision. [Browse the six business areas](knowledge/README.md) only when the task needs orientation.
