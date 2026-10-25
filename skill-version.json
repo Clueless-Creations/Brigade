@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.146",
-  "updatedAt": "2026-10-20",
+  "version": "0.221.147",
+  "updatedAt": "2026-10-25",
   "sourcePath": ".",
   "releaseNotes": [
+    "docs(skill): honor explicit runtime retirement (CLU-805) (#746)",
     "Require CLU ids in branch names, PR titles, and the merge gate (#709)",
     "CLU-478: Add Pitch Film Studio task skill",
     "CLU-374: migrate @cloudflare/workers-oauth-provider 0.10.3 to 1.2.3 (#735)",
