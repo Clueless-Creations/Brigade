@@ -891,6 +891,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
   },
   "privacy": {
     "tracking": false,
+    "store_required_prompts": [],
     "inventory": [
       {
         "data": "Product interaction",
@@ -1195,7 +1196,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
     "Marketing and product are one thing. The ad, the store page, onboarding, and the invite use the same audience and the same promise.",
     "Product-market fit is binary. If it is unclear, it is not working, so cut or pivot at Gate 2.",
     "Live support chat is in the app in the early days.",
-    "Hypotheses are 3 or 4 must-be-true statements, each with a metric."
+    "Hypotheses are 3 or 4 must-be-true statements, each with a metric.",
+    "Every store-required ATT or permission surface is reachable on the default review build with no remote feature flag, on first launch or from the exact path in the review notes."
   ]
 }</script>
 <script id="report" type="application/json">{
@@ -2023,7 +2025,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
   ],
   "source": {
     "file": "spec.yaml",
-    "sha256": "20ad1e6eeedd9ed3a975ec23e7ac7de03162f602e9b5077a376621f3c5ef1234",
+    "sha256": "78f4344512633b3b681527d6661aaaa1f8d20e8cb6bd9c7c8515e35b068ab3a3",
     "spec_version": "0.1.0",
     "status": "draft"
   }
@@ -2156,7 +2158,17 @@ window.SPEC_SECTIONS.push({
       )
       .join("");
     const mapNote = privacyBody ? "" : labelMap;
-    return `<p class="sub">Read-only status for the six pre-ship checks. This table is not legal advice.</p>${mapNote}<table><tr><th>Check</th><th>Status</th><th>Where</th><th>Reason</th><th>Human steps</th></tr>${rows}</table>`;
+    const prompts = Array.isArray(spec.privacy?.store_required_prompts) ? spec.privacy.store_required_prompts : [];
+    const promptRows = prompts.length
+      ? prompts
+          .map(
+            (row) =>
+              `<tr><td>${cell(row.id)}</td><td>${cell(row.kind)}</td><td>${cell(row.reachable)}</td><td>${cell(row.remote_flag)}</td><td>${cell(row.review_build_override)}</td><td>${cell(row.reviewer_path)}</td></tr>`,
+          )
+          .join("")
+      : `<tr><td colspan="6">No store-required ATT or permission surface.</td></tr>`;
+    const promptTable = `<div class="flowlabel">Store-required prompts</div><p class="sub">Each store-required ATT or permission surface is reachable on the default review build with no remote feature flag, on first launch or from the exact path in the review notes. A remote flag needs an explicit review-build override.</p><table><tr><th>Id</th><th>Kind</th><th>Reachable</th><th>Remote flag</th><th>Review-build override</th><th>Reviewer path</th></tr>${promptRows}</table>`;
+    return `<p class="sub">Read-only status for the six pre-ship checks. This table is not legal advice.</p>${mapNote}<table><tr><th>Check</th><th>Status</th><th>Where</th><th>Reason</th><th>Human steps</th></tr>${rows}</table>${promptTable}`;
   },
 });
 
