@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.147",
+  "skillVersion": "0.221.148",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3992,7 +3992,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:dbd05f9d87e72810df2429feb777db98e759b8bc3acef5815b0aba5fbf1a27bb",
+        "sha256": "sha256:d81bc09471bd57bb5f793400ab92420c23626727c2f987211086166393160f89",
         "origin": "skill"
       }
     },
@@ -8103,7 +8103,7 @@
       ],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/process/artifact-contracts.md",
-        "sha256": "sha256:23cfb3b83b71155ac6da4d7a93b60555da735c5a5748fb25787792dcb66db225",
+        "sha256": "sha256:044d8721cd8b4bffc777e853adbe7efe87d869b5ccec165d09bdf0c8657c05cc",
         "origin": "skill"
       }
     },
@@ -10077,7 +10077,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/app-store-listing-prep.md",
-        "sha256": "sha256:c1c5bb6dd6c6595653247d860822f7d7393b7f70034950c0f96354f4d288c4fa",
+        "sha256": "sha256:f9d0957848218eaf189caf46b2cd299a3a70c6122f76dfcc54e55e59aa8fbbc4",
         "origin": "skill"
       }
     },
@@ -10489,7 +10489,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/store/google-play-release.md",
-        "sha256": "sha256:28b10579ed2db65d3759b3cbf5fdff81a50a10a1d8ca9f16c9aab802a18f2ad1",
+        "sha256": "sha256:f27f2205b4421c18f4b8e08988740d324fb7fe2f6f9f03105f0f827ec69ed591",
         "origin": "skill"
       }
     },
@@ -20601,14 +20601,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "4f4ce269b270620b0f03ccfaca1ab1c53db54433499e7c9ecea88765e68831f9",
+    "fingerprint": "d17173f3c6ad68d696161d1702537f3812fe14dce19da4555d6373869ee33c9a",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.147",
-        "revision": "0.221.147",
-        "contentDigest": "f0ad0e125dfa5c20cad1837e2b14a6131f795bb0c1c6a95e87692a2a24b8aa46"
+        "version": "0.221.148",
+        "revision": "0.221.148",
+        "contentDigest": "7aff8d58c1d14937a4610a127dd05879f12ec7f4c233add101b26519c2eb1368"
       }
     ],
     "base": {

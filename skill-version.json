@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.147",
-  "updatedAt": "2026-10-25",
+  "version": "0.221.148",
+  "updatedAt": "2026-10-29",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-285: Require reachable store-required ATT and permission prompts (#744)",
     "docs(skill): honor explicit runtime retirement (CLU-805) (#746)",
     "Require CLU ids in branch names, PR titles, and the merge gate (#709)",
     "CLU-478: Add Pitch Film Studio task skill",

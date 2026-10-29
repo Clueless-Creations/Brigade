@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.147
-revision: 0.221.147
+version: 0.221.148
+revision: 0.221.148
 depends_on: []
 creates_provider_spend: false
 domains:
