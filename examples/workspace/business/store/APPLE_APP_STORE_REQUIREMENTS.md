@@ -70,6 +70,16 @@ Rules:
 - The app needs a reasonable path when a user declines permission.
 - App Tracking Transparency is required before tracking or accessing advertising identifiers.
 
+## Store-Required Prompt Reachability
+
+Every store-required ATT or permission surface is reachable on the default review build with no remote feature flag, either on first launch or from the exact path stated in the review notes. A remote feature flag is allowed only with an explicit review-build override recorded in this table and in the review notes.
+
+| Surface | Store-required | Reachable on review build | Remote flag | Review-build override | Reviewer path |
+| --- | --- | --- | --- | --- | --- |
+| {{SURFACE_NAME}} | {{YES_OR_NO}} | {{FIRST_LAUNCH_OR_REVIEW_NOTES}} | {{NONE_OR_FLAG_ID}} | {{OVERRIDE_OR_NA}} | {{EXACT_PATH_OR_FIRST_LAUNCH}} |
+
+Use one row per surface. `Remote flag` is `none` when the submitted build does not consult a remote flag for that surface. A flag id is valid only when `Review-build override` states how the review build keeps the surface on. `Reviewer path` is `First launch` or a navigation path such as `Settings > Privacy > Tracking`.
+
 ## Pre-ASC Upload Checklist
 
 - [ ] `PrivacyInfo.xcprivacy` exists in the app target resources and is valid.
@@ -78,6 +88,7 @@ Rules:
 - [ ] Xcode privacy report is generated from an archive and reconciled with App Privacy answers.
 - [ ] `Info.plist` purpose strings exist for every protected resource touched by code or SDKs.
 - [ ] `NSUserTrackingUsageDescription` and ATT flow are present when tracking is in scope.
+- [ ] Every store-required ATT or permission surface is reachable on the default review build with no remote feature flag, either on first launch or from the exact path stated in the review notes. A remote feature flag is allowed only with an explicit review-build override recorded in Store-Required Prompt Reachability.
 - [ ] Privacy Policy URL, Privacy Choices URL, in-app privacy link, and account deletion route are verified.
 - [ ] Review notes describe new features, functionality, and product changes specifically, plus login/access, purchase, deletion, privacy, or restoration instructions when needed to test them. Review access is resolved from actual login requirements.
 - [ ] Archive/upload proof in `store/APPLE_SIGNING.md` has no unresolved ASC delivery warnings.

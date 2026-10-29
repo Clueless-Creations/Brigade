@@ -26,6 +26,16 @@ window.SPEC_SECTIONS.push({
       )
       .join("");
     const mapNote = privacyBody ? "" : labelMap;
-    return `<p class="sub">Read-only status for the six pre-ship checks. This table is not legal advice.</p>${mapNote}<table><tr><th>Check</th><th>Status</th><th>Where</th><th>Reason</th><th>Human steps</th></tr>${rows}</table>`;
+    const prompts = Array.isArray(spec.privacy?.store_required_prompts) ? spec.privacy.store_required_prompts : [];
+    const promptRows = prompts.length
+      ? prompts
+          .map(
+            (row) =>
+              `<tr><td>${cell(row.id)}</td><td>${cell(row.kind)}</td><td>${cell(row.reachable)}</td><td>${cell(row.remote_flag)}</td><td>${cell(row.review_build_override)}</td><td>${cell(row.reviewer_path)}</td></tr>`,
+          )
+          .join("")
+      : `<tr><td colspan="6">No store-required ATT or permission surface.</td></tr>`;
+    const promptTable = `<div class="flowlabel">Store-required prompts</div><p class="sub">Each store-required ATT or permission surface is reachable on the default review build with no remote feature flag, on first launch or from the exact path in the review notes. A remote flag needs an explicit review-build override.</p><table><tr><th>Id</th><th>Kind</th><th>Reachable</th><th>Remote flag</th><th>Review-build override</th><th>Reviewer path</th></tr>${promptRows}</table>`;
+    return `<p class="sub">Read-only status for the six pre-ship checks. This table is not legal advice.</p>${mapNote}<table><tr><th>Check</th><th>Status</th><th>Where</th><th>Reason</th><th>Human steps</th></tr>${rows}</table>${promptTable}`;
   },
 });

@@ -879,6 +879,7 @@ Must include:
 - Apple App Privacy data-type matrix mapped to `trust/PRIVACY.md`, `analytics/ANALYTICS.md`, `growth/EMAIL_OPS.md`, `revenue/REVENUE_OPS.md`, SDKs, backend schema, and vendors
 - Google Play Data safety matrix mapped to the same data inventory
 - account deletion, privacy choices, support/privacy URLs, reviewer credentials, review notes, age/content rating, export compliance, and app access instructions
+- `Store-required prompt path` with the exact navigation path to each store-required ATT or permission surface, or first launch. A remote feature flag is allowed only with an explicit review-build override on that line. Reuse of approved review notes still requires this path
 - Age Rating Questionnaire for `socialMedia`, `messagingAndChat`, `socialMediaAgeRestricted`, `ageAssurance`, and `userGeneratedContent`, with product evidence, `asc age-rating audit` proof, and no inferred `false` from a blank field
 - screenshot upload matrix or pointer to `SCREENSHOTS.md`
 - founder-only gates for developer account access, pricing, legal approval, privacy claims, paid products, screenshot approval, and final submission
@@ -926,6 +927,7 @@ Must include:
 - Privacy Policy URL, Privacy Choices URL, account deletion route, in-app privacy route, and public policy/legal source
 - protected-resource and `Info.plist` matrix: every touched camera, photos, microphone, location, contacts, tracking, or similar permission has a clear `UsageDescription` string and denied-permission fallback
 - `NSUserTrackingUsageDescription` and App Tracking Transparency route when tracking, advertising identifiers, retargeting, data broker sharing, or third-party ad attribution is in scope
+- Store-Required Prompt Reachability: every store-required ATT or permission surface is reachable on the default review build with no remote feature flag, on first launch or from the exact path stated in the review notes. A remote feature flag is allowed only with an explicit review-build override in that table
 - archive/upload proof from `store/APPLE_SIGNING.md`, including any App Store Connect delivery warnings or processing blockers
 - founder-only gates for App Store Connect upload, App Review submission, public release, privacy/legal approval, and paid account mutations
 

@@ -68,4 +68,5 @@ Android distribution readiness for Google Play. This packet is the Play-side par
 ## Review And Policy
 
 - Common rejection risks checked: Data Safety mismatch, broken demo access, metadata violations.
+- Every store-required permission or consent surface, including an advertising-id dialog the reviewer must see, is reachable on the default review build with no remote feature flag, either on first launch or from the exact path stated in the review notes. A remote feature flag is allowed only with an explicit review-build override recorded in this packet and in `store/STORE_CONSOLE.md` under `Store-required prompt path`.
 - Policy strike and appeal route recorded; appeals are founder-gated.

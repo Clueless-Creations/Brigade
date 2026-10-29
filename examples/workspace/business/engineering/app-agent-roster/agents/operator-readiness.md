@@ -22,6 +22,7 @@ Inspect and record:
 - source control, CI, hosting, DNS, and exact preview and production website targets
 - image, video, composition, copy, screenshot, device, simulator, and localization tools
 - Apple Developer, signing, App Store Connect, TestFlight, metadata, media, and upload roles
+- store-required ATT and permission prompts reachable on the default review build with no remote feature flag, on first launch or from the exact path in the review notes, unless `store/APPLE_APP_STORE_REQUIREMENTS.md` and `store/STORE_CONSOLE.md` record an explicit review-build override
 - Google Play Console, service account, app signing, listing, and testing-track upload roles
 - analytics, revenue, email, support, and social tools that the launch scope needs
 
