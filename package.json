@@ -273,7 +273,8 @@
     "render:task-skills": "tsx tooling/render-task-skills.ts",
     "skills:export": "tsx tooling/export-task-skill.ts",
     "check:task-skills": "tsx checks/validation/repository/check-task-skills.ts",
-    "check:stamped-tree": "tsx tooling/check-stamped-tree.ts"
+    "check:stamped-tree": "tsx tooling/check-stamped-tree.ts",
+    "skills:refresh": "bash tooling/refresh-ponytail.sh"
   },
   "dependencies": {
     "@babel/parser": "8.0.7",

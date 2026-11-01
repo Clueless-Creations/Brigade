@@ -54,3 +54,6 @@ hosted/builder-console/wrangler.production.jsonc
 # an excluded directory, so the directory is un-ignored before its contents.
 !surfaces/workspace-template/repo-agent-entrypoints/.claude/
 !surfaces/workspace-template/repo-agent-entrypoints/.claude/**
+
+# Ponytail refresh log (resolved upstream commits)
+.agents/skills/.ponytail-resolved.log

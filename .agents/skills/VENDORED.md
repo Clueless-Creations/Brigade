@@ -6,7 +6,7 @@ and retained MIT notices use the repository's existing catalog/credits owners.
 
 | Material and attribution | Source | Reviewed commit | Manifest and notice |
 | --- | --- | --- | --- |
-| Ponytail and Ponytail review — DietrichGebert | https://github.com/DietrichGebert/ponytail (`skills/`) | 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5 | [Manifest](../../catalog/upstreams/ponytail.yaml), [MIT notice](../../catalog/upstreams/notices/ponytail.txt) |
+| Ponytail and Ponytail review — DietrichGebert | https://github.com/DietrichGebert/ponytail (`skills/`) | latest default-branch HEAD, refreshed by `tooling/refresh-ponytail.sh` (see below) | [Manifest](../../catalog/upstreams/ponytail.yaml), [MIT notice](../../catalog/upstreams/notices/ponytail.txt) |
 | pstack — Lauren Tan (@poteto), published by Cursor | https://github.com/cursor/plugins (`pstack/skills/`) | 1dcc2bacde73ddd284803b7af28164d0436198fc | [Manifest](../../catalog/upstreams/cursor-pstack.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-pstack.txt) |
 | Thermo-Nuclear Code Quality Review — Cursor Team Kit, Cursor | https://github.com/cursor/plugins (`cursor-team-kit/skills/`) | 1dcc2bacde73ddd284803b7af28164d0436198fc | [Manifest](../../catalog/upstreams/cursor-team-kit.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-team-kit.txt) |
 | `chained-review` | Authored here | Repository history | Repository license; selected derivations below |
@@ -51,3 +51,7 @@ Updates are manual maintainer changes: read the proposed source revision, review
 rights and behavioral differences, retain local constraints, update pins and
 provenance, and run applicable checks with independent review. No automatic
 update hook is added. Generated credits remain owned by the release stamp.
+
+## Ponytail tracks latest upstream
+
+Ponytail is not pinned. `tooling/refresh-ponytail.sh` replaces `ponytail` and `ponytail-review` with DietrichGebert/ponytail's default-branch HEAD before each agent session and verify run, and appends the resolved commit to `.agents/skills/.ponytail-resolved.log` (gitignored). The committed copies are only the offline fallback; when they change after a refresh, commit them with the change you are making.
