@@ -24,6 +24,7 @@ This packet locks Apple platform requirements before a build is pushed to App St
 | Item | App value | Proof |
 | --- | --- | --- |
 | `PrivacyInfo.xcprivacy` path | {{PRIVACY_MANIFEST_PATH}} | file included in app target resources |
+| Extension manifests | {{EXTENSION_PRIVACY_MANIFEST_PATHS}} | one `PrivacyInfo.xcprivacy` in each widget or extension target's resources |
 | `NSPrivacyCollectedDataTypes` | {{COLLECTED_DATA_TYPES}} | matches `trust/PRIVACY.md`, `analytics/ANALYTICS.md`, `revenue/REVENUE_OPS.md`, vendors, and App Privacy |
 | `NSPrivacyAccessedAPITypes` | {{REQUIRED_REASON_API_CATEGORIES}} | required reason API scan |
 | `NSPrivacyAccessedAPITypeReasons` | {{REQUIRED_REASON_API_REASONS}} | reasons match Apple-approved category values |
@@ -36,6 +37,23 @@ This packet locks Apple platform requirements before a build is pushed to App St
 | SDK | Listed by Apple as requiring manifest/signature | Bundled manifest | SDK signatures | Data collected | Owner |
 | --- | --- | --- | --- | --- | --- |
 | {{SDK_NAME}} | {{YES_OR_NO}} | {{SDK_PRIVACY_MANIFEST_STATUS}} | {{SDK_SIGNATURE_STATUS}} | {{SDK_DATA_USE}} | {{OWNER}} |
+
+### SDK App Privacy Label Mapping
+
+| SDK | Data the SDK collects | App Privacy label | Linked to user | Used for tracking | Source |
+| --- | --- | --- | --- | --- | --- |
+| PostHog | {{POSTHOG_DATA_USE}} | {{POSTHOG_APP_PRIVACY_LABEL}} | {{YES_OR_NO}} | {{YES_OR_NO}} | `analytics/ANALYTICS.md`, SDK privacy manifest |
+| Sentry | {{SENTRY_DATA_USE}} | {{SENTRY_APP_PRIVACY_LABEL}} | {{YES_OR_NO}} | {{YES_OR_NO}} | Sentry config, SDK privacy manifest |
+| RevenueCat | {{REVENUECAT_DATA_USE}} | {{REVENUECAT_APP_PRIVACY_LABEL}} | {{YES_OR_NO}} | {{YES_OR_NO}} | `revenue/REVENUE_OPS.md`, SDK privacy manifest |
+
+Use one row per SDK in the build. Remove a row when the SDK is not in the build.
+
+### Crash Symbols
+
+| Item | Value | Proof |
+| --- | --- | --- |
+| dSYM upload owner | {{DSYM_UPLOAD_OWNER}} | named agent or person, and the build step or CI job that uploads dSYMs to the crash reporter |
+| dSYM upload proof | {{DSYM_UPLOAD_PROOF}} | crash reporter shows symbols for the uploaded build number |
 
 Rules:
 - Any listed third-party SDK, or repackaged listed SDK, needs its privacy manifest before ASC upload.
@@ -83,7 +101,10 @@ Use one row per surface. `Remote flag` is `none` when the submitted build does n
 ## Pre-ASC Upload Checklist
 
 - [ ] `PrivacyInfo.xcprivacy` exists in the app target resources and is valid.
-- [ ] Required reason API categories and reasons are recorded in the manifest.
+- [ ] Each widget or extension target has its own valid `PrivacyInfo.xcprivacy`.
+- [ ] Required reason API categories and reasons are recorded in the manifest of each target. `UserDefaults` needs `CA92.1`; App Group `UserDefaults(suiteName:)` needs `1C8F.1`.
+- [ ] Each SDK in the build (PostHog, Sentry, RevenueCat, others) maps to an App Privacy label in SDK App Privacy Label Mapping.
+- [ ] The dSYM upload owner is named, and the crash reporter shows symbols for the uploaded build.
 - [ ] Third-party SDK manifests/signatures are audited against Apple's current listed SDKs.
 - [ ] Xcode privacy report is generated from an archive and reconciled with App Privacy answers.
 - [ ] `Info.plist` purpose strings exist for every protected resource touched by code or SDKs.
