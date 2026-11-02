@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { assert, repoRoot, skillRoot, type Harness } from "./_harness.js";
@@ -307,6 +307,25 @@ export function register(harness: Harness): void {
     assert(disarm >= 0 && update > disarm, "disarm before updating the branch");
     assert(stamp.includes('node tooling/merge-stamp.mjs "$number" "$head"'), "workflow must invoke the tested merge path");
     assert(!stamp.includes("--auto --squash"), "do not arm immediate auto-merge");
+  });
+
+  harness.check("dependency regen: every declared artifact exists and its package has the regenerate script", async () => {
+    const regen = (await import(pathToFileUrl(path.join(skillRoot, "tooling/regenerate-artifacts.mjs")))) as {
+      loadArtifacts: () => Array<{ path: string; directory: string; regenerate: string[] }>;
+      undeclaredPatchPaths: (numstat: string, declared: string[]) => string[];
+    };
+    const artifacts = regen.loadArtifacts();
+    for (const artifact of artifacts) {
+      assert(existsSync(path.join(skillRoot, artifact.path)), `${artifact.path} must exist`);
+      const scripts =
+        (JSON.parse(readFileSync(path.join(skillRoot, artifact.directory, "package.json"), "utf8")) as { scripts?: Record<string, string> }).scripts ?? {};
+      const [tool, verb, name] = artifact.regenerate;
+      assert(tool !== "npm" || verb !== "run" || (name !== undefined && name in scripts), `${artifact.directory} has no ${name} script`);
+    }
+    const declared = artifacts.map((artifact) => artifact.path);
+    assert(regen.undeclaredPatchPaths(`61\t6\t${declared[0]}\n`, declared).length === 0, "declared path passes");
+    const rejected = regen.undeclaredPatchPaths(`61\t6\t${declared[0]}\n1\t0\t.github/workflows/ci.yml\n`, declared);
+    assert(rejected.join() === ".github/workflows/ci.yml", `undeclared path must be rejected: ${rejected.join()}`);
   });
 }
 

@@ -239,6 +239,7 @@
     "probe:eas": "tsx tooling/probe-eas.ts",
     "promote:design-tokens": "tsx tooling/promote-design-tokens.ts",
     "refresh:source-freshness": "tsx checks/validation/repository/check-source-freshness.ts --write-discovered && tsx checks/validation/repository/refresh-source-freshness.ts --knowledge-pin-root .",
+    "regen:artifacts": "node tooling/regenerate-artifacts.mjs",
     "release:stamp": "tsx tooling/release-stamp.ts",
     "render:all": "npm run catalog:render-routing && npm run render:task-skills && npm run hosted:bundle && npm run render:public-api && npm run render:credits",
     "render:artifact-pages": "tsx tooling/render-artifact-pages.ts",
