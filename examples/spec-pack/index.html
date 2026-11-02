@@ -925,6 +925,10 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       {
         "api": "UserDefaults",
         "reason": "CA92.1"
+      },
+      {
+        "api": "UserDefaults (App Group suite shared with the widget)",
+        "reason": "1C8F.1"
       }
     ]
   },
@@ -1104,11 +1108,15 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       },
       {
         "path": "scripts/merge-gate.sh",
-        "purpose": "Build, unit tests, screenshot-vs-mock check, lint, the snapshot record-mode step, the live-screen test step, and the mock-state branch step."
+        "purpose": "Build, unit tests, screenshot-vs-mock check, lint, the snapshot record-mode step, the live-screen test step, the mock-state branch step, and the privacy manifest step."
       },
       {
         "path": "templates/live-screen/",
         "purpose": "Flutter and SwiftUI live-screen harness. Copy the flavour that matches meta.stack into the screen pull request."
+      },
+      {
+        "path": "templates/privacy-manifest/",
+        "purpose": "PrivacyInfo.xcprivacy for the app and the widget, pre-filled for UserDefaults (CA92.1) and App Group defaults (1C8F.1). Copy one into the app target and one into each extension target in the first app pull request."
       },
       {
         "path": ".env.example",
@@ -1127,7 +1135,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
       "No hard-coded colors, sizes or strings outside tokens and copy files.",
       "No snapshot test is in record mode.",
       "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-      "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+      "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+      "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
     ]
   },
   "gates": {
@@ -1221,7 +1230,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1235,7 +1245,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/screens/0"
@@ -1252,7 +1263,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1274,7 +1286,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1289,7 +1302,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/screens/1"
@@ -1306,7 +1320,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1328,7 +1343,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1343,7 +1359,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/screens/2"
@@ -1360,7 +1377,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1380,7 +1398,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1393,7 +1412,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/screens/3"
@@ -1410,7 +1430,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1434,7 +1455,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1451,7 +1473,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/screens/4"
@@ -1468,7 +1491,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1488,7 +1512,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1501,7 +1526,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/screens/5"
@@ -1518,7 +1544,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1542,7 +1569,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1559,7 +1587,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/web/0"
@@ -1576,7 +1605,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1595,7 +1625,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1607,7 +1638,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/web/1"
@@ -1624,7 +1656,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1643,7 +1676,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1655,7 +1689,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/web/2"
@@ -1672,7 +1707,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1691,7 +1727,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1703,7 +1740,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/web/3"
@@ -1720,7 +1758,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1739,7 +1778,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1751,7 +1791,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/web/4"
@@ -1768,7 +1809,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1788,7 +1830,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1801,7 +1844,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/tasks/0"
@@ -1818,7 +1862,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1849,7 +1894,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "For repository changes, satisfy repo.merge_gate: No hard-coded colors, sizes or strings outside tokens and copy files.",
         "For repository changes, satisfy repo.merge_gate: No snapshot test is in record mode.",
         "For repository changes, satisfy repo.merge_gate: Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+        "For repository changes, satisfy repo.merge_gate: No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+        "For repository changes, satisfy repo.merge_gate: Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
       ],
       "capabilities": [],
       "checklist_sources": [
@@ -1871,7 +1917,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
         "/repo/merge_gate/4",
         "/repo/merge_gate/5",
         "/repo/merge_gate/6",
-        "/repo/merge_gate/7"
+        "/repo/merge_gate/7",
+        "/repo/merge_gate/8"
       ],
       "source_refs": [
         "/tasks/1"
@@ -1888,7 +1935,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         }
       ]
@@ -1920,7 +1968,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         },
         {
@@ -1963,7 +2012,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         },
         {
@@ -2006,7 +2056,8 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
             "No hard-coded colors, sizes or strings outside tokens and copy files.",
             "No snapshot test is in record mode.",
             "Each changed screen has a live-screen test that pumps the shipping widget or view with a real or boundary-faked controller, runs the primary interaction plus long names, 2x text, and landscape when they apply, and asserts no overlap, no overflow, and reachable actions.",
-            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag."
+            "No production view branches on a fixture property such as a name-length threshold or a gate-only flag.",
+            "Every required-reason API in app or extension code has a matching reason in that target's PrivacyInfo.xcprivacy."
           ]
         },
         {
@@ -2025,7 +2076,7 @@ code{background:var(--bg);padding:1px 5px;border-radius:5px;font-size:12px}
   ],
   "source": {
     "file": "spec.yaml",
-    "sha256": "78f4344512633b3b681527d6661aaaa1f8d20e8cb6bd9c7c8515e35b068ab3a3",
+    "sha256": "26aaef048ba479677b4c56690724bff98acbddf6ebd1e2b6b77d079ba202f1f4",
     "spec_version": "0.1.0",
     "status": "draft"
   }
