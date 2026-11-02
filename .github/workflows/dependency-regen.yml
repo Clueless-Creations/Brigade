@@ -1,0 +1,119 @@
+name: Dependency regen
+
+# Dependabot cannot run generators. A bump of a generator package such as
+# wrangler leaves a committed artifact stale, and CI fails with the same error
+# until someone regenerates it by hand. This workflow runs the commands declared
+# in tooling/generated-artifacts.json on Dependabot branches and pushes the
+# result back to the branch.
+#
+# Two jobs keep the write token away from package code:
+# - regenerate: read-only token, no persisted credentials. Installs the bumped
+#   packages, runs the generators, and uploads a patch of declared paths.
+# - push: write token. Installs nothing and runs no package code. Applies the
+#   patch only when every touched path is declared, commits, and pushes
+#   without force. A branch that moved since the run started rejects the push.
+#
+# A push with GITHUB_TOKEN does not start pull_request workflows. The push job
+# dispatches CI on the branch with verification=presubmit, as stamp.yml does.
+# After the push, Dependabot stops rebasing the branch. Comment
+# "@dependabot recreate" to start again; the new commit runs this workflow.
+#
+# When regeneration fails, the push job comments the fallback rule on the pull
+# request. See CONTRIBUTING.md, "Dependency bumps with generated files".
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-regen-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate:
+    name: Regenerate declared artifacts
+    if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - run: node tooling/regenerate-artifacts.mjs
+
+      - id: diff
+        run: |
+          set -euo pipefail
+          mapfile -t paths < <(node tooling/regenerate-artifacts.mjs --paths)
+          git diff --binary -- "${paths[@]}" > "$RUNNER_TEMP/regen.patch"
+          if [ -s "$RUNNER_TEMP/regen.patch" ]; then
+            git diff --stat -- "${paths[@]}"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Declared artifacts are current."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: regen-patch
+          path: ${{ runner.temp }}/regen.patch
+          retention-days: 1
+
+  push:
+    name: Push regenerated artifacts
+    needs: [regenerate]
+    if: ${{ always() && (needs.regenerate.result == 'failure' || needs.regenerate.outputs.changed == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      BRANCH: ${{ github.head_ref }}
+    steps:
+      - name: Comment the fallback rule
+        if: needs.regenerate.result == 'failure'
+        run: |
+          set -euo pipefail
+          gh pr comment "$PR_NUMBER" --body "Dependency regen could not regenerate the declared artifacts for this bump. See the failed run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. Fix the generator, or follow the fallback rule in CONTRIBUTING.md (Dependency bumps with generated files): add a Dependabot ignore rule for the package and track the upgrade in the weekly upstream-freshness issue."
+          exit 1
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: regen-patch
+          path: ${{ runner.temp }}
+
+      - name: Apply, commit, and push
+        run: |
+          set -euo pipefail
+          patch="$RUNNER_TEMP/regen.patch"
+          node tooling/regenerate-artifacts.mjs --verify-patch "$patch"
+          git apply "$patch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Regenerate declared artifacts for ${BRANCH}"
+          git push origin "HEAD:refs/heads/${BRANCH}"
+
+      - name: Dispatch CI on the regenerated head
+        run: gh workflow run ci.yml --ref "$BRANCH" -f verification=presubmit

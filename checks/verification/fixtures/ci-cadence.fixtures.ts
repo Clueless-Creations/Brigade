@@ -327,6 +327,25 @@ export function register(harness: Harness): void {
     const rejected = regen.undeclaredPatchPaths(`61\t6\t${declared[0]}\n1\t0\t.github/workflows/ci.yml\n`, declared);
     assert(rejected.join() === ".github/workflows/ci.yml", `undeclared path must be rejected: ${rejected.join()}`);
   });
+
+  harness.check("dependency regen: package code never runs with the write token", () => {
+    const workflow = readFileSync(path.join(skillRoot, ".github/workflows/dependency-regen.yml"), "utf8");
+    const pushAt = workflow.indexOf("\n  push:\n");
+    assert(pushAt > 0, "push job exists");
+    const regenerate = workflow.slice(0, pushAt);
+    const push = workflow.slice(pushAt);
+    assert(/^permissions:\n  contents: read$/mu.test(regenerate), "workflow default token is read-only");
+    assert(
+      regenerate.includes("github.actor == 'dependabot[bot]'") && regenerate.includes("startsWith(github.head_ref, 'dependabot/')"),
+      "only Dependabot branches",
+    );
+    assert(regenerate.includes("persist-credentials: false"), "regenerate job must not persist credentials");
+    assert(!/contents: write/u.test(regenerate), "regenerate job stays read-only");
+    assert(!/\bnpm\b/u.test(push), "push job must not install or run packages");
+    assert(push.includes("--verify-patch") && push.indexOf("--verify-patch") < push.indexOf('git apply "$patch"'), "verify paths before applying");
+    assert(!/--force|-f origin|\+HEAD/u.test(push), "never force-push");
+    assert(push.includes('gh workflow run ci.yml --ref "$BRANCH" -f verification=presubmit'), "dispatch CI after a token push");
+  });
 }
 
 function pathToFileUrl(filePath: string): string {
