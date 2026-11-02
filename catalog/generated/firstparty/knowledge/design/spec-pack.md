@@ -211,6 +211,10 @@ A screen is done when all of these are true:
 - The screen tests pass.
 - The merge gate is green.
 
+The first app pull request copies `templates/privacy-manifest/`.
+The app target and each extension target get their own `PrivacyInfo.xcprivacy`.
+The merge gate fails when target code uses a required-reason API without a matching reason.
+
 Match layout, copy, tokens, and tap targets.
 Fix differences or list them in the pull request.
 Web polish loads [Landing Motion Craft](landing-motion-craft.md).

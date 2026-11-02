@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.148",
+  "skillVersion": "0.221.149",
   "areas": [
     {
       "id": "area.operating-system",
@@ -3992,7 +3992,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/spec-pack.md",
-        "sha256": "sha256:d81bc09471bd57bb5f793400ab92420c23626727c2f987211086166393160f89",
+        "sha256": "sha256:392fce03d8f746c52c840e91036ecd0da75a89a6be3757224fe0f11ecaeed729",
         "origin": "skill"
       }
     },
@@ -20601,14 +20601,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "d17173f3c6ad68d696161d1702537f3812fe14dce19da4555d6373869ee33c9a",
+    "fingerprint": "2c5853017b8c61656cc4935368b9a6ca6afb2142787a13f5ab130714e062a84f",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.148",
-        "revision": "0.221.148",
-        "contentDigest": "7aff8d58c1d14937a4610a127dd05879f12ec7f4c233add101b26519c2eb1368"
+        "version": "0.221.149",
+        "revision": "0.221.149",
+        "contentDigest": "8d9ef03a1c4535468a6d8568239009f97ccd9e15b8aba90e6832fdcac102541e"
       }
     ],
     "base": {
