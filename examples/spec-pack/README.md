@@ -24,8 +24,9 @@ The example app ("Soon", a countdown app) is a placeholder. Replace it.
 | `preview.png`, `preview-full.png` | Screenshots of `index.html`. `preview.png` is the Gate 1 handoff image. |
 | `GATE1.md` | Founder-facing Gate 1 summary. Replace the placeholders. |
 | `MERGE.md` | When a reviewer agent can merge a build pull request without the founder. |
-| `scripts/merge-gate.sh` | Runs the record-mode, live-screen, and mock-state steps. |
+| `scripts/merge-gate.sh` | Runs the record-mode, live-screen, mock-state, and privacy manifest steps. |
 | `templates/live-screen/` | Flutter and SwiftUI live-screen harness. |
+| `templates/privacy-manifest/` | `PrivacyInfo.xcprivacy` for the app and for each extension. |
 
 ## Use
 
@@ -36,7 +37,7 @@ node build.mjs --list-checks
 ./render-mocks.sh      # mocks/<screen>--<state>.png for comparison
 ```
 
-Copy [`scripts/merge-gate.sh`](scripts/merge-gate.sh) and the `check-*.sh` steps beside it into the app's `scripts/` folder. The gate fails when a tracked snapshot test is in record mode, when a changed shipping view has no live-screen test, or when a production view branches on a fixture property. Copy [`templates/live-screen/`](templates/live-screen/) into the screen pull request.
+Copy [`scripts/merge-gate.sh`](scripts/merge-gate.sh) and the `check-*.sh` steps beside it into the app's `scripts/` folder. The gate fails when a tracked snapshot test is in record mode, when a changed shipping view has no live-screen test, when a production view branches on a fixture property, or when app or extension code uses a required-reason API with no matching reason in that target's `PrivacyInfo.xcprivacy`. Copy [`templates/live-screen/`](templates/live-screen/) into the screen pull request. Copy [`templates/privacy-manifest/`](templates/privacy-manifest/) into the first app pull request: one manifest in the app folder and one in each extension folder.
 
 One mock alone: open `index.html?mock=<screen>:<state>` (add `:dark` for dark
 mode, `&w=<px>&h=<px>` for another device size).

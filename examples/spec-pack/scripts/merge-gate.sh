@@ -6,3 +6,4 @@ dir=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 sh "$dir/check-snapshot-record-mode.sh"
 sh "$dir/check-live-screen-test.sh"
 sh "$dir/check-mock-state-branches.sh"
+sh "$dir/check-privacy-manifest.sh"
