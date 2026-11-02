@@ -28,6 +28,12 @@ radius**. If either is in doubt, stop and ask the founder.
   threshold such as `name.length > 36`, and a gate-only flag, are fixture
   properties. The check is
   [`scripts/check-mock-state-branches.sh`](scripts/check-mock-state-branches.sh).
+- Every required-reason API in app or extension code (for example
+  `UserDefaults`, and `UserDefaults(suiteName:)` for an App Group) has a
+  matching reason in the `PrivacyInfo.xcprivacy` of that target. Start each
+  target from [`templates/privacy-manifest/`](templates/privacy-manifest/).
+  The check is
+  [`scripts/check-privacy-manifest.sh`](scripts/check-privacy-manifest.sh).
 - The pull request does its task and nothing else. Each remaining
   difference from the mock is listed in the pull request.
 

@@ -166,7 +166,7 @@ function copyTemplates(repo: string, flavour: "flutter" | "swiftui"): void {
 function installGate(repo: string): void {
   const target = path.join(repo, "scripts");
   mkdirSync(target, { recursive: true });
-  for (const name of ["merge-gate.sh", "check-snapshot-record-mode.sh", "check-live-screen-test.sh", "check-mock-state-branches.sh"]) {
+  for (const name of ["merge-gate.sh", "check-snapshot-record-mode.sh", "check-live-screen-test.sh", "check-mock-state-branches.sh", "check-privacy-manifest.sh"]) {
     copyFileSync(path.join(scriptsDir, name), path.join(target, name));
   }
 }
