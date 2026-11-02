@@ -1,0 +1,17 @@
+{
+  "$comment": "Committed files that a generator writes from installed packages. tooling/regenerate-artifacts.mjs reads this list for the local check and for .github/workflows/dependency-regen.yml. Commands run in `directory` without a shell.",
+  "artifacts": [
+    {
+      "path": "hosted/knowledge-mcp/worker-configuration.d.ts",
+      "directory": "hosted/knowledge-mcp",
+      "install": ["npm", "ci"],
+      "regenerate": ["npm", "run", "types"]
+    },
+    {
+      "path": "hosted/builder-console/worker-configuration.d.ts",
+      "directory": "hosted/builder-console",
+      "install": ["npm", "ci"],
+      "regenerate": ["npm", "run", "types"]
+    }
+  ]
+}

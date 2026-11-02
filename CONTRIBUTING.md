@@ -289,6 +289,34 @@ When you change a workspace entrypoint, update its authored template and keep
 the installer's source map and affected reference-business guidance consistent.
 Run the related entrypoint and continuity checks.
 
+### Dependency bumps with generated files
+
+[`tooling/generated-artifacts.json`](tooling/generated-artifacts.json) lists
+each committed file that a generator writes from installed packages, with its
+install and regenerate commands. Today it lists the Worker
+`worker-configuration.d.ts` files that `wrangler types` writes. Add an entry
+when you commit a new generated artifact.
+
+To check the artifacts locally, run:
+
+```bash
+npm run regen:artifacts -- --check
+```
+
+The command installs the declared packages, runs each generator, and fails when
+a declared file changed. Review `git diff --stat` before you commit the result.
+
+On Dependabot branches,
+[`.github/workflows/dependency-regen.yml`](.github/workflows/dependency-regen.yml)
+runs the same commands, pushes the regenerated files to the branch, and
+dispatches CI. The bump then passes, or fails for a real reason.
+
+Fallback rule: when a bump cannot be regenerated automatically, the workflow
+comments on the pull request. Fix the generator, or add a Dependabot `ignore`
+rule for the package in [`.github/dependabot.yml`](.github/dependabot.yml) and
+track the upgrade in the weekly upstream-freshness issue. Do not let the same
+red bump open and close every week.
+
 ## Maintaining instructions and routing
 
 Use this section when changing agent guides, skills, task cues, scoped routers,
