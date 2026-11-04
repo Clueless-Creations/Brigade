@@ -412,6 +412,7 @@ Intentional adaptations:
 - confirmation-is-not-permission: --no-input and --yes do not grant host authority. Mutations are refused before spawn without an explicit grant. (owner: adapters/providers/revenuecat/cli-preflight.ts)
 - exact-project-flag: Project-scoped operations require an explicit validated --project-id. Profile defaults and ambient RC_PROJECT_ID are not used to select a workspace. (owner: adapters/providers/revenuecat/cli-operations.ts)
 - collector-identity-distinct: CLI results use collector revenuecat-cli@1. They must not reuse the REST probe marker revenuecat@1. (owner: adapters/providers/revenuecat/cli-proof.ts)
+- published-paywall-attach-holds: Attaching a published paywall can change what customers see, so it holds before spawn and --yes is not sent. A paywall whose publish state cannot be read holds too. The read is point-in-time, so a paywall published just before attach is refused by the CLI and records as uncertain. (owner: adapters/providers/revenuecat/cli-execute.ts)
 - doctor-is-not-live-catalog: b2c inspect records local CLI identity only. b2c doctor is a supported equivalent. Selected-target checks fail closed without host authority and never spawn authenticated commands or claim live catalog proof. (owner: adapters/providers/revenuecat/cli-doctor.ts)
 
 Unknowns (observation 2026-09-06, method manual):
