@@ -14,9 +14,9 @@ copyright: Copyright (c) 2026 Lauren Tan
 license:
   spdx: MIT
   status: verified
-  evidence_url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/pstack/LICENSE
+  evidence_url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/LICENSE
   evidence_sha256: bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e
-  reviewed_revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
+  reviewed_revision: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
   notice_file: catalog/upstreams/notices/cursor-pstack.txt
   scope: pstack/LICENSE covers the three selected principle skills. Broader previously vendored plugin contents remain outside the supported local review path.
 source_ids:
@@ -42,19 +42,19 @@ relationships:
     pin_authority: Reviewed immutable commit pins these methods. No host plugin installation or workspace repin.
 baselines:
   reviewed_source:
-    revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
-    observed_at: "2026-10-13"
+    revision: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
+    observed_at: "2026-11-03"
     by: b2c-contributor source review
     note: Read-only review of the three selected skill files and plugin license. No upstream execution.
   reviewed_guidance:
-    revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
-    observed_at: "2026-10-13"
+    revision: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
+    observed_at: "2026-11-03"
     by: b2c-contributor source review
     note: Selected methods inform the repository-local chain. Source review, independent review, host qualification and pilot acceptance are distinct evidence.
 support:
   policy: Source-reviewed methods only. Cursor host tools, models, and shipping playbooks are not integrated.
   versions:
-    - range: 1dcc2bacde73ddd284803b7af28164d0436198fc
+    - range: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
       status: untested
       evidence:
         - Source and rights inspection only; pilot evidence is separate.
@@ -78,7 +78,7 @@ adaptations:
 review:
   owner: b2c-maintainers
   cadence_days: 90
-  last_review: "2026-10-13"
+  last_review: "2026-11-03"
   status: current
 credits:
   acknowledge: true

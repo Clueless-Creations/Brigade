@@ -7,7 +7,7 @@ and retained MIT notices use the repository's existing catalog/credits owners.
 | Material and attribution | Source | Reviewed commit | Manifest and notice |
 | --- | --- | --- | --- |
 | Ponytail and Ponytail review — DietrichGebert | https://github.com/DietrichGebert/ponytail (`skills/`) | 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5 | [Manifest](../../catalog/upstreams/ponytail.yaml), [MIT notice](../../catalog/upstreams/notices/ponytail.txt) |
-| pstack — Lauren Tan (@poteto), published by Cursor | https://github.com/cursor/plugins (`pstack/skills/`) | 1dcc2bacde73ddd284803b7af28164d0436198fc | [Manifest](../../catalog/upstreams/cursor-pstack.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-pstack.txt) |
+| pstack — Lauren Tan (@poteto), published by Cursor | https://github.com/cursor/plugins (`pstack/skills/`) | c742dd61706fbacc1b95f1a20b7b988cf096ce6c | [Manifest](../../catalog/upstreams/cursor-pstack.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-pstack.txt) |
 | Thermo-Nuclear Code Quality Review — Cursor Team Kit, Cursor | https://github.com/cursor/plugins (`cursor-team-kit/skills/`) | 1dcc2bacde73ddd284803b7af28164d0436198fc | [Manifest](../../catalog/upstreams/cursor-team-kit.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-team-kit.txt) |
 | `chained-review` | Authored here | Repository history | Repository license; selected derivations below |
 
@@ -46,6 +46,7 @@ packaged upstream manifests retain their notice files.
 
 - Left out of pstack: `poteto-help` (links to unvendored docs), `recall` (home-path example), and `make-bot-ui` (unregistered install and webhook URLs).
 - pstack `why/references/synthesizer-prompt.md`: the example link `(url)` became `https://example.com/pull/123`.
+- Not vendored: skills that upstream added after `1dcc2bacde73ddd284803b7af28164d0436198fc` (`create-formal-verification-skill`, `in-your-own-words`, `ketchup-video`, `maintain-formal-verification-skill`, `sharpen`, `statechart`). The refresh to `c742dd61706fbacc1b95f1a20b7b988cf096ce6c` (2026-11-03) updated only the skills already vendored here. Upstream deleted `poteto-mode/scripts/orch/` and the `interrogate/references/` files in that range; this copy deletes them too.
 
 Updates are manual maintainer changes: read the proposed source revision, review
 rights and behavioral differences, retain local constraints, update pins and
