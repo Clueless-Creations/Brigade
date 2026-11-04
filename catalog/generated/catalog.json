@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "skillVersion": "0.221.153",
+  "skillVersion": "0.221.154",
   "areas": [
     {
       "id": "area.operating-system",
@@ -2437,7 +2437,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/design/brand-system-skill-onboard.md",
-        "sha256": "sha256:2de2406b14565be80fcda7cdf53ffaf436336d60b0017cc3c67767f1c5cc307c",
+        "sha256": "sha256:4cdeafda52210865fc24aa83cd13ccfc332a1433f2d1d383405d274da2d35447",
         "origin": "skill"
       }
     },
@@ -6945,7 +6945,7 @@
           "sourceType": "github",
           "url": "https://github.com/RevenueCat/cli",
           "reviewCadenceDays": 7,
-          "claimScope": "Selected v0.1.1 procedures, typed executable mapping, and limitations; no live-host execution or unpinned latest-binary claim.",
+          "claimScope": "Selected v0.1.1 procedures, typed executable mapping, and limitations; no live-host execution claim.",
           "lastReviewDate": "2026-09-08",
           "reviewer": "b2c-maintainers",
           "publisher": "RevenueCat",
@@ -7009,7 +7009,7 @@
           ],
           "rationale": "Retain relevant official procedures while preserving existing artifact ownership, scoped authority and independently verified acceptance. Executable mapping is qualified against release v0.1.1, not this later guidance commit.",
           "omissions": [
-            "Automatic installation, unpinned latest binaries, raw API passthrough, nested setup/rico/skills, and implicit acceptance."
+            "Automatic installation, package launchers, raw API passthrough, nested setup/rico/skills, and implicit acceptance."
           ],
           "reviewer": "b2c-maintainers",
           "reviewedAt": "2026-09-08",
@@ -7020,7 +7020,7 @@
       "replacementIds": [],
       "resource": {
         "path": "catalog/generated/firstparty/knowledge/money/revenuecat-agent-tooling.md",
-        "sha256": "sha256:0aa207d56ce0fcdcd20c297d1cb21bd09077e47d5ab2e03d14731e2c45184ad9",
+        "sha256": "sha256:d99941aba417f65e4cd8da950c203ff96072c4a98a586e8557cb680312e6ef47",
         "origin": "skill"
       }
     },
@@ -20601,14 +20601,14 @@
   ],
   "bindings": [],
   "composition": {
-    "fingerprint": "79ca1c07e3f83d0246887bcf0e725a62b79f9b3b1b910d6d028d3ef2934a40af",
+    "fingerprint": "9f8dd689055c8e8e81f557d81d1ee7e1fd9f147c6a1bf9e6654a4c0a36340ff7",
     "packs": [
       {
         "id": "business-pack.consumer-business",
         "kind": "business-pack",
-        "version": "0.221.153",
-        "revision": "0.221.153",
-        "contentDigest": "a016a936cba61733ae499ed7f375b7a9a005fdc050ec81ec8836919c70e6eb28"
+        "version": "0.221.154",
+        "revision": "0.221.154",
+        "contentDigest": "856d191cb10f942c138a364cda7f743851dbc4bfa4cb969f1d14d2fdad468b03"
       }
     ],
     "base": {
