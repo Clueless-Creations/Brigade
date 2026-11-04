@@ -3,12 +3,13 @@
  * (commit 448a9998bd2107c274b9eb1cf55ad5d5d81f6377). Branch-head README commands are not
  * treated as present in the installed binary. This module is the executable matrix: it
  * classifies effects and builds typed argv. It does not spawn processes and does not grant
- * authority. Create encoding maps lookup-key/display-name/store-id flags from the pinned
+ * authority. Create encoding maps lookup-key/display-name/store-id flags from the reviewed
  * cobra schema; it does not invent server-assigned resource ids.
  */
 
 import { REVENUECAT_PRODUCT_TYPES, type RevenueCatProductType } from "./cli-command-schema.js";
 
+/** The release these typed contracts were reviewed against. A record, not a version requirement. */
 export const REVENUECAT_CLI_RELEASE = {
   tag: "v0.1.1",
   version: "0.1.1",
@@ -720,7 +721,7 @@ function appendCreateAttachOperands(operation: CliOperationSpec, request: CliArg
       const storeIdentifier = requireText(request.storeIdentifier, "rc.products.create --store-id");
       const productType = requireText(request.productType, "rc.products.create --type");
       if (!(REVENUECAT_PRODUCT_TYPES as readonly string[]).includes(productType)) {
-        throw new CliArgvRefusal("ambiguous-target", `${productType} is not a pinned RevenueCat product type.`);
+        throw new CliArgvRefusal("ambiguous-target", `${productType} is not a reviewed RevenueCat product type.`);
       }
       const typedType: RevenueCatProductType = productType as RevenueCatProductType;
       const appId = requireText(request.appId, "rc.products.create --app-id");

@@ -21,7 +21,7 @@
  *   REVENUECAT_APP_ID
  *   REVENUECAT_PRODUCT_ID
  *   REVENUECAT_APP_USER_ID
- *   B2C_REVENUECAT_CLI  — absolute pinned `rc` binary
+ *   B2C_REVENUECAT_CLI  — absolute `rc` binary
  */
 
 import { createHash } from "node:crypto";

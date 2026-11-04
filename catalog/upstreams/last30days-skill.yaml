@@ -37,8 +37,7 @@ relationships:
       - README.md
       - LICENSE
       - skills/last30days/SKILL.md
-    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation and live
-      engine runs are selected and authorized separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. Host skill installation and live engine runs are selected and authorized separately.
   - kind: selected-skill-guidance
     consumption: The last30days skill is named as an opt-in companion pack. Installation happens only with
       founder approval. No SKILL.md is auto-installed as a top-level builder skill, and the engine is never
@@ -67,10 +66,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: 310f0b405db2d84adb4993bbf140cef9584057d2
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and the last30days-research-boundary routing eval only; no live last30days
+        - Source inspection of the reviewed baseline and the last30days-research-boundary routing eval only; no live last30days
           engine or host-skill execution from this repository.
   operations:
     - id: last30days-recency-research-guidance

@@ -35,8 +35,7 @@ relationships:
       - README.md
       - skills/xcodebuildmcp/SKILL.md
       - skills/xcodebuildmcp-cli/SKILL.md
-    pin_authority: Reviewed immutable source commit and the existing builder package digest pin this guidance. A
-      host executable, editor project or native dependency is selected and verified separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. A host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
     revision: e6ef59b49b44012c824f0a0de261c96142e37390
@@ -53,10 +52,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: e6ef59b49b44012c824f0a0de261c96142e37390
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
+        - Source inspection of the reviewed baseline and builder contract fixtures only; no live app or upstream binary execution.
   operations:
     - id: sentry-xcodebuildmcp-guidance
       title: Selected XcodeBuildMCP procedures

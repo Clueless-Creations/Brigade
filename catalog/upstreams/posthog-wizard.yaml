@@ -39,9 +39,9 @@ baselines:
 support:
   policy: Reviewed source guidance only. No upstream executable or live provider integration was exercised. SDK and tool compatibility must be verified against the selected app and host before execution.
   versions:
-    - range: 41c12328636f46a517777b17359dd8f5b3d14d96
+    - range: latest default branch
       status: untested
-      evidence: ["Source inspection only; no live execution or broad SDK-version support claim."]
+      evidence: ["Source inspection of the reviewed baseline only; no live execution or broad SDK-version support claim."]
   operations:
     - id: posthog-reviewed-setup
       title: Reviewed wizard setup and audit guidance

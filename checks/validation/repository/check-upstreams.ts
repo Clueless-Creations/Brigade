@@ -14,6 +14,7 @@
  *   - review.status "deferred" without a deferral record
  *   - license.status "verified" without both evidence_sha256 and notice_file
  *   - a knowledge package source that names an upstream_id no manifest defines
+ *   - a support range that names one commit or one exact version
  *
  * Warnings (reported, the gate passes):
  *   - a review overdue by more than twice its cadence
@@ -117,6 +118,18 @@ for (const entry of loaded.upstreams) {
           ),
         );
       }
+    }
+  }
+  for (const { range } of manifest.support.versions) {
+    if (/^[0-9a-f]{40}$/u.test(range) || /^[=v]*\d+\.\d+\.\d+$/u.test(range)) {
+      issues.push(
+        issue(
+          "error",
+          "upstreams.pinned_support_range",
+          `${manifest.id} support range ${range} names one revision. Record it in baselines and keep the range open.`,
+          manifestPath,
+        ),
+      );
     }
   }
   if (manifest.review.status === "deferred" && !manifest.review.deferral) {

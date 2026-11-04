@@ -9,7 +9,6 @@ import {
   type CliProcessResult,
   type CliProcessRunner,
 } from "./cli-process.js";
-import { REVENUECAT_CLI_RELEASE } from "./cli-operations.js";
 
 const VERSION_PATTERN = "(\\d+\\.\\d+\\.\\d+)";
 const IDENTITY_TOKENS = ["revenuecat", "offerings", "entitlements"] as const;
@@ -33,7 +32,6 @@ export interface RevenueCatCliDiscovery {
   readonly code: RevenueCatCliDiscoveryCode;
   readonly selected: RevenueCatCliExecutable | null;
   readonly candidates: readonly RevenueCatCliExecutable[];
-  readonly requiredRelease: typeof REVENUECAT_CLI_RELEASE;
   readonly schemaCommands: readonly string[];
   readonly message: string;
 }
@@ -168,30 +166,27 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
         code: "missing",
         selected: null,
         candidates: [],
-        requiredRelease: REVENUECAT_CLI_RELEASE,
         schemaCommands: [],
-        message: `No RevenueCat CLI executable named rc or revenuecat was found. Install is founder-gated; the builder will not fetch an unpinned latest ${REVENUECAT_CLI_RELEASE.npmPackage} package.`,
+        message: `No RevenueCat CLI executable named rc or revenuecat was found. Install is founder-gated; the builder will not install it.`,
       };
     }
     return {
       code: "unrelated-executable",
       selected: null,
       candidates: unrelated,
-      requiredRelease: REVENUECAT_CLI_RELEASE,
       schemaCommands: [],
-      message: `Found executable(s) named rc/revenuecat that did not identify as RevenueCat CLI ${REVENUECAT_CLI_RELEASE.version}. An unrelated rc binary is not the provider.`,
+      message: `Found executable(s) named rc/revenuecat that did not identify as RevenueCat CLI. An unrelated rc binary is not the provider.`,
     };
   }
 
   const selected = identified[0]!;
-  if (selected.version !== REVENUECAT_CLI_RELEASE.version) {
+  if (selected.version === null) {
     return {
       code: "unsupported-version",
       selected,
       candidates: identified,
-      requiredRelease: REVENUECAT_CLI_RELEASE,
       schemaCommands: [],
-      message: `Trusted RevenueCat CLI at ${selected.path} reports ${selected.version ?? "an unparseable version"}; reviewed executable support is exactly ${REVENUECAT_CLI_RELEASE.version} (${REVENUECAT_CLI_RELEASE.commit}). The current README/source head is not the installed release.`,
+      message: `RevenueCat CLI at ${selected.path} did not report a parseable version.`,
     };
   }
 
@@ -208,7 +203,6 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       code: "unsupported-schema",
       selected,
       candidates: identified,
-      requiredRelease: REVENUECAT_CLI_RELEASE,
       schemaCommands: [],
       message: `RevenueCat CLI ${selected.version} at ${selected.path} did not return a usable commands --json document (exit ${schemaResult.status ?? "null"}).`,
     };
@@ -219,7 +213,6 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       code: "unsupported-schema",
       selected,
       candidates: identified,
-      requiredRelease: REVENUECAT_CLI_RELEASE,
       schemaCommands: [],
       message: `RevenueCat CLI ${selected.version} produced incompatible command discovery output: ${document.reason}.`,
     };
@@ -230,7 +223,6 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       code: "unsupported-schema",
       selected,
       candidates: identified,
-      requiredRelease: REVENUECAT_CLI_RELEASE,
       schemaCommands: document.names,
       message: `RevenueCat CLI ${selected.version} command tree is missing required families: ${missing.join(", ")}.`,
     };
@@ -239,7 +231,6 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
     code: "trusted",
     selected,
     candidates: identified,
-    requiredRelease: REVENUECAT_CLI_RELEASE,
     schemaCommands: document.names,
     message: `Trusted RevenueCat CLI ${selected.version} at ${selected.path}.`,
   };

@@ -45,7 +45,7 @@ relationships:
       - README.md
       - LICENSE
       - server.json
-    pin_authority: Reviewed commit 0e3d5908768fcb2540568ef8baf817c8adf1c49f pins the public repository. It does not authorize the paid service.
+    pin_authority: Not pinned. Nothing in this repository selects a version. Source review does not authorize the paid service.
   - kind: remote-service
     consumption: The hosted research service stays disconnected. Status is paid, needs founder yes.
       Revenue and install figures from it are benchmarks only after that yes, and a rank is not proof a
@@ -73,10 +73,10 @@ baselines:
 support:
   policy: Source-reviewed registration only. Status is paid, needs founder yes. No connection or spend is supported.
   versions:
-    - range: 0e3d5908768fcb2540568ef8baf817c8adf1c49f
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection only. No live ScreensDesign MCP or account.
+        - Source inspection of the reviewed baseline only. No live ScreensDesign MCP or account.
   operations: []
   unsupported_operations:
     - id: connect-trial-or-spend

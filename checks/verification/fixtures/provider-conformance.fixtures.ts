@@ -17,8 +17,8 @@ import { upgradePlan } from "../../../kernel/contribution/upstreams.js";
 import { reviewedNativeContractDelta } from "../../../kernel/contribution/provider-capability-delta.js";
 import {
   INCREMENT_B_MALFORMED_OFFERINGS_CREATE_ARGV,
-  PINNED_OFFERINGS_CREATE_ARGV,
-  REVENUECAT_CLI_COMMAND_SCHEMA_PIN,
+  REVIEWED_OFFERINGS_CREATE_ARGV,
+  REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE,
   qualifyRevenueCatNativeArgv,
 } from "../../../adapters/providers/revenuecat/cli-command-schema.js";
 import {
@@ -63,14 +63,14 @@ export function register(harness: Harness): void {
     assert(!schemaSource.includes("buildRevenueCatCliArgv"), "pinned cobra schema must not import the encoder");
     assert(encoderSource.includes("buildRevenueCatCliArgv"), "encoder still owns argv construction");
     const malformed = qualifyRevenueCatNativeArgv(INCREMENT_B_MALFORMED_OFFERINGS_CREATE_ARGV);
-    const pinned = qualifyRevenueCatNativeArgv(PINNED_OFFERINGS_CREATE_ARGV);
+    const pinned = qualifyRevenueCatNativeArgv(REVIEWED_OFFERINGS_CREATE_ARGV);
     assert(malformed.ok === false && malformed.code === "unexpected-positional", JSON.stringify(malformed));
     assert(pinned.ok === true && pinned.command[0] === "offerings", JSON.stringify(pinned));
     const record = provenance({
       provider: "revenuecat-cli",
       transport: "cli",
-      reviewedVersion: REVENUECAT_CLI_COMMAND_SCHEMA_PIN.version,
-      reviewedRevision: REVENUECAT_CLI_COMMAND_SCHEMA_PIN.commit,
+      reviewedVersion: REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE.version,
+      reviewedRevision: REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE.commit,
       sourceSelector: "RevenueCat/cli internal/cli/offerings.go newOfferingsCreateCmd",
       nativeOperation: "offerings create",
       canonicalOperation: "rc.catalog.create",
@@ -125,7 +125,7 @@ export function register(harness: Harness): void {
       provider: "revenuecat-cli",
       transport: "cli",
       reviewedVersion: "0.1.1",
-      reviewedRevision: REVENUECAT_CLI_COMMAND_SCHEMA_PIN.commit,
+      reviewedRevision: REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE.commit,
       sourceSelector: "adapters/providers/revenuecat/cli-operations.ts buildRevenueCatCliArgv",
       nativeOperation: "offerings create",
       canonicalOperation: "rc.catalog.create",

@@ -34,7 +34,7 @@ relationships:
   - SKILL.md
   - README.md
   - LICENSE
-  pin_authority: Reviewed immutable source commit; no host or business installation.
+  pin_authority: Not pinned. Nothing in this repository selects a version. No host or business installation.
 baselines:
   reviewed_source:
     revision: 30f6084ddf6adf4173cf882fce266015f8872c17
@@ -49,10 +49,10 @@ baselines:
 support:
   policy: Reviewed guidance; runtime support and product outcomes require separate evidence.
   versions:
-  - range: 30f6084ddf6adf4173cf882fce266015f8872c17
+  - range: latest default branch
     status: untested
     evidence:
-    - Source inspection only; actual comparative evaluation is separate.
+    - Source inspection of the reviewed baseline only; actual comparative evaluation is separate.
   operations:
   - id: amir-brand-system-method
     title: Provider-neutral brand kit and reference roles

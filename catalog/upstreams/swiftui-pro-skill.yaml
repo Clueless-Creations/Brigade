@@ -55,10 +55,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: f9800713b24580bc444931949aad4519128605e8
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and the ios-skill-pack-boundary routing eval only; no live host-skill execution
+        - Source inspection of the reviewed baseline and the ios-skill-pack-boundary routing eval only; no live host-skill execution
           from this repository.
   operations:
     - id: swiftui-pro-auditor-routing

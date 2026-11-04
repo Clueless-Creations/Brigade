@@ -26,7 +26,7 @@ relationships:
     upstream_paths: [README.md]
     pin_authority: Reviewed guidance commit below identifies the authored procedures; host executables remain a separate fact.
   - kind: external-executable
-    consumption: The host `rc` or `revenuecat` binary, when it identifies as RevenueCat CLI 0.1.1, runs selected typed operations through adapters/providers/revenuecat. The builder does not vendor the Go application or fetch an unpinned latest package at runtime.
+    consumption: The host `rc` or `revenuecat` binary, when it identifies as RevenueCat CLI and `commands --json` lists the required families, runs selected typed operations through adapters/providers/revenuecat. The builder does not vendor the Go application or fetch an unpinned latest package at runtime.
     local_owners:
       - adapters/providers/revenuecat/cli-discovery.ts
       - adapters/providers/revenuecat/cli-process.ts
@@ -53,7 +53,7 @@ relationships:
       - internal/cli/entitlements.go
       - internal/cli/packages.go
       - internal/cli/paywalls.go
-    pin_authority: PATH lookup of a trusted absolute rc or revenuecat binary at execution time; recorded as a host observation, never as a lock or npm @latest pin.
+    pin_authority: Not pinned. PATH lookup of a trusted absolute rc or revenuecat binary at execution time, recorded as a host observation.
 baselines:
   reviewed_source:
     revision: 448a9998bd2107c274b9eb1cf55ad5d5d81f6377
@@ -66,16 +66,16 @@ baselines:
     by: b2c-contributor source review
     note: Adapted selected procedures from the later source review. Branch head f4e77d6c6b128a390d46e9ed5aef9c4cf79f62e2 is newer than v0.1.1 and is not treated as the installed release.
 support:
-  policy: Executable operations are qualified against release v0.1.1 only. Discovery, version/schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
+  policy: Typed operations were qualified against release v0.1.1. Any installed version may run them when `commands --json` lists the required families; argv qualification, response decoding and host authority still fail closed. Discovery, schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
   versions:
-    - range: "0.1.1"
+    - range: ">=0.1.1"
       status: untested
       evidence:
         - "GitHub release v0.1.1 at 448a9998bd2107c274b9eb1cf55ad5d5d81f6377; npm @revenuecat/cli 0.1.1."
         - "Fixture-backed discovery and process adapter in adapters/providers/revenuecat; no live binary was exercised."
-    - range: 1a3d2820b3166dd6d4cc4775902e43eeeab5f004
+    - range: latest default branch
       status: untested
-      evidence: ["Source inspection only for adapted guidance; not an executable support claim."]
+      evidence: ["Source inspection of the reviewed baseline only for adapted guidance; not an executable support claim."]
   operations:
     - id: revenuecat-command-discovery
       title: CLI schema discovery and setup boundary guidance

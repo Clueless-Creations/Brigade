@@ -95,7 +95,7 @@ export function assertTrustedCliProcessRequest(request: CliProcessRequest): void
   if (DENIED_EXECUTABLE_BASENAMES.has(basename)) {
     throw new CliProcessRefusal(
       "denied-launcher",
-      `Refusing to spawn ${basename} as the RevenueCat CLI. Use a pinned absolute binary, not an unpinned package launcher.`,
+      `Refusing to spawn ${basename} as the RevenueCat CLI. Use a trusted absolute binary, not a package launcher.`,
     );
   }
   if (!path.isAbsolute(request.cwd)) {

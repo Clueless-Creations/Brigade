@@ -1,7 +1,7 @@
 /**
  * Command-specific RevenueCat CLI response decoding for release v0.1.1
  * (commit 448a9998bd2107c274b9eb1cf55ad5d5d81f6377). Native shapes come from
- * pinned upstream source, upstream tests, and documented SDK/API examples —
+ * reviewed upstream source, upstream tests, and documented SDK/API examples —
  * not from the argv encoder or a fake transport that echoes it.
  *
  * Protocol validity (recognized native shape) is separate from business
@@ -164,7 +164,7 @@ export function parseRevenueCatCliJson(stdout: string, status: number | null): R
       return {
         ok: false,
         code: "invalid-envelope",
-        message: `CLI JSON schema_version ${String(parsed.schema_version ?? parsed.schemaVersion)} is not the pinned v0.1.1 envelope (schema_version 1).`,
+        message: `CLI JSON schema_version ${String(parsed.schema_version ?? parsed.schemaVersion)} is not the supported envelope (schema_version 1).`,
       };
     }
   }
@@ -457,7 +457,7 @@ export function offeringVerifyIsComplete(data: unknown): {
 
 function limitationsFor(operation: CliOperationSpec | undefined, extras: readonly string[]): string[] {
   const limitations = [
-    `Pinned to GitHub ${REVENUECAT_CLI_RELEASE.tag} / ${REVENUECAT_CLI_RELEASE.commit} / ${REVENUECAT_CLI_RELEASE.npmPackage}@${REVENUECAT_CLI_RELEASE.npmVersion}.`,
+    `Decoders reviewed against GitHub ${REVENUECAT_CLI_RELEASE.tag} / ${REVENUECAT_CLI_RELEASE.commit} / ${REVENUECAT_CLI_RELEASE.npmPackage}@${REVENUECAT_CLI_RELEASE.npmVersion}. The installed CLI may be newer.`,
     "Fixture decode is not live RevenueCat, native IAP, store delivery, or in-app UI proof.",
     "Desired-state repair planning is out of scope for decode.",
     ...extras,
@@ -494,8 +494,8 @@ function decodeVersion(stdout: string): RevenueCatCliObservation {
     kind: "version",
     operationId: "rc.version",
     cliRelease: REVENUECAT_CLI_RELEASE,
-    protocolValid: version === REVENUECAT_CLI_RELEASE.version,
-    structurallyComplete: version === REVENUECAT_CLI_RELEASE.version,
+    protocolValid: version !== null,
+    structurallyComplete: version !== null,
     limitations: limitationsFor(getRevenueCatCliOperation("rc.version"), ["--version writes text to stdout, not the JSON envelope."]),
     remoteRefs: [],
     version,

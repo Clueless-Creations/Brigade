@@ -67,7 +67,7 @@ When semantics are provider-specific, use an explicit provider extension. Record
 Before implementation, collect independent native-contract fixtures. Preferred evidence order:
 
 1. official machine-readable schema;
-2. pinned upstream source/tests;
+2. reviewed upstream source/tests;
 3. sanitized captured request/output from the exact reviewed version;
 4. official examples when stronger evidence does not exist.
 
@@ -146,7 +146,7 @@ Run conformance fixtures independently from transport wiring tests.
 
 Minimum questions:
 
-- Does the encoder emit a request accepted by the pinned upstream contract?
+- Does the encoder emit a request accepted by the reviewed upstream contract?
 - Does the decoder understand real upstream-shaped success, partial, error, and pagination responses?
 - Are server IDs, business keys, and requested values kept distinct?
 - Does unsupported version/schema drift fail closed?

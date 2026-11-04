@@ -1,10 +1,10 @@
 /**
  * Independently qualified RevenueCat CLI request contracts for release v0.1.1.
- * Transcribed from pinned upstream cobra Use/Flags/Args and --no-input required fields.
+ * Transcribed from reviewed upstream cobra Use/Flags/Args and --no-input required fields.
  * This module does not import the argv encoder and must not be generated from it.
  */
 
-export const REVENUECAT_CLI_COMMAND_SCHEMA_PIN = {
+export const REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE = {
   tag: "v0.1.1",
   version: "0.1.1",
   commit: "448a9998bd2107c274b9eb1cf55ad5d5d81f6377",
@@ -33,7 +33,7 @@ export type NativeArgvQualification =
   | { readonly ok: true; readonly command: readonly string[]; readonly builderOperationId: string }
   | { readonly ok: false; readonly code: NativeArgvQualificationCode; readonly message: string };
 
-export interface PinnedNativeCommandSchema {
+export interface ReviewedNativeCommandSchema {
   readonly command: readonly string[];
   readonly builderOperationId: string;
   readonly source: {
@@ -51,7 +51,7 @@ const INHERITED_VALUE_FLAGS = ["project-id", "profile"] as const;
 const INHERITED_BOOLEAN_FLAGS = ["json", "no-input", "no-color", "yes"] as const;
 const FORBIDDEN_FLAGS = ["api-key", "base-url"] as const;
 
-export const PINNED_CREATE_ATTACH_SCHEMAS: readonly PinnedNativeCommandSchema[] = [
+export const REVIEWED_CREATE_ATTACH_SCHEMAS: readonly ReviewedNativeCommandSchema[] = [
   {
     command: ["offerings", "create"],
     builderOperationId: "rc.catalog.create",
@@ -156,7 +156,7 @@ export const INCREMENT_B_MALFORMED_OFFERINGS_CREATE_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_OFFERINGS_CREATE_ARGV = [
+export const REVIEWED_OFFERINGS_CREATE_ARGV = [
   "--project-id",
   "proj_approved",
   "offerings",
@@ -170,7 +170,7 @@ export const PINNED_OFFERINGS_CREATE_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_PRODUCTS_CREATE_ARGV = [
+export const REVIEWED_PRODUCTS_CREATE_ARGV = [
   "--project-id",
   "proj_approved",
   "products",
@@ -190,7 +190,7 @@ export const PINNED_PRODUCTS_CREATE_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_ENTITLEMENTS_CREATE_ARGV = [
+export const REVIEWED_ENTITLEMENTS_CREATE_ARGV = [
   "--project-id",
   "proj_approved",
   "entitlements",
@@ -204,7 +204,7 @@ export const PINNED_ENTITLEMENTS_CREATE_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_PACKAGES_CREATE_ARGV = [
+export const REVIEWED_PACKAGES_CREATE_ARGV = [
   "--project-id",
   "proj_approved",
   "packages",
@@ -219,7 +219,7 @@ export const PINNED_PACKAGES_CREATE_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_ENTITLEMENTS_ATTACH_ARGV = [
+export const REVIEWED_ENTITLEMENTS_ATTACH_ARGV = [
   "--project-id",
   "proj_approved",
   "entitlements",
@@ -231,7 +231,7 @@ export const PINNED_ENTITLEMENTS_ATTACH_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_PACKAGES_ATTACH_ARGV = [
+export const REVIEWED_PACKAGES_ATTACH_ARGV = [
   "--project-id",
   "proj_approved",
   "packages",
@@ -243,7 +243,7 @@ export const PINNED_PACKAGES_ATTACH_ARGV = [
   "--no-color",
 ] as const;
 
-export const PINNED_PAYWALLS_ATTACH_ARGV = [
+export const REVIEWED_PAYWALLS_ATTACH_ARGV = [
   "--project-id",
   "proj_approved",
   "paywalls",
@@ -297,9 +297,9 @@ function parseNativeArgv(argv: readonly string[]): ParsedNativeArgv | NativeArgv
   return { flags, booleans, tokens };
 }
 
-function schemaForTokens(tokens: readonly string[]): PinnedNativeCommandSchema | undefined {
-  let best: PinnedNativeCommandSchema | undefined;
-  for (const schema of PINNED_CREATE_ATTACH_SCHEMAS) {
+function schemaForTokens(tokens: readonly string[]): ReviewedNativeCommandSchema | undefined {
+  let best: ReviewedNativeCommandSchema | undefined;
+  for (const schema of REVIEWED_CREATE_ATTACH_SCHEMAS) {
     const matches = schema.command.every((part, index) => tokens[index] === part);
     if (!matches) continue;
     if (!best || schema.command.length > best.command.length) best = schema;
@@ -307,12 +307,12 @@ function schemaForTokens(tokens: readonly string[]): PinnedNativeCommandSchema |
   return best;
 }
 
-function allowedFlagNames(schema: PinnedNativeCommandSchema): Set<string> {
+function allowedFlagNames(schema: ReviewedNativeCommandSchema): Set<string> {
   return new Set<string>([...INHERITED_VALUE_FLAGS, ...schema.requiredFlags, ...schema.optionalFlags]);
 }
 
-export function findPinnedCreateAttachSchema(command: readonly string[]): PinnedNativeCommandSchema | undefined {
-  return PINNED_CREATE_ATTACH_SCHEMAS.find(
+export function findReviewedCreateAttachSchema(command: readonly string[]): ReviewedNativeCommandSchema | undefined {
+  return REVIEWED_CREATE_ATTACH_SCHEMAS.find(
     (schema) => schema.command.length === command.length && schema.command.every((part, index) => part === command[index]),
   );
 }
@@ -322,7 +322,7 @@ export function qualifyRevenueCatNativeArgv(argv: readonly string[]): NativeArgv
   if ("ok" in parsed) return parsed;
   const schema = schemaForTokens(parsed.tokens);
   if (!schema) {
-    return fail("unknown-command", `No pinned v0.1.1 create/attach schema matches ${parsed.tokens.join(" ") || "(empty)"}.`);
+    return fail("unknown-command", `No reviewed create/attach schema matches ${parsed.tokens.join(" ") || "(empty)"}.`);
   }
   const positionals = parsed.tokens.slice(schema.command.length);
   if (positionals.length < schema.args.min) {
@@ -331,16 +331,16 @@ export function qualifyRevenueCatNativeArgv(argv: readonly string[]): NativeArgv
   if (Number.isFinite(schema.args.max) && positionals.length > schema.args.max) {
     return fail(
       "unexpected-positional",
-      `${schema.command.join(" ")} does not take positional ${positionals.join(" ")}. Required fields are flags in the pinned cobra schema.`,
+      `${schema.command.join(" ")} does not take positional ${positionals.join(" ")}. Required fields are flags in the reviewed cobra schema.`,
     );
   }
   const allowed = allowedFlagNames(schema);
   for (const name of parsed.flags.keys()) {
-    if (!allowed.has(name)) return fail("unknown-flag", `Flag --${name} is not in the pinned ${schema.command.join(" ")} schema.`);
+    if (!allowed.has(name)) return fail("unknown-flag", `Flag --${name} is not in the reviewed ${schema.command.join(" ")} schema.`);
   }
   for (const name of parsed.booleans) {
     if (!(INHERITED_BOOLEAN_FLAGS as readonly string[]).includes(name as (typeof INHERITED_BOOLEAN_FLAGS)[number])) {
-      return fail("unknown-flag", `Flag --${name} is not a pinned inherited boolean.`);
+      return fail("unknown-flag", `Flag --${name} is not a reviewed inherited boolean.`);
     }
   }
   for (const name of schema.requiredFlags) {
@@ -349,7 +349,7 @@ export function qualifyRevenueCatNativeArgv(argv: readonly string[]): NativeArgv
   }
   const productType = parsed.flags.get("type");
   if (productType !== undefined && !(REVENUECAT_PRODUCT_TYPES as readonly string[]).includes(productType)) {
-    return fail("invalid-flag-value", `--type ${productType} is not a pinned product type.`);
+    return fail("invalid-flag-value", `--type ${productType} is not a reviewed product type.`);
   }
   return { ok: true, command: schema.command, builderOperationId: schema.builderOperationId };
 }

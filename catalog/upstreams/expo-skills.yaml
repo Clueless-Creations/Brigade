@@ -47,8 +47,7 @@ relationships:
       - plugins/expo/skills/expo-design-system/references/native-slop.md
       - plugins/expo/skills/expo-native-ui/SKILL.md
       - plugins/expo/skills/expo-data-fetching/SKILL.md
-    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation is selected and
-      authorized separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. Host skill installation is selected and authorized separately.
   - kind: selected-skill-guidance
     consumption: Official Expo skills are named as opt-in producer packs for a selected Expo session.
       catalog/stacks/expo-agent-tools.ts owns the reviewed inventory. Installation happens only with founder
@@ -82,10 +81,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: d4f484024fec15196bfd3c272e953e3f983972cf
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection, inventory fixtures, and the ios-skill-pack-boundary routing eval only; no live Expo
+        - Source inspection of the reviewed baseline, inventory fixtures, and the ios-skill-pack-boundary routing eval only; no live Expo
           skill-host execution from this repository.
   operations:
     - id: expo-skill-inventory

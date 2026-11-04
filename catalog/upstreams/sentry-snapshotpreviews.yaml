@@ -36,8 +36,7 @@ relationships:
     upstream_paths:
       - README.md
       - Package.swift
-    pin_authority: Reviewed immutable source commit and the existing builder package digest pin this guidance. A
-      host executable, editor project or native dependency is selected and verified separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. A host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
     revision: 856a1c1585e31d4113c019050d6d0712cf6ddadc
@@ -54,10 +53,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: 856a1c1585e31d4113c019050d6d0712cf6ddadc
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
+        - Source inspection of the reviewed baseline and builder contract fixtures only; no live app or upstream binary execution.
   operations:
     - id: sentry-snapshotpreviews-guidance
       title: Selected SnapshotPreviews procedures

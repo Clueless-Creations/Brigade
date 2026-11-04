@@ -1,7 +1,7 @@
 /**
  * Independently authored RevenueCat catalog graphs for desired-state repair tests.
  *
- * Pin: GitHub v0.1.1 / 448a9998bd2107c274b9eb1cf55ad5d5d81f6377 / @revenuecat/cli@0.1.1.
+ * Baseline: GitHub v0.1.1 / 448a9998bd2107c274b9eb1cf55ad5d5d81f6377 / @revenuecat/cli@0.1.1.
  * Shapes follow pinned verify-graph and list envelopes (offerings_verify_test.go,
  * api.Page). They are not generated from the argv encoder and are not a
  * fake process runner. Production decoding remains #102.
@@ -17,7 +17,7 @@ import type {
   ObservedRevenueCatCatalog,
 } from "../../../adapters/providers/revenuecat/cli-reconcile-plan.js";
 
-export const REVENUECAT_CATALOG_PLAN_SAMPLE_PIN = {
+export const REVENUECAT_CATALOG_PLAN_SAMPLE_BASELINE = {
   tag: "v0.1.1",
   commit: "448a9998bd2107c274b9eb1cf55ad5d5d81f6377",
   npmPackage: "@revenuecat/cli",

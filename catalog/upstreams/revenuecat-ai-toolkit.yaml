@@ -54,10 +54,10 @@ support:
   policy: Reviewed source guidance only. No upstream executable or live provider integration was exercised. SDK and tool compatibility
     must be verified against the selected app and host before execution.
   versions:
-    - range: b9b77b12da33213c9c2e750b06cd6270c1d8ed65
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection only; no live execution or broad SDK-version support claim.
+        - Source inspection of the reviewed baseline only; no live execution or broad SDK-version support claim.
   operations:
     - id: revenuecat-project-setup
       title: Selected project, SDK and test setup guidance

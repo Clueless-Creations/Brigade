@@ -92,7 +92,6 @@ function missingRevenueCatFacts() {
       code: "missing" as const,
       selected: null,
       candidates: [],
-      requiredRelease: REVENUECAT_CLI_RELEASE,
       schemaCommands: [],
       message: "fixture missing rc",
     }),

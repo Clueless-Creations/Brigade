@@ -37,16 +37,16 @@ import {
 import {
   argvContainsBareToken,
   INCREMENT_B_MALFORMED_OFFERINGS_CREATE_ARGV,
-  PINNED_CREATE_ATTACH_SCHEMAS,
-  PINNED_ENTITLEMENTS_ATTACH_ARGV,
-  PINNED_ENTITLEMENTS_CREATE_ARGV,
-  PINNED_OFFERINGS_CREATE_ARGV,
-  PINNED_PACKAGES_ATTACH_ARGV,
-  PINNED_PACKAGES_CREATE_ARGV,
-  PINNED_PAYWALLS_ATTACH_ARGV,
-  PINNED_PRODUCTS_CREATE_ARGV,
+  REVIEWED_CREATE_ATTACH_SCHEMAS,
+  REVIEWED_ENTITLEMENTS_ATTACH_ARGV,
+  REVIEWED_ENTITLEMENTS_CREATE_ARGV,
+  REVIEWED_OFFERINGS_CREATE_ARGV,
+  REVIEWED_PACKAGES_ATTACH_ARGV,
+  REVIEWED_PACKAGES_CREATE_ARGV,
+  REVIEWED_PAYWALLS_ATTACH_ARGV,
+  REVIEWED_PRODUCTS_CREATE_ARGV,
   qualifyRevenueCatNativeArgv,
-  REVENUECAT_CLI_COMMAND_SCHEMA_PIN,
+  REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE,
 } from "../../../adapters/providers/revenuecat/cli-command-schema.js";
 import { CLI_CATALOG_KIND, classifyRevenueCatCliCatalogEvidence, classifyRevenueCatProofDocument } from "../../../adapters/providers/revenuecat/cli-proof.js";
 import { issuesFromRevenueCatCliCatalogArtifact } from "../../../adapters/providers/revenuecat/revenue-validation.js";
@@ -224,7 +224,7 @@ export function register(harness: Harness): void {
     });
     assert(discovery.code === "missing", `expected missing, got ${discovery.code}`);
     assert(calls.length === 0, "missing PATH must not spawn");
-    assert(!discovery.message.includes("@latest"), "must not recommend unpinned latest");
+    assert(!discovery.message.includes("@latest"), "must not recommend a package launcher");
   });
 
   harness.check("revenuecat-cli: unrelated rc binary is distinct from RevenueCat", () => {
@@ -237,12 +237,43 @@ export function register(harness: Harness): void {
     assert(calls.some((call) => call.argv[0] === "--version"), "version probe should run");
   });
 
-  harness.check("revenuecat-cli: unsupported version is held and does not equal README head", () => {
+  harness.check("revenuecat-cli: a newer version is trusted when its command tree qualifies", () => {
     const { run } = recordingRunner(trustedDiscoveryHandler("0.2.0"));
     const discovery = discoverTrusted(harness, "rc-version", run);
+    assert(discovery.code === "trusted", `expected trusted, got ${discovery.code}`);
+    assert(discovery.selected?.version === "0.2.0", JSON.stringify(discovery.selected));
+  });
+
+  harness.check("revenuecat-cli: a newer version missing a required family is unsupported-schema", () => {
+    const { run } = recordingRunner((request) => {
+      if (request.argv[0] === "--version") return ok("revenuecat-cli 0.2.0\n");
+      return ok(JSON.stringify({ commands: [{ name: "offerings" }] }));
+    });
+    const discovery = discoverTrusted(harness, "rc-version-schema", run);
+    assert(discovery.code === "unsupported-schema", `expected unsupported-schema, got ${discovery.code}`);
+  });
+
+  harness.check("revenuecat-cli: an unparseable version is held before the schema probe", () => {
+    const { run, calls } = recordingRunner((request) => {
+      if (request.argv[0] === "--version") return ok("revenuecat-cli dev\n");
+      return ok(COMMANDS_JSON);
+    });
+    const discovery = discoverTrusted(harness, "rc-version-unparseable", run);
     assert(discovery.code === "unsupported-version", `expected unsupported-version, got ${discovery.code}`);
-    assert(discovery.message.includes(REVENUECAT_CLI_RELEASE.version), discovery.message);
-    assert(discovery.message.includes("README") || discovery.message.includes("source head") || discovery.message.includes("installed release"), discovery.message);
+    assert(!calls.some((call) => call.argv[0] === "commands"), "schema probe must not run");
+  });
+
+  harness.check("revenuecat-cli: a newer version still needs host authority for a mutation", () => {
+    const { run } = recordingRunner(trustedDiscoveryHandler("0.2.0"));
+    const discovery = discoverTrusted(harness, "rc-version-mutation", run);
+    const preflight = assessRevenueCatCliPreflight({
+      discovery,
+      operation: getRevenueCatCliOperation("rc.customers.simulate-purchase")!,
+      target: selectedTarget(),
+      requestProjectId: "proj_approved",
+      requestAppId: "app_test",
+    });
+    assert(preflight.code === "authority-missing", `expected authority-missing, got ${preflight.code}`);
   });
 
   harness.check("revenuecat-cli: invalid commands JSON is unsupported-schema, not readiness", () => {
@@ -841,7 +872,7 @@ export function register(harness: Harness): void {
     );
     assert(
       calls.some((call) => call.argv.includes("offerings") && call.argv.includes("create") && call.argv.includes("--lookup-key") && call.argv.includes("default")),
-      "offering create should spawn with pinned --lookup-key when the offering is also missing",
+      "offering create should spawn with reviewed --lookup-key when the offering is also missing",
     );
     const createArgv = calls.find((call) => call.argv.includes("offerings") && call.argv.includes("create"))!.argv;
     assert(!argvContainsBareToken(createArgv, "ofrng"), `server id must not be a create positional: ${JSON.stringify(createArgv)}`);
@@ -1354,16 +1385,16 @@ export function register(harness: Harness): void {
     assert(extractResourceIds({ items: [{ id: "off_default" }], next_page: "https://example/next" }).pagination === "partial", "partial list is not empty");
   });
 
-  harness.check("revenuecat-cli: independent pin matches the adapter release", () => {
-    assert(REVENUECAT_CLI_COMMAND_SCHEMA_PIN.commit === REVENUECAT_CLI_RELEASE.commit, "schema pin drifted from adapter release");
-    assert(REVENUECAT_CLI_COMMAND_SCHEMA_PIN.tag === REVENUECAT_CLI_RELEASE.tag, "schema tag drifted from adapter release");
+  harness.check("revenuecat-cli: independent baseline matches the adapter release", () => {
+    assert(REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE.commit === REVENUECAT_CLI_RELEASE.commit, "schema pin drifted from adapter release");
+    assert(REVENUECAT_CLI_COMMAND_SCHEMA_BASELINE.tag === REVENUECAT_CLI_RELEASE.tag, "schema tag drifted from adapter release");
     const implemented = new Set(
-      [...PINNED_CREATE_ATTACH_SCHEMAS].map((schema) => schema.builderOperationId),
+      [...REVIEWED_CREATE_ATTACH_SCHEMAS].map((schema) => schema.builderOperationId),
     );
     for (const operation of REVENUECAT_CLI_OPERATIONS) {
       if (operation.support !== "implemented-fixture" || operation.effectClass !== "catalog-mutation") continue;
-      assert(implemented.has(operation.id), `${operation.id} is implemented but has no independently pinned create/attach schema`);
-      const schema = PINNED_CREATE_ATTACH_SCHEMAS.find((row) => row.builderOperationId === operation.id);
+      assert(implemented.has(operation.id), `${operation.id} is implemented but has no independently reviewed create/attach schema`);
+      const schema = REVIEWED_CREATE_ATTACH_SCHEMAS.find((row) => row.builderOperationId === operation.id);
       assert(schema !== undefined && schema.command.every((part, index) => operation.command[index] === part), `${operation.id} command drifted from the pin`);
     }
     assert(getRevenueCatCliOperation("rc.offerings.set-current")?.support !== "implemented-fixture", "updates/set-current stay unavailable");
@@ -1371,7 +1402,7 @@ export function register(harness: Harness): void {
 
   harness.check("revenuecat-cli: increment-B malformed offerings create fails without the encoder", () => {
     const qualified = qualifyRevenueCatNativeArgv(INCREMENT_B_MALFORMED_OFFERINGS_CREATE_ARGV);
-    assert(qualified.ok === false, "positional offering id must not satisfy pinned offerings create");
+    assert(qualified.ok === false, "positional offering id must not satisfy reviewed offerings create");
     assert(
       qualified.ok === false && (qualified.code === "unexpected-positional" || qualified.code === "missing-flag"),
       JSON.stringify(qualified),
@@ -1387,7 +1418,7 @@ export function register(harness: Harness): void {
       displayName: "Default",
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(argv) === JSON.stringify([...PINNED_OFFERINGS_CREATE_ARGV]), JSON.stringify(argv));
+    assert(JSON.stringify(argv) === JSON.stringify([...REVIEWED_OFFERINGS_CREATE_ARGV]), JSON.stringify(argv));
     const qualified = qualifyRevenueCatNativeArgv(argv);
     assert(qualified.ok === true, JSON.stringify(qualified));
     assert(!argvContainsBareToken(argv, "ofrng_default"), "server id must not become a create positional");
@@ -1405,7 +1436,7 @@ export function register(harness: Harness): void {
     assert(missing.includes("lookup-key"), missing);
   });
 
-  harness.check("revenuecat-cli: products and entitlements create match pinned flags", () => {
+  harness.check("revenuecat-cli: products and entitlements create match reviewed flags", () => {
     const products = buildRevenueCatCliArgv({
       operationId: "rc.products.create",
       projectId: "proj_approved",
@@ -1416,7 +1447,7 @@ export function register(harness: Harness): void {
       duration: "P1M",
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(products) === JSON.stringify([...PINNED_PRODUCTS_CREATE_ARGV]), JSON.stringify(products));
+    assert(JSON.stringify(products) === JSON.stringify([...REVIEWED_PRODUCTS_CREATE_ARGV]), JSON.stringify(products));
     assert(qualifyRevenueCatNativeArgv(products).ok === true, JSON.stringify(qualifyRevenueCatNativeArgv(products)));
     const entitlements = buildRevenueCatCliArgv({
       operationId: "rc.entitlements.create",
@@ -1425,7 +1456,7 @@ export function register(harness: Harness): void {
       displayName: "Pro",
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(entitlements) === JSON.stringify([...PINNED_ENTITLEMENTS_CREATE_ARGV]), JSON.stringify(entitlements));
+    assert(JSON.stringify(entitlements) === JSON.stringify([...REVIEWED_ENTITLEMENTS_CREATE_ARGV]), JSON.stringify(entitlements));
     assert(qualifyRevenueCatNativeArgv(entitlements).ok === true, JSON.stringify(qualifyRevenueCatNativeArgv(entitlements)));
     let missingStore = "";
     try {
@@ -1455,7 +1486,7 @@ export function register(harness: Harness): void {
     assert(missingLookup.includes("lookup-key"), missingLookup);
   });
 
-  harness.check("revenuecat-cli: packages create and attach commands match pinned argv", () => {
+  harness.check("revenuecat-cli: packages create and attach commands match reviewed argv", () => {
     const created = buildRevenueCatCliArgv({
       operationId: "rc.packages.create",
       projectId: "proj_approved",
@@ -1464,7 +1495,7 @@ export function register(harness: Harness): void {
       displayName: "Monthly",
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(created) === JSON.stringify([...PINNED_PACKAGES_CREATE_ARGV]), JSON.stringify(created));
+    assert(JSON.stringify(created) === JSON.stringify([...REVIEWED_PACKAGES_CREATE_ARGV]), JSON.stringify(created));
     assert(qualifyRevenueCatNativeArgv(created).ok === true, JSON.stringify(qualifyRevenueCatNativeArgv(created)));
     const attached = buildRevenueCatCliArgv({
       operationId: "rc.packages.attach",
@@ -1473,7 +1504,7 @@ export function register(harness: Harness): void {
       attachProductIds: ["prod_monthly"],
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(attached) === JSON.stringify([...PINNED_PACKAGES_ATTACH_ARGV]), JSON.stringify(attached));
+    assert(JSON.stringify(attached) === JSON.stringify([...REVIEWED_PACKAGES_ATTACH_ARGV]), JSON.stringify(attached));
     let missingPackageLookup = "";
     try {
       buildRevenueCatCliArgv({
@@ -1488,7 +1519,7 @@ export function register(harness: Harness): void {
     assert(missingPackageLookup.includes("lookup-key"), missingPackageLookup);
   });
 
-  harness.check("revenuecat-cli: entitlement and paywall attach match pinned argv", () => {
+  harness.check("revenuecat-cli: entitlement and paywall attach match reviewed argv", () => {
     const entitlement = buildRevenueCatCliArgv({
       operationId: "rc.entitlements.attach",
       projectId: "proj_approved",
@@ -1496,7 +1527,7 @@ export function register(harness: Harness): void {
       attachProductIds: ["prod_monthly"],
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(entitlement) === JSON.stringify([...PINNED_ENTITLEMENTS_ATTACH_ARGV]), JSON.stringify(entitlement));
+    assert(JSON.stringify(entitlement) === JSON.stringify([...REVIEWED_ENTITLEMENTS_ATTACH_ARGV]), JSON.stringify(entitlement));
     assert(qualifyRevenueCatNativeArgv(entitlement).ok === true, JSON.stringify(qualifyRevenueCatNativeArgv(entitlement)));
     const paywall = buildRevenueCatCliArgv({
       operationId: "rc.paywalls.attach",
@@ -1505,7 +1536,7 @@ export function register(harness: Harness): void {
       offeringId: "ofrng_default",
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(paywall) === JSON.stringify([...PINNED_PAYWALLS_ATTACH_ARGV]), JSON.stringify(paywall));
+    assert(JSON.stringify(paywall) === JSON.stringify([...REVIEWED_PAYWALLS_ATTACH_ARGV]), JSON.stringify(paywall));
     assert(qualifyRevenueCatNativeArgv(paywall).ok === true, JSON.stringify(qualifyRevenueCatNativeArgv(paywall)));
     let missingAttach = "";
     try {
@@ -1553,7 +1584,7 @@ export function register(harness: Harness): void {
       displayName: "Default",
       hostAuthorityGranted: true,
     });
-    assert(JSON.stringify(recovered) === JSON.stringify([...PINNED_OFFERINGS_CREATE_ARGV]), JSON.stringify(recovered));
+    assert(JSON.stringify(recovered) === JSON.stringify([...REVIEWED_OFFERINGS_CREATE_ARGV]), JSON.stringify(recovered));
     const show = buildRevenueCatCliArgv({
       operationId: "rc.offerings.show",
       projectId: "proj_approved",

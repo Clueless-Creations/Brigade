@@ -159,7 +159,7 @@ export function renderRevenueCatCliHostBlock(observation: DoctorHostObservation 
       return `${stamped}\ninspect ran; PATH rc/revenuecat did not identify as RevenueCat CLI. Latest observed ${latest}. This is not live catalog proof.`;
     case "unsupported-version":
     case "unsupported-schema":
-      return `${stamped}\nwinning ${recorded.path ?? "(unknown)"} ${recorded.version ?? "(unparseable)"} is not the reviewed RevenueCat CLI ${latest}. This is not live catalog proof.`;
+      return `${stamped}\nwinning ${recorded.path ?? "(unknown)"} ${recorded.version ?? "(unparseable)"} failed the RevenueCat CLI identity check (reviewed executable ${latest}). This is not live catalog proof.`;
     case "trusted": {
       if (!recorded.path) {
         return `${stamped}\ninspect ran; trusted identity lacked a path. Latest observed ${latest}. This is not live catalog proof.`;

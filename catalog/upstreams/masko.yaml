@@ -48,7 +48,7 @@ relationships:
       - README.md
       - LICENSE
       - skills/build-interactive-mascot/SKILL.md
-    pin_authority: Reviewed commit 9feb999e8e3bf609728261ab17bdcf63f0e811ff pins the public repository. It does not authorize generation.
+    pin_authority: Not pinned. Nothing in this repository selects a version. Source review does not authorize generation.
   - kind: remote-service
     consumption: Generation stays disconnected. Generate-all does a dry-run quote first. Status is paid, needs
       founder yes. The quote is not spend approval.
@@ -75,10 +75,10 @@ baselines:
 support:
   policy: Source-reviewed registration only. Status is paid, needs founder yes. No account, generation, or credit spend is supported.
   versions:
-    - range: 9feb999e8e3bf609728261ab17bdcf63f0e811ff
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection only. No live Masko account, dry run, or generation.
+        - Source inspection of the reviewed baseline only. No live Masko account, dry run, or generation.
   operations: []
   unsupported_operations:
     - id: generate-or-spend

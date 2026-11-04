@@ -6,7 +6,7 @@ import {
   planRevenueCatCatalogRepair,
   repairPlanIsComplete,
   repairPlanOperationIds,
-  REVENUECAT_CATALOG_PLAN_PIN,
+  REVENUECAT_CATALOG_PLAN_BASELINE,
   REVENUECAT_REPAIR_OPERATIONS,
   type RevenueCatCatalogRepairPlan,
   type RevenueCatRepairAction,
@@ -29,7 +29,7 @@ import {
   observedWithoutProduct,
   observedWrongPrice,
   observedWrongProductType,
-  REVENUECAT_CATALOG_PLAN_SAMPLE_PIN,
+  REVENUECAT_CATALOG_PLAN_SAMPLE_BASELINE,
 } from "./revenuecat-cli-reconcile-plan.samples.js";
 
 function kinds(plan: RevenueCatCatalogRepairPlan): readonly string[] {
@@ -62,10 +62,10 @@ function forbiddenOwnerImports(source: string): readonly string[] {
 }
 
 export function register(harness: Harness): void {
-  harness.check("revenuecat-cli-reconcile-plan: pin matches executable candidate", () => {
-    assert(REVENUECAT_CATALOG_PLAN_PIN.commit === REVENUECAT_CLI_RELEASE.commit, REVENUECAT_CATALOG_PLAN_PIN.commit);
-    assert(REVENUECAT_CATALOG_PLAN_SAMPLE_PIN.commit === REVENUECAT_CLI_RELEASE.commit, REVENUECAT_CATALOG_PLAN_SAMPLE_PIN.commit);
-    assert(REVENUECAT_CATALOG_PLAN_PIN.tag === REVENUECAT_CLI_RELEASE.tag, REVENUECAT_CATALOG_PLAN_PIN.tag);
+  harness.check("revenuecat-cli-reconcile-plan: baseline matches the reviewed release", () => {
+    assert(REVENUECAT_CATALOG_PLAN_BASELINE.commit === REVENUECAT_CLI_RELEASE.commit, REVENUECAT_CATALOG_PLAN_BASELINE.commit);
+    assert(REVENUECAT_CATALOG_PLAN_SAMPLE_BASELINE.commit === REVENUECAT_CLI_RELEASE.commit, REVENUECAT_CATALOG_PLAN_SAMPLE_BASELINE.commit);
+    assert(REVENUECAT_CATALOG_PLAN_BASELINE.tag === REVENUECAT_CLI_RELEASE.tag, REVENUECAT_CATALOG_PLAN_BASELINE.tag);
     for (const operationId of Object.values(REVENUECAT_REPAIR_OPERATIONS)) {
       const spec = getRevenueCatCliOperation(operationId);
       assert(spec?.support === "implemented-fixture", `${operationId} missing from the reviewed matrix`);

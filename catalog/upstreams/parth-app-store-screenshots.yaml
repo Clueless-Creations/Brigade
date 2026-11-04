@@ -35,8 +35,7 @@ relationships:
     upstream_paths:
       - README.md
       - skills/app-store-screenshots/SKILL.md
-    pin_authority: Reviewed immutable source commit and the existing builder package digest pin this guidance. A
-      host executable, editor project or native dependency is selected and verified separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. A host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
     revision: 18951ddc4e06c53a3d34207732c16d9568f88d11
@@ -53,10 +52,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: 18951ddc4e06c53a3d34207732c16d9568f88d11
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
+        - Source inspection of the reviewed baseline and builder contract fixtures only; no live app or upstream binary execution.
   operations:
     - id: parth-app-store-screenshots-guidance
       title: Selected App Store Screenshots procedures

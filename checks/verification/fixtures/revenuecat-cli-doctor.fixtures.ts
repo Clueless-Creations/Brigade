@@ -45,7 +45,6 @@ function identity(pathValue: string, version: string | null, extras: readonly st
     code: "trusted",
     selected,
     candidates,
-    requiredRelease: REVENUECAT_CLI_RELEASE,
     schemaCommands: ["offerings", "customers", "apps", "projects", "entitlements", "products"],
     message: "trusted fixture discovery",
   };
@@ -57,7 +56,6 @@ function discovery(code: RevenueCatCliDiscovery["code"], selectedPath: string | 
     code,
     selected,
     candidates: selected ? [selected] : [],
-    requiredRelease: REVENUECAT_CLI_RELEASE,
     schemaCommands: code === "trusted" ? ["offerings", "customers", "apps", "projects", "entitlements", "products"] : [],
     message: `fixture ${code}`,
   };
@@ -166,7 +164,7 @@ export function register(harness: Harness): void {
 
   harness.check("revenuecat-cli-doctor: unsupported version and schema warn without upgrade or live catalog claim", () => {
     const version = assessRevenueCatCliHostDoctor({
-      discovery: discovery("unsupported-version", "/opt/fake/bin/rc", "0.0.9"),
+      discovery: discovery("unsupported-version", "/opt/fake/bin/rc", null),
       latestObserved: REVIEWED,
       sanitizePath: (executablePath) => executablePath,
     });
@@ -384,7 +382,7 @@ export function register(harness: Harness): void {
       sanitizePath: (executablePath) => executablePath,
     });
     const unsupported = assessRevenueCatCliHostDoctor({
-      discovery: discovery("unsupported-version", "/opt/fake/bin/rc", "0.0.9"),
+      discovery: discovery("unsupported-version", "/opt/fake/bin/rc", null),
       latestObserved: REVIEWED,
       sanitizePath: (executablePath) => executablePath,
     });

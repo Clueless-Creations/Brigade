@@ -1,12 +1,12 @@
 /**
  * Independently reviewed RevenueCat CLI v0.1.1 native samples.
  *
- * Pin: GitHub v0.1.1 / 448a9998bd2107c274b9eb1cf55ad5d5d81f6377 / @revenuecat/cli@0.1.1.
+ * Baseline: GitHub v0.1.1 / 448a9998bd2107c274b9eb1cf55ad5d5d81f6377 / @revenuecat/cli@0.1.1.
  * These objects are copied from pinned upstream tests, CLI structs, or documented
  * SDK/API examples. They are not generated from the builder encoder or local DTO types.
  */
 
-export const REVENUECAT_CLI_DECODE_PIN = {
+export const REVENUECAT_CLI_DECODE_BASELINE = {
   tag: "v0.1.1",
   commit: "448a9998bd2107c274b9eb1cf55ad5d5d81f6377",
   npmPackage: "@revenuecat/cli",
@@ -168,6 +168,6 @@ export const UPSTREAM_MANAGEMENT_OFFERING = {
   lookupKey: "default",
 } as const;
 
-export function wrapPinnedCliEnvelope(data: unknown): string {
+export function wrapReviewedCliEnvelope(data: unknown): string {
   return JSON.stringify({ data, schema_version: UPSTREAM_JSON_ENVELOPE_VERSION });
 }
