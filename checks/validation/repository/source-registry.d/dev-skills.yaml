@@ -60,7 +60,7 @@ sources:
 - id: cursor-pstack-laziness-protocol
   name: pstack Laziness Protocol reviewed skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/pstack/skills/principle-laziness-protocol/SKILL.md
+  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/skills/principle-laziness-protocol/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
@@ -70,7 +70,7 @@ sources:
 - id: cursor-pstack-fix-root-causes
   name: pstack Fix Root Causes reviewed skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/pstack/skills/principle-fix-root-causes/SKILL.md
+  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/skills/principle-fix-root-causes/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
@@ -80,7 +80,7 @@ sources:
 - id: cursor-pstack-prove-it-works
   name: pstack Prove It Works reviewed skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/pstack/skills/principle-prove-it-works/SKILL.md
+  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/skills/principle-prove-it-works/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
@@ -90,7 +90,7 @@ sources:
 - id: cursor-pstack-license
   name: pstack reviewed MIT license
   source_type: github
-  url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/pstack/LICENSE
+  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/LICENSE
   refresh_cadence_days: 365
   owner: b2c-maintainers
   locations:
