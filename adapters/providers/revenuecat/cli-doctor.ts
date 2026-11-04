@@ -131,7 +131,7 @@ export function assessRevenueCatCliHostDoctor(input: {
           {
             severity: "warn",
             code: "doctor.revenuecat_cli_unrelated",
-            message: `found executable(s) named rc/revenuecat that did not identify as RevenueCat CLI ${latest}${selectedPath ? ` (winner ${selectedPath})` : ""}. An unrelated rc binary is not the provider. Inspect will not install a replacement.`,
+            message: `found executable(s) named rc/revenuecat that did not identify as RevenueCat CLI${selectedPath ? ` (winner ${selectedPath})` : ""}. An unrelated rc binary is not the provider. Inspect will not install a replacement.`,
           },
         ],
         liveCatalogProven: false,
@@ -143,7 +143,7 @@ export function assessRevenueCatCliHostDoctor(input: {
           {
             severity: "warn",
             code: "doctor.revenuecat_cli_unsupported",
-            message: `winning ${selectedPath ?? "(unknown path)"} reports ${version ?? "an unparseable version"}; reviewed executable support is exactly ${latest}. Inspect will not upgrade the host. This is not live catalog proof.`,
+            message: `winning ${selectedPath ?? "(unknown path)"} reports an unparseable version. Inspect will not upgrade the host. This is not live catalog proof.`,
           },
           ...extras,
         ],
@@ -156,7 +156,7 @@ export function assessRevenueCatCliHostDoctor(input: {
           {
             severity: "warn",
             code: "doctor.revenuecat_cli_unsupported_schema",
-            message: `winning ${selectedPath ?? "(unknown path)"} ${version ?? ""} did not return a usable commands --json tree for RevenueCat CLI ${latest}. Inspect will not install or rewrite the binary. This is not live catalog proof.`,
+            message: `winning ${selectedPath ?? "(unknown path)"} ${version ?? ""} did not return a usable commands --json tree. Inspect will not install or rewrite the binary. This is not live catalog proof.`,
           },
           ...extras,
         ],

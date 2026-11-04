@@ -60,7 +60,7 @@ results as ours.
    [`design-visual-system.md`](./design-visual-system.md).
 3. Decide install mode (see **Default-on vs opt-in** below). If installing the
    upstream Skill for a Lovart- or host-specific session: copy `SKILL.md` from
-   the pinned upstream revision into that session only; do not vendor the Skill
+   the current upstream default branch into that session only; do not vendor the Skill
    into this repository as executable authority.
 4. Assign each creative reference a role: `identity`, `scene`, `composition`,
    `motion` (or product). Scene may not change approved identity.
@@ -76,8 +76,8 @@ results as ours.
    verified installed set.
 
 Source record: the reviewed commit
-`30f6084ddf6adf4173cf882fce266015f8872c17`). Refresh on the upstream review
-cadence; do not silently float.
+`30f6084ddf6adf4173cf882fce266015f8872c17`. Refresh on the upstream review
+cadence.
 
 ## When to use `motion-brief`
 

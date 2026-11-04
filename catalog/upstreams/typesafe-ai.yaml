@@ -53,7 +53,7 @@ relationships:
       - docs.typesafe.ai/api
       - docs.typesafe.ai/primitives
       - docs.typesafe.ai/concepts/how-to-build-with-system-one
-    pin_authority: Public docs observed 2026-09-19 plus distinct SDK release facts (Python v0.7.0; npm @typesafe-ai/sdk 0.6.0). Host credentials and installed SDKs remain separate and unactivated by this qualification.
+    pin_authority: Not pinned. Public docs observed 2026-09-19 plus distinct SDK release facts (Python v0.7.0; npm @typesafe-ai/sdk 0.6.0). Host credentials and installed SDKs remain separate and unactivated by this qualification.
   - kind: adapted-method
     consumption: Reauthor native Choice/Score/Noul (+ batch) shapes from official public docs into a Brigade-owned mapping matrix targeting contracts/semantic/. No upstream SDK types are imported into policy. Independent fixtures preserve official-doc JSON examples with provenance; they are not adapter-authored expected-native captures.
     local_owners:
@@ -66,7 +66,7 @@ relationships:
       - docs.typesafe.ai/api (request/response examples)
       - docs.typesafe.ai/primitives
       - LICENSE (SDK notice retained; source not vendored)
-    pin_authority: Docs observed 2026-09-19; Python SDK baseline v0.7.0 / 2ce5c65f13646cab6e6f782328194c9d85f3300a. A newer release does not silently repin this evidence.
+    pin_authority: Docs observed 2026-09-19; Python SDK baseline v0.7.0 / 2ce5c65f13646cab6e6f782328194c9d85f3300a. A newer release does not change this evidence.
 baselines:
   reviewed_source:
     revision: v0.7.0 (2ce5c65f13646cab6e6f782328194c9d85f3300a)
@@ -85,14 +85,14 @@ support:
       status: untested
       evidence:
         - Public documentation inspection and independent fixtures only; no live System One call in this unit.
-    - range: typesafe-sdk (PyPI) v0.7.0
+    - range: typesafe-sdk (PyPI) latest
       status: untested
       evidence:
-        - Release tag and LICENSE reviewed; SDK not installed as a Brigade dependency.
-    - range: "@typesafe-ai/sdk (npm) 0.6.0"
+        - Release tag v0.7.0 and LICENSE reviewed; SDK not installed as a Brigade dependency.
+    - range: "@typesafe-ai/sdk (npm) latest"
       status: untested
       evidence:
-        - npm latest metadata observed 2026-09-19; distinct from Python v0.7.0; not installed.
+        - npm latest metadata (0.6.0) observed 2026-09-19; distinct from Python v0.7.0; not installed.
   operations:
     - id: typesafe.qualify-mapping
       title: Paper native→SQ-01 mapping and disposition record

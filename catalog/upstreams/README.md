@@ -19,5 +19,6 @@ One manifest per external project the builder relies on, with its notice, its ob
 
 - Unknown stays unknown. A missing observation, a failed fetch, or an absent executable is recorded as an unknown, never as current.
 - Nothing here executes upstream code. The host probe runs the declared version command and nothing else.
+- Nothing here pins a version. Baselines record what was last read. Support ranges stay open, and `npm run check:upstreams` rejects one that names a single commit or exact version.
 - A manifest grants nothing. Support claims, unsupported operations, and adaptations change only through review.
 - Observations carry no URLs. Release notes are summarized with links replaced by a marker and author handles removed.

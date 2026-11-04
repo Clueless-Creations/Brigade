@@ -39,8 +39,7 @@ relationships:
       - LICENSE
       - skills/appllama-app-design-skill/SKILL.md
       - skills/appllama-usage/SKILL.md
-    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation and Appllama
-      MCP access are selected and authorized separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. Host skill installation and Appllama MCP access are selected and authorized separately.
   - kind: selected-skill-guidance
     consumption: The Expo/React Native app-design skill and the provider-usage skill are named as opt-in
       companion packs. Installation happens only with founder approval. No SKILL.md is auto-installed as a
@@ -70,10 +69,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: dd5caaec3d5d50ad7fc0324da238119c6b7c3707
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and the mobile-flow-craft routing eval only; no live Appllama MCP or skill-host
+        - Source inspection of the reviewed baseline and the mobile-flow-craft routing eval only; no live Appllama MCP or skill-host
           execution.
   operations:
     - id: appllama-flow-craft-guidance

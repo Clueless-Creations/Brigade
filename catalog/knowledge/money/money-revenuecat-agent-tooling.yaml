@@ -47,7 +47,7 @@ sources:
     url: https://github.com/RevenueCat/cli
     review_cadence_days: 7
     claim_scope: Selected v0.1.1 procedures, typed executable mapping, and limitations; no live-host
-      execution or unpinned latest-binary claim.
+      execution claim.
     last_review_date: 2026-09-08
     reviewer: b2c-maintainers
     publisher: RevenueCat
@@ -100,7 +100,7 @@ derivations:
       independently verified acceptance. Executable mapping is qualified against release v0.1.1, not this later
       guidance commit.
     omissions:
-      - Automatic installation, unpinned latest binaries, raw API passthrough, nested setup/rico/skills, and implicit
+      - Automatic installation, package launchers, raw API passthrough, nested setup/rico/skills, and implicit
         acceptance.
     reviewer: b2c-maintainers
     reviewed_at: 2026-09-08

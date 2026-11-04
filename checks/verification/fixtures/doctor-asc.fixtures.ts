@@ -48,7 +48,6 @@ function missingRevenueCatFacts(): DoctorRevenueCatFacts {
     code: "missing",
     selected: null,
     candidates: [],
-    requiredRelease: REVENUECAT_CLI_RELEASE,
     schemaCommands: [],
     message: "fixture: RevenueCat CLI absent",
   };

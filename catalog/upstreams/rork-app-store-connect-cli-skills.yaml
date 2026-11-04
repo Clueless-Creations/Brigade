@@ -34,7 +34,7 @@ relationships:
     upstream_paths:
       - README.md
       - "*/SKILL.md"
-    pin_authority: "`asc install-skills` on asc 5.13.0 locks commit f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8; `npx skills add` carries no pin"
+    pin_authority: Not pinned. Nothing in this repository selects a version. `asc install-skills` locks its own skill commit; `npx skills add` carries no pin.
 baselines:
   reviewed_source:
     revision: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
@@ -49,10 +49,10 @@ baselines:
 support:
   policy: Skill guidance is advice. It never marks a lane done, never overrides the builder's own reference on conflict, and loads only for the store workflows that name it. Guidance changes upstream are reviewed by mapped semantic comparison, not text merge.
   versions:
-    - range: f52c4f04323bb2dfb21ca8be82e6494e9cd0b4d8
+    - range: latest default branch
       status: untested
       evidence:
-        - asc 5.13.0 README install-skills lock. Skill names only. No live skill execution.
+        - Reviewed baseline only. asc 5.13.0 README install-skills lock. Skill names only. No live skill execution.
   operations:
     - id: asc-cli-usage
       title: canonical commands, flags, output, pagination, auth

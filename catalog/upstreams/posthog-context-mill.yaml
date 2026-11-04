@@ -32,9 +32,9 @@ baselines:
 support:
   policy: Discovery and update tracking only. Adoption is deferred pending rights review for the selected skill and its fetched/generated dependencies.
   versions:
-    - range: bbc88864bf8ba2efac43bb4c2782e4406bc0dfa6
+    - range: latest default branch
       status: untested
-      evidence: ["Source inspection only; no live execution or broad SDK-version support claim."]
+      evidence: ["Source inspection of the reviewed baseline only; no live execution or broad SDK-version support claim."]
   operations: []
   unsupported_operations:
     - id: automatic-setup

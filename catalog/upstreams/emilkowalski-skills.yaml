@@ -44,8 +44,7 @@ relationships:
       - skills/apple-design/SKILL.md
       - skills/break-ui/SKILL.md
       - skills/break-ui/CATALOG.md
-    pin_authority: Reviewed immutable source commit pins this guidance. Host skill installation is selected and
-      authorized separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. Host skill installation is selected and authorized separately.
   - kind: selected-skill-guidance
     consumption: animate-expo is the Expo/RN producer (do not also install Expo's expo-animation copy).
       review-animations, improve-animations, and find-animation-opportunities are auditor-mode packs.
@@ -79,10 +78,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable
     provider bindings or certification of installed versions.
   versions:
-    - range: e8a175de22ae1e49370fc144c1f3bb9aeedf988d
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and the ios-skill-pack-boundary routing eval only; no live host-skill execution
+        - Source inspection of the reviewed baseline and the ios-skill-pack-boundary routing eval only; no live host-skill execution
           from this repository.
   operations:
     - id: emil-motion-craft-guidance

@@ -35,7 +35,7 @@ relationships:
       - examples/PROJECT_BRIEF.example.md
       - examples/assets.example.json
       - LICENSE
-    pin_authority: Reviewed immutable source commit; no host or business installation.
+    pin_authority: Not pinned. Nothing in this repository selects a version. No host or business installation.
 baselines:
   reviewed_source:
     revision: 39ac222e385061c1eeab7f063b869950ee7cca1b
@@ -53,10 +53,10 @@ support:
   policy: Reviewed guidance; runtime support and product outcomes require separate
     evidence.
   versions:
-    - range: 39ac222e385061c1eeab7f063b869950ee7cca1b
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection only; actual comparative evaluation is separate.
+        - Source inspection of the reviewed baseline only; actual comparative evaluation is separate.
   operations:
     - id: amir-cinematic-scroll-method
       title: Conditional layer planning and forward/reverse checkpoints

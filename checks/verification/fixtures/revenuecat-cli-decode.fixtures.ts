@@ -10,7 +10,7 @@ import {
 } from "../../../adapters/providers/revenuecat/cli-decode.js";
 import { REVENUECAT_CLI_RELEASE } from "../../../adapters/providers/revenuecat/cli-operations.js";
 import {
-  REVENUECAT_CLI_DECODE_PIN,
+  REVENUECAT_CLI_DECODE_BASELINE,
   UPSTREAM_LIST_COMPLETE,
   UPSTREAM_LIST_PARTIAL,
   UPSTREAM_MANAGEMENT_OFFERING,
@@ -20,14 +20,14 @@ import {
   UPSTREAM_VERIFY_EMPTY_ISSUES_ONLY,
   UPSTREAM_VERIFY_GRAPH,
   UPSTREAM_VERIFY_GRAPH_NO_ISSUES,
-  wrapPinnedCliEnvelope,
+  wrapReviewedCliEnvelope,
 } from "./revenuecat-cli-decode.samples.js";
 
 export function register(harness: Harness): void {
-  harness.check("revenuecat-cli-decode: pin matches executable candidate", () => {
-    assert(REVENUECAT_CLI_DECODE_PIN.commit === REVENUECAT_CLI_RELEASE.commit, REVENUECAT_CLI_DECODE_PIN.commit);
-    assert(REVENUECAT_CLI_DECODE_PIN.tag === REVENUECAT_CLI_RELEASE.tag, REVENUECAT_CLI_DECODE_PIN.tag);
-    assert(REVENUECAT_CLI_DECODE_PIN.npmVersion === REVENUECAT_CLI_RELEASE.npmVersion, REVENUECAT_CLI_DECODE_PIN.npmVersion);
+  harness.check("revenuecat-cli-decode: baseline matches the reviewed release", () => {
+    assert(REVENUECAT_CLI_DECODE_BASELINE.commit === REVENUECAT_CLI_RELEASE.commit, REVENUECAT_CLI_DECODE_BASELINE.commit);
+    assert(REVENUECAT_CLI_DECODE_BASELINE.tag === REVENUECAT_CLI_RELEASE.tag, REVENUECAT_CLI_DECODE_BASELINE.tag);
+    assert(REVENUECAT_CLI_DECODE_BASELINE.npmVersion === REVENUECAT_CLI_RELEASE.npmVersion, REVENUECAT_CLI_DECODE_BASELINE.npmVersion);
   });
 
   harness.check("revenuecat-cli-decode: upstream SDK preview sample identifies default and fallback", () => {
@@ -37,11 +37,11 @@ export function register(harness: Harness): void {
     assert(preview.offeringRemoteId === null, "must not invent a management id from the SDK key");
     assert(preview.fallbackOnly === true && preview.publishedPaywall === false, JSON.stringify(preview));
     assert(preview.complete === true, "recognized preview with fallback is valid preview evidence");
-    const wrapped = parseRevenueCatCliJson(wrapPinnedCliEnvelope(UPSTREAM_SDK_PREVIEW_MINIMAL), 0);
+    const wrapped = parseRevenueCatCliJson(wrapReviewedCliEnvelope(UPSTREAM_SDK_PREVIEW_MINIMAL), 0);
     assert(wrapped.ok === true && wrapped.schemaVersion === "1", JSON.stringify(wrapped));
     const decoded = decodeRevenueCatCliResponse({
       operationId: "rc.offerings.preview",
-      stdout: wrapPinnedCliEnvelope(UPSTREAM_SDK_PREVIEW_MINIMAL),
+      stdout: wrapReviewedCliEnvelope(UPSTREAM_SDK_PREVIEW_MINIMAL),
       stderr: "",
       status: 0,
       expected: { appId: "app_test", offeringLookupKey: "default" },
@@ -90,7 +90,7 @@ export function register(harness: Harness): void {
     assert(empty.missingGraph === true, "issues:[] without a graph is not complete");
     const decoded = decodeRevenueCatCliResponse({
       operationId: "rc.offerings.verify",
-      stdout: wrapPinnedCliEnvelope(UPSTREAM_VERIFY_EMPTY_ISSUES_ONLY),
+      stdout: wrapReviewedCliEnvelope(UPSTREAM_VERIFY_EMPTY_ISSUES_ONLY),
       stderr: "",
       status: 0,
     });
@@ -171,7 +171,7 @@ export function register(harness: Harness): void {
     assert(missing.itemsPresent === false && missing.ids.length === 0 && missing.pagination === "unknown", JSON.stringify(missing));
     const decoded = decodeRevenueCatCliResponse({
       operationId: "rc.offerings.list",
-      stdout: wrapPinnedCliEnvelope(UPSTREAM_LIST_PARTIAL),
+      stdout: wrapReviewedCliEnvelope(UPSTREAM_LIST_PARTIAL),
       stderr: "",
       status: 0,
     });
@@ -188,7 +188,7 @@ export function register(harness: Harness): void {
   harness.check("revenuecat-cli-decode: simulate-purchase uses product object and SDK entitlement identifiers", () => {
     const decoded = decodeRevenueCatCliResponse({
       operationId: "rc.customers.simulate-purchase",
-      stdout: wrapPinnedCliEnvelope(UPSTREAM_SIMULATE_PURCHASE),
+      stdout: wrapReviewedCliEnvelope(UPSTREAM_SIMULATE_PURCHASE),
       stderr: "",
       status: 0,
     });
@@ -228,16 +228,18 @@ export function register(harness: Harness): void {
     assert(invalid.observation.protocolValid === false, JSON.stringify(invalid.observation));
     const version = parseRevenueCatCliJson(JSON.stringify({ data: UPSTREAM_SDK_PREVIEW_MINIMAL, schema_version: 99 }), 0);
     assert(version.ok === false && version.code === "invalid-envelope", JSON.stringify(version));
+    const bareVersion = parseRevenueCatCliJson(JSON.stringify({ schema_version: 2, object: "list", items: [], next_page: null }), 0);
+    assert(bareVersion.ok === false && bareVersion.code === "invalid-envelope", JSON.stringify(bareVersion));
     const verifyAsPreview = decodeRevenueCatCliResponse({
       operationId: "rc.offerings.preview",
-      stdout: wrapPinnedCliEnvelope(UPSTREAM_VERIFY_GRAPH),
+      stdout: wrapReviewedCliEnvelope(UPSTREAM_VERIFY_GRAPH),
       stderr: "",
       status: 0,
     });
     assert(verifyAsPreview.observation.kind === "preview" && decodedPreviewInvalid(verifyAsPreview.observation), JSON.stringify(verifyAsPreview.observation));
     const previewAsVerify = decodeRevenueCatCliResponse({
       operationId: "rc.offerings.verify",
-      stdout: wrapPinnedCliEnvelope(UPSTREAM_SDK_PREVIEW_MINIMAL),
+      stdout: wrapReviewedCliEnvelope(UPSTREAM_SDK_PREVIEW_MINIMAL),
       stderr: "",
       status: 0,
     });
@@ -255,7 +257,7 @@ export function register(harness: Harness): void {
     assert(version.json.ok === false, "version must not be treated as a JSON envelope");
     const excluded = decodeRevenueCatCliResponse({
       operationId: "rc.api",
-      stdout: wrapPinnedCliEnvelope({ ok: true }),
+      stdout: wrapReviewedCliEnvelope({ ok: true }),
       stderr: "",
       status: 0,
     });
@@ -270,7 +272,7 @@ export function register(harness: Harness): void {
     assert(classifyRevenueCatAppStoreKind({ id: "app_x" }) === "unresolved", "missing type");
     const decoded = decodeRevenueCatCliResponse({
       operationId: "rc.apps.show",
-      stdout: wrapPinnedCliEnvelope({ id: "app_test", object: "app", type: "test_store" }),
+      stdout: wrapReviewedCliEnvelope({ id: "app_test", object: "app", type: "test_store" }),
       stderr: "",
       status: 0,
     });

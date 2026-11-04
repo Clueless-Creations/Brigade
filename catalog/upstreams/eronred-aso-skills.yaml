@@ -38,8 +38,7 @@ relationships:
       - skills/screenshot-optimization/SKILL.md
       - skills/app-preview-video/SKILL.md
       - skills/app-marketing-context/SKILL.md
-    pin_authority: Reviewed immutable source commit and the existing builder package digest pin this guidance. A
-      host executable, editor project or native dependency is selected and verified separately.
+    pin_authority: Not pinned. Nothing in this repository selects a version. A host executable, editor project or native dependency is selected and verified separately.
 baselines:
   reviewed_source:
     revision: 4df730f456c21e42b9a2ea2be89fb32caf787728
@@ -56,10 +55,10 @@ support:
   policy: Source-reviewed guidance only. Listed operations are mapped procedures, not newly executable provider
     bindings or certification of installed versions.
   versions:
-    - range: 4df730f456c21e42b9a2ea2be89fb32caf787728
+    - range: latest default branch
       status: untested
       evidence:
-        - Source inspection and builder contract fixtures only; no live app or upstream binary execution.
+        - Source inspection of the reviewed baseline and builder contract fixtures only; no live app or upstream binary execution.
   operations:
     - id: eronred-aso-skills-guidance
       title: Selected ASO and App Marketing Skills procedures

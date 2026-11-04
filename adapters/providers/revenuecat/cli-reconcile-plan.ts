@@ -14,7 +14,7 @@
 
 import { getRevenueCatCliOperation } from "./cli-operations.js";
 
-export const REVENUECAT_CATALOG_PLAN_PIN = {
+export const REVENUECAT_CATALOG_PLAN_BASELINE = {
   tag: "v0.1.1",
   commit: "448a9998bd2107c274b9eb1cf55ad5d5d81f6377",
   npmPackage: "@revenuecat/cli",
@@ -22,7 +22,7 @@ export const REVENUECAT_CATALOG_PLAN_PIN = {
 } as const;
 
 /**
- * Mirrors the pinned cobra `--type` enum owned by #101 (`cli-command-schema.ts`).
+ * Mirrors the reviewed cobra `--type` enum owned by #101 (`cli-command-schema.ts`).
  * This file must not import that module while encoding work is in-flight.
  */
 export const REVENUECAT_PLAN_PRODUCT_TYPES = [
