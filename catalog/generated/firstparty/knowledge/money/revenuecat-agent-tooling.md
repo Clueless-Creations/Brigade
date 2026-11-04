@@ -76,11 +76,14 @@ compare it with reviewed compatibility evidence. A builder package pin does not
 freeze a globally installed executable. The source review here does not certify any
 host binary. `rc` and the Rork `asc` CLI are different tools.
 
-The executable candidate is GitHub release **v0.1.1**
+The typed operations were reviewed against GitHub release **v0.1.1**
 (`448a9998bd2107c274b9eb1cf55ad5d5d81f6377`, published 2026-08-27). npm
-`@revenuecat/cli@0.1.1` ships the same native binaries as `rc` and `revenuecat`.
-The later source head is not the installed release. Do not run
-`npx @revenuecat/cli@latest` at runtime.
+`@revenuecat/cli` ships the same native binaries as `rc` and `revenuecat`.
+Any installed version may run them when `commands --json` lists every command
+family they use. Argv comes from the reviewed contract and is not checked
+against the installed binary, so a changed flag fails after spawn. Response
+decoding and host authority still fail closed. Do not run
+`npx @revenuecat/cli` at runtime.
 
 Discovery uses a trusted absolute path, `--version`, and `commands --json` with
 `--no-input --no-color`. It does not install, log in, refresh OAuth, or change
@@ -111,7 +114,7 @@ CLI proof uses collector `revenuecat-cli@1`. It is not the REST probe marker
 
 ### Response decoding (v0.1.1)
 
-Pinned executable: GitHub **v0.1.1** (`448a9998bd2107c274b9eb1cf55ad5d5d81f6377`), npm
+Reviewed baseline: GitHub **v0.1.1** (`448a9998bd2107c274b9eb1cf55ad5d5d81f6377`), npm
 `@revenuecat/cli@0.1.1`. `--json` wraps management results as
 `{ "data": ..., "schema_version": 1 }` (integer `1`). Preview still uses that
 envelope; the inner `data` is the SDK offerings payload, not a verify graph.
@@ -123,7 +126,7 @@ envelope; the inner `data` is the SDK offerings payload, not a verify graph.
 | list/show/create | v2 `{ object, items, next_page }` or resource `{ id, lookup_key, object }` | Opaque remote ids, lookup keys, pagination `complete` / `partial` / `unknown` | An unread page is not an empty catalog |
 | `customers simulate-purchase` | `{ app_id, app_user_id, product, fetch_token, customer_info, active_entitlements }` | Product id and store identifier, SDK entitlement identifiers, `TEST_` fetch token | Native IAP, in-app UI, App Store/Play. `active_entitlements` are lookup keys, not management `entl_*` ids. Test Store completeness unions those keys with `customers.show`; empty expected entitlements stay incomplete. |
 
-Sample coverage in `checks/verification/fixtures/revenuecat-cli-decode.fixtures.ts` is the pinned preview test payload, the documented SDK packages example, the verify HTTP-mock graph, v2 list pages, and the simulate-purchase Render map. Unknown `schema_version`, invalid JSON, and feeding verify JSON to the preview decoder fail closed. Live CLI output was not captured on this host.
+Sample coverage in `checks/verification/fixtures/revenuecat-cli-decode.fixtures.ts` is the reviewed preview test payload, the documented SDK packages example, the verify HTTP-mock graph, v2 list pages, and the simulate-purchase Render map. Unknown `schema_version`, invalid JSON, and feeding verify JSON to the preview decoder fail closed. Live CLI output was not captured on this host.
 
 Protocol validity is not business completeness. Catalog repair planning is a later step. Custom presentation must not be rewritten as a forced dashboard paywall.
 

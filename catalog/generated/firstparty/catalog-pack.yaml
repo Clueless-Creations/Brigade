@@ -1,8 +1,8 @@
 id: business-pack.consumer-business
 title: Consumer business
 kind: business-pack
-version: 0.221.153
-revision: 0.221.153
+version: 0.221.154
+revision: 0.221.154
 depends_on: []
 creates_provider_spend: false
 domains:
@@ -8564,7 +8564,7 @@ references:
         source_type: github
         url: https://github.com/RevenueCat/cli
         review_cadence_days: 7
-        claim_scope: Selected v0.1.1 procedures, typed executable mapping, and limitations; no live-host execution or unpinned latest-binary claim.
+        claim_scope: Selected v0.1.1 procedures, typed executable mapping, and limitations; no live-host execution claim.
         last_review_date: 2026-09-08
         reviewer: b2c-maintainers
         publisher: RevenueCat
@@ -8616,7 +8616,7 @@ references:
         selectors:
           - README.md
         omissions:
-          - Automatic installation, unpinned latest binaries, raw API passthrough, nested setup/rico/skills, and implicit acceptance.
+          - Automatic installation, package launchers, raw API passthrough, nested setup/rico/skills, and implicit acceptance.
         evaluation: npm run test:fixtures -- official-upstreams
         notice: catalog/upstreams/notices/revenuecat-cli.txt
     replacement_ids: []
