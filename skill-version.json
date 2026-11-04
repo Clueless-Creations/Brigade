@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.151",
-  "updatedAt": "2026-11-03",
+  "version": "0.221.152",
+  "updatedAt": "2026-11-04",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-1067: refresh vendored pstack to cursor/plugins c742dd61 (#764)",
     "build(deps): bump the mcp-sdk-and-zod group across 3 directories with 2 updates (#750)",
     "build(deps): bump @babel/parser from 8.0.7 to 8.0.10 (#759)",
     "build(deps): bump posthog-node in /hosted/builder-console (#760)",
