@@ -47,6 +47,7 @@ packaged upstream manifests retain their notice files.
 - Left out of pstack: `poteto-help` (links to unvendored docs), `recall` (home-path example), and `make-bot-ui` (unregistered install and webhook URLs).
 - pstack `why/references/synthesizer-prompt.md`: the example link `(url)` became `https://example.com/pull/123`.
 - Not vendored: skills that upstream added after `1dcc2bacde73ddd284803b7af28164d0436198fc` (`create-formal-verification-skill`, `in-your-own-words`, `ketchup-video`, `maintain-formal-verification-skill`, `sharpen`, `statechart`). The refresh to `c742dd61706fbacc1b95f1a20b7b988cf096ce6c` (2026-11-03) updated only the skills already vendored here. Upstream deleted `poteto-mode/scripts/orch/` and the `interrogate/references/` files in that range; this copy deletes them too.
+- Known gaps: at `c742dd61`, `interrogate` tells the agent to use `in-your-own-words`, and `setup-pstack` offers `/create-formal-verification-skill`. Neither skill is vendored, and neither is on the supported `chained-review` path.
 
 Updates are manual maintainer changes: read the proposed source revision, review
 rights and behavioral differences, retain local constraints, update pins and
