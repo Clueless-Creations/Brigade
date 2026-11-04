@@ -36,7 +36,7 @@ relationships:
       - skills/ponytail/SKILL.md
       - skills/ponytail-review/SKILL.md
       - LICENSE
-    pin_authority: Not pinned. Runs as a host plugin that tracks upstream. Nothing in this repository selects a version.
+    pin_authority: Not pinned. Nothing in this repository selects a version.
 baselines:
   reviewed_source:
     revision: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
@@ -54,7 +54,7 @@ support:
     - range: latest default branch
       status: untested
       evidence:
-        - Source and rights inspection only; pilot evidence is separate.
+        - Source and rights inspection of the reviewed baseline only; pilot evidence is separate.
   operations:
     - id: smallest-complete-change
       title: Smallest complete change with existing abstractions and required safeguards
@@ -62,7 +62,7 @@ support:
         - .agents/skills/chained-review/SKILL.md
   unsupported_operations:
     - id: automatic-install-or-update
-      reason: This repository installs and updates nothing. Each host installs the plugin and keeps it current.
+      reason: Source review does not authorize installation, hooks, upgrades, workspace repins, publication, or merge.
     - id: line-count-target
       reason: Diff size is a signal. Correctness, security, accessibility, tests, and maintainability govern the decision.
   platforms: []

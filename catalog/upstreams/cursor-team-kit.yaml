@@ -35,7 +35,7 @@ relationships:
     upstream_paths:
       - cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md
       - cursor-team-kit/LICENSE
-    pin_authority: Not pinned. Runs as a host plugin that tracks upstream. Nothing in this repository selects a version.
+    pin_authority: Not pinned. Nothing in this repository selects a version.
 baselines:
   reviewed_source:
     revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
@@ -53,7 +53,7 @@ support:
     - range: latest default branch
       status: untested
       evidence:
-        - Source and rights inspection only; pilot evidence is separate.
+        - Source and rights inspection of the reviewed baseline only; pilot evidence is separate.
   operations:
     - id: structural-code-quality-review
       title: Review structural complexity, canonical boundaries, and behavior-preserving simplification
