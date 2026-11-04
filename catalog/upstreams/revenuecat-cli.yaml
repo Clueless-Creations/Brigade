@@ -53,6 +53,7 @@ relationships:
       - internal/cli/entitlements.go
       - internal/cli/packages.go
       - internal/cli/paywalls.go
+      - internal/api/paywalls.go
     pin_authority: Not pinned. PATH lookup of a trusted absolute rc or revenuecat binary at execution time, recorded as a host observation.
 baselines:
   reviewed_source:
@@ -146,6 +147,10 @@ adaptations:
   - id: collector-identity-distinct
     description: CLI results use collector revenuecat-cli@1. They must not reuse the REST probe marker revenuecat@1.
     owner: adapters/providers/revenuecat/cli-proof.ts
+    intentional: true
+  - id: published-paywall-attach-holds
+    description: Attaching a published paywall can change what customers see, so it holds before spawn and --yes is not sent. A paywall whose publish state cannot be read holds too. The read is point-in-time, so a paywall published just before attach is refused by the CLI and records as uncertain.
+    owner: adapters/providers/revenuecat/cli-execute.ts
     intentional: true
   - id: doctor-is-not-live-catalog
     description: b2c inspect records local CLI identity only. b2c doctor is a supported equivalent. Selected-target checks fail closed without host authority and never spawn authenticated commands or claim live catalog proof.

@@ -190,6 +190,31 @@ function decodeFromWriteSnapshot(
   });
 }
 
+/**
+ * `rc paywalls attach` needs `--yes` under `--no-input` for a published paywall. Brigade does not send it, because
+ * attaching one can change what customers see. Reading first holds that case before spawn, not after.
+ */
+function publishedPaywallHold(input: RevenueCatCliRunRequest): RevenueCatCliPreflight | undefined {
+  const show = runRevenueCatCli({ ...input, operationId: "rc.paywalls.show" });
+  const data = show.json?.ok ? (show.json.data as { readonly published_at?: unknown } | null) : undefined;
+  const publishedAt = data?.published_at;
+  if (publishedAt === null) return undefined;
+  if (publishedAt === undefined) {
+    return {
+      status: "hold",
+      code: "paywall-state-unknown",
+      message: `Could not confirm whether paywall ${input.paywallId} is published, so it holds before spawn. Unknown is not unpublished.`,
+      blocksUnrelatedWork: false,
+    };
+  }
+  return {
+    status: "hold",
+    code: "published-paywall-refused",
+    message: `Paywall ${input.paywallId} is published, so attaching it can change what customers see. Brigade does not pass --yes. Make this change in the RevenueCat dashboard.`,
+    blocksUnrelatedWork: false,
+  };
+}
+
 function preSpawnResult(operation: CliOperationSpec, preflight: RevenueCatCliPreflight, argv: readonly string[] = []): RevenueCatCliRunResult {
   return {
     invoked: false,
@@ -382,6 +407,15 @@ export function runRevenueCatCli(input: RevenueCatCliRunRequest): RevenueCatCliR
           effectProgress: "dispatched-unconfirmed",
         };
       }
+    }
+
+    // After the ledger, so a retry of a dispatched attach keeps its recorded state. Before bindIntent, so a hold records nothing.
+    if (operation.id === "rc.paywalls.attach") {
+      const hold = publishedPaywallHold(input);
+      if (hold) return preSpawnResult(operation, hold, argv);
+    }
+
+    if (durable && input.ledger && input.idempotencyKey && binding) {
       input.ledger.bindIntent(input.idempotencyKey, binding);
       leased = true;
       persistRevenueCatCliLedger(input);
