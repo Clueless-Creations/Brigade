@@ -9,7 +9,7 @@
  * IDs from the request.
  */
 
-import { REVENUECAT_CLI_RELEASE, getRevenueCatCliOperation, type CliOperationSpec } from "./cli-operations.js";
+import { REVENUECAT_CLI_RELEASE, REVENUECAT_CLI_VERSION_PATTERN, getRevenueCatCliOperation, type CliOperationSpec } from "./cli-operations.js";
 import type { CliProcessResult } from "./cli-process.js";
 
 export const REVENUECAT_CLI_JSON_SCHEMA_VERSION = "1";
@@ -157,16 +157,14 @@ export function parseRevenueCatCliJson(stdout: string, status: number | null): R
   if (parsed.object === "error" || ("error" in parsed && parsed.error)) {
     return { ok: false, code: "command-error", message: "CLI returned a structured error.", issues: parsed.error ?? parsed };
   }
-  const wrapped = "data" in parsed && ("schema_version" in parsed || "schemaVersion" in parsed);
-  if (wrapped) {
-    const version = readSchemaVersion(parsed.schema_version ?? parsed.schemaVersion);
-    if (version === "unsupported") {
-      return {
-        ok: false,
-        code: "invalid-envelope",
-        message: `CLI JSON schema_version ${String(parsed.schema_version ?? parsed.schemaVersion)} is not the supported envelope (schema_version 1).`,
-      };
-    }
+  const declaresVersion = "schema_version" in parsed || "schemaVersion" in parsed;
+  const wrapped = "data" in parsed && declaresVersion;
+  if (declaresVersion && readSchemaVersion(parsed.schema_version ?? parsed.schemaVersion) !== "1") {
+    return {
+      ok: false,
+      code: "invalid-envelope",
+      message: `CLI JSON schema_version ${String(parsed.schema_version ?? parsed.schemaVersion)} is not the supported envelope (schema_version 1).`,
+    };
   }
   const extraFields = Object.keys(parsed).filter((key) => !ENVELOPE_KEYS.has(key) && key !== "issues");
   const data = wrapped ? parsed.data : parsed;
@@ -488,7 +486,7 @@ function invalidObservation(
 }
 
 function decodeVersion(stdout: string): RevenueCatCliObservation {
-  const match = stdout.match(/(\d+\.\d+\.\d+)/u);
+  const match = stdout.match(new RegExp(REVENUECAT_CLI_VERSION_PATTERN, "mu"));
   const version = match?.[1] ?? null;
   return {
     kind: "version",

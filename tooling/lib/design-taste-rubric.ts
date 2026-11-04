@@ -72,7 +72,7 @@ export const MAPPED_WORTHINESS_RULES: readonly number[] = [1, 2, 3, 4, 5, 6, 7, 
  */
 export const KNOWN_UNMAPPED_WORTHINESS_RULES: readonly number[] = [];
 
-export const REVIEWED_KNOWLEDGE_REFERENCES: readonly PinnedKnowledgeReference[] = [
+export const PINNED_KNOWLEDGE_REFERENCES: readonly PinnedKnowledgeReference[] = [
   {
     referenceId: "reference.design.vibecoded-tells",
     documentPath: "knowledge/design/vibecoded-tells.md",
@@ -317,7 +317,7 @@ export const DESIGN_TASTE_DIMENSIONS: readonly RubricDimension[] = [
 
 export const DESIGN_TASTE_RUBRIC = {
   rubricVersion: DESIGN_TASTE_RUBRIC_VERSION,
-  pinnedReferences: REVIEWED_KNOWLEDGE_REFERENCES,
+  pinnedReferences: PINNED_KNOWLEDGE_REFERENCES,
   dimensions: DESIGN_TASTE_DIMENSIONS,
 } as const;
 
@@ -363,7 +363,7 @@ export interface RubricPinDrift {
  * fixture fail until they review the change and bump DESIGN_TASTE_RUBRIC_VERSION together with
  * the new pinned hash; this function does not update the pin itself.
  */
-export function findRubricPinDrift(skillRoot: string, references: readonly PinnedKnowledgeReference[] = REVIEWED_KNOWLEDGE_REFERENCES): RubricPinDrift[] {
+export function findRubricPinDrift(skillRoot: string, references: readonly PinnedKnowledgeReference[] = PINNED_KNOWLEDGE_REFERENCES): RubricPinDrift[] {
   const drift: RubricPinDrift[] = [];
   for (const reference of references) {
     const currentSha256 = knowledgeSourceSha256(skillRoot, reference.documentPath);

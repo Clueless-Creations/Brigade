@@ -110,12 +110,19 @@ export function register(harness: Harness): void {
     unknownSource.root,
   ]);
 
-  const pinnedRange = makeUpstreamRoot(harness, "upstreams-pinned-range");
-  editFile(pinnedRange.root, pinnedRange.manifestPath, (text) => text.replace(/^(\s*- range: ).*$/mu, `$1${"a".repeat(40)}`));
-  runFixtureJson("upstreams: a support range naming one commit fails", pinnedRange.root, SCRIPT, 1, "upstreams.pinned_support_range", [
-    "--skill-root",
-    pinnedRange.root,
-  ]);
+  for (const [name, range] of [
+    ["commit", "a".repeat(40)],
+    ["short-commit", "abc1234"],
+    ["exact", "0.1.1"],
+    ["labelled", "typesafe-sdk (PyPI) v0.7.0"],
+  ] as const) {
+    const pinnedRange = makeUpstreamRoot(harness, `upstreams-pinned-range-${name}`);
+    editFile(pinnedRange.root, pinnedRange.manifestPath, (text) => text.replace(/^(\s*- range: ).*$/mu, `$1${range}`));
+    runFixtureJson(`upstreams: a ${name} support range fails`, pinnedRange.root, SCRIPT, 1, "upstreams.pinned_support_range", [
+      "--skill-root",
+      pinnedRange.root,
+    ]);
+  }
 
   const digestMismatch = makeUpstreamRoot(harness, "upstreams-notice-digest");
   editFile(digestMismatch.root, digestMismatch.noticePath, (text) => `${text}\nAdditional clause the reviewed license never carried.\n`);

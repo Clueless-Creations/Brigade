@@ -7,7 +7,7 @@ import {
   DESIGN_TASTE_RUBRIC,
   KNOWN_UNMAPPED_WORTHINESS_RULES,
   MAPPED_WORTHINESS_RULES,
-  REVIEWED_KNOWLEDGE_REFERENCES,
+  PINNED_KNOWLEDGE_REFERENCES,
   findRubricDimension,
   findRubricPinDrift,
   knowledgeSourceSha256,
@@ -44,7 +44,7 @@ export function register(harness: Harness): void {
 
   check("knowledgeSourceSha256 changes when a document's bytes change (proves the pin can fail)", () => {
     const fixtureRoot = harness.makeEmptyFixture("design-taste-rubric-drift");
-    const reference = REVIEWED_KNOWLEDGE_REFERENCES.find((candidate) => candidate.referenceId === "reference.design.vibecoded-tells");
+    const reference = PINNED_KNOWLEDGE_REFERENCES.find((candidate) => candidate.referenceId === "reference.design.vibecoded-tells");
     assert.ok(reference, "reference.design.vibecoded-tells must be a pinned reference");
     const mutatedPath = path.join(fixtureRoot, reference!.documentPath);
     mkdirSync(path.dirname(mutatedPath), { recursive: true });
@@ -63,7 +63,7 @@ export function register(harness: Harness): void {
   });
 
   check("every dimension points at a pinned reference", () => {
-    const pinnedIds = new Set(REVIEWED_KNOWLEDGE_REFERENCES.map((reference) => reference.referenceId));
+    const pinnedIds = new Set(PINNED_KNOWLEDGE_REFERENCES.map((reference) => reference.referenceId));
     for (const dimension of DESIGN_TASTE_DIMENSIONS) {
       assert.ok(pinnedIds.has(dimension.sourceReferenceId), `${dimension.key} cites ${dimension.sourceReferenceId}, which is not a pinned reference`);
     }
@@ -130,7 +130,7 @@ export function register(harness: Harness): void {
 
   check("the exported rubric composes the same version, references, and dimensions", () => {
     assert.equal(DESIGN_TASTE_RUBRIC.rubricVersion.length > 0, true);
-    assert.equal(DESIGN_TASTE_RUBRIC.pinnedReferences, REVIEWED_KNOWLEDGE_REFERENCES);
+    assert.equal(DESIGN_TASTE_RUBRIC.pinnedReferences, PINNED_KNOWLEDGE_REFERENCES);
     assert.equal(DESIGN_TASTE_RUBRIC.dimensions, DESIGN_TASTE_DIMENSIONS);
   });
 }

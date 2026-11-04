@@ -121,7 +121,7 @@ for (const entry of loaded.upstreams) {
     }
   }
   for (const { range } of manifest.support.versions) {
-    if (/^[0-9a-f]{40}$/u.test(range) || /^[=v]*\d+\.\d+\.\d+$/u.test(range)) {
+    if (/^[0-9a-f]{7,40}$/u.test(range) || /(?:^|[\s@])[=v]*\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/u.test(range)) {
       issues.push(
         issue(
           "error",

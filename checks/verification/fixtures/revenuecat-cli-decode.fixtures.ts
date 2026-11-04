@@ -228,6 +228,8 @@ export function register(harness: Harness): void {
     assert(invalid.observation.protocolValid === false, JSON.stringify(invalid.observation));
     const version = parseRevenueCatCliJson(JSON.stringify({ data: UPSTREAM_SDK_PREVIEW_MINIMAL, schema_version: 99 }), 0);
     assert(version.ok === false && version.code === "invalid-envelope", JSON.stringify(version));
+    const bareVersion = parseRevenueCatCliJson(JSON.stringify({ schema_version: 2, object: "list", items: [], next_page: null }), 0);
+    assert(bareVersion.ok === false && bareVersion.code === "invalid-envelope", JSON.stringify(bareVersion));
     const verifyAsPreview = decodeRevenueCatCliResponse({
       operationId: "rc.offerings.preview",
       stdout: wrapReviewedCliEnvelope(UPSTREAM_VERIFY_GRAPH),

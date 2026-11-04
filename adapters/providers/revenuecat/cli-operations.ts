@@ -20,6 +20,9 @@ export const REVENUECAT_CLI_RELEASE = {
   sourceHeadObserved: "f4e77d6c6b128a390d46e9ed5aef9c4cf79f62e2",
 } as const;
 
+/** Matches `rc version 0.1.7`, `revenuecat-cli 0.1.7` and a bare `0.1.7` at the start of a line. */
+export const REVENUECAT_CLI_VERSION_PATTERN = "^(?:(?:rc|revenuecat|revenuecat-cli)\\s+)?(?:version\\s+)?v?(\\d+\\.\\d+\\.\\d+)";
+
 export const REST_PROBE_COLLECTOR = "revenuecat@1";
 export const CLI_PROOF_COLLECTOR = "revenuecat-cli@1";
 

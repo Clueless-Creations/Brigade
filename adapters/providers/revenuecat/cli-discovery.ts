@@ -9,10 +9,23 @@ import {
   type CliProcessResult,
   type CliProcessRunner,
 } from "./cli-process.js";
+import { REVENUECAT_CLI_VERSION_PATTERN } from "./cli-operations.js";
 
-const VERSION_PATTERN = "(\\d+\\.\\d+\\.\\d+)";
 const IDENTITY_TOKENS = ["revenuecat", "offerings", "entitlements"] as const;
-const REQUIRED_SCHEMA_COMMANDS = ["offerings", "customers", "apps", "projects", "entitlements", "products"] as const;
+const REQUIRED_SCHEMA_COMMANDS = [
+  "offerings",
+  "customers",
+  "apps",
+  "projects",
+  "entitlements",
+  "products",
+  "packages",
+  "paywalls",
+  "subscriptions",
+  "metrics",
+  "charts",
+  "audit",
+] as const;
 
 export type RevenueCatCliDiscoveryCode =
   | "missing"
@@ -60,13 +73,14 @@ function looksLikeRevenueCat(result: CliProcessResult): boolean {
 }
 
 function parseCliVersion(result: CliProcessResult): string | null {
-  return parseVersion(`${result.stdout}\n${result.stderr}`, VERSION_PATTERN);
+  return parseVersion(`${result.stdout}\n${result.stderr}`, REVENUECAT_CLI_VERSION_PATTERN);
 }
 
 function commandNameFor(executable: string): "rc" | "revenuecat" {
   return path.basename(executable) === "revenuecat" ? "revenuecat" : "rc";
 }
 
+// shortcut: a nested name such as `offerings packages` also counts, so a dropped top-level family can pass; read only the top level once a real tree is captured.
 function schemaCommandNames(payload: unknown): string[] {
   const names = new Set<string>();
   const visit = (value: unknown): void => {

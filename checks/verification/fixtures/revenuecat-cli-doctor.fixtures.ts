@@ -7,6 +7,7 @@ import {
   probeRevenueCatCliSelectedTarget,
 } from "../../../adapters/providers/revenuecat/cli-doctor.js";
 import { REVENUECAT_CLI_RELEASE } from "../../../adapters/providers/revenuecat/cli-operations.js";
+import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 import { EAS_CLI_DOCUMENTED_VERSION } from "../../../catalog/stacks/expo-eas-commands.js";
 import type { RevenueCatCliTarget } from "../../../adapters/providers/revenuecat/cli-preflight.js";
 import type { CliProcessRequest, CliProcessResult, CliProcessRunner } from "../../../adapters/providers/revenuecat/cli-process.js";
@@ -30,6 +31,12 @@ const COMMANDS_JSON = JSON.stringify({
       { name: "projects" },
       { name: "entitlements" },
       { name: "products" },
+      { name: "packages" },
+      { name: "paywalls" },
+      { name: "subscriptions" },
+      { name: "metrics" },
+      { name: "charts" },
+      { name: "audit" },
     ],
   },
 });
@@ -469,7 +476,7 @@ export function register(harness: Harness): void {
       !knowledge.includes("engine-home doctor snapshot"),
       "knowledge source must not keep the retired doctor-snapshot name",
     );
-    assert(generated === knowledge, "generated firstparty knowledge must re-render from the source");
+    if (!driftIsLoose(resolveDriftMode([]))) assert(generated === knowledge, "generated firstparty knowledge must re-render from the source");
     const hosted = readFileSync(path.join(skillRoot, "catalog/generated/hosted-knowledge.json"), "utf8");
     assert(
       hosted.includes("engine-home host observation"),

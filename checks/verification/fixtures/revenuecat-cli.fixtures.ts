@@ -65,6 +65,12 @@ const COMMANDS_JSON = JSON.stringify({
       { name: "projects" },
       { name: "entitlements" },
       { name: "products" },
+      { name: "packages" },
+      { name: "paywalls" },
+      { name: "subscriptions" },
+      { name: "metrics" },
+      { name: "charts" },
+      { name: "audit" },
     ],
   },
 });
@@ -244,18 +250,30 @@ export function register(harness: Harness): void {
     assert(discovery.selected?.version === "0.2.0", JSON.stringify(discovery.selected));
   });
 
-  harness.check("revenuecat-cli: a newer version missing a required family is unsupported-schema", () => {
+  harness.check("revenuecat-cli: the CLI's own version line is parsed", () => {
+    const { run } = recordingRunner((request) => {
+      if (request.argv[0] === "--version") return ok("rc version 0.2.0\n");
+      return ok(COMMANDS_JSON);
+    });
+    const discovery = discoverTrusted(harness, "rc-version-line", run);
+    assert(discovery.code === "trusted", `expected trusted, got ${discovery.code}`);
+    assert(discovery.selected?.version === "0.2.0", JSON.stringify(discovery.selected));
+  });
+
+  harness.check("revenuecat-cli: a newer version missing a spawned family is unsupported-schema", () => {
+    const families = (JSON.parse(COMMANDS_JSON) as { data: { commands: { name: string }[] } }).data.commands;
     const { run } = recordingRunner((request) => {
       if (request.argv[0] === "--version") return ok("revenuecat-cli 0.2.0\n");
-      return ok(JSON.stringify({ commands: [{ name: "offerings" }] }));
+      return ok(JSON.stringify({ commands: families.filter((command) => command.name !== "packages") }));
     });
     const discovery = discoverTrusted(harness, "rc-version-schema", run);
     assert(discovery.code === "unsupported-schema", `expected unsupported-schema, got ${discovery.code}`);
+    assert(discovery.message.includes("packages"), discovery.message);
   });
 
   harness.check("revenuecat-cli: an unparseable version is held before the schema probe", () => {
     const { run, calls } = recordingRunner((request) => {
-      if (request.argv[0] === "--version") return ok("revenuecat-cli dev\n");
+      if (request.argv[0] === "--version") return ok("RevenueCat CLI dev (built with Go 1.24.2)\n");
       return ok(COMMANDS_JSON);
     });
     const discovery = discoverTrusted(harness, "rc-version-unparseable", run);

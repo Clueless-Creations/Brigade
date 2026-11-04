@@ -29,7 +29,7 @@ import { assert, skillRoot, type Harness } from "./_harness.js";
 const COMMANDS_JSON = JSON.stringify({
   schema_version: "1",
   data: {
-    commands: [{ name: "offerings" }, { name: "customers" }, { name: "apps" }, { name: "projects" }, { name: "entitlements" }, { name: "products" }],
+    commands: [{ name: "offerings" }, { name: "customers" }, { name: "apps" }, { name: "projects" }, { name: "entitlements" }, { name: "products" }, { name: "packages" }, { name: "paywalls" }, { name: "subscriptions" }, { name: "metrics" }, { name: "charts" }, { name: "audit" }],
   },
 });
 
