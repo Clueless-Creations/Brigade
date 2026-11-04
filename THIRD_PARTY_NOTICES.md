@@ -480,7 +480,7 @@ Notice sha256: 14cffee850f5c761273dfc49798cddc96786b4520c23f3ed1da727c334f07476
 - Upstream: https://github.com/cursor/plugins/tree/main/pstack
 - License: MIT
 - Copyright: Copyright (c) 2026 Lauren Tan
-- Scope: pstack/LICENSE covers the three selected principle skills. Broader previously vendored plugin contents remain outside the supported local review path.
+- Scope: pstack/LICENSE covers the three selected principle skills. Other plugin contents are outside the supported local review path.
 
 ```text
 MIT License
@@ -1024,7 +1024,7 @@ Notice sha256: a6fd8faa7da6c22671b89888940275aca8be6c56bd65c0f13801a1b8e4e3bb1a
 - Upstream: https://github.com/DietrichGebert/ponytail
 - License: MIT
 - Copyright: Copyright (c) 2026 DietrichGebert
-- Scope: Root LICENSE covers the vendored Ponytail and Ponytail review skills and their selected methods.
+- Scope: Root LICENSE covers the Ponytail and Ponytail review skills and the methods adapted from them.
 
 ```text
 MIT License
