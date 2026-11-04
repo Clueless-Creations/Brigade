@@ -87,6 +87,14 @@ export function assessRevenueCatCliPreflight(input: {
   }
   const discoveryHold = holdFromDiscovery(input.discovery.code, input.discovery.message);
   if (discoveryHold) return discoveryHold;
+  if (isMutationEffect(input.operation.effectClass) && input.discovery.flagCheckFailures.length) {
+    return {
+      status: "hold",
+      code: "unsupported-schema",
+      message: `The installed RevenueCat CLI failed the reviewed flag check (${input.discovery.flagCheckFailures.join(", ")}). No mutation runs until this is resolved. Reads continue.`,
+      blocksUnrelatedWork: false,
+    };
+  }
   if (input.target.endpointOverride || input.target.headerOverride || input.target.proxyOverride) {
     return {
       status: "hold",
