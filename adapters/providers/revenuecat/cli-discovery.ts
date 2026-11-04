@@ -11,7 +11,7 @@ import {
 } from "./cli-process.js";
 import { REVENUECAT_CLI_VERSION_PATTERN } from "./cli-operations.js";
 
-const IDENTITY_TOKENS = ["revenuecat", "offerings", "entitlements"] as const;
+const IDENTITY_TOKENS = ["revenuecat", "offerings", "entitlements", "rc version"] as const;
 const REQUIRED_SCHEMA_COMMANDS = [
   "offerings",
   "customers",
@@ -80,28 +80,15 @@ function commandNameFor(executable: string): "rc" | "revenuecat" {
   return path.basename(executable) === "revenuecat" ? "revenuecat" : "rc";
 }
 
-// shortcut: a nested name such as `offerings packages` also counts, so a dropped top-level family can pass; read only the top level once a real tree is captured.
-function schemaCommandNames(payload: unknown): string[] {
+/** Top-level names only. `rc commands --json` nests subcommands, and `offerings packages` is not the `packages` family. */
+function schemaCommandNames(root: unknown): string[] {
+  const commands = Array.isArray(root) ? root : (root as { commands?: unknown } | null)?.commands;
+  if (!Array.isArray(commands)) return [];
   const names = new Set<string>();
-  const visit = (value: unknown): void => {
-    if (typeof value === "string") {
-      const token = value.trim().split(/\s+/u)[0];
-      if (token && REQUIRED_SCHEMA_COMMANDS.includes(token as (typeof REQUIRED_SCHEMA_COMMANDS)[number])) names.add(token);
-      return;
-    }
-    if (Array.isArray(value)) {
-      for (const entry of value) visit(entry);
-      return;
-    }
-    if (value && typeof value === "object") {
-      const record = value as Record<string, unknown>;
-      for (const key of ["name", "command", "id", "path"]) {
-        if (typeof record[key] === "string") visit(record[key]);
-      }
-      for (const nested of Object.values(record)) visit(nested);
-    }
-  };
-  visit(payload);
+  for (const entry of commands) {
+    const name = typeof entry === "string" ? entry : (entry as { name?: unknown } | null)?.name;
+    if (REQUIRED_SCHEMA_COMMANDS.includes(name as (typeof REQUIRED_SCHEMA_COMMANDS)[number])) names.add(name as string);
+  }
   return [...names].sort();
 }
 
@@ -114,6 +101,10 @@ function parseCommandsDocument(stdout: string): { ok: true; names: readonly stri
   }
   if (parsed === null || (typeof parsed !== "object" && !Array.isArray(parsed))) {
     return { ok: false, reason: "commands --json envelope is not an object or array" };
+  }
+  const declared = (parsed as { schema_version?: unknown }).schema_version;
+  if (declared !== undefined && declared !== 1 && declared !== "1") {
+    return { ok: false, reason: `commands --json schema_version ${String(declared)} is not supported` };
   }
   const root = parsed && typeof parsed === "object" && !Array.isArray(parsed) && "data" in parsed ? (parsed as { data: unknown }).data : parsed;
   const names = schemaCommandNames(root);

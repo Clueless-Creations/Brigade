@@ -262,13 +262,26 @@ export function register(harness: Harness): void {
 
   harness.check("revenuecat-cli: a newer version missing a spawned family is unsupported-schema", () => {
     const families = (JSON.parse(COMMANDS_JSON) as { data: { commands: { name: string }[] } }).data.commands;
+    const nested = families
+      .filter((command) => command.name !== "packages")
+      .map((command) => (command.name === "offerings" ? { ...command, commands: [{ name: "packages" }] } : command));
     const { run } = recordingRunner((request) => {
-      if (request.argv[0] === "--version") return ok("revenuecat-cli 0.2.0\n");
-      return ok(JSON.stringify({ commands: families.filter((command) => command.name !== "packages") }));
+      if (request.argv[0] === "--version") return ok("rc version 0.2.0\n");
+      return ok(JSON.stringify({ schema_version: 1, data: { name: "rc", commands: nested } }));
     });
     const discovery = discoverTrusted(harness, "rc-version-schema", run);
     assert(discovery.code === "unsupported-schema", `expected unsupported-schema, got ${discovery.code}`);
     assert(discovery.message.includes("packages"), discovery.message);
+  });
+
+  harness.check("revenuecat-cli: a changed commands envelope holds before any spawn of an operation", () => {
+    const { data } = JSON.parse(COMMANDS_JSON) as { data: unknown };
+    const { run } = recordingRunner((request) => {
+      if (request.argv[0] === "--version") return ok("rc version 0.2.0\n");
+      return ok(JSON.stringify({ schema_version: 2, data }));
+    });
+    const discovery = discoverTrusted(harness, "rc-version-envelope", run);
+    assert(discovery.code === "unsupported-schema", `expected unsupported-schema, got ${discovery.code}`);
   });
 
   harness.check("revenuecat-cli: an unparseable version is held before the schema probe", () => {
