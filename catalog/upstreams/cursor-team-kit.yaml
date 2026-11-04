@@ -35,7 +35,7 @@ relationships:
     upstream_paths:
       - cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md
       - cursor-team-kit/LICENSE
-    pin_authority: Reviewed immutable commit pins this method. No host plugin installation or workspace repin.
+    pin_authority: Not pinned. Runs as a host plugin that tracks upstream. Nothing in this repository selects a version.
 baselines:
   reviewed_source:
     revision: 1dcc2bacde73ddd284803b7af28164d0436198fc
@@ -50,7 +50,7 @@ baselines:
 support:
   policy: Source-reviewed maintainability method only. Review depth follows semantic risk and explicit task scope.
   versions:
-    - range: 1dcc2bacde73ddd284803b7af28164d0436198fc
+    - range: latest default branch
       status: untested
       evidence:
         - Source and rights inspection only; pilot evidence is separate.

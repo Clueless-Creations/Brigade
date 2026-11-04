@@ -18,7 +18,7 @@ license:
   evidence_sha256: bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e
   reviewed_revision: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
   notice_file: catalog/upstreams/notices/cursor-pstack.txt
-  scope: pstack/LICENSE covers the three selected principle skills. Broader previously vendored plugin contents remain outside the supported local review path.
+  scope: pstack/LICENSE covers the three selected principle skills. Other plugin contents are outside the supported local review path.
 source_ids:
   - github-cursor-pstack
   - cursor-pstack-laziness-protocol
@@ -39,7 +39,7 @@ relationships:
       - pstack/skills/principle-fix-root-causes/SKILL.md
       - pstack/skills/principle-prove-it-works/SKILL.md
       - pstack/LICENSE
-    pin_authority: Reviewed immutable commit pins these methods. No host plugin installation or workspace repin.
+    pin_authority: Not pinned. Runs as a host plugin that tracks upstream. Nothing in this repository selects a version.
 baselines:
   reviewed_source:
     revision: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
@@ -54,7 +54,7 @@ baselines:
 support:
   policy: Source-reviewed methods only. Cursor host tools, models, and shipping playbooks are not integrated.
   versions:
-    - range: c742dd61706fbacc1b95f1a20b7b988cf096ce6c
+    - range: latest default branch
       status: untested
       evidence:
         - Source and rights inspection only; pilot evidence is separate.
@@ -67,7 +67,7 @@ support:
     - id: plugin-autonomy
       reason: The supported chain does not invoke poteto-mode, shipping or cleanup playbooks, automatic PR creation, merge, external action, or permission expansion.
     - id: automatic-install-or-update
-      reason: No plugin installation, model selection, hook execution, automatic updates, or workspace repins.
+      reason: This repository installs and updates nothing. Each host installs the plugin and keeps it current.
   platforms: []
 adaptations:
   - id: preserve-trust-boundaries

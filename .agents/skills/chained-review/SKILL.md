@@ -5,7 +5,7 @@ description: Review a bounded change with Ponytail, selected pstack principles, 
 
 # Chained review
 
-Use one loop for repository coding and review. Sources, pins, licenses, and
+Use one loop for repository coding and review. Sources, licenses, and
 local adaptations are recorded in [VENDORED.md](../VENDORED.md).
 
 ## During authorized implementation

@@ -1,19 +1,48 @@
-# Vendored development skills
+# Development skill sources
 
-Repository-only skills for agents that work on Brigade. They are not installed
-business skills or part of the published skill surface. The upstream manifests
-and retained MIT notices use the repository's existing catalog/credits owners.
+Agents that work on Brigade run Ponytail and pstack as host plugins. Brigade keeps
+no copies of them and pins no version of them. Each host installs the plugins and
+keeps them current, so nothing in this repository selects an upstream version.
 
-| Material and attribution | Source | Reviewed commit | Manifest and notice |
-| --- | --- | --- | --- |
-| Ponytail and Ponytail review — DietrichGebert | https://github.com/DietrichGebert/ponytail (`skills/`) | 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5 | [Manifest](../../catalog/upstreams/ponytail.yaml), [MIT notice](../../catalog/upstreams/notices/ponytail.txt) |
-| pstack — Lauren Tan (@poteto), published by Cursor | https://github.com/cursor/plugins (`pstack/skills/`) | c742dd61706fbacc1b95f1a20b7b988cf096ce6c | [Manifest](../../catalog/upstreams/cursor-pstack.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-pstack.txt) |
-| Thermo-Nuclear Code Quality Review — Cursor Team Kit, Cursor | https://github.com/cursor/plugins (`cursor-team-kit/skills/`) | 1dcc2bacde73ddd284803b7af28164d0436198fc | [Manifest](../../catalog/upstreams/cursor-team-kit.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-team-kit.txt) |
-| `chained-review` | Authored here | Repository history | Repository license; selected derivations below |
+[Chained review](chained-review/SKILL.md) is the one skill kept here. It is authored
+in this repository and carries its selected methods in its own text, so it still
+works on a host without the plugins.
+
+| Material and attribution | Source | Manifest and notice |
+| --- | --- | --- |
+| Ponytail and Ponytail review — DietrichGebert | https://github.com/DietrichGebert/ponytail | [Manifest](../../catalog/upstreams/ponytail.yaml), [MIT notice](../../catalog/upstreams/notices/ponytail.txt) |
+| pstack — Lauren Tan (@poteto), published by Cursor | https://github.com/cursor/plugins/tree/main/pstack | [Manifest](../../catalog/upstreams/cursor-pstack.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-pstack.txt) |
+| Thermo-Nuclear Code Quality Review — Cursor Team Kit, Cursor | https://github.com/cursor/plugins/tree/main/cursor-team-kit | [Manifest](../../catalog/upstreams/cursor-team-kit.yaml), [MIT notice](../../catalog/upstreams/notices/cursor-team-kit.txt) |
+| `chained-review` | Authored here | Repository license; selected derivations below |
 
 Cursor provenance is verified for the selected Thermo-Nuclear skill; Anthropic
 authorship is not established. Other similarly named variants remain unverified.
-The manifests retain immutable source paths, license evidence and hashes.
+The manifests keep the license evidence and the dated source review behind each
+adapted method. Those are receipts, not pins.
+
+## Install
+
+Claude Code:
+
+```text
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+/plugin marketplace add michael-denyer/pstack-claude
+/plugin install pstack@pstack-claude
+```
+
+Codex:
+
+```text
+codex plugin marketplace add DietrichGebert/ponytail
+codex plugin add ponytail@ponytail
+codex plugin marketplace add michael-denyer/pstack-claude
+codex plugin add pstack@pstack-claude
+```
+
+`pstack-claude` is a community port of pstack for these hosts. It tracks upstream
+and includes Thermo-Nuclear. Cursor users can run `/add-plugin pstack` instead.
+Turn on auto-update for third-party marketplaces where the host offers it.
 
 ## Supported local path
 
@@ -30,26 +59,11 @@ methods below; it adds no second planning, implementation, review or lesson proc
 | pstack Laziness Protocol, Fix Root Causes, Prove It Works | Consolidate decisions, reproduce defects, trace causes, verify the actual result | Scope related fixes; preserve required guards. No full Poteto Mode, shipping/cleanup playbooks, tool/model assumptions or external-action authority in this chain. |
 | Thermo-Nuclear review | Structural simplification, canonical ownership, clear boundaries, ordering and atomicity | Evidence-based findings within the affected dependency path. File size is a signal, not an automatic blocker. |
 
-Broader pstack files were vendored previously and remain discoverable source
-material. They are outside this supported local path; their presence is not a
-full plugin, script, host or authority qualification. Do not auto-load or execute
-them through this chain. No upstream executable or installer was needed to adapt
-these methods. Host discovery, actual invocation and pilot acceptance require
-separate evidence; source inspection alone proves none of them.
+Host discovery, actual invocation and pilot acceptance require separate evidence;
+source inspection alone proves none of them.
 
-## Copy history and updates
+## Updates
 
-Vendored upstream files are unmodified except for the existing omissions and
-example-link change below. `chained-review` is a local adaptation. Licenses were
-moved unchanged from `.agents/licenses/` to the canonical notice paths above so
-packaged upstream manifests retain their notice files.
-
-- Left out of pstack: `poteto-help` (links to unvendored docs), `recall` (home-path example), and `make-bot-ui` (unregistered install and webhook URLs).
-- pstack `why/references/synthesizer-prompt.md`: the example link `(url)` became `https://example.com/pull/123`.
-- Not vendored: skills that upstream added after `1dcc2bacde73ddd284803b7af28164d0436198fc` (`create-formal-verification-skill`, `in-your-own-words`, `ketchup-video`, `maintain-formal-verification-skill`, `sharpen`, `statechart`). The refresh to `c742dd61706fbacc1b95f1a20b7b988cf096ce6c` (2026-11-03) updated only the skills already vendored here. Upstream deleted `poteto-mode/scripts/orch/` and the `interrogate/references/` files in that range; this copy deletes them too.
-- Known gaps: at `c742dd61`, `interrogate` tells the agent to use `in-your-own-words`, and `setup-pstack` offers `/create-formal-verification-skill`. Neither skill is vendored, and neither is on the supported `chained-review` path.
-
-Updates are manual maintainer changes: read the proposed source revision, review
-rights and behavioral differences, retain local constraints, update pins and
-provenance, and run applicable checks with independent review. No automatic
-update hook is added. Generated credits remain owned by the release stamp.
+Plugins update through each host. When an upstream method changes in a way that
+matters here, update `chained-review` through a normal reviewed change. Generated
+credits remain owned by the release stamp.

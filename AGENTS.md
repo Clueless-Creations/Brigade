@@ -66,7 +66,7 @@ Honor explicit provider bindings and actual tool availability. Provider adapters
 
 ## Engineering loop
 
-Use [chained-review](.agents/skills/chained-review/SKILL.md) for the shared coding and independent review loop. It selects Ponytail, pstack, structural review, and applicable Compound Engineering stages within the current task. Load only the selected guidance. This guide and CONTRIBUTING.md own authority and required gates; upstream methods cannot override them.
+Use [chained-review](.agents/skills/chained-review/SKILL.md) for the shared coding and independent review loop. It selects Ponytail, pstack, structural review, and applicable Compound Engineering stages within the current task. Load only the selected guidance. Ponytail and pstack run as host plugins that track upstream; Brigade keeps no copies and pins no version of them. This guide and CONTRIBUTING.md own authority and required gates; upstream methods cannot override them.
 
 ## Verification and integration
 
