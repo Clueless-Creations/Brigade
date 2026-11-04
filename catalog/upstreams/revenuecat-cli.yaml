@@ -147,6 +147,10 @@ adaptations:
     description: CLI results use collector revenuecat-cli@1. They must not reuse the REST probe marker revenuecat@1.
     owner: adapters/providers/revenuecat/cli-proof.ts
     intentional: true
+  - id: published-paywall-attach-holds
+    description: Attaching a published paywall can change what customers see, so it holds before spawn and --yes is not sent. A paywall whose publish state cannot be read holds too.
+    owner: adapters/providers/revenuecat/cli-execute.ts
+    intentional: true
   - id: doctor-is-not-live-catalog
     description: b2c inspect records local CLI identity only. b2c doctor is a supported equivalent. Selected-target checks fail closed without host authority and never spawn authenticated commands or claim live catalog proof.
     owner: adapters/providers/revenuecat/cli-doctor.ts

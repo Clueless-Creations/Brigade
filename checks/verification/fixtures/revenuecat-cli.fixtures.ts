@@ -385,6 +385,72 @@ export function register(harness: Harness): void {
     }
   });
 
+  const attachPaywall = (name: string, show: () => CliProcessResult, hostAuthorityGranted = true) => {
+    const { run, calls } = recordingRunner((request) => {
+      if (request.argv[0] === "--version") return ok("rc version 0.1.7\n");
+      if (request.argv[0] === "commands") return ok(COMMANDS_JSON);
+      if (request.argv.includes("show")) return show();
+      return ok(envelope({ id: "pw_a", offering_id: "ofrng_a", object: "paywall" }));
+    });
+    const discovery = discoverTrusted(harness, name, run);
+    const home = isolatedConfigHome(harness.makeTempDir(`${name}-run`), "ws-a");
+    const result = runRevenueCatCli({
+      operationId: "rc.paywalls.attach",
+      projectId: "proj_approved",
+      paywallId: "pw_a",
+      offeringId: "ofrng_a",
+      hostAuthorityGranted,
+      executable: "/opt/fake/bin/rc",
+      cwd: home,
+      isolatedHome: home,
+      pathEnv: "/opt/fake/bin",
+      apiKey: "rc-fixture-key",
+      run,
+      discovery,
+      target: selectedTarget({ hostAuthorityGranted }),
+    });
+    const indexOf = (word: string) => calls.findIndex((call) => call.argv.includes(word));
+    return { result, calls, showAt: indexOf("show"), attachAt: indexOf("attach") };
+  };
+
+  harness.check("revenuecat-cli: an unpublished paywall attaches after the read, without --yes", () => {
+    const { result, calls, showAt, attachAt } = attachPaywall("rc-attach-unpublished", () => ok(envelope({ id: "pw_a", published_at: null })));
+    assert(result.invoked === true, `attach must run, got ${result.preflight.code}`);
+    assert(showAt >= 0 && showAt < attachAt, `show must run first: ${showAt} ${attachAt}`);
+    assert(!calls[attachAt]!.argv.includes("--yes"), "attach must not send --yes");
+  });
+
+  harness.check("revenuecat-cli: a published paywall holds before spawn", () => {
+    for (const publishedAt of [1761000000000, 0]) {
+      const { result, attachAt } = attachPaywall(`rc-attach-published-${publishedAt}`, () => ok(envelope({ id: "pw_a", published_at: publishedAt })));
+      assert(result.invoked === false && attachAt === -1, "attach must not spawn");
+      assert(result.preflight.code === "published-paywall-refused", `got ${result.preflight.code}`);
+      assert(result.preflight.message.includes("pw_a"), result.preflight.message);
+      assert(result.uncertainMutation === false && result.effectProgress === "no-effect", "a pre-spawn hold changes nothing");
+    }
+  });
+
+  harness.check("revenuecat-cli: a paywall with an unknown publish state holds before spawn", () => {
+    const unknown: readonly [string, () => CliProcessResult][] = [
+      ["field-absent", () => ok(envelope({ id: "pw_a" }))],
+      ["no-data", () => ok(envelope(null))],
+      ["exit", () => ({ ...ok(envelope({ id: "pw_a", published_at: null })), status: 1 })],
+      ["invalid", () => ok("not json")],
+      ["envelope", () => ok(JSON.stringify({ schema_version: 2, data: { id: "pw_a", published_at: null } }))],
+    ];
+    for (const [name, show] of unknown) {
+      const { result, attachAt } = attachPaywall(`rc-attach-unknown-${name}`, show);
+      assert(result.invoked === false && attachAt === -1, `${name}: attach must not spawn`);
+      assert(result.preflight.code === "paywall-state-unknown", `${name}: got ${result.preflight.code}`);
+    }
+  });
+
+  harness.check("revenuecat-cli: paywall attach without host authority holds before the read", () => {
+    const { result, showAt } = attachPaywall("rc-attach-authority", () => ok(envelope({ id: "pw_a", published_at: null })), false);
+    assert(result.preflight.code === "authority-missing", `got ${result.preflight.code}`);
+    assert(showAt === -1, "the read must not run without authority");
+  });
+
   harness.check("revenuecat-cli: a newer version still needs host authority for a mutation", () => {
     const { run } = recordingRunner(trustedDiscoveryHandler("0.2.0"));
     const discovery = discoverTrusted(harness, "rc-version-mutation", run);

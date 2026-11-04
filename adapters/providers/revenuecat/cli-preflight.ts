@@ -26,7 +26,9 @@ export type RevenueCatCliHoldCode =
   | "request-project-mismatch"
   | "request-app-mismatch"
   | "unscoped-observation"
-  | "stale-plan-approval";
+  | "stale-plan-approval"
+  | "published-paywall-refused"
+  | "paywall-state-unknown";
 
 export type RevenueCatCliPreflightStatus = "hold" | "skip" | "ready";
 
