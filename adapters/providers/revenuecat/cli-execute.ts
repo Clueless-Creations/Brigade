@@ -319,10 +319,6 @@ export function runRevenueCatCli(input: RevenueCatCliRunRequest): RevenueCatCliR
     const code = argvRefusalHold(error);
     return preSpawnResult(operation, { status: "hold", code, message, blocksUnrelatedWork: false });
   }
-  if (operation.id === "rc.paywalls.attach") {
-    const hold = publishedPaywallHold(input);
-    if (hold) return preSpawnResult(operation, hold, argv);
-  }
 
   const mutation = isMutationEffect(operation.effectClass);
   const durable = mutation && Boolean(input.ledger && input.idempotencyKey?.trim());
@@ -411,6 +407,15 @@ export function runRevenueCatCli(input: RevenueCatCliRunRequest): RevenueCatCliR
           effectProgress: "dispatched-unconfirmed",
         };
       }
+    }
+
+    // After the ledger, so a retry of a dispatched attach keeps its recorded state. Before bindIntent, so a hold records nothing.
+    if (operation.id === "rc.paywalls.attach") {
+      const hold = publishedPaywallHold(input);
+      if (hold) return preSpawnResult(operation, hold, argv);
+    }
+
+    if (durable && input.ledger && input.idempotencyKey && binding) {
       input.ledger.bindIntent(input.idempotencyKey, binding);
       leased = true;
       persistRevenueCatCliLedger(input);

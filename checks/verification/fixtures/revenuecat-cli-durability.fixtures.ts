@@ -174,6 +174,96 @@ function durableSession(
 }
 
 export function register(harness: Harness): void {
+  const paywallAttach = (name: string) => {
+    const ledger = new RevenueCatCliLedger({ now: () => "2026-09-09T00:00:00.000Z" });
+    const state: { publishedAt: number | null; showFails: boolean; attach: () => CliProcessResult } = {
+      publishedAt: null,
+      showFails: false,
+      attach: () => ok(envelope({ id: "pw_a", offering_id: "ofrng_a", object: "paywall" })),
+    };
+    const { run, calls } = recordingRunner((request) => {
+      if (request.argv[0] === "--version") return ok(`${REVENUECAT_CLI_RELEASE.version}\n`);
+      if (request.argv[0] === "commands") return ok(COMMANDS_JSON);
+      if (request.argv.includes("show")) {
+        return state.showFails ? { ...ok(""), status: 1 } : ok(envelope({ id: "pw_a", published_at: state.publishedAt }));
+      }
+      return state.attach();
+    });
+    const discovery = discoverTrusted(harness, name, run);
+    const home = isolatedConfigHome(harness.makeTempDir(`${name}-run`), "ws-a");
+    const attach = (offeringId = "ofrng_a") =>
+      runRevenueCatCli({
+        operationId: "rc.paywalls.attach",
+        projectId: "proj_approved",
+        paywallId: "pw_a",
+        offeringId,
+        hostAuthorityGranted: true,
+        executable: "/opt/fake/bin/rc",
+        cwd: home,
+        isolatedHome: home,
+        pathEnv: "/opt/fake/bin",
+        apiKey: "rc-fixture-key",
+        run,
+        discovery,
+        target: selectedTarget({ hostAuthorityGranted: true }),
+        ledger,
+        idempotencyKey: "rc-attach-k",
+      });
+    const count = (word: string) => calls.filter((call) => call.argv.includes(word)).length;
+    return { ledger, state, attach, count };
+  };
+
+  harness.check("revenuecat-cli-durability: a published paywall hold records nothing in the ledger", () => {
+    const { ledger, state, attach, count } = paywallAttach("rc-attach-hold-ledger");
+    state.publishedAt = 1761000000000;
+    const held = attach();
+    assert(held.preflight.code === "published-paywall-refused", `got ${held.preflight.code}`);
+    assert(ledger.entries().length === 0, JSON.stringify(ledger.entries()));
+    state.publishedAt = null;
+    const retried = attach();
+    assert(retried.invoked === true && count("attach") === 1, `a hold must not block a later attach: ${retried.preflight.code}`);
+  });
+
+  harness.check("revenuecat-cli-durability: a retry after a successful attach keeps its state once published", () => {
+    for (const change of ["published", "read-fails"] as const) {
+      const { state, attach, count } = paywallAttach(`rc-attach-reuse-${change}`);
+      const first = attach();
+      assert(first.invoked === true, `first attach got ${first.preflight.code}`);
+      if (change === "published") state.publishedAt = 1761000000000;
+      else state.showFails = true;
+      const reads = count("show");
+      const retry = attach();
+      assert(retry.effectProgress === first.effectProgress && retry.effectProgress !== "no-effect", `${change}: progress ${retry.effectProgress}`);
+      assert(retry.replaySafe === false, `${change}: a dispatched attach is not replay safe`);
+      assert(count("attach") === 1, `${change}: attach must not repeat`);
+      assert(count("show") === reads, `${change}: a ledger answer needs no read`);
+    }
+  });
+
+  harness.check("revenuecat-cli-durability: a retry after an uncertain attach stays uncertain once published", () => {
+    for (const change of ["published", "read-fails"] as const) {
+      const { state, attach, count } = paywallAttach(`rc-attach-uncertain-${change}`);
+      state.attach = () => ({ ...ok(""), status: null, timedOut: true });
+      const first = attach();
+      assert(first.uncertainMutation === true, `first attach must be uncertain, got ${first.effectProgress}`);
+      if (change === "published") state.publishedAt = 1761000000000;
+      else state.showFails = true;
+      const retry = attach();
+      assert(retry.preflight.code === "mutation-uncertain", `${change}: got ${retry.preflight.code}`);
+      assert(retry.uncertainMutation === true && retry.replaySafe === false, `${change}: must stay uncertain`);
+      assert(retry.effectProgress === "dispatched-unconfirmed", `${change}: progress ${retry.effectProgress}`);
+      assert(count("attach") === 1, `${change}: attach must not repeat`);
+    }
+  });
+
+  harness.check("revenuecat-cli-durability: a changed attach on the same key stays an identity conflict once published", () => {
+    const { state, attach } = paywallAttach("rc-attach-conflict");
+    attach();
+    state.publishedAt = 1761000000000;
+    const conflict = attach("ofrng_other");
+    assert(conflict.preflight.code === "request-identity-conflict", `got ${conflict.preflight.code}`);
+  });
+
   harness.check("revenuecat-cli-durability: successful purchase then failed customer read resumes read only", () => {
     const ledger = new RevenueCatCliLedger({ now: () => "2026-09-09T00:00:00.000Z" });
     let reads = 0;
