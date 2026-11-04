@@ -66,13 +66,14 @@ baselines:
     by: b2c-contributor source review
     note: Adapted selected procedures from the later source review. Branch head f4e77d6c6b128a390d46e9ed5aef9c4cf79f62e2 is newer than v0.1.1 and is not treated as the installed release.
 support:
-  policy: Typed operations were qualified against release v0.1.1. Any installed version may run them when `commands --json` lists every command family they use. Argv comes from the reviewed contract and is not checked against the installed binary, so a changed flag fails after spawn. Response decoding and host authority still fail closed. Discovery, schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
+  policy: Typed operations were qualified against release v0.1.1. Any installed version may run them when `commands --json` lists every command family they use. Discovery checks every reviewed mutation flag against `commands --schemas`, with no credentials. A missing flag holds every mutation before spawn while reads continue. Flag meaning is not checked. Response decoding and host authority still fail closed. Discovery, schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
   versions:
     - range: ">=0.0.0"
       status: untested
       evidence:
         - "GitHub release v0.1.1 at 448a9998bd2107c274b9eb1cf55ad5d5d81f6377; npm @revenuecat/cli 0.1.1."
-        - "Fixture-backed discovery and process adapter in adapters/providers/revenuecat; no live binary was exercised."
+        - "Fixture-backed discovery and process adapter in adapters/providers/revenuecat."
+        - "Discovery and `commands --schemas` ran against Homebrew rc 0.1.7 on 2026-11-04 with no credentials; every reviewed mutation flag was listed. No authenticated command ran."
     - range: latest default branch
       status: untested
       evidence: ["Source inspection of the reviewed baseline only for adapted guidance; not an executable support claim."]

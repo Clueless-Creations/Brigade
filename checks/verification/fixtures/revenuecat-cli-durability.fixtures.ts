@@ -17,6 +17,7 @@ import {
 } from "../../../adapters/providers/revenuecat/cli-ledger.js";
 import { discoverRevenueCatCli } from "../../../adapters/providers/revenuecat/cli-discovery.js";
 import { REVENUECAT_CLI_RELEASE } from "../../../adapters/providers/revenuecat/cli-operations.js";
+import { REVENUECAT_CLI_COMMANDS_JSON } from "./revenuecat-cli-schema.samples.js";
 import { isolatedConfigHome } from "../../../adapters/providers/revenuecat/cli-preflight.js";
 import { runRevenueCatCli } from "../../../adapters/providers/revenuecat/cli-execute.js";
 import {
@@ -26,12 +27,7 @@ import {
 import type { CliProcessRequest, CliProcessResult, CliProcessRunner } from "../../../adapters/providers/revenuecat/cli-process.js";
 import { assert, skillRoot, type Harness } from "./_harness.js";
 
-const COMMANDS_JSON = JSON.stringify({
-  schema_version: "1",
-  data: {
-    commands: [{ name: "offerings" }, { name: "customers" }, { name: "apps" }, { name: "projects" }, { name: "entitlements" }, { name: "products" }, { name: "packages" }, { name: "paywalls" }, { name: "subscriptions" }, { name: "metrics" }, { name: "charts" }, { name: "audit" }],
-  },
-});
+const COMMANDS_JSON = REVENUECAT_CLI_COMMANDS_JSON;
 
 function ok(stdout: string, status = 0): CliProcessResult {
   return { stdout, stderr: "", status, timedOut: false, truncated: false, cancelled: false, signal: null };

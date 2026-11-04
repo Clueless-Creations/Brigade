@@ -108,6 +108,15 @@ export function assessRevenueCatCliHostDoctor(input: {
             code: "doctor.revenuecat_cli",
             message: `winning ${selectedPath} ${version ?? "(unparseable)"} (reviewed executable ${latest}). Local identity only — not live catalog proof. Inspect will not install, log in, or refresh OAuth.`,
           },
+          ...(input.discovery.missingFlags.length
+            ? [
+                {
+                  severity: "warn" as const,
+                  code: "doctor.revenuecat_cli_flag_drift",
+                  message: `winning ${selectedPath} does not list reviewed flags (${input.discovery.missingFlags.join(", ")}). Mutations hold before spawn. Reads continue.`,
+                },
+              ]
+            : []),
           ...extras,
         ],
         liveCatalogProven: false,

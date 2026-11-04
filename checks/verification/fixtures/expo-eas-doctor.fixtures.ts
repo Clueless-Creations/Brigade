@@ -93,6 +93,7 @@ function missingRevenueCatFacts() {
       selected: null,
       candidates: [],
       schemaCommands: [],
+      missingFlags: [],
       message: "fixture missing rc",
     }),
   };

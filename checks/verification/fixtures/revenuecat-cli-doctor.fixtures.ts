@@ -7,6 +7,7 @@ import {
   probeRevenueCatCliSelectedTarget,
 } from "../../../adapters/providers/revenuecat/cli-doctor.js";
 import { REVENUECAT_CLI_RELEASE } from "../../../adapters/providers/revenuecat/cli-operations.js";
+import { REVENUECAT_CLI_COMMANDS_JSON } from "./revenuecat-cli-schema.samples.js";
 import { driftIsLoose, resolveDriftMode } from "../../../tooling/lib/stamp-mode.js";
 import { EAS_CLI_DOCUMENTED_VERSION } from "../../../catalog/stacks/expo-eas-commands.js";
 import type { RevenueCatCliTarget } from "../../../adapters/providers/revenuecat/cli-preflight.js";
@@ -21,25 +22,7 @@ import {
 const COMPARED_AT = "2026-09-09T18:00:00.000Z";
 const REVIEWED = REVENUECAT_CLI_RELEASE.version;
 
-const COMMANDS_JSON = JSON.stringify({
-  schema_version: "1",
-  data: {
-    commands: [
-      { name: "offerings" },
-      { name: "customers" },
-      { name: "apps" },
-      { name: "projects" },
-      { name: "entitlements" },
-      { name: "products" },
-      { name: "packages" },
-      { name: "paywalls" },
-      { name: "subscriptions" },
-      { name: "metrics" },
-      { name: "charts" },
-      { name: "audit" },
-    ],
-  },
-});
+const COMMANDS_JSON = REVENUECAT_CLI_COMMANDS_JSON;
 
 function finding(findings: readonly DoctorFinding[], code: string): DoctorFinding | undefined {
   return findings.find((item) => item.code === code);
@@ -53,6 +36,7 @@ function identity(pathValue: string, version: string | null, extras: readonly st
     selected,
     candidates,
     schemaCommands: ["offerings", "customers", "apps", "projects", "entitlements", "products"],
+    missingFlags: [],
     message: "trusted fixture discovery",
   };
 }
@@ -64,6 +48,7 @@ function discovery(code: RevenueCatCliDiscovery["code"], selectedPath: string | 
     selected,
     candidates: selected ? [selected] : [],
     schemaCommands: code === "trusted" ? ["offerings", "customers", "apps", "projects", "entitlements", "products"] : [],
+    missingFlags: [],
     message: `fixture ${code}`,
   };
 }
@@ -167,6 +152,14 @@ export function register(harness: Harness): void {
     assert(result.findings[0]?.code === "doctor.revenuecat_cli_unrelated", `expected unrelated finding, got ${JSON.stringify(result.findings)}`);
     assert(result.liveCatalogProven === false, "unrelated rc is not live catalog proof");
     assert(result.observation.identity === "unrelated-executable", "identity must stay unrelated");
+  });
+
+  harness.check("revenuecat-cli-doctor: missing reviewed flags warn on a trusted CLI", () => {
+    const trusted = { ...identity("/opt/fake/bin/rc", REVIEWED), missingFlags: ["offerings create --lookup-key"] };
+    const result = assessRevenueCatCliHostDoctor({ discovery: trusted, latestObserved: REVIEWED, sanitizePath: (executablePath) => executablePath });
+    const finding = result.findings.find((entry) => entry.code === "doctor.revenuecat_cli_flag_drift");
+    assert(finding?.severity === "warn", JSON.stringify(result.findings));
+    assert(finding?.message.includes("offerings create --lookup-key"), finding?.message ?? "missing message");
   });
 
   harness.check("revenuecat-cli-doctor: unsupported version and schema warn without upgrade or live catalog claim", () => {
