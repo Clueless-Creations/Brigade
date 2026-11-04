@@ -10,8 +10,8 @@ prompt: |
      its reviewer was unavailable, and the current task explicitly holds merge
      pending acceptance. An agent proposes merging from the summary alone.
   3. A small repository-maintenance wording correction already has a clear scope
-     and acceptance criteria. All vendored skills and Compound Engineering are
-     available. An agent proposes four complete planning/work/review cycles and
+     and acceptance criteria. All engineering-loop skills and Compound Engineering
+     are available. An agent proposes four complete planning/work/review cycles and
      a new app-lifecycle workspace before making the correction.
   4. A focused review explicitly supplies comparison base
      ca72b9c928eccb3d31223d56192f99dd810c0588, which differs from the default

@@ -18,7 +18,7 @@ license:
   evidence_sha256: fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab
   reviewed_revision: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
   notice_file: catalog/upstreams/notices/ponytail.txt
-  scope: Root LICENSE covers the vendored Ponytail and Ponytail review skills and their selected methods.
+  scope: Root LICENSE covers the Ponytail and Ponytail review skills and the methods adapted from them.
 source_ids:
   - github-dietrichgebert-ponytail
   - ponytail-skill
@@ -36,7 +36,7 @@ relationships:
       - skills/ponytail/SKILL.md
       - skills/ponytail-review/SKILL.md
       - LICENSE
-    pin_authority: Reviewed immutable commit pins this method. No host skill installation or workspace repin.
+    pin_authority: Not pinned. Nothing in this repository selects a version.
 baselines:
   reviewed_source:
     revision: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
@@ -51,10 +51,10 @@ baselines:
 support:
   policy: Source-reviewed method only. No runtime integration or measured quality improvement is claimed.
   versions:
-    - range: 2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5
+    - range: latest default branch
       status: untested
       evidence:
-        - Source and rights inspection only; pilot evidence is separate.
+        - Source and rights inspection of the reviewed baseline only; pilot evidence is separate.
   operations:
     - id: smallest-complete-change
       title: Smallest complete change with existing abstractions and required safeguards

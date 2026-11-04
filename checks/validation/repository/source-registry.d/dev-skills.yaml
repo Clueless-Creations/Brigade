@@ -8,7 +8,7 @@ sources:
   locations:
   - .agents/skills/VENDORED.md
   - catalog/upstreams/ponytail.yaml
-  notes: MIT. Source of the vendored ponytail and ponytail-review repository dev skills.
+  notes: MIT. Source of the Ponytail plugin. Brigade keeps no copy.
 - id: github-cursor-plugins
   name: Cursor plugins (pstack, cursor-team-kit)
   source_type: repository
@@ -17,26 +17,17 @@ sources:
   owner: maintainer
   locations:
   - .agents/skills/VENDORED.md
-  notes: MIT. Source of the vendored Pstack skills and the thermo-nuclear-code-quality-review dev skill.
-- id: github-com-pr-link-pattern
-  name: GitHub pull request link pattern
-  source_type: website
-  url: https://github.com/
-  refresh_cadence_days: 365
-  owner: maintainer
-  locations:
-  - .agents/skills/poteto-mode/SKILL.md
-  notes: Placeholder PR link format in the vendored poteto-mode skill, not a fetched source.
+  notes: MIT. Source of pstack and Thermo-Nuclear. Brigade keeps no copy.
 - id: ponytail-skill
-  name: Ponytail reviewed skill
+  name: Ponytail skill
   source_type: github
-  url: https://github.com/DietrichGebert/ponytail/blob/2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5/skills/ponytail/SKILL.md
+  url: https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
   - catalog/upstreams/ponytail.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: ponytail-license
   name: Ponytail reviewed MIT license
   source_type: github
@@ -56,37 +47,37 @@ sources:
   locations:
   - catalog/upstreams/cursor-pstack.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: cursor-pstack-laziness-protocol
-  name: pstack Laziness Protocol reviewed skill
+  name: pstack Laziness Protocol skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/skills/principle-laziness-protocol/SKILL.md
+  url: https://github.com/cursor/plugins/blob/main/pstack/skills/principle-laziness-protocol/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
   - catalog/upstreams/cursor-pstack.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: cursor-pstack-fix-root-causes
-  name: pstack Fix Root Causes reviewed skill
+  name: pstack Fix Root Causes skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/skills/principle-fix-root-causes/SKILL.md
+  url: https://github.com/cursor/plugins/blob/main/pstack/skills/principle-fix-root-causes/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
   - catalog/upstreams/cursor-pstack.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: cursor-pstack-prove-it-works
-  name: pstack Prove It Works reviewed skill
+  name: pstack Prove It Works skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/c742dd61706fbacc1b95f1a20b7b988cf096ce6c/pstack/skills/principle-prove-it-works/SKILL.md
+  url: https://github.com/cursor/plugins/blob/main/pstack/skills/principle-prove-it-works/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
   - catalog/upstreams/cursor-pstack.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: cursor-pstack-license
   name: pstack reviewed MIT license
   source_type: github
@@ -106,17 +97,17 @@ sources:
   locations:
   - catalog/upstreams/cursor-team-kit.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: cursor-team-kit-thermo-nuclear-review
   name: Cursor Team Kit Thermo-Nuclear Code Quality Review skill
   source_type: github
-  url: https://github.com/cursor/plugins/blob/1dcc2bacde73ddd284803b7af28164d0436198fc/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md
+  url: https://github.com/cursor/plugins/blob/main/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md
   refresh_cadence_days: 90
   owner: b2c-maintainers
   locations:
   - catalog/upstreams/cursor-team-kit.yaml
   - .agents/skills/VENDORED.md
-  notes: Selected source method for repository-local review guidance; immutable baseline and omissions are recorded in the upstream manifest.
+  notes: Selected source method for repository-local review guidance. Tracks the default branch.
 - id: cursor-team-kit-license
   name: Cursor Team Kit reviewed MIT license
   source_type: github
