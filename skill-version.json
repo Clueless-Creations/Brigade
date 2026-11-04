@@ -1,9 +1,10 @@
 {
   "skill": "b2c-app-builder",
-  "version": "0.221.155",
+  "version": "0.221.156",
   "updatedAt": "2026-11-04",
   "sourcePath": ".",
   "releaseNotes": [
+    "CLU-1087: hold a published RevenueCat paywall attach before spawn (#772)",
     "CLU-1083: check reviewed RevenueCat flags before any mutation (#770)",
     "CLU-1073: stop pinning upstream product dependencies (#768)",
     "CLU-1073: stop pinning Ponytail, pstack and Thermo-Nuclear (#766)",
