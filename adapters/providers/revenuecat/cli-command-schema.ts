@@ -297,15 +297,15 @@ function parseNativeArgv(argv: readonly string[]): ParsedNativeArgv | NativeArgv
   return { flags, booleans, tokens };
 }
 
-const SENT_ON_EVERY_MUTATION = ["project-id", "json", "no-input", "no-color"] as const;
+const MUTATION_GLOBAL_FLAGS = ["project-id", "profile", "json", "no-input", "no-color"] as const;
 
 /** Flags each reviewed mutation may send. Discovery checks them against the installed CLI before any write. */
 export const REVIEWED_MUTATION_FLAGS: readonly { readonly command: readonly string[]; readonly flags: readonly string[] }[] = [
   ...REVIEWED_CREATE_ATTACH_SCHEMAS.map(({ command, requiredFlags, optionalFlags }) => ({
     command,
-    flags: [...requiredFlags, ...optionalFlags, ...SENT_ON_EVERY_MUTATION],
+    flags: [...requiredFlags, ...optionalFlags, ...MUTATION_GLOBAL_FLAGS],
   })),
-  { command: ["customers", "simulate-purchase"], flags: ["app-id", "app-user-id", "product", "yes", ...SENT_ON_EVERY_MUTATION] },
+  { command: ["customers", "simulate-purchase"], flags: ["app-id", "app-user-id", "product", "yes", ...MUTATION_GLOBAL_FLAGS] },
 ];
 
 function schemaForTokens(tokens: readonly string[]): ReviewedNativeCommandSchema | undefined {

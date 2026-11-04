@@ -36,7 +36,7 @@ function identity(pathValue: string, version: string | null, extras: readonly st
     selected,
     candidates,
     schemaCommands: ["offerings", "customers", "apps", "projects", "entitlements", "products"],
-    missingFlags: [],
+    flagCheckFailures: [],
     message: "trusted fixture discovery",
   };
 }
@@ -48,7 +48,7 @@ function discovery(code: RevenueCatCliDiscovery["code"], selectedPath: string | 
     selected,
     candidates: selected ? [selected] : [],
     schemaCommands: code === "trusted" ? ["offerings", "customers", "apps", "projects", "entitlements", "products"] : [],
-    missingFlags: [],
+    flagCheckFailures: [],
     message: `fixture ${code}`,
   };
 }
@@ -155,7 +155,7 @@ export function register(harness: Harness): void {
   });
 
   harness.check("revenuecat-cli-doctor: missing reviewed flags warn on a trusted CLI", () => {
-    const trusted = { ...identity("/opt/fake/bin/rc", REVIEWED), missingFlags: ["offerings create --lookup-key"] };
+    const trusted = { ...identity("/opt/fake/bin/rc", REVIEWED), flagCheckFailures: ["offerings create --lookup-key"] };
     const result = assessRevenueCatCliHostDoctor({ discovery: trusted, latestObserved: REVIEWED, sanitizePath: (executablePath) => executablePath });
     const finding = result.findings.find((entry) => entry.code === "doctor.revenuecat_cli_flag_drift");
     assert(finding?.severity === "warn", JSON.stringify(result.findings));

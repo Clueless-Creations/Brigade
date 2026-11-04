@@ -81,13 +81,14 @@ The typed operations were reviewed against GitHub release **v0.1.1**
 `@revenuecat/cli` ships the same native binaries as `rc` and `revenuecat`.
 Any installed version may run them when `commands --json` lists every command
 family they use. Discovery also checks every reviewed mutation flag against
-`rc commands --schemas`, with no credentials. A missing flag holds every
-mutation before spawn while reads continue; flag meaning is not checked.
+`rc commands --schemas`, with no credentials. A missing flag or an unreadable
+document holds every mutation before spawn while reads continue. Flag meaning
+and newly required flags are not checked.
 Response decoding and host authority still fail closed. Do not run
 `npx @revenuecat/cli` at runtime.
 
-Discovery uses a trusted absolute path, `--version`, and `commands --json` with
-`--no-input --no-color`. It does not install, log in, refresh OAuth, or change
+Discovery uses a trusted absolute path, `--version`, `commands --json`, and
+`commands --schemas` with `--no-input --no-color`. It does not install, log in, refresh OAuth, or change
 profiles. An unrelated binary named `rc` is not RevenueCat. A profile named
 `staging` is not a Test Store. Test Store proof is the CLI-read `apps show`
 type (for example `test_store`), not a caller `appStoreKind` label. `customers

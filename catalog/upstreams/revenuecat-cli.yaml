@@ -66,7 +66,7 @@ baselines:
     by: b2c-contributor source review
     note: Adapted selected procedures from the later source review. Branch head f4e77d6c6b128a390d46e9ed5aef9c4cf79f62e2 is newer than v0.1.1 and is not treated as the installed release.
 support:
-  policy: Typed operations were qualified against release v0.1.1. Any installed version may run them when `commands --json` lists every command family they use. Discovery checks every reviewed mutation flag against `commands --schemas`, with no credentials. A missing flag holds every mutation before spawn while reads continue. Flag meaning is not checked. Response decoding and host authority still fail closed. Discovery, schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
+  policy: Typed operations were qualified against release v0.1.1. Any installed version may run them when `commands --json` lists every command family they use. Discovery checks every reviewed mutation flag against `commands --schemas`, with no credentials. A missing flag or an unreadable document holds every mutation before spawn while reads continue. Flag meaning and newly required flags are not checked. Response decoding and host authority still fail closed. Discovery, schema checks, and fake-process tests exist; no host binary was installed or authenticated in this change. Native SDK version, AI Toolkit revision, CLI version, and the observed host executable stay distinct. A profile named staging is not a Test Store.
   versions:
     - range: ">=0.0.0"
       status: untested

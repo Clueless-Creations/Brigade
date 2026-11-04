@@ -1,7 +1,7 @@
 /**
  * RevenueCat CLI doctor and selected-target probe.
  *
- * Local identity uses Increment A discovery (`--version` and `commands --json`).
+ * Local identity uses Increment A discovery (`--version`, `commands --json` and `commands --schemas`).
  * Selected-target checks reuse Increment A preflight. This module never spawns
  * authenticated commands, never mutates, and never claims live catalog proof.
  * Host `b2c inspect` invokes the host probe; `b2c doctor` is a supported equivalent.
@@ -60,7 +60,7 @@ const APP_OPERATION_ID = "rc.apps.show";
 
 export const REVENUECAT_CLI_DOCTOR_REVIEWED_VERSION = REVENUECAT_CLI_RELEASE.version;
 
-/** Isolated `--version` / `commands --json` lookup for `b2c inspect`. Never authenticates. */
+/** Isolated `--version` / `commands --json` / `commands --schemas` lookup for `b2c inspect`. Never authenticates. */
 export function discoverRevenueCatCliForDoctor(input: {
   readonly isolatedHome: string;
   readonly cwd: string;
@@ -108,12 +108,12 @@ export function assessRevenueCatCliHostDoctor(input: {
             code: "doctor.revenuecat_cli",
             message: `winning ${selectedPath} ${version ?? "(unparseable)"} (reviewed executable ${latest}). Local identity only — not live catalog proof. Inspect will not install, log in, or refresh OAuth.`,
           },
-          ...(input.discovery.missingFlags.length
+          ...(input.discovery.flagCheckFailures.length
             ? [
                 {
                   severity: "warn" as const,
                   code: "doctor.revenuecat_cli_flag_drift",
-                  message: `winning ${selectedPath} does not list reviewed flags (${input.discovery.missingFlags.join(", ")}). Mutations hold before spawn. Reads continue.`,
+                  message: `winning ${selectedPath} failed the reviewed flag check (${input.discovery.flagCheckFailures.join(", ")}). Mutations hold before spawn. Reads continue.`,
                 },
               ]
             : []),

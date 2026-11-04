@@ -47,8 +47,8 @@ export interface RevenueCatCliDiscovery {
   readonly selected: RevenueCatCliExecutable | null;
   readonly candidates: readonly RevenueCatCliExecutable[];
   readonly schemaCommands: readonly string[];
-  /** Reviewed flags the installed CLI does not list. Non-empty holds every mutation before spawn; reads continue. */
-  readonly missingFlags: readonly string[];
+  /** Reviewed flags the CLI does not list, or that its schema document was unreadable. Non-empty holds every mutation before spawn; reads continue. */
+  readonly flagCheckFailures: readonly string[];
   readonly message: string;
 }
 
@@ -118,6 +118,17 @@ function missingReviewedFlags(root: unknown): string[] {
     for (const flag of flags) if (!installed.has(flag)) missing.push(`${command.join(" ")} --${flag}`);
   }
   return missing;
+}
+
+function reviewedFlagFailures(run: CliProcessRunner, request: CliProcessRequest): string[] {
+  try {
+    const schemas = run({ ...request, argv: ["commands", "--schemas", "--json", "--no-input", "--no-color"] });
+    const document = schemas.status === 0 && !schemas.truncated ? parseCommandsDocument(schemas.stdout) : undefined;
+    if (document?.ok) return missingReviewedFlags(document.root);
+  } catch {
+    // A failed probe holds mutations through the return below; it must not stop reads.
+  }
+  return ["commands --schemas unreadable"];
 }
 
 function parseCommandsDocument(stdout: string): { ok: true; names: readonly string[]; root: unknown } | { ok: false; reason: string } {
@@ -200,7 +211,7 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
         selected: null,
         candidates: [],
         schemaCommands: [],
-        missingFlags: [],
+        flagCheckFailures: [],
         message: `No RevenueCat CLI executable named rc or revenuecat was found. Install is founder-gated; the builder will not install it.`,
       };
     }
@@ -209,7 +220,7 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       selected: null,
       candidates: unrelated,
       schemaCommands: [],
-      missingFlags: [],
+      flagCheckFailures: [],
       message: `Found executable(s) named rc/revenuecat that did not identify as RevenueCat CLI. An unrelated rc binary is not the provider.`,
     };
   }
@@ -221,7 +232,7 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       selected,
       candidates: identified,
       schemaCommands: [],
-      missingFlags: [],
+      flagCheckFailures: [],
       message: `RevenueCat CLI at ${selected.path} did not report a parseable version.`,
     };
   }
@@ -240,7 +251,7 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       selected,
       candidates: identified,
       schemaCommands: [],
-      missingFlags: [],
+      flagCheckFailures: [],
       message: `RevenueCat CLI ${selected.version} at ${selected.path} did not return a usable commands --json document (exit ${schemaResult.status ?? "null"}).`,
     };
   }
@@ -251,7 +262,7 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       selected,
       candidates: identified,
       schemaCommands: [],
-      missingFlags: [],
+      flagCheckFailures: [],
       message: `RevenueCat CLI ${selected.version} produced incompatible command discovery output: ${document.reason}.`,
     };
   }
@@ -262,18 +273,16 @@ export function discoverRevenueCatCli(input: DiscoverRevenueCatCliInput): Revenu
       selected,
       candidates: identified,
       schemaCommands: document.names,
-      missingFlags: [],
+      flagCheckFailures: [],
       message: `RevenueCat CLI ${selected.version} command tree is missing required families: ${missing.join(", ")}.`,
     };
   }
-  const schemas = input.run({ ...schemaRequest, argv: ["commands", "--schemas", "--json", "--no-input", "--no-color"] });
-  const flagDocument = schemas.status === 0 && !schemas.truncated ? parseCommandsDocument(schemas.stdout) : undefined;
   return {
     code: "trusted",
     selected,
     candidates: identified,
     schemaCommands: document.names,
-    missingFlags: flagDocument?.ok ? missingReviewedFlags(flagDocument.root) : ["commands --schemas"],
+    flagCheckFailures: reviewedFlagFailures(input.run, schemaRequest),
     message: `Trusted RevenueCat CLI ${selected.version} at ${selected.path}.`,
   };
 }

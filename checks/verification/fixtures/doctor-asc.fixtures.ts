@@ -49,7 +49,7 @@ function missingRevenueCatFacts(): DoctorRevenueCatFacts {
     selected: null,
     candidates: [],
     schemaCommands: [],
-    missingFlags: [],
+    flagCheckFailures: [],
     message: "fixture: RevenueCat CLI absent",
   };
   return {

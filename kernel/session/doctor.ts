@@ -11,7 +11,7 @@
  *
  * Exit codes: 0 = healthy (warnings allowed); 1 = the install itself is broken.
  * App Store Connect CLI findings prefer the latest observed release and never install or upgrade
- * the host `asc`. RevenueCat CLI identity uses trusted discovery (`--version` and `commands --json`)
+ * the host `asc`. RevenueCat CLI identity uses trusted discovery (`--version`, `commands --json` and `commands --schemas`)
  * because a generic `rc --version` probe cannot distinguish an unrelated binary. Expo/EAS CLI
  * identity uses `--version` only and never claims a live EAS job. A missing or stale
  * winner is a warning, same as a missing worker CLI. Inspect never authenticates or mutates

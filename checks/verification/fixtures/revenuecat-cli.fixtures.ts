@@ -282,16 +282,32 @@ export function register(harness: Harness): void {
     const { run, calls } = recordingRunner(trustedDiscoveryHandler("0.1.7"));
     const discovery = discoverTrusted(harness, "rc-flags-real", run);
     assert(discovery.code === "trusted", `expected trusted, got ${discovery.code}`);
-    assert(discovery.missingFlags.length === 0, JSON.stringify(discovery.missingFlags));
+    assert(discovery.flagCheckFailures.length === 0, JSON.stringify(discovery.flagCheckFailures));
     assert(calls.some((call) => call.argv.includes("--schemas")), "the flag probe must run");
     for (const call of calls) assert(!("RC_API_KEY" in call.env), "the flag probe must not carry credentials");
   });
 
-  harness.check("revenuecat-cli: every implemented mutation has reviewed flags to check", () => {
-    const covered = new Set(REVIEWED_MUTATION_FLAGS.map((row) => row.command.join(" ")));
+  harness.check("revenuecat-cli: reviewed flags cover everything the encoder sends on a mutation", () => {
+    const requests: Record<string, Partial<CliArgvRequest>> = {
+      "rc.catalog.create": { lookupKey: "l", displayName: "D" },
+      "rc.products.create": { storeIdentifier: "s", productType: "subscription", appId: "a", createTitle: "T", displayName: "D", duration: "P1M" },
+      "rc.entitlements.create": { lookupKey: "l", displayName: "D" },
+      "rc.packages.create": { offeringId: "o", lookupKey: "l", displayName: "D" },
+      "rc.entitlements.attach": { entitlementId: "e", attachProductIds: ["p"] },
+      "rc.packages.attach": { packageId: "k", attachProductIds: ["p"] },
+      "rc.paywalls.attach": { paywallId: "w", offeringId: "o" },
+      "rc.customers.simulate-purchase": { appId: "a", productId: "p", appUserId: "u" },
+    };
     for (const operation of REVENUECAT_CLI_OPERATIONS) {
       if (operation.support !== "implemented-fixture" || !isMutationEffect(operation.effectClass)) continue;
-      assert(covered.has(operation.command.join(" ")), `${operation.id} has no reviewed flags`);
+      const request = requests[operation.id];
+      assert(request, `${operation.id} needs a coverage request`);
+      const row = REVIEWED_MUTATION_FLAGS.find((entry) => entry.command.join(" ") === operation.command.join(" "));
+      assert(row, `${operation.id} has no reviewed flags`);
+      const argv = buildRevenueCatCliArgv({ operationId: operation.id, projectId: "p1", profile: "staging", hostAuthorityGranted: true, ...request });
+      for (const token of argv) {
+        if (token.startsWith("--")) assert(row.flags.includes(token.slice(2)), `${operation.id} sends unchecked ${token}`);
+      }
     }
   });
 
@@ -304,42 +320,68 @@ export function register(harness: Harness): void {
     });
     const discovery = discoverTrusted(harness, "rc-flags-renamed", run);
     assert(discovery.code === "trusted", `expected trusted, got ${discovery.code}`);
-    assert(JSON.stringify(discovery.missingFlags) === JSON.stringify(["offerings create --lookup-key"]), JSON.stringify(discovery.missingFlags));
-    const target = selectedTarget({ hostAuthorityGranted: true });
-    const mutation = assessRevenueCatCliPreflight({
+    assert(JSON.stringify(discovery.flagCheckFailures) === JSON.stringify(["offerings create --lookup-key"]), JSON.stringify(discovery.flagCheckFailures));
+    const home = isolatedConfigHome(harness.makeTempDir("rc-flags-renamed-run"), "ws-a");
+    const base = {
+      projectId: "proj_approved",
+      hostAuthorityGranted: true,
+      executable: "/opt/fake/bin/rc",
+      cwd: home,
+      isolatedHome: home,
+      pathEnv: "/opt/fake/bin",
+      apiKey: "rc-fixture-key",
+      run,
       discovery,
-      operation: getRevenueCatCliOperation("rc.packages.create")!,
-      target,
-      requestProjectId: "proj_approved",
-      requestAppId: "app_test",
-    });
-    assert(mutation.code === "unsupported-schema", `every mutation holds, got ${mutation.code}`);
-    assert(mutation.message.includes("offerings create --lookup-key"), mutation.message);
-    const read = assessRevenueCatCliPreflight({
-      discovery,
-      operation: getRevenueCatCliOperation("rc.offerings.list")!,
-      target,
-      requestProjectId: "proj_approved",
-    });
-    assert(read.status === "ready", `reads continue, got ${read.status} ${read.code}`);
+      target: selectedTarget({ hostAuthorityGranted: true }),
+    };
+    const held = runRevenueCatCli({ ...base, operationId: "rc.packages.create", offeringId: "ofrng_a", lookupKey: "k", displayName: "D" });
+    assert(held.invoked === false, "a mutation must not spawn");
+    assert(held.preflight.code === "unsupported-schema", `every mutation holds, got ${held.preflight.code}`);
+    assert(held.preflight.message.includes("offerings create --lookup-key"), held.preflight.message);
+    assert(!held.uncertainMutation, "a pre-spawn hold is not uncertain");
     assert(!calls.some((call) => call.argv.includes("create")), "no mutation may spawn");
+    const read = runRevenueCatCli({ ...base, operationId: "rc.offerings.list" });
+    assert(read.invoked === true, `reads continue, got ${read.preflight.code}`);
   });
 
   harness.check("revenuecat-cli: an unusable schema document holds mutations and leaves reads alone", () => {
-    for (const [name, schemas] of [
-      ["exit", { ...ok(""), status: 1 }],
-      ["truncated", { ...ok(COMMANDS_JSON), truncated: true }],
-      ["invalid", ok("not json")],
-      ["envelope", ok(JSON.stringify({ schema_version: 2, data: { name: "rc", commands: [] } }))],
-    ] as const) {
+    const failures: readonly [string, () => CliProcessResult][] = [
+      ["exit", () => ({ ...ok(COMMANDS_JSON), status: 1 })],
+      ["truncated", () => ({ ...ok(COMMANDS_JSON), truncated: true })],
+      ["timeout", () => ({ ...ok(COMMANDS_JSON), status: null, timedOut: true })],
+      ["invalid", () => ok("not json")],
+      ["envelope", () => ok(JSON.stringify({ schema_version: 2, data: { name: "rc", commands: [] } }))],
+      [
+        "thrown",
+        () => {
+          throw new Error("spawn failed");
+        },
+      ],
+    ];
+    for (const [name, schemas] of failures) {
       const { run } = recordingRunner((request) => {
         if (request.argv[0] === "--version") return ok("rc version 0.2.0\n");
-        if (request.argv.includes("--schemas")) return schemas;
+        if (request.argv.includes("--schemas")) return schemas();
         return ok(COMMANDS_JSON);
       });
       const discovery = discoverTrusted(harness, `rc-flags-${name}`, run);
       assert(discovery.code === "trusted", `${name}: expected trusted, got ${discovery.code}`);
-      assert(discovery.missingFlags[0] === "commands --schemas", `${name}: ${JSON.stringify(discovery.missingFlags)}`);
+      assert(discovery.flagCheckFailures[0] === "commands --schemas unreadable", `${name}: ${JSON.stringify(discovery.flagCheckFailures)}`);
+      const target = selectedTarget({ hostAuthorityGranted: true });
+      const mutation = assessRevenueCatCliPreflight({
+        discovery,
+        operation: getRevenueCatCliOperation("rc.catalog.create")!,
+        target,
+        requestProjectId: "proj_approved",
+      });
+      assert(mutation.code === "unsupported-schema", `${name}: mutation got ${mutation.code}`);
+      const read = assessRevenueCatCliPreflight({
+        discovery,
+        operation: getRevenueCatCliOperation("rc.offerings.list")!,
+        target,
+        requestProjectId: "proj_approved",
+      });
+      assert(read.status === "ready", `${name}: read got ${read.status} ${read.code}`);
     }
   });
 
