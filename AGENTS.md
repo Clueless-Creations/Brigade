@@ -80,10 +80,10 @@ For public-facing product/console/launch copy and naming, use [no-slop writing](
 
 ## Linear traceability
 
-Linear is the single record for multi-agent work (Codex, Claude, Muse, Grok Bot, cloud agents). Linear shows every action as Eduardo, so agents must write their identity into the text.
+For Linear-tracked work, read the current issue, recent comments, and the coordination guidance supplied through the authorized tracker. Refresh this context at task start and accepted handoffs. If tracker access is unavailable, report the missing context rather than infer ownership or authority.
 
-1. **Origin:** every new Linear ticket starts with `Origin: <agent>, <source/why>, <date>`.
-2. **Owner:** each ticket keeps an `Owner: <agent + session/machine or cloud-agent link>` line. Only the owner changes code or status.
-3. **Handoff:** when work moves between agents, comment `Handoff: from X to Y, head <sha>, done: ..., next: ...` (the new agent writes it if the old one died) and update the Owner line.
-4. **Sign everything:** every Linear status change/comment and PR comment starts with the agent name.
-5. **Holds:** a hold only counts if it is commented in Linear with a reason and an expected end.
+Keep the origin, executor identity, accepted owner, handoff, holds, and task evidence in that tracker, not public repository files. Sign tracker updates with the acting agent's name. Use the agreed project, work type, and product classification; labels do not establish executor identity or grant authority.
+
+The existing owner or an explicitly authorized successor coordinates code and status changes. Record the authorized handoff, the successor's acceptance, exact revision, completed work, remaining acceptance, and next action before overlapping writes. An unavailable owner or expired hold does not authorize takeover.
+
+Repository safety, verification, and release gates still apply. A merged change is not proof of deployment, agent adoption, or completed product acceptance. Update completion only when the issue's required evidence is satisfied.
